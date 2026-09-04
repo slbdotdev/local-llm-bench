@@ -1,7 +1,7 @@
 """Benchmark local Ollama models through the pi coding agent.
 
 Usage: python pibench.py [--models a,b,c] [--tasks x,y] [--trials N] [--think off|low|medium|high]
-       [--timeout SECS] [--tag NAME] [--no-tps]
+       [--timeout SECS] [--tag NAME] [--no-tps] [--pad-tokens N]
 
 For each model: measure raw Ollama TPS, then run every task `trials` times
 through `pi -p --mode json` in a fresh sandbox, and grade with a hidden test.py
@@ -11,6 +11,7 @@ and results/<tag>.md.
 import threading, argparse
 import json
 import os
+import random
 import re
 import shutil
 import statistics
@@ -124,6 +125,7 @@ def load_tasks(names=None, tasks_dir=None):
 
 
 SCORE_RE = re.compile(r"^SCORE\s+(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$", re.M)
+VERDICT_RE = re.compile(r"^VERDICT\s+(\w+)\s*$", re.M)
 
 
 def parse_score(text):
@@ -135,6 +137,204 @@ def parse_score(text):
         return None
     n, d = float(m.group(1)), float(m.group(2))
     return round(n / d, 4) if d else None
+
+
+def parse_verdict(text):
+    """Return the last `VERDICT <word>` line, or None when the grader omitted it."""
+    verdict = None
+    for m in VERDICT_RE.finditer(text or ""):
+        verdict = m.group(1)
+    return verdict
+
+
+# 5.95 chars/token follows the measured filler used by tps_curve(), keeping the
+# sandbox pad estimate consistent with the harness's existing context-fill precedent.
+PAD_CHARS_PER_TOKEN = 5.95
+PAD_RANDOM_SEED = 0x504942454E4348
+PAD_PREFIX = "__pibench_pad_"
+
+_PAD_PY_NAMES = (
+    "archive_window", "cache_policy", "column_map", "dispatch_plan", "event_cursor",
+    "feature_flags", "graph_index", "handoff_state", "item_digest", "job_limits",
+    "key_schedule", "label_rules", "merge_queue", "node_snapshot", "offset_table",
+    "partition_map", "query_shape", "retry_budget", "schema_notes", "transport_frame",
+)
+_PAD_MD_TOPICS = (
+    "retention windows", "batch boundaries", "cache invalidation", "event ordering",
+    "schema migration", "queue fairness", "failure recovery", "audit records",
+    "configuration review", "service ownership", "release notes", "data contracts",
+)
+_PAD_MD_SENTENCES = (
+    "The review should distinguish a missing observation from an observation that arrived late.",
+    "A small amount of explicit bookkeeping makes the next maintenance pass much less ambiguous.",
+    "Operators usually need the reason for a decision as well as the final state of the record.",
+    "The boundary is deliberately boring because predictable boundaries are easier to test.",
+    "When the input is incomplete, preserve the uncertainty instead of manufacturing a default.",
+    "The written procedure is also a compact record of which assumptions were in force.",
+)
+
+
+def _sandbox_material_chars(sandbox):
+    total = 0
+    for root, _, files in os.walk(sandbox):
+        for name in files:
+            try:
+                total += os.path.getsize(os.path.join(root, name))
+            except OSError:
+                pass
+    return total
+
+
+def _pad_extension(sandbox):
+    counts = {}
+    for root, _, files in os.walk(sandbox):
+        for name in files:
+            ext = os.path.splitext(name)[1].lower()
+            if ext:
+                counts[ext] = counts.get(ext, 0) + 1
+    if not counts:
+        return ".md"
+    # Stable tie-breaking makes a repeated run deterministic even across filesystems.
+    return sorted(counts, key=lambda ext: (-counts[ext], ext))[0]
+
+
+def _pad_content(rng, extension, index, target_chars):
+    """Build varied, plausible source/document material and trim it to the chunk size."""
+    if extension == ".py":
+        lines = [
+            '"""Support module for an internal workflow review."""',
+            "from dataclasses import dataclass",
+            "from typing import Iterable",
+            "",
+            "@dataclass(frozen=True)",
+            "class Record:",
+            "    key: str",
+            "    value: str",
+            "    revision: int = 0",
+            "",
+        ]
+        while sum(len(line) + 1 for line in lines) < target_chars + 300:
+            name = rng.choice(_PAD_PY_NAMES) + "_" + str(rng.randrange(10, 99))
+            topic = rng.choice(_PAD_MD_TOPICS)
+            limit = rng.randrange(3, 18)
+            lines.extend([
+                f"def {name}(records: Iterable[Record], limit: int = {limit}) -> list[Record]:",
+                f'    """Keep records relevant to {topic}; preserve input order."""',
+                "    selected = []",
+                "    for record in records:",
+                "        if record.key and record.value:",
+                "            selected.append(record)",
+                "        if len(selected) >= limit:",
+                "            break",
+                "    return selected",
+                "",
+                f"# Review note {index}: {rng.choice(_PAD_MD_SENTENCES)}",
+                "",
+            ])
+        text = "\n".join(lines) + "\n"
+    else:
+        headings = ("Purpose", "Inputs", "Operational notes", "Failure modes", "Open questions")
+        lines = [f"# Internal note {index:04d}: {rng.choice(_PAD_MD_TOPICS).title()}", ""]
+        while sum(len(line) + 1 for line in lines) < target_chars + 400:
+            heading = rng.choice(headings)
+            topic = rng.choice(_PAD_MD_TOPICS)
+            lines.extend([
+                f"## {heading}",
+                "",
+                f"This note records a deliberately narrow decision about {topic}. "
+                f"The surrounding service may change, but the decision should remain easy to audit.",
+                "",
+                f"- Check the {topic} before changing the default behavior.",
+                f"- Keep the owner and the review date next to the {heading.lower()} entry.",
+                f"- {rng.choice(_PAD_MD_SENTENCES)}",
+                "",
+            ])
+        text = "\n".join(lines) + "\n"
+    return text[:target_chars]
+
+
+def pad_sandbox(sandbox, pad_tokens):
+    """Pad sandbox material to approximately ``pad_tokens`` estimated tokens.
+
+    The estimate includes files already copied from seed/; only newly written files
+    are reported in pad_chars_written and pad_files_written.
+    """
+    info = {"pad_tokens_requested": pad_tokens, "pad_files_written": 0, "pad_chars_written": 0}
+    if not pad_tokens or pad_tokens < 0:
+        return info
+    target_chars = int(pad_tokens * PAD_CHARS_PER_TOKEN)
+    remaining = max(0, target_chars - _sandbox_material_chars(sandbox))
+    if not remaining:
+        return info
+
+    extension = _pad_extension(sandbox)
+    rng = random.Random(PAD_RANDOM_SEED)
+    index = 0
+    while remaining > 0:
+        # Several medium-sized files make the filler look like a small source tree.
+        chunk_chars = min(12000, max(1200, remaining // 8))
+        content = _pad_content(rng, extension, index, chunk_chars)
+        filename = f"{PAD_PREFIX}{index:04d}{extension}"
+        path = os.path.join(sandbox, filename)
+        while os.path.exists(path):
+            index += 1
+            filename = f"{PAD_PREFIX}{index:04d}{extension}"
+            path = os.path.join(sandbox, filename)
+        try:
+            with open(path, "x", encoding="utf-8", newline="") as f:
+                f.write(content)
+        except FileExistsError:
+            # Exclusive creation protects seed material even if a name appears meanwhile.
+            index += 1
+            continue
+        info["pad_files_written"] += 1
+        info["pad_chars_written"] += len(content)
+        remaining = max(0, target_chars - _sandbox_material_chars(sandbox))
+        index += 1
+    return info
+
+
+class _NvidiaSmiSampler:
+    """Best-effort daemon sampler; a broken probe must never affect a trial."""
+    def __init__(self, interval=0.5):
+        self.interval = interval
+        self.stop_event = threading.Event()
+        self.thread = None
+        self.peak_mib = None
+
+    def _sample(self):
+        try:
+            p = subprocess.run(
+                ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
+                capture_output=True, text=True, timeout=2,
+            )
+            values = [int(line.strip().split()[0]) for line in p.stdout.splitlines() if line.strip()]
+            if values:
+                self.peak_mib = max(self.peak_mib or 0, max(values))
+        except FileNotFoundError:
+            self.stop_event.set()
+        except Exception:
+            pass
+
+    def _run(self):
+        self._sample()
+        while not self.stop_event.wait(self.interval):
+            self._sample()
+
+    def start(self):
+        try:
+            self.thread = threading.Thread(target=self._run, daemon=True)
+            self.thread.start()
+        except Exception:
+            self.thread = None
+
+    def stop(self):
+        self.stop_event.set()
+        if self.thread:
+            try:
+                self.thread.join(timeout=0.25)
+            except Exception:
+                pass
 
 
 MEM_GUARD_PROC_MB = 8192    # kill the tree if any single descendant exceeds this working set
@@ -198,10 +398,11 @@ def run_tree(cmd, timeout, **kw):
         return out or "", err or "", -1, True
 
 
-def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR):
+def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, pad_tokens=0):
     sandbox = tempfile.mkdtemp(prefix="pib_")
     if task["seed"]:
         shutil.copytree(task["seed"], sandbox, dirs_exist_ok=True)
+    pad_info = pad_sandbox(sandbox, pad_tokens)
     env = dict(os.environ)
     env["PATH"] = NODE_BIN + os.pathsep + env["PATH"]
     if agent_dir:
@@ -214,6 +415,9 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR):
     cmd = [NODE_EXE, PI_CLI, "-p", "--no-session", "--no-context-files", "--no-extensions", "--no-skills",
            "--no-prompt-templates", "--mode", "json", "--model", f"{provider}/{model}",
            "--thinking", think, "--", task["prompt"]]
+    smi_sampler = _NvidiaSmiSampler() if provider == "ollama" else None
+    if smi_sampler:
+        smi_sampler.start()
     t0 = time.time()
     timed_out = False
     out, err, rc, timed_out = run_tree(cmd, timeout, cwd=sandbox, env=env, encoding="utf-8", errors="replace")
@@ -262,21 +466,44 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR):
         elif t in ("compaction_end", "auto_retry_end"):
             events[t] = events.get(t, 0) + 1
 
+    # Sample /api/ps before grading and before the model is unloaded. gpu_split is
+    # deliberately best-effort, as residency data must never fail a trial.
+    if provider == "ollama":
+        try:
+            ps_size, ps_vram, ps_pct = gpu_split(model)
+        except Exception:
+            ps_size, ps_vram, ps_pct = None, None, None
+    else:
+        ps_size, ps_vram, ps_pct = None, None, None
+
     # Grade: hidden test copied in only now.
     shutil.copy(task["test"], os.path.join(sandbox, "_hidden_test.py"))
     gso, gse, grc, gto = run_tree([sys.executable, "_hidden_test.py"], 60, cwd=sandbox,
                                   env=dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8"),
                                   encoding="utf-8", errors="replace")
+    verdict = None
     if gto:
         gout, passed, score = "grader timeout", False, None
     else:
         gout = (gso + gse)[-600:]
         passed = grc == 0 and "PASS" in gso
         score = parse_score(gso)
+        verdict = parse_verdict(gso)
 
+    if smi_sampler:
+        smi_sampler.stop()
+
+    # in_tokens is pi's achieved input-token usage, not pad_tokens_requested;
+    # reports should quote it as the cell's actual context fill.
     result = {"task": task["name"], "pass": passed, "wall_s": round(wall, 1), "turns": turns,
               "tool_calls": tool_calls, "tools": tools, "in_tokens": usage_in, "out_tokens": usage_out,
               "timed_out": timed_out, "rc": rc, "errors": errors, "grader": gout.strip(), "score": score,
+              "verdict": verdict, "pad_tokens_requested": pad_info["pad_tokens_requested"],
+              "pad_files_written": pad_info["pad_files_written"],
+              "pad_chars_written": pad_info["pad_chars_written"],
+              "ps_size_gb": round(ps_size / 2**30, 2) if ps_size is not None else None,
+              "ps_vram_gb": round(ps_vram / 2**30, 2) if ps_vram is not None else None,
+              "ps_pct_gpu": ps_pct, "nvidia_smi_peak_mib": smi_sampler.peak_mib if smi_sampler else None,
               "final_text": final_text[-400:], "stderr": err[-400:].strip(),
               "stop_reason": stop_reason, "stop_reasons": stop_reasons, "events": events}
     shutil.rmtree(sandbox, ignore_errors=True)
@@ -297,6 +524,7 @@ def main():
     ap.add_argument("--tasks-dir", default="", help="task directory (default: tasks/)")
     ap.add_argument("--agent-dir", default="", help="override PI_CODING_AGENT_DIR (default: bench pi-agent for ollama, managed ~/.pi/agent otherwise)")
     ap.add_argument("--provider", default="ollama", help="ollama (bench agent dir) or openrouter (managed ~/.pi/agent)")
+    ap.add_argument("--pad-tokens", type=int, default=0, help="estimated total sandbox context material (0 disables padding)")
     a = ap.parse_args()
     models = a.models.split(",")
     tasks = load_tasks(a.tasks.split(",") if a.tasks else None, os.path.join(HERE, a.tasks_dir) if a.tasks_dir and not os.path.isabs(a.tasks_dir) else (a.tasks_dir or None))
@@ -324,12 +552,12 @@ def main():
             for trial in range(a.trials):
                 if (t["name"], trial) in done:
                     continue
-                res = run_pi(model, t, a.think, a.timeout, a.provider, agent_dir)
+                res = run_pi(model, t, a.think, a.timeout, a.provider, agent_dir, a.pad_tokens)
                 res["trial"] = trial
                 r["runs"].append(res)
                 print(f"  {t['name']:16s} #{trial} {'PASS' if res['pass'] else 'FAIL'} "
                       f"{res['wall_s']:6.1f}s turns={res['turns']} tools={res['tool_calls']} "
-                      f"out={res['out_tokens']} STOP={res['stop_reason'] or '-'}"
+                      f"out={res['out_tokens']} VERDICT={res['verdict'] or '-'} STOP={res['stop_reason'] or '-'}"
                       + (" TIMEOUT" if res["timed_out"] else "")
                       + (f" ERR={res['errors'][0][:60]}" if res["errors"] else ""), flush=True)
                 with open(out_json, "w", encoding="utf-8") as f:
@@ -338,8 +566,8 @@ def main():
             unload(model)
 
     # Summary table.
-    lines = [f"# pi bench ({tag})", "", "| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |",
-             "|---|---|---|---|---|---|---|---|---|---|---|"]
+    lines = [f"# pi bench ({tag})", "", "| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for model, r in results.items():
         runs = r["runs"]
         if not runs:
@@ -357,10 +585,14 @@ def main():
         n_len_runs = sum(1 for x in runs if x.get("stop_reasons", {}).get("length"))
         scored = [x["score"] for x in runs if x.get("score") is not None]
         score_str = f"{statistics.mean(scored):.2f} ({len(scored)}/{n} runs)" if scored else "-"
+        verdict_counts = {v: sum(1 for x in runs if x.get("verdict") == v)
+                          for v in ("correct", "visibly_failed", "confidently_wrong")}
+        confident_rate = f"{verdict_counts['confidently_wrong'] / n:.1%}" if n else "-"
         lines.append(f"| {model} | {tp.get('size_gb','?')} GB | {tp.get('pct_gpu','?')} | {gen_str} | "
                      f"{p}/{n} | {score_str} | {solved}/{len(per_task)} all-trials | {statistics.mean(x['wall_s'] for x in runs):.0f}s | "
                      f"{statistics.mean(x['out_tokens'] for x in runs):.0f} | {statistics.mean(x['tool_calls'] for x in runs):.1f} | "
-                     f"{n_len} in {n_len_runs}/{n} |")
+                     f"{verdict_counts['correct']} | {verdict_counts['visibly_failed']} | "
+                     f"{verdict_counts['confidently_wrong']} | {confident_rate} | {n_len} in {n_len_runs}/{n} |")
     lines += ["", "## Per task (passes/trials)", "", "| task | " + " | ".join(results) + " |",
               "|---|" + "---|" * len(results)]
     for t in tasks:

@@ -1,0 +1,672 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "g01",
+    "pass": true,
+    "wall_s": 14.4,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 11315,
+    "out_tokens": 621,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": " first occurrence of its key; later occurrences update it in place (`total` sums deltas, `occurrences` counts them, zero deltas included).\n- Empty strings for group/key, repeated groups/keys, and zero/negative deltas all follow the mechanical rules.\n- Fresh dictionaries/lists are returned; the input is never mutated.\n\nAll four worked examples from `specification.py` pass, plus a no-mutation check.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g01",
+    "pass": true,
+    "wall_s": 10.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 11278,
+    "out_tokens": 629,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "e (even with empty `entries`) and appending to the result in that order.\n- Within each group, creates an output entry on a key's first occurrence; later occurrences update `total` (sum of deltas, including zero/negative) and `occurrences` in place without repositioning.\n- Builds entirely fresh dicts/lists, never mutating the input.\n\nAll four worked examples pass, and inputs are verified unmutated.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g01",
+    "pass": true,
+    "wall_s": 8.0,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 12942,
+    "out_tokens": 547,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "\nKey behaviors implemented per the spec:\n- Groups appear in first-appearance order, created even when `entries` is empty\n- First occurrence of a (group, key) creates the entry at that position; later occurrences update `total` and `occurrences` in place without moving or duplicating it\n- Zero/negative deltas count; empty strings are valid groups/keys\n- Fresh output lists/dicts; input never mutated",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "g02",
+    "pass": true,
+    "wall_s": 17.7,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 12681,
+    "out_tokens": 344,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "All 8 tests pass.\n\n**Defect:** `_editable_lines` in `manifest_migrate.py` returned `range(len(lines))`, so `migrate` rewrote keys in the entire document, including the immutable suffix after the `# FROZEN BELOW` marker.\n\n**Fix:** One-line change \u2014 bound the editable range to `range(_frozen_at(lines))`, so rewriting stops at the frozen marker line, leaving it and everything after unchanged.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g02",
+    "pass": true,
+    "wall_s": 9.1,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 11072,
+    "out_tokens": 324,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "so `migrate` rewrote keys even in the immutable suffix after `# FROZEN BELOW`. It now stops at the frozen marker (or the end when no marker is present), which is exactly the helper `_frozen_at` already computes \u2014 the same one used by `keys`, `migration_count`, and `unchanged_tail`. No other code needed changing; exact-key matching, prefix rejection, and comment/blank handling were already correct.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g02",
+    "pass": true,
+    "wall_s": 6.7,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10988,
+    "out_tokens": 322,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "d `range(len(lines))`, so `migrate` rewrote every line including the frozen tail after the `# FROZEN BELOW` marker.\n\n**Fix (one line):** `_editable_lines` now returns `range(_frozen_at(lines))`, bounding the rewrite to the editable prefix. The marker line and everything after it pass through unchanged, while `migration_count` (which already used `_frozen_at`) and the other helpers were unaffected.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "g03",
+    "pass": false,
+    "wall_s": 40.0,
+    "turns": 6,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 4,
+     "write": 4
+    },
+    "in_tokens": 17894,
+    "out_tokens": 2341,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/13\nFAIL ['bundle urgent propagation']\nVERDICT confidently_wrong",
+    "score": 0.9231,
+    "final_text": "nnel`/`urgent`, and asserts both the plain and `URGENT `-prefixed paths (direct, bundled, and reflected).\n\nThe import relationship (`note_core` \u2192 `note_bus` \u2192 `note_view` \u2192 `note_core`) is unchanged. `python test_notes.py` passes, the doctest runs clean, no traces of `emit_note` remain in the application modules, and `present`/`forward` correctly render `URGENT channel:message` on the urgent path.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g03",
+    "pass": true,
+    "wall_s": 19.6,
+    "turns": 6,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "write": 4
+    },
+    "in_tokens": 13030,
+    "out_tokens": 939,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 13/13\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "w.py** \u2014 `present` prefixes `URGENT ` when `urgent=True`; `_fallback` and `reflected` mirror the new signature, and the `getattr` string now looks up `\"write_note\"`.\n- **test_notes.py** \u2014 call sites use keywords and cover both the default path and the urgent path (`URGENT chat:hello`, `URGENT audit:x`).\n\nThe circular import chain (`note_core` \u2192 `note_bus` \u2192 `note_view` \u2192 `note_core`) is preserved.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g03",
+    "pass": false,
+    "wall_s": 29.6,
+    "turns": 5,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "write": 4
+    },
+    "in_tokens": 13065,
+    "out_tokens": 1946,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 11/13\nFAIL ['bundle urgent propagation', 'reflection propagation']\nVERDICT confidently_wrong",
+    "score": 0.8462,
+    "final_text": "o `present`.\n- **note_view.py** \u2014 `present(message, *, channel=\"log\", urgent=False)` implements the urgent prefix; the `getattr` string is now `\"write_note\"`.\n- **test_notes.py** \u2014 updated to the new name, keyword-only `channel` at every call site, plus an explicit urgent assertion (`\"URGENT chat:hello\"`).\n\nThe three-module import relationship (`note_core` \u2192 `note_bus` \u2192 `note_view`) is unchanged.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 16.5,
+    "turns": 6,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 3,
+     "read": 2,
+     "write": 1
+    },
+    "in_tokens": 13061,
+    "out_tokens": 592,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 9/9\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "reserving the same fallback-to-`/404` behavior.\n- **Identity comparison with a literal** `key is \"\"` \u2192 `key == \"\"`.\n\nPublic signatures stay call-compatible (callers can still pass `routes` explicitly), no routing behavior was removed, and no dependencies or extra files were added. A quick behavior check confirmed lookup, caching via `remember`, 404 fallbacks, and the exception path all still work.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 19.1,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "write": 1
+    },
+    "in_tokens": 10217,
+    "out_tokens": 441,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 9/9\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "lt arguments**: `routes={}` \u2192 `routes=None`, initialized inside `remember` (and safely handled in `resolve`), so callers passing no routes or their own dict both keep working.\n- **Bare except**: `except:` \u2192 `except Exception:` (note: `resolve` still handles a `None` dict gracefully via this catch, preserving the `/404` behavior).\n- **Identity comparison with a literal**: `key is \"\"` \u2192 `key == \"\"`.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 15.7,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 10892,
+    "out_tokens": 590,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 9/9\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "o longer swallowed while the fallback to `/404` is preserved.\n- **`key is \"\"`**: replaced with `key == \"\"`, a correct equality check against a literal instead of an identity comparison.\n\nA quick smoke test confirms behavior is intact: `/404` fallbacks for `None`/blank/unknown paths, `remember` stores and resolves via `resolve`, and both functions still work when called without a `routes` argument.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 32.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 11403,
+    "out_tokens": 410,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "|\n| `docs/escalation.md` | 5 | UPDATE | Live pointer to the active escalation procedure |\n| `history/2026-08-31-relocation.md` | 3 | LEAVE | Dated record of the move \u2014 correct history |\n| `history/postmortem-2026-07.md` | 3 | LEAVE | Archived postmortem quoting what the responder saw |\n| `quickstart.md` | 3 | UPDATE | Live instruction for new on-call engineers |\n\nNo source documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 30.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "bash": 2
+    },
+    "in_tokens": 6560,
+    "out_tokens": 462,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "Created `reference_audit.txt` with exactly four tab-separated lines (the `^I` above confirms literal tabs), sorted by path then line number. No documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 2,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 28.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 8719,
+    "out_tokens": 361,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": ", four lines):\n\n- **UPDATE** `docs/escalation.md:5` \u2014 live pointer to the active procedure\n- **LEAVE** `history/2026-08-31-relocation.md:3` \u2014 dated relocation record (explicitly marked as history)\n- **LEAVE** `history/postmortem-2026-07.md:3` \u2014 archived postmortem quoting what the responder saw\n- **UPDATE** `quickstart.md:3` \u2014 live on-call guide link for new responders\n\nNo documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "t02",
+    "pass": true,
+    "wall_s": 33.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 10110,
+    "out_tokens": 485,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 3/3\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "Wrote `answer.txt` with `ANSWER: yes` and evidence from line 27 of `net_helpers.py` (`if value < 1 or value > 65535:`), the range check that confirms the inclusive 1\u201365535 boundary endpoints.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t02",
+    "pass": false,
+    "wall_s": 7.7,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 7643,
+    "out_tokens": 383,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 2/3\nFAIL ['evidence']\nVERDICT confidently_wrong",
+    "score": 0.6667,
+    "final_text": "`answer.txt` created:\n\n```\nANSWER: yes\nEVIDENCE: 22: if value < 1 or value > 65535:\n```\n\nLine 22 is the decisive check: it enforces the inclusive bounds (1 and 65535 accepted; 0 and 65536 rejected), and the preceding lines cover the type/character restrictions (`str` check, nonempty, ASCII digits only), so the docstring and implementation agree completely.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t02",
+    "pass": true,
+    "wall_s": 13.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 9859,
+    "out_tokens": 394,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 3/3\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "or non-str or empty input.\n- **ASCII-decimal only**: line 22 rejects any character outside `\"0123456789\"` \u2014 this also blocks whitespace, signs, unicode digits, and underscores.\n- **Inclusive range 1\u201365535**: line 27 uses strict inequalities (`< 1` / `> 65535`), so both endpoints 1 and 65535 are accepted as specified.\n\n`answer.txt` is written with `ANSWER: yes` and the range-check line as evidence.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "t03",
+    "pass": true,
+    "wall_s": 10.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 18132,
+    "out_tokens": 448,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "eshold**: \"0.75\" (fractional form, not the dashboard's 0.9 red line or 80% percentage label)\n- **decision_owner**: \"Leila Ortiz\" (named owner, not an alias or assignee)\n- **deadline**: \"2033-02-28\" (committed deadline, not the 15 February discussion target)\n- **room**: \"Cedar-3\" (from the official record, not the display abbreviation)\n- **escalation_code**: \"ORBIT-7\" (not dashboard/ticket strings)",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t03",
+    "pass": true,
+    "wall_s": 6.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 18028,
+    "out_tokens": 365,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "**: `0.75` (fractional form, not the dashboard's 0.9 red line or 80% percent scale)\n- **decision_owner**: `Leila Ortiz` (named person, not a team alias)\n- **deadline**: `2033-02-28` (committed date, not the 15 February discussion target)\n- **room**: `Cedar-3` (official location from the attendance header/final log)\n- **escalation_code**: `ORBIT-7` (tracker code, not a dashboard name or meeting ID)",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t03",
+    "pass": true,
+    "wall_s": 10.1,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 18133,
+    "out_tokens": 462,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "percentage wording)\n- **decision_owner**: `Leila Ortiz` (named owner \u2014 not team aliases or action-item assignees)\n- **deadline**: `2033-02-28` (committed deadline \u2014 not the 15 February discussion target)\n- **room**: `Cedar-3` (official location from the attendance header/log \u2014 not the display's abbreviated label)\n- **escalation_code**: `ORBIT-7` (tracker code \u2014 not dashboard or ticket identifiers)",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "t04",
+    "pass": true,
+    "wall_s": 4.9,
+    "turns": 5,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "write": 1
+    },
+    "in_tokens": 9275,
+    "out_tokens": 288,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": " cooldown.\n- `auth.py` counts failures in a flat counter and has an unused `reset_after_success`, but no timestamps, per-account lockout, or time check exists anywhere.\n- `login.py`, `middleware.py`, and `monitor.py` contain no enforcement logic.\n\n`answer.txt` written with:\n\n```\nPATH: NONE\nLINES: NONE\nEXPLANATION: no code implements the identity-specific timed limit and its reset after success\n```",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t04",
+    "pass": true,
+    "wall_s": 6.9,
+    "turns": 5,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 1,
+     "read": 5,
+     "write": 1
+    },
+    "in_tokens": 9135,
+    "out_tokens": 312,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "ented** in this tree:\n\n- `config.py` only defines `LOGIN_COOLDOWN_SECONDS = 60` as a constant \u2014 never enforced.\n- `auth.py` counts failures and has a `reset_after_success` that pops a malformed key, with no time-based lockout.\n- `login.py` never checks any cooldown before verifying.\n- `middleware.py`/`monitor.py` only log/comment about throttling.\n\n`answer.txt` has been created with the NONE form.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t04",
+    "pass": true,
+    "wall_s": 24.0,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 10015,
+    "out_tokens": 478,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "othing reads it (only `monitor.py` logs it).\n- `auth.py:note_failure` just increments a failure counter \u2014 no lockout, no timing, no attempt blocking.\n- `auth.py:reset_after_success` is never called, and it pops `(\"login_failures\", account)` while the counter is stored under the plain key `\"login_failures\"`, so it wouldn't even work.\n- `login.py` never gates attempts on prior failures or any timer.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

@@ -1,0 +1,49 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: t01
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/t01/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT t01 MEASURES: sweeping a set of documents for references to a path that has moved, and
+classifying each reference as either a live pointer that should be updated or a correct
+historical record that must be left alone. Class: comprehension.
+CHECKER: a per-reference confusion matrix.
+
+THIS TASK IS TAKEN FROM LIFE. On 2026-09-04 a real sweep for a moved path found four references,
+and two of them were correct history that "fixing" would have damaged: a dated log entry
+recording where something used to live is not stale, it is a record. A model that updates all
+four looks productive and is wrong, and a plain pass/fail score cannot tell it apart from one
+that updates none.
+
+GUIDANCE
+- seed/ holds a small documentation set: several markdown files, some with dated changelog or
+  history sections, some with live cross-references.
+- The correct answer is a mixed verdict, and at least one reference must be a leave-alone.
+  A model that answers "update all" must score badly and must be recorded confidently_wrong.
+- The model writes its classification to a named output file in a format your checker parses
+  strictly. State that format exactly in prompt.md, with an example.
+- Score per reference, not overall, so partial credit is meaningful. The confusion matrix should
+  make false-positive updates (damaging correct history) cost more than missed updates, because
+  those are the expensive error in real use.
+- prompt.md must NOT name the files containing the references. Describe the tree and the moved
+  path; the model finds them.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

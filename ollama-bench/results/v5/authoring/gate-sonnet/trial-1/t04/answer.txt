@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements an identity-specific 60-second attempt limit after failure or its reset after success; note_failure only increments a global counter, reset_after_success is never called, and no timestamp-based throttling exists anywhere.

@@ -1,0 +1,39 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: g01
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/g01/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT g01 MEASURES: implementing a specified function from its docstring and worked examples.
+Class: transformation (mechanical work with one right answer).
+CHECKER: hidden unit tests over the implemented API.
+
+GUIDANCE
+- The specification lives in a docstring inside a file in seed/, together with worked examples.
+  The model implements the function to match it exactly.
+- Make the specification precise and total: every edge case the checker tests must be decidable
+  from the text the model was given. Ambiguity is a defect, not difficulty.
+- The interesting failure is a model that implements the common case fluently and silently gets
+  the stated edge cases wrong. That output runs, looks right, and is wrong -- which is the
+  confidently_wrong verdict. Build the checker so it separates that from a crash.
+- Keep it to one function or a very small API. Under 200 lines of reference solution.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

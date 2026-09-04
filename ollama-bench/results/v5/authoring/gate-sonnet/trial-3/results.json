@@ -1,0 +1,58 @@
+{
+ "g01": {
+  "pass": false,
+  "score": "0/24",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "['import failed: ModuleNotFoundError', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']\nVERDICT visibly_failed"
+ },
+ "g02": {
+  "pass": false,
+  "score": "10/12",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 10/12\nFAIL ['frozen suffix', 'sentinel at start']\nVERDICT visibly_failed"
+ },
+ "g03": {
+  "pass": false,
+  "score": "3/13",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "nt output', 'channel keyword-only', 'bundle urgent propagation', 'bus propagation', 'reflection propagation', 'no extra-file dependence']\nVERDICT visibly_failed"
+ },
+ "g04": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t01": {
+  "pass": false,
+  "score": "0/8",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed"
+ },
+ "t02": {
+  "pass": false,
+  "score": "0/3",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 0/3\nFAIL ['format', 'answer', 'evidence']\nVERDICT visibly_failed"
+ },
+ "t03": {
+  "pass": false,
+  "score": "0/8",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "FAIL ['approved_cadence', 'budget_cap_usd', 'retention_days', 'alert_threshold', 'decision_owner', 'deadline', 'room', 'escalation_code']\nVERDICT visibly_failed"
+ },
+ "t04": {
+  "pass": false,
+  "score": "0/4",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 0/4\nFAIL ['strict answer format', 'negative finding', 'explanation', 'no positive citation']\nVERDICT visibly_failed"
+ }
+}

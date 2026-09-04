@@ -1,0 +1,3 @@
+PATH: scheduler.py
+LINES: 14-17
+EXPLANATION: Shutdown refuses new submissions, then processes the queued jobs in arrival order until the waiting queue is empty.

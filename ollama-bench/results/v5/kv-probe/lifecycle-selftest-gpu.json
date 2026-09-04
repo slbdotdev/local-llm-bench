@@ -1,0 +1,68 @@
+{
+ "lifecycle_selftest": true,
+ "pre_cleanup": {
+  "ok": true,
+  "reason": "",
+  "waited_s": 4.2,
+  "vram_samples": [
+   1230,
+   1230,
+   1230
+  ],
+  "port_free": true,
+  "killed_pids": [],
+  "stray_pids_remaining": []
+ },
+ "cycles": [
+  {
+   "launch_ok": true,
+   "health_s": 6.6,
+   "vram_resident_samples_mib": [
+    14611,
+    14611,
+    14611
+   ],
+   "vram_peak_while_healthy_mib": 14611,
+   "drain_observed": true,
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.5,
+    "vram_samples": [
+     1230,
+     1230,
+     1230
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "stray_pids_remaining": []
+   }
+  },
+  {
+   "launch_ok": true,
+   "health_s": 6.6,
+   "vram_resident_samples_mib": [
+    14611,
+    14611,
+    14611
+   ],
+   "vram_peak_while_healthy_mib": 14611,
+   "drain_observed": true,
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.5,
+    "vram_samples": [
+     1230,
+     1230,
+     1230
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "stray_pids_remaining": []
+   }
+  }
+ ],
+ "ok": true,
+ "drain_branch_proven": true
+}

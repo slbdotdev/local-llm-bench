@@ -1,0 +1,82 @@
+Task: fix a measurement defect in some of the v5 task checkers. Precise, mechanical, and there is
+an acceptance command you must make pass. Work only in the repository you were started in.
+
+THE DEFECT
+Every v5 checker prints a line `VERDICT correct|visibly_failed|confidently_wrong`. That line is
+the benchmark's headline instrument: `confidently_wrong` means the model produced fluent,
+plausible, WRONG work, which is expensive because a human must catch it. `visibly_failed` means
+the model crashed, refused, gave up, or produced nothing, which is cheap because it is obvious.
+
+Several checkers decide the verdict with a rule of roughly this shape:
+
+    verdict = "visibly_failed" if runtime_bad else "confidently_wrong"
+
+where `runtime_bad` is set only when something raised an exception. That is wrong. It means a
+model that DID NOTHING AT ALL -- never edited the file, gave up, ran out of time and produced no
+change -- leaves the seed files exactly as they were, nothing raises, the pre-existing failure is
+still there, and the checker reports `confidently_wrong`.
+
+Consequence, and it is serious: in the real campaign a slow local model that gives up will be
+counted as confidently wrong. The headline rate would be inflated by every non-attempt, which is
+exactly backwards -- a non-attempt is the cheap, visible failure.
+
+Confirmed today on g02/cand-1, g02/cand-2, g02/cand-3, g03/cand-1, g03/cand-2, g03/cand-3.
+Do not assume that list is complete. The acceptance command below tells you the truth.
+
+WHAT TO CHANGE
+A checker must report `visibly_failed` when the model produced NO WORK. Concretely, at least:
+
+- the required output artifact was never created; or
+- the files the task asked the model to modify are byte-for-byte identical to the pristine seed;
+  or
+- the candidate module cannot be imported / does not parse; or
+- the grader's own watchdog fired.
+
+`confidently_wrong` is reserved for the case the instrument exists to catch: the model DID
+produce work, that work is well-formed and runs, and it is wrong.
+
+For the "unchanged from seed" test, embed the pristine content in the checker rather than reading
+it from somewhere the model could have altered: compute a hash (hashlib.sha256 of the file bytes,
+with newlines normalised so a CRLF/LF difference cannot cause a false "changed") of each seed file
+the task asks the model to modify, and hard-code the expected digests in the checker. Include a
+short comment saying why. If every such file still matches its pristine digest, the model did
+nothing and the verdict is `visibly_failed`, whatever the tests say.
+
+DO NOT DO THIS
+- Do NOT weaken or remove the `confidently_wrong` detection to make the acceptance pass. Turning
+  every failure into `visibly_failed` would make the acceptance command green and destroy the
+  instrument. The two cases must stay genuinely distinguishable.
+- Do NOT change `SCORE`, the total number of subchecks, `PASS`/`FAIL`, or the exit codes. Those
+  are the existing contract and other things depend on them.
+- Do NOT change any prompt.md, any seed/ file, any ref/ file, or the difficulty of any task.
+- Do NOT touch pibench.py, the v4 tasks, or anything under results/ except as noted below.
+- Standard library only. Deterministic. No network.
+
+ACCEPTANCE -- you must run this and make it pass
+    cd /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring
+    /mnt/c/Users/slb/scoop/apps/python/current/python.exe verify_candidates.py
+
+Use that exact Windows interpreter; it is the one the real harness uses and the one these
+checkers must work under. The script builds each candidate's sandbox the way the benchmark does
+and prints a summary. You are done when it reports:
+
+    REF ok:     24/24
+    EMPTY ok:   24/24
+    no problems found
+
+Read verify_candidates.py first so you understand what it does: for each candidate it runs the
+checker twice, once over seed/ + ref/ (the reference solution, which must yield
+`SCORE m/m`, `PASS`, `VERDICT correct`, exit 0) and once over seed/ alone (the did-nothing case,
+which must yield a nonzero exit, `VERDICT visibly_failed`, and no traceback from the grader
+itself). You may READ that script but do NOT modify it -- it is the independent check, and a
+worker that edits its own acceptance test has proved nothing.
+
+If a candidate fails the REF half for some reason unrelated to the verdict rule, fix that too and
+say what it was; a checker that cannot pass its own reference solution is a real defect.
+
+REPORT BACK, tersely:
+1. Which candidates you changed and what the wrong rule was in each.
+2. The exact final three summary lines from the acceptance command.
+3. How you distinguish "did nothing" from "did wrong work" now, in one or two sentences.
+4. Any candidate where the distinction was genuinely hard to draw, and what you chose.
+Do not paste diffs or file contents back.

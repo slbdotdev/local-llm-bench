@@ -398,3 +398,376 @@ Authoring still waits on the owner's go-ahead.
   follows: viable at three of four, marginal at two.
 - **The role being tested is the worker that still exists when the paid windows are gone.** Not a
   cost argument — Luna is off weekly-all and GLM is cents — but availability and locality.
+
+## 2026-09-04, Opus manager session — startup findings and banked calls
+
+Opened from `handoff-2026-09-04.md`. Skills `org`, `codex-run`, `pi-run`, `agent-runtime`
+invoked before the first action, as instructed. Three deltas were handed down by the control
+session at start and override the handoff where they differ: `~/ansible-slb` is busy and is not
+this session's to touch at all (no writes, no commits, no converge, no playbook); a multi-turn
+`pi-run` follow-up can report `succeeded` carrying a *stale* previous-turn answer when the
+follow-up's turn dies upstream, so gate runs prefer a fresh one-shot and any follow-up answer is
+checked against the question it was meant to answer rather than trusted on its `succeeded`
+state; and no foreground `agent-run wait` is taken while other work exists.
+
+### The working invocation for Windows-side GPU work, established and recorded
+
+The handoff expected this to cost the first ten minutes and to need `ssh fractal` with `sh -lc`.
+It does not. **Windows Python is executed directly from WSL, with no ssh, no PowerShell wrapper,
+and no quoting layers:**
+
+    /mnt/c/Users/slb/scoop/apps/python/current/python.exe kvquality.py …
+
+run with cwd `/mnt/d/local-llm-bench/ollama-bench/results/v5/kv-probe`, which that interpreter
+sees as `D:\local-llm-bench\ollama-bench\results\v5\kv-probe`. Verified live: Python 3.14.7;
+`~/AppData/Local/Programs/Ollama/lib/ollama/llama-server.exe` and `cuda_v13` both resolve under
+Windows `expanduser`; `nvidia-smi` and `tasklist` are reachable from that interpreter; `os.getcwd()`
+returns the `D:\` path, so relative paths in the harness behave as the script expects.
+
+`nvidia-smi` also works directly from WSL (`1297 MiB / 16303 MiB` used at session start), so VRAM
+can be read without entering Windows at all. **Consequence: the "multi-line program never goes
+inline" trap does not arise for this harness** — there is one process boundary, not three, and
+no `ssh host '…'` or `wsl.exe -- bash -lc '…'` re-parsing. The ssh-to-`fractal` path stays
+correct for anything that genuinely needs a Windows *shell*; it is not needed to drive this
+benchmark and should not be reached for by habit.
+
+### Machine state at session start
+
+- GPU idle at 1297 MiB of 16303 MiB. No `llama-server.exe` process. `ollama ps` empty — the
+  Windows Ollama service (0.33.3) is up with nothing loaded, which is the required state for the
+  direct-server harness (the plan forbids the model service serving *concurrently*, not the
+  service existing).
+- `OLLAMA_KV_CACHE_TYPE=q8_0` confirmed live, as the plan predicted. **The grid must set `q4_0`
+  and revert this to `q8_0` with an Ollama restart afterwards.** Recorded here so the revert
+  survives a session restart.
+- All grid quants are present locally: `q27-Q2_K_L`, `q27-Q3_K_S`, `q27-Q3_K_M`, `q27-Q3_K_L`,
+  `q27-IQ3_M`, plus the pre-built 64k variants `q27-Q3_K_S-64k` and `q27-IQ3_M-64k`. No pull is
+  needed to start the grid.
+- `D:\local-llm-bench` clean on `main` at `97c2529`.
+
+### Banked: the bench repo has no `CLAUDE.md`
+
+The handoff and the fleet rule both say to read `D:\local-llm-bench\CLAUDE.md` as instructions
+before touching this repo. **That file does not exist and never has** — `git log --all
+--diff-filter=D -- '*CLAUDE.md'` returns nothing, and there is no `AGENTS.md` anywhere in the
+tree either. So the repo's contract is `README.md` plus the v5 plan, and this session proceeded
+on those. Not a blocker and not fixed here, because writing a repo contract is a structural
+decision and section 6's "bank, do not block" applies: **a later session should decide whether
+this repo wants a `CLAUDE.md`**, and if so it should at minimum carry the Windows-Python
+invocation above, the `OLLAMA_KV_CACHE_TYPE` revert obligation, and section 4a. Until then the
+handoff's instruction is unsatisfiable as written and the next manager will lose the same few
+minutes discovering it.
+
+### Banked: an OpenAI prompt-policy refusal is an endpoint failure, not a model failure
+
+The first inspiration run (`wr-wsl-20260904T092849Z-64c512d80964`) ended `failed` before any
+turn began:
+
+    ERROR: Invalid prompt: your prompt was flagged as potentially violating our usage policy.
+
+Nothing was wrong with `codex-run`, the supervisor, or the ChatGPT window. The trigger was
+phrasing in the *brief*, not the subject: the refused version asked for constructions that
+"resist being gamed", described a checker "the model never sees", and used trap/probe framing —
+wording that reads as asking a model to help defeat an evaluation or safety system. Reworded into
+plain academic terms (no probing, gaming, defeating or stress-testing; "control items whose
+inputs do not support an answer" instead of "traps"), the identical request cleared moderation
+and ran. Both briefs are kept at `results/v5/briefs/inspiration.txt` (current) for audit.
+
+**This is plan section 3 rule 8 applied to worker runs rather than to scored rows**, and it
+matters for the gate records: a provider-side refusal or 5xx must never be written down as a
+model failing a task. Two further notes for whoever hits this next. The run's terminal detail
+says only `codex exited 1`; the real cause is in `<run-dir>/harness.log`, and for a **pi** run it
+is in `<run-dir>/pi-session/*.jsonl` and never in `harness.log`. And the control session has
+taken the "surface the ERROR line in the terminal detail" gap as its own runtime finding, so it
+is not this session's to fix.
+
+### Method note carried forward from the runtime acceptance page
+
+Give a worker a task whose answer can be computed independently, and size the task to the race
+being tested. Applied here: the KV-probe lifecycle fix is authored by a worker but its proof —
+a real start/stop/start cycle on the GPU — is run by this session, not by the worker, because
+the card must stay serial under one controller and because a worker asserting its own fix works
+is exactly the claim that needs independent checking.
+
+### BLOCKING, found 2026-09-04: FRACTAL has no working CUDA backend
+
+Full evidence: `findings-2026-09-04-gpu-cuda-broken.md`. In one line: **an interrupted Ollama
+install on 2026-09-03 at 21:16-21:17 left `lib/ollama/cuda_v13` half-written with
+`ggml-cuda.dll` absent, and Ollama now serves entirely on CPU — 3.2 tok/s against the 51-53
+tok/s measured on 2026-09-03, `pct_gpu 0`, 0.00 GB VRAM.** The whole fifteen-cell grid, the 64k
+KV rerun, and plan section 6's GPU calibration step are blocked until Ollama is reinstalled.
+
+Found only because the KV-probe lifecycle proof was run on real hardware rather than reviewed as
+a diff. Every cheap state check the handoff prescribed passes: the GPU reads idle, `nvidia-smi`
+works, the driver is current, `ollama list` and `ollama ps` are normal, the version string is
+right. **Nothing looks wrong until a model is actually loaded and its residency read.** That is
+the reusable lesson and it is the same one plan rule 7 already states about `100% GPU` being a
+lie under WDDM: residency is a measurement, never a report.
+
+Banked decisions taken alone, all reversible and all recorded rather than assumed:
+
+- **A minimal reversible repair was attempted and failed.** `cuda_v13` was renamed aside so
+  Ollama could fall back to the complete `cuda_v12`; it stayed CPU-only, almost certainly because
+  the RTX 5080 is Blackwell sm_120 and the shipped `cuda_v12` build has no sm_120 kernels. The
+  rename was reverted and **the host is in exactly the state it was found in.** Script and both
+  directions: `results/v5/repair-cuda.py`.
+- **No reinstall was attempted, deliberately.** Reinstalling a managed Windows application is
+  fleet-layer work; this session was barred from `~/ansible-slb` with another worker in flight
+  there; and running an installer unattended on a machine whose last installer run died halfway
+  is the wrong move without the owner. This is banked, not decided.
+- **The GPU half of the night is abandoned and the cloud half continues.** Authoring, the
+  mechanical selfcheck, and the Sonnet/GLM/Haiku gates need no GPU and are where the remaining
+  time goes. Section 4a is unaffected — with no quant reachable, selection against a quant's
+  results is not even possible.
+
+**Consequence for the freeze, and it is the important one.** Plan section 6 loop step 3 sizes
+each task against the local model: does a trial finish under 300 s, does the prompt read
+unambiguously to a small model, does the window fit. **Those properties cannot be settled by
+this session**, so a suite frozen on this session's evidence alone would be frozen without its
+local sizing. The freeze was already not this session's to take; this is a second and independent
+reason to leave it. The per-task record notes, for every task, that its local calibration is
+outstanding.
+
+### Banked: two more preconditions the handoff did not list
+
+`findings-2026-09-04-grid-harness-gap.md`, in short — and none of these change what the suite
+measures:
+
+1. **`pibench.py` does not pad the context at all.** The grid's whole premise is that a cell is
+   run with its window filled; `run_pi()` pads nothing. Every cell would have received the same
+   short prompt, the curve would have been flat by construction, and the flatness would have
+   looked like a finding. This is the most expensive defect available in this plan, because it
+   does not fail — it returns a confident wrong answer, which is precisely what the benchmark
+   exists to measure.
+2. **Thirteen of the fifteen cells had no model tag.** pi passes no options, so `num_ctx` and
+   `num_gpu` reach Ollama only when baked into a tag; `pibench.py --num-ctx` sets only the
+   throughput probe. A "48k cell" on a base tag would have silently run at 32768 and without the
+   forced offload worth up to 2.3x. **Fixed**: `ollama-bench/make_grid_models.sh` builds all
+   fifteen. Trap recorded there: Windows `ollama.exe` cannot read a WSL `/tmp` path and fails with
+   "no Modelfile or safetensors files found" **and exit code 0**, so a script without an explicit
+   check reports success.
+3. **The headline instrument is not recorded per trial.** The v5 checkers emit a `VERDICT
+   correct|visibly_failed|confidently_wrong` line (new in the authoring contract); `pibench.py`
+   parses only `SCORE` and `PASS`. Additive one-line fix, cannot change any existing number.
+
+### Banked: `VERDICT` added to the checker contract
+
+Every v5 checker prints a third line, `VERDICT <word>`, decided mechanically from what the model
+produced. Section 7 predeclared the three outcomes and made the confidently-wrong rate a verdict
+line outranking pass rate; without this the rate would have to be reconstructed by a human
+reading truncated grader tails across 120 trials. It is **additive** — `pass` and `score` keep
+their exact current definitions — and it does not change what any class measures, so it is
+authoring, not a structural decision. Recorded here so it can be reversed by whoever freezes.
+Independent support, found afterwards and not used to justify it: SimpleQA grades three ways and
+Abstain-QA's confusion matrix counts correct refusal separately
+(`findings-2026-09-04-inspiration.md`).
+
+### The suite: authored, verified, selected — 2026-09-04
+
+Twenty-four candidates (eight tasks x three) authored by eight parallel Luna runs against
+`results/v5/authoring/CONTRACT.md`. Picks with reasoning and the full section 4a audit record:
+`results/v5/authoring/selection.md`. Gate results: `findings-2026-09-04-gate.md`.
+
+**Every worker claim was recomputed rather than trusted**, by `verify_candidates.py` under the
+same Windows interpreter the harness uses. It builds each candidate's sandbox exactly as
+`pibench.py` does and checks two things per candidate: the checker passes its own reference
+(`SCORE m/m`, `PASS`, `VERDICT correct`, exit 0), and a did-nothing sandbox yields
+`VERDICT visibly_failed` without crashing the grader. Every authoring worker had reported all
+three of its self-checks clean. **Two real defects were found anyway**, which is the whole
+argument for the step:
+
+- **Six checkers labelled a did-nothing sandbox `confidently_wrong`** (g02 and g03, all
+  candidates). The rule was `visibly_failed if something raised else confidently_wrong`, so a
+  model that never edited anything — gave up, ran out of time, produced no work — was counted as
+  confidently wrong. In the grid that would have inflated the headline instrument with every
+  non-attempt, which is exactly backwards: a non-attempt is the cheap, visible failure. Fixed by
+  hashing the pristine seed into the checker so "unchanged" is detectable, without weakening the
+  `confidently_wrong` detection itself.
+- **My own verifier was wrong about t01**, reporting all three candidates as failing their
+  reference. They were not: t01 ships `ref/solve.py`, a program that *produces* the artifact,
+  while every other task ships the finished artifact. Recorded because the inconsistency is real
+  and a later reader will hit it — **two `ref/` conventions coexist in this suite** and anything
+  consuming `ref/` must handle both.
+
+### Banked: the gate found two task defects, and both are fixed in the prompt not the checker
+
+Sonnet passed 6 of 8 on the first trial. g03 and g04 failed, and under plan rule 1 a task Sonnet
+fails is a *task* defect and never evidence about a quant. Both were, and in both cases the model
+did something defensible given the text:
+
+- **g03's checker tests a function its prompt never names.** The failing subcheck requires a
+  reflective dispatch helper to accept and forward the new keyword-only options; the prompt
+  contains that function's name **zero times**, asking only for propagation "through `forward` and
+  `present`" plus updating "the string used by `getattr`". Renaming a string is not forwarding an
+  argument.
+- **g04's prompt contradicts its checker.** The seed has the classic shared mutable default; the
+  checker requires per-call isolation, i.e. that the behaviour *change*; the prompt says public
+  behaviour "must remain intact" and not to remove behaviour to silence a finding. Preserving the
+  bug is what the prompt literally asks for.
+
+**The diagnostic that separates ambiguity from difficulty, worth reusing:** Sonnet failed g04
+while GLM passed it 3/3. Difficulty produces a consistent gradient across models; ambiguity
+produces model-dependent readings of the same sentence. On g03, where the defect is a missing
+requirement rather than a contradiction, both models struggle (Sonnet 0/1, GLM 1/3) — the other
+signature, equally diagnostic. Fixes state the requirement without naming the sites, so the tasks
+are not made easier in substance.
+
+### Sizing is established for appetite and NOT established for the local wall
+
+Completed gate trials: GLM 322-2,341 output tokens (median ~590) and 7-40 s wall; Sonnet 4-6 tool
+calls, 12-74 s. Comfortably inside rule 2's 5,000-token appetite, so v4's failure — tasks needing
+40-50k output tokens, every local trial hitting the wall before quality could be measured — has
+been avoided. **But these are fast cloud models.** The local timeouts this data is meant to size
+are for a 27B quant at ~45 tok/s that could not be run at all. Nothing here measures the local
+model's reading of a filled 64k window, its tool-call overhead, or its turn count. Appetite:
+established. Local wall: **not established**, and it is a freeze precondition.
+
+### Banked: never dispatch a worker onto a tree another worker still holds
+
+Two runs died with exit 144 through a scheduling error of this session's. A worker was sent to fix
+task checkers while an authoring worker was still rewriting the same files; it saw the seed
+changing underneath it, judged the tree unstable, and **killed the other worker processes**,
+destroying the authoring run, the in-flight GLM gate, and itself. No data was corrupted — the
+verdict fix had already landed for five of its six targets.
+
+Two rules out of it. First, check a run is terminal (`agent-run status`) before pointing another
+run at the same files; the runtime makes this trivial and this cost two runs. Second, and more
+general: **a Codex worker has no permission system and full access, and will take drastic action
+when its assumptions break.** Killing processes was a defensible response to "the tree is moving
+under me" and was still wrong. Every brief dispatched afterwards carries an explicit prohibition —
+do not kill, terminate or signal any process you did not start; if something looks like it is
+changing under you, stop and report. That line should be standing text in any brief for a worker
+on a tree that others may touch.
+
+### Banked: the pristine-seed digest is correct but brittle before the freeze
+
+The fix for "a did-nothing sandbox must read `visibly_failed`" works by hard-coding a hash of each
+pristine seed file into the checker, so "unchanged from seed" is detectable without trusting
+anything the model could have altered. That is the right mechanism and it has one property worth
+writing down: **the digest goes stale the moment a seed file is edited**, and a stale digest makes
+the checker think the model changed something when it did not. One was already found and
+corrected in g02/cand-3 during this session.
+
+After the freeze this is a non-issue, because the seeds stop changing — which is rather the point
+of freezing. Before the freeze it is a live hazard: **any edit to a `seed/` file must be followed
+by re-running `verify_candidates.py`**, whose EMPTY case is exactly what catches a stale digest.
+Whoever freezes should re-run it one final time immediately before taking the hashes, so the
+frozen digests and the frozen seeds are known to agree.
+
+### IMPORTANT for the KV harness: Ollama's own model runner is also called `llama-server.exe`
+
+Found 2026-09-04 when the lifecycle selftest stalled on a card the GPU owner had just verified.
+Measured, not inferred: with `q27-Q3_K_S` loaded through Ollama, `Get-CimInstance Win32_Process`
+shows a **`llama-server.exe` (pid 9692) whose ParentProcessId is 19824 — the Ollama server
+process itself.** Unloading the model with `keep_alive: 0` made that process disappear, which
+confirms the parentage from the other direction.
+
+`kvquality.py` launches its own `llama-server.exe` directly, and its cleanup barrier both (a)
+enumerates every `llama-server.exe` by image name and `taskkill /T /F`s it, and (b) treats any
+`llama-server.exe` still present after the VRAM drain as a failure. Neither step can tell its own
+child from Ollama's runner. Two consequences:
+
+- **Benign but confusing:** with a model loaded in Ollama, the barrier can never see three
+  consecutive quiescent VRAM samples (the card holds ~15.3 GB), so it burns its full 180 s and
+  reports "VRAM did not reach three consecutive quiescent samples". That is a *correct* refusal
+  with a *misleading* reason: the real cause is "Ollama has a model loaded", not a drain failure.
+- **Not benign:** in the ordering where the barrier reaches its kill step first, it would
+  **`taskkill /T /F` Ollama's model runner** — killing another agent's work with no warning.
+
+The harness docstring already says "Ollama must have nothing loaded before this runs", so this is
+a documented precondition rather than a violated invariant, and the plan's "one model on the GPU
+at a time" rule says the same. But a precondition the code cannot check is one that will
+eventually be broken, and the failure mode is killing someone else's model.
+
+**The fix, for whoever picks this up (not applied tonight):** the barrier should identify
+`llama-server.exe` processes by **parent pid** — its own child is the one it spawned, anything
+whose parent is the Ollama server is not its to touch — and should **refuse with the accurate
+reason** ("Ollama has a model resident; unload it first") instead of killing it or timing out on a
+drain that was never going to happen. Enumerating with `Win32_Process` gives `ParentProcessId`
+alongside the pid, and the barrier already shells out to PowerShell-adjacent tooling, so this is a
+small change to `_llama_server_pids`.
+
+Workaround until then, and it is what the grid should do anyway: unload Ollama
+(`{"model": ..., "keep_alive": 0}`) and confirm `nvidia-smi` is back near idle **before** any
+direct-server run. Measured tonight: the card returned from 15,357 MiB to 1,230 MiB within 2
+seconds of the unload.
+
+### Gate status at end of session
+
+**GLM 5.3 Flash, 3 trials x 8 tasks on the fixed suite: all 8 tasks pass the 2/3 gate**
+(g01 3/3, g02 3/3, g03 2/3, g04 3/3, t01 2/3, t02 2/3, t03 3/3, t04 3/3). The pre-fix run is kept
+for comparison at `authoring/gate-glm-prefix.json`, where g03 scored only 1/3.
+
+**Sonnet: trial 0 6/8, trial 1 7/8.** g03 recovered to a clean 13/13 after its prompt was fixed.
+g04 failed twice, was diagnosed as a task-shape problem rather than a wording one, and its
+candidate was replaced; the replacement passed 8/8 first time. Sonnet still needs a third trial on
+all eight to satisfy rule 1's 3/3, and the replaced g04 has only one trial.
+
+Not run at all: **Haiku**, both the x3 prompt-defect check and the two rates section 7 requires
+(on the frozen set, and on every task authored including saturated ones). It needs no GPU.
+
+### A green result must carry evidence for the thing it claims — the lifecycle proof, twice
+
+The first `--lifecycle-selftest` run against the repaired GPU returned `ok: true` and was very
+nearly recorded as closing the owed proof. It did not close it. Every VRAM sample in the artifact
+read the idle 1230 MiB baseline and no peak was recorded anywhere, so the file could not
+distinguish **"the drain branch waited for a real 14 GB allocation to fall"** from **"VRAM was
+already under the ceiling and there was nothing to drain"**. The control session caught this;
+the reasoning is worth keeping because it is the same failure shape as the day's main fault, where
+a version check passed throughout and only a real load disproved it.
+
+Two fixes, and the second matters more than the first:
+
+1. `lifecycle_cycle` now samples `nvidia-smi` **while the server is healthy, before teardown**,
+   and records `vram_resident_samples_mib` and `vram_peak_while_healthy_mib` in every cycle.
+2. `drain_branch_proven` is a **separate top-level field from `ok`**. They are different claims —
+   `ok` says the cycle completed, `drain_branch_proven` says the run exercised the branch that
+   waits for a real allocation to fall — and merging them is precisely what produced an artifact
+   that asserted more than it showed.
+
+Re-run result, now self-evidencing: `vram_peak_while_healthy_mib: 14611` on both cycles, draining
+to `[1230, 1230, 1230]`, `ok: true`, `drain_branch_proven: true`. The 6.6 s to healthy is genuine
+for this model — an mmap-backed load off a warm page cache, not a short circuit.
+
+**Process lesson, banked:** the run that *had* originally exercised the drain (samples climbing
+13783 → 14581 → 14611 → 1230) was overwritten by re-running with the same `--out` path, so its
+evidence survived only in a session transcript, which is where evidence must never live. Write
+`--out` to a per-run filename.
+
+### Final gate state — rule 1 is satisfied on all eight tasks
+
+| task | pick | Sonnet | GLM |
+| --- | --- | --- | --- |
+| g01 | cand-2 | 3/3 | 3/3 |
+| g02 | cand-3 | 3/3 | 3/3 |
+| g03 | **cand-1** (replaced) | 3/3 | 3/3 |
+| g04 | **cand-1** (replaced) | 3/3 | 3/3 |
+| t01 | cand-3 | 3/3 | 3/3 |
+| t02 | cand-2 | 3/3 | 2/3 |
+| t03 | cand-3 | 3/3 | 3/3 |
+| t04 | cand-3 | 3/3 | 3/3 |
+
+Two tasks were replaced on gate evidence, which rule 1 explicitly provides for ("a task Sonnet
+fails is fixed or replaced, and that is a *task* defect, never evidence about a quant"). In both
+cases fixing was tried first and only replacement worked, and in both cases **no quant evidence
+existed or could have existed** — the GPU was unusable throughout authoring, so section 4a's
+prohibition was satisfied by circumstance as well as by discipline.
+
+- **g04/cand-2 → cand-1.** Its checker demanded that a function named `remember`, called with no
+  explicit table, must **not** persist anything. Sonnet preserved the persistence twice, once
+  before and once after the prompt was reworded, each time saying plainly that it was keeping the
+  documented behaviour. The task was asking which of two coherent readings the author had in
+  mind, not whether the model could spot a silent defect.
+- **g03/cand-3 → cand-1.** FAIL, PASS, FAIL across three Sonnet trials, and the two failures were
+  on **different** subchecks — the prompt was amended to name the reflective dispatcher, that site
+  then passed, and a bundling wrapper failed instead. The task threads a new option through five
+  forwarding sites; a prompt short enough to meet the word limit cannot enumerate them, and
+  enumerating them would turn it into a checklist. Wrong task, not a hard one.
+
+**What Haiku still owes, and it is the last thing between here and the freeze:** three trials
+rather than one, on the *current* suite (the single Haiku run predates both replacements); the x3
+prompt-defect check, which is a different use of Haiku and must not be substituted by the scored
+row; and section 7's second rate, over every task authored including the saturated ones. On its
+one trial Haiku passed six of eight, and if that holds at 3/3 the suite exceeds section 4's limit
+of three saturated tasks — a real risk to size before freezing, not a detail. All 24 candidates
+remain on disk so the unfiltered rate can still be computed.

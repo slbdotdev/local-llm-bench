@@ -1,0 +1,53 @@
+{
+ "lifecycle_selftest": true,
+ "pre_cleanup": {
+  "ok": true,
+  "reason": "",
+  "waited_s": 4.2,
+  "vram_samples": [
+   1304,
+   1304,
+   1304
+  ],
+  "port_free": true,
+  "killed_pids": [],
+  "stray_pids_remaining": []
+ },
+ "cycles": [
+  {
+   "launch_ok": true,
+   "health_s": 8.1,
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.5,
+    "vram_samples": [
+     1304,
+     1304,
+     1304
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "stray_pids_remaining": []
+   }
+  },
+  {
+   "launch_ok": true,
+   "health_s": 4.5,
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.5,
+    "vram_samples": [
+     1304,
+     1304,
+     1304
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "stray_pids_remaining": []
+   }
+  }
+ ],
+ "ok": true
+}

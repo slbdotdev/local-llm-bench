@@ -1,0 +1,93 @@
+Task: three small, precise fixes to authored benchmark tasks. Work only in the repository you were
+started in. NOTHING ELSE IS RUNNING against this tree, so you have it to yourself.
+
+ABSOLUTE RULE, read first: do NOT kill, terminate or signal any process you did not start
+yourself. A previous run on this tree killed other workers when it saw files changing underneath
+it, and destroyed two runs including its own. If something looks like it is changing under you,
+STOP and say so in your report instead.
+
+Edit only under /mnt/d/local-llm-bench/ollama-bench/tasks-v5/ . Do NOT edit anything under
+results/ (in particular do not touch results/v5/authoring/gate-suite/ -- it is a generated copy
+and will be rebuilt from tasks-v5 after you are done), do NOT edit pibench.py, and do NOT edit
+results/v5/authoring/verify_candidates.py, which is your acceptance test.
+
+=== FIX 1: g02/cand-3 has an unfinished verdict rule ===
+
+Every checker prints `VERDICT correct|visibly_failed|confidently_wrong`. `confidently_wrong` must
+mean the model DID work and the work is wrong. A model that did NOTHING -- never edited anything,
+gave up, ran out of time -- must be `visibly_failed`, because that failure is cheap and obvious,
+whereas confidently_wrong is the expensive case the benchmark exists to count.
+
+g02/cand-1, g02/cand-2 and all three g03 candidates were already corrected to do this. **Only
+tasks-v5/g02/cand-3/test.py still has the old rule** and reports `confidently_wrong` for an
+untouched sandbox. Fix it the same way its siblings were fixed -- look at g02/cand-1/test.py and
+g02/cand-2/test.py and follow the pattern already used there, so all three are consistent. Do not
+invent a different mechanism.
+
+Do not weaken `confidently_wrong` detection to achieve this. The two cases must stay genuinely
+distinguishable: "produced nothing / unchanged from the pristine seed" vs "produced runnable work
+that is wrong".
+
+=== FIX 2: g03 prompt does not mention the function its checker tests ===
+
+tasks-v5/g03/cand-3/test.py contains this subcheck:
+
+    _check("reflection propagation",
+           lambda: _view.reflected("x", channel="audit", urgent=True) == "URGENT audit:x")
+
+so `reflected` must accept the new keyword-only `channel` and `urgent` options and forward them.
+But `prompt.md` never mentions `reflected` at all -- it says to propagate the new option through
+`forward` and `present`, and separately to update "the string used by `getattr`". Renaming that
+string is not the same as making the reflective helper forward the new options, and a careful
+reader can do everything the prompt asks and still fail this subcheck. That is ambiguity, and
+ambiguity is a defect rather than difficulty.
+
+Fix the PROMPT, not the checker. State that every function that forwards a call -- including the
+one that dispatches reflectively -- must accept and pass through the new keyword-only options.
+Keep it a requirement, not a walkthrough: do not name line numbers, do not say what the code
+currently looks like, and do not make the task easier in substance. The model should still have to
+find the sites. Apply the same wording fix to cand-1 and cand-2 if their prompts have the same gap
+(check; they may differ).
+
+=== FIX 3: g04 prompt contradicts its own checker ===
+
+tasks-v5/g04/cand-2: the seeded `router.py` has `def resolve(path, routes={})` and
+`def remember(path, destination, routes={})` -- the classic shared mutable default. The style tool
+flags it. The checker then requires that calling `remember("/promo", "/sale")` with no table does
+NOT leak into a later `resolve("/promo")`, i.e. the implicit table must be per-call ISOLATED.
+
+But prompt.md says the module's "public behavior must remain intact" and "Do not remove routing
+behavior to silence a finding". Read literally, preserving the existing shared-table behaviour is
+exactly what the prompt asks for, and a model that keeps the sharing (for example by hoisting one
+module-level dict and using a None sentinel) is obeying the prompt and failing the checker.
+
+Fix the PROMPT. It must make clear that public signatures, their default arguments, and the
+routing semantics callers rely on must keep working, AND that where a finding identifies a genuine
+defect, correctly fixing it is expected to change the defective behaviour -- preserving a bug is
+not "keeping behavior intact". Do not name the mutable default, do not say which finding is the
+defect, and do not describe the correct fix. The model must still work that out. Apply the same
+wording fix to cand-1 and cand-3 if they carry the same contradiction (check; they may differ).
+
+=== ACCEPTANCE -- run it and make it pass ===
+
+    cd /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring
+    /mnt/c/Users/slb/scoop/apps/python/current/python.exe verify_candidates.py
+
+Use that exact Windows interpreter. You are done when it prints:
+
+    REF ok:     24/24
+    EMPTY ok:   24/24
+    no problems found
+
+You may read verify_candidates.py to understand it. You may NOT modify it.
+
+Also re-run each edited candidate's own selfcheck.py where one exists, and confirm it still exits
+0 -- if you changed a prompt, its worked examples must still hold.
+
+=== REPORT BACK, tersely ===
+1. What you changed in g02/cand-3, in one line.
+2. The exact new sentence(s) you added to the g03 and g04 prompts, quoted.
+3. Which sibling candidates also needed the wording fix and which did not.
+4. The final three summary lines from the acceptance command.
+5. Anything you think is still ambiguous in any of these three tasks.
+Do not paste whole files or diffs.

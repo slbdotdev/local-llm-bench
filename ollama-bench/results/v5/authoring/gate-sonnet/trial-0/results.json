@@ -1,0 +1,58 @@
+{
+ "g01": {
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g02": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "g03": {
+  "pass": false,
+  "score": "12/13",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 12/13\nFAIL ['reflection propagation']\nVERDICT confidently_wrong"
+ },
+ "g04": {
+  "pass": false,
+  "score": "8/9",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 8/9\nFAIL ['default_isolation']\nVERDICT confidently_wrong"
+ },
+ "t01": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t02": {
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t03": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t04": {
+  "pass": true,
+  "score": "4/4",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 4/4\nPASS\nVERDICT correct"
+ }
+}

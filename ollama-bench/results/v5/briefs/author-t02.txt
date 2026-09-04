@@ -1,0 +1,43 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: t02
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/t02/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT t02 MEASURES: judging whether a function actually does what its docstring claims.
+Class: comprehension.
+CHECKER: the binary verdict, plus the line the model cites as evidence.
+
+GUIDANCE
+- seed/ holds a module with several functions. The model is asked about one of them by name.
+- Make the three candidates differ in the answer: at least one candidate where the docstring is
+  ACCURATE and the correct answer is "yes, it matches" -- a model that has learned to always find
+  a discrepancy must fail that one. In the others the docstring is subtly wrong: an off-by-one in
+  a stated bound, a claimed exception that is never raised, a stated ordering the code does not
+  guarantee, a documented default that differs from the code.
+- The discrepancy must be real, small, and provable from the code alone. No judgement calls.
+- Require a cited line number or exact source line as evidence, and check it. A correct verdict
+  with a fabricated or irrelevant citation is the sharpest signal this task can produce, and it
+  should count as confidently_wrong, not as a pass. Say so explicitly in NOTES.md.
+- Keep the module small enough to read quickly but large enough that the answer is not the first
+  thing seen.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

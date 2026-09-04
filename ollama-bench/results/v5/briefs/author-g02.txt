@@ -1,0 +1,42 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: g02
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/g02/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT g02 MEASURES: fixing one failing test in a module of about 300 lines without breaking the
+others. Class: transformation.
+CHECKER: the full test suite must pass; the previously-passing tests must still pass.
+
+GUIDANCE
+- seed/ holds the module and its test file, with exactly one test failing.
+- The bug must be a real, localised defect with one correct fix -- not a puzzle, and not
+  something requiring a rewrite. A competent reader finds it by reading the failing assertion
+  and following it back.
+- Include at least one tempting WRONG fix: an edit that makes the failing test pass while
+  breaking a different one, or while special-casing the test's exact input. Your checker must
+  catch that specifically, and it is the confidently_wrong case: the model reports success, the
+  suite is red elsewhere.
+- The checker runs its OWN copy of the tests. Do not trust the test file in the sandbox: the
+  model may have edited it. Detecting that the model edited the tests instead of the code is
+  itself a confidently_wrong signal worth checking.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

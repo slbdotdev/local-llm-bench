@@ -1,0 +1,43 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: g03
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/g03/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT g03 MEASURES: a mechanical rename plus a signature change applied across three modules.
+Class: transformation.
+CHECKER: the test suite passes, AND a search finds no stragglers left behind.
+
+GUIDANCE
+- seed/ holds three modules that import from each other, plus tests.
+- The change is fully specified and purely mechanical: rename a symbol, and change a function's
+  signature (for example a positional argument becomes keyword-only, or two arguments swap
+  order, or a parameter is added with a default) at every definition and every call site.
+- The point is completeness under tedium, not cleverness. Put call sites somewhere easy to miss:
+  a string used with getattr, a default argument, a call inside a comprehension, a docstring
+  example that the tests execute.
+- The confidently_wrong case is the model that changes the obvious four call sites, reports the
+  rename complete, and leaves the fifth. Your checker must detect the straggler specifically and
+  distinguish it from a module that does not import at all.
+- Be careful that your straggler-search is robust to the sandbox containing extra unrelated
+  files, per the contract.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

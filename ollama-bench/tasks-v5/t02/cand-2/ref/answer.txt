@@ -1,0 +1,2 @@
+ANSWER: yes
+EVIDENCE: 27:     if value < 1 or value > 65535:

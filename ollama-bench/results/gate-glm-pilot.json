@@ -1,0 +1,63 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "g01",
+    "pass": true,
+    "wall_s": 10.6,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 13113,
+    "out_tokens": 726,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "final_text": "reates the entry at that position; later occurrences update it in place (no move, no duplicate).\n- **Entry fields**: `key`, `total` (sum of deltas), `occurrences` (count of deltas) \u2014 zero, negative, and repeated deltas all count.\n- **Purity**: input is never mutated; all returned lists/dicts are fresh objects.\n\nAll four worked examples pass, and a mutation check confirms the input stays unchanged.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t02",
+    "pass": false,
+    "wall_s": 8.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 7759,
+    "out_tokens": 467,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 2/3\nFAIL ['evidence']\nVERDICT confidently_wrong",
+    "score": 0.6667,
+    "final_text": "`answer.txt` created. The function matches its spec: it validates the type and nonemptiness, restricts to ASCII digits, and rejects only values below 1 or above 65535, so both boundary endpoints are accepted \u2014 exactly as the docstring claims.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

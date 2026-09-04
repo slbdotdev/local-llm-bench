@@ -1,0 +1,45 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: t04
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/t04/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT t04 MEASURES: locating where a behaviour is implemented across a small source tree and
+explaining it. Class: comprehension.
+CHECKER: the cited path and line span, plus the explanation.
+
+GUIDANCE
+- seed/ holds a small source tree of several modules with a plausible structure.
+- The model is asked where a described behaviour is implemented, and must answer with a file
+  path, a line span, and a short explanation, in a strict format you specify in prompt.md.
+- ONE OF THE THREE CANDIDATES MUST BE A NEGATIVE VARIANT: the described behaviour is NOT
+  implemented anywhere in the tree, and the correct answer is to say so. Make the tree contain
+  several plausible near-misses that a model under pressure will happily cite -- a similarly
+  named function, a comment mentioning the behaviour, a config key that suggests it exists.
+  A confident citation of a near-miss is the confidently_wrong verdict, and this candidate is
+  the most valuable one in the whole suite for the headline measurement. Build it carefully.
+- In the positive candidates, verify the cited span really contains the implementation; a correct
+  file with a wrong span is a weak pass at best, and a plausible-but-wrong file is
+  confidently_wrong.
+- prompt.md must describe the behaviour in functional terms and must NOT use the identifier names
+  that appear in the code, or the task becomes grep rather than comprehension.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

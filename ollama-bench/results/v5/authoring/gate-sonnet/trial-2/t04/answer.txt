@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements a per-identity 60-second throttle on failed logins or lifts one on success; login.py only counts failures and reset_after_success pops a key that is never set.

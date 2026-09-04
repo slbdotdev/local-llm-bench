@@ -1,0 +1,48 @@
+You are authoring one task for a local-model benchmark suite. Work only inside the repository you were started in.
+
+STEP 1, before anything else: read in full
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/authoring/CONTRACT.md
+It defines the directory layout, the checker output protocol, the VERDICT line, the hard sizing
+limits, the context-axis layout requirement, and the self-verification you must run. Follow it
+exactly; it is not a summary of this brief, it is the larger half of it.
+
+Useful reference: ollama-bench/tasks-v4/60_numlit/test.py shows the correct checker watchdog
+shape and the inlined-oracle style. Copy that shape. Do NOT copy its scale: the v4 suite failed
+because its tasks needed 40-50k output tokens, and yours must be a small fraction of that.
+
+YOUR TASK ID: t03
+Write THREE independent candidates to
+  ollama-bench/tasks-v5/t03/cand-1/ , cand-2/ , cand-3/
+each a complete task directory as the contract specifies. Do not touch any other task id.
+
+WHAT t03 MEASURES: extracting eight specified facts from a long document into JSON.
+Class: comprehension. This task carries the context axis, so length is a feature here, not a
+problem -- but keep the OUTPUT small.
+CHECKER: a rubric that accepts stated variants per field.
+
+GUIDANCE
+- seed/ holds a document of roughly 10-12k tokens: a plausible technical report, incident
+  writeup, specification or meeting record. Write it; do not copy anything real.
+- Eight facts, each unambiguously present and each stated once. Spread them through the
+  document, including at least two in the last third, so a model that reads only the opening
+  cannot score well.
+- The output is one JSON file with eight named fields. State the exact schema in prompt.md.
+- Accept sensible variants per field (case, whitespace, "3" vs "three", date formats you list),
+  but never accept a near-miss that changes meaning. Write the accepted-variant list explicitly
+  in the checker so it can be audited.
+- IMPORTANT for the confidently_wrong verdict: include at least one field whose value looks like
+  it should be present but must be extracted carefully -- for example a number that appears
+  twice in the document with different meanings, where only one is the answer. A model that
+  fabricates a plausible value, or grabs the wrong occurrence, is confidently wrong; a model that
+  emits invalid JSON or omits fields is visibly failed. Your checker must separate those two.
+- Do NOT include an unanswerable field in this task; t03 is the graded-extraction task and the
+  negative-answer items live in t01, t02 and t04.
+
+REPORT BACK tersely, and only this:
+- one line per candidate on what it makes hard and why the wrong answer is tempting;
+- the reference solution's line count and rough output-token size for each;
+- the three self-verification outcomes per candidate (reference -> correct, near-miss ->
+  confidently_wrong, empty sandbox -> visibly_failed), stating plainly if any did not come out
+  as intended;
+- anything you are unsure about, flagged rather than smoothed over.
+Do not paste task content, prompts or diffs back. The manager will read the files.

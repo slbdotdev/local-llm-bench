@@ -1,0 +1,1 @@
+{"incident_date":"2031-04-17","affected_region":"eu-west-2","impact_scope":"delayed telemetry writes for 12.4% of eu-west-2 tenants","detection_channel":"synthetic canary","customer_minutes":23,"root_cause":"stale lease after clock-step","rollback_build":"gw-4.18.2","followup_owner":"Mira Chen"}

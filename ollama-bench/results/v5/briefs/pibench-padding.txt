@@ -1,0 +1,120 @@
+Task: add three capabilities to one file, pibench.py. Work only in the repository you were started in.
+
+ABSOLUTE RULES
+- Edit ONLY /mnt/d/local-llm-bench/ollama-bench/pibench.py . Nothing else.
+- ANOTHER WORKER IS EDITING tasks-v5/ RIGHT NOW. Do not read from, write to, or depend on
+  anything under tasks-v5/ or under results/v5/authoring/. If you need a task to test against,
+  use the v4 tasks under tasks-v4/ (read-only) or construct a throwaway directory under /tmp.
+- Do NOT kill, terminate or signal any process you did not start yourself, ever, for any reason.
+  A previous run on this tree killed other workers when it saw files changing underneath it and
+  destroyed two runs including its own. If something looks wrong, stop and report it.
+- Do NOT run any GPU work, do NOT load an Ollama model, and do NOT restart the Ollama service.
+  The machine's CUDA backend is currently broken and another session owns fixing it. You can and
+  should test everything you write WITHOUT calling a model at all.
+- Do not git add, git commit or git checkout anything.
+
+BACKGROUND: what this harness does today
+`pibench.py` runs a task by creating an empty sandbox, copying the task's `seed/` into it, running
+the pi agent on `prompt.md` with the sandbox as cwd, then copying the task's hidden `test.py` in as
+`_hidden_test.py` and running it. A run passes iff the grader exits 0 and `PASS` is in stdout;
+partial credit is the last `SCORE n/m` line. Read `run_pi()` and `main()` before changing anything.
+
+=== CHANGE 1: pad the sandbox to a target context size (this is the important one) ===
+
+The benchmark's main axis is "how does answer quality hold as the context fills, from 24k to 64k
+tokens". Today `run_pi()` pads NOTHING: a 64k cell and a 24k cell hand the model the same short
+prompt and differ only in how much KV was allocated. Every cell would return the same number, the
+curve would be flat by construction, and the flatness would look like a finding.
+
+Add a `--pad-tokens N` option (0 = off, the default, so existing behaviour is untouched). When it
+is nonzero, after `seed/` has been copied into the sandbox and BEFORE the model is started, write
+additional realistic-but-irrelevant files into the sandbox until the total material in it is
+approximately N tokens.
+
+Requirements:
+- Pad with FILES IN THE SANDBOX, not by appending to the prompt text. The model has to be able to
+  find the real material among the filler, which is the thing being measured.
+- The filler must be plausible: further source files, further documents. Not lorem ipsum, not one
+  sentence repeated ten thousand times -- a model can trivially skip obviously repeated text, and
+  then the cell is not really full. Generate a set of varied plausible files. Deterministic:
+  seed a `random.Random` with a fixed constant so the same cell is reproducible.
+- The filler must never collide with the task's own files. Do not overwrite anything that came
+  from `seed/`; use a distinct filename prefix, and check for collisions before writing.
+- Match the filler's file type to what is already in the sandbox: if the seed is mostly `.py`,
+  write plausible `.py` filler; if mostly `.md`, write `.md`. A tree of Python modules with
+  fifty markdown files dropped in it is obviously filler.
+- Token estimation: you have no tokenizer. Use a documented characters-per-token constant --
+  about 4.0 chars/token for prose and code is the usual approximation, and the existing
+  `tps_curve()` in this file already uses a measured 5.95 chars/token for its own filler, so
+  follow that precedent and say in a comment which you chose and why. It only has to be
+  approximately right; the ACHIEVED fill is measured separately, see below.
+- Record in the result dict: `pad_tokens_requested`, `pad_files_written`, `pad_chars_written`.
+
+=== CHANGE 2: record the ACHIEVED context fill, never the requested one ===
+
+The number that goes in the report must be what the model actually read, not what we intended to
+write. pi reports its own token usage and `run_pi()` already accumulates `usage_in`. Make sure the
+result dict carries the achieved input-token figure clearly (it already has `in_tokens`; keep it,
+and add a short comment that this -- not `pad_tokens_requested` -- is the figure a report may
+quote as the cell's fill). If a run reports an input size wildly below the requested padding, that
+is a real signal and must not be silently smoothed over.
+
+=== CHANGE 3: parse the VERDICT line into its own field ===
+
+The v5 checkers print a third line beside `SCORE` and `PASS`:
+
+    VERDICT correct
+    VERDICT visibly_failed
+    VERDICT confidently_wrong
+
+This is the benchmark's headline instrument -- a model that fails visibly costs one retry, while
+one that is confidently wrong costs the human verification that delegating was supposed to save.
+Today `pibench.py` parses only `SCORE` and `PASS`, so that number would have to be reconstructed
+by a human reading truncated grader tails across 120 trials.
+
+Add a regex mirroring the existing `SCORE_RE`, parse the LAST `VERDICT <word>` line from the
+grader's stdout, and put it in the result dict as `verdict` (None when absent). Then include it in
+the printed per-run line and in the summary table: add a per-model count of each of the three
+verdicts, and a `confidently_wrong` rate.
+
+Do NOT change what `pass` or `score` mean. They are the existing contract and other things depend
+on them. A grader timeout keeps its current handling, and should record `verdict` as None rather
+than inventing one.
+
+=== CHANGE 4: per-trial residency, so a thrashing trial is visible ===
+
+The plan requires every local trial to log the `ollama ps` processor split, `nvidia-smi` peak
+memory AND measured generation tok/s -- because on Windows/WDDM an oversized allocation does not
+raise an error, it silently spills to system RAM while still reporting `100% GPU`, with
+throughput collapsing. Residency alone is a lie; tok/s is the honest signal.
+
+`gpu_split(model)` already exists and reads `/api/ps`. `tps()` exists but is a per-MODEL probe run
+once, not per trial. Add to each trial's result, for the ollama provider only:
+`ps_size_gb`, `ps_vram_gb`, `ps_pct_gpu` (from `gpu_split`, sampled while the model is still
+loaded) and `nvidia_smi_peak_mib` (sample `nvidia-smi --query-gpu=memory.used
+--format=csv,noheader,nounits` a few times during the run and keep the max; do it on a daemon
+thread so it cannot delay or wedge the trial, and make every subprocess call carry a timeout).
+Guard all of it so that when the provider is not ollama, or nvidia-smi is missing, or /api/ps
+returns nothing, the fields are None and NOTHING RAISES. A residency probe must never be able to
+fail a trial.
+
+=== HOW TO TEST WITHOUT A MODEL ===
+You cannot call a model. Test the parts directly:
+- Write a throwaway task directory under /tmp with a trivial `seed/`, a `prompt.md` and a `test.py`
+  that prints `SCORE 1/1`, `PASS`, `VERDICT correct` and exits 0. Then exercise your padding
+  function against that sandbox directly (import pibench and call the function) and confirm the
+  file count, the approximate character total, and that no seed file was overwritten.
+- Feed your VERDICT regex sample grader outputs, including: a normal one, one with no VERDICT
+  line, and one with two VERDICT lines (the last must win).
+- Confirm `python pibench.py --help` still works and that the default `--pad-tokens 0` path is
+  byte-for-byte the old behaviour.
+Use the Windows interpreter for these checks, since it is what really runs this harness:
+  /mnt/c/Users/slb/scoop/apps/python/current/python.exe
+
+=== REPORT BACK, tersely ===
+1. The new/changed function names and the new CLI options.
+2. Your chars-per-token constant and why.
+3. How you keep filler from colliding with seed files, in one line.
+4. What you actually ran to test, and the results, including the two-VERDICT-lines case.
+5. Anything you could not test without a model, stated plainly as untested.
+Do not paste the file or the diff back.

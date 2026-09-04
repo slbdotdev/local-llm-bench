@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements an account-specific timed 60-second limit or resets it after successful login.

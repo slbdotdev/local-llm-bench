@@ -1,0 +1,92 @@
+Task: fix the server-lifecycle faults in one Python file. Code only. Do NOT launch llama-server.exe or do any GPU work — the session that briefed you will run the live proof cycle itself, because the GPU must stay serial and under one controller.
+
+FILE TO EDIT (the only file you may modify):
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/kv-probe/kvquality.py
+  (same file, Windows path: D:\local-llm-bench\ollama-bench\results\v5\kv-probe\kvquality.py)
+
+Do not edit run-sweep.sh, any .json, any .md, or anything outside that one file. Do not create new files. Do not git commit, git add, or git checkout anything.
+
+MACHINE FACTS, already established — do not re-derive these:
+- This is Ubuntu WSL2 on a Windows 11 desktop. The GPU, Ollama and llama-server.exe are on the Windows side.
+- kvquality.py is run by WINDOWS Python, invoked directly from WSL. The working invocation, verified:
+      /mnt/c/Users/slb/scoop/apps/python/current/python.exe kvquality.py ...
+  run with cwd /mnt/d/local-llm-bench/ollama-bench/results/v5/kv-probe , which Windows Python sees as D:\local-llm-bench\...\kv-probe . Windows Python is 3.14.7. Use that interpreter for any syntax or import check.
+- No ssh and no PowerShell wrapper is needed to reach Windows. Do not add one.
+- psutil is NOT assumed present. Check with that interpreter before using it; if absent, do not add a dependency — use the stdlib plus Windows built-ins as described below.
+- nvidia-smi is on PATH for both WSL and Windows Python.
+- Measured idle VRAM on this card right now is about 1300 MiB of 16303 MiB.
+
+THE SPEC YOU ARE IMPLEMENTING is the "Harness changes required" section of
+  /mnt/d/local-llm-bench/ollama-bench/results/v5/kv-probe-plan-2026-09-03.md
+specifically the two paragraphs beginning "Fix the lifecycle sequencing before another sweep." READ THOSE TWO PARAGRAPHS FIRST. Implement exactly what they say and nothing more.
+
+SCOPE LIMIT, important: that same section also asks for scoring changes (splitting scoring into a pure function, a two-record/four-field corpus, depth-bucket accounting, rejecting K != V). Those are a SEPARATE job and are OUT OF SCOPE here. Do not touch make_corpus, the scoring logic, the question loop, or the output schema beyond adding the new lifecycle fields described below. Leave the existing needle/checksum scoring exactly as it is.
+
+WHAT IS WRONG TODAY (read the current code to confirm):
+- kill_stray_servers() kills only processes whose name matches llama-server, then accepts a SINGLE VRAM sample below 4000 MiB as proof the GPU is idle. One sample is not a drain.
+- run_config() ends a cell with proc.terminate(), a 30 s wait, a bare 3 s sleep, and nothing else. It never proves the process tree exited, never proves port 18080 is free, and never proves the VRAM allocation drained.
+- On a health failure it does proc.kill() and returns immediately, with no drain and no server-log tail, so the next cell launches into a dirty machine. On the failed 8k pass this turned one teardown race into three indistinguishable "server did not become healthy" errors.
+
+WHAT TO BUILD
+
+1. One cleanup barrier function, replacing kill_stray_servers(). Suggested signature:
+       def cleanup_barrier(proc=None, *, reason="", idle_ceiling=4000, timeout=180) -> dict
+   It must, in this order:
+   a. If proc is given, terminate its whole PROCESS TREE, not just the parent. On Windows the reliable way is
+          subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True, timeout=60)
+      Call proc.terminate() first for a graceful attempt, wait briefly, then escalate to taskkill /T /F if it has not exited. Always reap with proc.wait() afterwards so no zombie handle is left.
+   b. Kill any remaining llama-server.exe process regardless of whether we started it. Enumerate them with pid and executable path so the barrier can report WHICH processes it found, not merely that some existed. Use
+          tasklist /FI "IMAGENAME eq llama-server.exe" /FO CSV /NH
+      to get pids (parse the CSV with the csv module; the "no tasks" line is not CSV, handle it), then taskkill /PID <pid> /T /F each one. If you can get executable paths cheaply via a single CIM query, include them in the report; if the quoting is awkward, pids alone are acceptable — do not spend the run fighting PowerShell quoting.
+   c. Wait until TCP port 18080 is actually FREE. Test it by binding, not by connecting: a connect-refused can also mean a socket in TIME_WAIT or a process mid-exit. Create a socket, do NOT set SO_REUSEADDR (on Windows SO_REUSEADDR lets you bind an in-use port and would make the test lie), attempt bind(("127.0.0.1", 18080)), close it. Success means free. This check is what catches a port holder whose image name is not llama-server — the fault that "matches on process name only" describes.
+   d. Require THREE CONSECUTIVE quiescent VRAM samples, taken 2 s apart. A sample is quiescent iff vram_mib() succeeded (is not -1) and is <= idle_ceiling. A failed nvidia-smi read is NOT quiescent and resets the counter. Any non-quiescent sample resets the counter to zero.
+   e. Re-check that no llama-server.exe process reappeared after the VRAM drain settled. If one has, the barrier has not succeeded.
+   The whole barrier is bounded by `timeout` seconds. On expiry it returns failure.
+
+   It must return a STRUCTURED result, never a bare bool, because the reason is the whole point:
+       {"ok": True/False, "reason": "<short why, empty when ok>", "waited_s": <float>,
+        "vram_samples": [<the samples taken>], "port_free": True/False,
+        "killed_pids": [...], "stray_pids_remaining": [...]}
+   Print one concise line to stdout when it starts and one when it finishes, including ok, waited_s and reason, so the sweep log shows the barrier working. Prefix them so they are greppable, e.g. "  [cleanup] ...".
+
+2. Rewire run_config() to use it:
+   - BEFORE launch: call the barrier with proc=None. If it fails, return
+         {"config": tag, "error": "cleanup barrier failed before launch: <reason>", "cleanup": <the barrier dict>}
+     and do not launch. Keep the existing behaviour of not launching onto a busy GPU, but report the real reason instead of only a VRAM number.
+   - The barrier already proves 18080 is unbound, so an explicit separate port check before launch is satisfied by it. Do not introduce per-cell unique ports; a single verified-free port is what the spec asks for and it keeps the BASE url constant.
+   - ON HEALTH FAILURE: kill and drain BEFORE recording the error. Call the barrier with the proc handle, close the log file, then read the LAST ~40 lines of that cell's server log file and include them in the returned error. Return something like
+         {"config": tag, "error": "server did not become healthy", "log_tail": "<the tail>", "cleanup": <barrier dict>}
+     The log tail is what turns three indistinguishable failures into three diagnosable ones. Read the log as bytes and decode with errors="replace"; the llama-server log is not guaranteed UTF-8.
+   - ON NORMAL COMPLETION: replace the proc.terminate()/wait(30)/sleep(3) block with a barrier call carrying the proc handle. Close the log file first so the handle is released. Include the barrier dict in the returned record under a "cleanup" key. run_config must not return until the barrier has completed, so the main loop cannot start the next cell into an incomplete cleanup.
+   - Also call the barrier on the path where the question loop raised — make sure there is NO return path out of run_config that skips the barrier once a process has been started. Check every branch.
+
+3. Add a lifecycle self-test mode so the proof cycle can be run without a full sweep:
+       --lifecycle-selftest
+   When given, main() skips the corpus and the questions entirely and instead does: barrier (pre) -> launch server at a small context (use --ctx, default is fine, with -c 4096 if --ctx not given explicitly is too fiddly, just use whatever --ctx holds) -> wait_health -> barrier (post) -> launch a SECOND server the same way -> wait_health -> barrier (post). It prints, and writes to --out if given, a JSON verdict:
+       {"lifecycle_selftest": true, "cycles": [ {"launch_ok":…, "health_s":…, "cleanup": <barrier dict>}, … ],
+        "ok": true/false}
+   ok is true iff both launches became healthy and all three barriers returned ok. This mode still needs --model. It is the artifact the controller will run on the GPU to prove the fix; you must NOT run it yourself.
+
+4. Add CLI flags: --idle-vram-mib (default 4000) and --cleanup-timeout (default 180), threaded into the barrier.
+
+CONSTRAINTS
+- Standard library only, plus the Windows built-ins tasklist/taskkill already reachable via subprocess. No new pip installs.
+- Every subprocess.run must have a timeout. A cleanup barrier that hangs forever is worse than the fault it replaces.
+- The barrier must be safe to call when nothing is running: with no proc, no stray processes, a free port and an idle GPU it should return ok quickly (about 4-6 s for the three VRAM samples), not sit out the full timeout.
+- Keep the module's existing docstring style and comment voice. Where you make a non-obvious choice, leave a short comment saying WHY — the SO_REUSEADDR point and the "one VRAM sample is not a drain" point both deserve one.
+- Do not reformat or reorder untouched code. The diff should be reviewable.
+
+WHAT TO DO BEFORE YOU FINISH
+- Syntax/import check with the Windows interpreter:
+      /mnt/c/Users/slb/scoop/apps/python/current/python.exe -c "import ast,sys; ast.parse(open(r'D:\local-llm-bench\ollama-bench\results\v5\kv-probe\kvquality.py',encoding='utf-8').read()); print('parse ok')"
+  and a --help run to prove argparse still works.
+- You MAY exercise the no-GPU parts: call the barrier once with no proc on an idle machine and confirm it returns ok in a few seconds; confirm the port bind test reports 18080 free; confirm the tasklist parse handles the "INFO: No tasks are running" case. Doing that does not launch a server and is encouraged.
+- You MUST NOT launch llama-server.exe, and MUST NOT run the sweep or --lifecycle-selftest.
+
+REPORT BACK, tersely, with these fields and nothing else:
+1. Confirmation of what you changed, as a list of function names touched.
+2. Whether psutil was present, and what you used instead if not.
+3. The exact output of your no-GPU barrier exercise (the returned dict), and how long it took.
+4. Anything in the spec's two lifecycle paragraphs you did NOT implement, and why.
+5. Any branch in run_config you found that could still return without draining, and how you closed it.
+Do not paste the whole file back. Do not paste the whole diff back.

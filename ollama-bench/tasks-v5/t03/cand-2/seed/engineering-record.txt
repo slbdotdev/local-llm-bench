@@ -1,0 +1,519 @@
+ASTREON FIELD CONTROLLER — QUALIFICATION RECORD
+Prepared for the hardware and firmware sign-off meeting
+
+Record purpose
+
+This invented record collects the qualification evidence for the Asteron field
+controller. It includes laboratory notes, old configuration fragments, questions from
+reviewers, and the signed-off specification. The extra material is retained because a
+future engineer may need to understand why a setting was rejected. Only settings that
+survived the final review are normative.
+
+The controller drives a small actuator in a dusty outdoor enclosure. It receives motion
+commands over a serial bus, samples two position sensors, and reports health packets to
+a supervisory node. A watchdog can place the actuator in a safe state when packets
+stop arriving. The controller is deliberately conservative: a test that merely appears
+to work is not enough for qualification if its timing or environmental assumptions are
+unclear.
+
+The laboratory uses several fixtures. Fixture A is a quiet bench with a short cable;
+Fixture B introduces cable capacitance and packet collisions; Fixture C is a thermal
+chamber with a fan that occasionally changes airflow. Measurements from the fixtures
+are useful evidence but are not automatically requirements. Every report page labels
+which fixture produced it.
+
+Early design history
+
+The first engineering sketch assumed a payload of 12 kilograms because that was the
+mass of the demonstration arm. The customer envelope was revised after the mounting
+bracket was strengthened. A later whiteboard note proposed 20 kilograms, but it did
+not include the dynamic margin required during a stop. Reviewers asked the team to
+state a rated value rather than a best-case bench result.
+
+The prototype used a slower serial setting while the team brought up the board. That
+setting made a logic-analyzer trace easy to read and was adequate for a single fixture.
+It was not retained for the production controller because the supervisory node sends
+health packets during motion. A faster setting was tested with the collision fixture,
+and the packet budget was recalculated from raw symbols rather than rounded display
+values.
+
+Several firmware builds appear in the laboratory notebook. Development builds carry
+date suffixes and can contain extra diagnostics. A release build is identified by a
+three-part version. The notebook warns that “latest” is not a version identifier and
+that a fixture operator must not substitute a development build for the candidate
+being qualified.
+
+Mechanical checks
+
+The load frame was inspected for flex, fastener slip, and sensor cable strain. The
+static test applies a gradually increasing force, pauses at each plateau, and records
+both the commanded and measured position. The dynamic test starts and stops the arm
+repeatedly; it is the dynamic margin, not the static peak, that limited the eventual
+rating.
+
+A 20-kilogram static lift completed without visible slip, but the team did not treat
+that result as the rating. The margin calculation subtracts the transient load seen
+when the actuator stops. The signed requirement is lower than the largest successful
+bench lift and is expressed in kilograms so that the field manual and the label use
+the same unit.
+
+The bracket coating was inspected after the environmental cycle. Small discolorations
+were found near a screw head but did not affect the seal or the load path. The coating
+observation is included for completeness; it does not change the enclosure class or
+the payload requirement.
+
+Electrical and bus tests
+
+The bus test sends alternating command and health frames while the actuator moves at
+three speeds. The short-cable fixture passed at every setting, while the collision
+fixture exposed an overrun when diagnostics were enabled. The team disabled verbose
+diagnostics in the release profile and repeated the test with the production framing
+rules.
+
+An informal note calls the selected bus rate “about 0.9 megabaud.” That description is
+not precise enough for the configuration file. The signed value is the integer symbol
+rate used by the controller and supervisory node. A separate trace contains a rounded
+display of the same rate, but the trace is evidence, not the source of the field value.
+
+The collision fixture uses a deterministic sequence of packet gaps. It is not a radio
+interference test and should not be used to claim immunity from every possible source
+of noise. The qualification conclusion is limited to the cable, transceiver, and
+framing conditions listed in the fixture notes.
+
+Firmware investigation
+
+A watchdog defect was found in an early candidate: a diagnostic print could postpone
+the safe-state transition. The defect was fixed and the team repeated the transition
+test with the serial buffer full. A build marked 6.3.0 passed the first run but lacked
+the final buffer fix. The candidate selected for sign-off includes the fix and the
+updated packet counter.
+
+The release archive stores a manifest, compiler flags, and a checksum. The manifest
+uses a leading v in its display label, while the controller command omits that label.
+Both forms refer to the same release only when their three numeric components match.
+The board asked that the signed record use the plain release version to avoid a label
+being mistaken for a different build.
+
+Environmental qualification
+
+The environmental run cycles temperature and humidity while the controller repeats its
+startup and safe-state sequence. Fixture C's fan makes the measured temperature move
+slightly faster than the chamber set point. Those traces are retained because they
+show the rate of change, but the qualification date and enclosure requirement come
+from the signed test summary.
+
+The enclosure inspection checked the lid gasket, cable gland, vent membrane, and
+connector backshell. A splash test was performed after dust exposure. An early email
+described the enclosure as “weatherproof,” which the reviewer rejected as a marketing
+term. The final class uses the formal two-part ingress designation printed in the
+specification.
+
+Calibration discussion
+
+The sensor calibration study compared drift after warm-up, after a cold start, and
+after a simulated transport vibration. A short interval produced little additional
+benefit in the laboratory, but an interval that was too long increased field risk.
+The team separated the maintenance interval from the duration of any one laboratory
+test so that operators would not schedule service from a bench stopwatch.
+
+One bench run kept the controller under load for 45 hours. Another reviewer suggested
+a 46-day interval in an informal maintenance comment, but that suggestion was not
+approved. The signed specification states the service interval in days, based on the
+drift study and the expected field environment. This distinction is repeated in the
+review questions because it had confused an earlier draft.
+
+The calibration procedure records a before value, a reference value, an after value,
+and the technician's instrument identifier. It does not authorize a technician to
+change the firmware. If a sensor is outside tolerance, the unit is quarantined and the
+calibration lead decides whether a connector inspection is needed.
+
+Power reserve analysis
+
+The power test disconnects the external supply at a controlled point and observes the
+controller's safe-state behavior. The battery simulator has a display resolution finer
+than the field meter. A measured dip during motor braking is not the same thing as the
+minimum reserve voltage required by the specification.
+
+The prototype briefly measured 10.6 volts at the simulator terminals during the most
+aggressive stop. The value was within the simulator's transient behavior and did not
+become the requirement. The signed requirement is the reserve voltage at which the
+controller must still complete its safe-state transition, with the measurement point
+and tolerance recorded in the electrical appendix.
+
+Acceptance preparation
+
+The qualification team built a matrix mapping each requirement to a fixture, a
+procedure, raw evidence, and a reviewer. A green cell means evidence exists; it does
+not mean the requirement was changed to match the evidence. Red cells were reopened
+until the team could explain the discrepancy or repeat the measurement.
+
+The matrix contains a test duration of 45 hours and an environmental soak that lasted
+longer than one day. Those are execution details. They must not be read as a calendar
+interval, a payload rating, or a bus configuration. The review chair asked the scribe
+to preserve units on every copied value.
+
+Late review questions
+
+Reviewers asked whether the payload label should use the static peak or the dynamic
+rating. The mechanical lead answered that the label must use the approved rated load.
+They asked whether the rounded megabaud description was acceptable in a customer
+manual. The firmware lead answered that the configuration and manual must use the
+exact integer bus rate, with a prose approximation permitted only in background text.
+
+They also asked whether the enclosure word “weatherproof” could replace the formal
+class. The compliance lead declined, explaining that the formal class is testable and
+the informal word is not. A similar question concerned the power dip: a measured
+transient is evidence about behavior, not a requirement for the reserve threshold.
+
+Signed-off specification
+
+After the questions were resolved, the final specification assigned a rated payload
+of 18 kg. This is the approved dynamic rating for the field label and load calculation,
+not the 20 kg static demonstration. It appears here in the signed section as the one
+normative payload value.
+
+The signed communication setting is 921600 baud. It is written as an integer because
+the controller configuration stores symbols per second. The approximate phrase from
+the early note is intentionally not used in the signed setting.
+
+The firmware candidate approved for qualification is 6.3.1. The release manifest's
+leading-v display is only a formatting convention. The signed version is the plain
+three-part identifier used by the field image tool.
+
+The environmental and compliance review was completed on 2032-11-06. The date is the
+completion date of the signed validation review, not the date of the first chamber
+run or the date on which the prototype arrived at the lab.
+
+The formal enclosure classification in the signed specification is IP54. It describes
+the tested protection class and replaces the informal “weatherproof” phrase in all
+customer-facing qualification material.
+
+The approved sensor service interval is 45 days. This is the calendar interval for
+field calibration, distinct from the 45-hour bench run and the unapproved 46-day
+comment. Operators should not convert the interval to hours when entering the service
+system because the system's field schedule is day-based.
+
+Approval and release controls
+
+Jonas Vale signed the engineering approval block after the matrix review was complete.
+The technician who ran Fixture B and the manager who opened the purchase order are
+named elsewhere, but neither is the approver of this specification. The signature
+block is the authority for the extracted approval name.
+
+The required reserve voltage is 10.8 V at the specified measurement point. It is not
+the 10.6-volt transient observed during braking, and it is not the nominal battery
+label. The unit is retained because omitting it would make a number with a different
+meaning look interchangeable.
+
+Post-sign-off handling
+
+The release package is placed in the qualification archive with its manifest and raw
+fixture references. Any later change requires a new candidate label and a new review;
+editing a notebook value does not silently revise the signed specification. The archive
+index records the document family, review status, and responsible group.
+
+The field manual tells operators to check the label, the image manifest, and the
+calibration schedule together. A mismatch is a release-control issue, not evidence
+that a technician should choose whichever value looks closest. This is why the record
+keeps old settings visible but marks them as superseded or informal.
+
+Appendix: interpreting the evidence
+
+Bench evidence answers questions about a fixture under a defined procedure. A test
+duration says how long a procedure ran; it does not define a maintenance schedule. A
+measured voltage says what an instrument observed at one point; it does not by itself
+define the reserve requirement. A display approximation says how a value was spoken;
+it does not replace the integer in a configuration file.
+
+The controller's serial parser accepts a fixed framing format. It reports malformed
+frames separately from frames that are well formed but late. The collision fixture
+caused both kinds during bring-up, which is why the logs are not suitable for copying
+an isolated count into the final specification. The sign-off matrix links each claim
+to a complete run rather than a memorable line from a trace.
+
+The thermal chamber report includes fan speed, door state, and probe identifiers. These
+details allow reproduction of the run and explain small differences between fixtures.
+They are not substitute values for the formal enclosure class or validation date. The
+review chair specifically requested that supporting observations remain in the record
+without becoming additional requirements.
+
+The maintenance comments were written by several people at different stages. Their
+usefulness is historical, but their authority differs. A suggestion becomes normative
+only when it appears in the signed specification and the approval block is complete.
+The same rule applies to payload, bus rate, firmware, interval, and power values.
+
+The final archive was checked for missing pages, unreadable traces, and mismatched
+manifest labels. A missing trace prompts a repeat of the test; it does not justify
+guessing from the nearest neighboring run. The record is therefore longer than a
+normal release note and intentionally leaves the discarded alternatives visible.
+
+Closing note
+
+The eight requested facts are distributed across the engineering record. The early
+sections explain why values changed, the middle sections identify the experiments and
+their units, and the signed-off material settles the approved settings. The last
+sections contain the authority and reserve details. A reader should use the signed
+wording and the stated units when extracting the JSON.
+
+Appendix B: laboratory record conventions
+
+Every fixture page begins with the fixture name, the instrument set, and the operator
+initials. A page may contain several runs, and a run may contain several measurements.
+The run duration is stored beside the start and stop stamps so that a reviewer can
+reproduce the test. It is never copied into a service interval merely because both
+values are expressed with time units.
+
+The load frame reports force and calculated mass in separate columns. The calculated
+mass is useful for comparing runs, while the field label uses the approved rating.
+Rounding in the display is limited to presentation; the signed specification retains
+the whole-number value selected by the mechanical review. A successful peak is evidence
+of margin, not automatically the normative rating.
+
+Bus traces show a configured rate, an observed symbol interval, and a decoded frame
+count. A trace viewer may abbreviate a large rate with an SI prefix. The configuration
+file is the authority for the integer setting because the controller must match the
+supervisory node exactly. Reviewers retained the raw trace to expose collisions, not
+to replace the setting with a rounded phrase.
+
+A release manifest contains a version label, a source revision, and an image checksum.
+The version label can have a leading letter or a date suffix in a development archive.
+The qualification record selects the plain release identifier. A checksum mismatch
+blocks release even when the three-part version appears correct, so operators check
+both fields before loading an image.
+
+The watchdog test fills the serial buffer, interrupts the supervisory node, and waits
+for the safe-state transition. A print statement enabled in an early build made the
+transition late. The corrected build removes that diagnostic path from the field
+profile. The test report's elapsed time is not a watchdog timeout requirement and is
+not one of the extracted facts.
+
+The chamber log records set point, measured probe temperature, relative humidity, fan
+state, and door state. A probe can lag the set point, particularly after a door event.
+That lag is expected evidence about the chamber and does not change the enclosure
+designation. Compliance reviewers use the formal ingress test record when assigning
+the class.
+
+The splash procedure uses a nozzle, a fixed distance, and a specified exposure. Dust
+exposure precedes the splash step because the gasket can behave differently after
+particles settle. The procedure is not a general weather forecast and the report does
+not use “weatherproof” as a formal claim.
+
+The calibration study stores the reference instrument identifier with every before and
+after value. Warm-up time is measured from power-on, whereas the service interval is
+measured between field calibrations. A technician may need to wait for warm-up during a
+visit; that wait does not shorten or lengthen the calendar schedule.
+
+The battery simulator reports terminal voltage at a faster cadence than the field
+meter. Motor braking creates a transient that can be visible in the simulator and
+invisible in the slower meter. The requirement is tied to the controller's safe-state
+behavior and its stated measurement point, not to whichever display shows the lowest
+instantary sample.
+
+The sign-off matrix links requirement rows to evidence bundles. A row can have several
+supporting runs, but the row's selected value is written in the specification column.
+Rows marked informational cannot be copied as requirements. This distinction kept a
+lab observation from silently becoming a field rating during an earlier review.
+
+The environmental repeat used a freshly sealed enclosure and a previously cycled
+enclosure. Differences were recorded for gasket aging analysis. The qualification
+class remained tied to the defined procedure and acceptance conditions. Informal
+descriptions were left in the comments so that compliance could explain why they were
+not used in the release text.
+
+The firmware team tags every image with its build pipeline. A local image made by a
+technician may contain the same source revision but different compiler metadata. The
+qualification archive accepts only the signed release artifact. The field updater
+shows a leading display marker, while the controller's diagnostic command prints the
+plain version components.
+
+The collision fixture injects gaps and overlaps according to a fixed schedule. It does
+not model every cable length or every electromagnetic environment. The team uses it
+to establish a bounded qualification claim and records the assumptions beside the
+result. A claim broader than the tested conditions requires a separate review.
+
+The static load frame and dynamic actuator test have different safety controls. A
+static lift can be stopped before motion begins, while a dynamic stop adds transient
+force. The mechanical lead therefore selected the field rating from the dynamic margin
+calculation even though a higher static result appears in the laboratory notes.
+
+Power reserve is checked at startup, during motion, and during the safe-state move.
+The same nominal supply can produce different terminal readings under those loads.
+The field requirement identifies the point and the behavior, allowing service staff to
+interpret a meter reading without confusing it with a transient or battery label.
+
+The final review packet contains a cover sheet, test matrix, raw traces, calibration
+worksheet, and approval page. The cover sheet summarizes status but is not a second
+source of values. If a summary and a signed row disagree, the chair reopens the row
+and records a correction rather than choosing the more convenient number.
+
+The approval page names the person who reviewed the complete packet. Operators,
+technicians, and procurement staff may appear in the evidence bundle, but they have
+different responsibilities. The approver is the person whose signature authorizes the
+specification, not every person who contributed a test or uploaded a file.
+
+The archive search index includes old prototypes so that failure history remains
+discoverable. Search results can put a superseded build beside the signed one. The
+release status, document section, and approval mark must be checked together before a
+value is copied into a deployment request.
+
+The board's final convention is simple: preserve units, preserve status, and prefer
+the signed specification over a measurement or suggestion. The long record keeps those
+alternatives visible because they are valuable engineering context. It also means a
+reader who scans only the earliest pages can form a coherent but incorrect configuration.
+
+End of engineering record
+
+Appendix C: qualification-log excerpts
+
+Excerpt 001 is a control run on the quiet bench. The controller starts, accepts a
+single command, and reports a health frame. Because there is no cable collision or
+thermal cycling, the run is useful for bring-up but cannot establish the full field
+qualification claim. Its elapsed time is stored only as test evidence.
+
+Excerpt 002 repeats the quiet-bench run with a longer cable. The trace viewer labels
+the configured bus value with an abbreviated unit. The raw configuration remains the
+authority, while the trace demonstrates that the receiver decoded the expected frame
+shape. Reviewers kept the abbreviation visible so that a rounded phrase would not be
+mistaken for the stored integer.
+
+Excerpt 003 uses the collision fixture with diagnostics enabled. The frame buffer
+overruns during a verbose print, and the run is marked failed. This is the failure
+that led to the release-profile change. It does not say that the production image
+must retain diagnostics or that the early build is qualified.
+
+Excerpt 004 repeats the collision run with diagnostics disabled. Frames are decoded,
+the watchdog remains responsive, and the fixture completes its sequence. The run is
+supporting evidence; the release identifier and bus configuration are selected in the
+signed specification rather than inferred from the trace viewer.
+
+Excerpt 005 applies a static load plateau. The frame reports a stable position and
+the bracket shows no visible slip. Static results are compared with dynamic results
+before a label is assigned because stopping motion introduces a transient load that
+the static fixture cannot produce.
+
+Excerpt 006 applies repeated dynamic starts and stops. The actuator remains within
+the position envelope, but the calculated margin is lower than the static peak. The
+mechanical lead uses that margin for the field rating. A successful maximum in this
+excerpt is not itself the approved label value.
+
+Excerpt 007 inspects fasteners after vibration. Torque marks remain aligned and the
+cable strain relief is intact. The inspector notes a cosmetic coating change near a
+screw, then confirms that the seal and load path are unaffected. This observation is
+not a new enclosure class or payload requirement.
+
+Excerpt 008 exercises the watchdog with a full serial buffer. A diagnostic print in
+the old candidate delays the safe-state transition, while the corrected candidate
+transitions within the procedure's acceptance window. The elapsed procedure time is
+not a configuration timeout and is not used as the release version.
+
+Excerpt 009 runs a cold start in the thermal chamber. The measured probe temperature
+lags the chamber set point after the door closes. This expected lag is recorded with
+the probe identifier and fan state. Compliance uses the defined environmental method
+and formal ingress test when making its classification.
+
+Excerpt 010 runs a humidity cycle with a fresh gasket. The cable gland is inspected
+before and after the cycle. A generic email calls the enclosure weatherproof, but the
+compliance reviewer marks that wording informational because it is not a testable
+formal designation.
+
+Excerpt 011 repeats the humidity cycle after dust exposure. The splash step begins
+only after particles settle. The gasket continues to seal under the defined method.
+The result supports the selected class without changing the date on which the signed
+validation review is completed.
+
+Excerpt 012 measures sensor drift after warm-up. The before and after values are linked
+to a reference instrument. Warm-up is an instruction inside a calibration visit;
+calendar service scheduling is a separate field policy. The record preserves both
+concepts to avoid a unit or interval substitution.
+
+Excerpt 013 keeps the prototype under load for 45 hours. It is a long-duration bench
+run and is labeled with start and stop times. A maintenance comment proposes a
+different day count, but neither the run nor the comment is the approved field
+interval. The distinction is repeated in the review questions for auditability.
+
+Excerpt 014 observes the power simulator during motor braking. A transient reading
+appears lower than the normal terminal level. The simulator's cadence is faster than
+the field meter, so the two instruments do not show identical minima. The requirement
+is tied to safe-state behavior at a defined measurement point.
+
+Excerpt 015 disconnects the external supply at startup. The controller enters its
+safe state and reports the reason. The test is repeated during motion because load
+conditions change the terminal voltage. A nominal battery label is not a reserve
+requirement and is kept out of the signed row.
+
+Excerpt 016 compares a development archive with a signed release archive. The
+development image has a date suffix and extra diagnostics. Its source is close to the
+release but its artifact is not accepted for qualification. Operators therefore check
+the manifest and checksum rather than selecting the newest-looking filename.
+
+Excerpt 017 checks the serial parser with malformed frames. Errors are counted apart
+from late but valid frames. This separation matters because an error counter can rise
+without a bus-rate change. The fixture report is evidence about behavior, not an
+alternate way to spell the normative setting.
+
+Excerpt 018 repeats the parser test after a reset. The controller clears transient
+state and accepts the next valid frame. Reset behavior is recorded in the watchdog
+section. It does not alter the enclosure class, calibration schedule, or approval
+authority, which are governed by other sections of the packet.
+
+Excerpt 019 records a chamber fan transition. The fan changes the rate at which a probe
+approaches the set point, while the controller continues its startup sequence. This
+detail helps reproduce a run and explains a small graph kink. It is not a new target
+temperature or a replacement for the formal validation date.
+
+Excerpt 020 records a cable-gland inspection after repeated insertion. The backshell
+remains seated and the seal shows no path for the defined splash. Inspection notes use
+plain language so technicians can act on them; the final specification uses the
+formal class. Informal and normative vocabulary intentionally coexist in the archive.
+
+Excerpt 021 records the calibration lead comparing a transport-vibration sample with
+a warm-up sample. The study finds that drift depends on field history as well as
+elapsed operating time. The lead recommends a calendar service interval and asks that
+technicians record the instrument identifier on every visit.
+
+Excerpt 022 records the finance and hardware review of the qualification budget. Some
+entries include labor, others include only fixtures, and one column rounds the total.
+The signed specification does not inherit a worksheet total. Reviewers use the
+approval block and the normative rows when copying values into release systems.
+
+Excerpt 023 records a question about whether a display label may include a leading
+letter before the firmware version. The answer is yes for presentation, provided the
+underlying components match. The field updater and the diagnostic command use
+different display conventions, which is why the record names the normalized form.
+
+Excerpt 024 records the final collision-fixture run. The run uses production framing,
+the release profile, and the approved cable assumptions. Raw symbols, decoded frames,
+and error counts are archived together. A reviewer must not choose a bus value from a
+rounded chart axis when the configuration row is available.
+
+Excerpt 025 records the approval-page review. The chair verifies that evidence links
+open, that the manifest matches the image, and that the compliance report is attached.
+The person who signs the complete specification has a different role from a technician
+who performed one fixture run or a purchaser who ordered a component.
+
+Excerpt 026 records archive packaging. The packet includes raw traces, calibration
+worksheets, environmental pages, and the signed section. Missing pages reopen the
+evidence task; they do not permit a reviewer to guess from the closest neighboring
+measurement. This conservative policy is part of the release-control procedure.
+
+Excerpt 027 records a request for a future aging study. The request is not a change to
+the current calibration schedule. A future study may support an amendment, but an
+amendment requires a new signed review and a new release package. Historical notes stay
+unchanged so that qualification decisions remain reproducible.
+
+Excerpt 028 records the post-sign-off handoff to field service. The handoff explains
+that labels, image manifests, and service schedules must be checked together. If one
+does not match, the unit is held for release control rather than repaired by selecting
+the nearest plausible value from a notebook page.
+
+Excerpt 029 records a final review of units. Mass is kept in kilograms, bus rate in
+symbols per second, service time in days, and voltage with its unit. Display tools may
+add punctuation or a leading label, but they do not change the underlying value. The
+signed record follows this convention consistently.
+
+Excerpt 030 records archive closure. The board confirms that old candidates remain
+marked superseded and that the signed values are searchable. The long record is meant
+to teach the history of the qualification without turning every observed value into a
+requirement. The signed section remains the authority for extraction.
+
+End of qualification-log excerpts

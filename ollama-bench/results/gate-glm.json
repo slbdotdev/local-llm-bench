@@ -1,0 +1,223 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "g03",
+    "pass": true,
+    "wall_s": 10.0,
+    "turns": 5,
+    "tool_calls": 9,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "edit": 3
+    },
+    "in_tokens": 11524,
+    "out_tokens": 801,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "in `getattr(badge_core, \"make_badge\", _fallback)`.\n- **test_badges.py** \u2014 call updated to `make_badge(\"A\", tone=\"red\")`.\n\n`badge_flow.py` had no references to the old name and needed no changes. The import cycle (`badge_core` \u2192 late `import badge_flow`, `badge_flow` \u2192 `badge_registry`, `badge_registry` \u2192 `badge_core`) is preserved, and running `python test_badges.py` passes, including the doctest.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g03",
+    "pass": true,
+    "wall_s": 10.2,
+    "turns": 5,
+    "tool_calls": 9,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "edit": 3
+    },
+    "in_tokens": 10945,
+    "out_tokens": 744,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "r(badge_core, ...)` string now reflects `\"make_badge\"`.\n- `badge_flow.py` \u2014 no changes needed (it only deals with `decorate`/`add_marker`).\n- `test_badges.py` \u2014 updated the call to `badge_core.make_badge(\"A\", tone=\"red\")` (keyword form).\n\nVerification: `python test_badges.py` passes (including the doctest), and `grep` confirms no occurrences of the old name remain in the three modules or the test.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g03",
+    "pass": true,
+    "wall_s": 8.7,
+    "turns": 7,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 3,
+     "read": 4,
+     "edit": 3
+    },
+    "in_tokens": 17106,
+    "out_tokens": 1041,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "lected string in `reflect`: `getattr(badge_core, \"make_badge\", _fallback)`\n- `test_badges.py`\n  - Updated the call to keyword form: `make_badge(\"A\", tone=\"red\")`\n- `badge_flow.py` \u2014 no references to the old name, unchanged.\n\n**Verification:** `python test_badges.py` passes, `python -m doctest badge_core.py` passes (1 test), and `grep -rn \"make_tag\"` finds no occurrences in the application modules.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 4.9,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 8174,
+    "out_tokens": 487,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "None)\n2. Line 18: bare `except:` \u2192 `except Exception:` (same fallback behavior, no longer a bare except)\n\nThe checker now prints `CLEAN`, and behavior is unchanged \u2014 verified:\n\n- `subtotal(items)` \u2192 `23.50`\n- `total_due(items)` \u2192 `25.44` (tax applied, quantized to 2 places)\n- `total_due(items, Decimal('5.00'))` \u2192 `20.03`\n- `format_receipt(items, Decimal('5.00'))` \u2192 `\"TOTAL: $20.03 | item-count=2\"`",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 9.8,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "edit": 1
+    },
+    "in_tokens": 11284,
+    "out_tokens": 621,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "ValueError, ArithmeticError):` (bare except narrowed to the realistic failure modes of the subtraction, e.g. a non-numeric discount, preserving the fallback behavior)\n\nBehavior verified: `subtotal`, `total_due` (with and without a discount), and `format_receipt` all still return the expected values, including the `Decimal` quantization to 2 decimal places. No dependencies added, checker untouched.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "g04",
+    "pass": true,
+    "wall_s": 9.5,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 2
+    },
+    "in_tokens": 10441,
+    "out_tokens": 506,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "l behavior.\n2. Line 17: `except:` \u2192 `except TypeError:` \u2014 fixes the bare-except finding. Since only `Decimal` values are ever involved in the subtraction, no exception path changes in practice.\n\nNo other code was touched; the checker file is unmodified, and I verified `subtotal`, `total_due`, and `format_receipt` still return the expected results (including with a discount and an empty item list).",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

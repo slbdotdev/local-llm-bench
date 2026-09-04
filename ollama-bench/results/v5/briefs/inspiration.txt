@@ -1,0 +1,27 @@
+Literature and tooling survey for an evaluation-methodology question. Web search is on. Do not edit files; return a written answer.
+
+BACKGROUND
+We evaluate quantized local language models (a 27B model at several GGUF quantization levels) running on a single consumer GPU. Quantization level determines how much context fits in memory. Our research question has two parts: how does answer quality change as the input context grows from 24k to 64k tokens, and do the more aggressive quantization levels needed to reach the longer windows already reduce quality before any context pressure is applied?
+
+Our primary metric is not accuracy. It is the rate of confident, fluent, unsupported answers. An evaluation subject that fails visibly is cheap to handle. One that answers plausibly and incorrectly is expensive, because it shifts cost onto human verification. Our items are short deterministic transformations and comprehension questions, graded automatically by a scoring script, together with control items whose inputs genuinely do not contain enough information to answer, where the correct behaviour is to say so.
+
+WHAT I WANT BACK
+A shortlist of existing published papers, public benchmarks, or open-source evaluation suites. For each, exactly these fields, tersely:
+1. Name and link.
+2. The single specific mechanism in it we could adapt: a task construction, a scoring rule, a metric definition. Name the mechanism concretely, not the topic area.
+3. Its limitation for our setting, stated honestly: cost, unavailable data, mismatched model scale, benchmark saturation or train/test overlap concerns, reliance on a large judge model we will not run, measures retrieval rather than degradation, and so on. This field must be filled in for every entry.
+4. One line: adapt the mechanism, or skip.
+
+Priority order:
+(a) methodology for measuring unsupported or overconfident answers under long-context conditions, especially any that scores "incorrect" separately from "incorrect and confidently asserted";
+(b) long-context evaluations that go beyond retrieving a fact from a long document, and instead require reasoning or transformation across a substantially filled window;
+(c) studies of quantization's effect on quality at small model scale, particularly any reporting the threshold at which quality drops sharply rather than a single averaged score;
+(d) designs for automatically scored short-form tasks where a plausible-sounding guess does not score well;
+(e) abstention and calibration scoring: how published work credits a correct "I cannot answer from this input" without also rewarding indiscriminate refusal.
+
+RULES
+- At most 12 entries. Fewer strong entries beats more weak ones.
+- Exclude anything whose only relevance is being a language-model benchmark. If you cannot fill field 2 with a concrete adaptable mechanism, leave the entry out.
+- State plainly at the end if any of areas (a) to (e) produced nothing worth listing. An honest empty result is more useful than filler.
+- Prefer work with public data or public code, and mark which entries have it.
+- Do not propose a redesign of our evaluation. I am asking what already exists.
