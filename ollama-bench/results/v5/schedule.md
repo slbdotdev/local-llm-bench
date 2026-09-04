@@ -22,7 +22,9 @@ Preconditions for run 1, current state:
 | suite frozen | **NOT done**, and not the manager session's to take |
 | Sonnet 3/3 on all eight | **done** — 3/3 on every task, after replacing g03 and g04 on gate evidence |
 | GLM >=2/3 on all eight | **done** — 3/3 on seven, 2/3 on t02 |
-| Haiku x3 + the two Haiku rates | **NOT done** — one trial only (6/8), and it predates the g03/g04 replacements. The last gate item, and the last thing before the freeze. |
+| Haiku x3 discrimination check | **done** — and it says **do not freeze**: five tasks saturated at 3/3 against a section 4 limit of three. `findings-2026-09-04-haiku-saturation.md` |
+| Haiku x3 prompt-defect read | **done** — t01 flagged by two of three readers, t04 by one; tighten t01 before freezing |
+| suite freeze-ready | **NO** — the saturation count must be resolved first, and that decision is structural and was banked, not taken |
 | local calibration (section 6 step 3) | **NOT done** — no task has been sized against the local model |
 
 **Before any cell: set `OLLAMA_KV_CACHE_TYPE=q4_0` and revert it to `q8_0` with an Ollama restart
@@ -113,3 +115,8 @@ irrelevant material, with the needed material present and required.
   evidence (rule 1's prescribed remedy; no quant evidence existed at any point). The GPU is
   repaired and the KV lifecycle barrier is proven against a real 14,611 MiB allocation. The queue
   is now blocked on exactly two things: the Haiku row, and the freeze. Neither needs the card.
+- 2026-09-04 (final) — **the suite is NOT freeze-ready, and that is this session's last finding.**
+  Both primary gates pass (Sonnet 3/3, GLM >=2/3, all eight), but section 4's discrimination check
+  shows Haiku passing 8/8 with five tasks saturated at 3/3 against a limit of three. Harder
+  variants, or an explicit decision to accept and report the saturation, must come before the
+  freeze. t01 also needs its prompt tightened. No scored row of any kind has been run.

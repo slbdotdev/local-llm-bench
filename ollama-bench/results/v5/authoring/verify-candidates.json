@@ -347,7 +347,7 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "C:\\Users\\slb\\AppData\\Local\\Temp\\v5v_eokbuanz\\router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
+    "stderr_tail": "C:\\Users\\slb\\AppData\\Local\\Temp\\v5v_r058j89w\\router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
    },
    "ok_ref": true,
    "ok_empty": true

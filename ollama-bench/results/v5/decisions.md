@@ -771,3 +771,51 @@ row; and section 7's second rate, over every task authored including the saturat
 one trial Haiku passed six of eight, and if that holds at 3/3 the suite exceeds section 4's limit
 of three saturated tasks — a real risk to size before freezing, not a detail. All 24 candidates
 remain on disk so the unfiltered rate can still be computed.
+
+### Haiku discrimination check: FIVE saturated tasks against a limit of three — do not freeze yet
+
+Full evidence: `findings-2026-09-04-haiku-saturation.md`. Section 4 gate-time check, not section
+5's scored row.
+
+Haiku passed **8/8 on both trial 1 and trial 2** of the current suite. Counting only trials valid
+for each task (trial 0 is excluded for g03 and g04, which were replaced after it):
+
+    saturated 3/3:  g01, g02, t01, t02, t03      -> FIVE
+    likely (2/2):   g03, g04                     -> needs a third trial each
+    not saturated:  t04 (2/3, and only because trial 0 produced no answer file)
+
+**Section 4 allows at most three saturated tasks and says the rest are replaced with harder
+variants. The suite is therefore not freeze-ready**, and this is the single most consequential
+thing this session learned after the GPU fault.
+
+**Banked, not decided**, because it is structural. There are two defensible readings and they
+imply different amounts of work. Taken literally, most of the suite needs re-authoring. But the
+Haiku used here is a Claude Code subagent with full tooling that iterates and runs `python3`
+against its own work — far stronger than the local arm it is meant to be a yardstick for (a 3-bit
+27B at 48k fill, ~45 tok/s, 900 s wall), so a task can be saturated for agentic-Haiku and still
+discriminate sharply among quants. The alternative is to re-run this check in a configuration
+comparable to the local arm, or to accept the saturation and report it as a stated limitation of
+the ranking. **The choice belongs to whoever freezes. What must not happen is freezing quietly as
+though the check had passed.**
+
+Keep all 24 candidates: section 7 needs Haiku's rate over every task authored **including** the
+saturated ones, because a set built by discarding what Haiku passes is circular, and that is the
+number carrying the comparison.
+
+### The x3 prompt-defect check found two real ambiguities
+
+Three independent Haiku readers, given only the prompts and asked to find ambiguity rather than
+attempt the tasks:
+
+- **t01, flagged by two of three, on two different grounds** — the worked example uses
+  single-slash paths while the material uses `//infra/handbook/oncall.md`, and "standalone
+  occurrence" is used throughout and never defined. Both are checkable and both are real. **Tighten
+  t01 before the freeze.**
+- **t04, flagged by one** — "the smallest contiguous line span containing the implementation" has
+  no correct answer for a split implementation. Latent rather than live: the current t04 candidate
+  is the negative variant and never needs a span. Fix it if a positive variant is ever used.
+
+g01-g04, t02 and t03 read CLEAR to all three. Neither finding invalidates any recorded gate
+result. Three readers were used rather than one deliberately: a lone reader answering "CLEAR"
+everywhere cannot be distinguished from one that did not look, and in the event two found
+different things.
