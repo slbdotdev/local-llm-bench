@@ -443,7 +443,7 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "/tmp/v5v_ikmbsxf1/router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
+    "stderr_tail": "/tmp/v5v_ql1e1_rm/router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
    },
    "ok_ref": true,
    "ok_empty": true
@@ -507,7 +507,7 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "/tmp/v5v_s4e9a6g2/policy.py:5: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if action is \"read\":"
+    "stderr_tail": "/tmp/v5v_3h4l_ski/policy.py:5: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if action is \"read\":"
    },
    "ok_ref": true,
    "ok_empty": true
