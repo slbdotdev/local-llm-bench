@@ -1,0 +1,130 @@
+{
+ "q27-Q3_K_S-24k": {
+  "tps": {
+   "gen_tps": 53.4,
+   "prompt_tps": 278.4,
+   "load_s": 6.0,
+   "size_gb": 13.48,
+   "vram_gb": 13.48,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 295.1,
+     "gen_tps": 53.7
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1782.6,
+     "gen_tps": 52.7
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1790.3,
+     "gen_tps": 51.7
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1768.6,
+     "gen_tps": 50.3
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1732.1,
+     "gen_tps": 49.0
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1687.2,
+     "gen_tps": 47.4
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 23427,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 31.4,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 112735,
+    "out_tokens": 798,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92425,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 6,
+    "pad_chars_written": 7200,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14525,
+    "final_text": "th empty entries), and for each entry either creates a new output entry at the first-occurrence position or updates the existing entry in place (summing deltas and counting occurrences). No sorting/dedup by value; empty strings, zero/negative deltas, and repeated keys all handled per spec. Input is never mutated \u2014 output structures are freshly built. All worked examples in `specification.py` pass.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22383,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 34.0,
+    "turns": 6,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 4,
+     "read": 5,
+     "write": 1
+    },
+    "in_tokens": 131134,
+    "out_tokens": 945,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92316,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 10,
+    "pad_chars_written": 12175,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14525,
+    "final_text": "t per-identity.\n- `config.py`: only constants `LOGIN_COOLDOWN_SECONDS = 60` and `MAX_LOGIN_ATTEMPTS = 5`, never consumed.\n- `login.py` / `middleware.py` / `monitor.py`: plain verify flow, a comment about throttling, and a log message \u2014 no enforcement.\n\nNo code implements the identity-specific 60-second cooldown or its reset on success, so `answer.txt` was written with `PATH: NONE` / `LINES: NONE`.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

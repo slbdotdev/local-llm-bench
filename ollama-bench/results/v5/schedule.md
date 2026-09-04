@@ -4,18 +4,17 @@ The next GPU runs, each with a one-line reason, rewritten after every result (pl
 section 6). Rule for choosing the next run: prefer the run whose result could flip a verdict line
 in section 7.
 
-**Status: the queue is blocked on TWO things, and the larger one is not the freeze — runs 1, 2
-and 3 as written cannot produce the curve section 7 asks for.** Local calibration on the pi/Ollama
-arm showed the context axis these runs sweep **does not vary with the cell**: holding the quant
-fixed, the 24k and 64k cells returned achieved fill of 4,701/10,527 and 3,836/9,382 tokens — i.e.
-*less* fill from 2.67x the padding. This is not `num_ctx` failing to apply; it demonstrably applied
-(resident 11.83 -> 13.35 GB). It is that padding written to disk only enters the context if the
-model reads it, and the local arm reads two or three files. **A 24k row and a 64k row would measure
-the same thing, so the bend run 1 exists to find cannot appear.** The fill mechanism must be
-redesigned — put the fill in the prompt — before runs 1-3 mean anything. Artifacts:
-`results/calib-q2kl-24k.json`, `results/calib-q2kl-64k.json`, `results/calib-q3ks-64k.json`;
-analysis in `findings-2026-09-04-grid-harness-gap.md`. The second blocker is the freeze, which is
-unchanged and is the owner's.
+**Status: the fill blocker is FIXED and measured; the freeze is now the sole remaining blocker.**
+The context axis used to be delivered by padding the sandbox, which did not work — filler on disk
+enters the context only if the model reads it, and raising the cell 24k -> 64k *lowered* achieved
+fill. The owner decided the fix and it is built: **fill is delivered in the prompt**
+(`pibench.py --fill-tokens N`), with sandbox padding demoted to realism. Acceptance on
+`q27-Q3_K_S`, quant held constant, achieved fill from the model's own reported prompt tokens:
+**24k cell 23,427 / 22,383 (97.6% / 93.3%), 64k cell 57,871 / 57,857 (both 90.4%)** — every trial
+past 90% of its cell target and the 64k figure far above the 24k figure for the same task, where it
+previously went down. Artifacts `results/accept-24k.json`, `results/accept-64k.json`; detail in
+`findings-2026-09-04-grid-harness-gap.md`. **The remaining blocker is the freeze, which is the
+owner's**, and the seven-of-eight saturation count still argues against taking it.
 
 The GPU itself is working. The CPU-only
 fault that dominated 2026-09-04 is **repaired** — `cuda_v13` was reinstalled and verified by a
@@ -29,7 +28,8 @@ Preconditions for run 1, current state:
 | GPU actually resident | **done**, verified by a real load, not a version string |
 | KV-probe lifecycle barrier fixed and proven | **done**, `--lifecycle-selftest` `ok: true` **and `drain_branch_proven: true`** — the artifact records `vram_peak_while_healthy_mib: 14611` per cycle, draining to the 1230 MiB baseline before returning |
 | fifteen grid model tags with `num_ctx` + `num_gpu 66` | **done 2026-09-04, and verified tag by tag** — all 15 present in `ollama list` (Q2_K_L and Q3_K_S and IQ3_M at 24/32/48/64k, Q3_K_M at 24/32/48k), each read back with `ollama show --modelfile` confirming its own `num_ctx` and `num_gpu 66`. This row previously read **done** when only three existed; see the correction below. `make_grid_models.sh` also had a second defect fixed the same day — it built only the first quant family and exited 0 — and now ends by counting the tags and failing if fewer than fifteen. **Confirm the count before run 1 rather than trusting this row.** |
-| `pibench.py` pads the sandbox to the cell context | **done as a writer, but it does not deliver context fill.** It writes what it is asked to write (seed untouched, filler named and placed like real material since the excludability fix). What *reaches the context*, measured from the model's reported prompt tokens rather than character counts: **3,836-12,640 achieved against 24,000-64,000 requested, and it does not track the cell.** The earlier "~24,173 est. tokens" figure was a `chars/5.95` estimate and has been removed here for the same reason it was removed from the artifacts — it reads like a measurement. |
+| `pibench.py` fills the context to the cell target | **done and accepted.** Fill is prompt-side (`--fill-tokens N`), instruction verbatim and first, extra material after, never labelled as filler. Achieved 90.4-97.6% of target across both cells (`accept-24k.json`, `accept-64k.json`). Two faults fixed on the way: prompts >32,767 chars cannot be passed as an argv on Windows (now written to a file and passed with pi's `@file`), and the chars/token constant was 28% wrong (measured 4.664, not 5.95). Sandbox padding is now realism only and is NOT sized to the cell. |
+| ~~`pibench.py` pads the sandbox to the cell context~~ (superseded) | **The old disk mechanism did not deliver fill.** It writes what it is asked to write (seed untouched, filler named and placed like real material since the excludability fix). What *reaches the context*, measured from the model's reported prompt tokens rather than character counts: **3,836-12,640 achieved against 24,000-64,000 requested, and it does not track the cell.** The earlier "~24,173 est. tokens" figure was a `chars/5.95` estimate and has been removed here for the same reason it was removed from the artifacts — it reads like a measurement. |
 | `pibench.py` records `VERDICT` per trial | **done**, verified (last line wins, absent -> None) |
 | `pibench.py` records per-trial residency + gen tok/s | **done**, now verified against a live model. All six calibration trials carry `ps_vram_gb`, `ps_pct_gpu`, `nvidia_smi_peak_mib` and a measured gen tok/s: 100% GPU throughout, resident 11.83-14.70 GB, peaks 13,061-15,769 MiB, 53.3-59.4 tok/s, no CPU spill. `results/calib-q2kl-24k.json`, `calib-q2kl-64k.json`, `calib-q3ks-64k.json` |
 | suite frozen | **NOT done**, and not the manager session's to take |
@@ -58,7 +58,7 @@ plan section 9. What remains is one grid.
 
 | # | run | config | why this one |
 | --- | --- | --- | --- |
-| — | **RUNS 1-3 ARE HELD** | — | **Not merely gated on the freeze: held on the fill mechanism.** The context axis runs 1-3 sweep does not vary with the cell on the local arm (see the status header), so run 1 cannot find a bend and runs 2-3 depend on run 1. This is a harness/plan defect, not a suite defect — the freeze is a *separate* blocker. Redesigning the fill mechanism is an owner decision and was banked, not taken. |
+| — | **RUNS 1-3: fill blocker CLEARED, freeze blocker remains** | — | The fill mechanism is fixed, accepted and measured (see the status header), so the context axis now varies with the cell and run 1 can find a bend. **What still holds runs 1-3 is the freeze alone**, which is the owner's. Two things to carry into run 1: each 64k trial costs ~36 s of prefill before any work, and at 64k the agentic loop collapsed to a single turn because ~57.9k of a 65,536 window is prompt — the 64k end measures less room to work, not only more to read. |
 | 1 | **Bend-finding pass** | all four quants x their reachable contexts (24k/32k/48k/64k), `num_gpu 66`, `q4_0` KV, thinking medium, all 8 tasks, **1 trial** | Fifteen cells, 120 trials. Finds where quality against context bends before any trial is spent confirming a flat part. This is the run to protect if the night runs short. |
 | 2 | **Three-trial passes at the bend** | the cells at and either side of the bend, same config, 3 trials | Turns the bend into a verdict input under section 3 rule 4. Which cells these are is not knowable until run 1 lands, which is why they are not enumerated here. |
 | 3 | **Confirming the winner** | best quant on the evidence, at the context it held, 3 trials on every task with fewer than three | The ranking row. |

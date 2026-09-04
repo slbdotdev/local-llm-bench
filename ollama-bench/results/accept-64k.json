@@ -1,0 +1,120 @@
+{
+ "q27-Q3_K_S-64k": {
+  "tps": {
+   "gen_tps": 52.9,
+   "prompt_tps": 283.8,
+   "load_s": 6.1,
+   "size_gb": 13.48,
+   "vram_gb": 13.48,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 307.3,
+     "gen_tps": 53.1
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1762.7,
+     "gen_tps": 52.0
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1771.0,
+     "gen_tps": 51.2
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1755.5,
+     "gen_tps": 49.7
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1718.7,
+     "gen_tps": 48.5
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1648.2,
+     "gen_tps": 46.8
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 57871,
+    "task": "g01",
+    "pass": false,
+    "wall_s": 45.4,
+    "turns": 1,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 57871,
+    "out_tokens": 1,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/24\nFAIL ['import failed: ModuleNotFoundError', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 57000,
+    "prompt_delivery": "file",
+    "prompt_chars": 265879,
+    "fill_chars_added": 264991,
+    "fill_sections": 30,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 6,
+    "pad_chars_written": 7200,
+    "ps_size_gb": 14.7,
+    "ps_vram_gb": 14.7,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15767,
+    "final_text": "",
+    "stderr": "",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 57857,
+    "task": "t04",
+    "pass": false,
+    "wall_s": 40.8,
+    "turns": 1,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 57857,
+    "out_tokens": 1,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/4\nFAIL ['strict answer format', 'negative finding', 'explanation', 'no positive citation']\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 57000,
+    "prompt_delivery": "file",
+    "prompt_chars": 265879,
+    "fill_chars_added": 264882,
+    "fill_sections": 30,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 10,
+    "pad_chars_written": 12175,
+    "ps_size_gb": 14.7,
+    "ps_vram_gb": 14.7,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15767,
+    "final_text": "",
+    "stderr": "",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

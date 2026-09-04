@@ -315,6 +315,72 @@ def _pad_content(rng, extension, index, target_chars):
     return text[:target_chars]
 
 
+# --- Prompt-side context fill -------------------------------------------------
+#
+# Sandbox padding does NOT deliver context fill: filler on disk enters the context only
+# if the model chooses to read it, and a local agentic arm reads two or three files.
+# Measured on q27-Q2_K_L, raising the cell 24k -> 64k *lowered* achieved fill
+# (4,701 -> 3,836 and 10,527 -> 9,382). Fill is therefore delivered in the prompt.
+#
+# Rules held constant across every cell and task, because varying them would mean the
+# axis measures the variation rather than the context:
+#   * The task instruction is byte-identical across cells. It is taken verbatim from the
+#     frozen prompt.md and never regenerated; only the quantity of extra material differs.
+#   * The instruction always comes FIRST and the extra material always comes AFTER it.
+#     Position effects are real and are not what this axis measures.
+#   * The extra material is NOT labelled as filler or as ignorable. It is presented as
+#     further project context that may or may not be relevant, which is what real
+#     delegation looks like. Anything that reads as "ignore the following" gets ignored,
+#     and the cell measures empty again -- the same lesson as the pad-filename fix.
+# Measured against q27-Q3_K_S on this filler: 47,635 chars -> 10,213 prompt tokens = 4.664.
+# PAD_CHARS_PER_TOKEN (5.95) was an estimate for sandbox sizing and overshoots by ~28%, which
+# on a 24k cell would overflow num_ctx and be silently truncated. Prompt-side fill must not
+# use it. Re-measure with results/v5/fill_calibrate.py if the model or filler style changes.
+FILL_CHARS_PER_TOKEN = 4.664
+
+FILL_INTRO = (
+    "\n\n---\n\n"
+    "## Further context from this project\n\n"
+    "The following material comes from the same codebase and documentation set as the work\n"
+    "described above. Some of it bears on that work and some of it does not; it is included\n"
+    "because it is what the project currently contains, and judging what matters is part of\n"
+    "the job.\n\n"
+)
+
+
+def build_filled_prompt(instruction, fill_tokens, chars_per_token=None):
+    """Return (prompt, info). ``instruction`` is used verbatim and always leads.
+
+    ``fill_tokens`` is the target for the WHOLE prompt, not just the added material,
+    so a cell target can be passed straight through.
+    """
+    cpt = chars_per_token or FILL_CHARS_PER_TOKEN
+    info = {"fill_tokens_requested": fill_tokens, "fill_chars_added": 0,
+            "fill_sections": 0, "instruction_chars": len(instruction),
+            "fill_chars_per_token_assumed": cpt}
+    if not fill_tokens or fill_tokens <= 0:
+        return instruction, info
+    target_chars = int(fill_tokens * cpt)
+    remaining = target_chars - len(instruction) - len(FILL_INTRO)
+    if remaining <= 0:
+        return instruction, info
+    rng = random.Random(PAD_RANDOM_SEED)
+    parts, index = [], 0
+    while remaining > 0:
+        ext = ".py" if index % 2 == 0 else ".md"
+        chunk = min(9000, max(1200, remaining))
+        stem = rng.choice(PAD_PY_STEMS if ext == ".py" else PAD_MD_STEMS)
+        body = _pad_content(rng, ext, index, chunk)
+        block = f"### `{stem}{ext}`\n\n```\n{body}\n```\n\n"
+        parts.append(block)
+        remaining -= len(block)
+        index += 1
+    filler = "".join(parts)
+    info["fill_chars_added"] = len(FILL_INTRO) + len(filler)
+    info["fill_sections"] = index
+    return instruction + FILL_INTRO + filler, info
+
+
 def pad_sandbox(sandbox, pad_tokens):
     """Pad sandbox material to approximately ``pad_tokens`` estimated tokens.
 
@@ -475,11 +541,28 @@ def run_tree(cmd, timeout, **kw):
         return out or "", err or "", -1, True
 
 
-def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, pad_tokens=0):
+def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, pad_tokens=0, fill_tokens=0):
     sandbox = tempfile.mkdtemp(prefix="pib_")
     if task["seed"]:
         shutil.copytree(task["seed"], sandbox, dirs_exist_ok=True)
     pad_info = pad_sandbox(sandbox, pad_tokens)
+    filled_prompt, fill_info = build_filled_prompt(task["prompt"], fill_tokens)
+    # A prompt cannot be passed as an argv once it is large: Windows caps a command line at
+    # 32,767 chars and a 20k-token fill is ~93,000, which fails at spawn with
+    # "WinError 206: The filename or extension is too long" -- no request ever reaches the
+    # model. pi's @file syntax inlines a file as the message, preserving the order inside it,
+    # so large prompts are written to a file outside the sandbox (writing it inside would add
+    # material the model could read and would double-count against sandbox size).
+    prompt_file = None
+    if len(filled_prompt) > 8000:
+        fd, prompt_file = tempfile.mkstemp(prefix="pibprompt_", suffix=".md")
+        with os.fdopen(fd, "w", encoding="utf-8", newline="") as fh:
+            fh.write(filled_prompt)
+        prompt_arg = "@" + prompt_file
+    else:
+        prompt_arg = filled_prompt
+    fill_info["prompt_delivery"] = "file" if prompt_file else "argv"
+    fill_info["prompt_chars"] = len(filled_prompt)
     env = dict(os.environ)
     env["PATH"] = NODE_BIN + os.pathsep + env["PATH"]
     if agent_dir:
@@ -491,7 +574,7 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     env["PYTHONIOENCODING"] = "utf-8"
     cmd = [NODE_EXE, PI_CLI, "-p", "--no-session", "--no-context-files", "--no-extensions", "--no-skills",
            "--no-prompt-templates", "--mode", "json", "--model", f"{provider}/{model}",
-           "--thinking", think, "--", task["prompt"]]
+           "--thinking", think, "--", prompt_arg]
     smi_sampler = _NvidiaSmiSampler() if provider == "ollama" else None
     if smi_sampler:
         smi_sampler.start()
@@ -581,7 +664,12 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     result = {"achieved_fill_prompt_tokens": usage_in_peak, "task": task["name"], "pass": passed, "wall_s": round(wall, 1), "turns": turns,
               "tool_calls": tool_calls, "tools": tools, "in_tokens": usage_in, "out_tokens": usage_out,
               "timed_out": timed_out, "rc": rc, "errors": errors, "grader": gout.strip(), "score": score,
-              "verdict": verdict, "pad_tokens_requested": pad_info["pad_tokens_requested"],
+              "verdict": verdict, "fill_tokens_requested": fill_info["fill_tokens_requested"],
+              "prompt_delivery": fill_info["prompt_delivery"],
+              "prompt_chars": fill_info["prompt_chars"],
+              "fill_chars_added": fill_info["fill_chars_added"],
+              "fill_sections": fill_info["fill_sections"],
+              "pad_tokens_requested": pad_info["pad_tokens_requested"],
               "pad_files_written": pad_info["pad_files_written"],
               "pad_chars_written": pad_info["pad_chars_written"],
               "ps_size_gb": round(ps_size / 2**30, 2) if ps_size is not None else None,
@@ -592,6 +680,11 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     # Diagnostics only: PIBENCH_KEEP=<dir> preserves each sandbox before deletion so a
     # malformed deliverable can be inspected byte-for-byte. Unset by default, so the
     # normal path is unchanged.
+    if prompt_file:
+        try:
+            os.remove(prompt_file)
+        except OSError:
+            pass
     keep_root = os.environ.get("PIBENCH_KEEP")
     if keep_root:
         try:
@@ -619,7 +712,8 @@ def main():
     ap.add_argument("--tasks-dir", default="", help="task directory (default: tasks/)")
     ap.add_argument("--agent-dir", default="", help="override PI_CODING_AGENT_DIR (default: bench pi-agent for ollama, managed ~/.pi/agent otherwise)")
     ap.add_argument("--provider", default="ollama", help="ollama (bench agent dir) or openrouter (managed ~/.pi/agent)")
-    ap.add_argument("--pad-tokens", type=int, default=0, help="estimated total sandbox context material (0 disables padding)")
+    ap.add_argument("--pad-tokens", type=int, default=0, help="sandbox material realism only; NOT the fill mechanism (0 disables)")
+    ap.add_argument("--fill-tokens", type=int, default=0, help="target total PROMPT tokens; this is the context-fill mechanism (0 disables)")
     a = ap.parse_args()
     models = a.models.split(",")
     tasks = load_tasks(a.tasks.split(",") if a.tasks else None, os.path.join(HERE, a.tasks_dir) if a.tasks_dir and not os.path.isabs(a.tasks_dir) else (a.tasks_dir or None))
@@ -647,7 +741,7 @@ def main():
             for trial in range(a.trials):
                 if (t["name"], trial) in done:
                     continue
-                res = run_pi(model, t, a.think, a.timeout, a.provider, agent_dir, a.pad_tokens)
+                res = run_pi(model, t, a.think, a.timeout, a.provider, agent_dir, a.pad_tokens, a.fill_tokens)
                 res["trial"] = trial
                 r["runs"].append(res)
                 print(f"  {t['name']:16s} #{trial} {'PASS' if res['pass'] else 'FAIL'} "

@@ -1,0 +1,86 @@
+{
+ "q27-Q3_K_S-24k": {
+  "tps": {
+   "gen_tps": 53.3,
+   "prompt_tps": 260.4,
+   "load_s": 5.9,
+   "size_gb": 13.48,
+   "vram_gb": 13.48,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 309.7,
+     "gen_tps": 53.6
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1778.6,
+     "gen_tps": 52.8
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1789.6,
+     "gen_tps": 51.9
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1773.9,
+     "gen_tps": 50.3
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1736.2,
+     "gen_tps": 49.0
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1687.1,
+     "gen_tps": 47.2
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 3143,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 21.0,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 12575,
+    "out_tokens": 696,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14831,
+    "final_text": "creates a group even with empty `entries`)\n  - For each entry, creates an output entry at the key's first position in that group; later occurrences update `total` (sum with zero/negative deltas) and `occurrences` in place\n  - Returns fresh dicts (no input mutation, `_index` helper removed from output)\n  - Handles empty groups/keys per spec (dicts keyed by string, no sorting/deduplication by value)",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

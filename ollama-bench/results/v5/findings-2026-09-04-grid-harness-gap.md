@@ -258,3 +258,74 @@ building it was not this session's to do, so the same-quant 24k-vs-64k compariso
 **Q2_K_L**, whose 24k and 64k tags both existed. `q27-Q3_K_S-64k` was run as asked and is reported
 above. Six trials rather than four; the comparison the brief was designed to make is intact,
 because the quant is held constant across the two cells that are being compared.
+
+## The fill fix, and its acceptance test — PASSED
+
+The owner decided the mechanism: fill is delivered **in the prompt**, not on disk. Implemented in
+`pibench.py` as `--fill-tokens N` (target for the whole prompt), with `--pad-tokens` demoted to
+sandbox realism and no longer sized to the cell.
+
+Rules held constant, stated so a later reader knows what was controlled:
+
+- The **instruction is byte-identical across cells**, taken verbatim from the frozen `prompt.md`
+  and never regenerated. Only the quantity of extra material differs.
+- The **instruction leads; the extra material follows**, identically in every cell and task.
+  Position effects are real and are not what this axis measures.
+- The extra material is **not labelled as filler**. It is introduced as "further context from this
+  project ... judging what matters is part of the job". Anything reading as "ignore the following"
+  gets ignored, which is the pad-filename lesson one layer up.
+
+### Two harness faults found while building it
+
+**1. A large prompt cannot be passed as an argv.** Windows caps a command line at 32,767 characters;
+a 20k-token fill is ~93,000. The first acceptance attempt failed at spawn with
+`WinError 206: The filename or extension is too long`, producing `"runs": []` — **no request ever
+reached the model**. That is a harness failure, not a fill number that missed, and the two are worth
+distinguishing because an empty result array otherwise reads as "the fix did not work". `pibench.py`
+now writes large prompts to a file and passes them with pi's `@file` syntax, which inlines the file
+as the message and preserves the order inside it. Small prompts still go inline, so every earlier
+run and gate is unaffected.
+
+**2. The chars/token constant was wrong by 28%.** `PAD_CHARS_PER_TOKEN = 5.95` was an estimate.
+Measured against q27-Q3_K_S on this filler: 47,635 chars -> 10,213 prompt tokens = **4.664**. Sizing
+prompt fill on 5.95 would have overshot `num_ctx` on the 24k cell and been silently truncated.
+`FILL_CHARS_PER_TOKEN = 4.664` is now separate from the sandbox constant, with
+`results/v5/fill_calibrate.py` to re-measure it if the model or filler style changes.
+
+### Acceptance result
+
+Quant held constant (`q27-Q3_K_S`), one trial per cell, achieved fill from the model's own reported
+prompt tokens. Calibration only — **no pass/fail from these trials is citable about any task, per 4a.**
+
+| cell | task | target | **achieved fill** | % of target | wall | turns | residency |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 24k | g01 | 24,000 | **23,427** | **97.6%** | 31.4 s | 5 | 13.18 GB, 100% GPU, peak 14,525 MiB |
+| 24k | t04 | 24,000 | **22,383** | **93.3%** | 34.0 s | 6 | 13.18 GB, 100% GPU, peak 14,525 MiB |
+| 64k | g01 | 64,000 | **57,871** | **90.4%** | 45.4 s | 1 | 14.70 GB, 100% GPU, peak 15,767 MiB |
+| 64k | t04 | 64,000 | **57,857** | **90.4%** | 40.8 s | 1 | 14.70 GB, 100% GPU, peak 15,767 MiB |
+
+**Both criteria pass.** Every trial reached at least 90% of its cell target, and the 64k figure is
+far above the 24k figure for the same task — g01 23,427 -> 57,871 and t04 22,383 -> 57,857. Under
+the old disk mechanism the same comparison went *down* (4,701 -> 3,836 and 10,527 -> 9,382). The
+context axis now varies what it claims to vary.
+
+### Prefill versus generation, and one thing to watch
+
+Measured prefill throughput: **1,612-1,726 tok/s**. At the 64k cell's 57,871 tokens that is about
+**36 s of prefill**, which is roughly 79% of the observed 45.4 s wall — prefill dominates the
+*shape* of a 64k trial, but the total is nowhere near the 300 s wall, so `CONTRACT.md`'s sizing
+limit holds at the 64k end. Budget note for run 1: each 64k trial now costs ~36 s of pure prefill
+before any work happens.
+
+**A caveat on how that was measured, because it bit me.** The `/api/generate` probe used for the
+prefill split **truncates the prompt to exactly half `num_ctx`** — it reported 12,290 tokens on the
+24k cell and 32,770 on the 64k cell, i.e. 24576/2 and 65536/2. Those fill figures are artifacts and
+must not be quoted; the *rate* is still valid, and pi's own path did not truncate (it reached
+57,871). Anyone calibrating through `/api/generate` should know it silently halves.
+
+**Also worth watching: the agentic loop collapses at 64k.** Both 64k trials ran **1 turn**, against
+5-6 turns at 24k. With ~57.9k of a 65,536 window consumed by the prompt, only ~7.6k remains for the
+whole tool loop. That is a real property of running a 64k cell on a 64k window and it is not a
+defect in the fill fix, but it means the 64k end of the axis measures something qualitatively
+different from the 24k end — less room to work, not merely more to read. Flagged for the owner; not
+resolved here.

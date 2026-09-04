@@ -91,17 +91,49 @@ rather than inflating it.
 
 ## Layout requirement for the context axis — read this twice
 
-The grid re-runs each task with the sandbox padded with realistic but irrelevant material until
-the context is full. For that to measure anything:
+**How context fill actually works, corrected 2026-09-04.** The grid used to pad the *sandbox* with
+irrelevant files until the context was full. That mechanism does not work and has been replaced:
+material on disk only enters the context if the model chooses to read it, and a local agentic arm
+reads the two or three files it needs. Measured on the real arm, raising the cell from 24k to 64k
+*lowered* achieved fill (g01 4,701 -> 3,836; t04 10,527 -> 9,382) while the padding written rose
+2.67x, so cell label and achieved context were uncorrelated.
+
+**Fill is now delivered in the prompt.** The prompt the model receives is
+`instruction + further-context material`, sized to the cell's token budget. Three rules are held
+constant across every cell and task, and you must not write a task that breaks them:
+
+- The **task instruction is byte-identical across cells**. It is taken verbatim from the frozen
+  `prompt.md` and never regenerated; only the quantity of extra material differs. If the
+  instruction drifts between cells, the axis measures the drift.
+- The **instruction comes first, the extra material after it**, in the same position in every cell
+  and every task. Position effects are real and are not what this axis measures.
+- The extra material is **never labelled as filler or as ignorable**. It is presented as further
+  project context that may or may not be relevant, which is what real delegation looks like.
+  Anything that reads as "ignore the following" gets ignored and the cell measures empty again.
+
+Sandbox padding still exists, but it is **realism only and is no longer the fill mechanism** — it
+is a small fixed amount, named and placed like real material, and it is not sized to the cell.
+When you read a trial artifact: `fill_tokens_requested` and `achieved_fill_prompt_tokens` are the
+load-bearing numbers; `pad_tokens_requested` is not.
+
+**What this means for how you author a task** — these rules are unchanged and still matter, because
+the answer must still be found rather than handed over:
 
 - **The material needed to answer must live in files under `seed/`, not in `prompt.md`.**
-  If the answer is in the prompt, padding the sandbox measures nothing.
+  The prompt now carries unrelated context around the instruction; if the answer itself is in the
+  prompt, the task stops testing retrieval under load.
 - **`prompt.md` must not name the single file that contains the answer** for comprehension tasks.
   It may describe the shape of the tree and what to look for. The model has to find it.
   (For transformation tasks it is fine and normal to name the files being transformed.)
 - The checker must not care how many extra files exist.
 - Do not make the answer findable by a single trivially unique grep token that a padded tree
   could not also contain. Findable, yes; free, no.
+
+**One hard constraint on prompt length.** A large prompt cannot be passed on a command line —
+Windows caps it at 32,767 characters and a 20k-token fill is roughly 93,000, which fails at spawn
+before any request reaches the model. `pibench.py` writes large prompts to a file and passes them
+with pi's `@file` syntax. Keep `prompt.md` itself short; the length comes from the fill, not from
+you.
 
 ## Authoring several candidates
 

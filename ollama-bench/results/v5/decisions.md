@@ -1017,3 +1017,41 @@ This is the third claim this session whose evidence did not cover it. The hazard
 "done" line would have had twelve of fifteen cells fail outright, or silently fall back to a base
 tag baking `num_ctx 32768` with no `num_gpu` — the exact mis-measurement the harness-gap page exists
 to prevent. **Confirm tags with `ollama list` immediately before run 1; do not trust the table.**
+
+## 2026-09-04 — the fill fix is built and its acceptance test PASSED
+
+The owner decided the mechanism: fill is delivered **in the prompt**, not on disk. Built as
+`pibench.py --fill-tokens N` (target for the whole prompt); `--pad-tokens` is demoted to sandbox
+realism and no longer sized to the cell. Rules held constant across every cell and task: the
+instruction is byte-identical and taken verbatim from the frozen `prompt.md`, it always leads with
+the extra material after it, and that material is never labelled as filler — it is presented as
+further project context, because anything reading as "ignore the following" gets ignored.
+
+Acceptance on `q27-Q3_K_S`, quant held constant, achieved fill from reported prompt tokens:
+
+| cell | g01 | t04 |
+| --- | --- | --- |
+| 24k (target 24,000) | 23,427 (97.6%) | 22,383 (93.3%) |
+| 64k (target 64,000) | 57,871 (90.4%) | 57,857 (90.4%) |
+
+Both criteria met: every trial past 90%, and 64k far above 24k for the same task where the old
+mechanism went *down*. All trials 100% GPU-resident. Calibration only; no pass/fail is citable, 4a.
+
+**Two harness faults fixed on the way, both worth remembering.** A prompt over 32,767 chars cannot
+be passed as an argv on Windows — the first attempt died at spawn with `WinError 206` and wrote
+`"runs": []`, which reads like "the fix failed" but means no request reached the model; large
+prompts now go to a file via pi's `@file`. And `PAD_CHARS_PER_TOKEN = 5.95` was 28% wrong for this
+purpose: measured 4.664, which matters because sizing on 5.95 overflows `num_ctx` and truncates
+silently. `FILL_CHARS_PER_TOKEN` is now separate.
+
+**Banked for the owner, not decided.** At the 64k cell the agentic loop collapsed to **one turn**
+(against 5-6 at 24k), because ~57.9k of a 65,536 window is prompt and only ~7.6k remains for the
+tool loop. The 64k end of the axis therefore measures *less room to work*, not merely more to read.
+That is a property of running a 64k cell on a 64k window rather than a defect in the fill fix, but
+it changes what a 64k row means and the plan does not currently say which is intended. Options:
+run 64k cells on a larger window, accept and report the constraint, or cap fill at a fraction of
+the window. Not taken.
+
+**Also banked:** `/api/generate` silently truncates a prompt to exactly half `num_ctx` (observed
+12,290 on a 24k cell and 32,770 on a 64k cell). pi's own path does not. Anyone calibrating through
+that endpoint will get half the fill they asked for and no warning.
