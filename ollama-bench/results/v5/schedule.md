@@ -4,7 +4,20 @@ The next GPU runs, each with a one-line reason, rewritten after every result (pl
 section 6). Rule for choosing the next run: prefer the run whose result could flip a verdict line
 in section 7.
 
-**Status: the GPU is working again; the queue is blocked only on the freeze.** The CPU-only
+**Status: the queue is blocked on TWO things, and the larger one is not the freeze — runs 1, 2
+and 3 as written cannot produce the curve section 7 asks for.** Local calibration on the pi/Ollama
+arm showed the context axis these runs sweep **does not vary with the cell**: holding the quant
+fixed, the 24k and 64k cells returned achieved fill of 4,701/10,527 and 3,836/9,382 tokens — i.e.
+*less* fill from 2.67x the padding. This is not `num_ctx` failing to apply; it demonstrably applied
+(resident 11.83 -> 13.35 GB). It is that padding written to disk only enters the context if the
+model reads it, and the local arm reads two or three files. **A 24k row and a 64k row would measure
+the same thing, so the bend run 1 exists to find cannot appear.** The fill mechanism must be
+redesigned — put the fill in the prompt — before runs 1-3 mean anything. Artifacts:
+`results/calib-q2kl-24k.json`, `results/calib-q2kl-64k.json`, `results/calib-q3ks-64k.json`;
+analysis in `findings-2026-09-04-grid-harness-gap.md`. The second blocker is the freeze, which is
+unchanged and is the owner's.
+
+The GPU itself is working. The CPU-only
 fault that dominated 2026-09-04 is **repaired** — `cuda_v13` was reinstalled and verified by a
 real load (`q27-Q3_K_S`, 100% GPU, 15357 MiB, **52.7 eval tok/s**, on the gpu-tune curve). Fault:
 `findings-2026-09-04-gpu-cuda-broken.md`; repair: `ansible-slb/org/ollama-cuda-repair-2026-09-04.md`.
@@ -16,16 +29,16 @@ Preconditions for run 1, current state:
 | GPU actually resident | **done**, verified by a real load, not a version string |
 | KV-probe lifecycle barrier fixed and proven | **done**, `--lifecycle-selftest` `ok: true` **and `drain_branch_proven: true`** — the artifact records `vram_peak_while_healthy_mib: 14611` per cycle, draining to the 1230 MiB baseline before returning |
 | fifteen grid model tags with `num_ctx` + `num_gpu 66` | **NOT done as of 2026-09-04 — script correct, run unfinished; see correction below** |
-| `pibench.py` pads the sandbox to the cell context | **done**, `--pad-tokens N`; verified independently (24,000 requested -> 30 files, ~24,173 est. tokens, seed untouched, filler type matched to the seed) |
+| `pibench.py` pads the sandbox to the cell context | **done as a writer, but it does not deliver context fill.** It writes what it is asked to write (seed untouched, filler named and placed like real material since the excludability fix). What *reaches the context*, measured from the model's reported prompt tokens rather than character counts: **3,836-12,640 achieved against 24,000-64,000 requested, and it does not track the cell.** The earlier "~24,173 est. tokens" figure was a `chars/5.95` estimate and has been removed here for the same reason it was removed from the artifacts — it reads like a measurement. |
 | `pibench.py` records `VERDICT` per trial | **done**, verified (last line wins, absent -> None) |
-| `pibench.py` records per-trial residency + gen tok/s | **written, NOT verified against a live model** — it could not be tested while the GPU was down. Verify before trusting a thrashing flag. |
+| `pibench.py` records per-trial residency + gen tok/s | **done**, now verified against a live model. All six calibration trials carry `ps_vram_gb`, `ps_pct_gpu`, `nvidia_smi_peak_mib` and a measured gen tok/s: 100% GPU throughout, resident 11.83-14.70 GB, peaks 13,061-15,769 MiB, 53.3-59.4 tok/s, no CPU spill. `results/calib-q2kl-24k.json`, `calib-q2kl-64k.json`, `calib-q3ks-64k.json` |
 | suite frozen | **NOT done**, and not the manager session's to take |
 | Sonnet 3/3 on all eight | **done** — 3/3 on every task, after replacing g03 and g04 on gate evidence |
 | GLM >=2/3 on all eight | **done** — 3/3 on seven, 2/3 on t02 |
-| Haiku x3 discrimination check | **done** — and it says **do not freeze**: five tasks saturated at 3/3 against a section 4 limit of three. `findings-2026-09-04-haiku-saturation.md` |
+| Haiku x3 discrimination check | **done** — and it says **do not freeze**: **seven** tasks saturated at 3/3 against a section 4 limit of three (g01, g02, g03, g04, t01, t02, t03; only t04 is not, at 2/3). Corrected from an earlier "five"; holds on all four conditions tried, including one-shot Haiku and both padded rows. `findings-2026-09-04-haiku-saturation.md` |
 | Haiku x3 prompt-defect read | **done** — t01 flagged by two of three readers, t04 by one; tighten t01 before freezing |
 | suite freeze-ready | **NO** — the saturation count must be resolved first, and that decision is structural and was banked, not taken |
-| local calibration (section 6 step 3) | **NOT done** — no task has been sized against the local model |
+| local calibration (section 6 step 3) | **PARTIALLY done.** Measured: g01 and t04 across three cells (Q2_K_L 24k/64k, Q3_K_S 64k), one trial each, giving achieved fill per trial and full residency. Not measured: the other **six of eight tasks**, and the appetite/wall questions — no reference-solution output-token ceiling or 300 s wall target has been checked against a local quant. Pass/fail from these runs is not recorded and is not citable, per 4a. |
 
 **Before any cell: set `OLLAMA_KV_CACHE_TYPE=q4_0` and revert it to `q8_0` with an Ollama restart
 afterwards.** It is still `q8_0` machine-wide; this session never changed it, because no cell ran.
@@ -45,6 +58,7 @@ plan section 9. What remains is one grid.
 
 | # | run | config | why this one |
 | --- | --- | --- | --- |
+| — | **RUNS 1-3 ARE HELD** | — | **Not merely gated on the freeze: held on the fill mechanism.** The context axis runs 1-3 sweep does not vary with the cell on the local arm (see the status header), so run 1 cannot find a bend and runs 2-3 depend on run 1. This is a harness/plan defect, not a suite defect — the freeze is a *separate* blocker. Redesigning the fill mechanism is an owner decision and was banked, not taken. |
 | 1 | **Bend-finding pass** | all four quants x their reachable contexts (24k/32k/48k/64k), `num_gpu 66`, `q4_0` KV, thinking medium, all 8 tasks, **1 trial** | Fifteen cells, 120 trials. Finds where quality against context bends before any trial is spent confirming a flat part. This is the run to protect if the night runs short. |
 | 2 | **Three-trial passes at the bend** | the cells at and either side of the bend, same config, 3 trials | Turns the bend into a verdict input under section 3 rule 4. Which cells these are is not knowable until run 1 lands, which is why they are not enumerated here. |
 | 3 | **Confirming the winner** | best quant on the evidence, at the context it held, 3 trials on every task with fewer than three | The ranking row. |
@@ -118,7 +132,9 @@ irrelevant material, with the needed material present and required.
   is now blocked on exactly two things: the Haiku row, and the freeze. Neither needs the card.
 - 2026-09-04 (final) — **the suite is NOT freeze-ready, and that is this session's last finding.**
   Both primary gates pass (Sonnet 3/3, GLM >=2/3, all eight), but section 4's discrimination check
-  shows Haiku passing 8/8 with five tasks saturated at 3/3 against a limit of three. Harder
+  shows Haiku passing 8/8 with five tasks saturated at 3/3 against a limit of three [**corrected
+  later the same day: the count is seven, not five** — see the entry below and
+  `findings-2026-09-04-haiku-saturation.md`]. Harder
   variants, or an explicit decision to accept and report the saturation, must come before the
   freeze. t01 also needs its prompt tightened. No scored row of any kind has been run.
 
@@ -136,3 +152,20 @@ irrelevant material, with the needed material present and required.
   outright, or — worse — fall back to a base tag that bakes `num_ctx 32768` and no `num_gpu`,
   which is precisely the silent mis-measurement the harness-gap page was written to prevent.
   Verify tags by `ollama list` before run 1; do not trust this table.
+
+- 2026-09-04 (final, superseding) — **the queue is held on the fill mechanism, not only on the
+  freeze.** Local calibration on the pi/Ollama arm (section 6 step 3) measured achieved fill from
+  the model's own reported prompt tokens across three cells. Holding the quant fixed, raising the
+  cell 24k -> 64k **lowered** achieved fill: g01 4,701 -> 3,836 and t04 10,527 -> 9,382, against
+  2.67x more padding written. `num_ctx` was demonstrably in effect (resident 11.83 -> 13.35 GB) and
+  every trial was fully GPU-resident (100% GPU, 53-59 tok/s), so this is neither a configuration
+  error nor a thrashing artefact. **Cell label and achieved fill are uncorrelated, so runs 1-3
+  cannot produce section 7's curve** — run 1 has no bend to find. Padding on disk enters the
+  context only if the model reads it, and the local arm reads two or three files. The fix is to put
+  the fill in the prompt; that is a plan change and was banked, not taken. Calibration only — no
+  pass/fail from these runs is recorded or citable, per 4a. Artifacts: `results/calib-q2kl-24k.json`,
+  `calib-q2kl-64k.json`, `calib-q3ks-64k.json`.
+
+  Two blockers now stand between this file and run 1, and **both are the owner's**: redesign the
+  fill mechanism, and take the freeze (which the seven-of-eight saturation count still argues
+  against). Nothing further in the plan can proceed without one of those decisions.
