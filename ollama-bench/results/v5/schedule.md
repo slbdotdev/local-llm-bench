@@ -15,7 +15,7 @@ Preconditions for run 1, current state:
 | --- | --- |
 | GPU actually resident | **done**, verified by a real load, not a version string |
 | KV-probe lifecycle barrier fixed and proven | **done**, `--lifecycle-selftest` `ok: true` **and `drain_branch_proven: true`** — the artifact records `vram_peak_while_healthy_mib: 14611` per cycle, draining to the 1230 MiB baseline before returning |
-| fifteen grid model tags with `num_ctx` + `num_gpu 66` | **done**, `make_grid_models.sh` |
+| fifteen grid model tags with `num_ctx` + `num_gpu 66` | **NOT done as of 2026-09-04 — script correct, run unfinished; see correction below** |
 | `pibench.py` pads the sandbox to the cell context | **done**, `--pad-tokens N`; verified independently (24,000 requested -> 30 files, ~24,173 est. tokens, seed untouched, filler type matched to the seed) |
 | `pibench.py` records `VERDICT` per trial | **done**, verified (last line wins, absent -> None) |
 | `pibench.py` records per-trial residency + gen tok/s | **written, NOT verified against a live model** — it could not be tested while the GPU was down. Verify before trusting a thrashing flag. |
@@ -98,15 +98,16 @@ irrelevant material, with the needed material present and required.
   KV-probe lifecycle fix on real hardware. Three preconditions now stand between this file and
   run 1: Ollama reinstalled and residency verified by a real load; `pibench.py` taught to pad the
   sandbox to the cell's context and to record `VERDICT`; and the suite frozen. The fifteen grid
-  model tags now exist (`make_grid_models.sh`), and the KV-probe lifecycle barrier is fixed and
+  model tags were claimed here to exist — **they did not; see the correction below** — and the
+  KV-probe lifecycle barrier is fixed and
   proven with a live start/stop/start cycle — but that proof ran CPU-only, so the barrier's
   **VRAM-drain** branch is exercised only against an idle card and is still unproven against a
   real 14 GB allocation. Re-run `kvquality.py --lifecycle-selftest` once the GPU is back; it
   takes about a minute and it is the cheapest confirmation available.
   Authoring and the cloud gates continued and do not touch this queue.
 - 2026-09-04 (later) — **GPU repaired and verified; queue still unrunnable, now only on the
-  freeze.** The KV-probe lifecycle barrier is fixed and proven on real hardware, the fifteen grid
-  tags exist, and `pibench.py` now pads the sandbox and records `VERDICT` (both verified
+  freeze.** The KV-probe lifecycle barrier is fixed and proven on real hardware, the grid
+  tags do **not** all exist (corrected below; three of fifteen at the time of writing), and `pibench.py` now pads the sandbox and records `VERDICT` (both verified
   independently). The suite is authored and both cloud gates are part-run: GLM passes 2/3 on all
   eight, Sonnet is at 7/8 on its second trial with a third owed and the whole Haiku row not
   started. No scored row of any kind has been run, and none may be before the freeze.
@@ -120,3 +121,18 @@ irrelevant material, with the needed material present and required.
   shows Haiku passing 8/8 with five tasks saturated at 3/3 against a limit of three. Harder
   variants, or an explicit decision to accept and report the saturation, must come before the
   freeze. t01 also needs its prompt tightened. No scored row of any kind has been run.
+
+- 2026-09-04 (correction) — **"fifteen grid model tags | done" was FALSE and is retracted.**
+  This file and `findings-2026-09-04-grid-harness-gap.md` both recorded the tags as built. A direct
+  `ollama list` on the Windows daemon showed **three** of the fifteen cell tags:
+  `q27-Q2_K_L-24k`, `q27-Q3_K_S-64k` and `q27-IQ3_M-64k` — and the last two predate this session,
+  so exactly **one** tag was produced by the `make_grid_models.sh` run. The script itself is
+  correct and the tag it built is correct (`num_ctx 24576`, `num_gpu 66`); this was an unfinished
+  run recorded as a finished one, not a broken script.
+
+  **Why this mattered more than a stale checkbox.** The same `ollama list` also shows five
+  suffix-less base tags (`q27-IQ3_M`, `q27-Q2_K_L`, `q27-Q3_K_S`, `q27-Q3_K_L`, `q27-Q3_K_M`).
+  A later session starting run 1 on the "done" line would have had twelve of fifteen cells fail
+  outright, or — worse — fall back to a base tag that bakes `num_ctx 32768` and no `num_gpu`,
+  which is precisely the silent mis-measurement the harness-gap page was written to prevent.
+  Verify tags by `ollama list` before run 1; do not trust this table.

@@ -1,0 +1,119 @@
+{
+ "q27-Q2_K_L-24k": {
+  "tps": {
+   "gen_tps": 59.1,
+   "prompt_tps": 281.3,
+   "load_s": 22.6,
+   "size_gb": 12.14,
+   "vram_gb": 12.14,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 296.2,
+     "gen_tps": 59.5
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1627.6,
+     "gen_tps": 58.4
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1635.5,
+     "gen_tps": 57.2
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1616.7,
+     "gen_tps": 55.7
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1587.0,
+     "gen_tps": 54.2
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1548.3,
+     "gen_tps": 52.1
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 4701,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 33.2,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 21843,
+    "out_tokens": 1392,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 24000,
+    "pad_files_written": 29,
+    "pad_chars_written": 138188,
+    "ps_size_gb": 11.83,
+    "ps_vram_gb": 11.83,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 13362,
+    "final_text": "d empty group/key strings are all retained per the rules.\n- The input is never mutated \u2014 all returned dicts and lists are fresh; each item is read only, and no shared references to the input structure are returned.\n\nVerified against all four worked examples in `specification.py` (plus a mutation check) and against edge cases: empty entries, zero/negative deltas, repeated groups, and repeated keys.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 10527,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 25.4,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 6,
+     "write": 1
+    },
+    "in_tokens": 60267,
+    "out_tokens": 979,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 24000,
+    "pad_files_written": 30,
+    "pad_chars_written": 143000,
+    "ps_size_gb": 11.83,
+    "ps_vram_gb": 11.83,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 13061,
+    "final_text": "The tree contains only `config.py` constants (`LOGIN_COOLDOWN_SECONDS = 60`, `MAX_LOGIN_ATTEMPTS = 5`), a failure counter in `auth.py`, and a comment in `middleware.py` \u2014 no actual implementation of a per-identity 60-second lockout with success-based reset. I wrote `answer.txt` with the NONE shape.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 7,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

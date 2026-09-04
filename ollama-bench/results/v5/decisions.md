@@ -972,3 +972,48 @@ and the grid must be read against that number rather than the cell label.
 **Saturation at genuine 48k+ occupancy remains untested and cannot be tested by writing filler to
 disk.** The two rows remove an objection to the literal reading of section 4 without settling it.
 The freeze and the choice between the two readings both remain the owner's.
+
+## 2026-09-04, local calibration — the context axis is dead on the arm that matters
+
+My earlier fill numbers were taken on a Claude Code subagent arm with an 18,603-token floor. The pi
+arm's floor is ~2k per plan section 4, so that table could not be carried across. Section 6 step 3
+local calibration was run on the pi/Ollama arm to settle it. **Calibration only — no pass/fail from
+these runs is reported or citable, per 4a.** `OLLAMA_KV_CACHE_TYPE=q4_0` was set with a restart
+before and reverted to `q8_0` with a restart after; one model resident at a time.
+
+| cell | g01 achieved fill | t04 achieved fill | residency |
+| --- | --- | --- | --- |
+| Q2_K_L 24k | 4,701 | 10,527 | 11.83 GB, 100% GPU, peak 13,362 MiB, 59.1 tok/s |
+| Q2_K_L 64k | 3,836 | 9,382 | 13.35 GB, 100% GPU, peak 14,612 MiB, 59.4 tok/s |
+| Q3_K_S 64k | 7,051 | 12,640 | 14.70 GB, 100% GPU, peak 15,769 MiB, 53.3 tok/s |
+
+**Raising the cell 24k → 64k at fixed quant lowered achieved fill slightly (4,701 → 3,836 and
+10,527 → 9,382) while the padding written rose 2.67x.** Cell label and achieved fill are
+uncorrelated. On the local arm the axis is worse than on the Claude arm, where padding at least
+moved the median by ~1,000 tokens.
+
+**Consequence.** A 24k row and a 64k row would measure the same thing, so the grid's context axis
+would produce a flat curve as a harness artefact. **Putting the fill in the prompt is now the only
+workable option**; verifying achieved fill per trial and discarding misses degenerates, because on
+this evidence every trial would be discarded. The variation that does exist tracks the *task* —
+t04 draws ~2.5x g01's fill in every cell because its negative question requires searching the tree.
+
+**Still the owner's, not mine:** the plan change itself, the freeze, and the choice between the two
+saturation readings.
+
+**Deviation:** the brief named `q27-Q3_K_S-24k`, which did not exist and was not mine to build, so
+the same-quant comparison used Q2_K_L (both cells present). `q27-Q3_K_S-64k` was run as asked.
+
+## Correction — "fifteen grid model tags: done" was false
+
+`schedule.md` and `findings-2026-09-04-grid-harness-gap.md` both recorded the fifteen grid tags as
+built. `ollama list` on the Windows daemon showed **three** cell tags, two of which predate this
+session — so the `make_grid_models.sh` run produced exactly **one**. The script is correct and its
+tag is correct (`num_ctx 24576`, `num_gpu 66`); this was an unfinished run written up as finished.
+Both documents are corrected in place with the retraction left visible.
+
+This is the third claim this session whose evidence did not cover it. The hazard was not cosmetic:
+`ollama list` also carries five suffix-less base tags, so a later session starting run 1 on the
+"done" line would have had twelve of fifteen cells fail outright, or silently fall back to a base
+tag baking `num_ctx 32768` with no `num_gpu` — the exact mis-measurement the harness-gap page exists
+to prevent. **Confirm tags with `ollama list` immediately before run 1; do not trust the table.**

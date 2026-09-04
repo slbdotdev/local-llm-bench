@@ -504,6 +504,10 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
 
     # Parse the JSON event stream.
     usage_in = usage_out = 0
+    # Achieved context fill is a PEAK, not a sum. usage_in accumulates across turns, which
+    # would overstate occupancy several-fold; the Claude-arm figures were taken as a peak, so
+    # the two arms are only comparable against this field.
+    usage_in_peak = 0
     turns = tool_calls = 0
     tools = {}
     errors = []
@@ -525,7 +529,9 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
             if msg.get("role") == "assistant":
                 turns += 1
                 u = msg.get("usage") or {}
-                usage_in += u.get("input", 0) + u.get("cacheRead", 0)
+                turn_in = u.get("input", 0) + u.get("cacheRead", 0)
+                usage_in += turn_in
+                usage_in_peak = max(usage_in_peak, turn_in)
                 usage_out += u.get("output", 0)
                 sr = msg.get("stopReason")
                 if sr:
@@ -572,7 +578,7 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
 
     # in_tokens is pi's achieved input-token usage, not pad_tokens_requested;
     # reports should quote it as the cell's actual context fill.
-    result = {"task": task["name"], "pass": passed, "wall_s": round(wall, 1), "turns": turns,
+    result = {"achieved_fill_prompt_tokens": usage_in_peak, "task": task["name"], "pass": passed, "wall_s": round(wall, 1), "turns": turns,
               "tool_calls": tool_calls, "tools": tools, "in_tokens": usage_in, "out_tokens": usage_out,
               "timed_out": timed_out, "rc": rc, "errors": errors, "grader": gout.strip(), "score": score,
               "verdict": verdict, "pad_tokens_requested": pad_info["pad_tokens_requested"],

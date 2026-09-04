@@ -1,0 +1,119 @@
+{
+ "q27-Q2_K_L-64k": {
+  "tps": {
+   "gen_tps": 59.4,
+   "prompt_tps": 283.1,
+   "load_s": 6.0,
+   "size_gb": 12.14,
+   "vram_gb": 12.14,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 304.1,
+     "gen_tps": 59.6
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1623.0,
+     "gen_tps": 58.5
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1632.9,
+     "gen_tps": 57.3
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1618.3,
+     "gen_tps": 55.6
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1587.9,
+     "gen_tps": 54.1
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1548.9,
+     "gen_tps": 52.2
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 3836,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 25.7,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 4,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 20662,
+    "out_tokens": 982,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 64000,
+    "pad_files_written": 49,
+    "pad_chars_written": 376394,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14610,
+    "final_text": "s empty.\n- Keys are created in first-occurrence order within a group; later occurrences of the same `(group, key)` update that entry in place, adding `delta` to `total` and incrementing `occurrences`.\n- Zero, negative, and empty-string groups/keys are treated as ordinary values \u2014 no sorting, filtering, or dedup by value.\n- Returns fresh lists and dicts built from scratch, never touching the input.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 9382,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 19.5,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 4,
+     "write": 1
+    },
+    "in_tokens": 40732,
+    "out_tokens": 723,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 64000,
+    "pad_files_written": 49,
+    "pad_chars_written": 379994,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14612,
+    "final_text": "The behavior is not implemented. `config.py` only defines `LOGIN_COOLDOWN_SECONDS = 60` and `MAX_LOGIN_ATTEMPTS = 5` (configuration values), and `auth.py`/`login.py` only count failures globally \u2014 there is no code that blocks an identity for 60 seconds or lifts the limit on success. I wrote `answer.txt` with the `NONE` shape.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}
