@@ -30,17 +30,24 @@ declare -A BLOB=(
 
 # The capacity map from results/gpu-tune/summary.md. Q3_K_M stops at 48k; Q3_K_L is
 # excluded entirely by the plan's 32k floor. Fifteen cells.
-CELLS="
-Q2_K_L 24576 32768 49152 65536
-Q3_K_S 24576 32768 49152 65536
-IQ3_M  24576 32768 49152 65536
-Q3_K_M 24576 32768 49152
-"
+#
+# WHY THIS IS A FLAT LIST AND NOT `echo "$CELLS" | while read q ctxs`. It was that,
+# and on 2026-09-04 it silently built only the FIRST quant family -- four of fifteen
+# tags -- then exited 0 with no error, twice in a row, stopping at the family
+# boundary before printing the next tag's name. Exit 0 with a third of the work done
+# is the worst shape a precondition script can fail in: `schedule.md` recorded the
+# tags as built on the strength of it. The same creates in a flat loop completed
+# fine. Do not reintroduce the pipeline form to make this tidier.
+CELLS="Q2_K_L:24576 Q2_K_L:32768 Q2_K_L:49152 Q2_K_L:65536
+Q3_K_S:24576 Q3_K_S:32768 Q3_K_S:49152 Q3_K_S:65536
+IQ3_M:24576 IQ3_M:32768 IQ3_M:49152 IQ3_M:65536
+Q3_K_M:24576 Q3_K_M:32768 Q3_K_M:49152"
 
 made=0
-echo "$CELLS" | while read -r q ctxs; do
-  [ -z "${q:-}" ] && continue
-  for ctx in $ctxs; do
+failed=0
+for spec in $CELLS; do
+    q="${spec%%:*}"
+    ctx="${spec##*:}"
     k=$((ctx / 1024))
     tag="q27-${q}-${k}k"
     # The Modelfile MUST live in the Windows-visible tree and be passed as a RELATIVE path.
@@ -58,5 +65,10 @@ echo "$CELLS" | while read -r q ctxs; do
         echo "FAILED"
     fi
     rm -f "$tmp"
-  done
 done
+
+# Verify the whole set rather than trusting the loop: this script's one previous
+# failure was a partial run that reported success.
+present=$("$OLLAMA" list 2>/dev/null | awk '/^q27-.*-(24|32|48|64)k/{c++} END{print c+0}')
+echo "cell tags present: $present of 15"
+[ "$present" -eq 15 ] || { echo "INCOMPLETE -- rerun; do not record the tags as built"; exit 1; }

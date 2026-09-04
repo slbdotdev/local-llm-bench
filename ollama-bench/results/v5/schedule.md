@@ -28,7 +28,7 @@ Preconditions for run 1, current state:
 | --- | --- |
 | GPU actually resident | **done**, verified by a real load, not a version string |
 | KV-probe lifecycle barrier fixed and proven | **done**, `--lifecycle-selftest` `ok: true` **and `drain_branch_proven: true`** — the artifact records `vram_peak_while_healthy_mib: 14611` per cycle, draining to the 1230 MiB baseline before returning |
-| fifteen grid model tags with `num_ctx` + `num_gpu 66` | **NOT done as of 2026-09-04 — script correct, run unfinished; see correction below** |
+| fifteen grid model tags with `num_ctx` + `num_gpu 66` | **done 2026-09-04, and verified tag by tag** — all 15 present in `ollama list` (Q2_K_L and Q3_K_S and IQ3_M at 24/32/48/64k, Q3_K_M at 24/32/48k), each read back with `ollama show --modelfile` confirming its own `num_ctx` and `num_gpu 66`. This row previously read **done** when only three existed; see the correction below. `make_grid_models.sh` also had a second defect fixed the same day — it built only the first quant family and exited 0 — and now ends by counting the tags and failing if fewer than fifteen. **Confirm the count before run 1 rather than trusting this row.** |
 | `pibench.py` pads the sandbox to the cell context | **done as a writer, but it does not deliver context fill.** It writes what it is asked to write (seed untouched, filler named and placed like real material since the excludability fix). What *reaches the context*, measured from the model's reported prompt tokens rather than character counts: **3,836-12,640 achieved against 24,000-64,000 requested, and it does not track the cell.** The earlier "~24,173 est. tokens" figure was a `chars/5.95` estimate and has been removed here for the same reason it was removed from the artifacts — it reads like a measurement. |
 | `pibench.py` records `VERDICT` per trial | **done**, verified (last line wins, absent -> None) |
 | `pibench.py` records per-trial residency + gen tok/s | **done**, now verified against a live model. All six calibration trials carry `ps_vram_gb`, `ps_pct_gpu`, `nvidia_smi_peak_mib` and a measured gen tok/s: 100% GPU throughout, resident 11.83-14.70 GB, peaks 13,061-15,769 MiB, 53.3-59.4 tok/s, no CPU spill. `results/calib-q2kl-24k.json`, `calib-q2kl-64k.json`, `calib-q3ks-64k.json` |
@@ -41,7 +41,7 @@ Preconditions for run 1, current state:
 | local calibration (section 6 step 3) | **PARTIALLY done.** Measured: g01 and t04 across three cells (Q2_K_L 24k/64k, Q3_K_S 64k), one trial each, giving achieved fill per trial and full residency. Not measured: the other **six of eight tasks**, and the appetite/wall questions — no reference-solution output-token ceiling or 300 s wall target has been checked against a local quant. Pass/fail from these runs is not recorded and is not citable, per 4a. |
 
 **Before any cell: set `OLLAMA_KV_CACHE_TYPE=q4_0` and revert it to `q8_0` with an Ollama restart
-afterwards.** It is still `q8_0` machine-wide; this session never changed it, because no cell ran.
+afterwards.** It is `q8_0` right now, verified against the Windows user environment on 2026-09-04 after the calibration runs, which did set it to `q4_0` and revert it. No scored cell has ever run.
 
 **Unload Ollama before any direct-server (KV probe) run.** Ollama's own model runner is *also*
 named `llama-server.exe`, so the KV harness's cleanup barrier cannot tell it from its own child:
