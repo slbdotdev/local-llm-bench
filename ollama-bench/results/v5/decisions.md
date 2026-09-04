@@ -919,3 +919,56 @@ Diagnostic artefacts are kept under `authoring/t01-diag/` (the preserved sandbox
 propagate `VAR` from WSL into a Windows process unless it is listed in `WSLENV`; the variable is
 silently absent and the run looks like it simply ignored the setting. Set it from inside the
 Windows process instead — `authoring/t01-diag/run_keep.py` is the working pattern.
+
+## 2026-09-04, later still — the context axis does not currently vary what it claims to
+
+Section 4's discrimination check had only ever been run against **unpadded** sandboxes (~2k), a
+configuration the grid never runs. Two more Haiku rows were run at 48k requested fill, one trial
+across all eight tasks, agentic so they compare to trials 0-3.
+
+**Both rows passed 8/8.** The count is unchanged: seven of eight saturated on every condition now
+tried — unpadded agentic, unpadded one-shot, and both padded rows.
+
+### A padding defect was found and fixed before the second row
+
+The original filler was written as `__pibench_pad_NNNN.{py,md}`, flat at the sandbox root. Either
+the name or the position lets a model exclude the whole fill in one glob and be left with the
+unpadded sandbox — on t01 especially, where the real material is in `docs/` and `history/`. A grid
+with excludable padding yields a curve flatter than reality, **and the flatness looks like a
+finding**. The first 48k row is therefore recorded as **inconclusive on the padding axis** and must
+not be cited as having closed the fill question.
+
+Fixed in `pibench.py`: filler is named like real material and distributed into the seed's own
+directories (cache/build dirs excluded so nothing lands in `__pycache__`), deliverable names are
+never shadowed, and padding is identified by a `pad_files` manifest in `padding.json` rather than by
+filename. The row was then re-run once.
+
+### The measurement, and why it outranks the Haiku row
+
+Achieved fill is now recorded per task from the model's own reported prompt tokens
+(`input + cache_read + cache_creation`, peak across assistant messages), via `measure_fill.py` /
+`merge_fill.py`. The `est_tokens_after` char-based estimate was **removed** from the artifacts
+rather than kept alongside, because it reads like a measurement and is not one.
+
+**~48,000 tokens of material were written per task; median achieved fill was 22,669 against an
+unpadded floor of 18,603. Padding contributed about 4,100 tokens — under 10% of what was written.**
+Padding on disk only enters context if the model reads it, and an agentic arm reads what it needs.
+t04 is the lone exception (37,555 tokens, 32 tool calls) because its negative question genuinely
+requires searching the tree.
+
+**Consequence, and it is bigger than the saturation question.** As specified, a 24k cell and a 64k
+cell would both land near ~20-25k of achieved fill for an agentic arm, so the context axis would
+produce a near-flat curve for reasons unrelated to the quants under test. Any reading of
+"performance holds up at 64k" would be unfounded.
+
+**Banked, not decided — this is a plan-level change and it is the owner's.** Options, with a
+recommendation: (a) put the fill in the **prompt** rather than on disk, which guarantees occupancy
+and is what I would recommend if the context axis is to mean anything; (b) author tasks that
+*require* wide reading, as t04 incidentally does; (c) keep disk padding but **verify achieved fill
+per trial** and discard or re-label any trial that missed its target — the cheapest, and it at least
+stops the harness reporting fills it never achieved. In every case, trials must record achieved fill
+and the grid must be read against that number rather than the cell label.
+
+**Saturation at genuine 48k+ occupancy remains untested and cannot be tested by writing filler to
+disk.** The two rows remove an objection to the literal reading of section 4 without settling it.
+The freeze and the choice between the two readings both remain the owner's.

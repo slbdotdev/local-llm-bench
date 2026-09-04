@@ -102,3 +102,82 @@ any existing number, because `pass` and `score` keep their current definitions.
 
 Items 1-3 are one contained change to `pibench.py`. Until they land, **the grid should not be
 run**, because it would return a flat curve that looks like a result.
+
+## Padding measured against a live arm: written material is not context fill
+
+Run 2026-09-04 as the first real exercise of the `--pad-tokens` path against a live model, using
+agentic Haiku across all eight tasks at a 48k request. Two rows were run, because the first
+revealed a defect in the padding itself.
+
+### Defect: the filler was trivially excludable
+
+The original padding wrote every filler file as `__pibench_pad_NNNN.{py,md}`, flat at the sandbox
+root. Two give-aways, either sufficient on its own:
+
+- **By name.** One glob removes the entire fill and leaves exactly the unpadded sandbox.
+- **By location.** On t01 the real material lives in `docs/`, `history/` and `quickstart.md` while
+  all 41 pad files sat at the root, so even an agent ignoring names could separate them by position.
+
+A grid whose padding can be excluded produces a **flatter curve than reality, and the flatness
+looks like a finding** — the confidently-wrong failure mode this page already names as the most
+expensive one available in this plan. The first row is therefore recorded as **inconclusive on the
+padding axis**: Haiku passed 8/8, but the fill was avoidable, so it largely re-measures the
+unpadded condition and must not be cited as having closed the fill question.
+
+**Fix (in `pibench.py`).** Filler is now named like real material (`session_store.py`,
+`retention-policy.md`, …) and distributed into the same directories the seed uses, with build and
+cache directories excluded from the shape so filler never lands in `__pycache__`. Padding is
+identified by a manifest — `pad_files` in the returned info, persisted to `padding.json` — never by
+its filenames. Reserved deliverable names are never shadowed. On t01 the filler now interleaves:
+`docs/escalation-matrix.md` sits beside the real `docs/escalation.md`.
+
+### The measurement that matters: achieved fill, from reported prompt tokens
+
+Achieved fill is the model's own reported prompt size — `input_tokens + cache_read_input_tokens +
+cache_creation_input_tokens`, peak across the run's assistant messages — never the characters
+written. `measure_fill.py` and `merge_fill.py` compute it and write it into each row's
+`padding.json`; the earlier `est_tokens_after` estimate has been **removed** from those artifacts
+rather than left beside the real number, because a `chars/5.95` figure reads like a measurement.
+
+| task | unpadded | 48k, excludable filler | 48k, non-excludable filler |
+| --- | --- | --- | --- |
+| g01 | 18,605 | 22,794 | 21,985 |
+| g02 | 20,750 | 22,735 | 23,924 |
+| g03 | 20,109 | 22,064 | 21,816 |
+| g04 | 17,747 | 19,504 | 22,648 |
+| t01 | 18,601 | 20,479 | 22,691 |
+| t02 | 18,205 | 20,426 | 20,847 |
+| t03 | 23,604 | 25,555 | 26,988 |
+| t04 | 18,115 | 21,223 | **37,555** |
+| **median** | **18,603** | **21,643** | **22,669** |
+
+### The finding: a 48k cell is not a 48k cell
+
+**Roughly 48,000 estimated tokens of material were written per task. Median achieved fill was
+22,669 — and the unpadded floor is already 18,603, most of which is harness and tool-definition
+overhead rather than task material. So the padding contributed about 4,100 tokens of the ~48,000
+written: under 10% of it ever reached the context.** Fixing the excludability moved the median by
+about 1,000 tokens, which is real but small.
+
+The cause is structural, not a bug: **padding on disk only enters the context if the model reads
+it.** An agentic arm greps, opens the two or three files it needs, and never touches the rest. The
+one task that behaved differently is instructive — t04 reached 37,555 tokens over 32 tool calls and
+103 s, because it is the negative variant and the honest way to answer "is this implemented?" is to
+search the tree. Difficulty drove the reading; the padding did not.
+
+**Consequence for the grid, and it is serious.** As specified, the context axis does not vary what
+it claims to vary. Cells labelled 24k and 64k would both land near ~20-25k of achieved fill for an
+agentic arm, and the resulting curve would be close to flat *for reasons that have nothing to do
+with the quants under test*. Any conclusion drawn from "performance holds up at 64k" would be
+unfounded.
+
+**What would actually work** — none of it taken here, since this is a design change for the owner:
+
+1. Put the fill in the **prompt** rather than on disk, so occupancy is guaranteed and measurable.
+2. Author tasks whose correct answer **requires** reading widely, as t04 incidentally does.
+3. Keep padding on disk but **verify per trial** that achieved fill reached the cell's target, and
+   discard or re-label any trial that did not — the cheapest option, and it at least stops the
+   harness from reporting fills it never achieved.
+
+Whatever is chosen, **every trial must record achieved fill and the grid must be read against that
+number, not against the cell label.**

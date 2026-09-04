@@ -151,7 +151,28 @@ def parse_verdict(text):
 # sandbox pad estimate consistent with the harness's existing context-fill precedent.
 PAD_CHARS_PER_TOKEN = 5.95
 PAD_RANDOM_SEED = 0x504942454E4348
-PAD_PREFIX = "__pibench_pad_"
+# Filler must not be excludable by name or location. An agent that can glob the padding
+# away is left with the unpadded sandbox, so the context axis silently measures nothing.
+# Padding is therefore named like real material and placed in the same directories the seed
+# uses; the manifest in the returned info (and padding.json) is what identifies it.
+PAD_PY_STEMS = (
+    "session_store", "retry_policy", "config_loader", "event_router", "cache_layer",
+    "batch_worker", "schema_guard", "audit_trail", "rate_limiter", "token_bucket",
+    "queue_adapter", "metrics_sink", "path_resolver", "field_mapper", "state_machine",
+    "lease_manager", "backoff_timer", "record_codec", "index_builder", "shard_picker",
+    "health_probe", "dep_resolver", "text_normalizer", "job_scheduler", "blob_writer",
+)
+PAD_MD_STEMS = (
+    "runbook-cache", "design-notes", "review-2031-04", "ownership", "rollout-plan",
+    "capacity-review", "incident-notes", "glossary", "interfaces", "retention-policy",
+    "escalation-matrix", "onboarding", "dependencies", "known-issues", "changelog-archive",
+    "naming-conventions", "data-contracts", "backfill-notes", "alerting", "postmortem-2031-02",
+)
+# Never shadow a task deliverable, whatever the seed happens to contain.
+PAD_RESERVED_NAMES = frozenset({
+    "solution.py", "answer.txt", "answer.json", "reference_audit.txt", "test.py",
+    "padding.json", "results.json",
+})
 
 _PAD_PY_NAMES = (
     "archive_window", "cache_policy", "column_map", "dispatch_plan", "event_cursor",
@@ -196,6 +217,47 @@ def _pad_extension(sandbox):
         return ".md"
     # Stable tie-breaking makes a repeated run deterministic even across filesystems.
     return sorted(counts, key=lambda ext: (-counts[ext], ext))[0]
+
+
+def _seed_dir_shape(sandbox):
+    """Relative directories holding real material, repeated by file count.
+
+    Padding is drawn from this so filler lands where the seed already keeps material
+    instead of piling up at the root, which is itself a give-away.
+    """
+    shape = []
+    for root, dirs, files in os.walk(sandbox):
+        # Never treat build/cache/VCS directories as real material: filler written into
+        # __pycache__ is as good a marker as a filler-shaped filename would be.
+        dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
+        real = [f for f in files if not f.startswith(".") and not f.endswith(".pyc")]
+        if not real:
+            continue
+        rel = os.path.relpath(root, sandbox)
+        rel = "" if rel == "." else rel
+        if rel.startswith(".") or "__pycache__" in rel.split(os.sep):
+            continue
+        shape.extend([rel] * len(real))
+    return shape or [""]
+
+
+def _pad_filename(rng, extension, used):
+    """A plausible name for real material, never a reserved deliverable name."""
+    stems = PAD_PY_STEMS if extension == ".py" else PAD_MD_STEMS
+    for _ in range(200):
+        stem = rng.choice(stems)
+        if rng.randrange(3) == 0:
+            stem = f"{stem}_{rng.randrange(2, 9)}" if extension == ".py" else f"{stem}-{rng.randrange(2, 9)}"
+        name = stem + extension
+        if name not in used and name not in PAD_RESERVED_NAMES:
+            return name
+    # Deterministic fallback; still plausible, still not a marker.
+    i = 0
+    while True:
+        name = f"module_{i:03d}{extension}" if extension == ".py" else f"note-{i:03d}{extension}"
+        if name not in used and name not in PAD_RESERVED_NAMES:
+            return name
+        i += 1
 
 
 def _pad_content(rng, extension, index, target_chars):
@@ -257,9 +319,17 @@ def pad_sandbox(sandbox, pad_tokens):
     """Pad sandbox material to approximately ``pad_tokens`` estimated tokens.
 
     The estimate includes files already copied from seed/; only newly written files
-    are reported in pad_chars_written and pad_files_written.
+    are reported in pad_chars_written and pad_files_written. ``pad_files`` is the
+    manifest of written paths, relative to the sandbox: padding is identified by this
+    list, never by its filenames, because a recognisable name lets a model exclude the
+    fill and turn a 64k cell back into the unpadded one.
+
+    NOTE: characters on disk are not context fill. Filler only enters the context if the
+    model reads it, so the achieved fill of a trial must be taken from the model's own
+    reported prompt token count, never from these numbers.
     """
-    info = {"pad_tokens_requested": pad_tokens, "pad_files_written": 0, "pad_chars_written": 0}
+    info = {"pad_tokens_requested": pad_tokens, "pad_files_written": 0,
+            "pad_chars_written": 0, "pad_files": []}
     if not pad_tokens or pad_tokens < 0:
         return info
     target_chars = int(pad_tokens * PAD_CHARS_PER_TOKEN)
@@ -269,24 +339,31 @@ def pad_sandbox(sandbox, pad_tokens):
 
     extension = _pad_extension(sandbox)
     rng = random.Random(PAD_RANDOM_SEED)
+    shape = _seed_dir_shape(sandbox)
+    used = set()
+    for root, _, files in os.walk(sandbox):
+        used.update(files)
     index = 0
     while remaining > 0:
         # Several medium-sized files make the filler look like a small source tree.
         chunk_chars = min(12000, max(1200, remaining // 8))
         content = _pad_content(rng, extension, index, chunk_chars)
-        filename = f"{PAD_PREFIX}{index:04d}{extension}"
-        path = os.path.join(sandbox, filename)
-        while os.path.exists(path):
-            index += 1
-            filename = f"{PAD_PREFIX}{index:04d}{extension}"
-            path = os.path.join(sandbox, filename)
+        subdir = rng.choice(shape)
+        filename = _pad_filename(rng, extension, used)
+        target_dir = os.path.join(sandbox, subdir) if subdir else sandbox
+        os.makedirs(target_dir, exist_ok=True)
+        path = os.path.join(target_dir, filename)
         try:
             with open(path, "x", encoding="utf-8", newline="") as f:
                 f.write(content)
         except FileExistsError:
             # Exclusive creation protects seed material even if a name appears meanwhile.
+            used.add(filename)
             index += 1
             continue
+        used.add(filename)
+        rel = os.path.relpath(path, sandbox).replace(os.sep, "/")
+        info["pad_files"].append(rel)
         info["pad_files_written"] += 1
         info["pad_chars_written"] += len(content)
         remaining = max(0, target_chars - _sandbox_material_chars(sandbox))

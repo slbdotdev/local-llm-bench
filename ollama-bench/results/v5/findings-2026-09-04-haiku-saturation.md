@@ -153,3 +153,45 @@ Three readers rather than one, because a single reader reporting "CLEAR" everywh
 indistinguishable from a reader that did not look. Two of the three found something, they found
 *different* things, and the two that agreed agreed on the same task by different routes — which is
 about the strongest signal this kind of check can give.
+
+## Fourth and fifth conditions: Haiku at 48k requested fill
+
+Every condition above ran against an **unpadded** sandbox, roughly 2k of material — a configuration
+the grid never runs. Since the grid runs these same tasks at 24k-64k of fill, section 4's
+discrimination check had never been applied to the axis the benchmark actually measures. Two more
+rows were run to close that, one trial across all eight tasks, agentic Haiku, comparable to trials
+0-3.
+
+**Both rows: 8/8, every task `VERDICT correct`.**
+
+| condition | requested fill | result | median achieved fill |
+| --- | --- | --- | --- |
+| agentic, unpadded (trials 0-2) | none | 7 of 8 saturated | 18,603 |
+| one-shot, unpadded | none | 8/8 | 18,603 |
+| agentic, 48k **excludable** filler | 48,000 | 8/8 | 21,643 |
+| agentic, 48k **non-excludable** filler | 48,000 | 8/8 | 22,669 |
+
+Achieved fill is the model's own reported prompt token count, not the padding written.
+
+**How much these two rows are worth, stated carefully.** The first 48k row used filler that was
+trivially excludable by filename and location, so it largely re-measures the unpadded condition and
+is **inconclusive on the padding axis**; the interpretation was fixed in advance and it is not
+citable as having closed the fill question. The padding was then fixed — realistic names,
+interleaved into the seed's own directories — and the row re-run once. That second row is the
+meaningful one.
+
+**But neither row tests 48k of context pressure, and that limitation is the real result.** Against
+~48,000 tokens of material written per task, median achieved fill was 22,669 against an unpadded
+floor of 18,603, so padding contributed roughly 4,100 tokens — under 10% of what was written.
+Padding on disk only enters the context if the model reads it, and an agentic arm reads the two or
+three files it needs. (t04 is the exception at 37,555 tokens over 32 tool calls, because answering
+its negative question honestly requires searching the tree — difficulty drove the reading, not the
+padding.) Details in `findings-2026-09-04-grid-harness-gap.md`.
+
+**So the honest statement is:** saturation holds at roughly 22k of achieved fill with realistic,
+non-excludable filler present in the tree. **Saturation at a genuine 48k+ of context occupancy
+remains untested**, and cannot be tested by writing filler to disk. It is not evidence either way
+for the two readings; it removes one objection to the literal reading without settling it.
+
+This does not change the count: **seven of eight tasks saturated against a limit of three**, on
+every condition tried — unpadded agentic, unpadded one-shot, and both padded rows.

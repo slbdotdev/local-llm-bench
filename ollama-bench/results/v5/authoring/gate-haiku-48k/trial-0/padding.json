@@ -1,0 +1,66 @@
+{
+ "g01": {
+  "files": 41,
+  "chars_written": 283281,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 22794,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "g02": {
+  "files": 41,
+  "chars_written": 278324,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 22735,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "g03": {
+  "files": 41,
+  "chars_written": 284342,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 22064,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "g04": {
+  "files": 41,
+  "chars_written": 283990,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 19504,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "t01": {
+  "files": 41,
+  "chars_written": 284797,
+  "ext": ".md",
+  "achieved_fill_prompt_tokens": 20479,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "t02": {
+  "files": 41,
+  "chars_written": 284269,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 20426,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "t03": {
+  "files": 39,
+  "chars_written": 256950,
+  "ext": ".md",
+  "achieved_fill_prompt_tokens": 25555,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ },
+ "t04": {
+  "files": 41,
+  "chars_written": 284712,
+  "ext": ".py",
+  "achieved_fill_prompt_tokens": 21223,
+  "achieved_fill_source": "model-reported prompt tokens (input + cache_read + cache_creation), peak across the run's assistant messages",
+  "note": "Characters on disk are NOT context fill. Filler only enters the context if the model reads it, so achieved_fill_prompt_tokens is the only fill number here that is a measurement."
+ }
+}
