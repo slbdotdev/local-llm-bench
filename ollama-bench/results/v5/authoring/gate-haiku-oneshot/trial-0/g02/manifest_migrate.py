@@ -43,7 +43,7 @@ def _rewrite_line(line, mapping):
     return before + mapping[key] + separator + value + ending
 
 def _editable_lines(lines):
-    return range(len(lines))
+    return range(_frozen_at(lines))
 
 def migrate(text, mapping):
     lines, changes = _split(text), _mapping(mapping)

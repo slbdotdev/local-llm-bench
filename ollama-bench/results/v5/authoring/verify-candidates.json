@@ -347,7 +347,7 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "C:\\Users\\slb\\AppData\\Local\\Temp\\v5v_r058j89w\\router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
+    "stderr_tail": "/tmp/v5v_ww089mfs/router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
    },
    "ok_ref": true,
    "ok_empty": true
@@ -450,7 +450,7 @@
   },
   {
    "cand": "t01/cand-3",
-   "prompt_words": 286,
+   "prompt_words": 434,
    "seed_files": 4,
    "seed_kb": 0.8,
    "ref": {

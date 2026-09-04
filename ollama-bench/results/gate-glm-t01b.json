@@ -1,0 +1,112 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 4.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9444,
+    "out_tokens": 386,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "ted lines (verified via `cat -A`), ordered by relative path then line number:\n\n- `UPDATE` \u2014 `docs/escalation.md:5` \u2014 live escalation pointer\n- `LEAVE` \u2014 `history/2026-08-31-relocation.md:3` \u2014 dated relocation history entry\n- `LEAVE` \u2014 `history/postmortem-2026-07.md:3` \u2014 quoted postmortem command (historical record)\n- `UPDATE` \u2014 `quickstart.md:3` \u2014 live on-call guide link\n\nNo documents were edited.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 9.7,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 13143,
+    "out_tokens": 613,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "ference_audit.txt` contains exactly four tab-separated lines, ordered by path then line number:\n\n- `UPDATE` \u2014 `docs/escalation.md:5` \u2014 live escalation pointer\n- `LEAVE` \u2014 `history/2026-08-31-relocation.md:3` \u2014 dated relocation history entry\n- `LEAVE` \u2014 `history/postmortem-2026-07.md:3` \u2014 archived postmortem quote\n- `UPDATE` \u2014 `quickstart.md:3` \u2014 live on-call guide link\n\nNo documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 5.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9760,
+    "out_tokens": 445,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "Done. `reference_audit.txt` contains exactly four tab-separated lines (`^I` = literal tab), sorted by file path then line number, with the old/new paths copied verbatim. No documents were edited.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

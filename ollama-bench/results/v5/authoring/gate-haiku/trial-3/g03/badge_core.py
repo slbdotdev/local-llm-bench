@@ -2,18 +2,18 @@
 
 The example is deliberately executable with doctest.
 
->>> make_tag("Ada", "warm")
+>>> make_badge("Ada", tone="warm")
 'Ada<warm>'
 """
 
 DEFAULT_TONE = "plain"
 
 
-def make_tag(label, tone=DEFAULT_TONE):
+def make_badge(label, *, tone="plain"):
     return badge_flow.decorate(label, tone=tone)
 
 
-def batch(labels, tone=DEFAULT_TONE, builder=make_tag):
+def batch(labels, tone=DEFAULT_TONE, builder=make_badge):
     return [builder(label, tone=tone) for label in labels]
 
 

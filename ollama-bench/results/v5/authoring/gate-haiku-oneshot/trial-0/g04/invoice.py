@@ -11,11 +11,11 @@ def subtotal(items):
 
 def total_due(items, discount=None):
     subtotal_amount = subtotal(items)
-    if discount == None:
+    if discount is None:
         discount = Decimal("0")
     try:
         net = subtotal_amount - discount
-    except:
+    except Exception:
         net = subtotal_amount
     return (net * (Decimal("1") + TAX_RATE)).quantize(Decimal("0.01"))
 

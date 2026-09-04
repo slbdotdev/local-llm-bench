@@ -1,0 +1,112 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 6.7,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 13150,
+    "out_tokens": 595,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "ure |\n| LEAVE | history/2026-08-31-relocation.md | 3 | Dated record of where the handbook was at move time \u2014 correct history |\n| LEAVE | history/postmortem-2026-07.md | 3 | Archived postmortem quote of what the responder saw \u2014 audit trail |\n| UPDATE | quickstart.md | 3 | Live link target in the current on-call quickstart |\n\nNo documents were edited; the classification file is the only deliverable.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 5.3,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9394,
+    "out_tokens": 374,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "`docs/escalation.md:5` \u2014 **UPDATE** (live escalation pointer)\n- `history/2026-08-31-relocation.md:3` \u2014 **LEAVE** (dated history entry)\n- `history/postmortem-2026-07.md:3` \u2014 **LEAVE** (archived postmortem quote)\n- `quickstart.md:3` \u2014 **UPDATE** (current on-call guide link)\n\nThe file has four tab-separated fields per line (verified with `cat -A`), paths copied verbatim, and no documents were edited.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 4.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9380,
+    "out_tokens": 372,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "tab-delimited, verified with `cat -A`):\n\n- `UPDATE` **docs/escalation.md:5** \u2014 live pointer to the current escalation procedure\n- `LEAVE` **history/2026-08-31-relocation.md:3** \u2014 dated relocation history entry\n- `LEAVE` **history/postmortem-2026-07.md:3** \u2014 quoted command in an archived postmortem\n- `UPDATE` **quickstart.md:3** \u2014 live link to the current on-call guide\n\nNo documents were rewritten.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

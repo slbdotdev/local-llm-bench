@@ -1,0 +1,4 @@
+UPDATE	docs/escalation.md	5	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
+LEAVE	history/2026-08-31-relocation.md	3	//infra/handbook/oncall.md	-
+LEAVE	history/postmortem-2026-07.md	3	//infra/handbook/oncall.md	-
+UPDATE	quickstart.md	3	//infra/handbook/oncall.md	//infra/runbooks/oncall.md

@@ -36,8 +36,14 @@ def _ora_parse():
         raw = Path("reference_audit.txt").read_text(encoding="utf-8")
     except Exception:
         return None
-    lines = raw.splitlines()
-    if len(lines) != len(_ORA_EXPECTED) or raw != raw.rstrip("\n") + "\n":
+    # A single trailing newline is optional. The prompt asks for "exactly four lines"
+    # and never says whether the file must end in a newline, so both forms are correct
+    # and scoring one of them as visibly_failed mislabels a correct answer, which would
+    # corrupt the section 7 instrument. Everything else stays strict: no blank lines,
+    # no extra content, exact line count.
+    body = raw[:-1] if raw.endswith("\n") else raw
+    lines = body.split("\n")
+    if len(lines) != len(_ORA_EXPECTED) or any(not ln for ln in lines):
         return None
     got = {}
     for line in lines:

@@ -1,0 +1,30 @@
+{
+ "g01": {
+  "error": "no sandbox"
+ },
+ "g02": {
+  "error": "no sandbox"
+ },
+ "g03": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "g04": {
+  "error": "no sandbox"
+ },
+ "t01": {
+  "error": "no sandbox"
+ },
+ "t02": {
+  "error": "no sandbox"
+ },
+ "t03": {
+  "error": "no sandbox"
+ },
+ "t04": {
+  "error": "no sandbox"
+ }
+}

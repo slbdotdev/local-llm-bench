@@ -1,0 +1,111 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 6.7,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9626,
+    "out_tokens": 496,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "-relocation.md:3` \u2014 dated relocation history entry (must stay as-is)\n- `LEAVE history/postmortem-2026-07.md:3` \u2014 archived postmortem quotation (must stay as-is)\n- `UPDATE quickstart.md:3` \u2014 a live on-call guide link (`UPDATE`)\n\nVerified with `cat -A`: each field is separated by a single literal tab (`^I`), no header or extra text, and both paths are reproduced verbatim. No documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 6.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 3
+    },
+    "in_tokens": 10113,
+    "out_tokens": 641,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "` confirms literal tabs), ordered by relative path then line number:\n\n```\nUPDATE\tdocs/escalation.md\t5\t//infra/handbook/oncall.md\t//infra/runbooks/oncall.md\nLEAVE\thistory/2026-08-31-relocation.md\t3\t//infra/handbook/oncall.md\t-\nLEAVE\thistory/postmortem-2026-07.md\t3\t//infra/handbook/oncall.md\t-\nUPDATE\tquickstart.md\t3\t//infra/handbook/oncall.md\t//infra/runbooks/oncall.md\n```\n\nNo documents were edited.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t01",
+    "pass": false,
+    "wall_s": 9.0,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9454,
+    "out_tokens": 412,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/8\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "(live pointer to the active escalation procedure)\n- `LEAVE` \u2014 `history/2026-08-31-relocation.md:3` (dated relocation history entry)\n- `LEAVE` \u2014 `history/postmortem-2026-07.md:3` (archived postmortem quoting a past command)\n- `UPDATE` \u2014 `quickstart.md:3` (live link in current onboarding instructions)\n\nNo documents were edited; the paths in `OLD_PATH`/`REPLACEMENT` fields are verbatim from the task.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

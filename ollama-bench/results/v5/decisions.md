@@ -819,3 +819,103 @@ g01-g04, t02 and t03 read CLEAR to all three. Neither finding invalidates any re
 result. Three readers were used rather than one deliberately: a lone reader answering "CLEAR"
 everywhere cannot be distinguished from one that did not look, and in the event two found
 different things.
+
+## 2026-09-04, later — saturation count corrected, and t01's gate rows invalidated
+
+### Saturation is seven of eight, not five and not six
+
+`findings-2026-09-04-haiku-saturation.md` has been corrected, with the evidence written onto the
+page so the count can be re-checked without re-running anything. Two errors were fixed:
+
+1. **g04's trial 0 was wrongly excluded.** g03 and g04 were replaced at *different* times, and
+   trial 0 already ran g04's current cand-1. Evidence: `gate-haiku/trial-0/g04/` holds `invoice.py`
+   (cand-1's seed; cand-2 is `router.py`, cand-3 is `report.py`), and `check_style.py` there is
+   md5 `0232a79e3b5cef2e23d23dc910110834`, identical to `gate-suite/g04/seed/check_style.py`.
+   g03's exclusion was correct by the same test (`note_*.py` = cand-3, current is `badge_*.py`).
+2. **g03's third trial has since been run and passed** 12/12 `VERDICT correct`.
+
+So g01, g02, g03, g04, t01, t02, t03 are saturated; only t04 is not, at 2/3, and its one failure is
+genuine (identical `auth.py` md5 across all three trials; on trial 0 it reasoned correctly but
+wrote no `answer.txt`). **Seven saturated against a section 4 limit of three.**
+
+### The "broken proxy" explanation is now closed off
+
+One-shot Haiku — explicitly forbidden to run `python3` or verify its own output — still passed
+**8/8**, every task `VERDICT correct`. Compliance was verified, not assumed: zero `python`/`pytest`
+calls across all eight runs' tool logs. The suite is therefore saturated against a Haiku with one
+pass and no feedback, not merely against an agentic one. Recorded as a clearly-labelled third
+condition; it does not replace the agentic numbers, which remain the basis of the section 4 flag.
+
+**Still not this session's call to make.** The structural choice — take section 4 literally and
+re-author most of the suite, or record saturation prominently as a limitation and rank anyway —
+stays with the owner, as does the freeze. Both readings remain on the findings page.
+
+### t01's previously recorded Sonnet and GLM gate rows are INVALIDATED
+
+t01's prompt was tightened this session to fix two flagged defects (the undefined term "standalone
+occurrence", and an under-specified verbatim-copy rule). **A changed prompt is a changed task, so
+t01's earlier Sonnet and GLM gate rows no longer describe the task in the suite and must not be
+cited.** They are superseded by the re-gate below; the old numbers stand only as history.
+
+### A checker defect was scoring correct answers as `visibly_failed`
+
+Re-gating t01 on GLM first returned 1/3, then 0/3, then 1/3 — 2/9 — against a pre-edit record of
+5/6. **I wrote here that this was a regression my prompt edit had caused. That was wrong, and I am
+retracting it.** The prompt edit was not the cause. The cause was a defect in t01's checker.
+
+The diagnosis was made from evidence, not inference. `pibench.py` deletes each sandbox after
+grading, so a `PIBENCH_KEEP` diagnostic hook was added to preserve them (default-off; the normal
+path is unchanged) and GLM's actual `reference_audit.txt` bytes were captured across three trials.
+**All three files were identical in content** — the correct four records, correct UPDATE/LEAVE,
+correct paths, correct literal tabs. The only difference between the passing file and the two
+failing ones was a **trailing newline**.
+
+t01's parser contained this guard:
+
+    if len(lines) != len(_ORA_EXPECTED) or raw != raw.rstrip("\n") + "\n":
+        return None
+
+which requires the file to end in exactly one newline. A file with no trailing newline was rejected
+as `unparseable`, scored `SCORE 0/8`, and labelled **`VERDICT visibly_failed`** — while being a
+completely correct answer. The prompt asks for "exactly four lines" and never says the file must
+end in a newline, so both forms satisfy it.
+
+**Why this mattered far beyond t01.** Section 7's headline instrument is the three-way split
+`correct` / `visibly_failed` / `confidently_wrong`. A checker that files correct work under
+`visibly_failed` corrupts that instrument directly, and it does so *selectively*: it penalises
+whichever models happen not to emit a trailing newline. Sonnet emitted one in all three re-gate
+runs, which is precisely why the defect stayed invisible through every earlier gate — the checker
+had encoded a Sonnet-shaped habit as a correctness requirement. Had this reached the grid it would
+have produced a systematic, model-dependent bias in the primary metric.
+
+**Fix.** The parser now strips at most one optional trailing newline and stays strict about
+everything else. Verified against five shaped inputs: no trailing newline → `correct`; one trailing
+newline → `correct`; two trailing newlines → `visibly_failed`; a blank line inside → `visibly_failed`;
+three records instead of four → `visibly_failed`. Propagated to `tasks-v5/t01/cand-3/test.py`;
+`verify_candidates.py` re-run clean at **REF 24/24, EMPTY 24/24**.
+
+Only t01 had this guard — the other seven checkers were grepped and none constrains trailing
+newlines.
+
+### t01's re-gate, after the checker fix
+
+| model | result | status |
+| --- | --- | --- |
+| Sonnet, 3 trials (`gate-t01-regate/trial-{0,1,2}`) | 3/3, each 8/8 `VERDICT correct` | **rule 1 satisfied** |
+| GLM 5.3 Flash, 3 trials (`gate-glm-t01-fixed`) | 3/3, each 8/8 `VERDICT correct` | **rule 1 satisfied** |
+
+The Sonnet rows were re-graded against the fixed checker rather than assumed to carry over. t01
+holds a valid gate on the tightened prompt, and **the suite is gate-complete again**: Sonnet 3/3 on
+all eight, GLM ≥2/3 on all eight.
+
+No section 4a question arises. Nothing was kept, dropped, reworded or reordered because a quant
+passed or failed: a checker was mislabelling correct answers, and rule 1 governs that expressly —
+"that is a *task* defect, never evidence about a quant". The gate models are not quants.
+
+Diagnostic artefacts are kept under `authoring/t01-diag/` (the preserved sandboxes and the
+`run_keep.py` wrapper) so the finding can be re-checked.
+
+**Trap worth recording for later sessions.** `VAR=x /mnt/c/.../python.exe ...` does **not**
+propagate `VAR` from WSL into a Windows process unless it is listed in `WSLENV`; the variable is
+silently absent and the run looks like it simply ignored the setting. Set it from inside the
+Windows process instead — `authoring/t01-diag/run_keep.py` is the working pattern.

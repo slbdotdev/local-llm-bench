@@ -1,0 +1,111 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 6.7,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 12117,
+    "out_tokens": 470,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": " occurrences (verified tab-separated):\n\n- **UPDATE** `docs/escalation.md:5` \u2014 live pointer to the current escalation procedure\n- **LEAVE** `history/2026-08-31-relocation.md:3` \u2014 dated relocation history entry\n- **LEAVE** `history/postmortem-2026-07.md:3` \u2014 archived postmortem quoting a past command\n- **UPDATE** `quickstart.md:3` \u2014 live link to the current on-call guide\n\nNo documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 5.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "bash": 2
+    },
+    "in_tokens": 7001,
+    "out_tokens": 495,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "istory/2026-08-31-relocation.md:3` \u2014 **LEAVE** (dated relocation history entry)\n- `history/postmortem-2026-07.md:3` \u2014 **LEAVE** (historical postmortem quote)\n- `quickstart.md:3` \u2014 **UPDATE** (live link in the current quickstart)\n\nCreated `reference_audit.txt` with four tab-separated lines, verified with `cat -A` that each has exactly four literal tabs and no extra text. No documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 2,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "t01",
+    "pass": true,
+    "wall_s": 4.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "write": 1
+    },
+    "in_tokens": 9610,
+    "out_tokens": 418,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "Done. `reference_audit.txt` contains exactly four tab-separated lines, sorted by relative path then line number:\n\n- `UPDATE` for the two live references (`docs/escalation.md`, `quickstart.md`)\n- `LEAVE` for the two historical records (`history/2026-08-31-relocation.md`, `history/postmortem-2026-07.md`)\n\nPaths are copied verbatim, no documents were modified.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

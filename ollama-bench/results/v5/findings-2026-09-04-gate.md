@@ -202,3 +202,45 @@ Haiku passes **3/3** as saturated and allows at most three such. On this single 
 passed six of eight, so if that holds over three trials the suite would be over that limit and
 several tasks would need harder variants. That is a real risk to size before freezing, not a
 detail.
+
+## Late addition — a checker defect that corrupted the section 7 instrument
+
+Found while re-gating t01 after its prompt was tightened. GLM dropped to 2/9 on a task it had
+scored 5/6 on before. The prompt edit was the obvious suspect and was the wrong one.
+
+`pibench.py` deletes each sandbox after grading, so a default-off `PIBENCH_KEEP` hook was added to
+preserve them and GLM's actual `reference_audit.txt` was captured over three trials. All three were
+**identical in content** — correct records, correct classifications, correct paths, correct literal
+tabs. Pass and fail differed only by a **trailing newline**.
+
+t01's parser required the file to end in exactly one newline:
+
+    if len(lines) != len(_ORA_EXPECTED) or raw != raw.rstrip("\n") + "\n":
+        return None
+
+A correct answer without a trailing newline was rejected as `unparseable`, scored `SCORE 0/8`, and
+labelled **`VERDICT visibly_failed`**. The prompt asks for "exactly four lines" and never mentions a
+trailing newline, so both forms are correct.
+
+**The reason this is a serious finding rather than a nit.** Section 7's headline instrument is the
+three-way split `correct` / `visibly_failed` / `confidently_wrong`, and confidently-wrong rate
+outranks pass rate. A checker filing *correct* work under `visibly_failed` corrupts that instrument
+at the source — and it does so with a model-dependent bias, penalising whichever models happen not
+to emit a trailing newline. Sonnet emitted one on every run, which is exactly why the defect
+survived every earlier gate: the checker had baked a Sonnet-shaped habit into the definition of
+correctness. On the grid this would have produced a systematic bias in the primary metric that no
+amount of trial-count would have averaged out.
+
+**Fix and verification.** The parser now tolerates at most one optional trailing newline and stays
+strict otherwise. Confirmed against five shaped inputs: no trailing newline → `correct`; one → `correct`;
+two → `visibly_failed`; blank line inside → `visibly_failed`; three records → `visibly_failed`.
+`verify_candidates.py` re-run clean (REF 24/24, EMPTY 24/24). The other seven checkers were grepped
+and none constrains trailing newlines, so the defect is isolated to t01.
+
+**Post-fix gate:** Sonnet 3/3 (re-graded against the fixed checker, not assumed), GLM 3/3.
+
+**Generalisable lesson for the remaining authoring.** Every strict-format checker should be probed
+with a deliberately shaped near-miss set before it is trusted, not only with the reference solution
+and an empty sandbox. `verify_candidates.py` tests REF and EMPTY; both passed t01 throughout and
+neither could have caught this, because the reference solution is written by the same hand and
+habits as the checker.

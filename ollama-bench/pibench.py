@@ -506,6 +506,18 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
               "ps_pct_gpu": ps_pct, "nvidia_smi_peak_mib": smi_sampler.peak_mib if smi_sampler else None,
               "final_text": final_text[-400:], "stderr": err[-400:].strip(),
               "stop_reason": stop_reason, "stop_reasons": stop_reasons, "events": events}
+    # Diagnostics only: PIBENCH_KEEP=<dir> preserves each sandbox before deletion so a
+    # malformed deliverable can be inspected byte-for-byte. Unset by default, so the
+    # normal path is unchanged.
+    keep_root = os.environ.get("PIBENCH_KEEP")
+    if keep_root:
+        try:
+            dest = os.path.join(keep_root, "%s-trial%s-%s" % (
+                task["name"], result.get("trial", "x"), os.path.basename(sandbox)))
+            os.makedirs(keep_root, exist_ok=True)
+            shutil.copytree(sandbox, dest, dirs_exist_ok=True)
+        except Exception:
+            pass
     shutil.rmtree(sandbox, ignore_errors=True)
     return result
 
