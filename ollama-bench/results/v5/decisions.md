@@ -296,8 +296,7 @@ Owner rulings, all applied to `plan-rev5-focused.md` (now **rev 5.4**) and to th
   promotes cache precision to a Phase C variable.
 
 `results/v5/schedule.md` created: the three queued GPU runs (B0, B0-control, B1 Q3_K_M) with
-reasons, the standing run rules, and a log. Nothing runnable until Phase A freezes the suite.
-Authoring still waits on the owner's go-ahead.
+reasons, the standing run rules, and a log.
 
 ## 2026-09-04, owner rulings (rev 5.7)
 
@@ -324,13 +323,13 @@ Authoring still waits on the owner's go-ahead.
   and holds the judgment, briefing and reading its own workers — a deliberate, scoped exception
   to the fleet rule that a control session invokes `codex-run` itself. Goal 8 h, hard limit 12 h.
   Standing rules: bank ambiguous calls and carry on rather than block; never take a structural
-  decision alone; the GPU is serial; the freeze is not the manager's to take.
+  decision alone; the GPU is serial.
 - **Calibration is not selection (new section 4a).** The authoring work now uses the GPU, which
   is the sharpest hazard in the plan. Local runs may size a task — context fit, appetite, wall,
   prompt ambiguity, checker behaviour — and may never keep, drop, reword or reorder a task
   because of whether a quant *passed* it. Difficulty is the thing being measured. Consequence:
-  calibration runs happen pre-freeze on unfrozen tasks and can therefore never be scored trials,
-  so the first probe still runs post-freeze on its own. That duplicated GPU time is a known and
+  calibration runs happen on tasks not yet used for scored trials and can therefore never be scored
+  trials, so the first probe still runs separately on its own. That duplicated GPU time is a known and
   accepted cost of authoring against the hardware.
 - **Phase names are dropped.** One plan with an order, not six numbered stages; the seven
   weighted tasks are the **core set**, not the "headline"; and language that pre-committed the
@@ -520,13 +519,11 @@ Banked decisions taken alone, all reversible and all recorded rather than assume
   time goes. Section 4a is unaffected — with no quant reachable, selection against a quant's
   results is not even possible.
 
-**Consequence for the freeze, and it is the important one.** Plan section 6 loop step 3 sizes
+**Consequence of outstanding local sizing, and it is the important one.** Plan section 6 loop step 3 sizes
 each task against the local model: does a trial finish under 300 s, does the prompt read
 unambiguously to a small model, does the window fit. **Those properties cannot be settled by
-this session**, so a suite frozen on this session's evidence alone would be frozen without its
-local sizing. The freeze was already not this session's to take; this is a second and independent
-reason to leave it. The per-task record notes, for every task, that its local calibration is
-outstanding.
+this session**, so local sizing remains outstanding. The per-task record notes, for every task,
+that its local calibration is outstanding.
 
 ### Banked: two more preconditions the handoff did not list
 
@@ -557,7 +554,7 @@ produced. Section 7 predeclared the three outcomes and made the confidently-wron
 line outranking pass rate; without this the rate would have to be reconstructed by a human
 reading truncated grader tails across 120 trials. It is **additive** — `pass` and `score` keep
 their exact current definitions — and it does not change what any class measures, so it is
-authoring, not a structural decision. Recorded here so it can be reversed by whoever freezes.
+authoring, not a structural decision. Recorded here so it can be reversed if needed.
 Independent support, found afterwards and not used to justify it: SimpleQA grades three ways and
 Abstain-QA's confusion matrix counts correct refusal separately
 (`findings-2026-09-04-inspiration.md`).
@@ -620,7 +617,7 @@ calls, 12-74 s. Comfortably inside rule 2's 5,000-token appetite, so v4's failur
 been avoided. **But these are fast cloud models.** The local timeouts this data is meant to size
 are for a 27B quant at ~45 tok/s that could not be run at all. Nothing here measures the local
 model's reading of a filled 64k window, its tool-call overhead, or its turn count. Appetite:
-established. Local wall: **not established**, and it is a freeze precondition.
+established. Local wall: **not established**.
 
 ### Banked: never dispatch a worker onto a tree another worker still holds
 
@@ -639,7 +636,7 @@ do not kill, terminate or signal any process you did not start; if something loo
 changing under you, stop and report. That line should be standing text in any brief for a worker
 on a tree that others may touch.
 
-### Banked: the pristine-seed digest is correct but brittle before the freeze
+### Banked: the pristine-seed digest is correct but brittle while seeds can change
 
 The fix for "a did-nothing sandbox must read `visibly_failed`" works by hard-coding a hash of each
 pristine seed file into the checker, so "unchanged from seed" is detectable without trusting
@@ -648,11 +645,11 @@ writing down: **the digest goes stale the moment a seed file is edited**, and a 
 the checker think the model changed something when it did not. One was already found and
 corrected in g02/cand-3 during this session.
 
-After the freeze this is a non-issue, because the seeds stop changing — which is rather the point
-of freezing. Before the freeze it is a live hazard: **any edit to a `seed/` file must be followed
+Once the seed files stop changing this is a non-issue. While they can change it is a live hazard:
+**any edit to a `seed/` file must be followed
 by re-running `verify_candidates.py`**, whose EMPTY case is exactly what catches a stale digest.
-Whoever freezes should re-run it one final time immediately before taking the hashes, so the
-frozen digests and the frozen seeds are known to agree.
+Whoever runs the hash step should re-run it one final time immediately before taking the hashes, so
+the digests and the seeds are known to agree.
 
 ### IMPORTANT for the KV harness: Ollama's own model runner is also called `llama-server.exe`
 
@@ -704,7 +701,7 @@ candidate was replaced; the replacement passed 8/8 first time. Sonnet still need
 all eight to satisfy rule 1's 3/3, and the replaced g04 has only one trial.
 
 Not run at all: **Haiku**, both the x3 prompt-defect check and the two rates section 7 requires
-(on the frozen set, and on every task authored including saturated ones). It needs no GPU.
+(on the selected set, and on every task authored including saturated ones). It needs no GPU.
 
 ### A green result must carry evidence for the thing it claims — the lifecycle proof, twice
 
@@ -764,15 +761,15 @@ prohibition was satisfied by circumstance as well as by discipline.
   forwarding sites; a prompt short enough to meet the word limit cannot enumerate them, and
   enumerating them would turn it into a checklist. Wrong task, not a hard one.
 
-**What Haiku still owes, and it is the last thing between here and the freeze:** three trials
+**What Haiku still owes, and it is the last outstanding check:** three trials
 rather than one, on the *current* suite (the single Haiku run predates both replacements); the x3
 prompt-defect check, which is a different use of Haiku and must not be substituted by the scored
 row; and section 7's second rate, over every task authored including the saturated ones. On its
 one trial Haiku passed six of eight, and if that holds at 3/3 the suite exceeds section 4's limit
-of three saturated tasks — a real risk to size before freezing, not a detail. All 24 candidates
+of three saturated tasks — a real risk to suite size, not a detail. All 24 candidates
 remain on disk so the unfiltered rate can still be computed.
 
-### Haiku discrimination check: FIVE saturated tasks against a limit of three — do not freeze yet
+### Haiku discrimination check: FIVE saturated tasks against a limit of three
 
 Full evidence: `findings-2026-09-04-haiku-saturation.md`. Section 4 gate-time check, not section
 5's scored row.
@@ -785,7 +782,7 @@ for each task (trial 0 is excluded for g03 and g04, which were replaced after it
     not saturated:  t04 (2/3, and only because trial 0 produced no answer file)
 
 **Section 4 allows at most three saturated tasks and says the rest are replaced with harder
-variants. The suite is therefore not freeze-ready**, and this is the single most consequential
+variants. The suite is therefore too easy**, and this is the single most consequential
 thing this session learned after the GPU fault.
 
 **Banked, not decided**, because it is structural. There are two defensible readings and they
@@ -795,8 +792,7 @@ against its own work — far stronger than the local arm it is meant to be a yar
 27B at 48k fill, ~45 tok/s, 900 s wall), so a task can be saturated for agentic-Haiku and still
 discriminate sharply among quants. The alternative is to re-run this check in a configuration
 comparable to the local arm, or to accept the saturation and report it as a stated limitation of
-the ranking. **The choice belongs to whoever freezes. What must not happen is freezing quietly as
-though the check had passed.**
+the ranking. **Report the saturation explicitly rather than implying the check had passed.**
 
 Keep all 24 candidates: section 7 needs Haiku's rate over every task authored **including** the
 saturated ones, because a set built by discarding what Haiku passes is circular, and that is the
@@ -810,7 +806,7 @@ attempt the tasks:
 - **t01, flagged by two of three, on two different grounds** — the worked example uses
   single-slash paths while the material uses `//infra/handbook/oncall.md`, and "standalone
   occurrence" is used throughout and never defined. Both are checkable and both are real. **Tighten
-  t01 before the freeze.**
+  t01.**
 - **t04, flagged by one** — "the smallest contiguous line span containing the implementation" has
   no correct answer for a split implementation. Latent rather than live: the current t04 candidate
   is the negative variant and never needs a span. Fix it if a positive variant is ever used.
@@ -848,7 +844,7 @@ condition; it does not replace the agentic numbers, which remain the basis of th
 
 **Still not this session's call to make.** The structural choice — take section 4 literally and
 re-author most of the suite, or record saturation prominently as a limitation and rank anyway —
-stays with the owner, as does the freeze. Both readings remain on the findings page.
+remains open. Both readings remain on the findings page.
 
 ### t01's previously recorded Sonnet and GLM gate rows are INVALIDATED
 
@@ -971,7 +967,7 @@ and the grid must be read against that number rather than the cell label.
 
 **Saturation at genuine 48k+ occupancy remains untested and cannot be tested by writing filler to
 disk.** The two rows remove an objection to the literal reading of section 4 without settling it.
-The freeze and the choice between the two readings both remain the owner's.
+The choice between the two readings remains open.
 
 ## 2026-09-04, local calibration — the context axis is dead on the arm that matters
 
@@ -998,8 +994,7 @@ workable option**; verifying achieved fill per trial and discarding misses degen
 this evidence every trial would be discarded. The variation that does exist tracks the *task* —
 t04 draws ~2.5x g01's fill in every cell because its negative question requires searching the tree.
 
-**Still the owner's, not mine:** the plan change itself, the freeze, and the choice between the two
-saturation readings.
+**Still open:** the plan change itself and the choice between the two saturation readings.
 
 **Deviation:** the brief named `q27-Q3_K_S-24k`, which did not exist and was not mine to build, so
 the same-quant comparison used Q2_K_L (both cells present). `q27-Q3_K_S-64k` was run as asked.

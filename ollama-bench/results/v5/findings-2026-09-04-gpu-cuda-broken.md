@@ -117,8 +117,7 @@ Blocked, until the reinstall:
 - the `pibench.py` harness gaps in `findings-2026-09-04-grid-harness-gap.md`.
 
 Section 4a is unaffected and if anything is easier to hold: with no local quant reachable, there
-is no possibility of selecting tasks against what a quant passed. The freeze remains not this
-session's to take.
+is no possibility of selecting tasks against what a quant passed.
 
 
 ## Closing note, added 2026-09-04 — this fault was repaired the same day

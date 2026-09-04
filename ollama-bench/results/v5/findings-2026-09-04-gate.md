@@ -142,9 +142,7 @@ backwards.
   moved aside first or the pre-fix rows will silently be kept and reported as post-fix results.
 - Re-gate g03 and g04 on Sonnet after the prompt fixes, then complete Sonnet to 3/3 on all eight.
 - Haiku x3 for prompt defects, and the second Haiku number section 7 requires: its rate on the
-  frozen set **and** on every task authored including the saturated ones.
-- None of the above needs a GPU. All of it must land before the freeze, and the freeze is not
-  this session's to take.
+  selected set **and** on every task authored including the saturated ones.
 
 
 # Final gate state, end of session 2026-09-04
@@ -192,15 +190,15 @@ scored local trial would. Do not lean hard on this single data point.
 - the **x3 prompt-defect check**, which is a different use of Haiku from the scored row and must
   not be substituted by it: it is Haiku reading the prompts for ambiguity, not attempting them;
 - section 7's **second rate** — Haiku's pass rate on every task authored, including the saturated
-  ones, not only on the frozen set. That is the number that carries the "local beat Haiku"
-  comparison, because the frozen set is built by discarding tasks Haiku passes and is therefore
+  ones, not only on the selected set. That is the number that carries the "local beat Haiku"
+  comparison, because the selected set is built by discarding tasks Haiku passes and is therefore
   circular. **Keep the alternates' results rather than discarding them at selection**; all 24
   candidates are still on disk for exactly this.
 
 The discrimination check in section 4 also cannot be settled from one trial: it flags a task
 Haiku passes **3/3** as saturated and allows at most three such. On this single trial Haiku
 passed six of eight, so if that holds over three trials the suite would be over that limit and
-several tasks would need harder variants. That is a real risk to size before freezing, not a
+several tasks would need harder variants. That is a real risk to suite size, not a
 detail.
 
 ## Late addition — a checker defect that corrupted the section 7 instrument

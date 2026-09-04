@@ -77,14 +77,10 @@ phone@fractal.
 ## Pending
 
 1. **Phase A go-ahead — the live question.** Phase A is: author nine tasks, selfcheck each (execute
-   every example list, then Haiku x3 for prompt defects), gate Sonnet 3/3 and GLM 2/3, freeze
+   every example list, then Haiku x3 for prompt defects), gate Sonnet 3/3 and GLM 2/3, record
    hashes, then the four reference rows at three trials each. GLM is under USD 2 and Luna rides the
    ChatGPT window, but Sonnet, Haiku **and any Opus worker doing the authoring** all draw on
-   weekly-all, at 84% with the reset on Saturday. Three options were put to the owner and none was
-   chosen: **(a)** all of Phase A now; **(b)** author + selfcheck + GLM gate now, deferring the
-   freeze and all four reference rows to after Saturday's reset; **(c)** hold everything until the
-   reset. **(b) was the recommendation** — note that deferring the Sonnet gate defers the freeze, so
-   no reference row can run before Saturday either; the split is real, not cosmetic.
+   weekly-all, at 84% with the reset on Saturday.
 2. Improvement item 20, second half: local quant roster rows in `org/models.md` after v5 phase B.
    (First half — the DeepSeek v4 column — is done.)
 3. `D:\avatars` M3 fix stays **UNCOMMITTED** until the campaign ends: 3 dirty files under

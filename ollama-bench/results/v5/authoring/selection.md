@@ -1,10 +1,9 @@
 # v5 candidate selection — 2026-09-04
 
 Twenty-four candidates were authored, three per task, by eight parallel Luna runs against
-`CONTRACT.md`. This page records which one this session picked per task and why. **The freeze is
-not this session's to take**: nothing has been moved or deleted, all 24 candidates remain in
-place, and the session that freezes should treat these as recommendations with reasons attached,
-not as a decision already made.
+`CONTRACT.md`. This page records which one this session picked per task and why. Nothing has been
+moved or deleted: all 24 candidates remain in place, and these are recommendations with reasons
+attached, not a decision already made.
 
 ## The section 4a audit record, which is the point of this page
 
@@ -16,14 +15,14 @@ which property did they settle" is:
 That is not a discipline achievement, it is a hardware fact: FRACTAL's CUDA backend was broken
 for the whole session and no quant was reachable at any point
 (`findings-2026-09-04-gpu-cuda-broken.md`). Selection against a quant's results was therefore not
-merely avoided, it was **impossible**, and the freeze can be audited on that basis rather than
+merely avoided, it was **impossible**, and the selection can be audited on that basis rather than
 trusted.
 
 The flip side is the cost, and it must be carried forward: plan section 6 step 3 sizes each task
 against the local model — does a trial finish under 300 s, does the prompt read unambiguously to
 a small model, does the material fit the window. **None of those properties is settled for any
-task.** They are outstanding for every task below, and they are the reason this suite is not
-ready to freeze even setting the GPU aside.
+task.** They are outstanding for every task below, and they are the reason this suite is not ready
+to run even setting the GPU aside.
 
 Properties that WERE settled, mechanically and with no model involved
 (`verify_candidates.py`, run under the same Windows interpreter the harness uses):
@@ -62,7 +61,7 @@ partly-negative correct answer, and t02/cand-2 is positive on purpose so that bl
 cannot score.
 
 The residual risk, stated so it can be checked rather than discovered: **this balance is a
-judgement made by one session with no local evidence at all.** If the frozen suite later looks
+judgement made by one session with no local evidence at all.** If the selected suite later looks
 one-dimensional, the alternates are all still on disk with their notes.
 
 ## Banked, not decided: should t02 and t04 be run as rotating variants?

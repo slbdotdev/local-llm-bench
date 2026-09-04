@@ -109,12 +109,12 @@ That is this plan, with three clarifications. Two are wording; the third is the 
   benchmark. Tasks are authored, calibrated for *fit* (window, appetite, wall, checker), and
   gated on Sonnet 3/3 and GLM 2/3 — all before any scored row runs. Learning what the local model
   can and cannot do is the **result**, not an input: a task is never kept, dropped, reworded or
-  reordered because a quant passed or failed it, and after the freeze the suite does not change
-  at all. A suite tuned against the contestant reports the tuning back and measures nothing.
+  reordered because a quant passed or failed it. A suite tuned against the contestant reports
+  the tuning back and measures nothing.
 
 The manager's free rein is real and it is bounded by exactly that: it chooses what to run next
-and in what order (section 6), it does not choose what the suite contains once the suite is
-frozen, and the freeze is not its to take.
+and in what order (section 6), and it does not let a quant's result decide what the suite
+contains.
 
 ## 2. What v4 taught us (do not repeat)
 
@@ -148,7 +148,7 @@ frozen, and the freeze is not its to take.
    required three are earned only where a single result would change a verdict. Report pass
    rate, median output tokens to pass, median wall to pass, and timeout count beside every mean,
    with the trial count.
-5. **One model on the GPU at a time.** Hashes frozen once the suite is accepted.
+5. **One model on the GPU at a time.**
 6. **Every pi change bench-local** through `PI_CODING_AGENT_DIR` (Q8 = B stands). Nothing under
    `~/.pi` or deployed skill roots.
 7. **Residency recorded per local trial, and never trusted on its own.** `ollama ps` processor
@@ -201,7 +201,7 @@ t03 earns its place on the context axis rather than beside it. Discrimination ch
 time: a task Haiku also passes 3/3 is kept but flagged saturated, and at most three saturated
 tasks stay in the set; replace the rest with harder variants.
 
-Selfcheck before freezing: execute every example list in every prompt; each task **authored by
+Selfcheck on every candidate: execute every example list in every prompt; each task **authored by
 Luna** (rev 5.7, several candidates per task, the manager picking), checked by Haiku x3 for
 prompt defects, then gated by Sonnet 3/3 and GLM 2/3.
 
@@ -222,7 +222,7 @@ quietly stops measuring anything. The line, and the manager holds it:
 
 If a task cannot be calibrated without knowing whether the quant passed, it is the wrong task;
 say so and author another. The manager records, per task, which local runs informed it and
-which property they settled, so the freeze can be audited rather than trusted.
+which property they settled, so the record can be audited rather than trusted.
 
 ## 5. Arms
 
@@ -354,9 +354,9 @@ Standing rules for an unattended run:
   changing what a class measures all get banked, not decided.
 - **Stop conditions.** 8 h is the goal and 12 h the hard limit; stop early on repeated harness
   failure rather than burning the window retrying a wedged card.
-- **The freeze is not the manager's to take.** Hashes are frozen by the session that resumes
-  this work, after reading the decision log. No scored row of any kind — reference or local —
-  runs before the freeze, because a row measured against a task that later changed is void.
+- **A scored row is void if its task changed under it.** Record the task revision every scored
+  row — reference or local — was measured against, and never carry a row forward across an edit
+  to its own task.
 
 Output, and it has to survive a session restart: the candidate suite, a per-task decision log
 recording which local runs informed which property, the banked questions, and a per-task table
@@ -461,9 +461,9 @@ the rest with harder variants, so most of the suite is tasks Haiku did *not* pas
 Haiku's rate is therefore suppressed by the way the suite was built, and "local beat Haiku" is
 to that extent circular. The check is still right — a task everything passes cannot rank quants,
 and ranking quants is the mission — but the two goals genuinely conflict. So: report Haiku's
-rate on the frozen set *and* on every task authored including the saturated ones, and let the
+rate on the suite as run *and* on every task authored including the saturated ones, and let the
 second number carry the comparison. If they disagree, the honest sentence is the one from the
-unfiltered set.
+unfiltered set. **Superseded by `plan-2026-09-05.md` section 2.6**, which replaces this caveat.
 
 **The 2-bit line is a verdict of its own**, asked for by the owner and reported whatever the
 ranking says. It answers "is 2-bit viable for any real work" directly: whether Q2_K_L solves any

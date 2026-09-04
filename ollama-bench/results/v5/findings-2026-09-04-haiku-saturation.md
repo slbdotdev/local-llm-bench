@@ -1,12 +1,12 @@
-# Haiku discrimination check and prompt-defect read — the suite is NOT freeze-ready
+# Haiku discrimination check and prompt-defect read — the suite is too easy
 
 Plan section 4's discrimination check and its x3 prompt-defect check, run 2026-09-04. No GPU, no
 local quant, no scored row. **This is section 4 gate-time evidence, not section 5's Haiku
-competitive row** — that one comes after the freeze and must not be conflated with this.
+competitive row** — that one is a separate scored row and must not be conflated with this.
 
 ## Verdict, first
 
-**The suite must not be frozen as it stands.** Section 4 keeps a task Haiku passes 3/3 but flags
+**The suite is too easy as it stands.** Section 4 keeps a task Haiku passes 3/3 but flags
 it **saturated**, and allows **at most three** saturated tasks. **Seven of the eight are now
 confirmed saturated.**
 
@@ -87,9 +87,9 @@ the section 4 saturation flag is computed from.
 
 Section 4's rule exists because "a task everything passes cannot rank quants, and ranking quants
 is the mission". On its face this suite fails that test badly and needs harder variants before it
-is frozen.
+needs harder variants.
 
-**But the reading deserves one honest caveat, and the freezing session should weigh it rather
+**But the reading deserves one honest caveat, and the interpretation should weigh it rather
 than take this page's headline at face value.** The Haiku used here is a Claude Code subagent with
 full agentic tooling: it reads files, writes files, and runs `python3` to check its own work,
 iterating until satisfied. That is a substantially stronger configuration than a plain reference
@@ -101,7 +101,7 @@ benchmark actually cares about.
 Two readings follow, and they lead to different actions:
 
 1. **Take the rule literally.** Seven tasks are saturated, the limit is three, so most of
-   the suite needs replacing with harder variants before the freeze. Safe, faithful to the
+   the suite needs replacing with harder variants before scoring. Safe, faithful to the
    predeclared rule, and expensive — it means another authoring round.
 2. **Treat the rule's proxy as broken here** and note that the check was designed against a
    weaker Haiku configuration than the one available. Then the honest move is to re-run this check
@@ -110,11 +110,10 @@ Two readings follow, and they lead to different actions:
 
 **This session does not choose between them: it is a structural decision about what the suite
 measures, and section 6 says those get banked, not taken.** The evidence is here; the choice
-belongs with the session that freezes. What must not happen is freezing silently as though the
-check had passed.
+remains open. What must not happen is reporting the check as though it had passed.
 
 Section 7 already anticipates part of this, and its wording is now doubly important: Haiku's rate
-must be reported **on the frozen set and on every task authored including the saturated ones**,
+must be reported **on the selected set and on every task authored including the saturated ones**,
 with the second number carrying the comparison, precisely because a set built by discarding tasks
 Haiku passes is circular. All 24 candidates remain on disk so the unfiltered number is still
 computable — **do not discard the alternates.**
@@ -136,7 +135,7 @@ All three read g01-g04, t02 and t03 as CLEAR.
 
 **t01 was flagged by two of three readers, on two different grounds**, and both are real: the
 double-slash/single-slash mismatch is checkable against the prompt, and "standalone" genuinely is
-undefined. t01 should be tightened before the freeze — define "standalone occurrence" explicitly
+undefined. t01 should be tightened — define "standalone occurrence" explicitly
 and make the example use the same path shape as the material.
 
 **t04's flag is narrower but sound as a latent hazard.** It does not bite the current candidate,
