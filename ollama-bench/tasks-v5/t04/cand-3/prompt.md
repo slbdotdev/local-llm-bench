@@ -16,6 +16,12 @@ PATH: NONE
 LINES: NONE
 EXPLANATION: state plainly that no code implements the identity-specific timed limit and its reset after success
 
-Use paths relative to the sandbox root. For a positive answer, cite the smallest contiguous line
-span containing the implementation itself, not a caller, helper declaration, configuration value,
-documentation, or comment. Do not include additional lines, headings, or markdown fences.
+Use paths relative to the sandbox root. Do not include additional lines, headings, or markdown
+fences.
+
+For a positive answer, cite the implementation itself — not a caller, a helper declaration, a
+configuration value, documentation, or a comment. Cite it as a single contiguous line span in one
+file, using the span that contains the code doing the work. **If the implementation is split across
+parts of a file that are not contiguous, or across more than one file, cite the single contiguous
+span that contains the largest part of it**, and name the others in `EXPLANATION`. There is always
+exactly one span to give, so "it is split" is never a reason to give more than one.

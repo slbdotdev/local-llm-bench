@@ -1055,3 +1055,52 @@ the window. Not taken.
 **Also banked:** `/api/generate` silently truncates a prompt to exactly half `num_ctx` (observed
 12,290 on a 24k cell and 32,770 on a 64k cell). pi's own path does not. Anyone calibrating through
 that endpoint will get half the fill they asked for and no warning.
+
+## 2026-09-04 — discrimination at real fill, six tasks sized, t04 fixed and re-gated
+
+### Saturation holds at genuine context fill (seven of eight, unchanged)
+
+The discrimination check was re-run with prompt-side fill, paired with a Sonnet row at identical
+fill now that the Sonnet restriction is lifted. Median achieved context rose from 18,603 (unpadded)
+to **49,210 for Haiku** and **62,656 for Sonnet**. Both passed **8/8**. The "only saturated because
+the context was empty" objection is closed; the count stays seven of eight and the structural
+choice stays the owner's.
+
+**Bounded claim, recorded deliberately.** Sonnet runs spontaneously described the filler as
+"decoy"/"boilerplate"/"unrelated filler". It is realistic in form but generic in content, so these
+rows prove the tasks survive *recognisably* irrelevant context, not plausible-but-wrong material
+that must be disambiguated. Filler drawn from the same project as the answer would be a sharper
+instrument. Not changed mid-measurement; flagged for the owner.
+
+### Section 6 step 3 local calibration — the six unsized tasks are now sized
+
+`q27-Q3_K_S-24k`, prompt-side fill 20k, one trial each. Calibration only; no pass/fail citable, 4a.
+
+| task | achieved fill | % of 24k | wall | output tokens |
+| --- | --- | --- | --- | --- |
+| g02 | 23,459 | 97.7% | 32.0 s | 557 |
+| g03 | 22,508 | 93.8% | 51.3 s | 1,708 |
+| g04 | 22,228 | 92.6% | 43.2 s | 1,361 |
+| t01 | 22,390 | 93.3% | 40.5 s | 1,236 |
+| t02 | 22,083 | 92.0% | 39.2 s | 1,191 |
+| t03 | 21,462 | 89.4% | 24.7 s | 127 |
+
+All 100% GPU-resident, peaks 14,209-14,515 MiB. **Both never-checked questions are answered:
+appetite is fine — 127-1,708 output tokens against a 5,000 ceiling — and the wall is fine, 24.7-51.3 s
+against a 300 s limit.** With g01 and t04 from the earlier round, all eight tasks are now sized
+against a local quant. Section 6 step 3 is complete for the 24k cell.
+
+### t04's latent prompt defect is fixed and t04 is re-gated
+
+"Cite the smallest contiguous line span containing the implementation" had no correct answer when an
+implementation is split across non-contiguous regions or files. The prompt now says to cite the
+single contiguous span holding the largest part and to name the rest in `EXPLANATION`, so there is
+always exactly one span to give. Propagated to all three copies (md5 `4d9cca5a`).
+
+**A changed prompt is a changed task, so t04's earlier gate rows are invalidated**, exactly as with
+t01. Re-gated alone: **Sonnet 3/3, GLM 3/3** — rule 1 satisfied.
+
+Note for the record: the Haiku and Sonnet fill rows above used the **pre-fix** t04 prompt, since
+their prompts were composed before the edit. That is internally consistent (both rows used identical
+prompts) and does not affect the saturation count, but the fill rows and the t04 gate rows are not
+from the same prompt revision.

@@ -1,0 +1,301 @@
+{
+ "q27-Q3_K_S-24k": {
+  "tps": {
+   "gen_tps": 52.6,
+   "prompt_tps": 263.6,
+   "load_s": 6.3,
+   "size_gb": 13.48,
+   "vram_gb": 13.48,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 304.5,
+     "gen_tps": 53.2
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1771.6,
+     "gen_tps": 52.3
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1770.9,
+     "gen_tps": 51.2
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1761.5,
+     "gen_tps": 49.9
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1723.7,
+     "gen_tps": 48.6
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1679.3,
+     "gen_tps": 47.0
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 23459,
+    "task": "g02",
+    "pass": true,
+    "wall_s": 32.0,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "edit": 1
+    },
+    "in_tokens": 113100,
+    "out_tokens": 557,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92150,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 4,
+    "pad_chars_written": 4800,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14515,
+    "final_text": "eturn range(_frozen_at(lines))\n```\n\n`migrate` was iterating over every line, so keys in the immutable suffix after `# FROZEN BELOW` were renamed. Changing it to stop at the frozen marker (via the existing `_frozen_at`) is the smallest correct fix; the rest of the module (exact-key matching via the `_PAIR` regex, comment/blank handling) already behaved correctly per the spec.\n\nAll 8 tests now pass.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22508,
+    "task": "g03",
+    "pass": true,
+    "wall_s": 51.3,
+    "turns": 6,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 3,
+     "read": 4,
+     "edit": 3
+    },
+    "in_tokens": 132160,
+    "out_tokens": 1708,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/12\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92323,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 9,
+    "pad_chars_written": 10922,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14209,
+    "final_text": "s `builder(label, tone=tone)` by keyword.\n- **badge_registry.py**: `getattr(badge_core, \"make_badge\", _fallback)` updated.\n- **badge_flow.py**: no `make_tag` references \u2014 unchanged.\n- **test_badges.py**: call updated to `badge_core.make_badge(\"A\", tone=\"red\")`.\n\nVerified: no `make_tag` remains in the tree, and `python test_badges.py` passes (including the doctest). No unrelated files were touched.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22228,
+    "task": "g04",
+    "pass": true,
+    "wall_s": 43.2,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 109242,
+    "out_tokens": 1361,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92600,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 9,
+    "pad_chars_written": 10873,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14209,
+    "final_text": "t:` \u2192 `except (TypeError, InvalidOperation):` (covers the original fallback behavior: non-numeric discount still falls back to subtotal)\n- Added `InvalidOperation` to the existing `decimal` import (standard library, not a new dependency)\n\nVerified: `python3 check_style.py invoice.py` prints `CLEAN`, and `subtotal`, `total_due` (with and without discount), and `format_receipt` all behave as before.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22390,
+    "task": "t01",
+    "pass": true,
+    "wall_s": 40.5,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 4
+    },
+    "in_tokens": 87450,
+    "out_tokens": 1236,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93315,
+    "fill_chars_added": 90418,
+    "fill_sections": 10,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 10,
+    "pad_chars_written": 12197,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14209,
+    "final_text": "ocation record of the former location |\n| LEAVE | `history/postmortem-2026-07.md` | 3 | Archived postmortem quoting the responder's command |\n| UPDATE | `quickstart.md` | 3 | Live link to the \"current [on-call guide]\" |\n\nEach line uses literal tabs with `OLD_PATH` (`//infra/handbook/oncall.md`) and `REPLACEMENT` (`//infra/runbooks/oncall.md` or `-`) reproduced verbatim. No documents were modified.",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22083,
+    "task": "t02",
+    "pass": false,
+    "wall_s": 39.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 86688,
+    "out_tokens": 1191,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 2/3\nFAIL ['evidence']\nVERDICT confidently_wrong",
+    "score": 0.6667,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92266,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 9,
+    "pad_chars_written": 10912,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14211,
+    "final_text": "Answer written to `answer.txt`:\n\n```\nANSWER: yes\nEVIDENCE: 26: if value < 1 or value > 65535:\n```\n\nThe implementation fully matches the docstring: it rejects non-string/empty input and non-digit characters with ValueError, and line 26 enforces the inclusive range 1\u201365535 (both endpoints valid, since 1 and 65535 fail the strict `<`/`>` checks).",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 21462,
+    "task": "t03",
+    "pass": false,
+    "wall_s": 24.7,
+    "turns": 5,
+    "tool_calls": 2,
+    "tools": {
+     "bash": 1,
+     "read": 1
+    },
+    "in_tokens": 42750,
+    "out_tokens": 127,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "500: {\"message\":\"{\\\"error\\\":{\\\"code\\\":500,\\\"message\\\":\\\"\\\\n------------\\\\nWhile executing CallExpression at line 100, column 24 in source:\\\\n...lti_step_tool %}\u21b5    {{- raise_exception('No user query ",
+     "500: {\"message\":\"{\\\"error\\\":{\\\"code\\\":500,\\\"message\\\":\\\"\\\\n------------\\\\nWhile executing CallExpression at line 100, column 24 in source:\\\\n...lti_step_tool %}\u21b5    {{- raise_exception('No user query ",
+     "500: {\"message\":\"{\\\"error\\\":{\\\"code\\\":500,\\\"message\\\":\\\"\\\\n------------\\\\nWhile executing CallExpression at line 100, column 24 in source:\\\\n...lti_step_tool %}\u21b5    {{- raise_exception('No user query "
+    ],
+    "grader": "SCORE 0/8\nFAIL ['approved_cadence', 'budget_cap_usd', 'retention_days', 'alert_threshold', 'decision_owner', 'deadline', 'room', 'escalation_code']\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 20000,
+    "prompt_delivery": "file",
+    "prompt_chars": 93313,
+    "fill_chars_added": 92451,
+    "fill_sections": 11,
+    "pad_tokens_requested": 2000,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.18,
+    "ps_vram_gb": 13.18,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14211,
+    "final_text": "",
+    "stderr": "Warning: Model \"q27-Q3_K_S-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "error",
+    "stop_reasons": {
+     "toolUse": 2,
+     "error": 3
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 0
+   }
+  ]
+ }
+}

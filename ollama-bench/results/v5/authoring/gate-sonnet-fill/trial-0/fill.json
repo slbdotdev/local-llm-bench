@@ -1,0 +1,58 @@
+{
+ "g01": {
+  "prompt_file": "g01-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 889,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "g02": {
+  "prompt_file": "g02-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 1164,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "g03": {
+  "prompt_file": "g03-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 991,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "g04": {
+  "prompt_file": "g04-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 714,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "t01": {
+  "prompt_file": "t01-prompt.md",
+  "prompt_chars": 93315,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 2898,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "t02": {
+  "prompt_file": "t02-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 1048,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "t03": {
+  "prompt_file": "t03-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 863,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ },
+ "t04": {
+  "prompt_file": "t04-prompt.md",
+  "prompt_chars": 93313,
+  "fill_tokens_requested": 20000,
+  "instruction_chars": 998,
+  "note": "achieved fill is measured from the model reported prompt tokens, not from these chars"
+ }
+}

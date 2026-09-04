@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements the identity-specific timed login limit or its reset after success; login always calls verify() unconditionally, note_failure only increments an unkeyed counter with no timestamp, and the cooldown/attempt config values are never read anywhere.

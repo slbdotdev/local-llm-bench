@@ -1,0 +1,133 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 2238,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 5.4,
+    "turns": 5,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 1,
+     "read": 5,
+     "write": 1
+    },
+    "in_tokens": 9588,
+    "out_tokens": 398,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1389,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "py` only count failures in a global `login_failures` metric \u2014 no per-identity check, no lockout, no timer.\n- `config.LOGIN_COOLDOWN_SECONDS = 60` is never referenced except by `monitor.report_cooldown`, which merely logs it.\n- `auth.reset_after_success` pops a key `(\"login_failures\", account)` that is never written, so even the reset path is dead code.\n\nAnswer written as the required `NONE` shape.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 2146,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 5.3,
+    "turns": 6,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 1,
+     "read": 5,
+     "write": 1
+    },
+    "in_tokens": 11560,
+    "out_tokens": 306,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1389,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "logging hooks \u2014 but nothing ever blocks or delays attempts for 60 seconds per identity, nor clears such a limit on success (`login.py` returns `{\"ok\": True}` immediately, and `reset_after_success` merely pops a counter key). So the behavior is not implemented.\n\n`answer.txt`:\n```\nPATH: NONE\nLINES: NONE\nEXPLANATION: no code implements the identity-specific timed limit and its reset after success\n```",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "achieved_fill_prompt_tokens": 2132,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 4.4,
+    "turns": 5,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 1,
+     "read": 5,
+     "write": 1
+    },
+    "in_tokens": 9543,
+    "out_tokens": 307,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 4/4\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1389,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "lures; no attempt limiting.\n- **middleware.py** \u2014 counts seen requests only.\n- **monitor.py** \u2014 logs a configured cooldown value and clears metrics.\n- **config.py** \u2014 defines `LOGIN_COOLDOWN_SECONDS = 60` but nothing in the tree uses it to enforce a limit.\n\nNo code enforces a 60-second per-identity lockout after a failed login, nor resets it on success, so `answer.txt` records the negative result.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements an identity-specific timed limit on further attempts after a failed authentication or its reset after success; auth.py's note_failure only increments a non-identity-keyed counter, its reset_after_success is never called by login.py, and the config constants and comments about a 60-second cooldown are unused decoys.

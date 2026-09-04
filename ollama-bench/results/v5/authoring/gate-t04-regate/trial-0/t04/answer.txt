@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements an identity-specific timed login limit or its reset after success; note_failure/reset_after_success only touch a metrics counter with no timestamp or blocking check, login() never calls reset_after_success, and LOGIN_COOLDOWN_SECONDS is only logged in monitor.py, never enforced.

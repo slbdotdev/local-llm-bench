@@ -195,3 +195,46 @@ for the two readings; it removes one objection to the literal reading without se
 
 This does not change the count: **seven of eight tasks saturated against a limit of three**, on
 every condition tried — unpadded agentic, unpadded one-shot, and both padded rows.
+
+## Sixth and seventh conditions: Haiku AND Sonnet at genuine prompt fill
+
+Every earlier condition ran at 2k-22k of achieved context, and the disk-padding mechanism that
+produced those numbers has since been replaced by prompt-side fill. So the discrimination check was
+re-run at real fill, and — the Sonnet budget restriction having been lifted for the night — paired
+with a Sonnet row at identical fill. Same eight tasks, same composed prompts (instruction verbatim
+and first, further context after), one trial each.
+
+| condition | achieved context (median) | range | result |
+| --- | --- | --- | --- |
+| Haiku, unpadded | 18,603 | 17,747-23,604 | 8/8 |
+| Haiku, old disk padding | 22,669 | 20,847-37,555 | 8/8 |
+| **Haiku, prompt-side fill** | **49,210** | **41,721-53,978** | **8/8** |
+| **Sonnet, prompt-side fill** | **62,656** | **50,638-67,158** | **8/8** |
+
+**The fill is real this time** — median achieved context rose from 18.6k to 49.2k on the same arm,
+and every task is now being answered under roughly 2.6x the context load of the original check.
+
+**Haiku still passes 8/8. The saturation count is unchanged at seven of eight.** The suite is
+saturated against Haiku at unpadded, one-shot, disk-padded and genuinely-filled conditions alike.
+The "it was only saturated because the context was empty" objection is now closed the same way the
+"broken proxy" objection was.
+
+**Sonnet also passes 8/8 at ~62.7k median context**, which is the useful control: it says the fill
+is not quietly breaking the tasks for everyone, so Haiku's 8/8 is about task difficulty rather than
+about the harness. It does *not* say the fill is costless — see the limitation below.
+
+### A limitation of the filler, recorded because it bounds what these rows prove
+
+Several Sonnet runs identified the added material as filler unprompted — "unrelated filler",
+"distractor/decoy material from a different fabricated codebase", "boilerplate record-filtering
+decoys". The material is realistic in *form* (plausible module and document names, ordinary-looking
+code and notes) but generic in *content*, so a strong model recognises it as not-this-project and
+sets it aside cheaply.
+
+That does not undermine the fill mechanism, whose job is occupancy, and occupancy is measured and
+achieved. But it bounds the claim: **these rows show the tasks survive a large volume of
+recognisably irrelevant context, not that they survive plausible-but-wrong material that has to be
+disambiguated.** The harder axis — filler drawn from the same project as the answer, so that
+judging relevance is itself the work — is not tested here and would be a different and probably
+sharper instrument. Noted for the owner; not changed, because changing it now would alter what the
+saturation rows mean mid-measurement.

@@ -479,7 +479,10 @@ what it was tested on.
 Cloud: about 30 GLM gate trials in authoring, expected under USD 2 at v4 rates, plus whatever the
 manager spends using GLM sparingly as a second reader — the only real-dollar line in the plan, so
 it is the one to watch overnight. Sonnet and Haiku are subscription and draw weekly-all; Haiku is
-cheap enough there to run before a reset, Sonnet is the one to schedule around. Luna is off
+cheap enough there to run before a reset. Sonnet was "the one to schedule around", and **that
+restriction is lifted as of 2026-09-04 by the owner: the weekly reset lands in the morning, so
+Sonnet may be spent freely for the rest of this session.** Restore the constraint after the reset
+unless told otherwise; the reason it existed has not changed, only tonight's headroom. Luna is off
 weekly-all entirely, rides the ChatGPT window and has banked resets, which is why rev 5.7 puts
 the parallel breadth there. The Opus manager also draws weekly-all and, running 8 to 12 h with
 the intelligence deliberately in it, is the largest subscription line in the authoring work.

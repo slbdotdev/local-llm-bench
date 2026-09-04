@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements the identity-specific timed limit and its reset after success; failures are just counted and never checked against elapsed time to block further attempts, and reset_after_success is never called and even keys on a tuple that note_failure never sets.
