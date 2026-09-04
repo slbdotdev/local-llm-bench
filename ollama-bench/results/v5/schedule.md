@@ -1,25 +1,40 @@
 # v5 GPU schedule
 
-The next three GPU runs, each with a one-line reason, rewritten after every result
-(plan rev 5.4 section 6). Rule for choosing the next run: prefer the run whose result could flip
-a verdict line in section 7; never spend a trial confirming what two trials already showed.
+The next GPU runs, each with a one-line reason, rewritten after every result (plan rev 5.8
+section 6). Rule for choosing the next run: prefer the run whose result could flip a verdict line
+in section 7.
 
-**Status: nothing queued is runnable yet.** Phase A (authoring, selfcheck, the Sonnet 3/3 and
-GLM 2/3 gate, then the Haiku and Luna rows) is cloud and subscription only and must land first —
-it is what freezes the suite hashes and sizes the local timeouts. The GPU is idle and no model is
+**Status: nothing queued is runnable yet.** The authoring work (authoring, selfcheck, the Sonnet
+3/3 and GLM 2/3 gate, then the Haiku row) is cloud and subscription only and must land first — it
+is what freezes the suite hashes and sizes the local timeouts. The GPU is idle and no model is
 loaded.
+
+**Rev 5.8 replaced the queue entirely.** The first probe, the differentiation paths, the context
+sweep and the concurrency probe are gone; so is the Unity class, on the capacity measurement in
+plan section 9. What remains is one grid.
 
 ## Queue
 
 | # | run | config | why this one |
 | --- | --- | --- | --- |
-| 1 | **B0 critical probe** | `q27-IQ3_M`, `num_ctx 32768`, `num_gpu 66`, thinking medium, q4_0 KV, all 9 tasks, 1 trial | The one run that can end the programme. It says whether the suite is in reach at all and which tasks discriminate; every later phase is shaped by its pass pattern. 32k not 64k: 13.39 GB keeps ~2 GB of VRAM margin where 64k is 14.11 GB and fair-weather. |
-| 2 | **B0-control, KV precision** | same quant, same 32k, `OLLAMA_KV_CACHE_TYPE=q8_0`, g05 + the two highest-partial-score headline tasks that failed under q4_0 | Without it a weak B0 cannot separate "this quant is too small" from "this cache is too lossy" — the whole gpu-tune study was measured at q4_0 and no quality was ever measured there. ~15 min. **Revert the env var to q4_0 and restart Ollama afterwards**; the baked `*-64k` models depend on it. |
-| 3 | **B1, Q3_K_M full headline set** | `q27-Q3_K_M`, 32k, `num_gpu 66`, q4_0, all 7 headline tasks, 1 trial | The a-priori quality challenger the owner is not ready to discard. Runs the full set, not a sentinel subset, so IQ3_M's B0 pass pattern cannot quietly define what the suite measures. |
+| 1 | **Bend-finding pass** | all four quants x their reachable contexts (24k/32k/48k/64k), `num_gpu 66`, `q4_0` KV, thinking medium, all 8 tasks, **1 trial** | Fifteen cells, 120 trials. Finds where quality against context bends before any trial is spent confirming a flat part. This is the run to protect if the night runs short. |
+| 2 | **Three-trial passes at the bend** | the cells at and either side of the bend, same config, 3 trials | Turns the bend into a verdict input under section 3 rule 4. Which cells these are is not knowable until run 1 lands, which is why they are not enumerated here. |
+| 3 | **Confirming the winner** | best quant on the evidence, at the context it held, 3 trials on every task with fewer than three | The ranking row. |
 
-Queued behind those, in order, and deliberately not promised a slot yet: **B1 Q2_K_L full
-headline set** (the 2-bit verdict line the owner asked for), **B1 Q3_K_S sentinel set**, then
-earned re-trials wherever a quant disagreed with IQ3_M.
+Capacity map for run 1, from `results/gpu-tune/summary.md` at `q4_0`: Q2_K_L reaches all four
+steps comfortably (13.07 GB at 96k); Q3_K_S reaches 64k at 13.70 GB; IQ3_M reaches 64k at 14.11
+GB and is **fair-weather**, so flag every IQ3_M 64k trial; Q3_K_M stops at 48k (14.16 GB, also
+fair-weather); Q3_K_L is excluded by the 32k floor.
+
+**The whole grid pins `q4_0` and the desktop is on `q8_0`.** Set it, and **revert to `q8_0` and
+restart Ollama afterwards**. Results are conditional on `q4_0`, which is stated in the report:
+q8_0 is predicted not to fit at 64k at all, so this grid does not answer the cache question for
+the machine's live setting. The direct per-server comparison in `kv-probe-plan-2026-09-03.md`
+still stands separately.
+
+**Fill the context or the cell is meaningless.** `num_ctx` allocates KV up front; a short prompt
+in a 64k cell measures 64k of nothing. Each task is padded to the cell size with realistic
+irrelevant material, with the needed material present and required.
 
 ## Standing run rules
 
@@ -42,5 +57,5 @@ earned re-trials wherever a quant disagreed with IQ3_M.
 - 2026-09-03 — control session restarted from handoff. State re-verified against it and matching:
   ansible-slb `d9cd381` clean in both clones, GPU idle (1.66 GB, no model loaded), usage 5h 28% /
   weekly-all 84% / Fable-scoped 94%, `D:\avatars` still 3 dirty files under `tools/bench/`.
-  Queue unchanged and still not runnable. One new blocker recorded against Phase A only:
+  Queue unchanged and still not runnable. One new blocker recorded against the authoring work only:
   `findings-2026-09-03-unity-harness.md`, the Unity harness for u01 to u03.

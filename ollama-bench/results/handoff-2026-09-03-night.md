@@ -34,8 +34,9 @@ phone@fractal.
     `claude|codex|pi|other`.
   - `org/agents.md`: the heredoc note under **Claude Code** (see standing constraints).
   - CLAUDE.md and AGENTS.md re-synced, byte-identical apart from the title line.
-- **v5 planning lives in `~/ollama-bench`, which is NOT a git repo** — nothing there is committed
-  anywhere, on this or any host.
+- **v5 planning lives in `ollama-bench/results/v5/` in this repo.** Corrected 2026-09-04: the
+  un-versioned `~/ollama-bench` scratch this line described was folded into `local-llm-bench`
+  and no longer exists on any host.
   - `results/v5/plan-rev5-focused.md` is **rev 5.4** and is the plan to execute.
     `plan-2026-09-03.md` (rev 4) stays on disk as the harness reference only.
   - `results/v5/schedule.md` created: the three queued GPU runs with reasons, the standing run

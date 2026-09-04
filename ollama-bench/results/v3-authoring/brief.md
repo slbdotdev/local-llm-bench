@@ -57,7 +57,7 @@ Avoid: heavy algorithms that are just LeetCode recall, anything needing >150 lin
 anything timing/concurrency-flaky.
 
 ## Before you report
-Run:  cd ~/ollama-bench && PYTHONUTF8=1 python selftest2.py tasks-v3 <your task dirs>
+Run:  cd <local-llm-bench>/ollama-bench && PYTHONUTF8=1 python selftest2.py tasks-v3 <your task dirs>
 It must show `ref PASS` for each of your tasks (and `seed FAIL (good)` for seeded ones).
 Also sanity-check your grader's partial credit: an intentionally half-broken solution
 should print an intermediate SCORE.

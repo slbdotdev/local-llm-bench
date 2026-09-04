@@ -1,4 +1,4 @@
-# v5 benchmark plan, revision 5.5 (focused, adaptive)
+# v5 benchmark plan, revision 5.8 (focused, adaptive)
 
 Written 2026-09-03 by the control session after the owner stopped the local quant smoke.
 Revised ~17:15 on owner notes: no fp8 through OpenRouter (too expensive), and a much tighter GPU
@@ -8,26 +8,61 @@ rule, sentinel set against selection bias, GLM at throughput, g05 sized to the s
 residency recorded per trial. Supersedes the scope of `plan-2026-09-03.md` (rev 4). Rev 4 stays on disk as the reference for
 harness details, the three-editor loop, fixture rules and risks; this file is the plan to execute.
 Rev 5.3 (2026-09-03, owner ruling): **u04 is cut** — three Unity tasks, nine in the suite — with the
-verdict arity in section 7 and the B0 trial count in section 8 following from it. The B0 probe quant
-is still open, and section 5 now carries the gpu-tune finding that rev 5.2 predates.
-Rev 5.4 (2026-09-03, owner rulings): the B0 probe is **IQ3_M at 32k**, followed by a **q8_0 KV
-control**; IQ3_M is where the search starts and explicitly not the org's quality answer, so B1
-gives Q3_K_M and Q2_K_L the full headline set instead of a sentinel subset; and **"is 2-bit
-viable for any real work" becomes a verdict line of its own**. Sections 5 to 9 rewritten
+verdict arity in section 7 and the first probe's trial count in section 8 following from it.
+The first probe's quant is still open, and section 5 now carries the gpu-tune finding that rev 5.2 predates.
+Rev 5.4 (2026-09-03, owner rulings): the first probe is **IQ3_M at 32k**, followed by a **q8_0 KV
+control**; IQ3_M is where the search starts and explicitly not the org's quality answer, so
+differentiation gives Q3_K_M and Q2_K_L the full core set instead of a sentinel subset; and
+**"is 2-bit viable for any real work" becomes a verdict line of its own**. Sections 5 to 9 rewritten
 against `results/gpu-tune/summary.md`. Q3_K_L dropped.
 Rev 5.5 (2026-09-03, measured — not an owner ruling): today's direct 16k/24k KV probe
 saturated its recall score and killed the asymmetric path on measured throughput, so q8_0
 versus q4_0 stays open for the 64k variants; the rerun is specified in
 `kv-probe-plan-2026-09-03.md`, which predicts on measured VRAM deltas that q8_0 does not fit
 at 64k and that capacity, not quality, may settle it.
+Rev 5.6 (2026-09-03, owner rulings): Unity uses the VRCA-Bench live-editor MCP loop; every
+differentiation path supplies three trials; and Q3_K_L's 24k figure is its reliable limit, not a hard cap.
+Rev 5.7 (2026-09-04, owner rulings): **authoring becomes a managed overnight authoring session.**
+Luna authors; an Opus manager subagent runs the loop and holds the judgment; Sonnet and GLM
+gate only and neither is a scored row; authoring now uses the GPU, for calibration and never for
+selection (section 4a). Codex gains the Unity and Blender MCP servers through ansible. Written
+against the worker runtime in `ansible-slb/org/worker-runtime-plan-2026-09-03.md`, which the
+manager uses and which must be converged and acceptance-tested first. (The MCP change to Codex
+stands as a fleet change on the owner's ruling; rev 5.8 removed its v5 rationale by cutting the
+Unity class, so it is no longer a precondition for this plan.)
+Also rev 5.7, on the owner's ruling: **phase names are gone** — this is one plan with an order,
+not six numbered stages — the seven weighted tasks are the **core set** rather than the
+"headline", and the language that pre-committed the report to a conclusion has been removed.
+**No third reference row**; Fable is ruled out, so Sonnet as ceiling and Haiku as the one
+comparison is the accepted shape, and section 7 says plainly what that costs.
+Rev 5.8 (2026-09-04, owner rulings, after a measurement): **the Unity class is cut and MCP is
+out of scope for local models entirely.** Measured on the desktop: pi's Unity MCP surface is
+28,492 tokens of tool schemas across 47 tools, 31,592 with the builtins and system prompt, on a
+card where an open editor already takes ~4 GB and leaves 11.9 GB free. No quant can hold that
+floor plus a task. Agentic Unity work is therefore **out of reach for a 27B on this hardware by
+capacity, not by quality**, and that is a result, recorded in section 9 rather than left as an
+open question. What replaces it: the suite becomes short-context work the owner would actually
+delegate, with **no MCP on any arm**; the axis of interest becomes **quality against context
+from 24k to 64k**; the **confidently-wrong rate is a first-class verdict line**; and the
+concurrency probe is dropped. Target context is **32k minimum** — enough to read several things
+and think — which excludes Q3_K_L on its 24k reliable limit.
 Status: plan only. Nothing here has been run.
 
 ## 1. Mission
 
-Find out whether any real portion of the owner's work, Unity and general programming first, can be
-offloaded to a local 27B model on the RTX 5080 (16 GB), and if so at which quant, at which context
-window, and at what tokens and wall per solved task. The exploration is for the owner's curiosity,
-so the deliverable is a clear ranking and a verdict, not a research programme.
+Find out whether any real portion of the owner's work can be offloaded to a local 27B model on
+the RTX 5080 (16 GB), and if so at which quant, at which context window, and at what tokens and
+wall per solved task. The exploration is for the owner's curiosity, so the deliverable is a
+clear ranking and a verdict, not a research programme.
+
+**Rev 5.8 narrows this to the question that is still open.** Unity is answered and the answer is
+no, on capacity (section 9). What remains is short-context work the owner would otherwise hand
+to a paid worker: reading a few files and answering something specific, mechanical
+transformations, verification. The realistic role being tested is **the worker that still exists
+when the ChatGPT window is exhausted and weekly-all is spent** — its value is not cost, since
+Luna is off weekly-all and GLM is cents, but that it has no window to run out of and nothing
+leaves the machine. The measurement runs on an **idle GPU**: the owner's Unity work and a
+resident quant cannot share this card, and the owner's other work mostly is not Unity.
 
 ## 2. What v4 taught us (do not repeat)
 
@@ -47,14 +82,20 @@ so the deliverable is a clear ranking and a verdict, not a research programme.
 1. **Sonnet passes it or it is out.** Every task must pass 3/3 on Sonnet (free on subscription)
    and at least 2/3 on GLM 5.3 Flash (cents) before it enters the suite. No fp8 27B reference:
    OpenRouter pricing for it is out of proportion to the question. Tasks the reference models
-   fail measure nothing about a quant.
+   fail measure nothing about a quant. **A model that gates does not score.** A gate drops or
+   rewrites the tasks it fails, so a gate model's own pass rate is a floor it was handed by
+   construction, not a measurement. Sonnet is the exception and only as a declared ceiling, where
+   ~100% is the point; its number is never a competitive comparison. GLM gates and is not a row.
 2. **Small appetite.** Reference solution under 5k output tokens on Sonnet. Target wall on local
    under 300 s per trial. Timeout 900 s, and a timeout is a fail, recorded as such.
 3. **Binary pass plus partial credit** from a hidden checker, exactly as v4. Contestant-authored
    tests never count.
-4. **Trials are earned, not scheduled.** One trial first; three only where a single result would
-   change a verdict. Report pass rate, median output tokens to pass, median wall to pass, and
-   timeout count beside every mean, with the trial count.
+4. **Verdict inputs get three trials.** Every task on every differentiation path is run for
+   three trials because differentiation feeds section 7; one trial is permitted only for an
+   exploratory probe that is not used as a section 7 verdict. Additional trials beyond a
+   required three are earned only where a single result would change a verdict. Report pass
+   rate, median output tokens to pass, median wall to pass, and timeout count beside every mean,
+   with the trial count.
 5. **One model on the GPU at a time.** Hashes frozen once the suite is accepted.
 6. **Every pi change bench-local** through `PI_CODING_AGENT_DIR` (Q8 = B stands). Nothing under
    `~/.pi` or deployed skill roots.
@@ -70,51 +111,88 @@ so the deliverable is a clear ranking and a verdict, not a research programme.
    reported residency alone.
 8. **Endpoint failures are not model failures.** Cloud rows record the serving provider and
    separate stalls and 5xx from wrong answers, as the GLM audit required.
+9. **The author does not compete.** Luna authors the suite (rev 5.7) and therefore takes no
+   scored row: a task is phrased in idioms its author finds natural, and a score on it stops
+   measuring capability. No GPT-family row is taken for the same reason while Luna is the author.
 
-## 4. The suite: nine tasks
+## 4. The suite: eight tasks, no MCP
 
-Unity tasks run against the bench-C project (`D:\VRCA-Bench\projects\bench-C`).
-**The mechanism is open — see `findings-2026-09-03-unity-harness.md` and section 9.** This line
-previously cited "the batchmode compile loop from rev 4 section 8": rev 4 has no Unity content
-at all, and no batchmode compile loop exists in the bench tooling. What exists is the
-VRCA-Bench runner's live three-editor MCP loop, which `decisions.md:11` had already ruled is
-how Unity gates. The checker column below is written against the batchmode claim and is
-provisional until that is settled.
-General tasks are plain Python or C# with a hidden checker.
+Every task is plain Python or C# against a hidden checker, run through the harness with **no MCP
+server on any arm** (rev 5.8). The Unity class is gone with it; the capacity finding that removed
+it is in section 9. The floor is therefore pi's system prompt plus AGENTS.md, about 2k tokens,
+which is what makes a 24k-to-64k context sweep meaningful at all.
+
+Two classes, four tasks each. **Transformation** is mechanical work with a right answer.
+**Comprehension** is reading and judging, which is the half that actually models delegation —
+and it is where the traps live.
 
 | id | class | task | checker |
 | --- | --- | --- | --- |
-| u01 | Unity edit | Fix a null-reference in a MonoBehaviour given the stack trace; must compile | batchmode compile + play-mode test |
-| u02 | Unity API | Implement a component using three named Unity APIs; no invented members | compile + reflection check of members used |
-| u03 | Unity refactor | Move a serialized field into a ScriptableObject across three files | compile + asset reference check |
-| g01 | single function | Implement a spec'd function from docstring and examples | hidden unit tests |
-| g02 | bug fix | Fix a failing test in a 300-line module without breaking others | full test run |
-| g03 | refactor | Mechanical rename and signature change across three modules | tests + grep for stragglers |
-| g04 | lint loop | Drive a linter to zero on a provided file using the tool | linter exit code, diff size bound |
-| g05 | doc ingest | Answer eight graded facts from a 12k-token document | rubric with accepted variants |
-| g06 | tool protocol | Twenty sequential tool calls with strict argument formats | count of well-formed calls |
+| g01 | transformation | Implement a spec'd function from docstring and examples | hidden unit tests |
+| g02 | transformation | Fix a failing test in a 300-line module without breaking others | full test run |
+| g03 | transformation | Mechanical rename and signature change across three modules | tests + grep for stragglers |
+| g04 | transformation | Drive a linter to zero on a provided file using the tool | linter exit code, diff size bound |
+| t01 | comprehension | Sweep a doc set for references to a moved path and classify each as a live pointer to fix or correct history to leave | per-reference confusion matrix; **trap** |
+| t02 | comprehension | Say whether a function does what its docstring claims | binary plus the cited line; **trap in half the variants** |
+| t03 | comprehension | Extract eight graded facts from a 12k-token document into JSON | rubric with accepted variants |
+| t04 | comprehension | Locate where a behaviour is implemented across a tree and explain it | cited path and span; **trap variant where it is absent** |
 
-Weighting: u01 to u03 and g01 to g04 are the headline (seven tasks: three Unity, four general). g05 and g06 are diagnostic rows reported
-separately, because they measure context use and harness reliability, not coding. g06 is graded
-as the count of well-formed calls, never all-or-nothing. Discrimination check at gate time: a
-headline task Haiku also passes 3/3 is kept but flagged saturated, and at most three saturated
-tasks stay in the headline; replace the rest with harder variants.
+**Traps are load-bearing, not decoration.** A confidently-wrong rate cannot be measured on tasks
+whose plausible answer is the correct one, so at least half the comprehension variants have a
+correct answer that is negative: nothing found, claim false, leave it alone. t01 is taken from
+life — a real sweep for a moved path on 2026-09-04 found four references, of which **two were
+correct history that fixing would have damaged**. A model that rewrites all four looks
+productive and is wrong, and no pass/fail score distinguishes it from one that rewrites none.
 
-Selfcheck before freezing: execute every example list in every prompt; each task authored by
-Sonnet, checked by Haiku x3 for prompt defects, then gated by Sonnet 3/3 and GLM 2/3.
+All eight are the core set: with MCP gone there is no diagnostic/coding split left to make, and
+t03 earns its place on the context axis rather than beside it. Discrimination check at gate
+time: a task Haiku also passes 3/3 is kept but flagged saturated, and at most three saturated
+tasks stay in the set; replace the rest with harder variants.
+
+Selfcheck before freezing: execute every example list in every prompt; each task **authored by
+Luna** (rev 5.7, several candidates per task, the manager picking), checked by Haiku x3 for
+prompt defects, then gated by Sonnet 3/3 and GLM 2/3.
+
+## 4a. Calibration is not selection
+
+authoring now runs the GPU, which is new in rev 5.7 and is the sharpest hazard in this plan.
+Feeding a contestant's results back into the suite it will be scored on is how a benchmark
+quietly stops measuring anything. The line, and the manager holds it:
+
+- **Calibration, allowed.** Use local runs to size a task: does it fit the context window, does
+  a reference solution land under the 5k-token appetite, does a trial finish inside 300 s, is
+  the prompt unambiguous to a small model, does the checker fire correctly on a real transcript.
+  These are properties of the *task*, and rule 2 cannot be satisfied without measuring them.
+- **Selection, forbidden.** Never keep, drop, reword or reorder a task because of whether a
+  local quant **passed** it. Difficulty is the thing being measured; tuning it against the
+  contestant makes the grid report the tuning back. A task the quant fails cleanly is a
+  perfectly good task, and may well be the most informative one in the suite.
+
+If a task cannot be calibrated without knowing whether the quant passed, it is the wrong task;
+say so and author another. The manager records, per task, which local runs informed it and
+which property they settled, so the freeze can be audited rather than trusted.
 
 ## 5. Arms
 
-Four cloud and subscription reference rows, every one run on the full suite, three trials, so
-the local ranking sits inside a real ladder rather than against a single bar.
+**Two scored reference rows** (rev 5.7, down from four), run on the full suite at three trials,
+plus two arms that shape the suite without being scored on it. The ladder is shorter than rev
+5.6's deliberately: every model that authors or gates has been removed from the scoring, because
+a row a model handed itself measures the construction and not the model.
 
-| arm | where | purpose |
-| --- | --- | --- |
-| Sonnet | claude -p | gate and ceiling row, free on subscription |
-| Haiku | claude -p | the bar the owner cares about beating, free on subscription |
-| Luna (gpt-5.6-luna) | codex-run, effort high | the subscription adversarial reviewer; costs plan window, no dollars |
-| GLM 5.3 Flash | pi, throughput routing, provider recorded, thinking high | the cheap cloud tier local must beat on something; throughput so a Relace stall never fails a gate |
-| q27 IQ3_M first; then Q3_K_M and Q2_K_L on the full headline set, Q3_K_S on the sentinel set | local, thinking medium | the ranking |
+| arm | where | scored? | purpose |
+| --- | --- | --- | --- |
+| Sonnet | claude -p | **ceiling row only** | gate at 3/3, and a declared ceiling where ~100% is the point. Never quoted as a competitive comparison. |
+| Haiku | claude -p | **yes** | the nearest cloud comparison, free on subscription. Read section 7's caveat before quoting it. |
+| GLM 5.3 Flash | pi, thinking high, provider recorded | **no — gate only** | gate at 2/3, and the cheap-cloud sanity check that a task is solvable off the frontier. Its gate pass rate is reported as gate evidence, never as a row. |
+| Luna (gpt-5.6-luna) | codex-run, effort high | **no — author** | authors the suite; see rule 9. |
+| q27 Q2_K_L, Q3_K_S, IQ3_M, Q3_K_M across the 24k-64k grid | local, thinking medium, `q4_0` KV, `num_gpu 66` | yes | the ranking. Q3_K_L is excluded by the 32k floor |
+
+GLM's routing is chosen per run rather than left at the default: take whichever of `pi-run`'s
+four preferences — `price`, `balanced`, `throughput`, `latency` — is the best trade at the time,
+reading the live endpoint spread with `or-price z-ai/glm-5.3-flash`, and record which endpoint
+actually served every gate run. No named provider is pinned; the sort is the only lever, which
+keeps this a per-run flag rather than an ansible change. The managed `max_price` ceiling applies
+whichever preference is used and is not to be lifted for this.
 
 ### The local quants, re-measured
 
@@ -133,7 +211,7 @@ measure, not a reason to call q4_0 live.
 | IQ3_M | 64k | 14.11 | 52.8 | 41.0 @60k | 2039 |
 | Q3_K_S | 64k | 13.70 | 53.5 | 41.4 @60k | 1495 |
 | Q3_K_M | 48k | 14.16 | 51.3 | 42.5 @44k | 1648 |
-| Q3_K_L | 24k | 14.25 | 47.1 | 45.0 @20k | 1747 |
+| Q3_K_L | 24k (reliable) | 14.25 | 47.1 | 45.0 @20k | 1747 |
 
 ### KV cache probe, 2026-09-03
 
@@ -159,72 +237,121 @@ fair-weather**: they thrash when the desktop reclaims VRAM, which drifted 1.0 to
 that session, and Q3_K_L @28k passed once then thrashed on an identical rerun. Every run in
 section 6 is sized to stay under that line.
 
-**Q3_K_L is dropped from v5.** Largest, slowest, caps at 24k, fair-weather at every context
-worth using; nothing it could show would move a verdict line. Recorded as a decision, not an
-omission. Q4 does not fit. fp8 is gone.
+**Q3_K_L is dropped from v5.** Largest and slowest, with a **24k reliable operating limit rather
+than a hard cap** ([tuning summary](../gpu-tune/summary.md)): it succeeded once at 28k, but that
+configuration thrashed on an identical rerun. It is fair-weather at every context worth using;
+nothing it could show would move a verdict line. Recorded as a decision, not an omission. Q4 does
+not fit. fp8 is gone.
 
-**IQ3_M is where the search starts, not what it concludes.** The owner is explicitly unconvinced
-it is the right quality choice for the org, so it is given no privilege in section 6 beyond
-going first: B1 runs Q3_K_M and Q2_K_L over the **full headline set** rather than a sentinel
-subset derived from IQ3_M's own passes, precisely so IQ3_M's B0 result cannot quietly define
-what the suite measures.
+**IQ3_M gets no privilege.** The owner is explicitly unconvinced it is the right quality choice
+for the org, and rev 5.8 removes the last structural reason it might have got one: there is no
+first probe any more and no sentinel set derived from its passes. Every quant runs the same
+eight tasks at the same context steps, so no single quant's result can quietly define what the
+suite measures.
 DeepSeek V4 Flash is not a v5 arm: its v4 column (9/21, USD 4.61, ~87k output tokens per trial)
 bought two extra passes for five times GLM's cost, and v5's small-appetite tasks are exactly
 where its appetite gives it nothing. It stays on the roster for on-demand throughput work.
 
-## 6. Phases, adaptive
+## 6. Run order, adaptive
 
 GPU time is the scarce resource. The control session keeps `results/v5/schedule.md`: the next
 three GPU runs queued with a one-line reason each, rewritten after every result. The rule for
-choosing the next run: prefer the run whose result could flip a verdict line in section 7; never
-spend a trial confirming what two trials already showed.
+choosing the next run: prefer the run whose result could flip a verdict line in section 7; outside
+the mandatory three-trial differentiation paths, never spend an optional trial confirming what
+two trials already
+showed.
 
-**Phase A, author and gate (cloud and subscription only, about half a day, no GPU).** Nine tasks,
-selfcheck, Sonnet 3/3 and GLM 2/3 gate, then the Haiku and Luna rows on the frozen suite, three
-trials each. Any task Sonnet
-fails is fixed or replaced. Freeze hashes. Output: a per-task table of Sonnet, Haiku, Luna and
-GLM pass rate, output tokens and wall, which also sizes the local timeouts. Luna runs are free on the plan window (all use to date took 3% of a week), so they
-run whenever convenient.
+**Authoring and gating — a managed overnight session (rev 5.7). Goal 8 h, hard limit 12 h.**
 
-**Phase B0, critical probe (GPU, about 1 h).** `q27-IQ3_M` at **32k**, thinking medium, every
-task, one trial. 32k rather than IQ3_M's full 64k because 32k is 13.39 GB with about 2 GB of
-margin while 64k is 14.11 GB and fair-weather; B0 is the quality gate and Phase C is where
-context is bought deliberately. Run the plain `q27-IQ3_M` with `num_ctx 32768, num_gpu 66`, not
-the baked `q27-IQ3_M-64k`. This is the run that says whether the suite is in reach at all and
-which tasks discriminate.
+One **Opus manager subagent** runs it and holds the judgment — this is a deliberate, scoped
+exception to the fleet rule that a control session invokes `codex-run` itself. The manager
+briefs and reads its own workers. It is not a dispatcher: picking among candidate tasks, reading
+a failed calibration run and deciding what it means, and knowing when a task is wrong rather
+than hard are the whole job, and they are why an Opus sits there rather than a script.
 
-*Gate:* zero headline passes means one more pass at thinking low on the three tasks with the
-highest partial score, then the same three on **Q3_K_M** — if the suite is out of reach the
-question is whether more quality rescues it, not more speed, which is why the fallback is the
-a-priori quality pick and not Q3_K_S. If all of that is still zero, stop and write the verdict
-as **not viable on this suite**, with every untested quant named as untested rather than failed.
-One or more passes means continue.
+The loop, run against the worker runtime so authoring and calibration overlap:
 
-**Phase B0-control, KV precision (GPU, deferred to the 64k rerun).** Today's direct probe
-settled asymmetric K/V as unusable but did not settle symmetric q8_0 versus q4_0: both scored
-24/24 at 16k and 24k, which is a recall ceiling from an undiscriminating checksum probe.
-The old 32k subset control is superseded by the four-cell 64k plan in
-[the KV probe rerun plan](kv-probe-plan-2026-09-03.md), using the exact
-`q27-IQ3_M-64k` and `q27-Q3_K_S-64k` variants. Keep the desktop at its current q8_0 setting
-outside the direct per-server test; do not leave a q4_0 experiment's environment change
-unrecorded.
+1. **Author in parallel.** Several concurrent Luna runs per task, several candidates each; the
+   manager picks. Luna is off weekly-all entirely and has banked resets, so breadth here is
+   close to free — prefer more candidates over fewer.
+2. **Mechanical selfcheck**, needing no model: execute every example list in every prompt.
+3. **Calibrate on the GPU** under section 4a, one model on the card at a time. Sizing only.
+4. **Gate**: Haiku x3 for prompt defects, then Sonnet 3/3 and GLM 2/3. A task Sonnet fails is
+   fixed or replaced, and that is a *task* defect, never evidence about a quant.
+5. Refine and repeat. GLM may be used sparingly inside the loop as a second reader.
 
-**Phase B1, quant differentiation and the 2-bit question (GPU, 2 to 3 h).** Two shapes, because
-two different questions are being asked.
+Standing rules for an unattended run:
 
-- **Full headline set, one trial each: Q3_K_M and Q2_K_L** (seven tasks, about 35 min per
-  quant). Q3_K_M because it is the a-priori quality challenger the owner is not ready to
-  discard, and the full set is what stops IQ3_M's B0 result defining the suite. Q2_K_L because
-  **"is 2-bit viable for any real work" is a verdict line in its own right**, and a sentinel
-  subset chosen from a 3-bit quant's passes cannot answer it.
-- **Sentinel set only: Q3_K_S.** The tasks IQ3_M passed or scored 0.5 or better on, plus one
-  zero-score B0 task per class so nothing silently disappears. Q3_K_S sits between IQ3_M and
-  Q2_K_L on both quality and bytes and adds the least new information, so it earns the cheap
-  shape.
+- **The GPU must be idle, not merely serial.** Parallel Luna authoring never assumes the card;
+  GPU work is queued, one model at a time, and the watchdog's `models=0` alert during a direct
+  sweep is a known false positive rather than a fault to chase. Beyond that, rev 5.8 requires an
+  **idle** card: one open Unity editor takes ~4 GB and leaves 11.9 GB free, which is less than
+  every quant under test needs. Close the editors before any local trial, and treat a trial taken
+  with one open as void rather than merely suspect.
 
-Then a second and third trial only where a quant disagreed with IQ3_M on a task. A quant that
-fails a task IQ3_M passed cleanly, twice, is dropped from that task. Output: pass rate and
-tokens to pass per quant on the tasks that can tell them apart, plus the 2-bit verdict line.
+- **Bank, do not block.** An ambiguous call is written to the decision log and the manager
+  carries on with everything that does not depend on it. It never blocks waiting on a human, and
+  it never takes a structural decision alone — dropping a task class, moving a verdict arity, or
+  changing what a class measures all get banked, not decided.
+- **Stop conditions.** 8 h is the goal and 12 h the hard limit; stop early on repeated harness
+  failure rather than burning the window retrying a wedged card.
+- **The freeze is not the manager's to take.** Hashes are frozen by the session that resumes
+  this work, after reading the decision log. No scored row of any kind — reference or local —
+  runs before the freeze, because a row measured against a task that later changed is void.
+
+Output, and it has to survive a session restart: the candidate suite, a per-task decision log
+recording which local runs informed which property, the banked questions, and a per-task table
+of Sonnet and Haiku pass rate, output tokens and wall, which also sizes the local timeouts.
+GLM's gate results are recorded beside it, labelled as gate evidence.
+
+**Precondition, and it is not optional.** The manager uses the worker runtime
+(`ansible-slb/org/worker-runtime-plan-2026-09-03.md`) for background runs and live messaging.
+That runtime must be committed, converged to all three hosts, and acceptance-tested with a real
+`codex-run` and `pi-run` before this work begins. The KV probe harness faults recorded in
+`org/pending.md` are fixed and supervised first: an unattended overnight loop is the worst
+possible consumer of a harness that turns a teardown failure into three indistinguishable
+`server did not become healthy` errors.
+
+**The quality-versus-context grid (GPU, the bulk of the run).** This replaces the first probe,
+differentiation, the context sweep and the concurrency probe, all of which existed to find a
+context/quality frontier under an MCP floor that no longer applies. One question now: **how does
+each quant's quality hold up as its context fills, from 24k to 64k?**
+
+The capacity map is ragged, so it is fifteen cells rather than a clean grid. Every figure is from
+`results/gpu-tune/summary.md` at `q4_0` KV with `num_gpu 66` forced:
+
+| quant | 24k | 32k | 48k | 64k |
+| --- | --- | --- | --- | --- |
+| Q2_K_L | yes | yes | yes | yes, 13.07 GB at 96k so comfortable throughout |
+| Q3_K_S | yes | yes | yes | yes, 13.70 GB |
+| IQ3_M | yes | yes | yes | 14.11 GB — fair-weather, flag every trial |
+| Q3_K_M | yes | yes | 14.16 GB, fair-weather | no |
+| Q3_K_L | 24k only | — | — | excluded by the 32k floor |
+
+**The context must actually be occupied.** `num_ctx 64k` allocates the KV up front, but a short
+prompt still only uses a few thousand tokens, so a "64k" trial on a short prompt measures
+nothing about 64k. Each task is therefore embedded in realistic-but-irrelevant filler — other
+source files, other documents — to the cell's size. The material needed to answer is present and
+must be found *and* used, which is what the 2026-09-03 KV probe could not test: an exact-match
+checksum needle is binary and saturated at 24/24, so it had no resolution to show degradation.
+
+Order: **one trial per task across all fifteen cells first**, to find where the curve bends;
+then three-trial passes only on the cells at and around the bend. A uniform three-trial grid
+would consume the whole night and spend most of it confirming the flat parts.
+
+*Gate:* if no quant solves anything at 24k, stop and write the verdict as **not viable on this
+suite**, naming every untested quant as untested rather than failed.
+
+**KV precision rides along.** Every cell above is at `q4_0`, and the desktop's live setting is
+`q8_0`, which is predicted not to fit at 64k at all. The grid therefore pins `q4_0` explicitly,
+carries the documented revert (env var back to `q8_0`, restart Ollama) and states its results as
+conditional on that cache setting. This subsumes much of the rerun in
+[the KV probe plan](kv-probe-plan-2026-09-03.md); what it does not subsume is the direct
+per-server comparison, which stays as specified there.
+
+**Confirming the winner (GPU, about 1.5 h).** Best quant from the grid **on the evidence, not by
+seniority** — three trials on every task it has fewer than three trials on, at the context the
+grid showed it holds. This is the ranking row.
 
 *Optional, owner's call, not scheduled:* if Q2_K_L lands marginal rather than clearly dead,
 **IQ2_M** is the single run most likely to flip 2-bit from marginal to viable — IQ3_M showed
@@ -232,91 +359,138 @@ imatrix carries no dequant penalty at 3-bit, so the same plausibly holds a bit l
 ~12 GB pull against 68 GB free. Raise it as a decision when the Q2_K_L result is in, never
 before.
 
-**Phase B2, confirm the winner (GPU, about 1.5 h).** Best quant from B1 **on the evidence, not
-by seniority** — IQ3_M has no claim here beyond having gone first — three trials on every
-headline task it has fewer than three trials on. This is the headline row.
-
-**Phase C, context sweep (GPU, about 1.5 h).** Winner on the discriminating tasks at **16k, 32k
-and 48k**, one trial each, three on g05 (a 12k document, so it fits from the 16k step up). A 64k
-row only where that config stays under 14.2 GB — IQ3_M's 64k is 14.11 and fair-weather, so if
-IQ3_M wins, its 64k row is taken only in the low-VRAM regime and labelled as such. 8k only if
-16k holds within five points of 32k, and g05 is excluded at 8k. Residency is judged by rule 7:
-measured tok/s first, reported residency second. Output: the smallest window at which the
-headline pass rate holds, which is the usable context number for the final configuration.
-
-**Phase D, concurrency probe (GPU, about 1 h).** Winner at the Phase C window, llama-server with
-two parallel slots, g01 to g04 concurrently, one trial each. Four slots only if two held the
-single-stream pass rate and KV fits. This model is unusually friendly to it — KV for 16 of 66
-layers at q4_0 is roughly 544 MiB per 32k — so slot count is bounded by model bytes, not by
-cache. **If 2-bit proves viable in B1, Q2_K_L is the natural concurrency candidate whatever won
-B2**: it is the smallest and fastest of the set, and concurrency is exactly where its spare
-gigabytes convert into slots. Report aggregate tok/s, per-stream tok/s and pass rate against the
-single-stream row, and say which quant the concurrency row was taken on.
-
 ## 7. Verdict rule
 
-Predeclared, task-level, because a class has only three or four headline tasks and a percentage
-gap would be all-or-nothing. A task is **solved** by a quant when two of three trials pass under
-the 900 s wall. A class is **viable** when the best quant solves three quarters of its headline
-tasks at the Phase C window, rounded up, and **marginal** at half, rounded up — so **general
-(four tasks) is viable at three and marginal at two, and Unity (three tasks, u04 cut) is viable
-at three and marginal at two**. Below marginal is **not viable**. Requiring 3/3 for Unity is
-deliberate: with three tasks a 2-of-3 bar would let one task carry a whole class. Raw
-per-task pass rates with trial counts are printed beside every verdict line, and wall to pass is
-reported over solved tasks only and labelled as such. Beating GLM on tokens to pass or wall is
-reported but never required. Report one line per
-class: viable, marginal, not viable. Beating Haiku on the headline is the headline sentence.
+Predeclared and task-level, because a class has only four tasks and a percentage gap would be
+all-or-nothing. A task is **solved** by a quant when two of three trials pass under the 900 s
+wall. A class is **viable** when the best quant solves three quarters of its tasks at its held
+context, rounded up, and **marginal** at half — so each class of four is **viable at three,
+marginal at two**, and below that **not viable**. Raw per-task pass rates with trial counts are
+printed beside every verdict line, and wall to pass is reported over solved tasks only and
+labelled as such. Report one line per class — transformation, comprehension — and the Haiku
+comparison beside them as one measurement among several, not as the conclusion the report is
+written toward.
+
+**The confidently-wrong rate is a verdict line of its own (rev 5.8), and it outranks pass rate
+for the decision the owner is actually making.** Every trial is scored into three outcomes, not
+two: **correct**, **visibly failed** (refused, crashed, timed out, obviously broken output), or
+**confidently wrong** — a fluent, plausible, incorrect answer delivered without hedging. The
+distinction is the whole point of delegating: a worker that fails visibly costs a retry, while
+one that is confidently wrong costs the verification the delegation was meant to save, and is
+worse than no worker at all. Report the rate per quant per context cell. A quant with a good
+pass rate and a meaningful confidently-wrong rate is **not** recommended, and the report says so
+in those words.
+
+Expect this to be the most sensitive instrument on the context axis. Long-context degradation in
+small quants tends to appear as fabrication rather than refusal — it stops finding the material
+and starts inventing it, fluently — so the bend in the curve will likely show here before it
+shows in pass rate.
+
+**The context curve is reported, not just the winning cell.** For each quant: the context at
+which its pass rate and confidently-wrong rate hold, and where they break. "Good at 24k,
+fabricates at 48k" is a more useful sentence to the owner than any single ranking, because it
+says how much material may safely be handed over in one go.
+
+**The Haiku comparison carries a construction caveat and must never be quoted without it.**
+Section 4's discrimination check keeps at most three tasks that Haiku passes 3/3 and replaces
+the rest with harder variants, so most of the suite is tasks Haiku did *not* pass cleanly.
+Haiku's rate is therefore suppressed by the way the suite was built, and "local beat Haiku" is
+to that extent circular. The check is still right — a task everything passes cannot rank quants,
+and ranking quants is the mission — but the two goals genuinely conflict. So: report Haiku's
+rate on the frozen set *and* on every task authored including the saturated ones, and let the
+second number carry the comparison. If they disagree, the honest sentence is the one from the
+unfiltered set.
 
 **The 2-bit line is a verdict of its own**, asked for by the owner and reported whatever the
 ranking says. It answers "is 2-bit viable for any real work" directly: whether Q2_K_L solves any
-headline task at all, which class it does best in, and the same viable / marginal / not-viable
-word under the same arity rule — stated beside its context reach, because 96k fully resident is
-a capability no other quant on this card has. "Not viable for coding, and the only 96k option on
-this hardware" is a real and reportable outcome, not a failure to report. If Q2_K_L solves
-nothing, the line says so plainly and names what it was tested on.
+task at all, which class it does best in, and the same viable / marginal / not-viable word under
+the same arity rule — stated beside its context reach, because 96k fully resident is a capability
+no other quant on this card has, and rev 5.8 makes context reach the axis of interest. "Not
+viable for real work, and the only 96k option on this hardware" is a real and reportable
+outcome, not a failure to report. If Q2_K_L solves nothing, the line says so plainly and names
+what it was tested on.
 
 ## 8. Budget
 
-Cloud: about 30 GLM trials in Phase A, expected under USD 2 at v4 rates. Sonnet, Haiku and Luna
-are subscription and unrestricted. GPU: about 9 trials in B0 plus 3 in the q8_0 control, 25 to 35
-in B1 (14 of them the two full-headline passes), 20 in B2, 14 in C, 8 in D, at about 5 minutes
-each — roughly 6.5 to 8 hours, spread over the schedule file rather than run as a block. Every
-phase after B0 can be cut short by its gate, and the B1 full-headline passes are the one place
-the plan deliberately spends trials on breadth rather than confirmation.
+Cloud: about 30 GLM gate trials in authoring, expected under USD 2 at v4 rates, plus whatever the
+manager spends using GLM sparingly as a second reader — the only real-dollar line in the plan, so
+it is the one to watch overnight. Sonnet and Haiku are subscription and draw weekly-all; Haiku is
+cheap enough there to run before a reset, Sonnet is the one to schedule around. Luna is off
+weekly-all entirely, rides the ChatGPT window and has banked resets, which is why rev 5.7 puts
+the parallel breadth there. The Opus manager also draws weekly-all and, running 8 to 12 h with
+the intelligence deliberately in it, is the largest subscription line in the authoring work.
+
+GPU, rev 5.8: the grid is fifteen cells x eight tasks at one trial to find the bend, which is 120
+trials, then three-trial passes only at and around the bend. At the section 3 rule 2 target of
+under 300 s per trial that first pass is the shape of one night on its own, so the bend-finding
+pass is the thing to protect and the three-trial passes are what gets cut if time runs out.
+Confirming the winner adds three trials per unconfirmed task at one context. The old 25-35
+differentiation estimate, the context sweep and the concurrency probe are all superseded. The
+total is not restated here because the bend's location decides it; recompute after the
+bend-finding pass, which is exactly what `schedule.md` is for.
 
 ## 9. Open questions for the owner
 
-**One, reopened 2026-09-03 by the control session on restart: the Unity harness for u01 to u03.**
-The plan's section 4 described a batchmode compile loop that does not exist anywhere in the
-tooling, citing a rev 4 section that has no Unity content. What exists is the VRCA-Bench runner's
-live three-editor MCP loop against `D:\VRCA-Bench\projects\bench-C`, which `decisions.md:11`
-already named as the Unity gate. The three options — adopt the live-editor loop, build a real
-batchmode checker, or cut the Unity class — and the pi editor-selection limit that makes the
-three-editor parallelism unavailable to the local arms are in
-`findings-2026-09-03-unity-harness.md`. It blocks authoring u01 to u03 and nothing else; g01 to
-g06 are unaffected.
+**Unity harness — settled 2026-09-03, then superseded 2026-09-04.** Rev 5.6 put u01-u03 on the
+VRCA-Bench runner's live Unity-editor MCP loop against `D:\VRCA-Bench\projectsench-C`. Rev 5.8
+cuts the class outright on the capacity measurement below, so that harness decision no longer
+applies to v5 and the u01-u03 graders are not authored. The runner and the finding in
+`findings-2026-09-03-unity-harness.md` stand for whatever later work wants them.
+
+**Unity is answered, and the answer is no — closed 2026-09-04 by measurement.** Not a deferral
+and not a quality judgement: pi's Unity MCP surface measures **28,492 tokens across 47 tools**,
+31,592 with the four builtins and the system prompt, against quant windows of 24k to 96k on a
+card that has 11.9 GB free while a single editor is open. At the 32k configuration the plan had
+been going to probe first, the tool schemas alone would consume the entire window before the task
+prompt, before one file is read and before any thinking. So **agentic Unity work is out of reach
+for a 27B on this hardware by capacity**. Two consequences: MCP is out of scope for every local
+arm, and the Unity class leaves the suite. The measurement also stands as the answer to the
+mission's Unity half, which is a result rather than a gap.
+
+**The concurrency probe is dropped — owner's ruling, 2026-09-04.** Two streams would double the
+volume of output needing verification, which is negative value while the confidently-wrong rate
+is unknown, and the quality-versus-context question is the better use of the same GPU hours. The
+2-stream arithmetic is preserved in `decisions.md` if it is ever wanted: derived from measured
+components, only Q2_K_L could hold two 64k streams (~13.6 GB), and Q3_K_S could not (~14.8 GB).
+
+**Unity and Blender MCP reach Codex — settled by the owner 2026-09-04.** Both servers are added
+to the managed `~/.codex/config.toml` through ansible-slb (Blender is not needed for v5 and is
+added because later work wants it). Rev 5.8 removed its v5 rationale — it existed to let
+Luna author the Unity tasks against a live editor, and those tasks are cut — so this stands as a
+fleet change on the owner's ruling, not a precondition for this plan. It still carries the
+constraint: port 8080 is one machine-wide endpoint, so a Codex run can seize an editor another
+agent is using.
+The change joins the same converge as the worker runtime; neither is deployed by hand.
 
 Every question rev 5.2 carried is closed below, and authoring otherwise waits only on the
 owner's go-ahead.
 
-Two things stay flagged as decisions the plan will bring back rather than take on its own: the
-**IQ2_M pull** (Phase B1, only if Q2_K_L lands marginal) and the **q8_0 versus q4_0 KV choice**,
+Three things stay flagged as decisions the plan will bring back rather than take on its own: the
+**IQ2_M pull** (differentiation, only if Q2_K_L lands marginal); the **q8_0 versus q4_0 KV choice**,
 which awaits the 64k rerun in [the KV probe plan](kv-probe-plan-2026-09-03.md) rather than the
 saturated 16k/24k checksum result.
+
+**The reference ladder is two rows, and that is settled, not overlooked (rev 5.7).** Removing
+every author and every gate from the scoring left Sonnet as a declared ceiling and Haiku as the
+single comparison, where rev 5.6 had four rows. Fable was considered as an uncontaminated third
+and ruled out by the owner. So the ladder is thinner than the "real ladder rather than a single
+bar" section 5 originally promised, and the report says so rather than implying more support
+than it has: with one comparison row, a local quant's standing against Haiku is one measurement,
+not a ranking.
 
 ### Closed since rev 5.2
 
 - **Thinking level for local arms** — never actually open. Ruling Q11c pins the 27B at medium,
-  section 2 records that low emits more tokens and scores lower, and B0's own gate already
+  section 2 records that low emits more tokens and scores lower, and the first probe's own gate already
   falls back to low. Struck.
 - **u04 (EditMode tests)** — **cut by the owner, 2026-09-03.** Three Unity tasks stand, and the
-  EditMode test-runner fixture leaves Phase A with it.
-- **B0 probe quant** — **IQ3_M, at 32k, decided by the owner 2026-09-03**, with the standing
+  EditMode test-runner fixture leaves authoring with it.
+- **The first probe's quant** — **IQ3_M, at 32k, decided by the owner 2026-09-03**, with the standing
   qualification that this is where the search *starts* and not the org's quality answer: the
-  owner is unconvinced on quality grounds, so B1 explores the space around it rather than
+  owner is unconvinced on quality grounds, so differentiation explores the space around it rather than
   confirming it. Rev 5.2's Q3_K_M recommendation predated `results/gpu-tune/summary.md` and was
   withdrawn.
-- **q8_0 KV control** — **yes, ordered by the owner 2026-09-03.** Phase B0-control.
+- **q8_0 KV control** — **yes, ordered by the owner 2026-09-03.** the KV control.
 - **The 2-bit question** — raised by the owner 2026-09-03: is 2-bit viable at all for any real
-  work. Now a verdict line in section 7, a full-headline pass for Q2_K_L in B1, and the
-  concurrency candidate in Phase D.
+  work. Now a verdict line in section 7, a full-core pass for Q2_K_L in differentiation, and the
+  concurrency candidate in the concurrency probe.

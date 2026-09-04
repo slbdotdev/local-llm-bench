@@ -281,7 +281,7 @@ Owner rulings, all applied to `plan-rev5-focused.md` (now **rev 5.4**) and to th
   dead, IQ2_M is the single run most likely to flip 2-bit to viable (IQ3_M showed imatrix carries
   no dequant penalty at 3-bit). ~12 GB pull against 68 GB free. Brought back as a decision when
   the Q2_K_L result is in.
-- **Q3_K_L dropped from v5** as a recorded decision: largest, slowest, caps at 24k, fair-weather
+- **Q3_K_L dropped from v5** as a recorded decision: largest, slowest, reliable only to 24k, fair-weather
   at every useful context; nothing it could show would move a verdict line.
 - **Plan rule 7 corrected** (rev 5.3, carried): residency from `ollama ps` and `nvidia-smi` is
   necessary and not sufficient. On Windows/WDDM an oversized allocation raises no OOM — it spills
@@ -298,3 +298,103 @@ Owner rulings, all applied to `plan-rev5-focused.md` (now **rev 5.4**) and to th
 `results/v5/schedule.md` created: the three queued GPU runs (B0, B0-control, B1 Q3_K_M) with
 reasons, the standing run rules, and a log. Nothing runnable until Phase A freezes the suite.
 Authoring still waits on the owner's go-ahead.
+
+## 2026-09-04, owner rulings (rev 5.7)
+
+- **Luna authors the suite, and takes no scored row.** The authoring worker moves off weekly-all
+  entirely, which was the largest subscription draw in the authoring work. It also fixes an
+  independence flaw that was already present: rev 5.6 had an Opus worker authoring and Sonnet
+  gating, which is one model family grading its own family's phrasing. Both gates are now
+  cross-family. Recorded as design rule 9: the author does not compete, because a task is
+  phrased in idioms its author finds natural and a score on it stops measuring capability.
+- **A model that gates does not score.** GLM gates at 2/3 and is no longer a reference row: a
+  gate drops or rewrites the tasks it fails, so its own pass rate is a floor handed to it by
+  construction. Sonnet is the single exception and only as a declared ceiling, where ~100% is
+  the point; its number is never quoted as a competitive comparison.
+- **The reference ladder is two rows, and that is accepted rather than overlooked.** Removing
+  every author and gate left Sonnet as ceiling and Haiku as the one comparison, down from four.
+  **Fable was considered as an uncontaminated third row and ruled out by the owner.** The report
+  states the limit rather than implying more support than it has.
+- **The Haiku comparison carries a construction caveat.** Section 4's discrimination check keeps
+  at most three core tasks Haiku passes 3/3, so at least four of seven are tasks it did not pass
+  cleanly, and "local beat Haiku" is to that extent circular. The check is still right — a task
+  everything passes cannot rank quants — but the two goals conflict. Resolution: report Haiku on
+  the core set *and* on the full nine, and let the unfiltered number carry the comparison.
+- **The authoring work becomes a managed overnight session.** One Opus manager subagent runs it
+  and holds the judgment, briefing and reading its own workers — a deliberate, scoped exception
+  to the fleet rule that a control session invokes `codex-run` itself. Goal 8 h, hard limit 12 h.
+  Standing rules: bank ambiguous calls and carry on rather than block; never take a structural
+  decision alone; the GPU is serial; the freeze is not the manager's to take.
+- **Calibration is not selection (new section 4a).** The authoring work now uses the GPU, which
+  is the sharpest hazard in the plan. Local runs may size a task — context fit, appetite, wall,
+  prompt ambiguity, checker behaviour — and may never keep, drop, reword or reorder a task
+  because of whether a quant *passed* it. Difficulty is the thing being measured. Consequence:
+  calibration runs happen pre-freeze on unfrozen tasks and can therefore never be scored trials,
+  so the first probe still runs post-freeze on its own. That duplicated GPU time is a known and
+  accepted cost of authoring against the hardware.
+- **Phase names are dropped.** One plan with an order, not six numbered stages; the seven
+  weighted tasks are the **core set**, not the "headline"; and language that pre-committed the
+  report to a conclusion is removed, including "beating Haiku is the headline sentence".
+- **Codex gains the Unity and Blender MCP servers** through ansible-slb (Blender is not needed
+  for v5 and is added because later work wants it). This is what makes Luna a credible author
+  for u01-u03 rather than writing Unity tasks blind against a spec.
+- **Unity editors compete for VRAM with the quant under test.** Four open editors is normal on
+  this desktop, and rule 7 already records that a quant near the 14.2 GB fair-weather line
+  thrashes when the desktop reclaims 1 to 2.9 GB. Unity calibration and local quant trials
+  therefore do not overlap, and a trial taken with editors open is suspect on tok/s whatever
+  residency reports.
+- **GLM routing is chosen per run, not pinned.** Take whichever of `pi-run`'s four preferences is
+  the best trade at the time and record which endpoint served each gate run; no named provider is
+  pinned, so this stays a per-run flag rather than an ansible change. The `max_price` ceiling
+  applies whichever preference is used.
+- **Precondition on the whole authoring session:** the worker runtime must be committed,
+  converged to all three hosts and acceptance-tested with a real `codex-run` and `pi-run` first,
+  and the KV probe harness faults in `org/pending.md` fixed and supervised, before an unattended
+  overnight loop is pointed at that hardware.
+
+## 2026-09-04, owner rulings (rev 5.8) — the Unity result and the pivot
+
+- **Agentic Unity work is out of reach for a 27B on this card, by capacity.** Measured on the
+  desktop 2026-09-04 through the deployed `pi-run` with `--mode json` added to a copy: pi's
+  system prompt + AGENTS.md + org skill = 1,958 tokens; the four builtin tools add 1,142; the
+  **Unity MCP surface is 28,492 tokens across 47 tools**; Blender adds 4,532 across 26. A
+  Unity-capable run therefore starts at ~31,600 tokens. Quant windows run 24k to 96k, and an open
+  editor takes ~4 GB leaving 11.9 GB free of 16,303 MiB. At the 32k configuration the plan was
+  going to probe first, the tool schemas alone exceed the window. This closes the Unity half of
+  the mission with an answer rather than a gap.
+- **MCP is out of scope for every local arm**, and the Unity class leaves the suite. The Codex
+  MCP change stands as a fleet change on its own merits.
+- **The concurrency probe is dropped.** Two streams double the output needing verification, which
+  is negative value while the confidently-wrong rate is unknown. Preserved for later if wanted,
+  derived from measured components: only Q2_K_L could hold two 64k streams (~13.6 GB against
+  ~11.4 GB of model bytes plus 2x1088 MiB KV); Q3_K_S could not (~14.8 GB, over the 14.2 GB
+  fair-weather line). Two 32k streams fit for both. Arithmetic, not a measurement.
+- **The axis of interest is quality against context, 24k to 64k.** Fifteen cells, ragged because
+  Q3_K_M tops out at 48k and Q3_K_L is excluded by the 32k floor. One trial per task across all
+  cells to find where the curve bends, then three-trial passes only at the bend.
+- **The context must be occupied to be measured.** `num_ctx 64k` allocates KV up front but a
+  short prompt uses a few thousand tokens, so a "64k" trial on a short prompt measures nothing.
+  Tasks are embedded in realistic-but-irrelevant filler to the cell size. This is the flaw that
+  made the 2026-09-03 KV probe uninformative: an exact-match checksum needle is binary and
+  saturated at 24/24, with no resolution to show degradation.
+- **32k minimum context**, because the model must read several things and think. This excludes
+  Q3_K_L on its 24k reliable limit — the same exclusion rev 5.4 recorded, now for a second and
+  independent reason.
+- **Idle GPU is the expectation**, not "alongside Unity work": the owner's other work mostly is
+  not Unity, and no quant fits beside an open editor. A trial taken with an editor open is void.
+- **The confidently-wrong rate is a first-class verdict line**, reported per quant per context
+  cell, and it outranks pass rate for the decision being made. Three outcomes per trial: correct,
+  visibly failed, confidently wrong. A worker that fails visibly costs a retry; one that is
+  confidently wrong costs the verification the delegation was meant to save. Expected to be the
+  most sensitive instrument on the context axis, since small-quant degradation tends to appear as
+  fluent fabrication rather than refusal.
+- **Traps are load-bearing.** A confidently-wrong rate cannot be measured on tasks whose
+  plausible answer is correct, so at least half the comprehension variants have a negative
+  correct answer: nothing found, claim false, leave it alone. t01 is drawn from life — a real
+  sweep for a moved path on 2026-09-04 returned four hits, two of which were correct history that
+  "fixing" would have damaged.
+- **The suite is eight tasks in two classes of four**: transformation (g01-g04, kept) and
+  comprehension (t01-t04, new). g05 becomes t03; g06 goes with the MCP decision. Verdict arity
+  follows: viable at three of four, marginal at two.
+- **The role being tested is the worker that still exists when the paid windows are gone.** Not a
+  cost argument — Luna is off weekly-all and GLM is cents — but availability and locality.
