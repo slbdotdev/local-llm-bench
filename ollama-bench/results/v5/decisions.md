@@ -1104,3 +1104,24 @@ Note for the record: the Haiku and Sonnet fill rows above used the **pre-fix** t
 their prompts were composed before the edit. That is internally consistent (both rows used identical
 prompts) and does not affect the saturation count, but the fill rows and the t04 gate rows are not
 from the same prompt revision.
+
+## 2026-09-04 — the 64k KV question is settled on capacity, and the plan's prediction is falsified
+
+`kv-probe-plan-2026-09-03.md` predicted both q8_0 cells would fail to fit at 64k. Both fit, fully
+resident, no CPU spill: q27-Q3_K_S-64k at 14.70 GB and q27-IQ3_M-64k at 15.11 GB, 100% GPU under
+q8_0 on a 16,303 MiB card.
+
+**And the cache setting made no measurable difference.** Repeating the load under q4_0 gave
+*identical* resident sizes (14.70 / 15.11 GB); nvidia-smi differed by 6-42 MiB, noise against a
+15.9 GB working set. `OLLAMA_FLASH_ATTENTION=1` is set and the tags bake only `num_ctx`/`num_gpu`,
+so the usual explanations do not apply. Either Ollama ignores `OLLAMA_KV_CACHE_TYPE` for gemma-3's
+sliding-window attention, or the difference is too small to see; this evidence cannot separate them.
+
+**Operationally identical under both readings:** there is no capacity reason to prefer q4_0 at 64k,
+and the schedule's mandatory "q4_0 before every cell, q8_0 after" ritual is **not buying anything
+measurable**. Worth knowing before that ritual is cited as a controlled variable — every run this
+session that observed it was unaffected by it.
+
+**Banked, not taken:** whether to drop the ritual, keep it as cheap insurance, or first determine
+whether the variable does anything at all. Cache quality is untested and, if the setting is inert,
+untestable this way. Left at the fleet default q8_0.

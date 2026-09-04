@@ -40,6 +40,13 @@ Preconditions for run 1, current state:
 | suite freeze-ready | **NO** — the saturation count must be resolved first, and that decision is structural and was banked, not taken |
 | local calibration (section 6 step 3) | **PARTIALLY done.** Measured: g01 and t04 across three cells (Q2_K_L 24k/64k, Q3_K_S 64k), one trial each, giving achieved fill per trial and full residency. Not measured: the other **six of eight tasks**, and the appetite/wall questions — no reference-solution output-token ceiling or 300 s wall target has been checked against a local quant. Pass/fail from these runs is not recorded and is not citable, per 4a. |
 
+**This q4_0 ritual may be a no-op — measured 2026-09-04.** Loading both 64k models at full
+`num_ctx` under q8_0 and again under q4_0 gave *identical* resident sizes (14.70 and 15.11 GB, both
+100% GPU); nvidia-smi differed by 6-42 MiB. Both q8_0 cells **fit**, falsifying
+`kv-probe-plan-2026-09-03.md`'s prediction that neither would. So there is no capacity reason to
+prefer q4_0 at 64k. Keep the ritual if you want insurance, but do not cite it as a controlled
+variable. Detail in `findings-2026-09-04-grid-harness-gap.md`.
+
 **Before any cell: set `OLLAMA_KV_CACHE_TYPE=q4_0` and revert it to `q8_0` with an Ollama restart
 afterwards.** It is `q8_0` right now, verified against the Windows user environment on 2026-09-04 after the calibration runs, which did set it to `q4_0` and revert it. No scored cell has ever run.
 

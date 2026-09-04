@@ -329,3 +329,45 @@ whole tool loop. That is a real property of running a 64k cell on a 64k window a
 defect in the fill fix, but it means the 64k end of the axis measures something qualitatively
 different from the 24k end — less room to work, not merely more to read. Flagged for the owner; not
 resolved here.
+
+## The 64k KV question, settled on capacity — and the prediction is falsified
+
+`kv-probe-plan-2026-09-03.md` predicted that **both q8_0 cells at 64k would fail to fit** — IQ3_M
+"by a wide margin" and Q3_K_S "narrowly" — on a 16,303 MiB card. That prediction is wrong.
+
+Both 64k models were loaded at full `num_ctx 65536` under each cache setting in turn, with an
+Ollama restart between. Ollama allocates the whole KV cache at load, so a one-token generate
+settles fit.
+
+| model | cache setting | `ollama ps` size | resident in VRAM | % GPU | nvidia-smi |
+| --- | --- | --- | --- | --- | --- |
+| q27-Q3_K_S-64k | **q8_0** | 14.70 GB | 14.70 GB | **100%** | 15,915 MiB |
+| q27-IQ3_M-64k | **q8_0** | 15.11 GB | 15.11 GB | **100%** | 15,900 MiB |
+| q27-Q3_K_S-64k | **q4_0** | 14.70 GB | 14.70 GB | **100%** | 15,909 MiB |
+| q27-IQ3_M-64k | **q4_0** | 15.11 GB | 15.11 GB | **100%** | 15,873 MiB |
+
+**Both q8_0 cells fit, fully resident, with no CPU spill.** So the capacity argument for preferring
+`q4_0` at 64k does not hold on this card, and the plan's headline prediction is falsified.
+
+**The larger finding is that the setting made no measurable difference at all.** q4_0 and q8_0
+produced *identical* resident sizes to two decimal places on both models; the nvidia-smi figures
+differ by 6-42 MiB, which is noise against a 15.9 GB working set. `OLLAMA_FLASH_ATTENTION=1` is set,
+so the usual prerequisite for KV quantization is satisfied, and the model tags bake only `num_ctx`
+and `num_gpu` — nothing that would override the cache type.
+
+Two readings, and the evidence here does not separate them: either Ollama is silently ignoring
+`OLLAMA_KV_CACHE_TYPE` for this architecture (gemma-3's interleaved sliding-window attention is a
+plausible reason), or the difference at this context size is too small to measure. **What follows
+operationally is the same under both**: there is no capacity reason to prefer `q4_0`, and the
+schedule's mandatory "set `q4_0` before any cell, revert to `q8_0` after" ritual is **not buying
+anything measurable** on these models. Every run in this session that observed that ritual was
+therefore unaffected by it, which is worth knowing before the ritual is cited as a controlled
+variable.
+
+**Not settled here:** cache *quality*. If the setting is inert there is nothing to measure; if it is
+merely small, a quality comparison would still need the scorer work the plan describes. Either way,
+the capacity question that motivated running 64k on `q4_0` is answered, and the answer is that it
+was not necessary. Whether to drop the ritual, keep it as cheap insurance, or first establish
+whether the variable does anything at all, is the owner's call and is banked, not taken.
+
+Cache setting was left at the fleet default `q8_0`.
