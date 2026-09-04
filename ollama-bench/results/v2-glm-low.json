@@ -1,0 +1,310 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "12_regex",
+    "pass": true,
+    "wall_s": 39.7,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 3
+    },
+    "in_tokens": 33895,
+    "out_tokens": 3180,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done\n\nThe engine lives in `minire.py` \u2014 a recursive-descent parser producing an AST (`char`, `dot`, `class`, `seq`, `alt`, `group`, `*`, `+`, `?`) plus a CPS-style backtracking matcher. All self-checks pass, including the nested-quantifier case `fullmatch(\"(a|ab)(c|bcd)(d*)\", \"abcd\")`, empty-child loops like `(a*)*b`, and `ValueError` cases (`(`, `a)`, `[a`, `*a`, `a\\`, `(a|b`).",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "13_indent",
+    "pass": true,
+    "wall_s": 23.5,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 2
+    },
+    "in_tokens": 12348,
+    "out_tokens": 1185,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "14_ratelimit",
+    "pass": true,
+    "wall_s": 8.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6599,
+    "out_tokens": 697,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "15_diff",
+    "pass": true,
+    "wall_s": 14.4,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 17676,
+    "out_tokens": 1598,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "`mydiff.py` is in place: `diff` uses an O(n\u00b7m) LCS DP with backtracking, and `apply` validates `=`/`-` lines and leftover input. All checks passed (random round-trip + minimality tests, error cases, and a 400\u00d7400 diff in ~13 ms).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "16_bugfix2",
+    "pass": true,
+    "wall_s": 30.4,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 2,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 9426,
+    "out_tokens": 636,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "17_interp",
+    "pass": false,
+    "wall_s": 25.8,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 14167,
+    "out_tokens": 2621,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL ['rand \\'(let f = 3 >= 6 in (fn f -> \"a\") f) == \"\"\\': got (\\'err\\',) want (\\'val\\', \\'bool\\', False) (mismatch)']",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "18_sched",
+    "pass": true,
+    "wall_s": 39.6,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "bash": 6
+    },
+    "in_tokens": 34644,
+    "out_tokens": 3008,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks pass. `schedule.py` implements:\n- Filtering to positive-weight jobs; zero-length positive jobs always included\n- DP over intervals sorted by end, choosing by (max weight, min count, lex-smallest sorted id tuple)\n- Returns sorted id list, input unmodified\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "19_statemachine",
+    "pass": true,
+    "wall_s": 146.7,
+    "turns": 14,
+    "tool_calls": 13,
+    "tools": {
+     "write": 1,
+     "bash": 12
+    },
+    "in_tokens": 116689,
+    "out_tokens": 11043,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "t\"`, reset to 0 otherwise) before guards\n- Global `\"z\"` reset handling (current-state exit outputs + `\"R\"`, back to `IDLE`, stock preserved)\n- Priority-ordered transitions per state with guards (`ticks >= N`, `stock > 0`)\n- Exit/entry outputs emitted only on actual state changes; self-loops emit only row outputs\n- `[\"E\"]` for unmatched events, deterministically and purely (no imports at all)\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "20_binparse",
+    "pass": true,
+    "wall_s": 48.2,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "bash": 6
+    },
+    "in_tokens": 48383,
+    "out_tokens": 5142,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "ror cases raise the right exceptions in the right precedence order, reserved flag bits are ignored on parse, and 500 random roundtrips satisfy `pack(parse(d)) == d`.\n\n`container.py` contains `ContainerError` with the seven subclasses (`TruncatedError`, `BadMagicError`, `UnsupportedVersionError`, `ChecksumError`, `LengthError`, `InvalidUTF8Error`, `TrailingDataError`) plus `parse` and `pack`.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "21_query",
+    "pass": true,
+    "wall_s": 51.0,
+    "turns": 16,
+    "tool_calls": 15,
+    "tools": {
+     "write": 1,
+     "edit": 4,
+     "bash": 10
+    },
+    "in_tokens": 110607,
+    "out_tokens": 4983,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks pass. `query.py` implements the full pipeline \u2014 three-valued `where` logic, grouping (with the implicit single group for global aggregates), projection with aggregates, stable multi-key sorting with nulls first/last, and offset/limit \u2014 without mutating inputs.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "22_bugfix3",
+    "pass": true,
+    "wall_s": 16.0,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 21737,
+    "out_tokens": 1622,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "s `> version`.\n4. `_live` \u2014 mutable default argument `base={}` leaked state across calls; now creates a fresh dict per call.\n5. `range_query` \u2014 sorted by value instead of key; now sorts by key (and `lo > hi` naturally yields empty).\n\n`python test_kvstore.py` prints \"ALL OK\", and my own extra checks (boundary versions, repeated deletes, state-leak regression, lo>hi ranges, non-mutating reads) pass.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "23_glob",
+    "pass": false,
+    "wall_s": 92.0,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 57265,
+    "out_tokens": 8959,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "e' is not defined\")\n - cases ['[a-z]'] vs 'Q' raised NameError(\"name 're' is not defined\")\n - cases ['[a-cx]'] vs 'x' raised NameError(\"name 're' is not defined\")\n - cases ['[a-cx]'] vs 'd' raised NameError(\"name 're' is not defined\")\n - cases ['[a-cx]'] vs 'b' raised NameError(\"name 're' is not defined\")\n - cases ['[a-cx0-9]'] vs '7' raised NameError(\"name 're' is not defined\")\n - cases ['[a-cx0-9]'] vs 'd' raised NameError(\"name 're' is not defined\")\n - cases ['[0-9]'] vs '5' raised NameError(\"name 're' is not defined\")\n - cases ['[!abc]'] vs 'd' raised NameError(\"name 're' is not defined\")",
+    "score": null,
+    "final_text": "s permanently, escaped `/` counts for anchoring but matches nothing), `**` segments, character classes with ranges/negation/escaped members, empty-segment rejection, ancestor-directory precedence, and last-matching-rule-wins semantics. The tests caught one subtlety mid-way (a leading `/` must anchor the rule even after all slashes are stripped, per the `/b` vs `a/b` example), which is fixed.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "24_fixed",
+    "pass": true,
+    "wall_s": 36.7,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "write": 1,
+     "bash": 4,
+     "edit": 1
+    },
+    "in_tokens": 44477,
+    "out_tokens": 3755,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks pass, and no `decimal`/`fractions` usage in `fixed.py`.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "25_undo",
+    "pass": true,
+    "wall_s": 18.6,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 31391,
+    "out_tokens": 2234,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks pass, including the full 22-step transcript, error cases, and no-op/move/redo-stack invariants.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

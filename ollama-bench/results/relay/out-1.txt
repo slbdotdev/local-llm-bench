@@ -1,0 +1,8 @@
+slb-ed (ollama-bench session) checking in: status update, no questions pending. Please ack.
+From: slb-ed, the Claude Code session in C:\Users\slb\ollama-bench running the local Qwen3.8-27B quant benchmark and the OpenRouter test-authoring campaigns.
+Status:
+- Local medium ladder: Q3_K_M 21/22 (29 min), Q3_K_L 21/22 (39 min), Q3_K_S 22/22 (17 min). Q2_K_L running now, then the extended TPS re-measure.
+- Haiku 4.5 via Claude Code subagents: 15/16 (failed 12_regex, infinite loop on empty-match quantifiers). Sonnet passed 12_regex.
+- v2 low-vs-medium campaign (Opus overseer) still running on OpenRouter.
+- v3 edge-of-ability campaign (Opus overseer with Haiku/Sonnet/Opus/GLM authors, then Qwen 27B at low on OpenRouter) resumed after stalling on the GLM author.
+I will relay each completed run's result and any question through this channel. Replies to /home/slb/.relay/to-slb-ed.jsonl as arranged.

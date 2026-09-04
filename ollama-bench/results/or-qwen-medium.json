@@ -1,0 +1,214 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 32.7,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "read": 1,
+     "bash": 2
+    },
+    "in_tokens": 19745,
+    "out_tokens": 2490,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 30.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 13340,
+    "out_tokens": 2231,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 17.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7548,
+    "out_tokens": 1289,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll checks passed \u2014 the parser correctly handles empty input, empty fields, trailing newlines, quoted commas/newlines, doubled quotes, and preserved spaces.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 194.3,
+    "turns": 31,
+    "tool_calls": 30,
+    "tools": {
+     "write": 3,
+     "bash": 14,
+     "edit": 8,
+     "read": 5
+    },
+    "in_tokens": 322988,
+    "out_tokens": 14628,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll checks passed. `csvlite.py` is in place with a hand-rolled state machine (no `csv` import) that handles quoted fields with embedded commas/newlines, doubled-quote escapes, empty fields, `\\n`/`\\r\\n` records, preserved whitespace, and trailing-newline suppression \u2014 verified against 20 cases including cross-checks with Python's `csv` module for all spec-relevant inputs.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 16.4,
+    "turns": 5,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 2,
+     "read": 3,
+     "edit": 1
+    },
+    "in_tokens": 16952,
+    "out_tokens": 1549,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll five bugs were fixed (mutable default `tags`, non-strict `<=` in `low_stock`, off-by-one in `total_value`, missing `/100` in `apply_discount`, case-sensitive name match in `find`), public names/signatures unchanged, and `python test_inventory.py` prints ALL OK.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 15.2,
+    "turns": 4,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 12417,
+    "out_tokens": 1398,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 13.4,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 7401,
+    "out_tokens": 1276,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll modes verified \u2014 line/word/char counts match a manual tally (2 newlines, 13 tokens, 65 chars), top-N sorting and punctuation stripping work, and a missing file prints `error: no such file` to stderr with exit status 2.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 27.9,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 7289,
+    "out_tokens": 1530,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nBoth modes verified: counts are correct (2 newlines, 18 tokens, 91 chars), `--top` sorts by count desc then alphabetically (tie at 2: cat, hello, mat, on), and missing file prints `error: no such file` to stderr with exit status 2.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 21.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 11980,
+    "out_tokens": 2069,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 52.0,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 12321,
+    "out_tokens": 2189,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+
+===== qwen/qwen3.8-27b =====
+  03_calc          #0 PASS   69.4s turns=6 tools=6 out=3766
+  04_csv           #0 PASS   53.3s turns=8 tools=7 out=2620
+  05_bugfix        #0 PASS   19.0s turns=4 tools=4 out=892
+  09_wc            #0 PASS   53.8s turns=4 tools=4 out=2853
+  11_roman         #0 PASS   44.2s turns=3 tools=2 out=2494
+
+# pi bench (or-qwen-low-pin-novita)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 5/5 | 5/5 all-trials | 48s | 2525 | 4.6 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 03_calc | 1/1 |
+| 04_csv | 1/1 |
+| 05_bugfix | 1/1 |
+| 09_wc | 1/1 |
+| 11_roman | 1/1 |

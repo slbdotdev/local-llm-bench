@@ -1,0 +1,309 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "12_regex",
+    "pass": true,
+    "wall_s": 57.8,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 43857,
+    "out_tokens": 5852,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "13_indent",
+    "pass": true,
+    "wall_s": 15.4,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 9883,
+    "out_tokens": 1236,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "14_ratelimit",
+    "pass": true,
+    "wall_s": 16.4,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 10508,
+    "out_tokens": 1713,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "15_diff",
+    "pass": false,
+    "wall_s": 22.4,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 15295,
+    "out_tokens": 2651,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL ['no difflib']",
+    "score": null,
+    "final_text": "`mydiff.py` is created with `diff` (O(n\u00b7m) LCS DP with backtracking) and `apply` (with `ValueError` on mismatched/leftover lines). All 300 randomized trials verified minimality, order preservation, and round-tripping, error cases raise as required, and 400\u00d7400 inputs complete in ~15 ms.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "16_bugfix2",
+    "pass": true,
+    "wall_s": 15.5,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 13284,
+    "out_tokens": 696,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "17_interp",
+    "pass": false,
+    "wall_s": 23.3,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 14845,
+    "out_tokens": 3103,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "(mismatch)\", 'rand \\'(let f = 3 >= 6 in (fn f -> \"a\") f) == \"\"\\': got (\\'err\\',) want (\\'val\\', \\'bool\\', False) (mismatch)', \"rand '(fn y -> 3) (fn f -> fn g -> f)': got ('err',) want ('val', 'int', 3) (mismatch)\", 'rand \\'(fn f -> \"ab\") (fn y -> \"\" > 9)\\': got (\\'err\\',) want (\\'val\\', \\'str\\', \\'ab\\') (mismatch)', \"rand '9 < (fn g -> 4) (fn y -> 3)': got ('err',) want ('val', 'bool', False) (mismatch)\", \"rand '(fn y -> 0) (let y = fn x -> 5 in fn x -> 6)': got ('err',) want ('val', 'int', 0) (mismatch)\", \"rand '(fn g -> 2) (fn g -> 9 < 1)': got ('err',) want ('val', 'int', 2) (mismatch)\"]",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "18_sched",
+    "pass": true,
+    "wall_s": 142.2,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 2,
+     "edit": 3,
+     "bash": 3
+    },
+    "in_tokens": 104058,
+    "out_tokens": 12162,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": " with nothing, and weight \u2264 0 jobs are never chosen.\n\nVerified with `test_schedule.py`: 10 fixed edge cases (touching intervals, zero-length jobs, `j10 < j2` code-point sorting, a case specifically exercising the lexicographic merge tie-break) plus 500 randomized trials cross-checked against an exhaustive brute-force subset search \u2014 all passing, with input-list immutability asserted on every call.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "19_statemachine",
+    "pass": true,
+    "wall_s": 171.7,
+    "turns": 16,
+    "tool_calls": 15,
+    "tools": {
+     "write": 2,
+     "edit": 6,
+     "bash": 7
+    },
+    "in_tokens": 180738,
+    "out_tokens": 11234,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "ass: the 12 worked examples plus 13 of my own hand-traced cases (stock exhaustion \u2192 `OUT`, resets from `SERVE`/`ONE`/`OUT`, tick timeouts in `TWO`, invalid events in `ONE`/`TWO`/`SERVE`/`OUT`, tick-counter reset by unknown events), plus purity/determinism checks (no input mutation, identical output across calls).\n\n- `machine.py` \u2014 the FSM implementation\n- `check_machine.py` \u2014 the test script\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "20_binparse",
+    "pass": true,
+    "wall_s": 88.8,
+    "turns": 11,
+    "tool_calls": 10,
+    "tools": {
+     "write": 1,
+     "bash": 8,
+     "edit": 1
+    },
+    "in_tokens": 82153,
+    "out_tokens": 9803,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "before checksum), `InvalidUTF8Error` (length checked before decode).\n- **Reserved flag bits** (2\u20137) are ignored by `parse` and written as `0` by `pack`.\n\nOne note from testing: a container with reserved bits set is not well-formed, so `pack(parse(d))` there yields a canonicalized form (bits zeroed) \u2014 which matches the spec's round-trip guarantee that applies only to well-formed byte strings.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "21_query",
+    "pass": false,
+    "wall_s": 900.0,
+    "turns": 0,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 0,
+    "out_tokens": 0,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "FAIL ['exception: ModuleNotFoundError(\"No module named \\'query\\'\")']",
+    "score": null,
+    "final_text": "",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "22_bugfix3",
+    "pass": true,
+    "wall_s": 16.1,
+    "turns": 6,
+    "tool_calls": 6,
+    "tools": {
+     "read": 2,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 24977,
+    "out_tokens": 1524,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "23_glob",
+    "pass": true,
+    "wall_s": 233.1,
+    "turns": 20,
+    "tool_calls": 20,
+    "tools": {
+     "write": 2,
+     "edit": 5,
+     "bash": 13
+    },
+    "in_tokens": 416651,
+    "out_tokens": 20644,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks pass. The implementation is in `globmatch.py` (with `check_globmatch.py` containing the ~60 quick checks that were run and passed, covering the spec's examples, `**` semantics, character classes and ranges, escaped characters, comments/negations, trailing-space stripping, anchoring, empty segments, dir-only rules, ancestor dominance, and both `RuleError` cases).",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "24_fixed",
+    "pass": false,
+    "wall_s": 129.6,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "bash": 4
+    },
+    "in_tokens": 65713,
+    "out_tokens": 8309,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "000'\", \"diff q '-170.' '-837.4': got '170.000000' want '-170.000000'\", \"diff q '-2.8e4' '-0.32': got '28000.00000' want '-28000.00000'\", \"diff q '-71' '+.046': got '71.000000' want '-71.000000'\", \"diff q '-79.2593' '+.896e-1': got '79.25930' want '-79.25930'\", \"diff q '-4.1905' '9.7': got '4.190500' want '-4.190500'\", \"diff q '-55' '1.358': got '55' want '-55'\", \"diff q '-100.' '-.1e+0': got '100.0000' want '-100.0000'\", \"diff q '-1.6496' '+774.2': got '1.64960' want '-1.64960'\", \"diff q '-566.2' '-196.5': got '566.2000' want '-566.2000'\", \"diff q '-53.' '120': got '53.0000' want '-53.0000'\"]",
+    "score": null,
+    "final_text": " equal.\n- **`__str__`**: renders the instance's own scale with zero-padding and no point at scale 0.\n\nI caught and fixed one bug during testing (quantize was dropping the sign of negative values), and the full test suite \u2014 covering all the spec's examples, malformed inputs, rounding modes, division ties, and hash/eq behavior \u2014 now passes. The file imports only `re` from the standard library.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "25_undo",
+    "pass": true,
+    "wall_s": 72.3,
+    "turns": 26,
+    "tool_calls": 25,
+    "tools": {
+     "write": 2,
+     "bash": 13,
+     "edit": 8,
+     "read": 2
+    },
+    "in_tokens": 223652,
+    "out_tokens": 6679,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "ace` groups sharing kind, sealing on successful `undo`/`redo`/cursor-changing `move`, and redo-stack preservation by `move` and no-op edits.\n\n`buffer.py` contains a single `Buffer` class with `text`/`cursor` properties and methods `insert`, `delete`, `backspace`, `move`, `undo`, `redo`, using an internal `_Group` record (kind, before state, after state, chars, open flag) on undo/redo stacks.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

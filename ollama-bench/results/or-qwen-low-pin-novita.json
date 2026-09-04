@@ -1,0 +1,110 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 69.4,
+    "turns": 6,
+    "tool_calls": 6,
+    "tools": {
+     "write": 2,
+     "edit": 1,
+     "bash": 3
+    },
+    "in_tokens": 29113,
+    "out_tokens": 3766,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " precedence, left-to-right associativity, and unary minus/plus that binds tighter than `*`/`/` (so `-3 * -2` = `6.0`).\n- `1/0` naturally raises `ZeroDivisionError`; empty input, unbalanced parens, and trailing operators raise `ValueError`.\n\nRan 29 checks covering precedence, associativity, unary signs, literal forms, whitespace, division by zero, and all the invalid-input cases \u2014 all passed.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 53.3,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "bash": 4,
+     "edit": 2
+    },
+    "in_tokens": 32759,
+    "out_tokens": 2620,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks passed \u2014 `csvlite.py` implements `parse(text) -> list[list[str]]` with a hand-rolled state machine (no `csv` module), handling quoted fields with embedded commas/newlines, doubled quotes, empty fields, `\\r\\n`/`\\n` record separators, and no phantom trailing record.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 19.0,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10964,
+    "out_tokens": 892,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "to a fresh list.\n2. **`low_stock`** \u2014 used `<=` but spec requires strictly below; changed to `<`.\n3. **`total_value`** \u2014 loop started at index 1, skipping the first item; now includes all items.\n4. **`apply_discount`** \u2014 multiplied by `(1 - percent)` instead of `(1 - percent/100)`; 20% off was becoming 0.\n5. **`find`** \u2014 only lowercased the query, not the item name; now compares `it.name.lower()`.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 53.8,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 14581,
+    "out_tokens": 2853,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "3 16 92` \u2014 3 newlines, 16 whitespace tokens, 92 **characters** (the file is actually 94 bytes due to `\u00e9`/`\u00ef`, confirming it counts chars not bytes).\n- **`--top 5`** \u2014 correct count-descending then alphabetical tie-break among the six 2-count words.\n- **`--top 100`** \u2014 prints all 10 distinct words (N exceeds distinct count).\n- **Missing file** \u2014 `error: no such file` to stderr, exit status 2.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 44.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 10042,
+    "out_tokens": 2494,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

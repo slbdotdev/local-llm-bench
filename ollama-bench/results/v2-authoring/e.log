@@ -1,0 +1,7 @@
+Done. Task written and validated.
+
+**Summary**
+
+- **21_query** — a mini SQL-ish query engine (`query.py: run(rows, spec)`) that tests edge-case reasoning: three-valued logic (UNKNOWN propagation through and/or/not, `eq` with a None constant, incomparable-type comparisons, missing keys as None), null-aware aggregates vs `count_star`, sum/avg/min/max over empty or all-None groups, implicit single group with zero rows, None-equals-None grouping with first-appearance emission, plain columns from the group's first row, exact aggregate output naming (`count(*)`, `sum(x)`, ...), stable multi-key sorting with direction-independent nulls placement, and offset/limit applied after sorting — validated by ~35 fixed cases plus 250 seeded randomised differential tests against an independent brute-force reference implemented inside `test.py` (I verified the grader catches broken variants: UNKNOWN-as-true, empty-aggregate-zero, None-counting, offset-before-sort, last-row plain columns, input mutation, and nulls-placement bugs all FAIL; runtime ~0.1 s).
+
+`python selftest2.py .` reports `21_query ref PASS` (the only complaint is the `examples` directory itself, as expected).

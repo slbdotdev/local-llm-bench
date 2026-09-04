@@ -1,0 +1,44 @@
+{
+ "56_tmpl/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\56_tmpl\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\56_tmpl\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\57_stateful\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\57_stateful\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\55_minilang\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\luna-max-v4\\55_minilang\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ }
+}

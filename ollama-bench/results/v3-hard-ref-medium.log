@@ -1,0 +1,29 @@
+
+===== qwen/qwen3.8-27b =====
+  32_wirefmt       #0 PASS  562.2s turns=30 tools=29 out=33287
+  32_wirefmt       #1 FAIL  558.9s turns=37 tools=36 out=28400
+  33_spanmap       #0 PASS  252.9s turns=25 tools=24 out=14611
+  33_spanmap       #1 PASS 1438.7s turns=59 tools=58 out=90360
+  34_tmplfix       #0 PASS  186.7s turns=19 tools=18 out=17550
+  34_tmplfix       #1 PASS  324.0s turns=23 tools=25 out=25008
+  35_ledger        #0 FAIL   51.7s turns=4 tools=8 out=3812
+  35_ledger        #1 PASS   48.2s turns=5 tools=9 out=2853
+  36_minilang      #0 PASS  310.4s turns=17 tools=16 out=21985
+  36_minilang      #1 PASS  437.4s turns=24 tools=23 out=34140
+
+# pi bench (v3-hard-ref-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 8/10 | 0.99 (10/10 runs) | 3/5 all-trials | 417s | 27201 | 24.6 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 32_wirefmt | 1/2 (score 0.98) |
+| 33_spanmap | 2/2 (score 1.00) |
+| 34_tmplfix | 2/2 (score 1.00) |
+| 35_ledger | 1/2 (score 0.99) |
+| 36_minilang | 2/2 (score 1.00) |
+ALLDONE exit=0

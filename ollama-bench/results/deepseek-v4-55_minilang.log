@@ -1,0 +1,17 @@
+
+===== deepseek/deepseek-v4-flash-0731 =====
+  55_minilang      #0 FAIL  478.4s turns=30 tools=29 out=96101 STOP=stop
+  55_minilang      #1 FAIL  557.4s turns=32 tools=31 out=76351 STOP=stop
+  55_minilang      #2 FAIL  384.8s turns=45 tools=44 out=64158 STOP=stop
+
+# pi bench (deepseek-v4-55_minilang)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deepseek/deepseek-v4-flash-0731 | ? GB | ? | ? | 0/3 | 0.97 (3/3 runs) | 0/1 all-trials | 474s | 78870 | 34.7 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | deepseek/deepseek-v4-flash-0731 |
+|---|---|
+| 55_minilang | 0/3 (score 0.97) |

@@ -1,0 +1,127 @@
+{
+ "q27-Q2_K_L": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "bash": 20,
+     "read": 3,
+     "write": 1
+    },
+    "in_tokens": 315472,
+    "out_tokens": 56421,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 20/31\nFAIL ['kind bad_escape', 'constructs that look malformed but are literal / legal', 'differential A: mixed syntax, index bucket 1', 'differential B: mixed syntax, index bucket 2', 'differential C: character classes', 'differential D: escapes and class escapes', 'differential E: anchors and boundaries', 'differential F: groups and alternation', 'differential G: bounded quantifiers', 'differential H: non-greedy quantifiers']",
+    "score": 0.6452,
+    "final_text": "My manual harness had escape mangling issues. Let me just run the actual spec test file directly:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "length": 1,
+     "toolUse": 24
+    },
+    "events": {
+     "compaction_end": 2
+    },
+    "trial": 0
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 2,
+     "read": 1
+    },
+    "in_tokens": 12796,
+    "out_tokens": 24500,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 0/31\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'minilang\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "There's no `minilang.py` yet, only a test file. Let me read it to understand expectations.\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "length": 1,
+     "toolUse": 3
+    },
+    "events": {
+     "compaction_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 27,
+    "tool_calls": 28,
+    "tools": {
+     "bash": 18,
+     "read": 2,
+     "write": 4,
+     "edit": 4
+    },
+    "in_tokens": 345292,
+    "out_tokens": 61515,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "in ascending window order', 'canonical form: event tuples, exact shapes and exact order', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 1)', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 2)', 'sequence: wraparound, dup, window bounds, flush chain (crafted)', 'precedence: randomised differential in strict mode', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, sequence/wraparound traffic (bucket 1)', 'randomised differential, sequence/wraparound traffic (bucket 2)']",
+    "score": 0.4615,
+    "final_text": "I mistakenly changed the abort kind \u2014 it should stay `\"illegal_limit\"`. Let me correct:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 27
+    },
+    "events": {
+     "compaction_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 11,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 5,
+     "read": 1,
+     "write": 2,
+     "edit": 2
+    },
+    "in_tokens": 84591,
+    "out_tokens": 64060,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 5/30\nFAIL ['scan: empty text and start offsets', 'scan: radix 16/8/2 integer values', 'scan: signs and suffixes on valid literals', 'scan differential: random valid integers', 'scan differential: random valid floats', 'scan differential: random valid multi-field lines', 'format_number: defaults and precision', 'format_number: width, fill and alignment', 'format_number: grouping and sign policies', 'format_number differential: modes h and u']",
+    "score": 0.1667,
+    "final_text": "The draft I wrote is buggy/placeholder. Let me rewrite `numlit.py` cleanly per the spec.\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "length": 1,
+     "toolUse": 10
+    },
+    "events": {
+     "compaction_end": 1
+    },
+    "trial": 0
+   }
+  ]
+ }
+}

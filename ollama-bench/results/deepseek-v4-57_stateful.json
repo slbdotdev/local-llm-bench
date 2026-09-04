@@ -1,0 +1,94 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 361.1,
+    "turns": 23,
+    "tool_calls": 22,
+    "tools": {
+     "bash": 17,
+     "read": 1,
+     "write": 1,
+     "edit": 3
+    },
+    "in_tokens": 1364669,
+    "out_tokens": 71318,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "(bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'timeouts: strict boundary, fires before processing, timer resets (crafted)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, sequence/wraparound traffic (bucket 1)', 'randomised differential, sequence/wraparound traffic (bucket 2)', 'randomised differential, timeout-heavy traffic (bucket 1)', 'randomised differential, timeout-heavy traffic (bucket 2)']",
+    "score": 0.5385,
+    "final_text": "mode** raises `ProtocolError` before appending the first `drop`/`illegal`/`timeout`/`abort` event, with `.kind`/`.index`/`.events` per spec (confirmed `bad_checksum` beats illegal, `bad_type` beats illegal order-wise).\n- **Return dict** has exactly the ten keys, tuples/bytes/bool types enforced.\n- No imports at all \u2014 verified the module runs even with the `time` and `struct` module slots poisoned.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 22,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 463.1,
+    "turns": 20,
+    "tool_calls": 19,
+    "tools": {
+     "write": 2,
+     "bash": 11,
+     "edit": 5,
+     "read": 1
+    },
+    "in_tokens": 1208875,
+    "out_tokens": 64785,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 17/26\nFAIL ['state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, sequence/wraparound traffic (bucket 1)', 'randomised differential, sequence/wraparound traffic (bucket 2)', 'randomised differential, timeout-heavy traffic (bucket 1)', 'randomised differential, timeout-heavy traffic (bucket 2)', 'randomised differential, everything mixed']",
+    "score": 0.6538,
+    "final_text": " rules).\n- **Return dict** \u2014 exactly the ten keys, `window` in ascending window order, bytes/tuples/bool/int types as specified; only `ProtocolError` (a `ValueError`) can escape (verified with a 3000-transcript fuzz).\n\nVerified the four spec examples (including the hand-written wire hex and the `0x7E` checksum escaped to `7D 5E`), strict-mode raises, and ~30 additional edge cases \u2014 all pass.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 19,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 304.1,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "bash": 11,
+     "read": 1,
+     "write": 3,
+     "edit": 9
+    },
+    "in_tokens": 1413970,
+    "out_tokens": 57449,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "(bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'timeouts: strict boundary, fires before processing, timer resets (crafted)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, sequence/wraparound traffic (bucket 1)', 'randomised differential, sequence/wraparound traffic (bucket 2)', 'randomised differential, timeout-heavy traffic (bucket 1)', 'randomised differential, timeout-heavy traffic (bucket 2)']",
+    "score": 0.5385,
+    "final_text": "llegal).\n\nVerification: the provided `test_stateful.py` passes, plus 74 of my own edge-case checks (each drop reason, timeout/discard ordering, dup/flush chains, mod-16 wraparound, draining, RESET, abort, window ordering, strict precedence, all bad transcript types) and a 3000-case random fuzz confirming only `ProtocolError` ever escapes and strict/non-strict agree whenever strict completes.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 24,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

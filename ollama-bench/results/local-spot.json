@@ -1,0 +1,29 @@
+{
+ "q27-Q3_K_M": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 449.1,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "read": 1,
+     "bash": 2
+    },
+    "in_tokens": 27299,
+    "out_tokens": 9082,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`calc.py` created with a hand-written tokenizer and recursive-descent parser (`expr \u2192 term \u2192 factor`, no `eval`/`exec`/`ast`). All 31 self-checks passed (precedence, associativity, unary minus, decimals, whitespace, unbalanced parens, trailing operators, unknown chars, empty input \u2192 `ValueError`; `1 / 0` \u2192 `ZeroDivisionError`), and CLI evaluation works (`(2 + 3) * -4 / 2` \u2192 `-10.0`).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

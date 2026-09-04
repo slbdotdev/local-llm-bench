@@ -1,0 +1,82 @@
+You are the overseer of a small benchmark campaign that is ALREADY RUNNING. A first overseer turn
+started it correctly and then ended its turn too early, which killed that pi run; you are the
+resume. Work in the current directory, C:\Users\slb\ollama-bench\results\luna-max-v4.
+
+The campaign: three tasks from a Python coding benchmark (56_tmpl, 57_stateful, 55_minilang - the
+three longest prompts in tasks-v4), two trials each, six runs total. The taker for each run is the
+Codex CLI on model gpt-5.6-luna at reasoning effort max, launched by _driver.sh, which is running
+detached right now and is unaffected by the earlier overseer dying. Sandboxes and manifest.json
+already exist. Some runs have already finished.
+
+CRITICAL - how this harness works: your run ends the moment you produce a message with no tool
+call. If you stop to say "still waiting", the whole overseer run dies. So while you are waiting,
+every single message you produce MUST contain a tool call. Do not narrate progress. Do not end
+your turn until either you have written report.md, or a hard rule below tells you to stop.
+
+Do exactly these steps, in order, and nothing else:
+
+1. Wait for the driver to finish. It writes the file _ALLDONE in this directory when all six runs
+   are done; per-run markers are <task>/t<n>/_done. Wait by running this exact shell command, over
+   and over, as your only action, until it prints ALLDONE:
+
+      cd /c/Users/slb/ollama-bench/results/luna-max-v4 && for i in $(seq 1 30); do [ -f _ALLDONE ] && break; sleep 10; done; if [ -f _ALLDONE ]; then echo ALLDONE; else echo "NOTYET done=$(ls */t*/_done 2>/dev/null | wc -l)/6"; fi
+
+   Each call blocks for up to five minutes. Expect to need up to twenty calls. Keep calling it.
+   Do NOT run python, do NOT read files, and do NOT write anything while it still prints NOTYET -
+   just call it again immediately.
+   Only if it prints the SAME done= count twenty times in a row AND no codex process is running
+   (check with: powershell -NoProfile -Command "Get-Process codex -ErrorAction SilentlyContinue | Measure-Object | Select-Object -Expand Count")
+   may you conclude the driver shell died. In that case relaunch it once with
+
+      cd /c/Users/slb/ollama-bench/results/luna-max-v4 && nohup bash _driver.sh > _driver2.log 2>&1 &
+
+   - it skips sandboxes that already have a _done file - and note in report.md that you had to.
+
+2. Run: python run.py collect
+   This reads each sandbox's _rc and _codex_stderr.log and writes runs.json with, per run: rc,
+   wall_s, total_tokens, tokens_blocks, nested_refusals (and input/output/reasoning token counts if
+   Codex reported them).
+
+3. Run: python run.py grade
+   This copies each task's hidden test in and writes grades.json with pass/score per run.
+
+4. Write report.md in this directory. It must contain:
+   a. A per-run table: task, trial, pass, score, wall seconds, total tokens, nested-call refusals.
+   b. Per-task pass rate (x/2) and mean SCORE.
+   c. Mean and total tokens across the six runs.
+   d. A comparison table for the same three tasks against:
+      - results/codex-luna-v4 (the same taker at effort MEDIUM, 3 trials: 55_minilang 1/3 pass,
+        mean SCORE 0.946; 57_stateful 1/3 pass, mean SCORE 0.808; 56_tmpl was not run there);
+      - ../sonnet-v4/grades.json and ../haiku-v4/grades.json (read them; take only the three tasks
+        in this campaign);
+      - the local fp8 reference ../v4-ref-medium-1800.json (a dict keyed by model with a "runs"
+        list; take the entries whose "task" is one of the three).
+      Say plainly which cells are missing rather than inventing them.
+   e. A short section on the nesting guard. Background: on 2026-09-02 Codex takers discovered the
+      deployed codex-run skill and called it recursively, up to 11 nested calls in a single run.
+      Since commit 3ce8f44 the codex-run and pi-run wrappers export AGENT_RUN_DEPTH and refuse any
+      nested call with the line "refusing nested run" on stderr and exit status 2. Report how many
+      such refusals appear across the six stderr logs (run.py collect counts them) and how many
+      "tokens used" blocks each log has - exactly one per log means no nested Codex run happened.
+   f. A note that this campaign needed two overseer pi runs: the first started the campaign and
+      then ended its turn while polling, and you are the resume.
+   g. Anything else you could not do, or that looked wrong. Be specific.
+
+Hard rules:
+  * Do NOT modify run.py, _driver.sh, _run-overseer.sh, _run-overseer2.sh, this prompt file,
+    anything under ..\..\tasks-v4, or any file outside
+    C:\Users\slb\ollama-bench\results\luna-max-v4. You may read anything under
+    C:\Users\slb\ollama-bench.
+  * Do NOT call codex-run or pi-run yourself, and do not invoke the codex-run or pi-run skills.
+    The only thing allowed to start a Codex process is _driver.sh.
+  * Do NOT touch the local GPU, Ollama, or any other running benchmark process on this machine.
+  * Do NOT run git commands that write, and do not commit anything.
+  * If a step fails, or a Codex run reports that the ChatGPT plan usage window is exhausted (the
+    wrapper prints "the ChatGPT plan usage window is exhausted"), STOP, write what you have into
+    report.md, and say so clearly. Do not work around it, do not retry with a different model, and
+    do not fabricate results.
+  * Everything you report must come from a file you actually read. Do not estimate a number you
+    could have measured.
+
+When you are finished, your final message should be a short summary: the per-task pass rate and
+mean score, total and mean tokens, the nesting-guard outcome, and anything that went wrong.

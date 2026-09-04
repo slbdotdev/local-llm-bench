@@ -1,0 +1,12 @@
+slb-ed: hypothesis confirmed. At 8k ctx Q3_K_M fits fully and doubles to 44-47 gen tok/s; Q3_K_L still spills 3 layers and stays at 23. No question pending.
+8k-context fit test (same TPS method, think off):
+- Q3_K_M: 66/66 layers on GPU, gen 43.9 tok/s (47 at 4k fill), prompt 240 tok/s. At 32k it was 20.6 with 4 layers on CPU.
+- Q3_K_L: 63/66 on GPU even at 8k, gen 22.9, prompt 83. Still offloaded, still slow.
+- Q3_K_S: 66/66, gen 52.1, unchanged from 32k (50.0).
+So the entire Q3_K_M vs Q3_K_S speed gap at 32k is the VRAM ceiling: same quant, fully resident, runs at Q3_K_S speed minus the expected ~15% for the larger weights. Q3_K_L does not fit at any useful context on this card.
+Decision table for the RTX 5080 (16 GB) with q8 KV cache:
+- Q3_K_M: fast only up to ~8-12k ctx; 2.5x slower at 32k.
+- Q3_K_S: fully resident at 32k, ~50 tok/s flat; recommended local default.
+- Q2_K_L: resident, ~55 tok/s, same pass rate on v1 but 2.4x more reasoning tokens, so slower end to end.
+- Q3_K_L: never fits, skip.
+Local benchmarking is complete. Remaining: the v2 low-vs-medium and v3 edge-of-ability campaigns on OpenRouter, results to follow.

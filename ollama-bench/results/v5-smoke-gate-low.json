@@ -1,0 +1,30 @@
+{
+ "q27-Q2_K_L": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 150.1,
+    "turns": 1,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 5272,
+    "out_tokens": 8192,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/31\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'reengine\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

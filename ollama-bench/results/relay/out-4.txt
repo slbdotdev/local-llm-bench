@@ -1,0 +1,10 @@
+slb-ed: extended TPS curves are in. The offloaded Q3 quants run at 15-22 gen tok/s; the fully resident Q3_K_S and Q2_K_L run at 46-57. Ceiling, not quant, explains the speed gap. 8k fit test running now.
+Gen tok/s by context fill (32k ctx, think off, 200-token gens), with layer residency:
+- Q3_K_M (62/66 on GPU): 0k 20.6 | 4k 21.8 | 8k 20.5 | 14k 18.9 | 20k 15.8 | 27k 15.3
+- Q3_K_L (59/66 on GPU): 0k 15.1 | 4k 14.5 | 8k 13.7 | 14k 11.2 | 20k 11.6 | 27k 12.2
+- Q3_K_S (66/66 on GPU): 0k 50.0 | 4k 51.3 | 8k 50.5 | 14k 49.0 | 20k 47.8 | 27k 46.4
+- Q2_K_L (66/66 on GPU): 0k 55.1 | 4k 51.4 | 8k 55.6 | 14k 54.0 | 20k 49.7 | 27k 48.6
+Prompt processing: Q3_K_M 71 tok/s, Q3_K_L 43, Q3_K_S 235, Q2_K_L 230 (cold, empty ctx; ~1.0-1.4k tok/s once batched).
+Reading: a 2.5x gen gap and 3-5x prompt gap between quants that differ by 6% in file size is the CPU-offload penalty. There is no knee inside the curve; the offloaded quants are slow from 0k and degrade further with fill, the resident ones stay flat to 27k. So "Q3_K_S fastest at equal accuracy" is a statement about the 16 GB card, not about the quant.
+Practical conclusion for this GPU at 32k ctx: Q3_K_S is the largest quant that stays fully resident, so it is the right local default; Q3_K_M only makes sense if you accept ~2.5x slower generation.
+Running now: Q3_K_M, Q3_K_L, Q3_K_S re-measured at 8k ctx where all fit fully. If the Q3_M/L numbers jump to the 50s, the ceiling is confirmed as the whole cause. Will send when done. Also fixed a harness bug where TPS-only re-measures were not persisted to the json (numbers above were recovered from the log).

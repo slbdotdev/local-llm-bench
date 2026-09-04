@@ -1,0 +1,44 @@
+{
+    "providers": {
+        "openrouter": {
+            "compat": {
+                "openRouterRouting": {
+                    "data_collection": "deny",
+                    "sort": "price",
+                    "zdr": true
+                },
+                "sendSessionAffinityHeaders": true,
+                "sessionAffinityFormat": "openrouter"
+            },
+            "modelOverrides": {
+                "deepseek/deepseek-v4-flash-0731": {
+                    "compat": {
+                        "openRouterRouting": {
+                            "max_price": {
+                                "completion": 0.36,
+                                "prompt": 0.16
+                            },
+                            "sort": "throughput"
+                        }
+                    },
+                    "contextWindow": 1048576
+                },
+                "z-ai/glm-5.3-flash": {
+                    "compat": {
+                        "openRouterRouting": {
+                            "ignore": [
+                                "reka",
+                                "io-net"
+                            ],
+                            "max_price": {
+                                "completion": 0.5,
+                                "prompt": 0.19
+                            }
+                        }
+                    },
+                    "contextWindow": 1048576
+                }
+            }
+        }
+    }
+}

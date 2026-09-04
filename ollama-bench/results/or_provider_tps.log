@@ -1,0 +1,27 @@
+parasail     #0 ttft=0.353 total=3.71s out=400 tps=119.0 served=Parasail
+parasail     #1 ttft=0.386 total=5.43s out=400 tps=79.3 served=Parasail
+parasail     #2 ttft=0.371 total=4.72s out=400 tps=92.1 served=Parasail
+akashml      #0 ttft=0.974 total=5.02s out=400 tps=98.8 served=AkashML
+akashml      #1 ttft=0.667 total=5.67s out=400 tps=79.9 served=AkashML
+akashml      #2 ttft=0.485 total=5.35s out=400 tps=82.2 served=AkashML
+ionstream    #0 ttft=0.475 total=5.5s out=400 tps=79.6 served=Ionstream
+ionstream    #1 ttft=0.406 total=6.08s out=400 tps=70.5 served=Ionstream
+ionstream    #2 ttft=0.314 total=9.98s out=400 tps=41.4 served=Ionstream
+reka         #0 ttft=0.402 total=6.03s out=400 tps=71.1 served=Reka
+reka         #1 ttft=0.497 total=7.31s out=400 tps=58.7 served=Reka
+reka         #2 ttft=0.325 total=7.39s out=400 tps=56.6 served=Reka
+coreweave    #0 ttft=0.3 total=7.01s out=400 tps=59.6 served=CoreWeave
+coreweave    #1 ttft=0.722 total=7.37s out=400 tps=60.1 served=CoreWeave
+coreweave    #2 ttft=0.267 total=6.13s out=400 tps=68.2 served=CoreWeave
+io-net       #0 ttft=0.579 total=4.8s out=400 tps=94.7 served=Io Net
+io-net       #1 ttft=0.407 total=8.63s out=400 tps=48.7 served=Io Net
+io-net       #2 ttft=0.486 total=4.57s out=400 tps=97.8 served=Io Net
+venice       #0 ttft=0.707 total=3.16s out=400 tps=163.1 served=Venice
+venice       #1 ttft=0.634 total=3.07s out=400 tps=164.3 served=Venice
+venice       #2 ttft=0.523 total=3.02s out=400 tps=160.5 served=Venice
+phala        #0 ttft=0.451 total=4.89s out=396 tps=89.2 served=Phala
+phala        #1 ttft=0.451 total=5.05s out=400 tps=87.0 served=Phala
+phala        #2 ttft=0.463 total=5.07s out=382 tps=83.0 served=Phala
+novita       #0 ttft=0.566 total=77.66s out=4499 tps=58.4 served=Novita
+novita       #1 ttft=0.708 total=10.23s out=491 tps=51.5 served=Novita
+novita       #2 ttft=0.508 total=30.03s out=1491 tps=50.5 served=Novita

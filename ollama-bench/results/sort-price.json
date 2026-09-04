@@ -1,0 +1,52 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "27_semver",
+    "pass": true,
+    "wall_s": 73.6,
+    "turns": 10,
+    "tool_calls": 10,
+    "tools": {
+     "read": 2,
+     "bash": 6,
+     "edit": 2
+    },
+    "in_tokens": 62538,
+    "out_tokens": 4949,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 29/29\nPASS",
+    "score": 1.0,
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 442.7,
+    "turns": 43,
+    "tool_calls": 44,
+    "tools": {
+     "read": 5,
+     "write": 1,
+     "edit": 18,
+     "bash": 20
+    },
+    "in_tokens": 1342637,
+    "out_tokens": 28792,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": " any non-list/tuple (incl. `''`) is a `type` error.\n- Loop scoping used `ctx.pop`, destroying pre-existing `NAME`/`loop` values \u2192 now saves old values and restores them (removed only if absent), including on error, and handles `NAME == \"loop\"`.\n- `parse_if` accepted a second `{% else %}` or an `{% elif %}` after `{% else %}` \u2192 after `else`, only `endif` is valid, so those are now `mismatch`.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

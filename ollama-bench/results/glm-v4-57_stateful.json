@@ -1,0 +1,94 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "57_stateful",
+    "pass": true,
+    "wall_s": 752.1,
+    "turns": 54,
+    "tool_calls": 53,
+    "tools": {
+     "write": 2,
+     "bash": 34,
+     "edit": 15,
+     "read": 1,
+     "grep": 1
+    },
+    "in_tokens": 1395981,
+    "out_tokens": 24713,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 26/26\nPASS",
+    "score": 1.0,
+    "final_text": "er, CLOSE flush updating `expect`, RESET discard, illegal-limit abort stopping the replay, all four states \u00d7 five types\n- A 20,000-transcript fuzz run confirmed `replay` never raises anything but `ProtocolError`\n\nOne real bug was caught and fixed during testing: `ESC` followed by `FLAG` was initially reported as `truncated` instead of `bad_escape` because both read_byte outcomes shared a sentinel.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 53,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "57_stateful",
+    "pass": true,
+    "wall_s": 819.9,
+    "turns": 24,
+    "tool_calls": 23,
+    "tools": {
+     "write": 2,
+     "bash": 14,
+     "edit": 6,
+     "read": 1
+    },
+    "in_tokens": 739260,
+    "out_tokens": 32965,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 26/26\nPASS",
+    "score": 1.0,
+    "final_text": "scaped `7D 5E` checksum), strict/non-strict parity, timeout edge (`clock == deadline` is not a timeout), abort stopping the whole replay, escaping of unusual bytes, all resync paths, window ordering with final `expect`, and rejection of `str`/`memoryview`/list/`None` transcripts. Along the way it caught one genuine implementation bug (Part A drops not raising in strict mode), which is fixed.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 23,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 603.1,
+    "turns": 14,
+    "tool_calls": 13,
+    "tools": {
+     "write": 2,
+     "bash": 9,
+     "edit": 2
+    },
+    "in_tokens": 399159,
+    "out_tokens": 28409,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 22/26\nFAIL ['framing: stray FLAG, escapes, bad length/checksum, resync (bucket 1)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, everything mixed']",
+    "score": 0.8462,
+    "final_text": "`stateful.py` is complete \u2014 40,000 randomized replays (bytes and bytearray, strict and non-strict) produced no escaping exceptions, and the 78 targeted checks covering all four spec examples, strict-mode precedence, escaping, truncation, timeouts, aborts, buffer ordering and discard ordering all pass. The module imports nothing at all; all byte handling and arithmetic is hand-written.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 13,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

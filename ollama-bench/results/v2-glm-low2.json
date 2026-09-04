@@ -1,0 +1,51 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "17_interp",
+    "pass": true,
+    "wall_s": 272.3,
+    "turns": 16,
+    "tool_calls": 15,
+    "tools": {
+     "write": 2,
+     "bash": 10,
+     "edit": 3
+    },
+    "in_tokens": 128733,
+    "out_tokens": 6128,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "21_query",
+    "pass": true,
+    "wall_s": 113.9,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "bash": 5
+    },
+    "in_tokens": 57229,
+    "out_tokens": 5300,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

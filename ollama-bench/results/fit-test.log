@@ -1,0 +1,38 @@
+retps finished 2026-09-02T21:42:23-06:00, running 8k-context fit test
+
+===== q27-Q3_K_M =====
+    ctx fill     31 tok: prompt   254.0 tok/s, gen  29.7 tok/s
+    ctx fill   4124 tok: prompt  1688.0 tok/s, gen  46.9 tok/s
+TPS: {'gen_tps': 43.9, 'prompt_tps': 239.8, 'load_s': 11.9, 'size_gb': 13.4, 'vram_gb': 13.4, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 254.0, 'gen_tps': 29.7}, {'fill_tokens': 4124, 'prompt_tps': 1688.0, 'gen_tps': 46.9}]}
+
+===== q27-Q3_K_L =====
+    ctx fill     31 tok: prompt    80.9 tok/s, gen  21.5 tok/s
+    ctx fill   4124 tok: prompt  1284.0 tok/s, gen  22.5 tok/s
+TPS: {'gen_tps': 22.9, 'prompt_tps': 82.6, 'load_s': 13.9, 'size_gb': 14.6, 'vram_gb': 13.42, 'pct_gpu': 92, 'curve': [{'fill_tokens': 31, 'prompt_tps': 80.9, 'gen_tps': 21.5}, {'fill_tokens': 4124, 'prompt_tps': 1284.0, 'gen_tps': 22.5}]}
+
+===== q27-Q3_K_S =====
+    ctx fill     31 tok: prompt   273.6 tok/s, gen  52.4 tok/s
+    ctx fill   4124 tok: prompt  1686.0 tok/s, gen  51.4 tok/s
+TPS: {'gen_tps': 52.1, 'prompt_tps': 231.7, 'load_s': 11.6, 'size_gb': 12.58, 'vram_gb': 12.58, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 273.6, 'gen_tps': 52.4}, {'fill_tokens': 4124, 'prompt_tps': 1686.0, 'gen_tps': 51.4}]}
+
+# pi bench (local-ctx8k)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+
+## Per task (passes/trials)
+
+| task | q27-Q3_K_M | q27-Q3_K_L | q27-Q3_K_S |
+|---|---|---|---|
+| 01_rle | - | - | - |
+| 02_lru | - | - | - |
+| 03_calc | - | - | - |
+| 04_csv | - | - | - |
+| 05_bugfix | - | - | - |
+| 06_refactor | - | - | - |
+| 07_dijkstra | - | - | - |
+| 08_topo | - | - | - |
+| 09_wc | - | - | - |
+| 10_intervals | - | - | - |
+| 11_roman | - | - | - |
+# fit test done

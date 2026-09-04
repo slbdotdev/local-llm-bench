@@ -1,0 +1,94 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 303.7,
+    "turns": 36,
+    "tool_calls": 35,
+    "tools": {
+     "bash": 25,
+     "read": 1,
+     "write": 2,
+     "edit": 7
+    },
+    "in_tokens": 2295173,
+    "out_tokens": 69015,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "RFC \u00a76.2.2.1 normalization example `eXAMPLE://a/./b/../b/%63/%7b` \u2192 `example://a/b/c/%7B`).\n- 65k randomized fuzz cases: round-trip both directions, normalize idempotency, resolve always returns a normalized absolute URI, and every raised error carries a valid `.kind`.\n\nScratch test files were removed; `uriref.py` remains along with the original `test_uriref.py` (which reports \"visible OK\").\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 35,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 533.2,
+    "turns": 33,
+    "tool_calls": 32,
+    "tools": {
+     "bash": 16,
+     "read": 1,
+     "write": 2,
+     "edit": 13
+    },
+    "in_tokens": 1528402,
+    "out_tokens": 48128,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "),\n- all RFC 3986 \u00a75.4.1/\u00a75.4.2 resolution examples (44 cases),\n- ~30,000 randomized round-trip cases (`unparse(parse(x)) == x`) plus `normalize` idempotence,\n- error-kind checks for every rejection category (`type`, `scheme`, `port`, `host`, `userinfo`, `char`, `escape`, `form`, `base`), checking exact check ordering,\n- grep/AST confirmation that the module contains no `import` statements at all.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 32,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 308.2,
+    "turns": 41,
+    "tool_calls": 41,
+    "tools": {
+     "write": 2,
+     "bash": 32,
+     "edit": 4,
+     "read": 3
+    },
+    "in_tokens": 2541500,
+    "out_tokens": 67339,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "The visible test suite passes, and the module is clean: zero imports, exact API surface (`UriError`, `parse`, `unparse`, `normalize`, `resolve`, plus the internal `remove_dot_segments`), and all spec examples plus RFC 3986 \u00a75.4.1 resolution table and my own edge/error-kind checks pass.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 40,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

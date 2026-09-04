@@ -1,0 +1,94 @@
+{
+ "q27-IQ3_M-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 16.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5999,
+    "out_tokens": 480,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "Created `rle.py` with `encode` and `decode`, ran checks covering the given examples, empty strings, multi-digit runs, and round-trips \u2014 all passed. done",
+    "stderr": "Warning: Model \"q27-IQ3_M-64k\" not found for provider \"ollama\". Using custom model id.",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 13.3,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10328,
+    "out_tokens": 585,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "done",
+    "stderr": "Warning: Model \"q27-IQ3_M-64k\" not found for provider \"ollama\". Using custom model id.",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 23.5,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 9285,
+    "out_tokens": 1129,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "Created `graph.py` with `shortest_path` (heapq-based Dijkstra) and verified: basic paths, `src == dst`, unreachable destination, neighbour-only nodes, `KeyError` for unknown source, and multi-hop routing. All checks passed.\n\ndone",
+    "stderr": "Warning: Model \"q27-IQ3_M-64k\" not found for provider \"ollama\". Using custom model id.",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 75.5,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 1,
+     "bash": 4,
+     "edit": 2,
+     "read": 1
+    },
+    "in_tokens": 33924,
+    "out_tokens": 3697,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "All checks passed. `intervals.py` implements `merge` (sorts a copy, merges overlapping/adjacent), `insert` (appends `new` and re-merges), and `total_length`, with `ValueError` on any `start > end`.\n\ndone",
+    "stderr": "Warning: Model \"q27-IQ3_M-64k\" not found for provider \"ollama\". Using custom model id.",
+    "trial": 0
+   }
+  ]
+ }
+}

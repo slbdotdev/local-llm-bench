@@ -1,0 +1,17 @@
+
+===== deepseek/deepseek-v4-flash-0731 =====
+  61_codecs        #0 PASS  499.0s turns=20 tools=19 out=80581 STOP=stop
+  61_codecs        #1 PASS  568.2s turns=40 tools=39 out=78878 STOP=stop
+  61_codecs        #2 PASS  452.1s turns=38 tools=41 out=75959 STOP=stop
+
+# pi bench (deepseek-v4-61_codecs)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deepseek/deepseek-v4-flash-0731 | ? GB | ? | ? | 3/3 | 1.00 (3/3 runs) | 1/1 all-trials | 506s | 78473 | 33.0 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | deepseek/deepseek-v4-flash-0731 |
+|---|---|
+| 61_codecs | 3/3 (score 1.00) |

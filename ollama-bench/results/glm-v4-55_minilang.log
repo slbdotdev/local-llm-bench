@@ -1,0 +1,17 @@
+
+===== z-ai/glm-5.3-flash =====
+  55_minilang      #0 FAIL 1001.0s turns=9 tools=9 out=36768 STOP=stop
+  55_minilang      #1 FAIL  973.7s turns=27 tools=25 out=22580 STOP=stop ERR=Upstream idle timeout exceeded
+  55_minilang      #2 FAIL  633.2s turns=18 tools=17 out=30314 STOP=stop
+
+# pi bench (glm-v4-55_minilang)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| z-ai/glm-5.3-flash | ? GB | ? | ? | 0/3 | 0.89 (3/3 runs) | 0/1 all-trials | 869s | 29887 | 17.0 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | z-ai/glm-5.3-flash |
+|---|---|
+| 55_minilang | 0/3 (score 0.89) |

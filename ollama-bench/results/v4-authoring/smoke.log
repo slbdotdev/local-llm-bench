@@ -1,0 +1,37 @@
+
+===== qwen/qwen3.8-27b =====
+  40_shquote       #0 PASS   38.4s turns=6 tools=5 out=2369
+  40_shquote       #1 PASS  301.1s turns=41 tools=40 out=17158
+  40_shquote       #2 PASS  212.2s turns=26 tools=25 out=14401
+  41_csvdialect    #0 PASS  528.6s turns=61 tools=60 out=37150
+  41_csvdialect    #1 PASS  337.8s turns=42 tools=41 out=23709
+  41_csvdialect    #2 PASS  182.1s turns=21 tools=20 out=15067
+  42_pathnorm      #0 PASS  306.3s turns=52 tools=52 out=22117
+  42_pathnorm      #1 PASS  139.7s turns=18 tools=18 out=11191
+  42_pathnorm      #2 PASS  462.9s turns=27 tools=26 out=36046
+  43_wildmatch     #0 PASS  364.5s turns=39 tools=39 out=26347
+  43_wildmatch     #1 FAIL  314.0s turns=23 tools=22 out=22858
+  43_wildmatch     #2 FAIL  501.8s turns=45 tools=45 out=37080
+  44_money         #0 PASS  188.1s turns=16 tools=15 out=16299
+  44_money         #1 PASS  128.2s turns=5 tools=4 out=9596
+  44_money         #2 PASS  226.7s turns=10 tools=9 out=15133
+  45_datecalc      #0 PASS  255.3s turns=23 tools=22 out=14226
+  45_datecalc      #1 PASS  483.7s turns=27 tools=28 out=36427
+  45_datecalc      #2 PASS  521.1s turns=48 tools=47 out=40626
+  46_vercmp        #0 FAIL  301.1s turns=18 tools=17 out=20191
+  46_vercmp        #1 PASS  246.6s turns=18 tools=18 out=17364
+  46_vercmp        #2 PASS  265.6s turns=17 tools=16 out=21752
+  47_nullagg       #0 PASS  217.7s turns=16 tools=15 out=16965
+  47_nullagg       #1 PASS  307.5s turns=14 tools=13 out=24700
+ALLDONE exit=1
+
+===== qwen/qwen3.8-27b =====
+ALLDONE2
+
+===== qwen/qwen3.8-27b =====
+  52_reengine      #0 FAIL 1500.2s turns=22 tools=22 out=68611 TIMEOUT
+  53_gitattr       #0 FAIL  822.2s turns=44 tools=44 out=60389
+  54_sedlite       #0 FAIL  839.0s turns=82 tools=81 out=60278
+PASS1DONE
+2026-09-03 09:50 NOTE: stale author subagent for 59_uri finished at ~09:45 and rewrote tasks-v4/59_uri/test.py (mtime 09:43:42; prompt/ref/seed unchanged since 02:42). test.py is copied at grade time, and no live stream (v4 local ranking, fp8 reference 1800 s, Sonnet probe) had graded 59_uri yet, so all three use the 09:43 version consistently. The Haiku probe (04:00) graded 59_uri with the earlier test.py (19/27, 27/27, 26/27). Caveat for cross-probe comparison on 59_uri only.
+2026-09-03 10:30 CORRECTION to the 09:50 note (GLM audit C5): tasks-v4/59_uri/ref/ directory mtime is 09:30:21, so something was created or removed inside it then (a __pycache__ from the author's verification is the likely cause; the author reported deleting it). ref/uriref.py itself carries mtime 02:40:51 and the 09:50 selftest2 run graded it 27/27 PASS with the 09:43 test.py, so the reference content is intact. Hash snapshot of all tasks-v4 test.py/prompt.md: results/v4-test-hashes.txt (10:25).

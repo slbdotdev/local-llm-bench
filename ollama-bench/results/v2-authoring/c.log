@@ -1,0 +1,8 @@
+Everything is consistent now: prompt examples match the table, ref passes the hidden grader, and the grader's fixed cases were all hand-traced against the spec (several of my initial expectations were wrong and were corrected via the independent reference). Final validation:
+
+```
+19_statemachine    ref  PASS
+selftest2 OK
+```
+
+**19_statemachine** — a fresh-code task testing careful reading of an explicit FSM transition table: a vending-machine controller (`machine.py`, `run(events) -> list[str]`) with 5 named states, guard conditions on a `stock` counter and a `ticks` event counter (the only "clock"), a documented top-to-bottom priority rule for competing rows, ordered exit→row→entry output emission (self-loops emit only row outputs), invalid events emitting `"E"` while staying in state, a global `"z"` reset, and timeouts triggered purely by counting consecutive `t` events. The hidden grader adds ~35 hand-traced fixed cases (including the three-dispense sold-out path to `OUT`, tick-guard boundaries at 2 and 3, and reset-from-every-state), a seeded (1901) randomised differential test with 400 sequences against an independently written flat-rule reference interpreter inside test.py, determinism/freshness checks, source checks for banned `time`/`threading`/`random` imports, and state-coverage checks that `IDLE`, `ONE`, `TWO`, `SERVE`, and `OUT` are all exercised.

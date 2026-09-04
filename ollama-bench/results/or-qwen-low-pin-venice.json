@@ -1,0 +1,112 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 44.7,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "read": 1,
+     "bash": 4
+    },
+    "in_tokens": 47009,
+    "out_tokens": 4905,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 46.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 26034,
+    "out_tokens": 5124,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 9.8,
+    "turns": 5,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 3,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 14018,
+    "out_tokens": 1033,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 26.4,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "read": 1,
+     "bash": 1
+    },
+    "in_tokens": 15140,
+    "out_tokens": 2092,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nVerified \u2014 lines=4 (newline chars), words=11, chars=66 (\u00e9 counted once), top mode sorts/count-strips correctly with ties alphabetical, and missing file gives stderr message + exit 2.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 13.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7509,
+    "out_tokens": 1161,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

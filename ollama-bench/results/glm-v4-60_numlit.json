@@ -1,0 +1,91 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "60_numlit",
+    "pass": true,
+    "wall_s": 1056.5,
+    "turns": 15,
+    "tool_calls": 16,
+    "tools": {
+     "write": 3,
+     "bash": 7,
+     "edit": 6
+    },
+    "in_tokens": 606682,
+    "out_tokens": 42518,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "done",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 14,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 634.2,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "write": 2,
+     "bash": 12,
+     "edit": 10
+    },
+    "in_tokens": 805315,
+    "out_tokens": 28000,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 28/30\nFAIL ['canonical text for integers, radix integers and floats', 'scan differential: mutated literals, exact kind and pos']",
+    "score": 0.9333,
+    "final_text": "`divmod` on `as_integer_ratio`), half-even/half-up/truncate/floor modes, negative-zero sign handling, comma grouping, and fill/align padding\n\nBans verified: no banned imports, no calls to `int`/`float`/`complex`/`eval`/`exec`/`round`/`format`/`Decimal`/`literal_eval` (values built by digit accumulation with lookup tables), and no `%`-formatting or `{...:...}` placeholders in string literals.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 24,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 788.9,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "write": 2,
+     "bash": 5,
+     "edit": 2
+    },
+    "in_tokens": 322017,
+    "out_tokens": 31048,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 28/30\nFAIL ['canonical text for integers, radix integers and floats', 'scan differential: mutated literals, exact kind and pos']",
+    "score": 0.9333,
+    "final_text": "f integer digits only, negative-zero sign retention, and `^` centre padding with the extra character on the right.\n- **Bans respected** \u2014 no imports at all, no calls to `int`/`float`/`eval`/`exec`/`round`/`format`/etc. (digits parsed via `ord` arithmetic, ints via `str()` and manual accumulation, rounding via `divmod`), and no `%`-formatting or `{...:...}` placeholders in any string literal.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 9,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

@@ -1,0 +1,15 @@
+{
+    "defaultProvider":  "openrouter",
+    "defaultModel":  "z-ai/glm-5.3-flash",
+    "defaultThinkingLevel":  "max",
+    "theme":  "dark",
+    "quietStartup":  true,
+    "enableInstallTelemetry":  false,
+    "enableAnalytics":  false,
+    "shellPath":  "~/scoop/apps/git/current/bin/bash.exe",
+    "compaction":  {
+                       "enabled":  true,
+                       "reserveTokens":  548576,
+                       "keepRecentTokens":  20000
+                   }
+}

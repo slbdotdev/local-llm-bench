@@ -1,0 +1,46 @@
+
+===== qwen/qwen3-32b =====
+  01_rle           #0 PASS   47.8s turns=2 tools=2 out=1590
+  01_rle           #1 PASS   70.4s turns=3 tools=2 out=1916
+  02_lru           #0 PASS  101.3s turns=3 tools=2 out=3735
+  02_lru           #1 PASS  105.6s turns=3 tools=2 out=3237
+  03_calc          #0 FAIL  900.0s turns=0 tools=0 out=0 TIMEOUT
+  03_calc          #1 PASS  266.2s turns=3 tools=2 out=8917
+  04_csv           #0 PASS  429.3s turns=7 tools=6 out=15243
+  04_csv           #1 FAIL  290.6s turns=3 tools=2 out=10162
+  05_bugfix        #0 FAIL  217.0s turns=6 tools=5 out=7473
+  05_bugfix        #1 PASS   77.3s turns=5 tools=4 out=2916
+  06_refactor      #0 PASS  143.1s turns=13 tools=12 out=4660
+  06_refactor      #1 PASS  399.3s turns=31 tools=30 out=10247
+  07_dijkstra      #0 PASS  121.8s turns=2 tools=3 out=4813
+  07_dijkstra      #1 PASS  202.0s turns=5 tools=4 out=6770
+  08_topo          #0 PASS  425.8s turns=5 tools=3 out=15459 ERR=Stream ended without finish_reason
+  08_topo          #1 PASS  646.3s turns=16 tools=15 out=20691
+  09_wc            #0 PASS  392.7s turns=9 tools=6 out=12859 ERR=Stream ended without finish_reason
+  09_wc            #1 FAIL  900.0s turns=21 tools=17 out=27495 TIMEOUT ERR=Stream ended without finish_reason
+  10_intervals     #0 PASS  152.0s turns=4 tools=3 out=5958
+  10_intervals     #1 PASS  145.6s turns=5 tools=4 out=5214
+  11_roman         #0 PASS  201.1s turns=3 tools=2 out=7171
+  11_roman         #1 PASS  147.8s turns=2 tools=2 out=5668
+
+# pi bench (ov-qwen3-32b)
+
+| model | size | %GPU | gen tok/s | pass | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3-32b | ? GB | ? | ? | 18/22 | 7/11 all-trials | 290s | 8282 | 5.8 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3-32b |
+|---|---|
+| 01_rle | 2/2 |
+| 02_lru | 2/2 |
+| 03_calc | 1/2 |
+| 04_csv | 1/2 |
+| 05_bugfix | 1/2 |
+| 06_refactor | 2/2 |
+| 07_dijkstra | 2/2 |
+| 08_topo | 2/2 |
+| 09_wc | 1/2 |
+| 10_intervals | 2/2 |
+| 11_roman | 2/2 |

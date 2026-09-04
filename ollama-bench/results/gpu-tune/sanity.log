@@ -1,0 +1,21 @@
+
+===== q27-IQ3_M-64k =====
+  01_rle           #0 PASS   16.4s turns=3 tools=2 out=480
+  05_bugfix        #0 PASS   13.3s turns=4 tools=4 out=585
+  07_dijkstra      #0 PASS   23.5s turns=4 tools=3 out=1129
+  10_intervals     #0 PASS   75.5s turns=9 tools=8 out=3697
+
+# pi bench (gpu-tune-sanity)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-IQ3_M-64k | ? GB | ? | ? | 4/4 | - | 4/4 all-trials | 32s | 1473 | 4.2 |
+
+## Per task (passes/trials)
+
+| task | q27-IQ3_M-64k |
+|---|---|
+| 01_rle | 1/1 |
+| 05_bugfix | 1/1 |
+| 07_dijkstra | 1/1 |
+| 10_intervals | 1/1 |

@@ -1,0 +1,37 @@
+{
+ "q27-Q2_K_L": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 900.1,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "read": 2
+    },
+    "in_tokens": 39797,
+    "out_tokens": 43218,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 3/31\nFAIL ['PatternError subclasses ValueError and carries a string .kind raised NameError', 'exact return container types (tuple / list / int / None) raised NameError', 'None, empty matches and non-participating groups raised NameError', 'kind unbalanced_paren / bad_group', 'kind unterminated_class', 'kind bad_range', 'kind trailing_backslash', 'kind bad_escape', 'kind nothing_to_repeat', 'kind multiple_repeat']",
+    "score": 0.0968,
+    "final_text": "The current file is broken \u2014 it has duplicate classes and garbage in `_parse_outer`/`_Parser`. Let me check for any task spec details before rewriting.\n\n",
+    "stderr": "timeout",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "toolUse": 4,
+     "length": 2
+    },
+    "events": {
+     "compaction_end": 1
+    },
+    "trial": 0
+   }
+  ]
+ }
+}

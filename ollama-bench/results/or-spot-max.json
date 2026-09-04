@@ -1,0 +1,129 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 225.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "bash": 3,
+     "write": 1
+    },
+    "in_tokens": 57037,
+    "out_tokens": 22871,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "sionError` on division by zero, and `ValueError` for empty input, unbalanced parens, trailing operators, stray tokens, etc. No `eval`/`exec`/`ast`/third-party code (grep only matched the docstring).\n\nVerified by running `python calc.py` (34 self-checks incl. error cases, all passing) and a separate precedence/associativity cross-check (`100/10/5 \u2192 2.0`, `10-2-3 \u2192 5.0`, `(2+3)*(4-1) \u2192 15.0`).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 85.3,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 28194,
+    "out_tokens": 8427,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`), handling `+ - * /`, parens, unary minus/plus, `2`/`3.5`/`.5` literals, standard precedence and left associativity. Running `python calc.py` executed 14 value checks plus `ValueError` cases (empty, `2+`, unbalanced parens, unknown chars, trailing tokens) and `ZeroDivisionError` cases (`1/0`, `1/(2-2)`, `5/.0`) \u2014 all passed. The grep hit for `eval` is only in the docstring, not real usage.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 211.8,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 3,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 70020,
+    "out_tokens": 19668,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 250.0,
+    "turns": 4,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 60938,
+    "out_tokens": 33410,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 162.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 19665,
+    "out_tokens": 19609,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " passed:\n\n- Known values: 4\u2192IV, 9\u2192IX, 40\u2192XL, 90\u2192XC, 400\u2192CD, 900\u2192CM, 1994\u2192MCMXCIV, 3999\u2192MMMCMXCIX\n- Full round-trip: `from_roman(to_roman(n)) == n` for all 3999 values\n- `ValueError` from `to_roman` on 0, -1, 4000, 10000, 3.5, \"5\", None, True, False\n- `ValueError` from `from_roman` on \"IIII\", \"VX\", \"IC\", \"XXXX\", \"IVI\", \"MMMM\", \"\", \"iv\", \"Ix\", \"I V\", \"MMV!\", \"ICM\", \"VIV\", \"LC\", \"IL\", 123, None\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 900.0,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 14999,
+    "out_tokens": 5668,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nSelf-checks passed. Let me verify with an independent method (per-digit reference table) to be sure:\n\n",
+    "stderr": "timeout",
+    "trial": 1
+   }
+  ]
+ }
+}

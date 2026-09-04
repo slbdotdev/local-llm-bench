@@ -1,0 +1,11 @@
+Validation passes — `22_bugfix3` reports **ref PASS** and **seed FAIL (good)**; the only complaint is the `examples` directory, which AUTHORING.md says to expect and ignore.
+
+**Summary of 22_bugfix3** (`~/ollama-bench/results/v2-authoring/f/22_bugfix3`): a bugfix task on a versioned key-value store (`kvstore.py`) built as a plain list of log entries, with **five chained subtle bugs** in the seed where fixing one exposes the next:
+
+1. **Wrong ordering assumption** — `latest_version` returns the *last entry's* version instead of the max, silently breaking version numbering for out-of-order logs (and thus `put`/`delete`).
+2. **Off-by-one boundary** — `value_at` skips entries at *exactly* `version` (`>=` instead of `>`), so a key set at that version reads as absent, and deletions appear not to have happened yet.
+3. **Early return masking a later bug** — `delete` early-returns without appending a tombstone whenever the key looks absent (a check itself distorted by bug 2), so ghost/already-deleted keys never get tombstones.
+4. **Mutable default argument** — `_live(..., base={})` mutates the shared default, leaking state between `snapshot`/`keys_at`/`range_query` calls.
+5. **Wrong sort key** — `range_query` sorts by *value* instead of by key.
+
+`test.py` sha256-checks the visible `test_kvstore.py` against the real computed hash (`ba3f14cd…`), requires it to print ALL OK, adds ~25 hidden edge-case checks (out-of-order logs, tombstone structure, version-0/above-latest boundaries, non-mutation, statelessness), plus a seeded 50-trial randomized differential test against a brute-force reference built into the grader with shuffled (out-of-order) logs.

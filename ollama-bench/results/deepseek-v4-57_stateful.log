@@ -1,0 +1,17 @@
+
+===== deepseek/deepseek-v4-flash-0731 =====
+  57_stateful      #0 FAIL  361.1s turns=23 tools=22 out=71318 STOP=stop
+  57_stateful      #1 FAIL  463.1s turns=20 tools=19 out=64785 STOP=stop
+  57_stateful      #2 FAIL  304.1s turns=25 tools=24 out=57449 STOP=stop
+
+# pi bench (deepseek-v4-57_stateful)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deepseek/deepseek-v4-flash-0731 | ? GB | ? | ? | 0/3 | 0.58 (3/3 runs) | 0/1 all-trials | 376s | 64517 | 21.7 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | deepseek/deepseek-v4-flash-0731 |
+|---|---|
+| 57_stateful | 0/3 (score 0.58) |

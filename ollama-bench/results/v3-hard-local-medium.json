@@ -1,0 +1,460 @@
+{
+ "q27-Q2_K_L": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "32_wirefmt",
+    "pass": false,
+    "wall_s": 296.9,
+    "turns": 1,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 3624,
+    "out_tokens": 16000,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/33\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'wirefmt\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "33_spanmap",
+    "pass": false,
+    "wall_s": 710.9,
+    "turns": 22,
+    "tool_calls": 21,
+    "tools": {
+     "write": 1,
+     "edit": 7,
+     "bash": 11,
+     "read": 2
+    },
+    "in_tokens": 308030,
+    "out_tokens": 38174,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/36\nFAIL ['single paint, at() boundaries, covered()', 'at() over gaps and negative coordinates', \"kind 'type' for non-int coordinates and non-str label\", 'randomised differential test A (paint/erase mix)', 'randomised differential test B (erase heavy)', 'randomised differential test C (with checkpoints)']",
+    "score": 0.8333,
+    "final_text": "rejecting bools and floats; label must be `str`), `label` (empty string), `order` (`hi < lo`) \u2014 first failure wins.\n- Verified all four worked examples, error-kind priority, negative coords, no-op no-length spans, slice edge cases, checkpoint nesting (commit/rollback interplay), and performance: 200,000 paints + `spans()` in **0.43s** with 200,000 spans, plus an overlapping variant in 0.32s.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 823.1,
+    "turns": 18,
+    "tool_calls": 17,
+    "tools": {
+     "bash": 11,
+     "write": 3,
+     "edit": 3
+    },
+    "in_tokens": 344634,
+    "out_tokens": 43456,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "The `ex3` comparison shows identical-looking strings \u2014 let me inspect byte by byte:\n\n",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "35_ledger",
+    "pass": true,
+    "wall_s": 423.4,
+    "turns": 17,
+    "tool_calls": 21,
+    "tools": {
+     "read": 4,
+     "edit": 3,
+     "bash": 14
+    },
+    "in_tokens": 251625,
+    "out_tokens": 22098,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 35/35\nPASS",
+    "score": 1.0,
+    "final_text": "LedgerError` on per-account/per-currency overdraft (absent balance counts as 0); added `totals(state)` returning currency\u2192sum in first-appearance order over accounts then currencies.\n- **`report.py`**: rows sorted by account then currency (including zero balances); appended a second 33-`-` rule line plus `TOTAL` rows in `engine.totals` order; empty state renders header + two rule lines only.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "36_minilang",
+    "pass": false,
+    "wall_s": 451.4,
+    "turns": 2,
+    "tool_calls": 1,
+    "tools": {
+     "write": 1
+    },
+    "in_tokens": 13682,
+    "out_tokens": 24224,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/39\nFAIL ['import minilang failed: SyntaxError: unterminated string literal (detected at line 16)', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ },
+ "q27-Q3_K_S": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "32_wirefmt",
+    "pass": false,
+    "wall_s": 515.9,
+    "turns": 2,
+    "tool_calls": 1,
+    "tools": {
+     "write": 1
+    },
+    "in_tokens": 8811,
+    "out_tokens": 25038,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 18/33\nFAIL ['encode plain atoms', 'encode escapes backslash and delimiters', 'encode lists and nesting', 'decode plain atoms and the tilde atom raised WireError', 'decode canonical escapes', 'decode lowercase hex escapes', 'decode accepts uppercase hex digits', 'decode accepts redundant escapes of printable ASCII', 'canon normalises to the canonical form', 'canon is idempotent']",
+    "score": 0.5455,
+    "final_text": "",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "33_spanmap",
+    "pass": false,
+    "wall_s": 525.8,
+    "turns": 1,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 3327,
+    "out_tokens": 25909,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/36\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'spanmap\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 859.3,
+    "turns": 39,
+    "tool_calls": 37,
+    "tools": {
+     "read": 7,
+     "write": 2,
+     "edit": 12,
+     "bash": 16
+    },
+    "in_tokens": 652751,
+    "out_tokens": 33088,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "My impl follows section-3 rules exactly. The spec's w3 example string is apparently mangled (HTML rendering artifact). Let me fix the test file to use the actually-correct expected strings, and deal with remaining fail items:\n\n",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "35_ledger",
+    "pass": true,
+    "wall_s": 82.4,
+    "turns": 5,
+    "tool_calls": 8,
+    "tools": {
+     "read": 4,
+     "edit": 3,
+     "bash": 1
+    },
+    "in_tokens": 33609,
+    "out_tokens": 3882,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 35/35\nPASS",
+    "score": 1.0,
+    "final_text": "All checks pass (`ALL OK` from visible_test.py plus my extra checks covering the worked examples, XFR parsing/overdraft rules, BHD scale, and report sorting/totals), and both worked example outputs match exactly.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "36_minilang",
+    "pass": false,
+    "wall_s": 1063.8,
+    "turns": 31,
+    "tool_calls": 28,
+    "tools": {
+     "write": 2,
+     "edit": 8,
+     "read": 2,
+     "bash": 16
+    },
+    "in_tokens": 593498,
+    "out_tokens": 45886,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 21/39\nFAIL ['empty programs and empty blocks', 'number literals', 'comments', 'int and float rendering', 'bool rendering', 'string rendering and string operators', 'booleans are not numbers', 'mixed-type operands are type errors', 'division and modulo by zero', 'blocks shadow and let sees the outer value']",
+    "score": 0.5385,
+    "final_text": "Direct run works \u2014 the heredoc must have corrupted my test source (quote issues). Let me put the tests in a file instead:\n\n",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ },
+ "q27-IQ3_M": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "32_wirefmt",
+    "pass": false,
+    "wall_s": 1800.2,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "read": 1
+    },
+    "in_tokens": 14774,
+    "out_tokens": 23436,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 8/33\nFAIL ['decode plain atoms and the tilde atom', 'decode canonical escapes raised WireError', 'decode lowercase hex escapes raised WireError', 'decode lists and nesting raised WireError', 'decode accepts uppercase hex digits raised WireError', 'decode accepts redundant escapes of printable ASCII raised WireError', \"decode treats '(' inside an atom as a literal raised WireError\", 'canon normalises to the canonical form raised WireError', 'canon is idempotent raised WireError', 'random values survive encode then decode raised WireError']",
+    "score": 0.2424,
+    "final_text": "The edits went through, but that looks like it may have inserted stray characters. Let me verify the file:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "33_spanmap",
+    "pass": false,
+    "wall_s": 1800.1,
+    "turns": 0,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 0,
+    "out_tokens": 0,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 0/36\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'spanmap\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": false,
+    "wall_s": 1800.2,
+    "turns": 3,
+    "tool_calls": 4,
+    "tools": {
+     "read": 3,
+     "write": 1
+    },
+    "in_tokens": 12613,
+    "out_tokens": 12977,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 29/36\nFAIL ['escaping replaces & first', 'raw and esc in non-final positions', 'nested for keeps the outer loop', 'loop variable shadows and is restored', 'context dict is left unchanged', 'mismatched branch tags', 'type errors from for iterables']",
+    "score": 0.8056,
+    "final_text": "Now the trender fixes:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "35_ledger",
+    "pass": false,
+    "wall_s": 509.6,
+    "turns": 7,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 5,
+     "read": 4,
+     "edit": 3
+    },
+    "in_tokens": 61504,
+    "out_tokens": 7070,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 34/35\nFAIL ['Entry has 6 named fields with dest defaulting to None']",
+    "score": 0.9714,
+    "final_text": "Everything passes: `visible_test.py` prints `ALL OK`, all worked examples from the prompt match byte-for-byte, and my quick checks for BHD parsing/formatting, XFR field rules, overdraft (per-currency, exact-balance, self/existing-dest ordering, missing source as 0), `totals` ordering, and the new report layout (sorted rows, totals in first-appearance order, empty state) all pass.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "36_minilang",
+    "pass": false,
+    "wall_s": 1800.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 3,
+     "bash": 1
+    },
+    "in_tokens": 26379,
+    "out_tokens": 16335,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "terminated"
+    ],
+    "grader": "SCORE 0/39\nFAIL [\"import minilang failed: ModuleNotFoundError: No module named 'minilang'\", 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "I made a mess with that scratch file. Let me remove it and write one clean, coherent implementation:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   }
+  ]
+ },
+ "q27-Q3_K_M": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "32_wirefmt",
+    "pass": true,
+    "wall_s": 1800.2,
+    "turns": 29,
+    "tool_calls": 29,
+    "tools": {
+     "write": 1,
+     "edit": 5,
+     "bash": 21,
+     "read": 2
+    },
+    "in_tokens": 286896,
+    "out_tokens": 34932,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 33/33\nPASS",
+    "score": 1.0,
+    "final_text": "My test input construction is wrong \u2014 let me fix it:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "33_spanmap",
+    "pass": false,
+    "wall_s": 1800.2,
+    "turns": 8,
+    "tool_calls": 10,
+    "tools": {
+     "write": 2,
+     "edit": 3,
+     "bash": 5
+    },
+    "in_tokens": 58519,
+    "out_tokens": 33744,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 30/36\nFAIL ['adjacent equal labels merge', 'paint with hi == lo is a no-op; order of paints does not matter', \"kind 'type' for non-int coordinates and non-str label\", 'randomised differential test A (paint/erase mix)', 'randomised differential test B (erase heavy)', 'randomised differential test C (with checkpoints)']",
+    "score": 0.8333,
+    "final_text": "Let me reproduce step-by-step with logging:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 1578.8,
+    "turns": 20,
+    "tool_calls": 21,
+    "tools": {
+     "read": 3,
+     "write": 1,
+     "edit": 5,
+     "bash": 12
+    },
+    "in_tokens": 307160,
+    "out_tokens": 29256,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "All visible tests and my extra spec checks pass.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "35_ledger",
+    "pass": true,
+    "wall_s": 658.9,
+    "turns": 14,
+    "tool_calls": 17,
+    "tools": {
+     "read": 4,
+     "write": 4,
+     "bash": 9
+    },
+    "in_tokens": 162489,
+    "out_tokens": 12691,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 35/35\nPASS",
+    "score": 1.0,
+    "final_text": "All the previous failing assertions were arithmetic slips in my own scratch tests (minor-unit conversions and `rjust` spacing), not code bugs \u2014 the earlier parts (Entry subclass, overdraft rules, field-count/dest validation, order preservation, empt\n\ny state render) each passed on rerun.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "36_minilang",
+    "pass": false,
+    "wall_s": 1800.2,
+    "turns": 22,
+    "tool_calls": 22,
+    "tools": {
+     "write": 4,
+     "edit": 3,
+     "bash": 15
+    },
+    "in_tokens": 408691,
+    "out_tokens": 33125,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 26/39\nFAIL ['empty programs and empty blocks', 'not precedence', 'assorted parse errors', 'bool rendering', 'booleans are not numbers', 'mixed-type operands are type errors', 'blocks shadow and let sees the outer value', 'assignment targets the nearest declaring scope', 'undefined variable errors', 'duplicate declaration errors']",
+    "score": 0.6667,
+    "final_text": "I left `\"` in `_SINGLE_OPS` by accident. Removing it:\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   }
+  ]
+ }
+}

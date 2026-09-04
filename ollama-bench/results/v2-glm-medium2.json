@@ -1,0 +1,52 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "17_interp",
+    "pass": true,
+    "wall_s": 55.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 23508,
+    "out_tokens": 4527,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "score": null,
+    "final_text": "`/`!=`, ints only for `< <= > >=`, booleans never comparable), division-by-zero, unbound identifier, and non-function application all raising `InterpError`.\n- **Public API**: `evaluate` returns `int`/`str`/`bool` directly, or a closure as a Python callable `f(arg)` whose body evaluation errors are also `InterpError`, and whose result is converted to a plain Python value under the same rules.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "21_query",
+    "pass": false,
+    "wall_s": 204.8,
+    "turns": 11,
+    "tool_calls": 10,
+    "tools": {
+     "write": 1,
+     "bash": 7,
+     "read": 1,
+     "edit": 1
+    },
+    "in_tokens": 123988,
+    "out_tokens": 13648,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": ": 'sum', 'col': 'b'}], 'group_by': ['cat', 'b'], 'order_by': [('sum(b)', 'asc', 'nulls_fir got=[{'count(cat)': None, 'sum(b)': None}, {'count(cat)': None, 'sum(b)': 1.0}, {'count(cat)': None, 'sum(b)': 1.0}, {'count(cat)': None, 'sum(b)': 7.5}] want=[{'count(cat)': 0, 'sum(b)': None}, {'count(cat)': 0, 'sum(b)': 1.0}, {'count(cat)': 0, 'sum(b)': 1.0}, {'count(cat)': 0, 'sum(b)': 7.5}]\", \"rand 153 spec={'where': {'op': 'or', 'args': []}, 'select': [{'fn': 'count', 'col': 'name'}, {'fn': 'sum', 'col': 'b'}]} got=[{'count(name)': None, 'sum(b)': None}] want=[{'count(name)': 0, 'sum(b)': None}]\"]",
+    "score": null,
+    "final_text": "` / `<col>`.\n- **`order_by`**: stable `cmp_to_key` sort over output rows with direction-independent null placement.\n- **`offset`/`limit`** applied last; inputs are never mutated and all output dicts are new.\n\nTwo of my initial test expectations were wrong (the engine was correct both times) \u2014 one `avg` value, a missing `(None, None)` group, and a `desc` tie-break \u2014 which I corrected along the way.",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

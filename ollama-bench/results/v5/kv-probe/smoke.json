@@ -1,0 +1,42 @@
+{
+ "model": "C:\\Users\\slb\\.ollama\\models\\blobs\\sha256-ba0c5dee3026dccf7126b90f1fbb10f2916d540aad470eb0c03da68734dbe10a",
+ "ctx": 16384,
+ "records": 40,
+ "idle_vram_mib": 1734,
+ "runs": [
+  {
+   "config": "q8_0-q8_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q8_0",
+   "ctx": 16384,
+   "load_s": 8.6,
+   "vram_loaded_mib": 15178,
+   "vram_peak_mib": 15455,
+   "score": "2/2",
+   "accuracy": 1.0,
+   "gen_tok_s": 49.6,
+   "prompt_tok_s": 1274.4,
+   "prompt_tokens": 1981,
+   "results": [
+    {
+     "index": 0,
+     "depth": 0.0,
+     "node": "fenwick-cross",
+     "checksum": "B21352",
+     "answer": "B21352",
+     "ok": true,
+     "prompt_tokens": 1981
+    },
+    {
+     "index": 3,
+     "depth": 0.075,
+     "node": "ashcombe-ridge",
+     "checksum": "3C6DB6",
+     "answer": "3C6DB6",
+     "ok": true,
+     "prompt_tokens": 1982
+    }
+   ]
+  }
+ ]
+}

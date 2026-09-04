@@ -1,0 +1,12 @@
+`20_binparse` passes (the `examples` complaint is expected per AUTHORING.md). Final state:
+
+```
+20_binparse/
+├── prompt.md          task spec with exact byte layout, error table, worked hex examples
+├── test.py            hidden grader
+└── ref/container.py   reference solution
+```
+
+**20_binparse** — tests careful binary-format handling: exact big-endian field widths and ordering, a flags byte gating optional fields, `zlib.crc32` over precisely `data[:-4]` stored big-endian, and strict error precedence (length → magic → version → checksum → record-area errors → trailing bytes) across seven `ContainerError` subclasses (`TruncatedError`, `BadMagicError`, `UnsupportedVersionError`, `ChecksumError`, `LengthError`, `InvalidUTF8Error`, `TrailingDataError`). The grader pins the format with golden hex vectors, hand-built cases for every error (including boundary cases: a string payload ending exactly at the checksum, a length running into the checksum region, trailing bytes vs. truncation), reserved-flag-bit tolerance, and a 400-case seeded randomised round-trip `pack(parse(d)) == d` against an independent reference packer. Mutation testing confirmed the grader catches wrong byte order, skipped checks, and off-by-one length boundaries.
+
+Validation: `python selftest2.py .` → `20_binparse ref PASS`, `selftest2 OK`.

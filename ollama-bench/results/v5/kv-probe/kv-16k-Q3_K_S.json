@@ -1,0 +1,704 @@
+{
+ "model": "C:\\Users\\slb\\.ollama\\models\\blobs\\sha256-ba0c5dee3026dccf7126b90f1fbb10f2916d540aad470eb0c03da68734dbe10a",
+ "ctx": 16384,
+ "records": 300,
+ "idle_vram_mib": 1178,
+ "runs": [
+  {
+   "config": "q8_0-q8_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q8_0",
+   "ctx": 16384,
+   "load_s": 6.6,
+   "vram_loaded_mib": 14621,
+   "vram_peak_mib": 14723,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 51.9,
+   "prompt_tok_s": 1443.3,
+   "prompt_tokens": 14981,
+   "results": [
+    {
+     "index": 6,
+     "depth": 0.02,
+     "node": "downholt-fen-1",
+     "checksum": "35CEC9",
+     "answer": "35CEC9",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 18,
+     "depth": 0.06,
+     "node": "harrow-combe-2",
+     "checksum": "7C3CA1",
+     "answer": "7C3CA1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 30,
+     "depth": 0.1,
+     "node": "ashcombe-fen-1",
+     "checksum": "3F3F14",
+     "answer": "3F3F14",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 42,
+     "depth": 0.14,
+     "node": "graystone-vale-2",
+     "checksum": "36F123",
+     "answer": "36F123",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 54,
+     "depth": 0.18,
+     "node": "vaulterra-hollow-1",
+     "checksum": "18ABFF",
+     "answer": "18ABFF",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 66,
+     "depth": 0.22,
+     "node": "elderfell-gate-2",
+     "checksum": "44E536",
+     "answer": "44E536",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 78,
+     "depth": 0.26,
+     "node": "tarnwick-gate-1",
+     "checksum": "B0AE04",
+     "answer": "B0AE04",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 90,
+     "depth": 0.3,
+     "node": "colden-reach-2",
+     "checksum": "76CB8C",
+     "answer": "76CB8C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 103,
+     "depth": 0.343,
+     "node": "bramblewood-hollow-1",
+     "checksum": "822A2D",
+     "answer": "822A2D",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 115,
+     "depth": 0.383,
+     "node": "quillon-combe-1",
+     "checksum": "FB95B6",
+     "answer": "FB95B6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 127,
+     "depth": 0.423,
+     "node": "ravensmere-fen-1",
+     "checksum": "3B92AC",
+     "answer": "3B92AC",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 139,
+     "depth": 0.463,
+     "node": "quillon-reach-1",
+     "checksum": "F63596",
+     "answer": "F63596",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 151,
+     "depth": 0.503,
+     "node": "kestrelby-combe-1",
+     "checksum": "0F38C0",
+     "answer": "0F38C0",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 163,
+     "depth": 0.543,
+     "node": "brightmoor-moor-1",
+     "checksum": "8D7159",
+     "answer": "8D7159",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 175,
+     "depth": 0.583,
+     "node": "kestrelby-reach-1",
+     "checksum": "C6939B",
+     "answer": "C6939B",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 187,
+     "depth": 0.623,
+     "node": "ashcombe-cross-2",
+     "checksum": "80EDF4",
+     "answer": "80EDF4",
+     "ok": true,
+     "prompt_tokens": 14980
+    },
+    {
+     "index": 200,
+     "depth": 0.667,
+     "node": "colden-hollow-1",
+     "checksum": "7A79AE",
+     "answer": "7A79AE",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 212,
+     "depth": 0.707,
+     "node": "brightmoor-moor-2",
+     "checksum": "7E032C",
+     "answer": "7E032C",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 224,
+     "depth": 0.747,
+     "node": "graystone-moor-1",
+     "checksum": "22C14C",
+     "answer": "22C14C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 236,
+     "depth": 0.787,
+     "node": "vaulterra-cross-1",
+     "checksum": "6727A0",
+     "answer": "6727A0",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 248,
+     "depth": 0.827,
+     "node": "windhollow-ridge-2",
+     "checksum": "7510E2",
+     "answer": "7510E2",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 260,
+     "depth": 0.867,
+     "node": "colden-vale-2",
+     "checksum": "A542F1",
+     "answer": "A542F1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 272,
+     "depth": 0.907,
+     "node": "graystone-reach-2",
+     "checksum": "CB91A6",
+     "answer": "CB91A6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 285,
+     "depth": 0.95,
+     "node": "marlowe-moor-1",
+     "checksum": "549FFC",
+     "answer": "549FFC",
+     "ok": true,
+     "prompt_tokens": 14982
+    }
+   ]
+  },
+  {
+   "config": "q4_0-q4_0",
+   "cache_type_k": "q4_0",
+   "cache_type_v": "q4_0",
+   "ctx": 16384,
+   "load_s": 6.6,
+   "vram_loaded_mib": 14406,
+   "vram_peak_mib": 14464,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 51.4,
+   "prompt_tok_s": 1441.7,
+   "prompt_tokens": 14981,
+   "results": [
+    {
+     "index": 6,
+     "depth": 0.02,
+     "node": "downholt-fen-1",
+     "checksum": "35CEC9",
+     "answer": "35CEC9",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 18,
+     "depth": 0.06,
+     "node": "harrow-combe-2",
+     "checksum": "7C3CA1",
+     "answer": "7C3CA1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 30,
+     "depth": 0.1,
+     "node": "ashcombe-fen-1",
+     "checksum": "3F3F14",
+     "answer": "3F3F14",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 42,
+     "depth": 0.14,
+     "node": "graystone-vale-2",
+     "checksum": "36F123",
+     "answer": "36F123",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 54,
+     "depth": 0.18,
+     "node": "vaulterra-hollow-1",
+     "checksum": "18ABFF",
+     "answer": "18ABFF",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 66,
+     "depth": 0.22,
+     "node": "elderfell-gate-2",
+     "checksum": "44E536",
+     "answer": "44E536",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 78,
+     "depth": 0.26,
+     "node": "tarnwick-gate-1",
+     "checksum": "B0AE04",
+     "answer": "B0AE04",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 90,
+     "depth": 0.3,
+     "node": "colden-reach-2",
+     "checksum": "76CB8C",
+     "answer": "76CB8C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 103,
+     "depth": 0.343,
+     "node": "bramblewood-hollow-1",
+     "checksum": "822A2D",
+     "answer": "822A2D",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 115,
+     "depth": 0.383,
+     "node": "quillon-combe-1",
+     "checksum": "FB95B6",
+     "answer": "FB95B6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 127,
+     "depth": 0.423,
+     "node": "ravensmere-fen-1",
+     "checksum": "3B92AC",
+     "answer": "3B92AC",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 139,
+     "depth": 0.463,
+     "node": "quillon-reach-1",
+     "checksum": "F63596",
+     "answer": "F63596",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 151,
+     "depth": 0.503,
+     "node": "kestrelby-combe-1",
+     "checksum": "0F38C0",
+     "answer": "0F38C0",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 163,
+     "depth": 0.543,
+     "node": "brightmoor-moor-1",
+     "checksum": "8D7159",
+     "answer": "8D7159",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 175,
+     "depth": 0.583,
+     "node": "kestrelby-reach-1",
+     "checksum": "C6939B",
+     "answer": "C6939B",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 187,
+     "depth": 0.623,
+     "node": "ashcombe-cross-2",
+     "checksum": "80EDF4",
+     "answer": "80EDF4",
+     "ok": true,
+     "prompt_tokens": 14980
+    },
+    {
+     "index": 200,
+     "depth": 0.667,
+     "node": "colden-hollow-1",
+     "checksum": "7A79AE",
+     "answer": "7A79AE",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 212,
+     "depth": 0.707,
+     "node": "brightmoor-moor-2",
+     "checksum": "7E032C",
+     "answer": "7E032C",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 224,
+     "depth": 0.747,
+     "node": "graystone-moor-1",
+     "checksum": "22C14C",
+     "answer": "22C14C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 236,
+     "depth": 0.787,
+     "node": "vaulterra-cross-1",
+     "checksum": "6727A0",
+     "answer": "6727A0",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 248,
+     "depth": 0.827,
+     "node": "windhollow-ridge-2",
+     "checksum": "7510E2",
+     "answer": "7510E2",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 260,
+     "depth": 0.867,
+     "node": "colden-vale-2",
+     "checksum": "A542F1",
+     "answer": "A542F1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 272,
+     "depth": 0.907,
+     "node": "graystone-reach-2",
+     "checksum": "CB91A6",
+     "answer": "CB91A6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 285,
+     "depth": 0.95,
+     "node": "marlowe-moor-1",
+     "checksum": "549FFC",
+     "answer": "549FFC",
+     "ok": true,
+     "prompt_tokens": 14982
+    }
+   ]
+  },
+  {
+   "config": "q8_0-q4_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q4_0",
+   "ctx": 16384,
+   "load_s": 6.5,
+   "vram_loaded_mib": 14422,
+   "vram_peak_mib": 14910,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 7.1,
+   "prompt_tok_s": 18.3,
+   "prompt_tokens": 14981,
+   "results": [
+    {
+     "index": 6,
+     "depth": 0.02,
+     "node": "downholt-fen-1",
+     "checksum": "35CEC9",
+     "answer": "35CEC9",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 18,
+     "depth": 0.06,
+     "node": "harrow-combe-2",
+     "checksum": "7C3CA1",
+     "answer": "7C3CA1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 30,
+     "depth": 0.1,
+     "node": "ashcombe-fen-1",
+     "checksum": "3F3F14",
+     "answer": "3F3F14",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 42,
+     "depth": 0.14,
+     "node": "graystone-vale-2",
+     "checksum": "36F123",
+     "answer": "36F123",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 54,
+     "depth": 0.18,
+     "node": "vaulterra-hollow-1",
+     "checksum": "18ABFF",
+     "answer": "18ABFF",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 66,
+     "depth": 0.22,
+     "node": "elderfell-gate-2",
+     "checksum": "44E536",
+     "answer": "44E536",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 78,
+     "depth": 0.26,
+     "node": "tarnwick-gate-1",
+     "checksum": "B0AE04",
+     "answer": "B0AE04",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 90,
+     "depth": 0.3,
+     "node": "colden-reach-2",
+     "checksum": "76CB8C",
+     "answer": "76CB8C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 103,
+     "depth": 0.343,
+     "node": "bramblewood-hollow-1",
+     "checksum": "822A2D",
+     "answer": "822A2D",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 115,
+     "depth": 0.383,
+     "node": "quillon-combe-1",
+     "checksum": "FB95B6",
+     "answer": "FB95B6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 127,
+     "depth": 0.423,
+     "node": "ravensmere-fen-1",
+     "checksum": "3B92AC",
+     "answer": "3B92AC",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 139,
+     "depth": 0.463,
+     "node": "quillon-reach-1",
+     "checksum": "F63596",
+     "answer": "F63596",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 151,
+     "depth": 0.503,
+     "node": "kestrelby-combe-1",
+     "checksum": "0F38C0",
+     "answer": "0F38C0",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 163,
+     "depth": 0.543,
+     "node": "brightmoor-moor-1",
+     "checksum": "8D7159",
+     "answer": "8D7159",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 175,
+     "depth": 0.583,
+     "node": "kestrelby-reach-1",
+     "checksum": "C6939B",
+     "answer": "C6939B",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 187,
+     "depth": 0.623,
+     "node": "ashcombe-cross-2",
+     "checksum": "80EDF4",
+     "answer": "80EDF4",
+     "ok": true,
+     "prompt_tokens": 14980
+    },
+    {
+     "index": 200,
+     "depth": 0.667,
+     "node": "colden-hollow-1",
+     "checksum": "7A79AE",
+     "answer": "7A79AE",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 212,
+     "depth": 0.707,
+     "node": "brightmoor-moor-2",
+     "checksum": "7E032C",
+     "answer": "7E032C",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 224,
+     "depth": 0.747,
+     "node": "graystone-moor-1",
+     "checksum": "22C14C",
+     "answer": "22C14C",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 236,
+     "depth": 0.787,
+     "node": "vaulterra-cross-1",
+     "checksum": "6727A0",
+     "answer": "6727A0",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 248,
+     "depth": 0.827,
+     "node": "windhollow-ridge-2",
+     "checksum": "7510E2",
+     "answer": "7510E2",
+     "ok": true,
+     "prompt_tokens": 14982
+    },
+    {
+     "index": 260,
+     "depth": 0.867,
+     "node": "colden-vale-2",
+     "checksum": "A542F1",
+     "answer": "A542F1",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 272,
+     "depth": 0.907,
+     "node": "graystone-reach-2",
+     "checksum": "CB91A6",
+     "answer": "CB91A6",
+     "ok": true,
+     "prompt_tokens": 14981
+    },
+    {
+     "index": 285,
+     "depth": 0.95,
+     "node": "marlowe-moor-1",
+     "checksum": "549FFC",
+     "answer": "549FFC",
+     "ok": true,
+     "prompt_tokens": 14982
+    }
+   ]
+  }
+ ]
+}

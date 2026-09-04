@@ -1,0 +1,98 @@
+{
+ "52_reengine/t1": {
+  "task": "52_reengine",
+  "trial": 1,
+  "pass": false,
+  "score": 0.4516,
+  "grader": "formed but are literal / legal', 'anchors, dot, $ before a trailing newline, word boundaries', 'bounded repetition {m,n}', 'group capture across repetitions and empty-loop repeats', 'differential A: mixed syntax, index bucket 1 raised AttributeError', 'differential B: mixed syntax, index bucket 2']",
+  "wall_s": 0.1
+ },
+ "52_reengine/t2": {
+  "task": "52_reengine",
+  "trial": 2,
+  "pass": false,
+  "score": 0.6129,
+  "grader": "peError', 'differential C: character classes raised TypeError', 'differential D: escapes and class escapes raised TypeError', 'differential E: anchors and boundaries raised TypeError', 'differential F: groups and alternation raised TypeError', 'differential G: bounded quantifiers raised TypeError']",
+  "wall_s": 0.1
+ },
+ "52_reengine/t3": {
+  "task": "52_reengine",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 31/31\nPASS",
+  "wall_s": 2.8
+ },
+ "55_minilang/t1": {
+  "task": "55_minilang",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 31/31\nPASS",
+  "wall_s": 0.5
+ },
+ "55_minilang/t2": {
+  "task": "55_minilang",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9677,
+  "grader": "SCORE 30/31\nFAIL ['randomised differential, mutated programs']",
+  "wall_s": 0.5
+ },
+ "55_minilang/t3": {
+  "task": "55_minilang",
+  "trial": 3,
+  "pass": false,
+  "score": 0.871,
+  "grader": "SCORE 27/31\nFAIL ['precedence and associativity', 'comparison results', 'ref cells and assignment', 'parse errors']",
+  "wall_s": 0.5
+ },
+ "57_stateful/t1": {
+  "task": "57_stateful",
+  "trial": 1,
+  "pass": false,
+  "score": 0.8077,
+  "grader": "['framing: stray FLAG, escapes, bad length/checksum, resync (bucket 1)', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 2)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, everything mixed']",
+  "wall_s": 0.3
+ },
+ "57_stateful/t2": {
+  "task": "57_stateful",
+  "trial": 2,
+  "pass": false,
+  "score": 0.6154,
+  "grader": "1)', 'randomised differential, sequence/wraparound traffic (bucket 2)', 'randomised differential, timeout-heavy traffic (bucket 1)', 'randomised differential, timeout-heavy traffic (bucket 2)', 'randomised differential, everything mixed', 'randomised differential, everything mixed in strict mode']",
+  "wall_s": 0.3
+ },
+ "57_stateful/t3": {
+  "task": "57_stateful",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.5
+ },
+ "60_numlit/t1": {
+  "task": "60_numlit",
+  "trial": 1,
+  "pass": false,
+  "score": 0.5667,
+  "grader": ", 'scan: underscores in legal positions', 'scan differential: random valid integers', 'scan differential: random valid floats', 'scan differential: random valid multi-field lines', 'NumError contract, record key order and exact value types', 'canonical text for integers, radix integers and floats']",
+  "wall_s": 0.1
+ },
+ "60_numlit/t2": {
+  "task": "60_numlit",
+  "trial": 2,
+  "pass": false,
+  "score": 0.7667,
+  "grader": "dix 16/8/2 integer values', 'scan differential: random valid integers', 'scan differential: random valid multi-field lines', 'canonical text for integers, radix integers and floats', \"error kind 'underscore'\", \"error kind 'suffix' pairing\", 'scan differential: mutated literals, exact kind and pos']",
+  "wall_s": 0.1
+ },
+ "60_numlit/t3": {
+  "task": "60_numlit",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.2
+ }
+}

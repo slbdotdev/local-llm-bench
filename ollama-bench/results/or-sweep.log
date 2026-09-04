@@ -1,0 +1,30 @@
+2026-09-02T19:54:11-06:00 sweep start
+parasail     #0 ttft=0.366 total=4.4s out=400 tps=99.2 served=Parasail
+parasail     #1 ttft=0.28 total=4.89s out=400 tps=86.8 served=Parasail
+parasail     #2 ttft=0.368 total=5.61s out=400 tps=76.3 served=Parasail
+akashml      #0 ttft=0.475 total=5.43s out=400 tps=80.7 served=AkashML
+akashml      #1 ttft=0.491 total=4.56s out=400 tps=98.4 served=AkashML
+akashml      #2 ttft=0.478 total=4.49s out=400 tps=99.7 served=AkashML
+ionstream    #0 ttft=0.434 total=5.72s out=400 tps=75.7 served=Ionstream
+ionstream    #1 ttft=0.475 total=5.85s out=400 tps=74.4 served=Ionstream
+ionstream    #2 ttft=0.272 total=5.81s out=400 tps=72.2 served=Ionstream
+reka         #0 ttft=0.35 total=5.98s out=400 tps=71.0 served=Reka
+reka         #1 ttft=0.357 total=7.17s out=400 tps=58.7 served=Reka
+reka         #2 ttft=0.33 total=7.31s out=400 tps=57.3 served=Reka
+coreweave    #0 ttft=0.265 total=5.98s out=400 tps=69.9 served=CoreWeave
+coreweave    #1 ttft=0.305 total=6.68s out=400 tps=62.7 served=CoreWeave
+coreweave    #2 ttft=0.296 total=6.78s out=400 tps=61.7 served=CoreWeave
+io-net       #0 ttft=0.454 total=4.56s out=400 tps=97.4 served=Io Net
+io-net       #1 ttft=0.4 total=4.58s out=400 tps=95.7 served=Io Net
+io-net       #2 ttft=0.511 total=4.82s out=400 tps=92.9 served=Io Net
+venice       #0 ttft=0.665 total=2.97s out=400 tps=173.3 served=Venice
+venice       #1 ttft=0.772 total=3.84s out=400 tps=130.4 served=Venice
+venice       #2 ttft=0.791 total=3.88s out=400 tps=129.6 served=Venice
+phala        #0 ttft=0.65 total=6.44s out=390 tps=67.3 served=Phala
+2026-09-02T20:11:25-06:00 sweep complete
+
+== final ==
+PartA tags: or-qwen-nothink(off/none) 9/10, or-qwen-low 10/10, or-qwen-medium 10/10
+PartB: or_provider_tps.json (9/9 ZDR providers OK), pins: or-qwen-low-pin-venice 5/5, or-qwen-low-pin-novita 5/5
+default managed routing (zdr+deny+sort=throughput) resolves to Parasail
+est cost total ~$0.83 (upper bound, cacheRead billed at list input price)

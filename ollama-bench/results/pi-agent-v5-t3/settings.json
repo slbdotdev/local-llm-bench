@@ -1,0 +1,25 @@
+{
+  "defaultProvider": "ollama",
+  "defaultModel": "q27-Q3_K_M",
+  "defaultThinkingLevel": "medium",
+  "enabledModels": [
+    "ollama/*"
+  ],
+  "quietStartup": true,
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false,
+  "shellPath": "~/scoop/apps/git/current/bin/bash.exe",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 8192,
+    "keepRecentTokens": 4096
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 2,
+    "provider": {
+      "timeoutMs": 900000,
+      "maxRetries": 0
+    }
+  }
+}

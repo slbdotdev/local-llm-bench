@@ -1,0 +1,121 @@
+{
+  "hf.co/empero-ai/Qwen3.8-27B-Ridge-GGUF:latest": {
+    "tps": [
+      {
+        "prompt_tps": 219.9736031676199,
+        "gen_tps": 59.071281315163006,
+        "gen_tokens": 400,
+        "load_s": 0.0015312
+      },
+      {
+        "prompt_tps": 224.660537927192,
+        "gen_tps": 58.13808988177765,
+        "gen_tokens": 400,
+        "load_s": 0.0016401
+      }
+    ],
+    "tasks": [
+      {
+        "task": "fizzbuzz_new",
+        "pass": true,
+        "final": "PASS",
+        "turns": 3,
+        "gen_tokens": 160,
+        "wall_s": 9.7,
+        "log": [
+          "write",
+          "run",
+          "done"
+        ]
+      },
+      {
+        "task": "median_bugfix",
+        "pass": true,
+        "final": "PASS",
+        "turns": 6,
+        "gen_tokens": 179,
+        "wall_s": 16.9,
+        "log": [
+          "bad",
+          "run",
+          "run",
+          "write",
+          "run",
+          "done"
+        ]
+      },
+      {
+        "task": "wc_cli",
+        "pass": true,
+        "final": "PASS",
+        "turns": 3,
+        "gen_tokens": 242,
+        "wall_s": 11.1,
+        "log": [
+          "write",
+          "run",
+          "done"
+        ]
+      }
+    ]
+  },
+  "hf.co/OBLITERATUS/Qwen3.8-27B-OBLITERATED:Q4_K_M": {
+    "tps": [
+      {
+        "prompt_tps": 36.11372368604927,
+        "gen_tps": 9.289144729492765,
+        "gen_tokens": 348,
+        "load_s": 0.0015539
+      },
+      {
+        "prompt_tps": 37.191563600954815,
+        "gen_tps": 9.482674584573509,
+        "gen_tokens": 400,
+        "load_s": 0.002203
+      }
+    ],
+    "tasks": [
+      {
+        "task": "fizzbuzz_new",
+        "pass": true,
+        "final": "PASS",
+        "turns": 3,
+        "gen_tokens": 170,
+        "wall_s": 26.8,
+        "log": [
+          "write",
+          "run",
+          "done"
+        ]
+      },
+      {
+        "task": "median_bugfix",
+        "pass": true,
+        "final": "PASS",
+        "turns": 5,
+        "gen_tokens": 168,
+        "wall_s": 32.7,
+        "log": [
+          "bad",
+          "run",
+          "write",
+          "run",
+          "done"
+        ]
+      },
+      {
+        "task": "wc_cli",
+        "pass": true,
+        "final": "PASS",
+        "turns": 3,
+        "gen_tokens": 155,
+        "wall_s": 26.2,
+        "log": [
+          "write",
+          "run",
+          "done"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 1001.0,
+    "turns": 9,
+    "tool_calls": 9,
+    "tools": {
+     "write": 2,
+     "bash": 4,
+     "edit": 3
+    },
+    "in_tokens": 335052,
+    "out_tokens": 36768,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+    "score": 0.9677,
+    "final_text": "ering exceptions, truncating `/` and floored `%`, string repetition and `++` rendering, and result conversion (`\"<fn>\"`, `\"<ref>\"`, nested dicts).\n\nEvaluation runs on a big-stack thread with a raised recursion limit so deeply nested programs or long recursions don't leak a `RecursionError`. No `eval`/`exec`/`compile`, and no `ast`/`operator`/`functools` imports (verified in the test script).\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 8,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 973.7,
+    "turns": 27,
+    "tool_calls": 25,
+    "tools": {
+     "write": 2,
+     "edit": 11,
+     "bash": 12
+    },
+    "in_tokens": 679872,
+    "out_tokens": 22580,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Upstream idle timeout exceeded"
+    ],
+    "grader": "SCORE 23/31\nFAIL ['randomised differential, values (bucket 2)', 'randomised differential, values (bucket 3)', 'randomised differential, values in deeper programs', 'parse-time errors beat runtime errors, in the stated order', 'randomised differential, error kinds (bucket 1)', 'randomised differential, error kinds (bucket 2)', 'randomised differential, which error fires first', 'randomised differential, mutated programs']",
+    "score": 0.7419,
+    "final_text": "ten order. No `eval`/`exec`/`compile`, no `ast`/`operator`/`functools` \u2014 only `sys` (for a recursion-limit bump).\n\nThe test run also caught several places where *my* test expectations were wrong relative to the spec (e.g. `ref 1 + 2` is really a `type` error, `true || 1` short-circuits to `true`, same-name variables in different match arms are legal) \u2014 the implementation was right each time.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "error": 1,
+     "toolUse": 25,
+     "stop": 1
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 1
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 633.2,
+    "turns": 18,
+    "tool_calls": 17,
+    "tools": {
+     "write": 2,
+     "bash": 8,
+     "edit": 5,
+     "read": 2
+    },
+    "in_tokens": 571637,
+    "out_tokens": 30314,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+    "score": 0.9677,
+    "final_text": "`, refs to `\"<ref>\"`), with every error raised as `MiniError` carrying one of the nine `.kind` strings \u2014 no `eval`/`exec`/`compile`, no `ast`/`operator`/`functools`.\n\nMy test suite (`test_minilang.py`, ~200 assertions) covers arithmetic edge cases, evaluation-order tie-breaks, scoping/closures, letrec initialisation order, pattern matching, error-kind ordering, and lexical traps \u2014 all green.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 17,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

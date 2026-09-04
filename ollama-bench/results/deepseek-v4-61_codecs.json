@@ -1,0 +1,93 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "61_codecs",
+    "pass": true,
+    "wall_s": 499.0,
+    "turns": 20,
+    "tool_calls": 19,
+    "tools": {
+     "write": 2,
+     "bash": 12,
+     "edit": 5
+    },
+    "in_tokens": 1581375,
+    "out_tokens": 80581,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "; QP invariants (content \u2264 75, no line ends in literal space/tab, uppercase hex, no trailing line ending).\n- **Bans**: zero imports; no calls to any banned name (only docstring words).\n\nThe `test_strictcodec.py` seen in the listing was pre-existing (timestamp 02:47, not created by me); I removed my own scratch test and `__pycache__`. The final smoke test prints `aGVsbG8= NBUQ==== caf=C3=A9`.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 19,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "61_codecs",
+    "pass": true,
+    "wall_s": 568.2,
+    "turns": 40,
+    "tool_calls": 39,
+    "tools": {
+     "bash": 27,
+     "read": 1,
+     "write": 3,
+     "edit": 8
+    },
+    "in_tokens": 2826878,
+    "out_tokens": 78878,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "ntial fuzz against the stdlib's `base64`/`base32` encoders\n- spec edge cases (padding-run shapes, leftover-bit rules, soft-break `=` handling, line-length/trailing-whitespace positions, same-offset rule precedence)\n\nOne note: `b32`'s non-canonical-but-common RFC vector `MZXW6YR=` is correctly rejected as a `\"bits\"` error (final char `R` carries non-zero low bits); the canonical form is `MZXW6YQ=`.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 39,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "61_codecs",
+    "pass": true,
+    "wall_s": 452.1,
+    "turns": 38,
+    "tool_calls": 41,
+    "tools": {
+     "bash": 24,
+     "write": 3,
+     "edit": 8,
+     "read": 6
+    },
+    "in_tokens": 2456707,
+    "out_tokens": 75959,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "random qp inputs \u2192 only `CodecError` or success, plus 30\u2013120k random b64/b32 inputs) never crashes and never accepts something whose stdlib-canonical decode differs; and stdlib parity holds for every case both implementations accept \u2014 the only divergences are the deliberate extra strictness the task mandates (nonzero leftover bits, and rejecting whitespace/bad padding that stdlib tolerates).\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 37,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

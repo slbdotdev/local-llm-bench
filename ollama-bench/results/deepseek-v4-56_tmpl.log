@@ -1,0 +1,18 @@
+
+===== deepseek/deepseek-v4-flash-0731 =====
+  56_tmpl          #0 FAIL 1109.3s turns=110 tools=111 out=151286 STOP=stop
+  56_tmpl          #1 FAIL  864.6s turns=130 tools=133 out=141124 STOP=stop
+[harness] MEMORY GUARD: killing tree pid 31996 (max 8204 MB / tree 8422 MB)
+  56_tmpl          #2 FAIL  492.6s turns=26 tools=26 out=98230 STOP=toolUse TIMEOUT
+
+# pi bench (deepseek-v4-56_tmpl)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deepseek/deepseek-v4-flash-0731 | ? GB | ? | ? | 0/3 | 0.80 (3/3 runs) | 0/1 all-trials | 822s | 130213 | 90.0 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | deepseek/deepseek-v4-flash-0731 |
+|---|---|
+| 56_tmpl | 0/3 (score 0.80) |

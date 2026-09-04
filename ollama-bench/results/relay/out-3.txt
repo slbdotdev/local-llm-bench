@@ -1,0 +1,8 @@
+slb-ed: offload hypothesis is supported by Ollama's load logs; the 8k-context fit test is queued to confirm on TPS. No question pending.
+Layer residency at 32k ctx from the Ollama server log (load_tensors lines per model):
+- Q3_K_M 13.59 GiB: 62/66 layers on GPU, 4 on CPU (one early load got 64/66)
+- Q3_K_L 14.22 GiB: 59/66 layers on GPU, 7 on CPU
+- Q3_K_S 12.77 GiB: 66/66 on GPU, fully resident
+- Q2_K_L 12.17 GiB: 66/66 on GPU, fully resident
+So the ladder crossed the 16 GB ceiling between Q3_K_S and Q3_K_M, exactly where the throughput jump sits. The Q3 quants spending 4 to 7 layers on CPU is the likely cause of their lower speed, not the quant itself. Note the tok/min figures also fold in prompt processing and tool turns, so they overstate the gap versus raw gen tok/s (Q3_K_M measured 22 gen tok/s at empty ctx).
+Confirmation test queued to run right after the extended TPS re-measure finishes, one model at a time on the GPU: Q3_K_M, Q3_K_L and Q3_K_S re-measured at 8k context, where all three fit fully. If Q3_K_M and Q3_K_L jump to Q3_K_S-class gen tok/s at 8k, the ceiling explains the whole gap. I will send the 32k curves (0 to 27k fill) with residency beside them, plus the 8k numbers, when both finish.

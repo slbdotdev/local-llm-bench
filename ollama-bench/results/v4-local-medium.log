@@ -1,0 +1,25 @@
+
+===== q27-Q2_K_L =====
+  52_reengine      #0 FAIL  454.1s turns=1 tools=0 out=24151
+  52_reengine      #1 FAIL  450.7s turns=1 tools=0 out=24151
+  52_reengine      #2 FAIL  452.1s turns=1 tools=0 out=24151
+  55_minilang      #0 FAIL  429.1s turns=2 tools=1 out=22763
+  55_minilang      #1 FAIL  448.2s turns=1 tools=0 out=23780
+  55_minilang      #2 FAIL  448.4s turns=1 tools=0 out=23780
+  56_tmpl          #0 FAIL  427.5s turns=1 tools=0 out=22513
+  56_tmpl          #1 FAIL  427.6s turns=1 tools=0 out=22513
+  56_tmpl          #2 FAIL  431.5s turns=1 tools=0 out=22513
+  57_stateful      #0 FAIL 1387.1s turns=5 tools=1 out=22748 ERR=Stream ended without finish_reason
+  57_stateful      #1 FAIL  488.9s turns=3 tools=1 out=22760 ERR=Stream ended without finish_reason
+  57_stateful      #2 FAIL  280.8s turns=0 tools=0 out=0
+  59_uri           #0 FAIL  463.5s turns=1 tools=0 out=24765
+  59_uri           #1 PASS  539.1s turns=37 tools=36 out=27905
+[harness] MEMORY GUARD: killing tree pid 13788 (max 8661 MB / tree 8790 MB)
+[harness] MEMORY GUARD: killing tree pid 38548 (max 11336 MB / tree 11336 MB)
+  59_uri           #2 FAIL  277.0s turns=3 tools=3 out=13753 TIMEOUT
+  60_numlit        #0 FAIL  454.7s turns=1 tools=0 out=24209
+  60_numlit        #1 FAIL  439.2s turns=2 tools=1 out=23253
+  60_numlit        #2 FAIL  459.1s turns=1 tools=0 out=24209
+=== q27-Q2_K_L exit=1 2026-09-03T12:03:21-06:00
+
+===== q27-Q3_K_S =====

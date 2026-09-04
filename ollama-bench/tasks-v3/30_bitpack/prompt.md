@@ -1,0 +1,3 @@
+The current directory contains `bitpack.py` (a small bit-packing utility) and its test file `test_bitpack.py`. Several tests fail because `bitpack.py` has bugs; the tests and the docstrings in `bitpack.py` define the intended behaviour.
+
+Run `python test_bitpack.py`, read the failures, and fix every bug in `bitpack.py`. Do NOT edit `test_bitpack.py`. Keep the public function names and signatures (`pack(width, values, signed=False)`, `unpack(width, data, signed=False)`). The hidden grader also checks additional cases of the same behaviours (other widths, sign-extension and range boundaries, leftover padding bits), so fix the underlying cause rather than special-casing the visible inputs. When `python test_bitpack.py` prints "ALL OK", reply "done".

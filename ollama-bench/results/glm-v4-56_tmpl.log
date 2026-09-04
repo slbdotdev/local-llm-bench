@@ -1,0 +1,17 @@
+
+===== z-ai/glm-5.3-flash =====
+  56_tmpl          #0 FAIL 1800.1s turns=1 tools=0 out=0 STOP=error TIMEOUT ERR=Upstream idle timeout exceeded
+  56_tmpl          #1 FAIL 1060.6s turns=34 tools=34 out=54561 STOP=stop
+  56_tmpl          #2 FAIL 1355.2s turns=109 tools=108 out=59561 STOP=stop
+
+# pi bench (glm-v4-56_tmpl)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| z-ai/glm-5.3-flash | ? GB | ? | ? | 0/3 | 0.63 (3/3 runs) | 0/1 all-trials | 1405s | 38041 | 47.3 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | z-ai/glm-5.3-flash |
+|---|---|
+| 56_tmpl | 0/3 (score 0.63) |

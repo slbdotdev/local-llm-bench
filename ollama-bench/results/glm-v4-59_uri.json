@@ -1,0 +1,91 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 667.6,
+    "turns": 47,
+    "tool_calls": 46,
+    "tools": {
+     "write": 2,
+     "bash": 27,
+     "edit": 17
+    },
+    "in_tokens": 1034912,
+    "out_tokens": 21475,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "All checks pass \u2014 the earlier failures were test-expectation typos on my side (the two module bugs found were the recomposition guard prefix, now `/.`, and everything else was spec-correct behavior I'd mis-expected). `uriref.py` uses no imports at all.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 46,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 629.3,
+    "turns": 34,
+    "tool_calls": 33,
+    "tools": {
+     "write": 3,
+     "bash": 19,
+     "edit": 11
+    },
+    "in_tokens": 770097,
+    "out_tokens": 21502,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "done",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 33,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 430.0,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 2,
+     "edit": 3,
+     "bash": 3
+    },
+    "in_tokens": 161567,
+    "out_tokens": 16041,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "done",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 8,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

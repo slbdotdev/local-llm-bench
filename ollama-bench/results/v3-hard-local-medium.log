@@ -1,0 +1,104 @@
+
+===== q27-Q2_K_L =====
+  32_wirefmt       #0 FAIL  296.9s turns=1 tools=0 out=16000
+  33_spanmap       #0 FAIL  710.9s turns=22 tools=21 out=38174
+  34_tmplfix       #0 PASS  823.1s turns=18 tools=17 out=43456
+  35_ledger        #0 PASS  423.4s turns=17 tools=21 out=22098
+  36_minilang      #0 FAIL  451.4s turns=2 tools=1 out=24224
+
+# pi bench (v3-hard-local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-Q2_K_L | ? GB | ? | ? | 2/5 | 0.57 (5/5 runs) | 2/5 all-trials | 541s | 28790 | 12.0 |
+
+## Per task (passes/trials)
+
+| task | q27-Q2_K_L |
+|---|---|
+| 32_wirefmt | 0/1 (score 0.00) |
+| 33_spanmap | 0/1 (score 0.83) |
+| 34_tmplfix | 1/1 (score 1.00) |
+| 35_ledger | 1/1 (score 1.00) |
+| 36_minilang | 0/1 (score 0.00) |
+=== q27-Q2_K_L exit=0 2026-09-03T03:26:21-06:00
+
+===== q27-Q3_K_S =====
+  32_wirefmt       #0 FAIL  515.9s turns=2 tools=1 out=25038
+  33_spanmap       #0 FAIL  525.8s turns=1 tools=0 out=25909
+  34_tmplfix       #0 PASS  859.3s turns=39 tools=37 out=33088 ERR=Stream ended without finish_reason
+  35_ledger        #0 PASS   82.4s turns=5 tools=8 out=3882
+  36_minilang      #0 FAIL 1063.8s turns=31 tools=28 out=45886 ERR=Stream ended without finish_reason
+
+# pi bench (v3-hard-local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-Q2_K_L | ? GB | ? | ? | 2/5 | 0.57 (5/5 runs) | 2/5 all-trials | 541s | 28790 | 12.0 |
+| q27-Q3_K_S | ? GB | ? | ? | 2/5 | 0.62 (5/5 runs) | 2/5 all-trials | 609s | 26761 | 14.8 |
+
+## Per task (passes/trials)
+
+| task | q27-Q2_K_L | q27-Q3_K_S |
+|---|---|---|
+| 32_wirefmt | 0/1 (score 0.00) | 0/1 (score 0.55) |
+| 33_spanmap | 0/1 (score 0.83) | 0/1 (score 0.00) |
+| 34_tmplfix | 1/1 (score 1.00) | 1/1 (score 1.00) |
+| 35_ledger | 1/1 (score 1.00) | 1/1 (score 1.00) |
+| 36_minilang | 0/1 (score 0.00) | 0/1 (score 0.54) |
+=== q27-Q3_K_S exit=0 2026-09-03T04:17:14-06:00
+ALLDONE
+
+===== q27-IQ3_M =====
+  32_wirefmt       #0 FAIL 1800.2s turns=3 tools=3 out=23436 TIMEOUT
+  33_spanmap       #0 FAIL 1800.1s turns=0 tools=0 out=0 TIMEOUT
+  34_tmplfix       #0 FAIL 1800.2s turns=3 tools=4 out=12977 TIMEOUT ERR=Stream ended without finish_reason
+  35_ledger        #0 FAIL  509.6s turns=7 tools=12 out=7070
+  36_minilang      #0 FAIL 1800.2s turns=5 tools=4 out=16335 TIMEOUT ERR=terminated
+
+# pi bench (v3-hard-local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-Q2_K_L | ? GB | ? | ? | 2/5 | 0.57 (5/5 runs) | 2/5 all-trials | 541s | 28790 | 12.0 |
+| q27-Q3_K_S | ? GB | ? | ? | 2/5 | 0.62 (5/5 runs) | 2/5 all-trials | 609s | 26761 | 14.8 |
+| q27-IQ3_M | ? GB | ? | ? | 0/5 | 0.40 (5/5 runs) | 0/5 all-trials | 1542s | 11964 | 4.6 |
+
+## Per task (passes/trials)
+
+| task | q27-Q2_K_L | q27-Q3_K_S | q27-IQ3_M |
+|---|---|---|---|
+| 32_wirefmt | 0/1 (score 0.00) | 0/1 (score 0.55) | 0/1 (score 0.24) |
+| 33_spanmap | 0/1 (score 0.83) | 0/1 (score 0.00) | 0/1 (score 0.00) |
+| 34_tmplfix | 1/1 (score 1.00) | 1/1 (score 1.00) | 0/1 (score 0.81) |
+| 35_ledger | 1/1 (score 1.00) | 1/1 (score 1.00) | 0/1 (score 0.97) |
+| 36_minilang | 0/1 (score 0.00) | 0/1 (score 0.54) | 0/1 (score 0.00) |
+=== q27-IQ3_M exit=0 2026-09-03T06:36:49-06:00
+
+===== q27-Q3_K_M =====
+  32_wirefmt       #0 PASS 1800.2s turns=29 tools=29 out=34932 TIMEOUT
+  33_spanmap       #0 FAIL 1800.2s turns=8 tools=10 out=33744 TIMEOUT
+  34_tmplfix       #0 PASS 1578.8s turns=20 tools=21 out=29256
+  35_ledger        #0 PASS  658.9s turns=14 tools=17 out=12691
+  36_minilang      #0 FAIL 1800.2s turns=22 tools=22 out=33125 TIMEOUT
+
+# pi bench (v3-hard-local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-Q2_K_L | ? GB | ? | ? | 2/5 | 0.57 (5/5 runs) | 2/5 all-trials | 541s | 28790 | 12.0 |
+| q27-Q3_K_S | ? GB | ? | ? | 2/5 | 0.62 (5/5 runs) | 2/5 all-trials | 609s | 26761 | 14.8 |
+| q27-IQ3_M | ? GB | ? | ? | 0/5 | 0.40 (5/5 runs) | 0/5 all-trials | 1542s | 11964 | 4.6 |
+| q27-Q3_K_M | ? GB | ? | ? | 3/5 | 0.90 (5/5 runs) | 3/5 all-trials | 1528s | 28750 | 19.8 |
+
+## Per task (passes/trials)
+
+| task | q27-Q2_K_L | q27-Q3_K_S | q27-IQ3_M | q27-Q3_K_M |
+|---|---|---|---|---|
+| 32_wirefmt | 0/1 (score 0.00) | 0/1 (score 0.55) | 0/1 (score 0.24) | 1/1 (score 1.00) |
+| 33_spanmap | 0/1 (score 0.83) | 0/1 (score 0.00) | 0/1 (score 0.00) | 0/1 (score 0.83) |
+| 34_tmplfix | 1/1 (score 1.00) | 1/1 (score 1.00) | 0/1 (score 0.81) | 1/1 (score 1.00) |
+| 35_ledger | 1/1 (score 1.00) | 1/1 (score 1.00) | 0/1 (score 0.97) | 1/1 (score 1.00) |
+| 36_minilang | 0/1 (score 0.00) | 0/1 (score 0.54) | 0/1 (score 0.00) | 0/1 (score 0.67) |
+=== q27-Q3_K_M exit=0 2026-09-03T08:44:13-06:00
+ALLDONE

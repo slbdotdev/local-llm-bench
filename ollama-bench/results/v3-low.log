@@ -1,0 +1,71 @@
+
+===== qwen/qwen3.8-27b =====
+  20_csv           #0 PASS  237.4s turns=15 tools=14 out=18440
+  20_csv           #1 PASS  308.1s turns=15 tools=14 out=23870
+  20_csv           #2 PASS  120.6s turns=3 tools=2 out=8631
+  21_json_bugfix   #0 PASS   11.4s turns=5 tools=5 out=623
+  21_json_bugfix   #1 PASS   16.4s turns=5 tools=5 out=928
+  21_json_bugfix   #2 PASS   16.7s turns=5 tools=5 out=1036
+  22_calc          #0 PASS   45.2s turns=5 tools=4 out=3408
+  22_calc          #1 PASS   20.1s turns=3 tools=2 out=1481
+  22_calc          #2 PASS   74.2s turns=9 tools=8 out=4240
+  23_duration      #0 PASS   57.4s turns=4 tools=3 out=3952
+  23_duration      #1 PASS   43.0s turns=3 tools=2 out=2990
+  23_duration      #2 PASS   42.3s turns=7 tools=6 out=2690
+  24_inventory     #0 PASS   32.4s turns=5 tools=5 out=2062
+  24_inventory     #1 PASS   19.9s turns=5 tools=5 out=1404
+  24_inventory     #2 PASS   35.0s turns=6 tools=6 out=2221
+  25_stackvm       #0 PASS   72.9s turns=9 tools=8 out=6239
+  25_stackvm       #1 PASS   47.3s turns=6 tools=5 out=3937
+  25_stackvm       #2 PASS  138.6s turns=11 tools=11 out=9413
+  26_iniconf       #0 PASS  121.2s turns=10 tools=9 out=9127
+  26_iniconf       #1 PASS   27.6s turns=6 tools=5 out=2395
+  26_iniconf       #2 PASS  202.7s turns=11 tools=10 out=12614
+  27_semver        #0 FAIL   47.2s turns=6 tools=6 out=2675
+  27_semver        #1 PASS   71.4s turns=7 tools=8 out=4987
+  27_semver        #2 PASS   62.0s turns=10 tools=10 out=5250
+  28_cron          #0 PASS  178.6s turns=16 tools=15 out=14188
+  28_cron          #1 PASS  207.8s turns=12 tools=11 out=15495
+  28_cron          #2 PASS  212.1s turns=16 tools=15 out=13926
+  29_mdtable       #0 PASS  270.2s turns=21 tools=20 out=17049
+  29_mdtable       #1 PASS  149.7s turns=8 tools=7 out=12660
+  29_mdtable       #2 PASS  176.3s turns=12 tools=11 out=14140
+  30_bitpack       #0 PASS   90.3s turns=5 tools=5 out=8495
+  30_bitpack       #1 PASS   98.7s turns=4 tools=5 out=8428
+  30_bitpack       #2 PASS   56.6s turns=4 tools=5 out=4977
+  31_stackvm       #0 FAIL  131.9s turns=11 tools=10 out=10440
+  31_stackvm       #1 PASS  114.3s turns=10 tools=9 out=8808
+
+===== qwen/qwen3.8-27b =====
+  27_semver        #3 PASS   57.2s turns=5 tools=6 out=3840
+  27_semver        #4 PASS   31.8s turns=5 tools=5 out=2971
+  27_semver        #5 PASS   62.7s turns=6 tools=7 out=4674
+  31_stackvm       #2 PASS  109.6s turns=16 tools=15 out=9554
+  31_stackvm       #3 PASS  220.9s turns=18 tools=18 out=18146
+Exception in thread Thread-21 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Users\slb\scoop\apps\python\current\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\slb\scoop\apps\python\current\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\slb\scoop\apps\python\current\Lib\subprocess.py", line 1614, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+MemoryError
+  31_stackvm       #4 FAIL 1800.0s turns=0 tools=0 out=0 TIMEOUT
+  31_stackvm       #5 PASS  193.1s turns=17 tools=17 out=13462
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 39/42 | 0.97 (42/42 runs) | 10/12 all-trials | 144s | 7521 | 8.1 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 27_semver | 5/6 (score 0.99) |
+| 31_stackvm | 4/6 (score 0.83) |

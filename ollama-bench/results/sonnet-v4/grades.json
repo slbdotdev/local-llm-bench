@@ -1,0 +1,170 @@
+{
+ "52_reengine/t1": {
+  "task": "52_reengine",
+  "trial": 1,
+  "pass": false,
+  "score": 0.7419,
+  "grader": "'differential E: anchors and boundaries raised PatternError', 'differential F: groups and alternation raised PatternError', 'differential G: bounded quantifiers raised PatternError', 'differential H: non-greedy quantifiers raised PatternError', 'differential I: deeper nesting raised PatternError']",
+  "wall_s": 1.3
+ },
+ "52_reengine/t2": {
+  "task": "52_reengine",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 31/31\nPASS",
+  "wall_s": 13.9
+ },
+ "52_reengine/t3": {
+  "task": "52_reengine",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 31/31\nPASS",
+  "wall_s": 2.6
+ },
+ "55_minilang/t1": {
+  "task": "55_minilang",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9677,
+  "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+  "wall_s": 0.5
+ },
+ "55_minilang/t2": {
+  "task": "55_minilang",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9677,
+  "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+  "wall_s": 0.5
+ },
+ "55_minilang/t3": {
+  "task": "55_minilang",
+  "trial": 3,
+  "pass": false,
+  "score": 0.9677,
+  "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+  "wall_s": 0.5
+ },
+ "56_tmpl/t1": {
+  "task": "56_tmpl",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9655,
+  "grader": "SCORE 28/29\nFAIL ['randomised differential, mutated/malformed templates (bucket 1)']",
+  "wall_s": 0.2
+ },
+ "56_tmpl/t2": {
+  "task": "56_tmpl",
+  "trial": 2,
+  "pass": false,
+  "score": 0.8966,
+  "grader": "SCORE 26/29\nFAIL ['filters on odd inputs: upper/lower/trim/length/first', 'set scoping: leaks out of if, not out of for', 'randomised differential, mutated/malformed templates (bucket 1)']",
+  "wall_s": 0.3
+ },
+ "56_tmpl/t3": {
+  "task": "56_tmpl",
+  "trial": 3,
+  "pass": false,
+  "score": 0.8966,
+  "grader": "SCORE 26/29\nFAIL ['filters on odd inputs: upper/lower/trim/length/first', 'set scoping: leaks out of if, not out of for', 'randomised differential, mutated/malformed templates (bucket 1)']",
+  "wall_s": 0.2
+ },
+ "57_stateful/t1": {
+  "task": "57_stateful",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.4
+ },
+ "57_stateful/t2": {
+  "task": "57_stateful",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.4
+ },
+ "57_stateful/t3": {
+  "task": "57_stateful",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.5
+ },
+ "59_uri/t1": {
+  "task": "59_uri",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 27/27\nPASS",
+  "wall_s": 0.1
+ },
+ "59_uri/t2": {
+  "task": "59_uri",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 27/27\nPASS",
+  "wall_s": 0.1
+ },
+ "59_uri/t3": {
+  "task": "59_uri",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 27/27\nPASS",
+  "wall_s": 0.1
+ },
+ "60_numlit/t1": {
+  "task": "60_numlit",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9333,
+  "grader": "SCORE 28/30\nFAIL ['canonical text for integers, radix integers and floats', 'scan differential: mutated literals, exact kind and pos']",
+  "wall_s": 0.1
+ },
+ "60_numlit/t2": {
+  "task": "60_numlit",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.2
+ },
+ "60_numlit/t3": {
+  "task": "60_numlit",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.2
+ },
+ "61_codecs/t1": {
+  "task": "61_codecs",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.4
+ },
+ "61_codecs/t2": {
+  "task": "61_codecs",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.3
+ },
+ "61_codecs/t3": {
+  "task": "61_codecs",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.3
+ }
+}

@@ -1,0 +1,252 @@
+{
+ "model": "C:\\Users\\slb\\.ollama\\models\\blobs\\sha256-ba0c5dee3026dccf7126b90f1fbb10f2916d540aad470eb0c03da68734dbe10a",
+ "ctx": 8192,
+ "records": 140,
+ "idle_vram_mib": 1206,
+ "runs": [
+  {
+   "config": "f16-f16",
+   "cache_type_k": "f16",
+   "cache_type_v": "f16",
+   "ctx": 8192,
+   "load_s": 6.6,
+   "vram_loaded_mib": 14597,
+   "vram_peak_mib": 14655,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 54.4,
+   "prompt_tok_s": 1410.2,
+   "prompt_tokens": 7028,
+   "results": [
+    {
+     "index": 2,
+     "depth": 0.014,
+     "node": "downholt-moor-1",
+     "checksum": "7AD04B",
+     "answer": "7AD04B",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 8,
+     "depth": 0.057,
+     "node": "thornbury-hurst-1",
+     "checksum": "71E5D3",
+     "answer": "71E5D3",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 14,
+     "depth": 0.1,
+     "node": "graystone-hollow-1",
+     "checksum": "0976A1",
+     "answer": "0976A1",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 19,
+     "depth": 0.136,
+     "node": "colden-gate-1",
+     "checksum": "304D93",
+     "answer": "304D93",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 25,
+     "depth": 0.179,
+     "node": "ravensmere-hurst-1",
+     "checksum": "3E2698",
+     "answer": "3E2698",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 31,
+     "depth": 0.221,
+     "node": "ashcombe-hollow-1",
+     "checksum": "5783B8",
+     "answer": "5783B8",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 36,
+     "depth": 0.257,
+     "node": "downholt-combe-1",
+     "checksum": "C92E53",
+     "answer": "C92E53",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 42,
+     "depth": 0.3,
+     "node": "thornbury-reach-1",
+     "checksum": "418D0A",
+     "answer": "418D0A",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 48,
+     "depth": 0.343,
+     "node": "tarnwick-ridge-1",
+     "checksum": "7083D7",
+     "answer": "7083D7",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 53,
+     "depth": 0.379,
+     "node": "colden-fen-1",
+     "checksum": "7C408B",
+     "answer": "7C408B",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 59,
+     "depth": 0.421,
+     "node": "marlowe-moor-1",
+     "checksum": "55495E",
+     "answer": "55495E",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 65,
+     "depth": 0.464,
+     "node": "silverdale-reach-1",
+     "checksum": "1976B9",
+     "answer": "1976B9",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 70,
+     "depth": 0.5,
+     "node": "silverdale-cross-1",
+     "checksum": "CF4A9F",
+     "answer": "CF4A9F",
+     "ok": true,
+     "prompt_tokens": 7027
+    },
+    {
+     "index": 76,
+     "depth": 0.543,
+     "node": "brightmoor-hollow-1",
+     "checksum": "972DF2",
+     "answer": "972DF2",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 82,
+     "depth": 0.586,
+     "node": "brightmoor-moor-1",
+     "checksum": "542091",
+     "answer": "542091",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 87,
+     "depth": 0.621,
+     "node": "windhollow-combe-1",
+     "checksum": "31BAD2",
+     "answer": "31BAD2",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 93,
+     "depth": 0.664,
+     "node": "thornbury-vale-1",
+     "checksum": "5CFF49",
+     "answer": "5CFF49",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 99,
+     "depth": 0.707,
+     "node": "windhollow-hollow-1",
+     "checksum": "E04C89",
+     "answer": "E04C89",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 104,
+     "depth": 0.743,
+     "node": "elderfell-cross-1",
+     "checksum": "76CB8C",
+     "answer": "76CB8C",
+     "ok": true,
+     "prompt_tokens": 7027
+    },
+    {
+     "index": 110,
+     "depth": 0.786,
+     "node": "marlowe-fen-1",
+     "checksum": "E8FDA5",
+     "answer": "E8FDA5",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 116,
+     "depth": 0.829,
+     "node": "tarnwick-gate-1",
+     "checksum": "0D6387",
+     "answer": "0D6387",
+     "ok": true,
+     "prompt_tokens": 7029
+    },
+    {
+     "index": 121,
+     "depth": 0.864,
+     "node": "harrow-reach-1",
+     "checksum": "390B62",
+     "answer": "390B62",
+     "ok": true,
+     "prompt_tokens": 7028
+    },
+    {
+     "index": 127,
+     "depth": 0.907,
+     "node": "graystone-cross-1",
+     "checksum": "C5AD60",
+     "answer": "C5AD60",
+     "ok": true,
+     "prompt_tokens": 7027
+    },
+    {
+     "index": 133,
+     "depth": 0.95,
+     "node": "windhollow-reach-1",
+     "checksum": "B7107E",
+     "answer": "B7107E",
+     "ok": true,
+     "prompt_tokens": 7029
+    }
+   ]
+  },
+  {
+   "config": "q8_0-q8_0",
+   "error": "server did not become healthy"
+  },
+  {
+   "config": "q4_0-q4_0",
+   "error": "server did not become healthy"
+  },
+  {
+   "config": "q8_0-q4_0",
+   "error": "server did not become healthy"
+  }
+ ]
+}

@@ -1,0 +1,452 @@
+{
+ "google/gemma-4-31b-it": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 4.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5437,
+    "out_tokens": 359,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 4.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5430,
+    "out_tokens": 366,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 3.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5630,
+    "out_tokens": 453,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 2.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5639,
+    "out_tokens": 455,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 2.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6807,
+    "out_tokens": 1051,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 3.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7326,
+    "out_tokens": 1315,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 47.3,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 60008,
+    "out_tokens": 11422,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 24.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 25181,
+    "out_tokens": 6480,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 2.8,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 13529,
+    "out_tokens": 454,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 2.4,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 13625,
+    "out_tokens": 502,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 6.6,
+    "turns": 13,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 4,
+     "read": 3,
+     "edit": 5
+    },
+    "in_tokens": 33097,
+    "out_tokens": 1073,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 6.9,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "bash": 3,
+     "read": 4,
+     "edit": 4
+    },
+    "in_tokens": 30193,
+    "out_tokens": 1021,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 6.0,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 10585,
+    "out_tokens": 1502,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 1.8,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6360,
+    "out_tokens": 721,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 2.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6891,
+    "out_tokens": 988,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 2.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6658,
+    "out_tokens": 870,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 3.4,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 7712,
+    "out_tokens": 951,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 7.8,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 10371,
+    "out_tokens": 1973,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 2.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6770,
+    "out_tokens": 925,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 9.4,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 15081,
+    "out_tokens": 2486,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 1.8,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6471,
+    "out_tokens": 841,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 2.3,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6281,
+    "out_tokens": 743,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

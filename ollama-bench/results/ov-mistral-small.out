@@ -1,0 +1,46 @@
+
+===== mistralai/mistral-small-2603 =====
+  01_rle           #0 PASS    8.2s turns=3 tools=2 out=1182
+  01_rle           #1 PASS    6.5s turns=3 tools=2 out=823
+  02_lru           #0 PASS    9.5s turns=3 tools=2 out=1409
+  02_lru           #1 PASS   16.1s turns=5 tools=4 out=2552
+  03_calc          #0 PASS   19.5s turns=3 tools=2 out=3391
+  03_calc          #1 PASS   19.2s turns=4 tools=3 out=3334
+  04_csv           #0 FAIL   25.1s turns=2 tools=1 out=1004 ERR=Provider finish_reason: error
+  04_csv           #1 PASS   70.3s turns=34 tools=33 out=9364
+  05_bugfix        #0 PASS   16.8s turns=9 tools=8 out=2150
+  05_bugfix        #1 PASS   18.1s turns=10 tools=10 out=2356
+  06_refactor      #0 PASS   20.5s turns=18 tools=22 out=2102
+  06_refactor      #1 PASS   16.8s turns=17 tools=16 out=1634
+  07_dijkstra      #0 PASS   12.3s turns=5 tools=4 out=1938
+  07_dijkstra      #1 PASS   11.8s turns=5 tools=4 out=1820
+  08_topo          #0 PASS   21.2s turns=10 tools=9 out=3243
+  08_topo          #1 PASS   16.0s turns=6 tools=5 out=2351
+  09_wc            #0 PASS   14.0s turns=12 tools=11 out=1432
+  09_wc            #1 FAIL   13.9s turns=10 tools=9 out=1638
+  10_intervals     #0 PASS   18.0s turns=10 tools=9 out=2616
+  10_intervals     #1 PASS   43.7s turns=25 tools=24 out=6155
+  11_roman         #0 PASS   12.5s turns=3 tools=2 out=2221
+  11_roman         #1 FAIL   18.4s turns=6 tools=5 out=2906
+
+# pi bench (ov-mistral-small)
+
+| model | size | %GPU | gen tok/s | pass | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|
+| mistralai/mistral-small-2603 | ? GB | ? | ? | 19/22 | 8/11 all-trials | 19s | 2619 | 8.5 |
+
+## Per task (passes/trials)
+
+| task | mistralai/mistral-small-2603 |
+|---|---|
+| 01_rle | 2/2 |
+| 02_lru | 2/2 |
+| 03_calc | 2/2 |
+| 04_csv | 1/2 |
+| 05_bugfix | 2/2 |
+| 06_refactor | 2/2 |
+| 07_dijkstra | 2/2 |
+| 08_topo | 2/2 |
+| 09_wc | 1/2 |
+| 10_intervals | 2/2 |
+| 11_roman | 1/2 |

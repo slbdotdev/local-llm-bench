@@ -1,0 +1,5 @@
+{"ts": "2026-09-03T05:50:56Z", "name": "pi-glm", "host": "fractal", "harness": "pi", "cwd": "/c/Users/slb", "pid": 1, "note": ""}
+{"ts": "2026-09-03T05:58:47Z", "name": "slb-7f", "host": "fractal", "harness": "claude", "cwd": "/c/Users/slb/ansible-slb", "pid": 55938, "note": ""}
+{"ts": "2026-09-03T06:33:25Z", "name": "phone", "host": "fractal", "harness": "claude", "cwd": "/c/Users/slb", "pid": 57043, "note": "owner's phone-attached SSH session on fractal"}
+{"ts": "2026-09-03T17:19:02Z", "name": "phone", "host": "fractal", "harness": "claude", "cwd": "C:/Users/slb", "pid": 122649, "note": ""}
+{"ts": "2026-09-03T18:24:15Z", "name": "phone", "host": "fractal", "harness": "claude", "cwd": "/c/Users/slb", "pid": 131920, "note": "phone chat agent, read-only mandate"}

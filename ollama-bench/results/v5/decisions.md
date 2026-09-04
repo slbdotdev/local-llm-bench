@@ -1,0 +1,300 @@
+# v5 owner decisions (relayed by the phone session, 2026-09-03 11:40-11:50)
+
+Resume note: if this session is interrupted (plan-usage lockout resets Sat 2026-09-05 07:59 local), start here.
+
+| item | ruling |
+|---|---|
+| v4 ranking (Decision 0) | A: let it finish unchanged; report carries the pi max_tokens harness-cap caveat; a three-way tie is an expected outcome, not a measurement |
+| Codex/pi nesting | A: AGENT_RUN_DEPTH env guard in both wrappers, ansible-slb change, gates, converge, commit as owner (done: ansible-slb 3ce8f44, Windows converged 11:51) |
+| Q3 Blender | D: Blender arm dropped entirely; re-plan around 18 tasks; no containment controls built |
+| Q1 editors | not A/B/C. Owner verbatim: "Batch editor are agent created and driven and should never conflict with my own fargo crispy ediy". Read as structural isolation from the owner's fargo-crispy editor, no reserved hours. Mechanism statement (guarantees present / missing) owed BEFORE authoring starts |
+| Q12 gates | A: Unity gates through the VRCA-Bench runner with claude -p contestants; file gates as subagents |
+| Q6 spend | no plan-usage cap (owner chose it with live numbers: weekly-all 77%, Fable 89%, extra usage disabled, hard stop). Instrumentation required: claude-usage at every gate batch boundary, figure in every report, inbox alert at weekly-all 85% and 95%, resume note kept current here. OpenRouter cap USD 25 staged, unchanged |
+| Q11c effort | v5 Claude contestants at high; 27B stays at medium thinking; never pooled |
+| Q4 | default A stands: VRCA-Bench engine, results mirrored to ollama-bench/results/v5, D:\avatars commits held to the end |
+| Q7, Q2, Q5, Q8, Q9, Q10, Q11a/b/d | unasked, held by the phone session; none block authoring. Q7 needed before the local ladder |
+
+State at 11:50: campaign not started. v5 planner re-planning (18 tasks, isolation mechanism). Nesting guard agent working in ~/ansible-slb. Q2_K_L ranking ~15/30, boundary ~13:30.
+
+## Sync from the v5 planner, 2026-09-03 (re-plan complete)
+
+The rulings above are unchanged. What the planner learned while applying them, that this note
+should carry:
+
+- **Q1 is answered.** The mechanism statement is `plan-2026-09-03.md` section 5b1, summarised at the
+  end of `questions.md`. **Guarantee given:** a bench batch cannot open, lock, reuse, re-point or
+  write to the owner's `fargo-crispy` project or editor — rows 1, 2 and 4 are structural.
+  **Guarantee refused:** a batch can still contend for the machine. Port 8080 is shared by design,
+  and **there is no RAM guard at all** (`free_memory_gb()` is never called from `bench/`). Proposed
+  fix **M1**, a few lines in `runner.py`; recommended before the first batch. Authoring may start;
+  M1 should land before the first *batch*.
+- **One open hole:** `manage_tools` scope is unverified. If proposal H10 is adopted to trim the
+  Unity tool list, and that reshaping turns out to be per-editor or persisted rather than
+  per-session, it would degrade the owner's own tooling. **H10 is not to be adopted until a wire
+  probe settles it** (M2). This also makes Q7 option C — staying at 32k — not free, since the Unity
+  arm at 32k depends on exactly that subset.
+- **Nesting guard: the bench path is NOT covered by the ansible-slb wrapper work.**
+  `bench/contestants.py` launches `pi` directly and `runner.py` launches `claude -p` directly.
+  Worse, `contestant_env` deliberately *strips* nesting markers so a contestant looks like a fresh
+  session, and no deny-list entry mentions `pi`, `codex`, `claude`, `node`, `npm` or `curl` — so a
+  contestant can spawn a nested agent outside all cost accounting. Two-line bench-local fix in
+  section 7f: add `AGENT_RUN_DEPTH` to `ENV_STRIP` **and** set it explicitly in `contestant_env`.
+- **Usage instrumentation caveat:** the cached figure in `~/.claude.json` read `seven_day: 32`
+  while the live figure was 77%. The batch scripts must call `claude-usage` **live**; the cache is
+  not merely stale, it can be wrong by more than 2x. No dollar limits are exposed, so the 85%/95%
+  alert thresholds are the right shape.
+- **Budget reality check:** the gate campaign is ~USD 115-195 of plan-usage equivalent against an
+  allowance already at 77% with a hard stop. **It may not fit before the Saturday 07:59 reset.**
+  Authoring order is set so the cheap pure-file tasks and highest-value Unity tasks gate first.
+  Note that dropping Blender *raised* this estimate — those three candidates were the cheap ones.
+- **fp8 reference:** USD 25 does not buy 3 trials over 18 tasks (that is USD 30-70). Expect **n=1
+  for most tasks** and label it as such.
+- **Suite margin is thin (R10):** 18 candidates for a 14-18 suite. More than four gate failures
+  ships a short suite, and there is no cheap arm left to backfill from.
+
+State: plan, questions and `revision-log.md` are current as of this sync. Campaign still not
+started. Nothing executed, nothing committed.
+
+Owner note (11:53, direct): the v5 plan must schedule and verify fixes for the pi harness bugs v4 exposed (max_tokens/compaction, silent length stops in pibench, reserveTokens, schema budget), bench-local, before the local ladder. Sent to the v5 planner.
+
+---
+
+## Sync from the v5 planner, 2026-09-03 (second sync — isolation audit + harness-fix ruling)
+
+- **The Q1 guarantee is narrower than the first sync said, and the correction matters.** The
+  *runner* is contained. The *module API* is not: `projects.reset_assets` derives its `robocopy
+  /MIR` target from its argument with no containment check, `projects.launch_editor` checks only
+  that the target has an `Assets/` dir, `runner.project_dir_for` formats the path by hand instead
+  of calling `projects.project_dir()`, and `--editors` is never validated against `BENCH_SLOTS`.
+  `execute_run` then calls `reset_assets(project_dir)` unconditionally. Nothing triggers this
+  automatically — the runner never launches an editor — but agents are the intended callers of
+  `bench/projects.py`, and `/MIR` **deletes** everything at the target not in golden.
+  **Mechanism M3 (about six lines, two files) is now the highest-priority pre-batch fix**, ahead of
+  the RAM floor. Risk R12.
+- **`manage_tools` is resolved and H10 is cleared.** `activate` / `deactivate` / `reset` are
+  session-scoped in the vendor source (FastMCP `enable_components`, "this session only", session-
+  prefixed state key). One hard constraint: the gateway must **never** call `action: "sync"`, which
+  rewrites tool visibility on the shared hub for every new MCP session on the machine. M2 is
+  therefore superseded — no wire probe needed, just the rule.
+- **New gap: Unity `EditorPrefs`.** One registry key for every Unity project and version on the
+  machine, holding the MCP URL, auto-start and every tool/resource toggle. `policy.json` does not
+  screen it and `execute_code` can write it (M4). Related and worth knowing: `policy.json`'s
+  `D:\avatars` bans are literal regexes, so a path built by concatenation evades all three
+  spellings — it is a guard against accident, not a boundary.
+- **M5:** rows 4 and 5 are both hard guarantees resting on a pinned third-party version, and
+  `bench/tests/` uses a fake server. One integration test at upgrade time.
+- **Harness fixes are now scheduled work, per the owner's 11:53 note.** New plan section **7g,
+  Phase 0**: F1 (`maxTokens: 8192` against a 32768 window, in a new `pi-agent-v5/`), F2 (compaction
+  on with `reserveTokens: 8192` — never the managed 548576), F3 (record `stopReason`, so a `length`
+  stop stops reading as a clean FAIL), F4 (`prompt_overhead_tokens`), F5 (an MCP arm plus the raw
+  `tools/list` dump, since pibench has never measured an MCP run at all), F6 (build the agent dir
+  the way `contestants.py` does, per R9), F7 (document the turn bound instead of implying one).
+  H3 (a reasoning-budget field) is explicitly **deferred** as unverified against Ollama 0.33.2.
+- **The Phase 0 gate is binding:** `52_reengine` on `q27-Q2_K_L` at 32k must produce a tool call or
+  a non-empty answer **and** record a `stopReason`. No local-ladder run before it passes. It needs
+  the GPU, so it follows the v4 ranking; it blocks neither task authoring nor the Haiku/Sonnet
+  gates. Risk R13 covers the temptation to skip it.
+- **Non-comparability record:** every v5 record carries `harness_version: v5`, `pi-agent/` stays
+  frozen as the v4 artefact, and the README names F1-F7 with their effect. The v4 ranking is not
+  merged, re-scored or plotted against v5, and the `max_tokens` finding stays standalone with its
+  harness-cap caveat.
+
+State: plan (1647 lines), `questions.md` and `revision-log.md` current as of this sync. Campaign
+still not started. Nothing executed, no editor driven, no model run, nothing committed, no managed
+file touched.
+
+12:03 (owner, desktop): Decision 0 reversed. v4 local ranking stopped (Q2_K_L 18/30, 1 pass; Q3_K_S killed at start). GPU
+moves to a rapid smoke plan: pi-agent-v5 cap fix + gate on 52_reengine/Q2_K_L, then 4 tasks x 1 trial x 3 quants
+(52,55,57,60), Q3_K_S first. v4 purity not required; initial quant conclusions are the goal.
+
+12:35 (via phone), four rulings:
+- Smoke gate conditional = A: if gate attempt 3 fails on Q2_K_L, run the 12-run quant smoke anyway on the instrumented
+  harness; a Q2_K_L floor of zero is a result. Do not keep debugging first, do not drop Q2_K_L.
+- Q7 = A: per-quant maximum context at full residency (Q2_K_L up to 96k, Q3_K_S 64k, Q3_K_M 48k); ladder is
+  context-confounded and the headline must say so. Build suffixed q27-<QUANT>-<ctx> variants for Q2_K_L and Q3_K_M
+  (make_model.sh has no ctx suffix; do not clobber the 32k models).
+- Q10 = A: author the hard tasks, gate them, waiver lane exactly as specified (Sonnet 0/3 admissible only if golden
+  selfcheck >= 0.95, every check flips on a wrong solve, Haiku mean < 0.30; recorded "hard, waived", reported
+  separately). decimate-under-budget stays dropped with the Blender arm.
+- Q8 = B: all pi changes bench-local via PI_CODING_AGENT_DIR; nothing under ~/.pi or deployed skill roots. The
+  reserveTokens floor diff for ansible-slb is a PROPOSAL ONLY: write it, show the owner, do not apply/commit/converge.
+Still coming: Q9, Q5, Q2, Q11a/b/d, pi-run --agent-dir sub-question.
+
+12:40 (via phone), round 2; every v5 question is now answered:
+- Q9 = A: pooled mean headline with per-arm breakdown beside it, timeout counts next to every mean.
+- Q5 = A: rework builds-worse; first re-probe the current fixture with Haiku once (~3 cheap runs).
+- Q2 = A: create bench-D after the first 2-3 v5 tasks are authored and the 3-editor loop is proven; copy bench-C
+  wholesale for the warm Library; ~6 GB RAM is the real cost (nothing in bench/ calls free_memory_gb()).
+- Q11a yes: explicit skill_invoked check, weight ~0.05, on two or three tasks.
+- Q11b yes: red-team blocklist fixture in the SELF-TEST suite, not the scored suite.
+- Q11d yes: add the PI_CODING_AGENT_DIR line to ansible-slb org/pi-harness-2026-09-02.md; hold the commit with the
+  session's other work; run the org doc validator before committing.
+- pi-run --agent-dir: NO; env-var route is enough.
+- reserveTokens diff remains proposal only.
+
+---
+
+## Sync from the v5 planner, 2026-09-03 (third sync — revision 4, plan is execution-ready)
+
+**All twelve questions plus the three Q11 sub-questions are answered; `questions.md` is closed** and
+now carries a one-table ledger of every ruling and what it changed. The campaign start order is
+**section 13** of the plan.
+
+- **Q7 = A** is written up with the part that bites: `make_model.sh <QUANT> <ctx>` names its output
+  `q27-<QUANT>` with **no context suffix**, so building a 96k variant the obvious way **overwrites
+  the 32k model the v4 records were produced with**. The two build steps therefore specify the
+  suffixed names (`q27-Q2_K_L-96k`, `q27-Q3_K_S-64k`, `q27-Q3_K_M-48k`) and registration in
+  `pi-agent-v5/models.json` with `maxTokens` at about an eighth of the window — never equal to it.
+  The context-confounding sentence is specified verbatim rather than left to paraphrase.
+- **Q8 = B** done; `proposals/reservetokens-floor.diff` and `.md` are written, **proposal only, not
+  applied, not committed, not converged**. `pi-run --agent-dir` = NO is recorded and the
+  sub-question is removed from both files.
+- **Q2 = A** carries one addition worth reading: `bench-D` costs ~6 GB of RAM, and **M1 must land
+  before it**, because `free_memory_gb()` still has no call site in `bench/` and nothing would
+  refuse a four-editor batch that overcommits.
+- **Q5, Q9, Q10, Q11a/b/d** folded in; the `builds-worse` Haiku re-probe is step 0e and is a
+  precondition of designing the rework, not an optional check.
+- **The v4 stop (R15)** is recorded in the preamble to section 8 and in section 11: incomplete at
+  18 of 30 runs with one pass, never to be presented as a finished ranking, still valid as the
+  source of the `max_tokens` finding.
+- **R14, and a real correction to finding 1.** The live gate attempts say the `maxTokens` cap is
+  **necessary but not sufficient**: `finish=stop` with ~21k reasoning tokens under an 8,192 cap
+  means reasoning tokens are not being charged against `max_tokens` on this serving path, and the
+  model is ending its turn with an empty content channel. New fix **F8** distinguishes "the model
+  had nothing to say" from "we threw the answer away" — raw response logged, Ollama `think` toggled
+  off for one run, and the cap accounting established — and **no report may say Q2_K_L cannot
+  answer until F8 is answered.**
+- **The gate task moves to `59_uri`, and I verified why first-hand.** In
+  `results/v4-local-medium.json`, of Q2_K_L's 18 runs, `59_uri` trial 1 scored **1.000 over 37
+  turns** — the only unambiguous pass in the file. `52_reengine` is one of the four fingerprint
+  tasks the quant has never passed, so a failure there proves nothing about the harness.
+  `q27-Q3_K_S` is the secondary gate so one quant cannot block Phase 0 indefinitely. Caveat carried
+  into the plan: `59_uri` must not rank anything (its oracle is a renamed copy of its own
+  reference), which is fine for a liveness gate and is not evidence of capability. This also
+  corrects my own earlier citation of `57_stateful` (0.6154, partial credit) as the best case.
+- **Section 13 is new and is the thing to read before starting:** five pre-task steps (M3, M1, the
+  `AGENT_RUN_DEPTH` fix, the red-team fixture, the `builds-worse` re-probe), then **P1
+  `lfs-attributes`** (pure-file, proves the loop with no editor), **U4 `two-avatars-one-scene`**
+  (editor A, proves the gateway path), **U2 `disabled-is-not-free`** (editor B, first trap, first
+  `skill_invoked` carrier), then U7/U5/U8; `bench-D` after that; batch-boundary instrumentation and
+  the Q9 reporting shape at the end.
+
+State: plan 1868 lines, `questions.md` closed, `revision-log.md` at revision 4, two new files under
+`proposals/`. Nothing executed by this session, no editor driven, no model run, nothing committed,
+no managed file touched. Phase 0 on the GPU belongs to another agent.
+
+13:52: M3 containment fix landed UNCOMMITTED in D:vatars	oolsench (projects.py assert_bench_project on reset_assets and launch_editor; runner project_dir_for via project_dir, --editors validated; 6 tests; suite 102/102). Length study (GLM, results/length-study) and Luna Max campaign (results/luna-max-v4) running. Prompt-length rule drafted into the v5 plan pending owner confirmation.
+
+13:58 (owner, desktop): prompt-length authoring rule CONFIRMED (see plan, "Authoring rule: prompt length"). Ansible batch (Q/A instruction removal, remote control on, medium effort everywhere, org doc prune, pending doc edit) delegated to an Opus agent with commit + reconverge.
+
+14:09 (owner, desktop): medium smoke legs early-exited (Q3_K_S 0/4 all timeouts, Q2_K_L medium partial). Low-thinking leg started: results/v5-smoke-low.sh, same 4 tasks x 1 trial, Q3_K_S then Q2_K_L then Q3_K_M, 1200 s, pi-agent-v5.
+
+---
+
+## Sync from the control session, 2026-09-03 ~16:15 (GLM v4 column, audit findings, fleet policy)
+
+Full detail: **`results/v5/findings-2026-09-03-glm-audit.md`**. Summary:
+- **GLM 5.3 Flash v4 column done** (medium, 1800 s, 3 trials, pi-agent-v4, price-sorted -> Relace): **7/21, mean 0.898, 0.952 excl. timeouts, USD 0.90**; of 14 failures 2 endpoint, 1 cap-censored, 11 deterministic wrong checks. **Owner: no reruns** - v5 planning input only.
+- **One GLM-unique miss** (`61_codecs` quoted-printable differential, 3/3); every other miss is shared with fp8 or Sonnet, so those checks discriminate weakly.
+- **Behaviour:** in three runs GLM wrote its own tests, called them green, and concluded the spec was wrong. v5 graders must never treat a contestant's own tests as evidence; consider penalising a "spec is wrong" conclusion the reference contradicts.
+- **Three v4 defects confirmed** (v4 stays frozen): `52_reengine` rule 2 contradicts its own `a{,}` example list; `56_tmpl:176` defines integer `length` without the minus sign the oracle counts; `56_tmpl` mutation bucket 1 has a stuck fixed-seed mutant all three models fail. They become v5 selfcheck rules (execute every example list; state sign handling; bisect fixed-seed buckets).
+- **Routing:** price endpoint ~24 tok/s with run-killing idle stalls, throughput ~85 tok/s at ~2x. Run v5 pi arms at throughput, record the serving provider per run, size timeouts from measured tok/s.
+- **Fleet policy since 15:30:** GPT-5.6 Codex-only; adversarial review never the author's family (Luna, GLM fallback); Cursor retired; pi and codex-run default to high.
+
+**Plan revision 4 needs a revision 5 pass to absorb items 3, 4 and 5 before authoring starts. Authoring remains WAITING on the owner's smoke go-ahead.**
+
+## Sync from the control session, 2026-09-03 ~17:00 (smoke stopped, mission restated, plan rev 5)
+
+- Owner stopped the local low-thinking smoke during q27-Q3_K_M. Final local smoke tally: Q3_K_S medium 0/4, Q3_K_S low 0/4, Q2_K_L low 0/4, every trial at the 1200 s wall; no quant ranking is possible from v4 tasks.
+- Mission restated by the owner: find whether any real portion of Unity and general programming work can be offloaded to a local 27B; tokens and wall to solution and usable context matter; explore 2 to 4 concurrent local streams; exploration is for curiosity, verdict is the deliverable.
+- `plan-rev5-focused.md` written: ten small tasks (four Unity, six general), fp8 3/3 gate, under 5k output tokens, four quants x three trials at 32k, then a context sweep and a two-hour concurrency probe. Rev 4 stays as the harness reference. Three open questions listed in its section 9.
+- Owner notes ~17:10: no fp8 27B via OpenRouter any more (too expensive); GPU time budget much tighter, plan must be adaptive with critical probes first. Plan revised to rev 5.1: Sonnet 3/3 + GLM 2/3 gate replaces fp8; Q3_K_M single-trial probe of the whole suite first (B0), quant differentiation only on discriminating tasks with earned trials (B1), winner confirmation (B2), then context sweep and a two-slot concurrency probe; `schedule.md` will hold the next three GPU runs with reasons. GPU estimate about 7 to 8 h, every phase gated.
+- Org plan (skills-policy-plan-2026-09-03.md) approved by the owner with all three recommendations; build under way in two Opus agents, commit held until verified.
+- DeepSeek V4 Flash 0731 v4 column done 17:02 (high, throughput routing, 1800 s, 3 trials, pi-agent-v4-ds): 9/21, mean 0.862, 0.905 excl. timeouts, 3 timeouts (52 x2, 56 x1), 0 endpoint errors, mean 86.8k out tokens per trial (GLM ~2-3x less), USD 4.61 (GLM USD 0.90). Per task: 59 3/3, 61 3/3, 60 2/3, 52 1/3, 55 0/3 (0.968), 56 0/3, 57 0/3. Beats GLM on passes (9 vs 7) incl. the GLM-unique 61_codecs miss; loses on mean and on cost 5x. Roster row update pending the improvement agent's models.md edit.
+- Owner ~17:40: all Luna use so far took 3% of the weekly ChatGPT window; Luna via codex-run at high is free to use without restriction whenever another model family's review or advice is wanted. Docs wording being softened by the build agents; v5 plan updated.
+- Luna adversarial review of rev 5.1 (codex-run high, `review-luna-rev5.1.md`) folded into rev 5.2: task-level verdict rule (solved = 2/3 trials; viable = 3 of 4 headline tasks), sentinel set per quant against selection bias, "untested" vs "not viable" wording, GLM gate at throughput with provider recorded, g05 document cut to 12k so the 16k step fits, g06 graded by count, saturation flag at gate time, per-trial VRAM residency logged (Q3_K_M at 32k was already 10% CPU during the smoke).
+
+## Sync from the control session, 2026-09-03 ~17:45 (session restart, owner rulings)
+
+Control session restarted from `results/handoff-2026-09-03-evening.md`. State re-verified: both
+ansible-slb clones at `71ee5b4`, clean; converges green on all three hosts; GPU idle.
+
+- **Owner ruling: u04 (Unity EditMode tests) is CUT.** Suite is nine tasks, headline is seven
+  (u01-u03, g01-g04). Plan taken to **rev 5.3**: section 4 table and heading, the weighting line,
+  the Phase A task count, the B0 trial count (10 -> 9), and the section 7 verdict arity all follow.
+  The EditMode test-runner fixture leaves Phase A with the task.
+- **Verdict arity restated** (mechanical consequence, flagged to the owner): viable at three
+  quarters of a class's headline tasks rounded up, marginal at half rounded up. General (4) is
+  viable at 3, marginal at 2; Unity (3) is viable at 3, marginal at 2. Requiring 3/3 for Unity is
+  deliberate - at three tasks a 2-of-3 bar lets one task carry a class.
+- **Section 9 question 1 struck as never-open**: ruling Q11c already pins the 27B at medium,
+  section 2 records low scoring worse while emitting more, and B0's gate falls back to low anyway.
+- **B0 probe quant still open, and the recommendation CHANGED.** Rev 5.2 (and this session's first
+  message to the owner) recommended Q3_K_M on a-priori quality. That recommendation predates
+  `results/gpu-tune/summary.md`, which rev 5.2 never absorbed. On the measured evidence the pick is
+  **IQ3_M at 64k** (`q27-IQ3_M-64k`, already baked with `num_ctx 65536`, `num_gpu 66`):
+  12.95 GB against Q3_K_M's 13.60, 64k fully resident against 48k, 52.8 tok/s empty and 41.0 at
+  60k, the best prompt throughput of any quant tested (2039 tok/s), no IQ dequant penalty, and
+  4/4 with 32 s mean wall on the pibench sanity where Q3_K_M's 32k baseline was 80 s/run.
+- **Two caveats carried to the owner.** IQ3_M's quality edge over Q3_K_M is nominal plus four easy
+  v3-era tasks, not a measured head-to-head. And the entire gpu-tune study ran at
+  `OLLAMA_KV_CACHE_TYPE=q4_0` - now the live desktop setting - with no quality measurement at that
+  cache type, long-context recall being the usual casualty; so a weak B0 would confound quant
+  against KV precision unless B0 spends one q8_0 control trial.
+- Plan section 5 now carries a rev 5.3 note that sections 5, 6 and the Phase C window are stale
+  against the gpu-tune study; they are rewritten in rev 5.4 once the B0 quant is chosen.
+- **Usage flagged to owner:** weekly-all 84% (warning, one point under the handoff's 85% alert),
+  and the binding limit is the **Fable-scoped weekly sub-limit at 94%, critical and active**,
+  resetting 2026-09-05 ~08:00 MDT. Control stays on Opus through the reset.
+- Improvement item 15 delegated to an Opus worker (precondition verified first: the four Cursor
+  retired paths absent on WSL and devbox, `enabledModels` absent from pi settings on both,
+  Windows `Verify_Retired_Agent_Removal` green in the 17:23 converge).
+
+## Sync from the control session, 2026-09-03 ~18:05 (rev 5.4, B0 settled, 2-bit becomes a verdict)
+
+Owner rulings, all applied to `plan-rev5-focused.md` (now **rev 5.4**) and to the new
+`results/v5/schedule.md`:
+
+- **q8_0 KV control in B0: YES.** New **Phase B0-control**, about 15 min: same quant, same 32k,
+  same thinking level, single variable, on g05 plus the two highest-partial-score headline tasks
+  that failed under q4_0. Written with its procedure and, importantly, its **revert** — the env
+  var goes back to q4_0 and Ollama restarts, because the baked `q27-IQ3_M-64k` and
+  `q27-Q3_K_S-64k` models exceed VRAM without it. Reading rule stated: a materially better q8_0
+  result promotes cache precision to a swept variable in Phase C; no difference retires it.
+- **B0 probe: IQ3_M at 32k**, the plain `q27-IQ3_M` with `num_ctx 32768, num_gpu 66` rather than
+  the baked 64k model — 13.39 GB keeps ~2 GB margin where 64k is 14.11 GB and fair-weather.
+- **IQ3_M is the starting point, NOT the org's quality answer.** The owner is explicitly
+  unconvinced on quality grounds, so the plan gives IQ3_M no privilege beyond going first:
+  **B1 now runs Q3_K_M and Q2_K_L over the full seven-task headline set**, not a sentinel subset
+  derived from IQ3_M's own passes, so IQ3_M's B0 pattern cannot define what the suite measures.
+  Q3_K_S keeps the cheap sentinel shape. B2 picks the winner "on the evidence, not by seniority".
+  The B0 fallback gate also changed from Q3_K_S to Q3_K_M: if the suite is out of reach the
+  question is whether more quality rescues it, not more speed.
+- **"Is 2-bit viable at all for any real work" is now a verdict line of its own** (owner's
+  curiosity, section 7). Q2_K_L gets the full headline set in B1; the line reports whether it
+  solves any headline task, which class it does best in, the viable/marginal/not-viable word, and
+  its context reach — 96k fully resident is a capability no other quant on this card has, so
+  "not viable for coding, and the only 96k option on this hardware" is a reportable outcome
+  rather than a failure. Q2_K_L is also named the natural Phase D concurrency candidate whatever
+  wins B2, being smallest and fastest.
+- **IQ2_M raised as a conditional, not scheduled.** If Q2_K_L lands marginal rather than clearly
+  dead, IQ2_M is the single run most likely to flip 2-bit to viable (IQ3_M showed imatrix carries
+  no dequant penalty at 3-bit). ~12 GB pull against 68 GB free. Brought back as a decision when
+  the Q2_K_L result is in.
+- **Q3_K_L dropped from v5** as a recorded decision: largest, slowest, caps at 24k, fair-weather
+  at every useful context; nothing it could show would move a verdict line.
+- **Plan rule 7 corrected** (rev 5.3, carried): residency from `ollama ps` and `nvidia-smi` is
+  necessary and not sufficient. On Windows/WDDM an oversized allocation raises no OOM — it spills
+  to system RAM while still reporting `100% GPU` and `offloaded 66/66` while generation
+  collapses. Every local trial now also records gen tok/s and a trial below its quant's known
+  resident curve is flagged thrashing. Without this a thrashing config would have been logged as
+  resident.
+- Budget retuned: 9 B0 trials + 3 control, 25-35 in B1 (14 of them the two full-headline passes),
+  20 in B2, 14 in C, 8 in D — roughly 6.5 to 8 h.
+- Section 9 now carries no open questions. Two decisions are deferred by design and will be
+  brought back rather than taken unilaterally: the IQ2_M pull, and whether the q8_0 control
+  promotes cache precision to a Phase C variable.
+
+`results/v5/schedule.md` created: the three queued GPU runs (B0, B0-control, B1 Q3_K_M) with
+reasons, the standing run rules, and a log. Nothing runnable until Phase A freezes the suite.
+Authoring still waits on the owner's go-ahead.

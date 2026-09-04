@@ -1,0 +1,82 @@
+{
+ "01_rle": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "02_lru": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "03_calc": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "04_csv": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "05_bugfix": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "06_refactor": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "07_dijkstra": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "08_topo": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "09_wc": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.2
+ },
+ "10_intervals": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "11_roman": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "12_regex": {
+  "pass": false,
+  "grader": "TIMEOUT 25s",
+  "grade_s": 25.0
+ },
+ "13_indent": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.0
+ },
+ "14_ratelimit": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "15_diff": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ },
+ "16_bugfix2": {
+  "pass": true,
+  "grader": "PASS",
+  "grade_s": 0.1
+ }
+}

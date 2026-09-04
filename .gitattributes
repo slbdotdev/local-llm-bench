@@ -1,0 +1,11 @@
+# Byte-exact checkout on every platform.
+#
+# The benchmark verifies its own task files by hash — see
+# ollama-bench/results/v4-test-hashes.txt, checked with `sha256sum -c` before
+# and after a campaign to prove no taker altered a task. Task files were
+# authored on Windows and carry CRLF terminators. With git's default
+# normalization (core.autocrlf=true here) those bytes would be stored as LF
+# and checked out as LF on Linux, so every recorded hash would fail on a
+# devbox or WSL clone. Disable conversion entirely rather than re-baselining
+# the hashes.
+* -text

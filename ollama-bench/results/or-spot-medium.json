@@ -1,0 +1,129 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 24.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 8406,
+    "out_tokens": 1803,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 20.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 8556,
+    "out_tokens": 2048,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nDone.\n\n`calc.py` created with a tokenizer + recursive-descent parser. All checks passed:\n- Precedence/associativity: `2 + 3 * 4 - 6 / 2 == 11.0`, `100 / 10 / 2 == 5.0`\n- Unary minus: `-3 * -2 == 6.0`, `-(1+2) == -3.0`\n- Literals: `2`, `3.5`, `.5`\n- Division by zero \u2192 `ZeroDivisionError`\n- Empty string, `2+`, `*2`, unbalanced parens, `1.2.3`, unknown chars \u2192 `ValueError`\n- Returns `float`",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 18.3,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 15818,
+    "out_tokens": 1593,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 18.4,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 16068,
+    "out_tokens": 1504,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 27.9,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 17136,
+    "out_tokens": 2871,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 15.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7835,
+    "out_tokens": 1497,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

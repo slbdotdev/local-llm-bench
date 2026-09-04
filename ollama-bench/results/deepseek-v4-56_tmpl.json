@@ -1,0 +1,93 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 1109.3,
+    "turns": 110,
+    "tool_calls": 111,
+    "tools": {
+     "write": 5,
+     "edit": 29,
+     "bash": 76,
+     "read": 1
+    },
+    "in_tokens": 14166060,
+    "out_tokens": 151286,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/29\nFAIL ['filters on odd inputs: upper/lower/trim/length/first', 'randomised differential, well-formed templates (bucket 1)', 'randomised differential, well-formed templates (bucket 2)', 'randomised differential, mutated/malformed templates (bucket 1)', 'randomised differential, mutated/malformed templates (bucket 2)']",
+    "score": 0.8276,
+    "final_text": "and `set` binding semantics.\n- No banned imports (`re`, `string`, `html`, `shlex`) and no `eval`/`exec` \u2014 everything hand-written.\n\nVerification: the module's `__main__` suite, the provided `test_tmpl.py`, plus ~70k fuzz/render checks (no non-`TemplateError` ever escapes, `.kind`/`.pos` asserted, phase-order precedence, escaping/trimming/safety/truthiness edge cases, all five spec examples).\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 109,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 864.6,
+    "turns": 130,
+    "tool_calls": 133,
+    "tools": {
+     "bash": 71,
+     "read": 7,
+     "write": 9,
+     "edit": 46
+    },
+    "in_tokens": 15649690,
+    "out_tokens": 141124,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/29\nFAIL ['filters on odd inputs: upper/lower/trim/length/first', 'randomised differential, mutated/malformed templates (bucket 1)']",
+    "score": 0.931,
+    "final_text": " `\" \"`, `\"False\"`, `\"0.0\"`, `-1` truthy), real-boolean `loop.first`/`loop.last`, exact filter semantics (`length`, `first`, `join`, `replace`, `slice`, `default`, bare args never being lookups), comparison/`in`/`bad_operand`/`not_iterable` behavior, scoping for `set`/`for`/`empty`, and exact `kind`/`pos` on every error.\n- Fuzzed 20,000 generated templates \u2014 only `TemplateError` ever escapes.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 129,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 492.6,
+    "turns": 26,
+    "tool_calls": 26,
+    "tools": {
+     "bash": 15,
+     "read": 2,
+     "write": 2,
+     "edit": 7
+    },
+    "in_tokens": 2518142,
+    "out_tokens": 98230,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 19/29\nFAIL ['grader timed out (candidate too slow or hung)']",
+    "score": 0.6552,
+    "final_text": "Those two expectations were miscounted by me. Fix\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 26
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

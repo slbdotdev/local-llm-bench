@@ -1,0 +1,211 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 25.2,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "edit": 2,
+     "read": 1
+    },
+    "in_tokens": 27898,
+    "out_tokens": 1990,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll 19 checks pass. `calc.py` is in place with a hand-written tokenizer and recursive-descent parser \u2014 no `eval`/`ast`/third-party libs.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 23.0,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 12005,
+    "out_tokens": 1816,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll checks pass.\nAll checks pass.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 26.8,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 3,
+     "bash": 1
+    },
+    "in_tokens": 15685,
+    "out_tokens": 2165,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 17.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7472,
+    "out_tokens": 1148,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 10.2,
+    "turns": 5,
+    "tool_calls": 6,
+    "tools": {
+     "read": 3,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 15223,
+    "out_tokens": 719,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 12.4,
+    "turns": 5,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 3,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 15112,
+    "out_tokens": 866,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 17.1,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 9898,
+    "out_tokens": 924,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll modes work: counts (3 lines, 14 words, 81 chars), top-N sorted by count then alphabetically, and missing file returns `error: no such file` to stderr with exit code 2.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 16.8,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 7353,
+    "out_tokens": 982,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll tests pass:\n- Basic: `3 15 70` (3 newlines, 15 tokens, 70 chars) \u2713\n- `--top 3`: `a 3`, `fox 2`, `hello 2` \u2014 count-descending with alphabetical tiebreak (fox before hello), punctuation stripped, lowercased \u2713\n- `--top 99`: prints all 10 distinct words since fewer than N exist \u2713\n- Missing file: `error: no such file` to stderr, exit status 2 \u2713\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 17.1,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 11057,
+    "out_tokens": 1508,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 20.9,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7758,
+    "out_tokens": 1210,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nAll checks passed \u2014 round-trips work, canonical forms are produced, and all invalid inputs (out-of-range, non-int, non-canonical Roman strings) are rejected.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

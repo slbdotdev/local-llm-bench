@@ -1,0 +1,463 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 121.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 16748,
+    "out_tokens": 18029,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\nCreated `rle.py` with `encode` and `decode`. Checks passed: the spec examples, multi-digit runs (`10a`, `123a`, `100z`), a 2000-iteration randomized round-trip over all ASCII letters (with a canonicity check on the encoded form), and single-character cases.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 18.9,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 8564,
+    "out_tokens": 2448,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 413.8,
+    "turns": 10,
+    "tool_calls": 10,
+    "tools": {
+     "write": 2,
+     "bash": 6,
+     "edit": 2
+    },
+    "in_tokens": 261555,
+    "out_tokens": 51563,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " LRU eviction, update-marks-MRU, capacity-1 behavior, `__len__`, `keys()` LRU\u2192MRU ordering and snapshot semantics \u2014 all passed.\n- Performance sanity: 250k ops (puts + gets + evictions) on a 100k-capacity cache in ~0.065s, consistent with O(1) per op.\n- Extra fuzz check: 15k randomized ops cross-validated against a naive list-based reference model (values, lengths, and key order all matched).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 237.2,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "write": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 75146,
+    "out_tokens": 31015,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "d differential test against an independent O(n) reference model, plus the LeetCode 146 sequence, eviction ordering after updates, capacity-1, `__len__`, and `ValueError` on invalid capacity.\n\n- `lru.py` \u2014 `LRUCache` backed by `collections.OrderedDict` (O(1) avg `get`/`put` via dict lookup + `move_to_end`, LRU eviction via `popitem(last=False)`)\n- `test_lru.py` \u2014 the quick checks, all passing\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 144.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 38520,
+    "out_tokens": 22079,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " passed.\n\n- `calc.py` created: tokenizer + recursive-descent parser (`expr \u2192 term \u2192 factor \u2192 atom`), no `eval`/`exec`/`ast`.\n- Verified: precedence, left associativity, unary minus (`-3 * -2` \u2192 6.0), decimals (`.5`, `3.5`), whitespace, `ZeroDivisionError` for `1/0` and `1/(2-2)`, `ValueError` for empty string, unbalanced parens, trailing operators, unknown characters, and malformed literals.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 35.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 13210,
+    "out_tokens": 4485,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`). Verified via its self-test (`python calc.py` \u2192 \"all checks passed\") plus extra spot checks:\n\n- Precedence/associativity: `2*3+4`=10, `8/2/4`=1, `1-2-3`=-4\n- Unary minus: `-3 * -2`=6, `-(2+3)`=-5, `--4`=4\n- Literals: `2`, `3.5`, `.5` all work\n- `ZeroDivisionError` for `1/0` and `6/(3-3)`\n- `ValueError` for `\"\"`, `\"2+\"`, `\"(1+2\"`, `\"1+2)\"`, `\"1..2\"`, `\"2 3\"`, `\"abc\"`, `\"()\"`, `\"*5\"`, `\"1 + * 2\"`",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 369.4,
+    "turns": 13,
+    "tool_calls": 15,
+    "tools": {
+     "bash": 7,
+     "write": 2,
+     "edit": 4,
+     "read": 2
+    },
+    "in_tokens": 404819,
+    "out_tokens": 50540,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 194.6,
+    "turns": 13,
+    "tool_calls": 13,
+    "tools": {
+     "bash": 5,
+     "write": 2,
+     "edit": 5,
+     "read": 1
+    },
+    "in_tokens": 209187,
+    "out_tokens": 19724,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "est_csvlite.py`: 25 explicit checks (quoted commas/newlines, doubled quotes, `a,,b`, `,`, trailing `\\n`/`\\r\\n`, empty input, space preservation, blank lines) plus 3000 randomized fuzz texts cross-checked against the stdlib `csv` module \u2014 all pass. One documented choice: a completely empty line parses as `[\"\"]` (a record with one empty field), per RFC 4180's `record = field *(COMMA field)` grammar.",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 172.5,
+    "turns": 4,
+    "tool_calls": 6,
+    "tools": {
+     "read": 3,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 45501,
+    "out_tokens": 25507,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 173.0,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "edit": 1
+    },
+    "in_tokens": 80287,
+    "out_tokens": 26234,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 258.9,
+    "turns": 7,
+    "tool_calls": 13,
+    "tools": {
+     "bash": 4,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 165339,
+    "out_tokens": 35803,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 40.9,
+    "turns": 7,
+    "tool_calls": 13,
+    "tools": {
+     "bash": 4,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 31443,
+    "out_tokens": 5813,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "ed (`compute_total as ct`); call changed to `ct(orders[0], tax_rate=0.0)`.\n- **`shop/report.py`** \u2014 both call sites use `pricing.compute_total`, tax passed as `tax_rate=tax`.\n\nVerified: grep confirms zero remaining `calc_total` references, no positional tax passes, and `python -m shop.cli` output is byte-identical to the pre-refactor baseline (`cart: 19.8`, `report: (2, 17.85)`, `raw: 6.0`).\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 163.9,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 45571,
+    "out_tokens": 23699,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 74.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 11451,
+    "out_tokens": 11904,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ncreated `graph.py` with `shortest_path(graph, src, dst)` using Dijkstra with `heapq` (including a tie-breaker counter so equal-cost entries never compare node objects). All 8 quick checks passed: the basic example, `src == dst`, unreachable dst, `KeyError` for invalid src, neighbour-only nodes, directedness, a greedy-trap case, zero-weight edges, and int-node graphs.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 200.1,
+    "turns": 7,
+    "tool_calls": 8,
+    "tools": {
+     "write": 3,
+     "bash": 4,
+     "edit": 1
+    },
+    "in_tokens": 146036,
+    "out_tokens": 29490,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "exicographically smallest valid permutation\" reference over all 512 graphs on 3 nodes, and validated every reported cycle is a real edge-true cycle. (The first run exposed a bug in my *reference* \u2014 it allowed self-loops \u2014 which `deps.py` had correctly rejected; after fixing the reference, all 512 cases match.)\n\nBoth scripts pass: `all checks passed` and `exhaustively checked 512 graphs: OK`.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 105.6,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 20849,
+    "out_tokens": 15755,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 202.7,
+    "turns": 6,
+    "tool_calls": 8,
+    "tools": {
+     "write": 2,
+     "bash": 6
+    },
+    "in_tokens": 82900,
+    "out_tokens": 31100,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "` \u2192 `4 14 58` (matches system `wc -l -w` and an independent regex-based char count)\n- `python wc.py --top 4 sample.txt` \u2192 `a 3`, `the 3`, `fox 2`, `and 1` (count desc, alphabetical ties; punctuation stripped, case folded, empty tokens skipped)\n- `--top 100` prints all 8 distinct words; `--top 0` prints nothing\n- `python wc.py missing.txt` \u2192 `error: no such file` on stderr only, exit status 2\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 211.8,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 42617,
+    "out_tokens": 27939,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 226.9,
+    "turns": 10,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 5,
+     "write": 3,
+     "edit": 2
+    },
+    "in_tokens": 145758,
+    "out_tokens": 32044,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 106.1,
+    "turns": 14,
+    "tool_calls": 15,
+    "tools": {
+     "write": 2,
+     "bash": 8,
+     "read": 1,
+     "edit": 4
+    },
+    "in_tokens": 159473,
+    "out_tokens": 14058,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 229.4,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 83656,
+    "out_tokens": 35609,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " (run via `python roman.py`):\n- Round-trip `from_roman(to_roman(n)) == n` for every n in 1..3999\n- Spot values: 4\u2192IV, 9\u2192IX, 40\u2192XL, 90\u2192XC, 400\u2192CD, 900\u2192CM, 1994\u2192MCMXCIV, 3999\u2192MMMCMXCIX, etc.\n- `to_roman` rejects 0, -1, 4000, 3.5, \"X\", True, False, None\n- `from_roman` rejects \"\", \"IIII\", \"VX\", \"IC\", \"XXXX\", \"IVI\", \"MMMM\", \"iv\", \"XLX\", \"IIV\", \"IXI\", \"abc\", \"I V\", 42, None \u2014 all with `ValueError`\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 456.6,
+    "turns": 12,
+    "tool_calls": 13,
+    "tools": {
+     "write": 5,
+     "bash": 7,
+     "read": 1
+    },
+    "in_tokens": 337321,
+    "out_tokens": 67750,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "56_tmpl/t1": {
+  "task": "56_tmpl",
+  "trial": 1,
+  "pass": false,
+  "score": 0.7931,
+  "grader": "or precedence, short-circuit skips errors', 'randomised differential, well-formed templates (bucket 1)', 'randomised differential, well-formed templates (bucket 2)', 'randomised differential, mutated/malformed templates (bucket 1)', 'randomised differential, mutated/malformed templates (bucket 2)']",
+  "wall_s": 0.1
+ },
+ "56_tmpl/t2": {
+  "task": "56_tmpl",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 29/29\nPASS",
+  "wall_s": 0.2
+ },
+ "57_stateful/t1": {
+  "task": "57_stateful",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.5
+ },
+ "57_stateful/t2": {
+  "task": "57_stateful",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 26/26\nPASS",
+  "wall_s": 0.4
+ },
+ "55_minilang/t1": {
+  "task": "55_minilang",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 31/31\nPASS",
+  "wall_s": 0.5
+ },
+ "55_minilang/t2": {
+  "task": "55_minilang",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9677,
+  "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+  "wall_s": 0.5
+ }
+}

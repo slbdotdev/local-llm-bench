@@ -1,0 +1,231 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "32_wirefmt",
+    "pass": true,
+    "wall_s": 562.2,
+    "turns": 30,
+    "tool_calls": 29,
+    "tools": {
+     "write": 3,
+     "edit": 11,
+     "bash": 14,
+     "read": 1
+    },
+    "in_tokens": 959244,
+    "out_tokens": 33287,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 33/33\nPASS",
+    "score": 1.0,
+    "final_text": "0.5 s (rule 21).\n- **Fuzz** \u2014 2000 random nested values round-trip `decode(encode(v)) == v` and `canon(s) == s` (rules 13, 21).\n\n`wirefmt.py` implements `encode` (two-pass iterative: depth check, then emission with sentinel markers), `decode` (single left-to-right pass with an explicit stack, regex-based fast-forward over plain runs), `canon`, and `WireError(ValueError)` with `.kind`/`.pos`.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "32_wirefmt",
+    "pass": false,
+    "wall_s": 558.9,
+    "turns": 37,
+    "tool_calls": 36,
+    "tools": {
+     "write": 3,
+     "edit": 11,
+     "bash": 20,
+     "read": 2
+    },
+    "in_tokens": 943497,
+    "out_tokens": 28400,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 32/33\nFAIL [\"precedence: 'empty' beats 'delim' at the same position\"]",
+    "score": 0.9697,
+    "final_text": "`depth` at the 201st `(`\n- **Performance**: flat list of 200,000 atoms (~1.4 MB) decodes in ~0.2 s, single-pass iterative parser (no front-slicing, no recursion in `decode`)\n\n`wirefmt.py` is complete: `encode` (canonical form, recursive with depth/type checks), `decode` (iterative state machine over a list stack, smallest-pos errors), `canon`, and `WireError(ValueError)` with `.kind`/`.pos`.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "33_spanmap",
+    "pass": true,
+    "wall_s": 252.9,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "write": 2,
+     "bash": 11,
+     "edit": 11
+    },
+    "in_tokens": 368351,
+    "out_tokens": 14611,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "d()`)\n- Checkpoint/rollback/commit nesting and continued operation after rollback\n- Performance: 200k paints + `spans()` in **0.39s** (200k spans), 200k overlapping paints in **0.64s**\n\n`spanmap.py` uses three parallel sorted lists (`_los`, `_his`, `_labs`) with `bisect` to locate the affected range per operation \u2014 no full rescans, no per-position storage. `test_spanmap.py` holds the checks.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "33_spanmap",
+    "pass": true,
+    "wall_s": 1438.7,
+    "turns": 59,
+    "tool_calls": 58,
+    "tools": {
+     "write": 4,
+     "edit": 18,
+     "read": 6,
+     "bash": 30
+    },
+    "in_tokens": 3365248,
+    "out_tokens": 90360,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "length edge cases, every error kind and check order, nested checkpoints, plus 18,000+ random ops differentially tested against a brute-force per-position model (spans, `at`, `slice` after every op). Performance: 200,000 paints growing to 164,808 spans + one `spans()` in ~3.3\u20133.5s on this machine (I prototyped a treap and a 3-list version; the single-list design was the fastest of the three).\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 186.7,
+    "turns": 19,
+    "tool_calls": 18,
+    "tools": {
+     "bash": 7,
+     "edit": 6,
+     "read": 4,
+     "write": 1
+    },
+    "in_tokens": 374138,
+    "out_tokens": 17550,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "caller's `ctx` is unchanged; this also fixes nested loops disturbing the outer `loop`.\n8. `{% elif %}` or a second `{% else %}` after `{% else %}` inside an `if` now raise `mismatch` (previously silently accepted as another branch).\n\nBoth the visible `test_tmpl.py` and ~60 spec-based checks (worked examples, all error kinds/precedence, whitespace control edges, scoping, escaping order) pass.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 324.0,
+    "turns": 23,
+    "tool_calls": 25,
+    "tools": {
+     "read": 6,
+     "edit": 4,
+     "bash": 15
+    },
+    "in_tokens": 556653,
+    "out_tokens": 25008,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "the now-unused `import re`.\n\nVerified against the spec's six worked examples, the visible `test_tmpl.py` (ALL OK), and an extended suite covering all error kinds (`syntax`/`unclosed`/`mismatch`/`filter`/`type`), the three-pass precedence, escaping order, raw/esc positioning, whitespace control edge cases, loop variables (`index`, `index0`, `first`, `last`), nested loops, and ctx restoration.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "35_ledger",
+    "pass": false,
+    "wall_s": 51.7,
+    "turns": 4,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 2,
+     "read": 3,
+     "write": 3
+    },
+    "in_tokens": 24296,
+    "out_tokens": 3812,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 34/35\nFAIL ['Entry has 6 named fields with dest defaulting to None raised TypeError']",
+    "score": 0.9714,
+    "final_text": "lf-transfers) and exactly 5 for `DEP`/`WDR`.\n- **engine.py**: `apply_entries` handles `XFR` with a per-account/per-currency overdraft check (raises `LedgerError`, source updated before destination); added `engine.totals(state)` in first-appearance order.\n- **report.py**: rows sorted by account then currency, includes zero balances, second rule line, and `TOTAL` rows in `engine.totals` order.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "35_ledger",
+    "pass": true,
+    "wall_s": 48.2,
+    "turns": 5,
+    "tool_calls": 9,
+    "tools": {
+     "read": 4,
+     "write": 3,
+     "bash": 2
+    },
+    "in_tokens": 35382,
+    "out_tokens": 2853,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 35/35\nPASS",
+    "score": 1.0,
+    "final_text": "\n\nAll worked examples match, and `visible_test.py` prints `ALL OK`.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "36_minilang",
+    "pass": true,
+    "wall_s": 310.4,
+    "turns": 17,
+    "tool_calls": 16,
+    "tools": {
+     "write": 2,
+     "bash": 9,
+     "edit": 5
+    },
+    "in_tokens": 411706,
+    "out_tokens": 21985,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 39/39\nPASS",
+    "score": 1.0,
+    "final_text": ".0` \u2192 `true`), and the exact rendering rules for `print`.\n- **Errors**: all five subclasses with `.kind`, `.line`, and `str(e) == \"<kind> error at line <line>: <detail>\"`.\n- **Performance**: 40,000 statements (\u2248778 KB) in ~0.3 s and a 200,000-iteration while loop in ~0.7 s, both well under 6 s.\n\nAll worked examples from the spec verified, plus ~100 additional edge-case and error-check tests.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "36_minilang",
+    "pass": true,
+    "wall_s": 437.4,
+    "turns": 24,
+    "tool_calls": 23,
+    "tools": {
+     "write": 2,
+     "edit": 6,
+     "bash": 15
+    },
+    "in_tokens": 769154,
+    "out_tokens": 34140,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 39/39\nPASS",
+    "score": 1.0,
+    "final_text": "hon `%` sign, int**non-neg-int stays int, cross-type `==`/`!=`, operand-returning short-circuit `and`/`or`, block scoping with shadowing and `let` reading outer before declaration\n- Error precedence (left operand first: `zzz + (1/0)` \u2192 name, `(1/0) + zzz` \u2192 zero), exact name-error strings/lines\n- Performance: ~1.5 MB / 40k-statement program in ~1.1s; 200k-iteration while loop in ~0.85s (limit: 6s)",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

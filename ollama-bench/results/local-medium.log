@@ -1,0 +1,145 @@
+
+===== q27-Q3_K_M =====
+    ctx fill     31 tok: prompt    74.4 tok/s, gen  22.8 tok/s
+    ctx fill   2303 tok: prompt  1331.1 tok/s, gen  22.2 tok/s
+    ctx fill   4570 tok: prompt  1399.9 tok/s, gen  21.5 tok/s
+    ctx fill   9105 tok: prompt  1421.4 tok/s, gen  20.3 tok/s
+    ctx fill  13636 tok: prompt  1414.2 tok/s, gen  18.8 tok/s
+TPS: {'gen_tps': 22.5, 'prompt_tps': 74.9, 'load_s': 9.3, 'size_gb': 14.95, 'vram_gb': 13.48, 'pct_gpu': 90, 'curve': [{'fill_tokens': 31, 'prompt_tps': 74.4, 'gen_tps': 22.8}, {'fill_tokens': 2303, 'prompt_tps': 1331.1, 'gen_tps': 22.2}, {'fill_tokens': 4570, 'prompt_tps': 1399.9, 'gen_tps': 21.5}, {'fill_tokens': 9105, 'prompt_tps': 1421.4, 'gen_tps': 20.3}, {'fill_tokens': 13636, 'prompt_tps': 1414.2, 'gen_tps': 18.8}]}
+  01_rle           #0 PASS   26.8s turns=3 tools=2 out=528
+  01_rle           #1 PASS   23.1s turns=3 tools=2 out=466
+  02_lru           #0 PASS   26.7s turns=3 tools=2 out=538
+  02_lru           #1 PASS   28.1s turns=3 tools=2 out=576
+  03_calc          #0 PASS   97.4s turns=4 tools=3 out=2107
+  03_calc          #1 PASS   85.4s turns=3 tools=2 out=1812
+  04_csv           #0 PASS  166.6s turns=6 tools=5 out=3536
+  04_csv           #1 PASS  111.7s turns=7 tools=6 out=2299
+  05_bugfix        #0 PASS   30.2s turns=4 tools=4 out=603
+  05_bugfix        #1 PASS   32.2s turns=4 tools=4 out=649
+  06_refactor      #0 PASS   54.1s turns=6 tools=11 out=1098
+  06_refactor      #1 PASS   73.4s turns=8 tools=10 out=1504
+  07_dijkstra      #0 PASS   33.7s turns=3 tools=2 out=698
+  07_dijkstra      #1 PASS   28.5s turns=3 tools=2 out=587
+  08_topo          #0 PASS   52.4s turns=3 tools=2 out=1106
+  08_topo          #1 PASS  161.0s turns=7 tools=6 out=3390
+  09_wc            #0 FAIL   59.8s turns=7 tools=7 out=1228
+  09_wc            #1 PASS   30.8s turns=4 tools=3 out=625
+  10_intervals     #0 PASS  457.0s turns=10 tools=9 out=9433
+  10_intervals     #1 PASS   81.3s turns=7 tools=6 out=1698
+  11_roman         #0 PASS   47.4s turns=3 tools=2 out=1012
+  11_roman         #1 PASS   54.1s turns=3 tools=2 out=1155
+
+===== q27-Q3_K_L =====
+    ctx fill     31 tok: prompt    48.2 tok/s, gen  15.9 tok/s
+    ctx fill   2303 tok: prompt  1142.8 tok/s, gen  15.6 tok/s
+    ctx fill   4570 tok: prompt  1223.0 tok/s, gen  15.3 tok/s
+    ctx fill   9105 tok: prompt  1234.5 tok/s, gen  14.7 tok/s
+    ctx fill  13636 tok: prompt  1234.6 tok/s, gen  14.1 tok/s
+TPS: {'gen_tps': 16.0, 'prompt_tps': 48.6, 'load_s': 14.5, 'size_gb': 15.58, 'vram_gb': 13.48, 'pct_gpu': 87, 'curve': [{'fill_tokens': 31, 'prompt_tps': 48.2, 'gen_tps': 15.9}, {'fill_tokens': 2303, 'prompt_tps': 1142.8, 'gen_tps': 15.6}, {'fill_tokens': 4570, 'prompt_tps': 1223.0, 'gen_tps': 15.3}, {'fill_tokens': 9105, 'prompt_tps': 1234.5, 'gen_tps': 14.7}, {'fill_tokens': 13636, 'prompt_tps': 1234.6, 'gen_tps': 14.1}]}
+  01_rle           #0 PASS   31.1s turns=3 tools=2 out=431
+  01_rle           #1 PASS   31.6s turns=3 tools=2 out=451
+  02_lru           #0 PASS   95.0s turns=5 tools=4 out=1380
+  02_lru           #1 PASS   62.9s turns=4 tools=3 out=928
+  03_calc          #0 PASS  107.3s turns=4 tools=3 out=1601
+  03_calc          #1 PASS  104.4s turns=3 tools=2 out=1561
+  04_csv           #0 FAIL  325.8s turns=12 tools=11 out=4890
+  04_csv           #1 PASS  329.5s turns=20 tools=19 out=4369
+  05_bugfix        #0 PASS   67.7s turns=6 tools=6 out=914
+  05_bugfix        #1 PASS   54.9s turns=6 tools=6 out=678
+  06_refactor      #0 PASS   73.2s turns=6 tools=12 out=1029
+  06_refactor      #1 PASS   83.4s turns=7 tools=10 out=1192
+  07_dijkstra      #0 PASS   67.6s turns=3 tools=2 out=931
+  07_dijkstra      #1 PASS   41.7s turns=3 tools=2 out=610
+  08_topo          #0 PASS  205.9s turns=6 tools=5 out=2996
+  08_topo          #1 PASS  224.8s turns=12 tools=11 out=3273
+  09_wc            #0 PASS   45.6s turns=3 tools=3 out=668
+  09_wc            #1 PASS   37.4s turns=3 tools=2 out=550
+  10_intervals     #0 PASS   86.8s turns=6 tools=5 out=1277
+  10_intervals     #1 PASS   94.8s turns=5 tools=4 out=1331
+  11_roman         #0 PASS   90.6s turns=4 tools=3 out=1300
+  11_roman         #1 PASS   83.2s turns=3 tools=2 out=1203
+
+===== q27-Q3_K_S =====
+    ctx fill     31 tok: prompt   267.8 tok/s, gen  52.8 tok/s
+    ctx fill   2303 tok: prompt  1751.9 tok/s, gen  52.0 tok/s
+    ctx fill   4570 tok: prompt  1776.8 tok/s, gen  51.5 tok/s
+    ctx fill   9105 tok: prompt  1793.7 tok/s, gen  50.5 tok/s
+    ctx fill  13636 tok: prompt  1773.9 tok/s, gen  49.5 tok/s
+TPS: {'gen_tps': 52.5, 'prompt_tps': 222.8, 'load_s': 11.1, 'size_gb': 13.48, 'vram_gb': 13.48, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 267.8, 'gen_tps': 52.8}, {'fill_tokens': 2303, 'prompt_tps': 1751.9, 'gen_tps': 52.0}, {'fill_tokens': 4570, 'prompt_tps': 1776.8, 'gen_tps': 51.5}, {'fill_tokens': 9105, 'prompt_tps': 1793.7, 'gen_tps': 50.5}, {'fill_tokens': 13636, 'prompt_tps': 1773.9, 'gen_tps': 49.5}]}
+  01_rle           #0 PASS   11.0s turns=3 tools=2 out=445
+  01_rle           #1 PASS    9.3s turns=3 tools=2 out=382
+  02_lru           #0 PASS   22.3s turns=4 tools=3 out=1036
+  02_lru           #1 PASS   14.0s turns=3 tools=2 out=638
+  03_calc          #0 PASS   33.2s turns=3 tools=2 out=1613
+  03_calc          #1 PASS  125.0s turns=15 tools=14 out=5741
+  04_csv           #0 PASS  188.5s turns=25 tools=24 out=8969
+  04_csv           #1 PASS   69.1s turns=8 tools=7 out=3331
+  05_bugfix        #0 PASS   15.1s turns=4 tools=5 out=634
+  05_bugfix        #1 PASS   13.9s turns=4 tools=4 out=528
+  06_refactor      #0 PASS   31.3s turns=6 tools=12 out=1060
+  06_refactor      #1 PASS   26.2s turns=5 tools=11 out=1122
+  07_dijkstra      #0 PASS   18.9s turns=3 tools=2 out=869
+  07_dijkstra      #1 PASS   27.1s turns=5 tools=4 out=1242
+  08_topo          #0 PASS   32.2s turns=3 tools=2 out=1317
+  08_topo          #1 PASS  159.6s turns=12 tools=11 out=6881
+  09_wc            #0 PASS   26.4s turns=3 tools=2 out=764
+  09_wc            #1 PASS   18.7s turns=3 tools=3 out=795
+  10_intervals     #0 PASS   52.6s turns=5 tools=4 out=2329
+  10_intervals     #1 PASS   49.3s turns=6 tools=5 out=1801
+  11_roman         #0 PASS   59.7s turns=5 tools=4 out=2683
+  11_roman         #1 PASS   37.5s turns=3 tools=2 out=1687
+
+===== q27-Q2_K_L =====
+    ctx fill     31 tok: prompt   266.7 tok/s, gen  55.2 tok/s
+    ctx fill   2303 tok: prompt  1601.5 tok/s, gen  57.8 tok/s
+    ctx fill   4570 tok: prompt  1629.6 tok/s, gen  57.1 tok/s
+    ctx fill   9105 tok: prompt  1596.4 tok/s, gen  53.9 tok/s
+    ctx fill  13636 tok: prompt  1536.9 tok/s, gen  54.4 tok/s
+TPS: {'gen_tps': 55.8, 'prompt_tps': 243.3, 'load_s': 20.8, 'size_gb': 12.14, 'vram_gb': 12.14, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 266.7, 'gen_tps': 55.2}, {'fill_tokens': 2303, 'prompt_tps': 1601.5, 'gen_tps': 57.8}, {'fill_tokens': 4570, 'prompt_tps': 1629.6, 'gen_tps': 57.1}, {'fill_tokens': 9105, 'prompt_tps': 1596.4, 'gen_tps': 53.9}, {'fill_tokens': 13636, 'prompt_tps': 1536.9, 'gen_tps': 54.4}]}
+  01_rle           #0 PASS   11.7s turns=3 tools=2 out=509
+  01_rle           #1 PASS    9.0s turns=3 tools=2 out=421
+  02_lru           #0 PASS   26.4s turns=6 tools=5 out=1298
+  02_lru           #1 PASS   60.2s turns=12 tools=11 out=3089
+  03_calc          #0 PASS  144.7s turns=11 tools=10 out=7719
+  03_calc          #1 PASS   45.3s turns=8 tools=7 out=2383
+  04_csv           #0 PASS  155.8s turns=14 tools=13 out=8236
+  04_csv           #1 PASS  474.8s turns=18 tools=17 out=25221
+  05_bugfix        #0 PASS   25.1s turns=6 tools=7 out=1206
+  05_bugfix        #1 PASS   73.5s turns=19 tools=20 out=3601
+  06_refactor      #0 PASS   19.2s turns=5 tools=10 out=876
+  06_refactor      #1 PASS   24.5s turns=6 tools=12 out=1153
+  07_dijkstra      #0 PASS   18.3s turns=3 tools=2 out=900
+  07_dijkstra      #1 PASS   48.7s turns=8 tools=7 out=2499
+  08_topo          #0 PASS   79.3s turns=6 tools=5 out=4235
+  08_topo          #1 PASS  178.7s turns=23 tools=22 out=9260
+  09_wc            #0 PASS   21.1s turns=5 tools=4 out=1036
+  09_wc            #1 PASS   18.9s turns=4 tools=3 out=957
+  10_intervals     #0 PASS   95.9s turns=13 tools=12 out=5005
+  10_intervals     #1 PASS  105.1s turns=9 tools=8 out=5540
+  11_roman         #0 PASS   34.2s turns=5 tools=4 out=1745
+  11_roman         #1 PASS   28.8s turns=3 tools=2 out=1512
+
+# pi bench (local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|
+| q27-Q3_K_M | 14.95 GB | 90 | 22.5 / 18.8 @13636 | 21/22 | 10/11 all-trials | 80s | 1666 | 4.3 |
+| q27-Q3_K_L | 15.58 GB | 87 | 16.0 / 14.1 @13636 | 21/22 | 10/11 all-trials | 107s | 1526 | 5.4 |
+| q27-Q3_K_S | 13.48 GB | 100 | 52.5 / 49.5 @13636 | 22/22 | 11/11 all-trials | 47s | 2085 | 5.8 |
+| q27-Q2_K_L | 12.14 GB | 100 | 55.8 / 54.4 @13636 | 22/22 | 11/11 all-trials | 77s | 4018 | 8.4 |
+
+## Per task (passes/trials)
+
+| task | q27-Q3_K_M | q27-Q3_K_L | q27-Q3_K_S | q27-Q2_K_L |
+|---|---|---|---|---|
+| 01_rle | 2/2 | 2/2 | 2/2 | 2/2 |
+| 02_lru | 2/2 | 2/2 | 2/2 | 2/2 |
+| 03_calc | 2/2 | 2/2 | 2/2 | 2/2 |
+| 04_csv | 2/2 | 1/2 | 2/2 | 2/2 |
+| 05_bugfix | 2/2 | 2/2 | 2/2 | 2/2 |
+| 06_refactor | 2/2 | 2/2 | 2/2 | 2/2 |
+| 07_dijkstra | 2/2 | 2/2 | 2/2 | 2/2 |
+| 08_topo | 2/2 | 2/2 | 2/2 | 2/2 |
+| 09_wc | 1/2 | 2/2 | 2/2 | 2/2 |
+| 10_intervals | 2/2 | 2/2 | 2/2 | 2/2 |
+| 11_roman | 2/2 | 2/2 | 2/2 | 2/2 |

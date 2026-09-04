@@ -1,0 +1,54 @@
+{
+ "56_tmpl/t1": {
+  "rc": 124,
+  "wall_s": 1800.0,
+  "total_tokens": null,
+  "tokens_blocks": [],
+  "nested_refusals": 0
+ },
+ "56_tmpl/t2": {
+  "rc": 0,
+  "wall_s": 1478.0,
+  "total_tokens": 278949,
+  "tokens_blocks": [
+   278949
+  ],
+  "nested_refusals": 2
+ },
+ "57_stateful/t1": {
+  "rc": 0,
+  "wall_s": 513.0,
+  "total_tokens": 102819,
+  "tokens_blocks": [
+   102819
+  ],
+  "nested_refusals": 1
+ },
+ "57_stateful/t2": {
+  "rc": 0,
+  "wall_s": 533.0,
+  "total_tokens": 83300,
+  "tokens_blocks": [
+   83300
+  ],
+  "nested_refusals": 1
+ },
+ "55_minilang/t1": {
+  "rc": 0,
+  "wall_s": 1171.0,
+  "total_tokens": 167219,
+  "tokens_blocks": [
+   167219
+  ],
+  "nested_refusals": 1
+ },
+ "55_minilang/t2": {
+  "rc": 0,
+  "wall_s": 711.0,
+  "total_tokens": 102088,
+  "tokens_blocks": [
+   102088
+  ],
+  "nested_refusals": 1
+ }
+}

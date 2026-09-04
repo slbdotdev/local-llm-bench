@@ -1,0 +1,317 @@
+{
+ "34_tmplfix/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\34_tmplfix\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\34_tmplfix\\test.py",
+  "task": "34_tmplfix",
+  "trial": 1,
+  "tasks_dir": "tasks-v3"
+ },
+ "34_tmplfix/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\34_tmplfix\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\34_tmplfix\\test.py",
+  "task": "34_tmplfix",
+  "trial": 2,
+  "tasks_dir": "tasks-v3"
+ },
+ "34_tmplfix/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\34_tmplfix\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\34_tmplfix\\test.py",
+  "task": "34_tmplfix",
+  "trial": 3,
+  "tasks_dir": "tasks-v3"
+ },
+ "27_semver/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\27_semver\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\27_semver\\test.py",
+  "task": "27_semver",
+  "trial": 1,
+  "tasks_dir": "tasks-v3"
+ },
+ "27_semver/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\27_semver\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\27_semver\\test.py",
+  "task": "27_semver",
+  "trial": 2,
+  "tasks_dir": "tasks-v3"
+ },
+ "27_semver/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\27_semver\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\27_semver\\test.py",
+  "task": "27_semver",
+  "trial": 3,
+  "tasks_dir": "tasks-v3"
+ },
+ "31_stackvm/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\31_stackvm\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\31_stackvm\\test.py",
+  "task": "31_stackvm",
+  "trial": 1,
+  "tasks_dir": "tasks-v3"
+ },
+ "31_stackvm/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\31_stackvm\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\31_stackvm\\test.py",
+  "task": "31_stackvm",
+  "trial": 2,
+  "tasks_dir": "tasks-v3"
+ },
+ "31_stackvm/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\31_stackvm\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\31_stackvm\\test.py",
+  "task": "31_stackvm",
+  "trial": 3,
+  "tasks_dir": "tasks-v3"
+ },
+ "32_wirefmt/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\32_wirefmt\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\32_wirefmt\\test.py",
+  "task": "32_wirefmt",
+  "trial": 1,
+  "tasks_dir": "tasks-v3"
+ },
+ "32_wirefmt/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\32_wirefmt\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\32_wirefmt\\test.py",
+  "task": "32_wirefmt",
+  "trial": 2,
+  "tasks_dir": "tasks-v3"
+ },
+ "32_wirefmt/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\32_wirefmt\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\32_wirefmt\\test.py",
+  "task": "32_wirefmt",
+  "trial": 3,
+  "tasks_dir": "tasks-v3"
+ },
+ "35_ledger/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\35_ledger\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\35_ledger\\test.py",
+  "task": "35_ledger",
+  "trial": 1,
+  "tasks_dir": "tasks-v3"
+ },
+ "35_ledger/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\35_ledger\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\35_ledger\\test.py",
+  "task": "35_ledger",
+  "trial": 2,
+  "tasks_dir": "tasks-v3"
+ },
+ "35_ledger/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\35_ledger\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v3\\35_ledger\\test.py",
+  "task": "35_ledger",
+  "trial": 3,
+  "tasks_dir": "tasks-v3"
+ },
+ "52_reengine/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\52_reengine\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "52_reengine/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\52_reengine\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "52_reengine/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\52_reengine\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "53_gitattr/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\53_gitattr\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\53_gitattr\\test.py",
+  "task": "53_gitattr",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "53_gitattr/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\53_gitattr\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\53_gitattr\\test.py",
+  "task": "53_gitattr",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "53_gitattr/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\53_gitattr\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\53_gitattr\\test.py",
+  "task": "53_gitattr",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "54_sedlite/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\54_sedlite\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\54_sedlite\\test.py",
+  "task": "54_sedlite",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "54_sedlite/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\54_sedlite\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\54_sedlite\\test.py",
+  "task": "54_sedlite",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "54_sedlite/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\54_sedlite\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\54_sedlite\\test.py",
+  "task": "54_sedlite",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\55_minilang\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\55_minilang\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\55_minilang\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\56_tmpl\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\56_tmpl\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\56_tmpl\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\57_stateful\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\57_stateful\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\57_stateful\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "58_bencode/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\58_bencode\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\58_bencode\\test.py",
+  "task": "58_bencode",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "58_bencode/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\58_bencode\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\58_bencode\\test.py",
+  "task": "58_bencode",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "58_bencode/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\58_bencode\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\58_bencode\\test.py",
+  "task": "58_bencode",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\59_uri\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\59_uri\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\59_uri\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\60_numlit\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\60_numlit\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\60_numlit\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\61_codecs\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\61_codecs\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\haiku-v4\\61_codecs\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ }
+}

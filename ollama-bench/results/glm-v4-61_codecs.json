@@ -1,0 +1,91 @@
+{
+ "z-ai/glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "61_codecs",
+    "pass": false,
+    "wall_s": 945.6,
+    "turns": 33,
+    "tool_calls": 32,
+    "tools": {
+     "write": 2,
+     "edit": 11,
+     "bash": 19
+    },
+    "in_tokens": 1041600,
+    "out_tokens": 31868,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 29/30\nFAIL ['randomised mutation differential: quoted-printable kinds and offsets']",
+    "score": 0.9667,
+    "final_text": "e codecs implemented from scratch with plain arithmetic and string indexing. Test results: **ALL OK** (all six spec examples, ~2000 randomized roundtrips cross-checked against `base64`/`quopri`, and ~80 targeted strictness cases covering every `.kind`/`.pos` rule, check ordering, padding-run shape, leftover-bit canonicality, uppercase-only alphabets/hex, type errors, and exact return types).\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 32,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "61_codecs",
+    "pass": false,
+    "wall_s": 552.2,
+    "turns": 14,
+    "tool_calls": 13,
+    "tools": {
+     "write": 3,
+     "edit": 5,
+     "bash": 5
+    },
+    "in_tokens": 292480,
+    "out_tokens": 22120,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 28/30\nFAIL [\"qp 'eol', 'trunc' and 'char' cases\", 'randomised mutation differential: quoted-printable kinds and offsets']",
+    "score": 0.9333,
+    "final_text": "'s own examples like `A===` \u2192 `padding@1` and the leftover-bits cases), wrong-type arguments, exact return types (`str`/`bytes`), the documented report-order for QP (a line that is both too long and ending with whitespace reports `\"length\"` first), QP round-trips with escaped spaces filling lines exactly, and the ban list (no imports at all, no banned names outside comments/strings). All 165 pass.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 13,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "61_codecs",
+    "pass": false,
+    "wall_s": 833.2,
+    "turns": 40,
+    "tool_calls": 40,
+    "tools": {
+     "write": 2,
+     "edit": 18,
+     "bash": 20
+    },
+    "in_tokens": 1610649,
+    "out_tokens": 38657,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 29/30\nFAIL ['randomised mutation differential: quoted-printable kinds and offsets']",
+    "score": 0.9667,
+    "final_text": "ases with exact kind/pos (including precedence cases like whitespace-before-padding, eol-before-hex, length-before-trailws), and fuzzed roundtrips cross-checked against the stdlib `base64` module plus QP structural invariants.\n\nOne real bug was caught by the tests along the way (padding check missed `=` characters when the text didn't end with `=`, e.g. `\"AB==C\"`) and fixed in both decoders.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 39,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

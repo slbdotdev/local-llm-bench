@@ -1,0 +1,109 @@
+
+===== qwen/qwen3.8-27b =====
+  32_wirefmt       #0 PASS  905.1s turns=36 tools=35 out=69232
+  32_wirefmt       #1 PASS  697.5s turns=26 tools=26 out=49039
+  32_wirefmt       #2 PASS  612.1s turns=20 tools=19 out=51805
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 41/43 | 1.00 (43/43 runs) | 11/13 all-trials | 145s | 10988 | 9.3 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 32_wirefmt | 3/3 (score 1.00) |
+=== 32_wirefmt exit=0
+
+===== qwen/qwen3.8-27b =====
+  33_spanmap       #0 PASS  353.1s turns=22 tools=21 out=32720
+  33_spanmap       #1 PASS  484.0s turns=34 tools=33 out=42712
+  33_spanmap       #2 PASS  418.6s turns=7 tools=6 out=27110
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 44/46 | 1.00 (46/46 runs) | 12/14 all-trials | 163s | 12500 | 10.0 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 33_spanmap | 3/3 (score 1.00) |
+=== 33_spanmap exit=0
+
+===== qwen/qwen3.8-27b =====
+
+===== qwen/qwen3.8-27b =====
+  34_tmplfix       #0 PASS  444.7s turns=32 tools=34 out=35782
+  34_tmplfix       #1 PASS  371.8s turns=11 tools=12 out=27466
+  34_tmplfix       #2 FAIL 1800.1s turns=3 tools=5 out=15903 TIMEOUT
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 46/49 | 0.99 (49/49 runs) | 12/15 all-trials | 207s | 13350 | 10.5 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 34_tmplfix | 2/3 (score 0.88) |
+=== 34_tmplfix exit=0
+
+===== qwen/qwen3.8-27b =====
+  35_ledger        #0 PASS  247.8s turns=14 tools=20 out=14670
+  35_ledger        #1 PASS  108.8s turns=10 tools=17 out=8129
+  35_ledger        #2 PASS   74.5s turns=6 tools=7 out=4445
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 49/52 | 0.99 (52/52 runs) | 13/16 all-trials | 203s | 13104 | 10.7 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 35_ledger | 3/3 (score 1.00) |
+=== 35_ledger exit=0
+
+===== qwen/qwen3.8-27b =====
+  36_minilang      #0 PASS  425.5s turns=9 tools=8 out=35415
+  36_minilang      #1 PASS 1800.1s turns=19 tools=19 out=53621 TIMEOUT
+  36_minilang      #2 PASS  453.0s turns=11 tools=10 out=31955
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 52/55 | 0.99 (55/55 runs) | 14/17 all-trials | 241s | 14589 | 10.8 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 36_minilang | 3/3 (score 1.00) |
+=== 36_minilang exit=0
+
+===== qwen/qwen3.8-27b =====
+  31_stackvm       #4 PASS  181.9s turns=11 tools=10 out=12134
+  31_stackvm       #5 PASS  191.3s turns=18 tools=18 out=13409
+
+# pi bench (v3-low)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 54/57 | 0.99 (57/57 runs) | 14/17 all-trials | 239s | 14525 | 10.9 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 31_stackvm | 5/6 (score 1.00) |
+ALLDONE

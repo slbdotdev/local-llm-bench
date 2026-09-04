@@ -1,0 +1,27 @@
+{
+ "providers": {
+  "openrouter": {
+   "compat": {
+    "openRouterRouting": {
+     "data_collection": "deny",
+     "zdr": true
+    },
+    "sendSessionAffinityHeaders": true,
+    "sessionAffinityFormat": "openrouter"
+   },
+   "modelOverrides": {
+    "z-ai/glm-5.3-flash": {
+     "compat": {
+      "openRouterRouting": {
+       "ignore": [
+        "reka",
+        "io-net"
+       ]
+      }
+     },
+     "contextWindow": 1048576
+    }
+   }
+  }
+ }
+}

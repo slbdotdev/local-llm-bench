@@ -1,0 +1,62 @@
+{
+ "34_tmplfix": {
+  "low": {
+   "p": 2,
+   "n": 3,
+   "mean": 0.88
+  },
+  "med": {
+   "p": 2,
+   "n": 2,
+   "mean": 1.0
+  }
+ },
+ "27_semver": {
+  "low": {
+   "p": 5,
+   "n": 6,
+   "mean": 0.994
+  }
+ },
+ "31_stackvm": {
+  "low": {
+   "p": 5,
+   "n": 6,
+   "mean": 0.996
+  }
+ },
+ "32_wirefmt": {
+  "low": {
+   "p": 3,
+   "n": 3,
+   "mean": 1.0
+  },
+  "med": {
+   "p": 1,
+   "n": 2,
+   "mean": 0.985
+  }
+ },
+ "35_ledger": {
+  "low": {
+   "p": 3,
+   "n": 3,
+   "mean": 1.0
+  },
+  "med": {
+   "p": 1,
+   "n": 2,
+   "mean": 0.986
+  }
+ },
+ "52_reengine": {},
+ "53_gitattr": {},
+ "54_sedlite": {},
+ "55_minilang": {},
+ "56_tmpl": {},
+ "57_stateful": {},
+ "58_bencode": {},
+ "59_uri": {},
+ "60_numlit": {},
+ "61_codecs": {}
+}

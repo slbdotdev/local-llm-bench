@@ -1,0 +1,183 @@
+########## PASS A: 8k, with f16 ground truth ##########
+corpus 16313 chars, 140 records, 24 needles; idle VRAM 1216 MiB
+
+### f16-f16  (ctx 8192)
+  d=0.014 downholt-moor-1        want 7AD04B got '7AD04B' OK
+  d=0.057 thornbury-hurst-1      want 71E5D3 got '71E5D3' OK
+  d=0.1   graystone-hollow-1     want 0976A1 got '0976A1' OK
+  d=0.136 colden-gate-1          want 304D93 got '304D93' OK
+  d=0.179 ravensmere-hurst-1     want 3E2698 got '3E2698' OK
+  d=0.221 ashcombe-hollow-1      want 5783B8 got '5783B8' OK
+  d=0.257 downholt-combe-1       want C92E53 got 'C92E53' OK
+  d=0.3   thornbury-reach-1      want 418D0A got '418D0A' OK
+  d=0.343 tarnwick-ridge-1       want 7083D7 got '7083D7' OK
+  d=0.379 colden-fen-1           want 7C408B got '7C408B' OK
+  d=0.421 marlowe-moor-1         want 55495E got '55495E' OK
+  d=0.464 silverdale-reach-1     want 1976B9 got '1976B9' OK
+  d=0.5   silverdale-cross-1     want CF4A9F got 'CF4A9F' OK
+  d=0.543 brightmoor-hollow-1    want 972DF2 got '972DF2' OK
+  d=0.586 brightmoor-moor-1      want 542091 got '542091' OK
+  d=0.621 windhollow-combe-1     want 31BAD2 got '31BAD2' OK
+  d=0.664 thornbury-vale-1       want 5CFF49 got '5CFF49' OK
+  d=0.707 windhollow-hollow-1    want E04C89 got 'E04C89' OK
+  d=0.743 elderfell-cross-1      want 76CB8C got '76CB8C' OK
+  d=0.786 marlowe-fen-1          want E8FDA5 got 'E8FDA5' OK
+  d=0.829 tarnwick-gate-1        want 0D6387 got '0D6387' OK
+  d=0.864 harrow-reach-1         want 390B62 got '390B62' OK
+  d=0.907 graystone-cross-1      want C5AD60 got 'C5AD60' OK
+  d=0.95  windhollow-reach-1     want B7107E got 'B7107E' OK
+
+### q8_0-q8_0  (ctx 8192)
+
+### q4_0-q4_0  (ctx 8192)
+
+### q8_0-q4_0  (ctx 8192)
+
+=== summary ===
+config        score    acc     vram peak  gen t/s   prompt t/s
+f16-f16       24/24    1.0     14655      54.4      1410.2
+q8_0-q8_0     server did not become healthy
+q4_0-q4_0     server did not become healthy
+q8_0-q4_0     server did not become healthy
+########## PASS B: 16k ##########
+corpus 34927 chars, 300 records, 24 needles; idle VRAM 1178 MiB
+
+### q8_0-q8_0  (ctx 16384)
+  d=0.02  downholt-fen-1         want 35CEC9 got '35CEC9' OK
+  d=0.06  harrow-combe-2         want 7C3CA1 got '7C3CA1' OK
+  d=0.1   ashcombe-fen-1         want 3F3F14 got '3F3F14' OK
+  d=0.14  graystone-vale-2       want 36F123 got '36F123' OK
+  d=0.18  vaulterra-hollow-1     want 18ABFF got '18ABFF' OK
+  d=0.22  elderfell-gate-2       want 44E536 got '44E536' OK
+  d=0.26  tarnwick-gate-1        want B0AE04 got 'B0AE04' OK
+  d=0.3   colden-reach-2         want 76CB8C got '76CB8C' OK
+  d=0.343 bramblewood-hollow-1   want 822A2D got '822A2D' OK
+  d=0.383 quillon-combe-1        want FB95B6 got 'FB95B6' OK
+  d=0.423 ravensmere-fen-1       want 3B92AC got '3B92AC' OK
+  d=0.463 quillon-reach-1        want F63596 got 'F63596' OK
+  d=0.503 kestrelby-combe-1      want 0F38C0 got '0F38C0' OK
+  d=0.543 brightmoor-moor-1      want 8D7159 got '8D7159' OK
+  d=0.583 kestrelby-reach-1      want C6939B got 'C6939B' OK
+  d=0.623 ashcombe-cross-2       want 80EDF4 got '80EDF4' OK
+  d=0.667 colden-hollow-1        want 7A79AE got '7A79AE' OK
+  d=0.707 brightmoor-moor-2      want 7E032C got '7E032C' OK
+  d=0.747 graystone-moor-1       want 22C14C got '22C14C' OK
+  d=0.787 vaulterra-cross-1      want 6727A0 got '6727A0' OK
+  d=0.827 windhollow-ridge-2     want 7510E2 got '7510E2' OK
+  d=0.867 colden-vale-2          want A542F1 got 'A542F1' OK
+  d=0.907 graystone-reach-2      want CB91A6 got 'CB91A6' OK
+  d=0.95  marlowe-moor-1         want 549FFC got '549FFC' OK
+
+### q4_0-q4_0  (ctx 16384)
+  d=0.02  downholt-fen-1         want 35CEC9 got '35CEC9' OK
+  d=0.06  harrow-combe-2         want 7C3CA1 got '7C3CA1' OK
+  d=0.1   ashcombe-fen-1         want 3F3F14 got '3F3F14' OK
+  d=0.14  graystone-vale-2       want 36F123 got '36F123' OK
+  d=0.18  vaulterra-hollow-1     want 18ABFF got '18ABFF' OK
+  d=0.22  elderfell-gate-2       want 44E536 got '44E536' OK
+  d=0.26  tarnwick-gate-1        want B0AE04 got 'B0AE04' OK
+  d=0.3   colden-reach-2         want 76CB8C got '76CB8C' OK
+  d=0.343 bramblewood-hollow-1   want 822A2D got '822A2D' OK
+  d=0.383 quillon-combe-1        want FB95B6 got 'FB95B6' OK
+  d=0.423 ravensmere-fen-1       want 3B92AC got '3B92AC' OK
+  d=0.463 quillon-reach-1        want F63596 got 'F63596' OK
+  d=0.503 kestrelby-combe-1      want 0F38C0 got '0F38C0' OK
+  d=0.543 brightmoor-moor-1      want 8D7159 got '8D7159' OK
+  d=0.583 kestrelby-reach-1      want C6939B got 'C6939B' OK
+  d=0.623 ashcombe-cross-2       want 80EDF4 got '80EDF4' OK
+  d=0.667 colden-hollow-1        want 7A79AE got '7A79AE' OK
+  d=0.707 brightmoor-moor-2      want 7E032C got '7E032C' OK
+  d=0.747 graystone-moor-1       want 22C14C got '22C14C' OK
+  d=0.787 vaulterra-cross-1      want 6727A0 got '6727A0' OK
+  d=0.827 windhollow-ridge-2     want 7510E2 got '7510E2' OK
+  d=0.867 colden-vale-2          want A542F1 got 'A542F1' OK
+  d=0.907 graystone-reach-2      want CB91A6 got 'CB91A6' OK
+  d=0.95  marlowe-moor-1         want 549FFC got '549FFC' OK
+
+### q8_0-q4_0  (ctx 16384)
+  d=0.02  downholt-fen-1         want 35CEC9 got '35CEC9' OK
+  d=0.06  harrow-combe-2         want 7C3CA1 got '7C3CA1' OK
+  d=0.1   ashcombe-fen-1         want 3F3F14 got '3F3F14' OK
+  d=0.14  graystone-vale-2       want 36F123 got '36F123' OK
+  d=0.18  vaulterra-hollow-1     want 18ABFF got '18ABFF' OK
+  d=0.22  elderfell-gate-2       want 44E536 got '44E536' OK
+  d=0.26  tarnwick-gate-1        want B0AE04 got 'B0AE04' OK
+  d=0.3   colden-reach-2         want 76CB8C got '76CB8C' OK
+  d=0.343 bramblewood-hollow-1   want 822A2D got '822A2D' OK
+  d=0.383 quillon-combe-1        want FB95B6 got 'FB95B6' OK
+  d=0.423 ravensmere-fen-1       want 3B92AC got '3B92AC' OK
+  d=0.463 quillon-reach-1        want F63596 got 'F63596' OK
+  d=0.503 kestrelby-combe-1      want 0F38C0 got '0F38C0' OK
+  d=0.543 brightmoor-moor-1      want 8D7159 got '8D7159' OK
+  d=0.583 kestrelby-reach-1      want C6939B got 'C6939B' OK
+  d=0.623 ashcombe-cross-2       want 80EDF4 got '80EDF4' OK
+  d=0.667 colden-hollow-1        want 7A79AE got '7A79AE' OK
+  d=0.707 brightmoor-moor-2      want 7E032C got '7E032C' OK
+  d=0.747 graystone-moor-1       want 22C14C got '22C14C' OK
+  d=0.787 vaulterra-cross-1      want 6727A0 got '6727A0' OK
+  d=0.827 windhollow-ridge-2     want 7510E2 got '7510E2' OK
+  d=0.867 colden-vale-2          want A542F1 got 'A542F1' OK
+  d=0.907 graystone-reach-2      want CB91A6 got 'CB91A6' OK
+  d=0.95  marlowe-moor-1         want 549FFC got '549FFC' OK
+
+=== summary ===
+config        score    acc     vram peak  gen t/s   prompt t/s
+q8_0-q8_0     24/24    1.0     14723      51.9      1443.3
+q4_0-q4_0     24/24    1.0     14464      51.4      1441.7
+q8_0-q4_0     24/24    1.0     14910      7.1       18.3
+########## PASS C: 24k ##########
+corpus 53514 chars, 460 records, 24 needles; idle VRAM 1372 MiB
+
+### q8_0-q8_0  (ctx 24576)
+  d=0.02  colden-ridge-3         want 6CC717 got '6CC717' OK
+  d=0.059 elderfell-vale-3       want 7B0686 got '7B0686' OK
+  d=0.1   harrow-reach-2         want 29C370 got '29C370' OK
+  d=0.141 marlowe-hurst-2        want 5CFF49 got '5CFF49' OK
+  d=0.18  downholt-fen-2         want 04D935 got '04D935' OK
+  d=0.222 thornbury-gate-2       want 41DF01 got '41DF01' OK
+  d=0.261 starling-hollow-1      want 77DEFB got '77DEFB' OK
+  d=0.302 brightmoor-cross-3     want 01D462 got '01D462' OK
+  d=0.343 brightmoor-hurst-3     want 84FFB7 got '84FFB7' OK
+  d=0.383 elderfell-reach-2      want C638CA got 'C638CA' OK
+  d=0.424 ashcombe-combe-2       want D7B309 got 'D7B309' OK
+  d=0.463 thornbury-ridge-1      want 337240 got '337240' OK
+  d=0.504 tarnwick-hollow-2      want 62DE43 got '62DE43' OK
+  d=0.543 windhollow-vale-1      want 91BC85 got '91BC85' OK
+  d=0.585 bramblewood-cross-1    want 017413 got '017413' OK
+  d=0.626 elderfell-fen-2        want 09EEF6 got '09EEF6' OK
+  d=0.665 kestrelby-fen-2        want 7FF542 got '7FF542' OK
+  d=0.707 kestrelby-hurst-1      want D30764 got 'D30764' OK
+  d=0.748 bramblewood-ridge-2    want 457B61 got '457B61' OK
+  d=0.787 tarnwick-gate-2        want 0A6AD9 got '0A6AD9' OK
+  d=0.828 silverdale-hurst-2     want 3028FE got '3028FE' OK
+  d=0.867 thornbury-moor-1       want 3CE04C got '3CE04C' OK
+  d=0.909 colden-cross-3         want C26139 got 'C26139' OK
+  d=0.95  colden-fen-2           want 6A8B03 got '6A8B03' OK
+
+### q4_0-q4_0  (ctx 24576)
+  d=0.02  colden-ridge-3         want 6CC717 got '6CC717' OK
+  d=0.059 elderfell-vale-3       want 7B0686 got '7B0686' OK
+  d=0.1   harrow-reach-2         want 29C370 got '29C370' OK
+  d=0.141 marlowe-hurst-2        want 5CFF49 got '5CFF49' OK
+  d=0.18  downholt-fen-2         want 04D935 got '04D935' OK
+  d=0.222 thornbury-gate-2       want 41DF01 got '41DF01' OK
+  d=0.261 starling-hollow-1      want 77DEFB got '77DEFB' OK
+  d=0.302 brightmoor-cross-3     want 01D462 got '01D462' OK
+  d=0.343 brightmoor-hurst-3     want 84FFB7 got '84FFB7' OK
+  d=0.383 elderfell-reach-2      want C638CA got 'C638CA' OK
+  d=0.424 ashcombe-combe-2       want D7B309 got 'D7B309' OK
+  d=0.463 thornbury-ridge-1      want 337240 got '337240' OK
+  d=0.504 tarnwick-hollow-2      want 62DE43 got '62DE43' OK
+  d=0.543 windhollow-vale-1      want 91BC85 got '91BC85' OK
+  d=0.585 bramblewood-cross-1    want 017413 got '017413' OK
+  d=0.626 elderfell-fen-2        want 09EEF6 got '09EEF6' OK
+  d=0.665 kestrelby-fen-2        want 7FF542 got '7FF542' OK
+  d=0.707 kestrelby-hurst-1      want D30764 got 'D30764' OK
+  d=0.748 bramblewood-ridge-2    want 457B61 got '457B61' OK
+  d=0.787 tarnwick-gate-2        want 0A6AD9 got '0A6AD9' OK
+  d=0.828 silverdale-hurst-2     want 3028FE got '3028FE' OK
+  d=0.867 thornbury-moor-1       want 3CE04C got '3CE04C' OK
+  d=0.909 colden-cross-3         want C26139 got 'C26139' OK
+  d=0.95  colden-fen-2           want 6A8B03 got '6A8B03' OK
+
+### q8_0-q4_0  (ctx 24576)

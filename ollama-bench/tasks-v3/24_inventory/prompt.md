@@ -1,0 +1,3 @@
+The current directory contains `inventory.py` (a small warehouse inventory tracker) and its test file `test_inventory.py`. Several tests fail because `inventory.py` has bugs; the tests and the docstrings on each function define the intended behaviour.
+
+Run `python test_inventory.py`, read the failures, and fix every bug in `inventory.py`. Do NOT edit `test_inventory.py`. Keep the public function names and signatures. The hidden grader also checks additional cases of the same behaviours, so fix the underlying cause of each bug rather than special-casing the visible inputs. When `python test_inventory.py` prints "ALL OK", reply "done".

@@ -1,0 +1,560 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 1803.0,
+    "turns": 34,
+    "tool_calls": 34,
+    "tools": {
+     "write": 2,
+     "edit": 9,
+     "bash": 21,
+     "read": 2
+    },
+    "in_tokens": 1797067,
+    "out_tokens": 75158,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 13/31\nFAIL ['grader timed out (candidate too slow or hung)']",
+    "score": 0.4194,
+    "final_text": "\n\nThis is a deep design flaw: `_run` returns a single result, so a Group containing an Alt can't offer its next alternative to the outer continuation. Rewriting the matcher as an explicit-stack generator engine (proper DFS backtracking):\n\n",
+    "stderr": "timeout",
+    "trial": 0
+   },
+   {
+    "task": "52_reengine",
+    "pass": true,
+    "wall_s": 789.1,
+    "turns": 69,
+    "tool_calls": 69,
+    "tools": {
+     "write": 2,
+     "edit": 15,
+     "bash": 48,
+     "read": 4
+    },
+    "in_tokens": 4195143,
+    "out_tokens": 65300,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 31/31\nPASS",
+    "score": 1.0,
+    "final_text": "h behavior.\n- Verified against stdlib `re` (imported only in the *test* scripts): 134 hand-picked cases, all \u00a77 error kinds and precedence examples, plus ~14,000 randomized pattern/text comparisons across 8 seeds \u2014 zero mismatches (a few corners where the spec deliberately diverges from modern CPython, e.g. no possessive quantifiers, `[\\[.]` as literal, `{,}` as 0..\u221e, are asserted directly).\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 1800.1,
+    "turns": 63,
+    "tool_calls": 63,
+    "tools": {
+     "bash": 46,
+     "write": 2,
+     "edit": 14,
+     "read": 1
+    },
+    "in_tokens": 3326635,
+    "out_tokens": 64347,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 29/31\nFAIL ['kind bad_escape', 'constructs that look malformed but are literal / legal']",
+    "score": 0.9355,
+    "final_text": "\n\nIt runs in 11ms standalone! Let me re-run the exact fuzz to see if the hang reproduces:\n\n",
+    "stderr": "timeout",
+    "trial": 2
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 471.5,
+    "turns": 15,
+    "tool_calls": 14,
+    "tools": {
+     "write": 2,
+     "edit": 5,
+     "bash": 7
+    },
+    "in_tokens": 532829,
+    "out_tokens": 35096,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['randomised differential, mutated programs']",
+    "score": 0.9677,
+    "final_text": "\n\nAll checks pass: ~150 cases covering the spec examples, precedence/associativity, evaluation order (short-circuit `&&`/`||`, div-zero vs type ordering), letrec uninit/shadowing, records, patterns, all nine error kinds, exact result types, and forbidden-construct source checks.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "55_minilang",
+    "pass": true,
+    "wall_s": 520.2,
+    "turns": 13,
+    "tool_calls": 12,
+    "tools": {
+     "write": 3,
+     "edit": 2,
+     "bash": 6,
+     "read": 1
+    },
+    "in_tokens": 565943,
+    "out_tokens": 45937,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 31/31\nPASS",
+    "score": 1.0,
+    "final_text": "` rules, ordered pattern matching with `no_match`.\n- **Result conversion** \u2014 int/bool/str as-is, records as recursively-converted `dict`, `<fn>` / `<ref>` strings.\n\nVerified with ~200 assertions covering all nine error kinds, all spec examples, precedence/associativity edge cases, evaluation-order rules, and exact returned Python types \u2014 plus the pre-existing `test_minilang.py`, which prints `ok`.",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "55_minilang",
+    "pass": true,
+    "wall_s": 431.4,
+    "turns": 13,
+    "tool_calls": 13,
+    "tools": {
+     "write": 3,
+     "edit": 5,
+     "bash": 5
+    },
+    "in_tokens": 485508,
+    "out_tokens": 36373,
+    "timed_out": false,
+    "rc": 4294967295,
+    "errors": [],
+    "grader": "SCORE 31/31\nPASS",
+    "score": 1.0,
+    "final_text": "\n\nThe test was wrong \u2014 per spec, `f -1` is `f - 1` (subtraction), a type error. Fixing the test:\n\n",
+    "stderr": "",
+    "trial": 2
+   },
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 854.2,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "write": 2,
+     "edit": 8,
+     "bash": 12,
+     "read": 2
+    },
+    "in_tokens": 1618616,
+    "out_tokens": 68217,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/29\nFAIL ['safe/escape are sticky through later filters', 'filters on odd inputs: upper/lower/trim/length/first', 'randomised differential, well-formed templates (bucket 1)', 'randomised differential, well-formed templates (bucket 2)', 'randomised differential, mutated/malformed templates (bucket 2)']",
+    "score": 0.8276,
+    "final_text": "or`** carries `.kind` (one of the nine fixed strings) and `.pos` (0-based offset of the opening `{` of the responsible tag / innermost unclosed block).\n\nMy checks (`t_test.py`, ~180 assertions covering all 5 spec examples, every error kind with exact positions, escaping edge cases, filters, truthiness, lookups, scoping, trimming, and phase-ordering rules) plus a second ad-hoc suite all pass.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 1478.0,
+    "turns": 41,
+    "tool_calls": 40,
+    "tools": {
+     "write": 2,
+     "edit": 11,
+     "bash": 24,
+     "read": 3
+    },
+    "in_tokens": 3685606,
+    "out_tokens": 97977,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 22/29\nFAIL ['filters on odd inputs: upper/lower/trim/length/first', 'bad_operand and not_iterable are render errors at the tag offset', 'strict: bad_operand / not_iterable are render errors at the tag offset', 'randomised differential, well-formed templates (bucket 1)', 'randomised differential, well-formed templates (bucket 2)', 'randomised differential, mutated/malformed templates (bucket 1)', 'randomised differential, mutated/malformed templates (bucket 2)']",
+    "score": 0.7586,
+    "final_text": "ans in `for`; `loop.*` real booleans; set/if/for scoping rules.\n- **Robustness**: all lex/parse/eval/run paths are iterative, so even deeply nested (5000+ deep) valid or rejected templates can't hit `RecursionError`.\n\nVerified against the 5 spec examples plus ~180 hand-written checks in `check_tmpl.py` (all error kinds, positions, filters, lookups, escaping, trimming, scoping) \u2014 all passing.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "56_tmpl",
+    "pass": false,
+    "wall_s": 856.6,
+    "turns": 61,
+    "tool_calls": 60,
+    "tools": {
+     "write": 2,
+     "edit": 16,
+     "bash": 41,
+     "read": 1
+    },
+    "in_tokens": 4247680,
+    "out_tokens": 74657,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 25/29\nFAIL ['randomised differential, well-formed templates (bucket 1)', 'randomised differential, well-formed templates (bucket 2)', 'randomised differential, mutated/malformed templates (bucket 1)', 'randomised differential, mutated/malformed templates (bucket 2)']",
+    "score": 0.8621,
+    "final_text": "substitution exception), the spec's non-Python truthiness, type-first `==`, `bad_operand`/`not_iterable` at the enclosing tag, short-circuiting `and`/`or` yielding real booleans, `loop.*` map with real booleans and scoping/rebinding, `set` scope rules (if-leaks, for-persists-then-dies), lookup pseudo-keys `size`/`keys`/`type` with shadowing, integer vs `\"0\"` key distinction, and all filters.\n\ndone",
+    "stderr": "",
+    "trial": 2
+   },
+   {
+    "task": "57_stateful",
+    "pass": true,
+    "wall_s": 319.8,
+    "turns": 15,
+    "tool_calls": 14,
+    "tools": {
+     "write": 2,
+     "edit": 6,
+     "bash": 6
+    },
+    "in_tokens": 489816,
+    "out_tokens": 31660,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 26/26\nPASS",
+    "score": 1.0,
+    "final_text": "t all six spec examples (including the literal hex byte string from the first), plus ~25 extra checks: truncation at EOF/inner FLAG, adjacent flags, bad escape, escape round-trip through payload `0x7E 0x7D`, bad length\u2192junk, window dup/out-of-window, flush-on-CLOSE ordering, RESET/timeout buffer discard, deadline boundary, abort stop, tick wrap, and all strict-mode precedence probes \u2014 all passing.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "57_stateful",
+    "pass": true,
+    "wall_s": 276.0,
+    "turns": 20,
+    "tool_calls": 20,
+    "tools": {
+     "write": 2,
+     "edit": 8,
+     "bash": 10
+    },
+    "in_tokens": 617662,
+    "out_tokens": 27697,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 26/26\nPASS",
+    "score": 1.0,
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 414.8,
+    "turns": 32,
+    "tool_calls": 32,
+    "tools": {
+     "write": 2,
+     "bash": 18,
+     "edit": 12
+    },
+    "in_tokens": 1111741,
+    "out_tokens": 33865,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 17/26\nFAIL ['state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)', 'randomised differential, sequence/wraparound traffic (bucket 1)', 'randomised differential, sequence/wraparound traffic (bucket 2)', 'randomised differential, timeout-heavy traffic (bucket 1)', 'randomised differential, timeout-heavy traffic (bucket 2)', 'randomised differential, everything mixed']",
+    "score": 0.6538,
+    "final_text": "bad escape, truncation at FLAG/end, ESC-at-end, bad length+junk, timeout boundary `clock == deadline`, buffer discard on timeout/reset, CLOSE flush in window order with wrap-around expect, abort preserving the buffer, escaping of 0x5E/0x5D payload bytes, `TICK mod 64`), plus a 20 000-case fuzz confirming no non-`ProtocolError` escape and `bytes`/`bytearray` equivalence. No banned modules imported.",
+    "stderr": "",
+    "trial": 2
+   },
+   {
+    "task": "59_uri",
+    "pass": false,
+    "wall_s": 1800.1,
+    "turns": 14,
+    "tool_calls": 14,
+    "tools": {
+     "write": 2,
+     "bash": 10,
+     "edit": 2
+    },
+    "in_tokens": 361489,
+    "out_tokens": 36447,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 0/27\nFAIL ['grader timed out (candidate too slow or hung)']",
+    "score": 0.0,
+    "final_text": "\n\nFound it \u2014 my rule E was moving the segment *including* the trailing `/`. According to the spec, the segment is \"the leading `/` (if present) + everything up to (but **not including**) the next `/`\". This is the difference between rule A (simply deleting `../`) and rule C (`/..` pops a segment). Let me verify my corrected trace and fix the code:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 14
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "59_uri",
+    "pass": false,
+    "wall_s": 1014.4,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 154929,
+    "out_tokens": 46771,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 0/27\nFAIL ['grader timed out (candidate too slow or hung)']",
+    "score": 0.0,
+    "final_text": "\n\nOne test has a bug (\"!\" is a valid sub-delim in queries) \u2014 fix and run:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 4
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "59_uri",
+    "pass": true,
+    "wall_s": 1154.1,
+    "turns": 62,
+    "tool_calls": 61,
+    "tools": {
+     "write": 1,
+     "edit": 15,
+     "bash": 43,
+     "read": 2
+    },
+    "in_tokens": 3619242,
+    "out_tokens": 75420,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 27/27\nPASS",
+    "score": 1.0,
+    "final_text": "ve(base, ref)`** \u2014 type checks, `\"base\"` error for schemeless bases before the ref is even parsed, strict RFC 3986 \u00a75.3 target computation with the specified merge rule, then full normalization.\n\nNo imports at all (verified no forbidden modules in `sys.modules` and no import statements in the source). All my checks pass, and the pre-existing `test_uriref.py` in the directory also reports OK.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 61,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "60_numlit",
+    "pass": true,
+    "wall_s": 668.7,
+    "turns": 69,
+    "tool_calls": 68,
+    "tools": {
+     "write": 2,
+     "edit": 21,
+     "bash": 44,
+     "read": 1
+    },
+    "in_tokens": 3057461,
+    "out_tokens": 47217,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "es, sign policy, thousands grouping, width/fill/align padding (extra centre-pad char on the right), negative-zero sign preservation, and `NumError(pos=-1)` in the exact type \u2192 nonfinite \u2192 spec order.\n- No banned imports/calls, no `%`-formatting, no `str.format`/f-strings (verified by AST scan).\n\nAll self-written checks (~150 assertions, since removed) plus the provided `test_numlit.py` pass.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 68,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 777.7,
+    "turns": 38,
+    "tool_calls": 37,
+    "tools": {
+     "write": 2,
+     "edit": 14,
+     "bash": 21
+    },
+    "in_tokens": 1493479,
+    "out_tokens": 42242,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/30\nFAIL ['format_number: defaults and precision', 'format_number differential: modes h and u', 'format_number differential: modes d and f', 'scan differential: mutated literals, exact kind and pos', 'format_number: exact ties under every mode', 'format_number: negative zero']",
+    "score": 0.8,
+    "final_text": "rror order type \u2192 nonfinite \u2192 spec\n- No banned imports/calls: all digit parsing and grouping done by hand (no `int()`/`float()` calls, no `%`-formatting, no f-strings, no `format`/`round`/`Decimal`)\n\nVerified against the spec's examples plus ~100 edge cases (error kinds/offsets, tie rounding on exact binary values like `0.125`/`1.25`, negative zeros, centre padding, spec grammar violations).\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 37,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 599.8,
+    "turns": 51,
+    "tool_calls": 50,
+    "tools": {
+     "write": 2,
+     "bash": 30,
+     "edit": 18
+    },
+    "in_tokens": 1789611,
+    "out_tokens": 41926,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 26/30\nFAIL ['scan differential: random valid integers', 'scan differential: random valid multi-field lines', 'canonical text for integers, radix integers and floats', 'scan differential: mutated literals, exact kind and pos']",
+    "score": 0.8667,
+    "final_text": "e]` with all spec errors, rounds the *exact* value (via `as_integer_ratio`, pure integer arithmetic) with `h`/`u`/`d`/`f` tie rules, negative-zero keeps its `-`, thousands grouping, width/alignment padding with odd extra on the right for `^`\n- Standard library only (`math` for `copysign`), no banned imports/calls, no `%`/format-specifier string formatting \u2014 all digit conversion done by hand.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 50,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "61_codecs",
+    "pass": false,
+    "wall_s": 437.5,
+    "turns": 7,
+    "tool_calls": 7,
+    "tools": {
+     "write": 3,
+     "edit": 2,
+     "bash": 1,
+     "read": 1
+    },
+    "in_tokens": 98705,
+    "out_tokens": 24952,
+    "timed_out": false,
+    "rc": 4294967295,
+    "errors": [],
+    "grader": "SCORE 18/30\nFAIL ['base32 encode: fixed vectors, pad=True and pad=False', 'base64 round-trip differential (random data, all flag combinations)', 'base32 round-trip differential (random data, both pad settings) raised ValueError', 'decoding valid base64 / base32 texts produced independently', 'base64 padding rules', 'base64 leftover-bit rule', 'base64 length rules under both pad settings', 'base32 padding-run lengths and length rules', 'base32 leftover bits and lowercase rejection', \"qp 'eol', 'trunc' and 'char' cases\"]",
+    "score": 0.6,
+    "final_text": "\n\nNow I've found an actual bug: when the text is empty, `text[data_len - 1]` will crash (index -1 against an empty string). First, fix it inside the module:\n\n",
+    "stderr": "",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 7
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "61_codecs",
+    "pass": true,
+    "wall_s": 613.1,
+    "turns": 47,
+    "tool_calls": 77,
+    "tools": {
+     "write": 3,
+     "edit": 35,
+     "bash": 38,
+     "read": 1
+    },
+    "in_tokens": 2029458,
+    "out_tokens": 44082,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "eftover bits)\n- `b32_encode` / `b32_decode` (uppercase-only, run lengths {6,4,3,1}, remainder {1,3,6} rejected, bits table {2:2, 4:4, 5:1, 7:3})\n- `qp_encode` (verbatim pseudocode: 75-char soft breaks, trailing space/tab escaping, uppercase hex) / `qp_decode` (char \u2192 eol \u2192 trunc \u2192 trailing soft break \u2192 hex, then line length, then trailing whitespace; hard CRLF \u2192 `\\r\\n`, soft break \u2192 nothing)\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 46,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "61_codecs",
+    "pass": true,
+    "wall_s": 434.1,
+    "turns": 21,
+    "tool_calls": 20,
+    "tools": {
+     "write": 2,
+     "edit": 10,
+     "bash": 8
+    },
+    "in_tokens": 674962,
+    "out_tokens": 34668,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "\n\n`strictcodec.py` is complete and verified: all API examples, the documented check-order semantics (alphabet/padding/length/bits, tie-breaking for QP rules), the exact `.kind`/`.pos` values, round-trips and invariants against random data, and the ban list (AST-verified: no banned imports or names) all pass.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 20,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   },
+   {
+    "task": "53_gitattr",
+    "pass": false,
+    "wall_s": 651.7,
+    "turns": 55,
+    "tool_calls": 54,
+    "tools": {
+     "write": 3,
+     "edit": 23,
+     "bash": 25,
+     "read": 3
+    },
+    "in_tokens": 2744038,
+    "out_tokens": 52392,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/30\nFAIL ['kind of every pattern error', 'random: mixed files, bucket A', 'random: macro-heavy files', 'random: class-heavy patterns', 'random: files containing invalid lines, bucket A', 'random: files containing invalid lines, bucket B']",
+    "score": 0.8,
+    "final_text": "er cases (e.g. `[ x` before attrs, `[[:zz:] t`, `[attr]9m -`, malformed-line-beats-cycle), value identity (`is True`/`is False`/`is None`), `**` anchoring rules, unanchored basename-only matching, bracket/POSIX class edge cases, macro expansion order/overrides, escaped trailing spaces, generator input, and compiled-object reuse \u2014 all passing, plus a final standalone run of the spec examples.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 54,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

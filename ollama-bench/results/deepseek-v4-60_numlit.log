@@ -1,0 +1,17 @@
+
+===== deepseek/deepseek-v4-flash-0731 =====
+  60_numlit        #0 FAIL  660.1s turns=43 tools=42 out=105772 STOP=stop
+  60_numlit        #1 PASS  398.6s turns=17 tools=16 out=75164 STOP=stop
+  60_numlit        #2 PASS  346.6s turns=39 tools=38 out=65256 STOP=stop
+
+# pi bench (deepseek-v4-60_numlit)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deepseek/deepseek-v4-flash-0731 | ? GB | ? | ? | 2/3 | 0.98 (3/3 runs) | 0/1 all-trials | 468s | 82064 | 32.0 | 0 in 0/3 |
+
+## Per task (passes/trials)
+
+| task | deepseek/deepseek-v4-flash-0731 |
+|---|---|
+| 60_numlit | 2/3 (score 0.98) |

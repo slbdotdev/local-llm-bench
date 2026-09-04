@@ -1,0 +1,362 @@
+{
+ "34_tmplfix/t1": {
+  "task": "34_tmplfix",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9722,
+  "grader": "SCORE 35/36\nFAIL ['type errors from for iterables']",
+  "wall_s": 0.1
+ },
+ "34_tmplfix/t2": {
+  "task": "34_tmplfix",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9444,
+  "grader": "SCORE 34/36\nFAIL ['mismatched branch tags', 'type errors from for iterables']",
+  "wall_s": 0.1
+ },
+ "34_tmplfix/t3": {
+  "task": "34_tmplfix",
+  "trial": 3,
+  "pass": false,
+  "score": 0.9444,
+  "grader": "SCORE 34/36\nFAIL ['mismatched branch tags', 'type errors from for iterables']",
+  "wall_s": 0.1
+ },
+ "27_semver/t1": {
+  "task": "27_semver",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9655,
+  "grader": "SCORE 28/29\nFAIL ['parse leading zeros in numeric prerelease']",
+  "wall_s": 0.1
+ },
+ "27_semver/t2": {
+  "task": "27_semver",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 29/29\nPASS",
+  "wall_s": 0.1
+ },
+ "27_semver/t3": {
+  "task": "27_semver",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 29/29\nPASS",
+  "wall_s": 0.1
+ },
+ "31_stackvm/t1": {
+  "task": "31_stackvm",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 44/44\nPASS",
+  "wall_s": 1.6
+ },
+ "31_stackvm/t2": {
+  "task": "31_stackvm",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 44/44\nPASS",
+  "wall_s": 1.6
+ },
+ "31_stackvm/t3": {
+  "task": "31_stackvm",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 44/44\nPASS",
+  "wall_s": 1.6
+ },
+ "32_wirefmt/t1": {
+  "task": "32_wirefmt",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 33/33\nPASS",
+  "wall_s": 0.7
+ },
+ "32_wirefmt/t2": {
+  "task": "32_wirefmt",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9394,
+  "grader": "SCORE 31/33\nFAIL ['encode raises type error for non str/list values', \"error kind 'delim'\"]",
+  "wall_s": 0.8
+ },
+ "32_wirefmt/t3": {
+  "task": "32_wirefmt",
+  "trial": 3,
+  "pass": false,
+  "score": 0.0,
+  "grader": "grader timeout",
+  "wall_s": 46.8
+ },
+ "35_ledger/t1": {
+  "task": "35_ledger",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9714,
+  "grader": "SCORE 34/35\nFAIL ['Entry has 6 named fields with dest defaulting to None raised TypeError']",
+  "wall_s": 0.1
+ },
+ "35_ledger/t2": {
+  "task": "35_ledger",
+  "trial": 2,
+  "pass": false,
+  "score": 0.9714,
+  "grader": "SCORE 34/35\nFAIL ['Entry has 6 named fields with dest defaulting to None raised TypeError']",
+  "wall_s": 0.1
+ },
+ "35_ledger/t3": {
+  "task": "35_ledger",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 35/35\nPASS",
+  "wall_s": 0.1
+ },
+ "52_reengine/t1": {
+  "task": "52_reengine",
+  "trial": 1,
+  "pass": false,
+  "score": 0.6129,
+  "grader": "differential A: mixed syntax, index bucket 1', 'differential B: mixed syntax, index bucket 2', 'differential C: character classes', 'differential D: escapes and class escapes', 'differential E: anchors and boundaries', 'differential F: groups and alternation', 'differential G: bounded quantifiers']",
+  "wall_s": 0.2
+ },
+ "52_reengine/t2": {
+  "task": "52_reengine",
+  "trial": 2,
+  "pass": false,
+  "score": 0.8387,
+  "grader": "SCORE 26/31\nFAIL ['kind nothing_to_repeat', 'group capture across repetitions and empty-loop repeats', 'differential B: mixed syntax, index bucket 2', 'differential C: character classes', 'differential F: groups and alternation']",
+  "wall_s": 1.9
+ },
+ "52_reengine/t3": {
+  "task": "52_reengine",
+  "trial": 3,
+  "pass": false,
+  "score": 0.5806,
+  "grader": "repetitions and empty-loop repeats', 'differential A: mixed syntax, index bucket 1', 'differential B: mixed syntax, index bucket 2', 'differential C: character classes', 'differential D: escapes and class escapes', 'differential E: anchors and boundaries', 'differential F: groups and alternation']",
+  "wall_s": 0.2
+ },
+ "53_gitattr/t1": {
+  "task": "53_gitattr",
+  "trial": 1,
+  "pass": false,
+  "score": 0.8,
+  "grader": "SCORE 24/30\nFAIL ['random: mixed files, bucket A', 'random: mixed files, bucket B', 'random: macro-heavy files', 'random: class-heavy patterns', 'random: files containing invalid lines, bucket A', 'random: files containing invalid lines, bucket B']",
+  "wall_s": 0.5
+ },
+ "53_gitattr/t2": {
+  "task": "53_gitattr",
+  "trial": 2,
+  "pass": false,
+  "score": 0.8333,
+  "grader": "SCORE 25/30\nFAIL ['random: mixed files, bucket A', 'random: mixed files, bucket B', 'random: macro-heavy files', 'random: class-heavy patterns', 'random: files containing invalid lines, bucket A']",
+  "wall_s": 0.5
+ },
+ "53_gitattr/t3": {
+  "task": "53_gitattr",
+  "trial": 3,
+  "pass": false,
+  "score": 0.7667,
+  "grader": "/30\nFAIL ['**, * and ? -- three ** positions, and a**b is just a*b', 'random: mixed files, bucket A', 'random: mixed files, bucket B', 'random: macro-heavy files', 'random: class-heavy patterns', 'random: files containing invalid lines, bucket A', 'random: files containing invalid lines, bucket B']",
+  "wall_s": 0.1
+ },
+ "54_sedlite/t1": {
+  "task": "54_sedlite",
+  "trial": 1,
+  "pass": false,
+  "score": 0.6667,
+  "grader": "d', 'error kinds: y, a/i, trailing garbage', 'randomized malformed scripts: kind agrees (A)', 'randomized malformed scripts: kind agrees (B)', 'ranges: regex and +N endpoints', 'ranges and negation with !', 'mixed scripts A', 'mixed scripts B (longer, noisy)', 'stress: long scripts on long inputs']",
+  "wall_s": 0.3
+ },
+ "54_sedlite/t2": {
+  "task": "54_sedlite",
+  "trial": 2,
+  "pass": false,
+  "score": 0.6333,
+  "grader": "mmand', 'strict rejections a lax parser would accept', 'randomized malformed scripts: kind agrees (A)', 'randomized malformed scripts: kind agrees (B)', 'ranges: numeric endpoints', 'ranges: regex and +N endpoints', 'ranges and negation with !', 'mixed scripts A', 'mixed scripts B (longer, noisy)']",
+  "wall_s": 0.3
+ },
+ "54_sedlite/t3": {
+  "task": "54_sedlite",
+  "trial": 3,
+  "pass": false,
+  "score": 0.5333,
+  "grader": "command letter, ! and extra address', 'randomized malformed scripts: kind agrees (A)', 'randomized malformed scripts: kind agrees (B)', 'a/i: queued and immediate text', 'd: cycle end and auto-print', 'p and quiet mode', 'q: quit interactions', 'addresses: regex', 'ranges: regex and +N endpoints']",
+  "wall_s": 0.2
+ },
+ "55_minilang/t1": {
+  "task": "55_minilang",
+  "trial": 1,
+  "pass": false,
+  "score": 0.7742,
+  "grader": "compile', 'lexical strictness: leading zeros, ASCII only, reserved words', 'parse-time errors beat runtime errors, in the stated order', 'parse errors', 'randomised differential, error kinds (bucket 1)', 'randomised differential, error kinds (bucket 2)', 'randomised differential, mutated programs']",
+  "wall_s": 0.4
+ },
+ "55_minilang/t2": {
+  "task": "55_minilang",
+  "trial": 2,
+  "pass": false,
+  "score": 0.7742,
+  "grader": "catenation and repetition', 'match: arm order, nesting, literal kinds', 'does not import ast or use eval/exec/compile', 'parse-time errors beat runtime errors, in the stated order', 'parse errors', 'randomised differential, error kinds (bucket 1)', 'randomised differential, error kinds (bucket 2)']",
+  "wall_s": 0.4
+ },
+ "55_minilang/t3": {
+  "task": "55_minilang",
+  "trial": 3,
+  "pass": false,
+  "score": 0.8387,
+  "grader": "SCORE 26/31\nFAIL ['error kinds are exactly right', 'parse-time errors beat runtime errors, in the stated order', 'randomised differential, error kinds (bucket 1)', 'randomised differential, error kinds (bucket 2)', 'randomised differential, mutated programs']",
+  "wall_s": 0.4
+ },
+ "56_tmpl/t1": {
+  "task": "56_tmpl",
+  "trial": 1,
+  "pass": false,
+  "score": 0.5517,
+  "grader": "errors', 'strict: filter errors and their order inside one tag', 'strict: bad_operand / not_iterable are render errors at the tag offset', 'strict: lexing beats parsing beats rendering', 'strict: leftmost-first, innermost unclosed block', 'randomised differential, well-formed templates (bucket 1)']",
+  "wall_s": 0.1
+ },
+ "56_tmpl/t2": {
+  "task": "56_tmpl",
+  "trial": 2,
+  "pass": false,
+  "score": 0.4138,
+  "grader": "not/and/or precedence, short-circuit skips errors', 'set scoping: leaks out of if, not out of for', 'strict: unknown_tag / unexpected_tag with exact positions', 'strict: statement-level syntax errors', 'strict: expression-level syntax errors', 'strict: filter errors and their order inside one tag']",
+  "wall_s": 0.1
+ },
+ "56_tmpl/t3": {
+  "task": "56_tmpl",
+  "trial": 3,
+  "pass": false,
+  "score": 0.4138,
+  "grader": "SCORE 12/29\nFAIL ['grader timed out (candidate too slow or hung)']",
+  "wall_s": 45.1
+ },
+ "57_stateful/t1": {
+  "task": "57_stateful",
+  "trial": 1,
+  "pass": false,
+  "score": 0.3846,
+  "grader": "able, abort, reset, close/drain (bucket 2)', 'sequence: wraparound, dup, window bounds, flush chain (crafted)', 'timeouts: strict boundary, fires before processing, timer resets (crafted)', 'randomised differential, corrupt framing (bucket 1)', 'randomised differential, corrupt framing (bucket 2)']",
+  "wall_s": 0.3
+ },
+ "57_stateful/t2": {
+  "task": "57_stateful",
+  "trial": 2,
+  "pass": false,
+  "score": 0.3077,
+  "grader": "set, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'sequence: wraparound, dup, window bounds, flush chain (crafted)', 'timeouts: strict boundary, fires before processing, timer resets (crafted)', 'precedence: randomised differential in strict mode']",
+  "wall_s": 0.2
+ },
+ "57_stateful/t3": {
+  "task": "57_stateful",
+  "trial": 3,
+  "pass": false,
+  "score": 0.2308,
+  "grader": "esync (bucket 1)', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 2)', 'state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)', 'sequence: wraparound, dup, window bounds, flush chain (crafted)']",
+  "wall_s": 0.2
+ },
+ "58_bencode/t1": {
+  "task": "58_bencode",
+  "trial": 1,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.1
+ },
+ "58_bencode/t2": {
+  "task": "58_bencode",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.1
+ },
+ "58_bencode/t3": {
+  "task": "58_bencode",
+  "trial": 3,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 30/30\nPASS",
+  "wall_s": 0.1
+ },
+ "59_uri/t1": {
+  "task": "59_uri",
+  "trial": 1,
+  "pass": false,
+  "score": 0.7037,
+  "grader": "andomised differential: parse and the unparse roundtrip', 'randomised differential: normalize (A)', 'randomised differential: normalize (B)', 'randomised differential: resolve (A)', 'randomised differential: resolve (B, unusual bases)', 'randomised differential: the error kinds of rejected inputs']",
+  "wall_s": 0.1
+ },
+ "59_uri/t2": {
+  "task": "59_uri",
+  "trial": 2,
+  "pass": true,
+  "score": 1.0,
+  "grader": "SCORE 27/27\nPASS",
+  "wall_s": 0.1
+ },
+ "59_uri/t3": {
+  "task": "59_uri",
+  "trial": 3,
+  "pass": false,
+  "score": 0.963,
+  "grader": "SCORE 26/27\nFAIL [\"the '//' path with no authority is prefixed with '/.'\"]",
+  "wall_s": 0.1
+ },
+ "60_numlit/t1": {
+  "task": "60_numlit",
+  "trial": 1,
+  "pass": false,
+  "score": 0.8,
+  "grader": "SCORE 24/30\nFAIL ['format_number differential: modes d and f', 'canonical text for integers, radix integers and floats', \"error kind 'underscore'\", \"error kind 'suffix' pairing\", 'scan differential: mutated literals, exact kind and pos', 'format_number: exact ties under every mode']",
+  "wall_s": 0.1
+ },
+ "60_numlit/t2": {
+  "task": "60_numlit",
+  "trial": 2,
+  "pass": false,
+  "score": 0.3,
+  "grader": "SCORE 9/30\nFAIL ['grader timed out (candidate too slow or hung)']",
+  "wall_s": 45.1
+ },
+ "60_numlit/t3": {
+  "task": "60_numlit",
+  "trial": 3,
+  "pass": false,
+  "score": 0.7333,
+  "grader": "u', 'format_number differential: modes d and f', \"error kinds 'char', 'sign', 'syntax' and 'exponent'\", \"error kind 'underscore'\", \"error kind 'suffix' pairing\", 'scan differential: mutated literals, exact kind and pos', 'format_number: exact ties under every mode', 'format_number: negative zero']",
+  "wall_s": 0.1
+ },
+ "61_codecs/t1": {
+  "task": "61_codecs",
+  "trial": 1,
+  "pass": false,
+  "score": 0.9333,
+  "grader": "SCORE 28/30\nFAIL [\"qp 'eol', 'trunc' and 'char' cases\", 'randomised mutation differential: quoted-printable kinds and offsets']",
+  "wall_s": 0.3
+ },
+ "61_codecs/t2": {
+  "task": "61_codecs",
+  "trial": 2,
+  "pass": false,
+  "score": 0.8333,
+  "grader": "SCORE 25/30\nFAIL ['base64 padding rules', 'base32 padding-run lengths and length rules', \"qp 'eol', 'trunc' and 'char' cases\", 'randomised mutation differential: base64 / base32 kinds and offsets', 'randomised mutation differential: quoted-printable kinds and offsets']",
+  "wall_s": 0.2
+ },
+ "61_codecs/t3": {
+  "task": "61_codecs",
+  "trial": 3,
+  "pass": false,
+  "score": 0.8333,
+  "grader": "SCORE 25/30\nFAIL ['base64 padding rules', 'base32 padding-run lengths and length rules', \"qp 'eol', 'trunc' and 'char' cases\", 'randomised mutation differential: base64 / base32 kinds and offsets', 'randomised mutation differential: quoted-printable kinds and offsets']",
+  "wall_s": 0.2
+ }
+}

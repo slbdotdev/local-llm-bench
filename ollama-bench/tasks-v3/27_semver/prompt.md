@@ -1,0 +1,3 @@
+The current directory contains `pkgver.py` (semantic-version parsing, comparison and range matching) and its test file `test_pkgver.py`. Several tests fail because `pkgver.py` has bugs; the tests and the docstrings in `pkgver.py` define the intended behaviour.
+
+Run `python test_pkgver.py`, read the failures, and fix every bug in `pkgver.py`. Do NOT edit `test_pkgver.py`. Keep the public function names and signatures, and keep the docstrings accurate. The hidden grader also checks additional cases of the same behaviours (more prerelease orderings, more malformed inputs, more constraint specs), so fix the underlying cause rather than special-casing the visible inputs. When `python test_pkgver.py` prints "ALL OK", reply "done".

@@ -1,0 +1,1999 @@
+{
+ "q27-Q3_K_M": {
+  "tps": {
+   "gen_tps": 22.0,
+   "prompt_tps": 70.8,
+   "load_s": 15.1,
+   "size_gb": 14.95,
+   "vram_gb": 13.48,
+   "pct_gpu": 90,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 70.6,
+     "gen_tps": 20.6
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1280.9,
+     "gen_tps": 21.8
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1388.3,
+     "gen_tps": 20.5
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1412.5,
+     "gen_tps": 18.9
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1364.8,
+     "gen_tps": 15.8
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1259.9,
+     "gen_tps": 15.3
+    }
+   ]
+  },
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 26.8,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6087,
+    "out_tokens": 528,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 23.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5962,
+    "out_tokens": 466,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 26.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6183,
+    "out_tokens": 538,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 28.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6175,
+    "out_tokens": 576,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 97.4,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 11757,
+    "out_tokens": 2107,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass. `calc.py` is created with a hand-written tokenizer and recursive-descent parser (expr \u2192 term \u2192 factor levels), and all quick self-tests succeed.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 85.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7934,
+    "out_tokens": 1812,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "s, ints, decimals (`3.5`, `.5`), arbitrary whitespace, standard precedence with left-to-right associativity.\n- Returns `float`; division by zero raises `ZeroDivisionError`; unbalanced parens, unknown chars, empty input, and trailing operators raise `ValueError`.\n- No `eval`/`exec`/`ast` used.\n- Ran a self-check script (11 valid expressions + 8 invalid-input cases + div-by-zero) \u2014 all passed.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 166.6,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 17109,
+    "out_tokens": 3536,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass \u2014 one of my test expectations was wrong, not the code: in `\" spaced \" ,x`, the space after the closing quote still belongs to field 1 (the field ends only at the comma), so `[' spaced  ', 'x']` is correct per RFC 4180. All other cases pass, including empty input, trailing newlines, doubled quotes, and quoted newlines.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 111.7,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 2
+    },
+    "in_tokens": 20519,
+    "out_tokens": 2299,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 30.2,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10286,
+    "out_tokens": 603,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 32.2,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10218,
+    "out_tokens": 649,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 54.1,
+    "turns": 6,
+    "tool_calls": 11,
+    "tools": {
+     "bash": 3,
+     "read": 4,
+     "write": 4
+    },
+    "in_tokens": 16320,
+    "out_tokens": 1098,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "Outputs match the previous run (cart: 19.8, report: (2, 17.85), raw: 6.0) and no references to `calc_total` remain. done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 73.4,
+    "turns": 8,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 4,
+     "edit": 5,
+     "read": 1
+    },
+    "in_tokens": 21586,
+    "out_tokens": 1504,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "tax)`.\n- `shop/cli.py`: import alias updated to `compute_total as ct`; call uses `tax_rate=0.0`.\n- `shop/report.py`: both `calc_total` calls updated, tax passed as `tax_rate=`.\n- `python -m shop.cli` prints `cart: 19.8`, `report: (2, 17.85)`, `raw: 6.0` \u2014 identical to before. (The `tax=` parameters left in `Cart.__init__`/`Cart(tax=...)` are `Cart`'s own constructor kwargs, untouched as required.)",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 33.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6453,
+    "out_tokens": 698,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 28.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6346,
+    "out_tokens": 587,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass. done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 52.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7179,
+    "out_tokens": 1106,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 161.0,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "write": 1,
+     "bash": 4,
+     "edit": 1
+    },
+    "in_tokens": 25953,
+    "out_tokens": 3390,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "all checks passed \u2014 `deps.py` implements `resolve` (Kahn's algorithm with a min-heap for deterministic alphabetical tie-breaking, including nodes that appear only as dependencies) and `CycleError` whose `.cycle` repeats the first node at the end.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": false,
+    "wall_s": 59.8,
+    "turns": 7,
+    "tool_calls": 7,
+    "tools": {
+     "write": 2,
+     "bash": 2,
+     "edit": 3
+    },
+    "in_tokens": 18664,
+    "out_tokens": 1228,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL ['top order tail']",
+    "final_text": "All tests pass: basic mode prints `5 19 109` (5 newlines, 19 words, 109 chars), `--top 5` prints the correct ranked words with alphabetical tie-breaking, and a missing file prints `error: no such file` to stderr with exit status 2, no argparse noise.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 30.8,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 8771,
+    "out_tokens": 625,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 457.0,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "write": 2,
+     "bash": 6,
+     "edit": 1
+    },
+    "in_tokens": 40084,
+    "out_tokens": 9433,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks passed. `intervals.py` is created with `merge`, `insert`, and `total_length` (plus a `test_intervals.py` containing the checks, for reference).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 81.3,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "write": 1,
+     "bash": 3,
+     "edit": 2
+    },
+    "in_tokens": 20455,
+    "out_tokens": 1698,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 47.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7348,
+    "out_tokens": 1012,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 54.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7090,
+    "out_tokens": 1155,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ },
+ "q27-Q3_K_L": {
+  "tps": {
+   "gen_tps": 14.6,
+   "prompt_tps": 42.9,
+   "load_s": 16.5,
+   "size_gb": 15.58,
+   "vram_gb": 13.48,
+   "pct_gpu": 87,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 46.0,
+     "gen_tps": 15.1
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1031.4,
+     "gen_tps": 14.5
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1129.8,
+     "gen_tps": 13.7
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1184.1,
+     "gen_tps": 11.2
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1011.7,
+     "gen_tps": 11.6
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1146.0,
+     "gen_tps": 12.2
+    }
+   ]
+  },
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 31.1,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5986,
+    "out_tokens": 431,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 31.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5934,
+    "out_tokens": 451,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 95.0,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1,
+     "read": 1
+    },
+    "in_tokens": 13451,
+    "out_tokens": 1380,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`lru.py` created with a doubly-linked-list + dict implementation (O(1) `get`/`put`), and all checks passed.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 62.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 9065,
+    "out_tokens": 928,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 107.3,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 10679,
+    "out_tokens": 1601,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks passed: precedence, parens, unary minus (`-3*-2`, `--3`), decimals (`.5`, `3.5`), whitespace, left-associativity (`100/5/2`), `ZeroDivisionError` for `1/0`, and `ValueError` for empty/unbalanced/unknown/trailing-operator inputs.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 104.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 8078,
+    "out_tokens": 1561,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": false,
+    "wall_s": 325.8,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "write": 1,
+     "bash": 7,
+     "edit": 3
+    },
+    "in_tokens": 41608,
+    "out_tokens": 4890,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL ['quoted crlf inside']",
+    "final_text": "All checks pass. `csvlite.py` is in place with a hand-rolled state machine (no `csv` import): quoted fields with embedded commas/newlines, doubled `\"\"` \u2192 literal `\"`, empty unquoted fields, `\\r\\n`/`\\r` normalization, no extra record from trailing newlines, and preserved surrounding spaces.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 329.5,
+    "turns": 20,
+    "tool_calls": 19,
+    "tools": {
+     "write": 2,
+     "bash": 7,
+     "edit": 8,
+     "read": 2
+    },
+    "in_tokens": 87552,
+    "out_tokens": 4369,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "ted fields, doubled quotes, embedded newlines, `\\r\\n` line endings, empty fields, and the trailing-newline rule. Validation runs confirmed:\n\n- empty input \u2192 `[]`\n- `a,,b` \u2192 `[[\"a\", \"\", \"b\"]]`, `,` \u2192 `[[\"\", \"\"]]`\n- spaces preserved: `a , b` \u2192 `[[\"a \", \" b\"]]`\n- quoted commas/quotes/newlines: `a,\"b,c\",d`, `\"b\"\"c\"`, `\"multi\\nline\"`\n- mixed `\\n`/`\\r\\n` line endings and no phantom trailing record\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 67.7,
+    "turns": 6,
+    "tool_calls": 6,
+    "tools": {
+     "read": 1,
+     "bash": 3,
+     "edit": 2
+    },
+    "in_tokens": 14802,
+    "out_tokens": 914,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 54.9,
+    "turns": 6,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 2,
+     "read": 3,
+     "edit": 1
+    },
+    "in_tokens": 16381,
+    "out_tokens": 678,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 73.2,
+    "turns": 6,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 3,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 15553,
+    "out_tokens": 1029,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`.\n- Updated all callers: `shop/cart.py` (`compute_total(self.items, tax_rate=self.tax)`), `shop/cli.py` (import + `ct(orders[0], tax_rate=0.0)`), `shop/report.py` (both usages).\n- `grep` confirms no source references to the old name remain (only stale `.pyc` caches, which regenerate on next run).\n- `python -m shop.cli` output is identical to before: `cart: 19.8`, `report: (2, 17.85)`, `raw: 6.0`.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 83.4,
+    "turns": 7,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 6,
+     "edit": 4
+    },
+    "in_tokens": 19787,
+    "out_tokens": 1192,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 67.6,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6496,
+    "out_tokens": 931,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 41.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6325,
+    "out_tokens": 610,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 205.9,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "edit": 2
+    },
+    "in_tokens": 20408,
+    "out_tokens": 2996,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks passed: the three required examples, empty/single-node cases, ghost nodes (appearing only in dependency lists), alphabetical determinism, and cycle raising for 2-cycles, 3-cycles, and self-loops (including the `cycle[0] == cycle[-1]` invariant).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 224.8,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "write": 1,
+     "bash": 6,
+     "edit": 2,
+     "read": 2
+    },
+    "in_tokens": 44687,
+    "out_tokens": 3273,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass. done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 45.6,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 6521,
+    "out_tokens": 668,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 37.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6217,
+    "out_tokens": 550,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 86.8,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "bash": 2
+    },
+    "in_tokens": 15914,
+    "out_tokens": 1277,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 94.8,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 12235,
+    "out_tokens": 1331,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks passed on `intervals.py`.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 90.6,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 9481,
+    "out_tokens": 1300,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 83.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7019,
+    "out_tokens": 1203,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ },
+ "q27-Q3_K_S": {
+  "tps": {
+   "gen_tps": 51.2,
+   "prompt_tps": 235.3,
+   "load_s": 11.9,
+   "size_gb": 13.48,
+   "vram_gb": 13.48,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 273.0,
+     "gen_tps": 50.0
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1770.3,
+     "gen_tps": 51.3
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1770.0,
+     "gen_tps": 50.5
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1775.7,
+     "gen_tps": 49.0
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1741.9,
+     "gen_tps": 47.8
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1700.2,
+     "gen_tps": 46.4
+    }
+   ]
+  },
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 11.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5930,
+    "out_tokens": 445,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 9.3,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5805,
+    "out_tokens": 382,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 22.3,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 9063,
+    "out_tokens": 1036,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 14.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6206,
+    "out_tokens": 638,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 33.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 8009,
+    "out_tokens": 1613,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass \u2014 valid expressions evaluate correctly (including unary minus, decimals like `.5`, left-associativity), and invalid inputs raise `ValueError`/`ZeroDivisionError` as required.\n\n**done**",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 125.0,
+    "turns": 15,
+    "tool_calls": 14,
+    "tools": {
+     "write": 1,
+     "bash": 10,
+     "edit": 1,
+     "read": 2
+    },
+    "in_tokens": 69112,
+    "out_tokens": 5741,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "4/2` (precedence), `-3 * -2` (unary minus), `3.5 + 1.5`, `.5 * 2`, nested parens `((1+2)*(3-1))`, arbitrary whitespace, `8/(4-2)`, and float return type.\n- `ZeroDivisionError` for `1/0` and `10/(5-5)`.\n- `ValueError` for unbalanced parens (`1+2)`, `(1+2`), trailing operators (`2+`, `1+2+3*`, `3*`), unknown characters (`abc`), empty string, bad numbers (`1..5`), `()+2`, and dangling tokens (`2 3`).",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 188.5,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "write": 2,
+     "bash": 15,
+     "edit": 6,
+     "read": 1
+    },
+    "in_tokens": 141496,
+    "out_tokens": 8969,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "Created `csvlite.py` with a hand-rolled state machine (no `csv` import). All 17 checks passed and even match the stdlib `csv` reader's semantics, including the edge case where a mid-field `\"` is treated as a literal (a quote only opens a quoted field at the start of a field). Test file cleaned up.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 69.1,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "bash": 5,
+     "edit": 1
+    },
+    "in_tokens": 22119,
+    "out_tokens": 3331,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass, including the quoted-fields, embedded newlines, doubled quotes, CRLF, and trailing-newline cases.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 15.1,
+    "turns": 4,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 10515,
+    "out_tokens": 634,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 13.9,
+    "turns": 4,
+    "tool_calls": 4,
+    "tools": {
+     "read": 2,
+     "edit": 1,
+     "bash": 1
+    },
+    "in_tokens": 10222,
+    "out_tokens": 528,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 31.3,
+    "turns": 6,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 3,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 15233,
+    "out_tokens": 1060,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 26.2,
+    "turns": 5,
+    "tool_calls": 11,
+    "tools": {
+     "bash": 3,
+     "read": 4,
+     "edit": 4
+    },
+    "in_tokens": 13918,
+    "out_tokens": 1122,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "report.py`: both calls updated, now passing `tax_rate=` keyword\n- `shop/cli.py`: import alias updated; positional tax arg converted to `tax_rate=0.0`\n\nOutput of `python -m shop.cli` is identical to the pre-refactor baseline (`cart: 19.8`, `report: (2, 17.85)`, `raw: 6.0`), and no reference to `calc_total` or positional tax remains (the remaining `tax` matches are `Cart`'s own unchanged API).\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 18.9,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6489,
+    "out_tokens": 869,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 27.1,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 12210,
+    "out_tokens": 1242,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "Created `graph.py` with `shortest_path` (Dijkstra via `heapq`), handled `src == dst`, unreachable `(None, [])`, neighbour-only nodes treated as having no outgoing edges, and `KeyError` for invalid `src`. Ran 6 quick checks with `python` \u2014 all passed. done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 32.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7530,
+    "out_tokens": 1317,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 159.6,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "write": 1,
+     "edit": 3,
+     "bash": 6,
+     "read": 1
+    },
+    "in_tokens": 58676,
+    "out_tokens": 6881,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "min-heap; on cycle detection it finds a cycle by walking dependency edges among the un-emitted nodes, starting from the alphabetically smallest, and reports it with the first node repeated at the end. Verified: the three examples from the spec, cycle shapes (2-cycle, 3-cycle, self-loop), implicit nodes, determinism across dict orderings, topological validity, duplicate deps, and empty graph.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 26.4,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6493,
+    "out_tokens": 764,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All tests pass \u2014 both modes work, ties sorted alphabetically, missing file goes to stderr with exit 2.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 18.7,
+    "turns": 3,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 6523,
+    "out_tokens": 795,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 52.6,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 15246,
+    "out_tokens": 2329,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass. `intervals.py` implements `merge` (unsorted input, non-mutating, overlaps and adjacent merge), `insert` (into a pre-merged sorted list), `total_length`, and raises `ValueError` on `start > end` in all three functions.\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 49.3,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "bash": 2
+    },
+    "in_tokens": 17448,
+    "out_tokens": 1801,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "`intervals.py` created with `merge`, `insert`, `total_length` (all validating `start <= end`), and all self-checks pass \u2014 including the spec's `total_length == 5` example, adjacent-merge semantics, unsorted input without mutation, and `ValueError` cases.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 59.7,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 14787,
+    "out_tokens": 2683,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": ")` \u2014 requires a non-empty string of Roman characters, leniently parses (subtractive pairs + sum), then verifies `to_roman(result) == s` for strictness.\n\nVerified by running the checks in Python: known cases (IV, IX, XL, XC, CD, CM, 2023, 3999\u2026), round-trip for all 1\u20133999, rejections of `IIII`, `VX`, `IC`, `XXXX`, `IVI`, `MMMM`, `\"\"`, lowercase, non-str input, and range/bool violations. All passed.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 37.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7159,
+    "out_tokens": 1687,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ },
+ "q27-Q2_K_L": {
+  "tps": {
+   "gen_tps": 57.2,
+   "prompt_tps": 230.2,
+   "load_s": 11.8,
+   "size_gb": 12.14,
+   "vram_gb": 12.14,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 252.4,
+     "gen_tps": 55.1
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1604.3,
+     "gen_tps": 51.4
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1622.1,
+     "gen_tps": 55.6
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1614.5,
+     "gen_tps": 54.0
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1539.7,
+     "gen_tps": 49.7
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1483.7,
+     "gen_tps": 48.6
+    }
+   ]
+  },
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 11.7,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5791,
+    "out_tokens": 509,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "Done.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 9.0,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 5953,
+    "out_tokens": 421,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 26.4,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "bash": 1,
+     "read": 1
+    },
+    "in_tokens": 14471,
+    "out_tokens": 1298,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " `OrderedDict.move_to_end`, returning `-1` for absent keys.\n- `put` inserts or updates, promotes existing keys, and evicts the least-recently-used key (`popitem(last=False)`) when over capacity \u2014 all O(1).\n- `__len__` and `keys()` (ordered LRU \u2192 MRU) are straightforward.\n\nQuick checks ran and passed (invalid capacities raise, ordering after get/put, eviction of LRU, update promotion, length). done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 60.2,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "write": 1,
+     "bash": 7,
+     "edit": 2,
+     "read": 1
+    },
+    "in_tokens": 41973,
+    "out_tokens": 3089,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 144.7,
+    "turns": 11,
+    "tool_calls": 10,
+    "tools": {
+     "write": 1,
+     "edit": 3,
+     "read": 1,
+     "bash": 5
+    },
+    "in_tokens": 58083,
+    "out_tokens": 7719,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 45.3,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 2,
+     "bash": 3,
+     "edit": 2
+    },
+    "in_tokens": 25715,
+    "out_tokens": 2383,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "eroDivisionError`\n- Empty string, trailing `2+`, unbalanced `(()) + 1`, `((1`, `1 @ 2`, `2 3`, `*2` all raise `ValueError`\n\n`calc.py` uses a `_Tokenizer` (produces float literals and operator/paren tokens, rejecting unknown chars) and a `_Parser` with recursive descent over the grammar `expr \u2192 term \u2192 factor`, where factors handle unary minus, parentheses, and numbers. No `eval`/`exec`/`ast`.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 155.8,
+    "turns": 14,
+    "tool_calls": 13,
+    "tools": {
+     "write": 2,
+     "bash": 8,
+     "edit": 2,
+     "read": 1
+    },
+    "in_tokens": 64064,
+    "out_tokens": 8236,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All checks pass. The parser handles the malformed `\"` quote-followed-by-stray-chars` case tolerantly too. Done.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 474.8,
+    "turns": 18,
+    "tool_calls": 17,
+    "tools": {
+     "write": 5,
+     "edit": 4,
+     "read": 1,
+     "bash": 7
+    },
+    "in_tokens": 124317,
+    "out_tokens": 25221,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "empty or not); record terminators only commit an empty field if it held content or the record has other fields \u2014 so `,` \u2192 `[\"\", \"\"]`, `a,\\n` \u2192 `[[\"a\", \"\"]]`, and `a,\\,\\n` \u2192 `[[\"a\", \"\", \"\"]]`.\n- Blank records are dropped, so no trailing-newline artifact and empty input returns `[]`.\n- `\"\"` inside quotes \u2192 literal `\"`, commas/newlines inside quotes are literal, unquoted spaces preserved as-is.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 25.1,
+    "turns": 6,
+    "tool_calls": 7,
+    "tools": {
+     "read": 3,
+     "bash": 2,
+     "edit": 2
+    },
+    "in_tokens": 18918,
+    "out_tokens": 1206,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All 5 bugs fixed:\n1. Mutable default `tags=[]` shared across instances \u2192 use `None` and create a fresh list\n2. `low_stock` used `<=` \u2192 strictly `<`\n3. `total_value` skipped the first item \u2192 `range(0, len)`\n4. `apply_discount` treated percent as a fraction \u2192 `percent / 100.0`\n5. `find` didn't lowercase item names \u2192 `it.name.lower()`\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 73.5,
+    "turns": 19,
+    "tool_calls": 20,
+    "tools": {
+     "read": 5,
+     "bash": 5,
+     "edit": 10
+    },
+    "in_tokens": 103009,
+    "out_tokens": 3601,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "shared mutable `tags=[]` default \u2192 `tags=None` with fresh list per instance\n2. `low_stock` used `<=` instead of `<` (docstring says strictly below)\n3. `total_value` skipped the first item (`range(1, ...)`)\n4. `apply_discount` applied `percent` as a fraction instead of `percent/100`\n5. `find` compared only the query with `.lower()`, not the item name\n\n`python test_inventory.py` now prints \"ALL OK\".",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 19.2,
+    "turns": 5,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 2,
+     "read": 4,
+     "edit": 4
+    },
+    "in_tokens": 12509,
+    "out_tokens": 876,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 24.5,
+    "turns": 6,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 3,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 15641,
+    "out_tokens": 1153,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "x_rate=self.tax)`), `shop/cli.py` (import renamed, `ct(orders[0], tax_rate=0.0)`), `shop/report.py` (`pricing.compute_total(o, tax_rate=tax)` and `pricing.compute_total(o)`).\n- Grep confirms no remaining references to the old name (`tax=` matches are just `Cart.__init__`'s own parameter).\n- `python -m shop.cli` prints the exact same totals as before: `cart: 19.8`, `report: (2, 17.85)`, `raw: 6.0`.",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 18.3,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6563,
+    "out_tokens": 900,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 48.7,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "write": 1,
+     "edit": 2,
+     "read": 2,
+     "bash": 2
+    },
+    "in_tokens": 25464,
+    "out_tokens": 2499,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 79.3,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 2,
+     "edit": 1,
+     "read": 1,
+     "bash": 1
+    },
+    "in_tokens": 19286,
+    "out_tokens": 4235,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "ing via min-heap\n- Self-loop `['x', 'x']` and cycle-in-larger-graph `['b', 'c', 'b']` raise `CycleError` (a `ValueError`)\n- Empty graph, duplicate deps, determinism (100 runs identical), and dep-order property on a random graph\n\n`deps.py` uses Kahn's algorithm with a min-heap; on cycle detection it walks the dependency chains from the smallest stuck node until a repeat to extract the cycle. \n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 178.7,
+    "turns": 23,
+    "tool_calls": 22,
+    "tools": {
+     "write": 4,
+     "bash": 12,
+     "edit": 4,
+     "read": 2
+    },
+    "in_tokens": 129381,
+    "out_tokens": 9260,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 21.1,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 11580,
+    "out_tokens": 1036,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "Tests pass:\n- Basic mode: `3 8 48` (3 newlines, 8 whitespace tokens, 48 characters)\n- `--top 3`: `foo 2`, `hello 2`, `again 1` \u2014 count descending, alphabetical on ties, punctuation stripped & lowercased\n- Missing file: `error: no such file` on stderr with exit status 2\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 18.9,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 2,
+     "bash": 1
+    },
+    "in_tokens": 8589,
+    "out_tokens": 957,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "All tests pass:\n- Count mode: `3 11 69` (lines, words, chars)\n- `--top 3`: `hello 3`, `fox 2`, `world 2` \u2014 count descending, alphabetical on ties\n- Missing file: `error: no such file` on stderr, exit 2\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 95.9,
+    "turns": 13,
+    "tool_calls": 12,
+    "tools": {
+     "write": 1,
+     "edit": 5,
+     "bash": 4,
+     "read": 2
+    },
+    "in_tokens": 56253,
+    "out_tokens": 5005,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": " (e.g., `(1,3)` + `(4,6)` \u2192 `(1,6)` while `(1,3)` + `(5,6)` stays separate), without mutating the input.\n- `insert` \u2014 single-pass merge into the already-sorted list, handling the gap, contained, and spanning cases.\n- `total_length` \u2014 merges first, then sums `end - start + 1`, correctly counting distinct integers even with shared endpoints.\n- All functions raise `ValueError` on `start > end`.\n\nDone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 105.1,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "write": 2,
+     "bash": 4,
+     "edit": 1,
+     "read": 1
+    },
+    "in_tokens": 36310,
+    "out_tokens": 5540,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "**: contains, spans, adjacent, overlapping, and post-new cases \u2014 including the case where the merged range swallows a later interval (requires re-checking with the grown `end`, which my second scan handles).\n- **total_length**: correctly counts *distinct* integers for overlapping input (`(1,3)` and `(3,4)` count `3` once \u2192 5).\n- **ValueError**: raised by all three functions on `start > end`.\n\ndone",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 34.2,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 1,
+     "bash": 3
+    },
+    "in_tokens": 13818,
+    "out_tokens": 1745,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 28.8,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7121,
+    "out_tokens": 1512,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

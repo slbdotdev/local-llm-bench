@@ -1,0 +1,129 @@
+
+===== qwen/qwen3.8-27b =====
+  12_regex         #0 PASS  296.3s turns=25 tools=24 out=14361
+  12_regex         #1 FAIL  402.8s turns=47 tools=46 out=23797
+  12_regex         #2 PASS  316.4s turns=28 tools=27 out=17852
+  13_indent        #0 PASS   56.8s turns=4 tools=3 out=2399
+  13_indent        #1 PASS   36.7s turns=4 tools=3 out=1569
+  13_indent        #2 PASS   24.5s turns=5 tools=4 out=1340
+  14_ratelimit     #0 PASS   27.6s turns=4 tools=3 out=1500
+  14_ratelimit     #1 PASS   76.2s turns=6 tools=5 out=3799
+  14_ratelimit     #2 PASS   23.4s turns=3 tools=2 out=1204
+  15_diff          #0 PASS   39.3s turns=3 tools=2 out=1846
+  15_diff          #1 FAIL   28.1s turns=3 tools=2 out=1690
+  15_diff          #2 PASS   51.3s turns=7 tools=6 out=2567
+  16_bugfix2       #0 PASS   67.5s turns=9 tools=10 out=3741
+  16_bugfix2       #1 PASS   28.0s turns=6 tools=7 out=1438
+  16_bugfix2       #2 PASS   18.9s turns=4 tools=4 out=1138
+  17_interp        #0 PASS  241.7s turns=22 tools=21 out=17764
+  17_interp        #1 PASS  219.8s turns=7 tools=6 out=13730
+  17_interp        #2 FAIL  139.3s turns=8 tools=7 out=11137
+  18_sched         #0 PASS   72.7s turns=6 tools=5 out=5413
+  18_sched         #1 PASS   94.3s turns=4 tools=4 out=7377
+  18_sched         #2 PASS  151.0s turns=8 tools=8 out=12213
+  19_statemachine  #0 PASS   42.8s turns=7 tools=6 out=2856
+  19_statemachine  #1 PASS   28.4s turns=5 tools=4 out=1754
+  19_statemachine  #2 PASS   45.7s turns=5 tools=4 out=3667
+  20_binparse      #0 PASS  123.7s turns=18 tools=17 out=9156
+  20_binparse      #1 PASS   61.4s turns=6 tools=5 out=5316
+  20_binparse      #2 PASS   85.3s turns=7 tools=6 out=6904
+  21_query         #0 PASS  148.9s turns=10 tools=9 out=11897
+  21_query         #1 PASS   71.1s turns=4 tools=3 out=4531
+  21_query         #2 PASS  376.0s turns=21 tools=20 out=25865
+  22_bugfix3       #0 PASS   24.7s turns=5 tools=5 out=1597
+  22_bugfix3       #1 PASS   39.1s turns=8 tools=8 out=3050
+  22_bugfix3       #2 PASS   26.7s turns=6 tools=6 out=1778
+
+# pi bench (v2-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 30/33 | 8/11 all-trials | 106s | 6856 | 8.8 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 12_regex | 2/3 |
+| 13_indent | 3/3 |
+| 14_ratelimit | 3/3 |
+| 15_diff | 2/3 |
+| 16_bugfix2 | 3/3 |
+| 17_interp | 2/3 |
+| 18_sched | 3/3 |
+| 19_statemachine | 3/3 |
+| 20_binparse | 3/3 |
+| 21_query | 3/3 |
+| 22_bugfix3 | 3/3 |
+
+===== qwen/qwen3.8-27b =====
+  12_regex         #3 PASS  160.8s turns=21 tools=20 out=12210
+  12_regex         #4 FAIL  900.1s turns=5 tools=5 out=5623 TIMEOUT
+  14_ratelimit     #3 PASS   45.1s turns=8 tools=7 out=3965
+  14_ratelimit     #4 PASS   71.6s turns=8 tools=7 out=6052
+  15_diff          #3 FAIL   20.6s turns=4 tools=3 out=1592
+  15_diff          #4 PASS   24.7s turns=4 tools=3 out=1964
+  17_interp        #3 FAIL  101.5s turns=5 tools=4 out=7557
+  17_interp        #4 FAIL  111.6s turns=5 tools=4 out=7044
+  21_query         #3 PASS  139.3s turns=16 tools=15 out=8548
+  21_query         #4 PASS  138.  23_glob          #0 FAIL  232.6s turns=29 tools=28 out=18677
+  23_glob          #1 FAIL  188.2s turns=7 tools=6 out=14355
+  23_glob          #2 FAIL  352.5s turns=27 tools=26 out=25621
+  24_fixed         #0 PASS   77.9s turns=9 tools=8 out=5624
+  24_fixed         #1 PASS  215.1s turns=13 tools=12 out=14014
+  24_fixed         #2 PASS  900.2s turns=70 tools=70 out=65391 TIMEOUT
+  25_undo          #0 PASS   65.6s turns=7 tools=6 out=5236
+  25_undo          #1 PASS  118.5s turns=18 tools=17 out=10842
+  25_undo          #2 PASS  225.6s turns=11 tools=10 out=16638
+
+# pi bench (v2-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 41/51 | - | 10/14 all-trials | 146s | 8965 | 10.6 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 23_glob | 0/3 |
+| 24_fixed | 3/3 |
+| 25_undo | 3/3 |
+
+===== qwen/qwen3.8-27b =====
+  24_fixed         #3 FAIL   85.0s turns=6 tools=5 out=5969
+  24_fixed         #4 PASS  243.2s turns=26 tools=25 out=19080
+  25_undo          #3 PASS   80.9s turns=10 tools=9 out=5659
+  25_undo          #4 PASS  397.6s turns=15 tools=14 out=27969
+
+# pi bench (v2-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 44/55 | - | 9/14 all-trials | 150s | 9380 | 10.8 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 24_fixed | 4/5 |
+| 25_undo | 5/5 |
+
+===== qwen/qwen3.8-27b =====
+  17_interp        #0 FAIL  199.1s turns=10 tools=9 out=13126
+  17_interp        #1 PASS  125.2s turns=11 tools=10 out=9576
+  17_interp        #2 FAIL   65.8s turns=4 tools=3 out=7048
+  17_interp        #3 PASS  138.5s turns=14 tools=13 out=9431
+  17_interp        #4 PASS   98.0s turns=4 tools=3 out=7052
+
+# pi bench (v2-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| qwen/qwen3.8-27b | ? GB | ? | ? | 45/55 | - | 9/14 all-trials | 146s | 9180 | 10.8 |
+
+## Per task (passes/trials)
+
+| task | qwen/qwen3.8-27b |
+|---|---|
+| 17_interp | 3/5 |

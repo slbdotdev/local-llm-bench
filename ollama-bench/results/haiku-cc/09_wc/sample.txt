@@ -1,0 +1,8 @@
+Hello world!
+This is a test file.
+The quick brown fox jumps over the lazy dog.
+Hello there, friend.
+This test is simple and straightforward.
+The word test appears several times in this file.
+Hello, hello! The word the appears frequently.
+Friend, this is wonderful!

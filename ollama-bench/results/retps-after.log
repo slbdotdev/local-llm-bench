@@ -1,0 +1,62 @@
+ladder finished 2026-09-02T21:30:03-06:00, re-measuring TPS with extended curve
+
+===== q27-Q3_K_M =====
+    ctx fill     31 tok: prompt    70.6 tok/s, gen  20.6 tok/s
+    ctx fill   4124 tok: prompt  1280.9 tok/s, gen  21.8 tok/s
+    ctx fill   8210 tok: prompt  1388.3 tok/s, gen  20.5 tok/s
+    ctx fill  14007 tok: prompt  1412.5 tok/s, gen  18.9 tok/s
+    ctx fill  19994 tok: prompt  1364.8 tok/s, gen  15.8 tok/s
+    ctx fill  26979 tok: prompt  1259.9 tok/s, gen  15.3 tok/s
+TPS: {'gen_tps': 22.0, 'prompt_tps': 70.8, 'load_s': 15.1, 'size_gb': 14.95, 'vram_gb': 13.48, 'pct_gpu': 90, 'curve': [{'fill_tokens': 31, 'prompt_tps': 70.6, 'gen_tps': 20.6}, {'fill_tokens': 4124, 'prompt_tps': 1280.9, 'gen_tps': 21.8}, {'fill_tokens': 8210, 'prompt_tps': 1388.3, 'gen_tps': 20.5}, {'fill_tokens': 14007, 'prompt_tps': 1412.5, 'gen_tps': 18.9}, {'fill_tokens': 19994, 'prompt_tps': 1364.8, 'gen_tps': 15.8}, {'fill_tokens': 26979, 'prompt_tps': 1259.9, 'gen_tps': 15.3}]}
+
+===== q27-Q3_K_L =====
+    ctx fill     31 tok: prompt    46.0 tok/s, gen  15.1 tok/s
+    ctx fill   4124 tok: prompt  1031.4 tok/s, gen  14.5 tok/s
+    ctx fill   8210 tok: prompt  1129.8 tok/s, gen  13.7 tok/s
+    ctx fill  14007 tok: prompt  1184.1 tok/s, gen  11.2 tok/s
+    ctx fill  19994 tok: prompt  1011.7 tok/s, gen  11.6 tok/s
+    ctx fill  26979 tok: prompt  1146.0 tok/s, gen  12.2 tok/s
+TPS: {'gen_tps': 14.6, 'prompt_tps': 42.9, 'load_s': 16.5, 'size_gb': 15.58, 'vram_gb': 13.48, 'pct_gpu': 87, 'curve': [{'fill_tokens': 31, 'prompt_tps': 46.0, 'gen_tps': 15.1}, {'fill_tokens': 4124, 'prompt_tps': 1031.4, 'gen_tps': 14.5}, {'fill_tokens': 8210, 'prompt_tps': 1129.8, 'gen_tps': 13.7}, {'fill_tokens': 14007, 'prompt_tps': 1184.1, 'gen_tps': 11.2}, {'fill_tokens': 19994, 'prompt_tps': 1011.7, 'gen_tps': 11.6}, {'fill_tokens': 26979, 'prompt_tps': 1146.0, 'gen_tps': 12.2}]}
+
+===== q27-Q3_K_S =====
+    ctx fill     31 tok: prompt   273.0 tok/s, gen  50.0 tok/s
+    ctx fill   4124 tok: prompt  1770.3 tok/s, gen  51.3 tok/s
+    ctx fill   8210 tok: prompt  1770.0 tok/s, gen  50.5 tok/s
+    ctx fill  14007 tok: prompt  1775.7 tok/s, gen  49.0 tok/s
+    ctx fill  19994 tok: prompt  1741.9 tok/s, gen  47.8 tok/s
+    ctx fill  26979 tok: prompt  1700.2 tok/s, gen  46.4 tok/s
+TPS: {'gen_tps': 51.2, 'prompt_tps': 235.3, 'load_s': 11.9, 'size_gb': 13.48, 'vram_gb': 13.48, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 273.0, 'gen_tps': 50.0}, {'fill_tokens': 4124, 'prompt_tps': 1770.3, 'gen_tps': 51.3}, {'fill_tokens': 8210, 'prompt_tps': 1770.0, 'gen_tps': 50.5}, {'fill_tokens': 14007, 'prompt_tps': 1775.7, 'gen_tps': 49.0}, {'fill_tokens': 19994, 'prompt_tps': 1741.9, 'gen_tps': 47.8}, {'fill_tokens': 26979, 'prompt_tps': 1700.2, 'gen_tps': 46.4}]}
+
+===== q27-Q2_K_L =====
+    ctx fill     31 tok: prompt   252.4 tok/s, gen  55.1 tok/s
+    ctx fill   4124 tok: prompt  1604.3 tok/s, gen  51.4 tok/s
+    ctx fill   8210 tok: prompt  1622.1 tok/s, gen  55.6 tok/s
+    ctx fill  14007 tok: prompt  1614.5 tok/s, gen  54.0 tok/s
+    ctx fill  19994 tok: prompt  1539.7 tok/s, gen  49.7 tok/s
+    ctx fill  26979 tok: prompt  1483.7 tok/s, gen  48.6 tok/s
+TPS: {'gen_tps': 57.2, 'prompt_tps': 230.2, 'load_s': 11.8, 'size_gb': 12.14, 'vram_gb': 12.14, 'pct_gpu': 100, 'curve': [{'fill_tokens': 31, 'prompt_tps': 252.4, 'gen_tps': 55.1}, {'fill_tokens': 4124, 'prompt_tps': 1604.3, 'gen_tps': 51.4}, {'fill_tokens': 8210, 'prompt_tps': 1622.1, 'gen_tps': 55.6}, {'fill_tokens': 14007, 'prompt_tps': 1614.5, 'gen_tps': 54.0}, {'fill_tokens': 19994, 'prompt_tps': 1539.7, 'gen_tps': 49.7}, {'fill_tokens': 26979, 'prompt_tps': 1483.7, 'gen_tps': 48.6}]}
+
+# pi bench (local-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| q27-Q3_K_M | 14.95 GB | 90 | 22.0 / 15.3 @26979 | 21/22 | - | 10/11 all-trials | 80s | 1666 | 4.3 |
+| q27-Q3_K_L | 15.58 GB | 87 | 14.6 / 12.2 @26979 | 21/22 | - | 10/11 all-trials | 107s | 1526 | 5.4 |
+| q27-Q3_K_S | 13.48 GB | 100 | 51.2 / 46.4 @26979 | 22/22 | - | 11/11 all-trials | 47s | 2085 | 5.8 |
+| q27-Q2_K_L | 12.14 GB | 100 | 57.2 / 48.6 @26979 | 22/22 | - | 11/11 all-trials | 77s | 4018 | 8.4 |
+
+## Per task (passes/trials)
+
+| task | q27-Q3_K_M | q27-Q3_K_L | q27-Q3_K_S | q27-Q2_K_L |
+|---|---|---|---|---|
+| 01_rle | 2/2 | 2/2 | 2/2 | 2/2 |
+| 02_lru | 2/2 | 2/2 | 2/2 | 2/2 |
+| 03_calc | 2/2 | 2/2 | 2/2 | 2/2 |
+| 04_csv | 2/2 | 1/2 | 2/2 | 2/2 |
+| 05_bugfix | 2/2 | 2/2 | 2/2 | 2/2 |
+| 06_refactor | 2/2 | 2/2 | 2/2 | 2/2 |
+| 07_dijkstra | 2/2 | 2/2 | 2/2 | 2/2 |
+| 08_topo | 2/2 | 2/2 | 2/2 | 2/2 |
+| 09_wc | 1/2 | 2/2 | 2/2 | 2/2 |
+| 10_intervals | 2/2 | 2/2 | 2/2 | 2/2 |
+| 11_roman | 2/2 | 2/2 | 2/2 | 2/2 |

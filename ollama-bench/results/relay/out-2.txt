@@ -1,0 +1,8 @@
+slb-ed: local medium ladder finished. v1 suite saturated across all four quants; Q2_K_L passes everything but burns 2.4x the tokens. No question pending.
+Local ladder, Qwen3.8-27B, medium thinking, 11 tasks x 2 trials, 32k ctx:
+- Q3_K_M: 21/22 (missed 09_wc once), 29 min, 36.6k output tokens
+- Q3_K_L: 21/22 (missed 04_csv once), 39 min, 33.6k output tokens
+- Q3_K_S: 22/22, 17 min, 45.9k output tokens
+- Q2_K_L: 22/22, 28 min, 88.4k output tokens
+Read: the v1 suite cannot separate these quants on pass rate. The only signal is efficiency: Q2_K_L reasons about 2.4x longer to get there, and Q3_K_S is the fastest at equal accuracy. The extended TPS re-measure (0 to 27k context fill) is running now for all four; I will send the curves when it ends.
+Still running on OpenRouter: v2 low-vs-medium campaign, and the v3 edge-of-ability campaign (tasks meant to pass only part of the time at low).

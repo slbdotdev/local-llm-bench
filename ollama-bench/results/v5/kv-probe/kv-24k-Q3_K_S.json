@@ -1,0 +1,472 @@
+{
+ "model": "C:\\Users\\slb\\.ollama\\models\\blobs\\sha256-ba0c5dee3026dccf7126b90f1fbb10f2916d540aad470eb0c03da68734dbe10a",
+ "ctx": 24576,
+ "records": 460,
+ "idle_vram_mib": 1372,
+ "runs": [
+  {
+   "config": "q8_0-q8_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q8_0",
+   "ctx": 24576,
+   "load_s": 8.6,
+   "vram_loaded_mib": 15078,
+   "vram_peak_mib": 15220,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 51.0,
+   "prompt_tok_s": 1432.4,
+   "prompt_tokens": 22897,
+   "results": [
+    {
+     "index": 9,
+     "depth": 0.02,
+     "node": "colden-ridge-3",
+     "checksum": "6CC717",
+     "answer": "6CC717",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 27,
+     "depth": 0.059,
+     "node": "elderfell-vale-3",
+     "checksum": "7B0686",
+     "answer": "7B0686",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 46,
+     "depth": 0.1,
+     "node": "harrow-reach-2",
+     "checksum": "29C370",
+     "answer": "29C370",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 65,
+     "depth": 0.141,
+     "node": "marlowe-hurst-2",
+     "checksum": "5CFF49",
+     "answer": "5CFF49",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 83,
+     "depth": 0.18,
+     "node": "downholt-fen-2",
+     "checksum": "04D935",
+     "answer": "04D935",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 102,
+     "depth": 0.222,
+     "node": "thornbury-gate-2",
+     "checksum": "41DF01",
+     "answer": "41DF01",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 120,
+     "depth": 0.261,
+     "node": "starling-hollow-1",
+     "checksum": "77DEFB",
+     "answer": "77DEFB",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 139,
+     "depth": 0.302,
+     "node": "brightmoor-cross-3",
+     "checksum": "01D462",
+     "answer": "01D462",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 158,
+     "depth": 0.343,
+     "node": "brightmoor-hurst-3",
+     "checksum": "84FFB7",
+     "answer": "84FFB7",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 176,
+     "depth": 0.383,
+     "node": "elderfell-reach-2",
+     "checksum": "C638CA",
+     "answer": "C638CA",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 195,
+     "depth": 0.424,
+     "node": "ashcombe-combe-2",
+     "checksum": "D7B309",
+     "answer": "D7B309",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 213,
+     "depth": 0.463,
+     "node": "thornbury-ridge-1",
+     "checksum": "337240",
+     "answer": "337240",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 232,
+     "depth": 0.504,
+     "node": "tarnwick-hollow-2",
+     "checksum": "62DE43",
+     "answer": "62DE43",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 250,
+     "depth": 0.543,
+     "node": "windhollow-vale-1",
+     "checksum": "91BC85",
+     "answer": "91BC85",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 269,
+     "depth": 0.585,
+     "node": "bramblewood-cross-1",
+     "checksum": "017413",
+     "answer": "017413",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 288,
+     "depth": 0.626,
+     "node": "elderfell-fen-2",
+     "checksum": "09EEF6",
+     "answer": "09EEF6",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 306,
+     "depth": 0.665,
+     "node": "kestrelby-fen-2",
+     "checksum": "7FF542",
+     "answer": "7FF542",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 325,
+     "depth": 0.707,
+     "node": "kestrelby-hurst-1",
+     "checksum": "D30764",
+     "answer": "D30764",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 344,
+     "depth": 0.748,
+     "node": "bramblewood-ridge-2",
+     "checksum": "457B61",
+     "answer": "457B61",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 362,
+     "depth": 0.787,
+     "node": "tarnwick-gate-2",
+     "checksum": "0A6AD9",
+     "answer": "0A6AD9",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 381,
+     "depth": 0.828,
+     "node": "silverdale-hurst-2",
+     "checksum": "3028FE",
+     "answer": "3028FE",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 399,
+     "depth": 0.867,
+     "node": "thornbury-moor-1",
+     "checksum": "3CE04C",
+     "answer": "3CE04C",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 418,
+     "depth": 0.909,
+     "node": "colden-cross-3",
+     "checksum": "C26139",
+     "answer": "C26139",
+     "ok": true,
+     "prompt_tokens": 22896
+    },
+    {
+     "index": 437,
+     "depth": 0.95,
+     "node": "colden-fen-2",
+     "checksum": "6A8B03",
+     "answer": "6A8B03",
+     "ok": true,
+     "prompt_tokens": 22897
+    }
+   ]
+  },
+  {
+   "config": "q4_0-q4_0",
+   "cache_type_k": "q4_0",
+   "cache_type_v": "q4_0",
+   "ctx": 24576,
+   "load_s": 6.5,
+   "vram_loaded_mib": 14766,
+   "vram_peak_mib": 15000,
+   "score": "24/24",
+   "accuracy": 1.0,
+   "gen_tok_s": 48.6,
+   "prompt_tok_s": 1417.7,
+   "prompt_tokens": 22897,
+   "results": [
+    {
+     "index": 9,
+     "depth": 0.02,
+     "node": "colden-ridge-3",
+     "checksum": "6CC717",
+     "answer": "6CC717",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 27,
+     "depth": 0.059,
+     "node": "elderfell-vale-3",
+     "checksum": "7B0686",
+     "answer": "7B0686",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 46,
+     "depth": 0.1,
+     "node": "harrow-reach-2",
+     "checksum": "29C370",
+     "answer": "29C370",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 65,
+     "depth": 0.141,
+     "node": "marlowe-hurst-2",
+     "checksum": "5CFF49",
+     "answer": "5CFF49",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 83,
+     "depth": 0.18,
+     "node": "downholt-fen-2",
+     "checksum": "04D935",
+     "answer": "04D935",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 102,
+     "depth": 0.222,
+     "node": "thornbury-gate-2",
+     "checksum": "41DF01",
+     "answer": "41DF01",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 120,
+     "depth": 0.261,
+     "node": "starling-hollow-1",
+     "checksum": "77DEFB",
+     "answer": "77DEFB",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 139,
+     "depth": 0.302,
+     "node": "brightmoor-cross-3",
+     "checksum": "01D462",
+     "answer": "01D462",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 158,
+     "depth": 0.343,
+     "node": "brightmoor-hurst-3",
+     "checksum": "84FFB7",
+     "answer": "84FFB7",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 176,
+     "depth": 0.383,
+     "node": "elderfell-reach-2",
+     "checksum": "C638CA",
+     "answer": "C638CA",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 195,
+     "depth": 0.424,
+     "node": "ashcombe-combe-2",
+     "checksum": "D7B309",
+     "answer": "D7B309",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 213,
+     "depth": 0.463,
+     "node": "thornbury-ridge-1",
+     "checksum": "337240",
+     "answer": "337240",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 232,
+     "depth": 0.504,
+     "node": "tarnwick-hollow-2",
+     "checksum": "62DE43",
+     "answer": "62DE43",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 250,
+     "depth": 0.543,
+     "node": "windhollow-vale-1",
+     "checksum": "91BC85",
+     "answer": "91BC85",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 269,
+     "depth": 0.585,
+     "node": "bramblewood-cross-1",
+     "checksum": "017413",
+     "answer": "017413",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 288,
+     "depth": 0.626,
+     "node": "elderfell-fen-2",
+     "checksum": "09EEF6",
+     "answer": "09EEF6",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 306,
+     "depth": 0.665,
+     "node": "kestrelby-fen-2",
+     "checksum": "7FF542",
+     "answer": "7FF542",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 325,
+     "depth": 0.707,
+     "node": "kestrelby-hurst-1",
+     "checksum": "D30764",
+     "answer": "D30764",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 344,
+     "depth": 0.748,
+     "node": "bramblewood-ridge-2",
+     "checksum": "457B61",
+     "answer": "457B61",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 362,
+     "depth": 0.787,
+     "node": "tarnwick-gate-2",
+     "checksum": "0A6AD9",
+     "answer": "0A6AD9",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 381,
+     "depth": 0.828,
+     "node": "silverdale-hurst-2",
+     "checksum": "3028FE",
+     "answer": "3028FE",
+     "ok": true,
+     "prompt_tokens": 22897
+    },
+    {
+     "index": 399,
+     "depth": 0.867,
+     "node": "thornbury-moor-1",
+     "checksum": "3CE04C",
+     "answer": "3CE04C",
+     "ok": true,
+     "prompt_tokens": 22898
+    },
+    {
+     "index": 418,
+     "depth": 0.909,
+     "node": "colden-cross-3",
+     "checksum": "C26139",
+     "answer": "C26139",
+     "ok": true,
+     "prompt_tokens": 22896
+    },
+    {
+     "index": 437,
+     "depth": 0.95,
+     "node": "colden-fen-2",
+     "checksum": "6A8B03",
+     "answer": "6A8B03",
+     "ok": true,
+     "prompt_tokens": 22897
+    }
+   ]
+  }
+ ]
+}

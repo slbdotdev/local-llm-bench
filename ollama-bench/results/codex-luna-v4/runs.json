@@ -1,0 +1,50 @@
+{
+ "52_reengine/t1": {
+  "rc": 0,
+  "wall_s": 192
+ },
+ "52_reengine/t2": {
+  "rc": 0,
+  "wall_s": 354
+ },
+ "52_reengine/t3": {
+  "rc": 0,
+  "wall_s": 278
+ },
+ "55_minilang/t1": {
+  "rc": 0,
+  "wall_s": 292
+ },
+ "55_minilang/t2": {
+  "rc": 0,
+  "wall_s": 308
+ },
+ "55_minilang/t3": {
+  "rc": 0,
+  "wall_s": 243
+ },
+ "57_stateful/t1": {
+  "rc": 0,
+  "wall_s": 240
+ },
+ "57_stateful/t2": {
+  "rc": 0,
+  "wall_s": 221
+ },
+ "57_stateful/t3": {
+  "rc": 0,
+  "wall_s": 138
+ },
+ "60_numlit/t1": {
+  "rc": 0,
+  "wall_s": 333
+ },
+ "60_numlit/t2": {
+  "rc": 0,
+  "wall_s": 150
+ },
+ "60_numlit/t3": {
+  "rc": 0,
+  "wall_s": 429
+ }
+}

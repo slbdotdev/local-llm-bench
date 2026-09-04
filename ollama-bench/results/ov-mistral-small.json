@@ -1,0 +1,463 @@
+{
+ "mistralai/mistral-small-2603": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 8.2,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6886,
+    "out_tokens": 1182,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "01_rle",
+    "pass": true,
+    "wall_s": 6.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 6171,
+    "out_tokens": 823,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 9.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 7440,
+    "out_tokens": 1409,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "02_lru",
+    "pass": true,
+    "wall_s": 16.1,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 16793,
+    "out_tokens": 2552,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 19.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 11234,
+    "out_tokens": 3391,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "03_calc",
+    "pass": true,
+    "wall_s": 19.2,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "write": 1,
+     "bash": 2
+    },
+    "in_tokens": 16166,
+    "out_tokens": 3334,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "04_csv",
+    "pass": false,
+    "wall_s": 25.1,
+    "turns": 2,
+    "tool_calls": 1,
+    "tools": {
+     "write": 1
+    },
+    "in_tokens": 4197,
+    "out_tokens": 1004,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Provider finish_reason: error"
+    ],
+    "grader": "FAIL ['simple', 'crlf', 'empty fields', 'only comma', 'quoted comma', 'escaped quote', 'newline in quotes', 'spaces kept', 'quoted empty', 'single field rows']",
+    "final_text": "I'll create `csvlite.py` with a custom RFC 4180 CSV parser.",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "04_csv",
+    "pass": true,
+    "wall_s": 70.3,
+    "turns": 34,
+    "tool_calls": 33,
+    "tools": {
+     "write": 5,
+     "bash": 17,
+     "edit": 8,
+     "read": 3
+    },
+    "in_tokens": 367251,
+    "out_tokens": 9364,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 16.8,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 3,
+     "read": 3,
+     "edit": 2
+    },
+    "in_tokens": 27688,
+    "out_tokens": 2150,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "05_bugfix",
+    "pass": true,
+    "wall_s": 18.1,
+    "turns": 10,
+    "tool_calls": 10,
+    "tools": {
+     "bash": 4,
+     "read": 4,
+     "edit": 2
+    },
+    "in_tokens": 36497,
+    "out_tokens": 2356,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 20.5,
+    "turns": 18,
+    "tool_calls": 22,
+    "tools": {
+     "bash": 8,
+     "read": 8,
+     "edit": 6
+    },
+    "in_tokens": 56293,
+    "out_tokens": 2102,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "06_refactor",
+    "pass": true,
+    "wall_s": 16.8,
+    "turns": 17,
+    "tool_calls": 16,
+    "tools": {
+     "bash": 7,
+     "read": 5,
+     "edit": 4
+    },
+    "in_tokens": 48539,
+    "out_tokens": 1634,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 12.3,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 15205,
+    "out_tokens": 1938,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "07_dijkstra",
+    "pass": true,
+    "wall_s": 11.8,
+    "turns": 5,
+    "tool_calls": 4,
+    "tools": {
+     "write": 2,
+     "bash": 2
+    },
+    "in_tokens": 14797,
+    "out_tokens": 1820,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 21.2,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "write": 2,
+     "bash": 5,
+     "edit": 1,
+     "read": 1
+    },
+    "in_tokens": 44627,
+    "out_tokens": 3243,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "08_topo",
+    "pass": true,
+    "wall_s": 16.0,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "edit": 1,
+     "read": 1
+    },
+    "in_tokens": 21969,
+    "out_tokens": 2351,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "09_wc",
+    "pass": true,
+    "wall_s": 14.0,
+    "turns": 12,
+    "tool_calls": 11,
+    "tools": {
+     "write": 3,
+     "bash": 8
+    },
+    "in_tokens": 33258,
+    "out_tokens": 1432,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "09_wc",
+    "pass": false,
+    "wall_s": 13.9,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "write": 2,
+     "bash": 7
+    },
+    "in_tokens": 28140,
+    "out_tokens": 1638,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL ['counts', 'top3', 'top all', 'top order tail', 'empty', 'missing file']",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 18.0,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "write": 1,
+     "bash": 5,
+     "edit": 3
+    },
+    "in_tokens": 38786,
+    "out_tokens": 2616,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "10_intervals",
+    "pass": true,
+    "wall_s": 43.7,
+    "turns": 25,
+    "tool_calls": 24,
+    "tools": {
+     "write": 2,
+     "bash": 14,
+     "edit": 6,
+     "read": 2
+    },
+    "in_tokens": 188418,
+    "out_tokens": 6155,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   },
+   {
+    "task": "11_roman",
+    "pass": true,
+    "wall_s": 12.5,
+    "turns": 3,
+    "tool_calls": 2,
+    "tools": {
+     "write": 1,
+     "bash": 1
+    },
+    "in_tokens": 9229,
+    "out_tokens": 2221,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "PASS",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "11_roman",
+    "pass": false,
+    "wall_s": 18.4,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "write": 1,
+     "bash": 2,
+     "edit": 1,
+     "read": 1
+    },
+    "in_tokens": 24616,
+    "out_tokens": 2906,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "FAIL [\"from_roman('iv') accepted\"]",
+    "final_text": "done",
+    "stderr": "",
+    "trial": 1
+   }
+  ]
+ }
+}

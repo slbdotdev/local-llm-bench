@@ -1,0 +1,132 @@
+{
+ "q27-Q3_K_S": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "52_reengine",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 4,
+    "tool_calls": 3,
+    "tools": {
+     "bash": 1,
+     "read": 2
+    },
+    "in_tokens": 10269,
+    "out_tokens": 24360,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 0/31\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'reengine\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "error": 1,
+     "length": 1,
+     "toolUse": 2
+    },
+    "events": {
+     "auto_retry_end": 1,
+     "compaction_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 2,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 5887,
+    "out_tokens": 23780,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 0/31\nFAIL ['import failed: ModuleNotFoundError(\"No module named \\'minilang\\'\")', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "",
+    "stderr": "timeout",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "error": 1,
+     "length": 1
+    },
+    "events": {
+     "auto_retry_end": 1,
+     "compaction_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "task": "57_stateful",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 17,
+    "tool_calls": 17,
+    "tools": {
+     "write": 6,
+     "edit": 3,
+     "bash": 7,
+     "read": 1
+    },
+    "in_tokens": 252558,
+    "out_tokens": 57044,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "xact order', 'strict mode: framing error kinds and .index', 'strict mode: state, sequence and timeout error kinds and .index', 'precedence: frames that break several rules at once (bucket 1)', 'precedence: frames that break several rules at once (bucket 2)', 'the four documented examples are exactly reproduced', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 1)', 'framing: stray FLAG, escapes, bad length/checksum, resync (bucket 2)', 'state machine: legality table, abort, reset, close/drain (bucket 1)', 'state machine: legality table, abort, reset, close/drain (bucket 2)']",
+    "score": 0.1923,
+    "final_text": "The reference test file exists with the visible examples \u2014 my earlier reconstructions were close but the strict-mode events list excludes the raising event. Let me align my test expectations and run both suites:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 17
+    },
+    "events": {
+     "compaction_end": 2
+    },
+    "trial": 0
+   },
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 1200.1,
+    "turns": 11,
+    "tool_calls": 9,
+    "tools": {
+     "bash": 5,
+     "read": 1,
+     "write": 3
+    },
+    "in_tokens": 104945,
+    "out_tokens": 51311,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 0/30\nFAIL ['import failed: SyntaxError(\"\\'{\\' was never closed\", (\\'C:\\\\\\\\Users\\\\\\\\slb\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\pib_038rcgf3\\\\\\\\numlit.py\\', 75, 11, \\'_MODECH = {\"h\": 1, \"u\": 1, \"d\": 1, \"f\": 1\\\\n\\', 75, 0))', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']",
+    "score": 0.0,
+    "final_text": "That draft got messy. Let me look at what test infrastructure exists and then write a clean implementation from scratch.\n\n",
+    "stderr": "timeout",
+    "stop_reason": "error",
+    "stop_reasons": {
+     "length": 1,
+     "toolUse": 9,
+     "error": 1
+    },
+    "events": {
+     "compaction_end": 2
+    },
+    "trial": 0
+   }
+  ]
+ }
+}

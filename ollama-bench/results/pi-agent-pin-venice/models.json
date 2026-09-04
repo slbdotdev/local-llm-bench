@@ -1,0 +1,38 @@
+{
+ "providers": {
+  "openrouter": {
+   "compat": {
+    "openRouterRouting": {
+     "data_collection": "deny",
+     "sort": "throughput",
+     "zdr": true
+    },
+    "sendSessionAffinityHeaders": true,
+    "sessionAffinityFormat": "openrouter"
+   },
+   "modelOverrides": {
+    "z-ai/glm-5.3-flash": {
+     "compat": {
+      "openRouterRouting": {
+       "ignore": [
+        "reka",
+        "io-net"
+       ]
+      }
+     },
+     "contextWindow": 1048576
+    },
+    "qwen/qwen3.8-27b": {
+     "compat": {
+      "openRouterRouting": {
+       "only": [
+        "venice"
+       ],
+       "allow_fallbacks": false
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,7 @@
+done /c/Users/slb/ollama-bench/results/luna-max-v4/57_stateful/t1 rc=0 wall=513s
+done /c/Users/slb/ollama-bench/results/luna-max-v4/57_stateful/t2 rc=0 wall=533s
+done /c/Users/slb/ollama-bench/results/luna-max-v4/56_tmpl/t2 rc=0 wall=1478s
+done /c/Users/slb/ollama-bench/results/luna-max-v4/56_tmpl/t1 rc=124 wall=1800s
+done /c/Users/slb/ollama-bench/results/luna-max-v4/55_minilang/t2 rc=0 wall=711s
+done /c/Users/slb/ollama-bench/results/luna-max-v4/55_minilang/t1 rc=0 wall=1171s
+all 6 runs finished

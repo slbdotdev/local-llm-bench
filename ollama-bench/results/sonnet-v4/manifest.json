@@ -1,0 +1,149 @@
+{
+ "52_reengine/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\52_reengine\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "52_reengine/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\52_reengine\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "52_reengine/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\52_reengine\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\52_reengine\\test.py",
+  "task": "52_reengine",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\55_minilang\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\55_minilang\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "55_minilang/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\55_minilang\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\55_minilang\\test.py",
+  "task": "55_minilang",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\56_tmpl\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\56_tmpl\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "56_tmpl/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\56_tmpl\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\56_tmpl\\test.py",
+  "task": "56_tmpl",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\57_stateful\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\57_stateful\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "57_stateful/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\57_stateful\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\57_stateful\\test.py",
+  "task": "57_stateful",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\59_uri\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\59_uri\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "59_uri/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\59_uri\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\59_uri\\test.py",
+  "task": "59_uri",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\60_numlit\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\60_numlit\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "60_numlit/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\60_numlit\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\60_numlit\\test.py",
+  "task": "60_numlit",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t1": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\61_codecs\\t1",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 1,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t2": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\61_codecs\\t2",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 2,
+  "tasks_dir": "tasks-v4"
+ },
+ "61_codecs/t3": {
+  "sandbox": "C:\\Users\\slb\\ollama-bench\\results\\sonnet-v4\\61_codecs\\t3",
+  "test": "C:\\Users\\slb\\ollama-bench\\tasks-v4\\61_codecs\\test.py",
+  "task": "61_codecs",
+  "trial": 3,
+  "tasks_dir": "tasks-v4"
+ }
+}

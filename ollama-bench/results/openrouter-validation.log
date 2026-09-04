@@ -1,0 +1,16 @@
+2026-09-02T17:56:33-06:00 validation session start; candidates: qwen/qwen3.8-27b, google/gemma-4-31b-it, mistralai/mistral-small-2603, qwen/qwen3-32b
+2026-09-02T17:59:38-06:00 smoke test OK for all 4 candidates at --effort low and --effort max: qwen/qwen3.8-27b, google/gemma-4-31b-it, mistralai/mistral-small-2603, qwen/qwen3-32b
+2026-09-02T17:59:38-06:00 CRITICAL HARNESS BUG FOUND (pilot run, tag pilot-check): pibench.run_pi invokes PI_BIN=~/scoop/persist/nodejs-lts/bin/pi.cmd. On Windows a .cmd is launched via cmd.exe, which TRUNCATES the argv at the first newline. Every task prompt therefore reaches pi as ONLY ITS FIRST LINE. Verified: pi echoed back 'two functions:' as the last chars of a 494-char prompt (i.e. it received only line 1, 67 chars). Affects the ollama provider path identically.
+2026-09-02T17:59:38-06:00 FIX (for the owning session): invoke node + cli.js directly instead of pi.cmd: [<nodejs-lts>/node.exe, <nodejs-lts bin>/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js, ...same args]. Verified full prompt arrives intact this way.
+2026-09-02T17:59:38-06:00 Not editing pibench.py (owned by another session). Adding orvalidate.py: a thin wrapper that imports pibench, monkeypatches subprocess.run to rewrite pi.cmd -> node cli.js, and calls pibench.main(). Grading/parse logic unchanged.
+2026-09-02T18:01:51-06:00 launched 4 parallel runs via orvalidate.py, one process per model, tags ov-qwen38-27b / ov-gemma4-31b / ov-mistral-small / ov-qwen3-32b (parallel to save wall time; merged into openrouter-validation.json at the end). --trials 2 --think max --timeout 900.
+2026-09-02T18:13:20-06:00 gemma-4-31b-it DONE 22/22 PASS. mistral-small-2603 DONE 19/22 (04_csv#0 provider finish_reason:error; 09_wc#1 all checks fail; 11_roman#1 from_roman('iv') accepted). qwen3.8-27b and qwen3-32b still running, much slower (up to 414s/run at think=max).
+2026-09-02T19:12:34-06:00 qwen/qwen3.8-27b DONE 22/22 PASS. qwen/qwen3-32b at 15/22, still running (slowest model; several 400-900s runs).
+--- RUN COMPLETE ---
+88/88 runs (4 models x 11 tasks x 2 trials). Merged into results/openrouter-validation.json.
+qwen/qwen3.8-27b 22/22 | google/gemma-4-31b-it 22/22 | mistralai/mistral-small-2603 19/22 | qwen/qwen3-32b 18/22
+Failures: mistral 04_csv#0 (provider finish_reason: error), 09_wc#1 (model), 11_roman#1 (model: lowercase 'iv' accepted);
+qwen3-32b 03_calc#0 (900s timeout, 0 turns), 04_csv#1 (model: newline-in-quotes), 05_bugfix#0 (model printed patch instead of applying), 09_wc#1 (900s timeout + 'Stream ended without finish_reason' + emitted literal 'ool_call>' -> tool-call format breakdown).
+Cost estimate ~$2.88 total (qwen3.8-27b $2.52 dominates; think=max produces 26k out tokens/run).
+No grader found to be wrong. Two latent grader risks noted (03_calc "no eval" substring test; 09_wc/04_csv graders report no stdout/stderr).
+2026-09-02T19:48:21-06:00 NOTE: pibench.py has since been fixed by the owning session to launch node + cli.js directly (same fix). orvalidate.py wrapper removed as redundant; pilot-check.* removed.

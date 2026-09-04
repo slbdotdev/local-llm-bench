@@ -1,0 +1,5 @@
+The cat sat.
+the Dog, the CAT!
+
+"quoted" word (cat) naïve naïve
+end

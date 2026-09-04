@@ -1,0 +1,35 @@
+
+===== z-ai/glm-5.3-flash =====
+  12_regex         #0 PASS   57.8s turns=6 tools=5 out=5852
+  13_indent        #0 PASS   15.4s turns=4 tools=3 out=1236
+  14_ratelimit     #0 PASS   16.4s turns=4 tools=3 out=1713
+  15_diff          #0 FAIL   22.4s turns=5 tools=4 out=2651
+  16_bugfix2       #0 PASS   15.5s turns=5 tools=5 out=696
+  17_interp        #0 FAIL   23.3s turns=3 tools=2 out=3103
+  18_sched         #0 PASS  142.2s turns=9 tools=8 out=12162
+  19_statemachine  #0 PASS  171.7s turns=16 tools=15 out=11234
+  20_binparse      #0 PASS   88.8s turns=11 tools=10 out=9803
+  21_query         #0 FAIL  900.0s turns=0 tools=0 out=0 TIMEOUT
+  22_bugfix3       #0 PASS   16.1s turns=6 tools=6 out=1524
+
+# pi bench (v2-glm-medium)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run |
+|---|---|---|---|---|---|---|---|---|---|
+| z-ai/glm-5.3-flash | ? GB | ? | ? | 8/11 | - | 8/11 all-trials | 134s | 4543 | 5.5 |
+
+## Per task (passes/trials)
+
+| task | z-ai/glm-5.3-flash |
+|---|---|
+| 12_regex | 1/1 |
+| 13_indent | 1/1 |
+| 14_ratelimit | 1/1 |
+| 15_diff | 0/1 |
+| 16_bugfix2 | 1/1 |
+| 17_interp | 0/1 |
+| 18_sched | 1/1 |
+| 19_statemachine | 1/1 |
+| 20_binparse | 1/1 |
+| 21_query | 0/1 |
+| 22_bugfix3 | 1/1 |

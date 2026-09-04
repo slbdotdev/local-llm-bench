@@ -1,0 +1,71 @@
+{
+ "q27-Q3_K_M": {
+  "tps": {
+   "gen_tps": 43.9,
+   "prompt_tps": 239.8,
+   "load_s": 11.9,
+   "size_gb": 13.4,
+   "vram_gb": 13.4,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 254.0,
+     "gen_tps": 29.7
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1688.0,
+     "gen_tps": 46.9
+    }
+   ]
+  },
+  "runs": []
+ },
+ "q27-Q3_K_L": {
+  "tps": {
+   "gen_tps": 22.9,
+   "prompt_tps": 82.6,
+   "load_s": 13.9,
+   "size_gb": 14.6,
+   "vram_gb": 13.42,
+   "pct_gpu": 92,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 80.9,
+     "gen_tps": 21.5
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1284.0,
+     "gen_tps": 22.5
+    }
+   ]
+  },
+  "runs": []
+ },
+ "q27-Q3_K_S": {
+  "tps": {
+   "gen_tps": 52.1,
+   "prompt_tps": 231.7,
+   "load_s": 11.6,
+   "size_gb": 12.58,
+   "vram_gb": 12.58,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 273.6,
+     "gen_tps": 52.4
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1686.0,
+     "gen_tps": 51.4
+    }
+   ]
+  },
+  "runs": []
+ }
+}

@@ -1,0 +1,93 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "60_numlit",
+    "pass": false,
+    "wall_s": 660.1,
+    "turns": 43,
+    "tool_calls": 42,
+    "tools": {
+     "bash": 31,
+     "read": 2,
+     "write": 4,
+     "edit": 5
+    },
+    "in_tokens": 3882244,
+    "out_tokens": 105772,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 28/30\nFAIL ['canonical text for integers, radix integers and floats', 'scan differential: mutated literals, exact kind and pos']",
+    "score": 0.9333,
+    "final_text": "hecked expectations for every error kind and its exact offset, spec-grammar errors, and 140k randomized differential trials against two independent reference implementations (integer-ratio/Decimal based) \u2014 zero mismatches, including bit-for-bit float values. The module uses only `math` from the standard library, never calls `int`/`float`/`round`/`format`/etc., and contains no `%`/brace formatting.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 42,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "60_numlit",
+    "pass": true,
+    "wall_s": 398.6,
+    "turns": 17,
+    "tool_calls": 16,
+    "tools": {
+     "bash": 9,
+     "write": 2,
+     "edit": 5
+    },
+    "in_tokens": 1205625,
+    "out_tokens": 75164,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "All identified now. The `\"42 \"` trailing space is at offset 2 (len-1). Fixing all five",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 16,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "60_numlit",
+    "pass": true,
+    "wall_s": 346.6,
+    "turns": 39,
+    "tool_calls": 38,
+    "tools": {
+     "bash": 15,
+     "write": 2,
+     "edit": 15,
+     "read": 6
+    },
+    "in_tokens": 2575105,
+    "out_tokens": 65256,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/30\nPASS",
+    "score": 1.0,
+    "final_text": "` half-even, `u` half-up, `d` toward zero, `f` floor), handles negative zero (including `-0.0` via `math.copysign`), grouping in threes, and fill/align padding with the odd-pad extra on the right.\n- 124 assertions in `test_numlit.py` plus ad-hoc parity checks (records match the prompt examples, float bit-parity with Python's parsing, all error kinds/positions, canonical text forms) all pass.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 38,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}

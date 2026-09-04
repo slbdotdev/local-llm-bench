@@ -1,0 +1,52 @@
+{
+ "qwen/qwen3.8-27b": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "27_semver",
+    "pass": true,
+    "wall_s": 27.4,
+    "turns": 5,
+    "tool_calls": 6,
+    "tools": {
+     "read": 2,
+     "bash": 3,
+     "edit": 1
+    },
+    "in_tokens": 22725,
+    "out_tokens": 1690,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 29/29\nPASS",
+    "score": 1.0,
+    "final_text": "\n\ndone",
+    "stderr": "",
+    "trial": 0
+   },
+   {
+    "task": "34_tmplfix",
+    "pass": true,
+    "wall_s": 291.3,
+    "turns": 19,
+    "tool_calls": 20,
+    "tools": {
+     "read": 4,
+     "write": 1,
+     "edit": 6,
+     "bash": 9
+    },
+    "in_tokens": 325279,
+    "out_tokens": 15629,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 36/36\nPASS",
+    "score": 1.0,
+    "final_text": "o a `for` over a non-sequence (incl. an unresolvable path) raises `type`.\n- `_run_for` now saves/restores prior `NAME` and `loop` values (restore old value if present, delete if absent), fixing nested-loop shadowing and caller-ctx mutation. Fixed the sentinel (`_MISSING` instance + `is` check).\n- `parse_if` now rejects a second `{% else %}` or a `{% elif %}` after an `{% else %}` (mismatch).\n\ndone",
+    "stderr": "",
+    "trial": 0
+   }
+  ]
+ }
+}

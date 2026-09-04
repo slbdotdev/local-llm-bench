@@ -1,0 +1,38 @@
+=== 2026-09-03 env change #1 ===
+BEFORE: Ollama desktop app running: "ollama app.exe" (PID 2608) + "ollama.exe" (PID 22728, serve).
+        Service env per server.log: OLLAMA_FLASH_ATTENTION=true, OLLAMA_KV_CACHE_TYPE=q8_0.
+ACTION: taskkill /PID 2608 /T /F ; taskkill /PID 22728 /T /F
+        then relaunched in-shell: OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q4_0 ollama serve
+REVERT: kill the in-shell serve by PID, then start "C:\Users\slb\AppData\Local\Programs\Ollama\ollama app.exe"
+
+=== 2026-09-03 env change #2 (FINAL / persistent) ===
+BEFORE: user env OLLAMA_FLASH_ATTENTION=1, OLLAMA_KV_CACHE_TYPE=q8_0
+ACTION: [Environment]::SetEnvironmentVariable('OLLAMA_KV_CACHE_TYPE','q4_0','User')
+        killed all ollama processes by PID, relaunched "ollama app.exe" from a shell with
+        $env:OLLAMA_FLASH_ATTENTION=1 and $env:OLLAMA_KV_CACHE_TYPE=q4_0.
+        (The app inherits its parent's env; launching it without those set gave
+         FLASH_ATTENTION:false / KV_CACHE_TYPE:"" and the model thrashed. On a normal
+         logon it reads the user env vars from the registry, which now say q4_0.)
+AFTER:  server.log confirms OLLAMA_FLASH_ATTENTION:true OLLAMA_KV_CACHE_TYPE:q4_0
+WHY KEPT: q4_0 halves KV (this model caches only 16 of 66 layers), which is exactly the
+        headroom that lets num_gpu 66 fit. Enables 64k on Q3_K_S/IQ3_M and 2.3x tok/s on
+        Q3_K_M. No measured speed cost anywhere. Quality cost of q4_0 KV NOT measured.
+REVERT: SetEnvironmentVariable('OLLAMA_KV_CACHE_TYPE','q8_0','User'); restart Ollama app.
+        Also drop q27-IQ3_M-64k / q27-Q3_K_S-64k to num_ctx 32768, as they need q4_0 to fit.
+
+FINAL STATE: desktop Ollama app running (as found), q4_0 + flash attention on.
+  VRAM 394 MiB idle, 0 models loaded, ollama RSS 114 MB, disk 68 GB free.
+  Independent watchdog (results/gpu-watch.log, another session's) recorded no ALERT;
+  min free host RAM across the whole session 27.8 GB.
+
+=== 2026-09-03 env change #3 (by the control session, for the controlled quality pass) ===
+ACTION: SetEnvironmentVariable('OLLAMA_KV_CACHE_TYPE','q8_0','User'); killed ollama app + serve by PID; relaunched
+        "ollama app.exe" with OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 in the parent env.
+WHY: the overnight plan ranks quants at one controlled config (32k, q8_0 KV); q4_0 KV quality is unmeasured.
+     The q4_0 + num_gpu 66 result stands as the recommended speed config, to be quality-checked separately.
+
+=== 2026-09-03 03:2x bench config change (control session) ===
+pi-agent/models.json: ollama models maxTokens 16000 -> contextWindow (32768 / 65536). The OpenRouter reference
+(pi catalog qwen/qwen3.8-27b) allows 131072 output tokens per turn; the local 16000 cap made q27-Q2_K_L fail
+32_wirefmt in one turn with exactly 16000 tokens and no tool call. Filler runs on Q2_K_L before this change
+(32_wirefmt, 33_spanmap, 34_tmplfix in results/v3-hard-local-medium.json) were under the old cap.

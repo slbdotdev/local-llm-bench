@@ -1,0 +1,94 @@
+{
+ "deepseek/deepseek-v4-flash-0731": {
+  "tps": null,
+  "runs": [
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 478.4,
+    "turns": 30,
+    "tool_calls": 29,
+    "tools": {
+     "write": 5,
+     "edit": 7,
+     "bash": 16,
+     "read": 1
+    },
+    "in_tokens": 2668006,
+    "out_tokens": 96101,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+    "score": 0.9677,
+    "final_text": "very error is a `MiniError` whose `.kind` is one of the nine strings; result conversion returns exact Python types (`bool`/`int`/`str`/`dict`/`\"<fn>\"`/`\"<ref>\"`); only `import sys` (stdlib, to lift the recursion limit so deep finite recursion doesn't surface as `RecursionError`)\n\nRan ~400 test assertions covering all rules, the spec examples, and the provided `test_minilang.py` harness \u2014 all pass.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 29,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 557.4,
+    "turns": 32,
+    "tool_calls": 31,
+    "tools": {
+     "write": 3,
+     "edit": 10,
+     "bash": 15,
+     "read": 3
+    },
+    "in_tokens": 2175648,
+    "out_tokens": 76351,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+    "score": 0.9677,
+    "final_text": "(`dict`s recursively, `\"<fn>\"`/`\"<ref>\"`).\n- **Errors**: every rejection raises a `MiniError` subclass with exactly one of the nine `.kind` values; no `eval`/`exec`/`compile`, no `ast`/`operator`/`functools` (only `import sys`).\n\nVerified with 196 targeted checks, edge-case ordering tests, deep recursion (n=3000), long left-assoc chains (50k terms), and the spec's exact examples \u2014 all green.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 31,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "task": "55_minilang",
+    "pass": false,
+    "wall_s": 384.8,
+    "turns": 45,
+    "tool_calls": 44,
+    "tools": {
+     "write": 2,
+     "edit": 2,
+     "bash": 39,
+     "read": 1
+    },
+    "in_tokens": 2803866,
+    "out_tokens": 64158,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 30/31\nFAIL ['parse-time errors beat runtime errors, in the stated order']",
+    "score": 0.9677,
+    "final_text": " (bool never treated as int).\n- Errors are always `MiniError` subclassing `Exception` with `.kind` in exactly the nine allowed strings; result conversion returns int/bool/str/dict/`\"<fn>\"`/`\"<ref>\"`.\n\nNo `eval`/`exec`/`compile` and no `ast`/`operator`/`functools` imports (verified programmatically), and the test suite (~230 cases, including all prompt examples and error-order checks) passes.\n\ndone",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 44,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
+   }
+  ]
+ }
+}
