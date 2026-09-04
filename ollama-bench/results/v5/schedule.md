@@ -59,3 +59,9 @@ irrelevant material, with the needed material present and required.
   weekly-all 84% / Fable-scoped 94%, `D:\avatars` still 3 dirty files under `tools/bench/`.
   Queue unchanged and still not runnable. One new blocker recorded against the authoring work only:
   `findings-2026-09-03-unity-harness.md`, the Unity harness for u01 to u03.
+- 2026-09-04 — **cleared to run.** Plan at rev 5.9; the owner gave the authoring go-ahead. The
+  worker-runtime precondition is met — acceptance-tested against both live harnesses, four
+  defects found and fixed (`ansible-slb/org/worker-runtime-acceptance-2026-09-04.md`). The queue
+  below is unchanged and still not runnable: the KV-probe harness faults are the one precondition
+  still owed and are the manager's first job, and authoring must land before any GPU cell.
+  The manager starts from `handoff-2026-09-04.md` in a fresh session.

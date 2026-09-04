@@ -1,4 +1,4 @@
-# v5 benchmark plan, revision 5.8 (focused, adaptive)
+# v5 benchmark plan, revision 5.9 (focused, adaptive)
 
 Written 2026-09-03 by the control session after the owner stopped the local quant smoke.
 Revised ~17:15 on owner notes: no fp8 through OpenRouter (too expensive), and a much tighter GPU
@@ -46,6 +46,22 @@ delegate, with **no MCP on any arm**; the axis of interest becomes **quality aga
 from 24k to 64k**; the **confidently-wrong rate is a first-class verdict line**; and the
 concurrency probe is dropped. Target context is **32k minimum** — enough to read several things
 and think — which excludes Q3_K_L on its 24k reliable limit.
+Rev 5.9 (2026-09-04, owner rulings, after the worker runtime's acceptance test): the plan is
+**unchanged in scope** and is now cleared to run. Three things are recorded rather than changed.
+**(a) The precondition is met.** The worker runtime was acceptance-tested with a real `codex-run`
+and a real `pi-run`; it found three defects, all fixed and verified, one of which was that live
+messaging to a Codex worker had never worked at all
+(`ansible-slb/org/worker-runtime-acceptance-2026-09-04.md`). **(b) The manager starts from a
+handoff in a fresh session**, not as a subagent spawned mid-session by the session that wrote
+this — an overnight run should not inherit a control session's spent context, and a handoff is
+re-readable after a restart where a spawn is not. **(c) The owner's restatement of the mission is
+recorded in section 1a**, with the one place it differs from this plan called out, because that
+difference is the plan's central guardrail and a manager reading only the restatement would
+breach it.
+Also rev 5.9, a standing rule for everything below: **this plan removes items from
+`ansible-slb/org/pending.md` as they are finished and never adds one.** An issue found on the way
+is written to a dated findings page, not parked as a new pending item.
+
 Status: plan only. Nothing here has been run.
 
 ## 1. Mission
@@ -63,6 +79,42 @@ when the ChatGPT window is exhausted and weekly-all is spent** — its value is 
 Luna is off weekly-all and GLM is cents, but that it has no window to run out of and nothing
 leaves the machine. The measurement runs on an **idle GPU**: the owner's Unity work and a
 resident quant cannot share this card, and the owner's other work mostly is not Unity.
+
+## 1a. The mission as the owner restated it, 2026-09-04
+
+Recorded in the owner's own framing, because it is shorter than section 1 and a manager will
+work from it:
+
+> A benchmark for the optimal quantization and KV settings for the work the model might actually
+> be good at here, with quant driving available context, and data gathered on performance on the
+> tests, on whether capability grows with context, and on whether the quants needed to achieve
+> longer context windows destroy model performance too much. The manager has free rein to spot
+> test, iterate and trial things, to spend GPU time on the most meaningful runs first. The tests
+> will be developed over time as we learn what the model can and can't do.
+
+That is this plan, with three clarifications. Two are wording; the third is the guardrail.
+
+- **KV is pinned, not optimized.** Quant is the axis being searched. The whole grid runs at
+  `q4_0` and states its results as conditional on it; the `q8_0` versus `q4_0` question is
+  settled separately by the 64k rerun in `kv-probe-plan-2026-09-03.md`, on capacity as much as
+  quality. So the deliverable is an optimal quant *at a stated KV setting*, plus a separate
+  answer on the cache.
+- **The context axis measures holding, not growing.** More context means more material can be
+  handed over in one go; it is not expected to make the model better. What is measured is where
+  quality *stops* holding as the window fills — and section 7 expects that to show up first as
+  fabrication rather than as refusal, which is why the confidently-wrong rate is a verdict line
+  of its own.
+- **Tests are developed during authoring, and never in response to what the quant can do.** This
+  is section 4a and it is the one place the restatement, read literally, would break the
+  benchmark. Tasks are authored, calibrated for *fit* (window, appetite, wall, checker), and
+  gated on Sonnet 3/3 and GLM 2/3 — all before any scored row runs. Learning what the local model
+  can and cannot do is the **result**, not an input: a task is never kept, dropped, reworded or
+  reordered because a quant passed or failed it, and after the freeze the suite does not change
+  at all. A suite tuned against the contestant reports the tuning back and measures nothing.
+
+The manager's free rein is real and it is bounded by exactly that: it chooses what to run next
+and in what order (section 6), it does not choose what the suite contains once the suite is
+frozen, and the freeze is not its to take.
 
 ## 2. What v4 taught us (do not repeat)
 
@@ -271,6 +323,13 @@ than hard are the whole job, and they are why an Opus sits there rather than a s
 
 The loop, run against the worker runtime so authoring and calibration overlap:
 
+0. **Send one Luna run off for inspiration first** (owner's ruling, rev 5.9, and explicitly low
+   priority). Web search is on by default: ask what published or open-source evaluations suit
+   *this narrow scope* — small local quants, long-context degradation, fabrication under context
+   pressure, short mechanical-transformation and read-and-judge tasks with hidden checkers. Ask
+   for a shortlist with what each would contribute and what disqualifies it, not summaries. Read
+   it whenever it lands. It is inspiration and never authority: nothing it returns overrides
+   section 4a, the gate rules, or the trap requirement in section 4.
 1. **Author in parallel.** Several concurrent Luna runs per task, several candidates each; the
    manager picks. Luna is off weekly-all entirely and has banked resets, so breadth here is
    close to free — prefer more candidates over fewer.
@@ -304,13 +363,18 @@ recording which local runs informed which property, the banked questions, and a 
 of Sonnet and Haiku pass rate, output tokens and wall, which also sizes the local timeouts.
 GLM's gate results are recorded beside it, labelled as gate evidence.
 
-**Precondition, and it is not optional.** The manager uses the worker runtime
-(`ansible-slb/org/worker-runtime-plan-2026-09-03.md`) for background runs and live messaging.
-That runtime must be committed, converged to all three hosts, and acceptance-tested with a real
-`codex-run` and `pi-run` before this work begins. The KV probe harness faults recorded in
-`org/pending.md` are fixed and supervised first: an unattended overnight loop is the worst
-possible consumer of a harness that turns a teardown failure into three indistinguishable
-`server did not become healthy` errors.
+**Precondition — the runtime half is met (rev 5.9); the harness half is not.** The manager uses
+the worker runtime (`ansible-slb/org/worker-runtime-plan-2026-09-03.md`) for background runs and
+live messaging. That runtime has now been acceptance-tested with a real `codex-run` and a real
+`pi-run`, which found and fixed three defects — including that `agent-msg` to a Codex run had
+never once delivered, because the resume was invoked with two flags `codex exec resume` does not
+accept. Evidence and the fixes: `ansible-slb/org/worker-runtime-acceptance-2026-09-04.md`. Take
+that page's method with you: give a worker a task whose answer you can compute independently, and
+size the task to the race you are testing.
+**Still owed before the first GPU trial:** the KV probe harness faults in `kv-probe-plan-2026-09-03.md`
+are fixed and supervised first. An unattended overnight loop is the worst possible consumer of a
+harness that turns a teardown failure into three indistinguishable `server did not become
+healthy` errors. Fixing them clears that item out of `org/pending.md` in the same commit.
 
 **The quality-versus-context grid (GPU, the bulk of the run).** This replaces the first probe,
 differentiation, the context sweep and the concurrency probe, all of which existed to find a

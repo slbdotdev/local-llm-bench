@@ -146,3 +146,24 @@ VRCA-Bench code and runs, and `D:\avatars` history. Its central original finding
 Q2_K_L "runaway thinking" zeros are pi handing the model the entire residual context window as one
 response allowance, reproducing the observed output token counts to delta 0 / +34 / -20 / -14 —
 survives every subsequent revision unchanged.
+
+## Rev 5.9 — 2026-09-04
+
+Scope unchanged; the plan is cleared to run. Three records, no new work:
+
+- The worker-runtime precondition is **met**. Its acceptance test ran with a real `codex-run` and
+  a real `pi-run` and found three defects, all fixed and verified — the largest being that live
+  messaging to a Codex worker had never worked at all. Evidence:
+  `ansible-slb/org/worker-runtime-acceptance-2026-09-04.md`. The KV-probe harness faults are the
+  remaining precondition and are the manager's first job.
+- The manager now **starts from a handoff in a fresh session** rather than being spawned as a
+  subagent by the session that wrote the plan. An overnight run should not inherit a spent
+  context, and a handoff survives a restart where a spawn does not.
+- Section 1a records the owner's own restatement of the mission, with three clarifications: KV is
+  pinned rather than optimized, the context axis measures where quality stops **holding** rather
+  than whether it grows, and — the one that matters — **tests are never developed in response to
+  what the local model turns out to be able to do.** That last is section 4a, and a manager
+  working from the restatement alone would breach it.
+
+Standing rule added: this plan removes items from `org/pending.md` as they are finished and never
+adds one. Findings go to dated pages.
