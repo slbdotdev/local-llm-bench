@@ -154,3 +154,34 @@ rather than five.
 
 Same section 4a note as for g04: this used no quant evidence, none existed, and rule 1 explicitly
 provides for replacing a task the gate model fails.
+
+## 2026-09-04 — harder variants authored as `cand-4`, and DELIBERATELY NOT SELECTED
+
+Section 4's own remedy for a saturated task is a harder variant. Seven exist now, one for each
+saturated task (g01, g02, g03, g04, t01, t02, t03); t04 is not saturated and got none. They were
+authored by Luna (`gpt-5.6-luna` at high effort, one run per task, in parallel) against the current
+`CONTRACT.md`.
+
+**They are candidates on disk and nothing more.** Writing them does not take the structural
+decision — whether the suite is re-authored, or the saturation is accepted and reported as a stated
+limitation of the ranking, remains **the owner's**. Having the candidates ready makes either answer
+cheap, which is the whole point of writing them now. **Nothing in `gate-suite/` was changed**, no
+existing candidate was edited, and no selection was made.
+
+Verified independently rather than taken on the workers' word: `verify_candidates.py` now covers
+**31 candidates and reports REF 31/31 and EMPTY 31/31, no problems** — every `cand-4` produces
+`SCORE m/m` / `PASS` / `VERDICT correct` from its reference solution, and `VERDICT visibly_failed`
+with no grader traceback from an untouched sandbox.
+
+What each makes harder, from the authors' own notes: g01 a lexical state machine where quote state
+toggles; g02 precise token-boundary reasoning, requiring the maximal dotted expression; t01 harder
+semantic classification with exact reporting. (g03, g04, t02 and t03 carry notes in their own
+`NOTES.md`.)
+
+**Two scope violations by the workers, found and corrected.** One run created a stray
+`ollama-bench/g04/` tree entirely outside `tasks-v5/`, and another left a stray
+`tasks-v5/g02/ref/calls.py` at task level rather than under `cand-4/`. Both are removed. **My own
+error compounded the first**: I ran `git add -A` in commit `9cc4ea8` while those workers were still
+writing to the tree, so the stray was committed before I noticed it. The deletion is in the
+following commit. The lesson is the obvious one — do not `git add -A` while background workers hold
+the tree — and it is the same class of mistake as the worker collision earlier in this session.

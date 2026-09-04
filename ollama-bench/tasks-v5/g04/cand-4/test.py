@@ -6,7 +6,7 @@ import subprocess
 import sys
 import threading
 
-TOTAL = 11
+TOTAL = 12
 _done = 0
 _fails = []
 _lock = threading.Lock()
@@ -82,7 +82,7 @@ def add_rule(rule, rules=[]):
     rules.append(rule)
     return rules
 '''
-_STYLE_HASH = "__STYLE_HASH__"
+_STYLE_HASH = "1d7bb814fffa1c66b8b5c26aae343c4152b5e4fd6b873f7f64fdfbfd66f61f85"
 
 
 def _ora_load():

@@ -1,4 +1,5 @@
 import os
+import inspect
 import sys
 
 root = os.path.dirname(__file__)
@@ -8,6 +9,7 @@ import event_view
 
 examples = [
     ("doctest", lambda: __import__("doctest").testmod(event_core, verbose=False).failed == 0),
+    ("signature", lambda: list(inspect.signature(event_core.publish_event).parameters) == ["payload", "kind", "channel", "stamped"] and inspect.signature(event_core.publish_event).parameters["channel"].kind is inspect.Parameter.KEYWORD_ONLY and inspect.signature(event_core.publish_event).parameters["stamped"].kind is inspect.Parameter.KEYWORD_ONLY),
     ("direct", lambda: event_core.publish_event("payload", "kind", channel="ops") == "ops|kind|payload"),
     ("stamped", lambda: event_core.publish_event("payload", "kind", channel="ops", stamped=True) == "STAMP ops|kind|payload"),
     ("batch", lambda: event_core.batch([("a", "one"), ("b", "two")]) == ["main|a|one", "main|b|two"]),

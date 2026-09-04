@@ -4,5 +4,7 @@ result as a non-match, skip malformed rules, and preserve explicit false-y effec
 tempting wrong answer is `rule.get("effect") or "deny"`, which is clean and conventional but
 erases the difference between an absent effect and an explicit empty, zero, or None effect.
 
-Reference size: 19 lines, roughly 75 output tokens. Self-verification: pending execution.
+Reference size: 24 lines, roughly 95 output tokens. Self-verification: reference -> correct
+(SCORE 12/12, PASS); near-miss -> confidently_wrong (SCORE 11/12); empty sandbox ->
+visibly_failed (SCORE 1/12). No known uncertainty.
 No known uncertainty.

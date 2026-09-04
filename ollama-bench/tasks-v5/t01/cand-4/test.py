@@ -75,7 +75,8 @@ def _ora_finish(parsed):
         print("VERDICT visibly_failed")
         sys.exit(1)
     score = tp = fn = fp = tn = 0
-    for key, expected in _ORA_EXPECTED.items():
+    for key in sorted(_ORA_EXPECTED):
+        expected = _ORA_EXPECTED[key]
         predicted = parsed[key]
         if expected == "UPDATE" and predicted == "UPDATE":
             tp += 1
