@@ -1299,3 +1299,20 @@ new answer unprompted from the material (D7-35) and by the transcript showing th
 applied. Whether the pass rate falls is a property of the *quant*. A hardening that does not move
 the rate is not a failed hardening; a hardening that moves the rate by making the task ambiguous is
 a failed hardening that looks like a success, and that is the one the ladder exists to prevent.
+
+## D7-38 — the hardened m09 raises achieved occupancy by seven points, which is the only quantitative evidence a hardening of this kind can give
+
+*05:16.* The three repeat trials on the hardened `m09-main-glm` are all `correct`, and the peak
+prompt moved:
+
+| | peak prompt | of material (35,858) | of the 64k window |
+| --- | ---: | ---: | ---: |
+| before, one trial | 9,458 | 26% | 14% |
+| after, median of three | **11,820** | **33%** | 18% |
+
+That is the mechanism showing up in the measurement rather than in the prose. Before the edit the
+answer was reachable from the timeline alone; after it, the amendment log has to be read as well,
+so the model holds more of the tree. It is a small number and it is the right *kind* of number:
+D7-32's finding is that the main band is not occupied, and the only way to occupy it is to make
+the answer need more of it. Seven points from one added row and one rewritten paragraph is a
+useful scale for what a re-authoring round on that axis would cost and buy.
