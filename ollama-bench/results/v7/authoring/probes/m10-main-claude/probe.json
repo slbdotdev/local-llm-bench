@@ -1,0 +1,67 @@
+{
+ "candidate": "m10-main-claude",
+ "rows": {
+  "reference": {
+   "score": "8/8",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "empty": {
+   "score": "0/8",
+   "verdict": "visibly_failed",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "wrong": {
+   "score": "7/8",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:no_trailing_newline": {
+   "score": "6/8",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:extra_trailing_nl": {
+   "score": "7/8",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:crlf": {
+   "score": "8/8",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:leading_blank": {
+   "score": "6/8",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:trailing_spaces": {
+   "score": "6/8",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  }
+ },
+ "problems": [
+  "GRADER DEFECT: perturb:no_trailing_newline on a correct answer -> 6/8 confidently_wrong",
+  "GRADER DEFECT: perturb:extra_trailing_nl on a correct answer -> 7/8 confidently_wrong",
+  "GRADER DEFECT: perturb:leading_blank on a correct answer -> 6/8 confidently_wrong",
+  "GRADER DEFECT: perturb:trailing_spaces on a correct answer -> 6/8 confidently_wrong"
+ ]
+}

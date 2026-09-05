@@ -1,0 +1,7 @@
+{
+ "task": "m07-main-claude",
+ "family": "claude",
+ "band": "main",
+ "failure_mode": 7,
+ "chars_per_token": 4.664
+}

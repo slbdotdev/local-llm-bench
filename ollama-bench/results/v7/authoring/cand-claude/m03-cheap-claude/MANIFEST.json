@@ -1,0 +1,7 @@
+{
+ "task": "m03-cheap-claude",
+ "family": "claude",
+ "band": "cheap",
+ "failure_mode": 3,
+ "chars_per_token": 4.664
+}

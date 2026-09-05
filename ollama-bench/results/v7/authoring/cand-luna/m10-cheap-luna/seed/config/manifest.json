@@ -1,0 +1,30 @@
+{
+  "project": "cedar-catalog",
+  "package": "cedar",
+  "stages": [
+    {
+      "name": "attestation",
+      "module": "attestation_flow",
+      "class": "AttestationGateway",
+      "limit": 250,
+      "window_s": 60,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_core",
+      "class": "WatermarkGateway",
+      "limit": 250,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "replay",
+      "module": "replay_store",
+      "class": "ReplayEngine",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    }
+  ]
+}

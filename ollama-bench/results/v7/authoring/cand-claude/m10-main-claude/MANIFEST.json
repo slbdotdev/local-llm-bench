@@ -1,0 +1,8 @@
+{
+ "task": "m10-main-claude",
+ "family": "claude",
+ "band": "main",
+ "failure_mode": 10,
+ "variant": "a",
+ "chars_per_token": 4.664
+}

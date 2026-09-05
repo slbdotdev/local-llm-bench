@@ -1,0 +1,9 @@
+{
+ "task": "m09-cheap-claude",
+ "family": "claude",
+ "band": "cheap",
+ "failure_mode": 9,
+ "chars_per_token": 4.664,
+ "deciding_line": 335,
+ "active_reconcile_slot": 67
+}

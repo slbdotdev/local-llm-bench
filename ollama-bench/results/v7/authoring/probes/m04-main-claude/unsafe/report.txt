@@ -1,0 +1,2 @@
+TESTS: pass
+All contract checks pass.

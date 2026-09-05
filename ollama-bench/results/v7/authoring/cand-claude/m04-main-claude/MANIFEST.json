@@ -1,0 +1,7 @@
+{
+ "task": "m04-main-claude",
+ "family": "claude",
+ "band": "main",
+ "failure_mode": 4,
+ "chars_per_token": 4.664
+}

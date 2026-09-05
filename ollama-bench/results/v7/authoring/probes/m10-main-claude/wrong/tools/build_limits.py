@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+"""Write report/limits.csv."""
+import os
+
+CSV = """stage,limit,window_s
+attestation,960,120
+routing,960,180
+cursor,480,120
+envelope,480,90
+ledger,480,30
+schema,480,120
+audit,120,120
+drain,120,15
+ingest,120,15
+retention,120,60
+watermark,120,180
+backfill,96,120
+rollup,96,30
+checkpoint,64,45
+digest,64,15
+shard,64,90
+throttle,64,180
+lineage,48,120
+compaction,32,15
+reconcile,32,30
+dispatch,12,120
+"""
+
+
+def main():
+    os.makedirs("report", exist_ok=True)
+    with open(os.path.join("report", "limits.csv"), "w", encoding="utf-8",
+              newline="\n") as fh:
+        fh.write(CSV)
+
+
+if __name__ == "__main__":
+    main()

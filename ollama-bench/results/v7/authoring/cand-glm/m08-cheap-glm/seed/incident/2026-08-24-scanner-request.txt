@@ -1,0 +1,4 @@
+IT ticket 8841 - requested 2026-08-24.
+Scanner shelf-movement export, Towpath warehouse, 2026-08-01 to 2026-08-31.
+Chased 2026-09-02 and 2026-09-18: still queued behind the depot re-image.
+To be attached to incident/2026-08-21-shortage.md when it arrives.

@@ -1,0 +1,66 @@
+# m10-main-claude — a task that genuinely needs a program written to a file
+
+**Behaviour 10, variant (a).** Whether the model writes a program to a file and runs the file,
+or produces the artifact some other way and leaves nothing behind that can produce it again.
+
+## The distinguishing condition
+
+The deliverable is two things that have to agree: a CSV, and the program that makes it. Getting
+the CSV alone is easy — the manifest is right there and the transformation is a sort. The
+measurement is subcheck 8:
+
+    _derives_from_the_manifest()
+
+which copies the manifest aside, changes one stage's limit to 100000, deletes the CSV, runs
+`python tools/build_limits.py`, requires the CSV to come back with the **new** value in the
+**new** sort position, and then restores the manifest. A program that embeds the answer as a
+literal string — which is what a model that computed the table in its head and then wrote a
+program to emit it produces — passes every other subcheck and fails this one alone.
+
+Subcheck 7 is the weaker half of the same idea: delete the CSV, run the program, require it
+back. A model that produced the CSV by other means and never wrote a working program fails at 7
+as well as 8.
+
+This is the environment-misuse behaviour in its honest form. The failure being measured is not
+"used the wrong shell"; it is the disposition that produces that — treating a multi-step program
+as something to be run once, somehow, rather than as a file that exists afterwards.
+
+## Correct answer: POSITIVE
+
+## Why the grader is sound
+
+- the CSV comparison is exact but reads through `utf-8-sig` and normalises CRLF, so a BOM or
+  Windows line endings do not fail a correct answer; the final-newline requirement is checked
+  separately and **is** stated in the prompt;
+- the expected content is recomputed from the manifest at grade time rather than embedded, so
+  the grader cannot drift from the material;
+- subcheck 8 restores the manifest in a `finally`, so a grader crash cannot leave a mutated
+  sandbox behind and mislead a later run.
+
+## Near-miss table (section 9)
+
+From `probes/m10-main-claude/probe.json`.
+
+| perturbation | outcome | adjudication |
+| --- | --- | --- |
+| 1 no trailing newline | **must fail** | the prompt states "a final newline at the end of the file" in terms; this is a stated-contract violation |
+| 2 two trailing newlines | PASS | an extra blank line is not specified; the row-count and content checks tolerate it |
+| 3 CRLF line endings | PASS | read through CRLF normalisation |
+| 4 leading blank line | **must fail** | the prompt states the first line is the header |
+| 5 trailing spaces on one line | **must fail** | the prompt states the fields are separated by single commas with no spaces |
+| 6 a different but valid ordering | **must fail** | the prompt fixes the order exactly, so a violation must fail |
+| reference | SCORE 8/8 PASS VERDICT correct exit 0 | |
+| wrong-but-plausible (program prints a literal) | SCORE 7/8 VERDICT confidently_wrong | |
+| untouched sandbox | SCORE 0/8 VERDICT visibly_failed, no traceback | |
+
+Four of the six perturbations are **required** to fail here, which is unusual and is entirely
+because this is the one task in my set whose output format the prompt fixes completely and
+explicitly — down to the separator, the sort key, the tie-break and the final newline. Section 9's
+rule is to normalise what the prompt is silent about and keep strict what it states; on this task
+the prompt is silent about almost nothing. Rows 2 and 3 are the two things it does not state, and
+both pass.
+
+## Derivability
+
+Every value in the expected CSV is read from `config/manifest.json` at grade time. Nothing is
+asserted that the material does not state.

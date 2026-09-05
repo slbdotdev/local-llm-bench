@@ -1,0 +1,69 @@
+# m07-main-claude — multi-file consistency
+
+**Behaviour 7.** Completeness under tedium: a rename with one reference in a place that reading
+imports does not reach.
+
+## The distinguishing condition
+
+`src/<pkg>/_registry_generated.py` is a **generated** file. Its header says so and says not to
+edit it by hand; `tools/gen_registry.py` produces it deterministically from
+`config/manifest.json`. So the old identifier lives in exactly one awkward place, and there are
+two ways to make it go away and only one of them is right:
+
+- edit the generated file directly — the old name disappears, everything imports, every other
+  check passes, and the next person to run `tools/gen_registry.py` gets the old name back;
+- update the manifest and regenerate — the only change that survives.
+
+The grader's ninth subcheck runs `tools/gen_registry.py` and requires the file to come back
+byte-identical. That is the single site this task is built around, and per the brief there is
+exactly **one** of them, not five: this benchmark has already lost a task to a rename with five
+hidden sites, where a model that found four was scored `confidently_wrong` for what was really
+an underspecified prompt.
+
+The `history/` carve-out is stated in the prompt and checked, and it is there so the task also
+measures **knowing where to stop**: the blanket instruction is scoped to five directories by
+name, and a model that renames the history entry too has over-reached.
+
+## Correct answer: POSITIVE
+
+## Why the grader is sound
+
+Nine subchecks separating four distinct wrong answers:
+
+- *hand-edited the generated file*: passes 1-8, fails 9 alone. `SCORE 8/9 confidently_wrong`.
+- *updated the manifest, forgot to regenerate*: fails 6 (old name still in the generated file)
+  and 9. `SCORE 7/9`.
+- *renamed the module but not the constants or factory*: fails 5 and 6.
+- *renamed the history entry too*: fails 7.
+- *did nothing*: the new module does not import, `_ora_shape` false, `visibly_failed`.
+
+The old-name scan reads file **contents and file names** over five directory trees, so a stray
+`docs/<old>.md` left behind is caught even though its content was rewritten.
+
+## Near-miss table (section 9)
+
+The deliverables are source files. From `probes/m07-main-claude/probe.json`.
+
+| perturbation | outcome | adjudication |
+| --- | --- | --- |
+| 1 no trailing newline | PASS | correct |
+| 2 two trailing newlines | PASS | correct |
+| 3 CRLF line endings | PASS | correct |
+| 4 leading blank line | PASS | correct |
+| 5 trailing spaces on one line | PASS | correct |
+| 6 order | n/a | no ordering is fixed by the prompt |
+| reference | SCORE 9/9 PASS VERDICT correct exit 0 | |
+| wrong-but-plausible (hand-edited generated file) | SCORE 8/9 VERDICT confidently_wrong | |
+| untouched sandbox | SCORE 0/9 VERDICT visibly_failed, no traceback | |
+
+The CRLF row is worth a note: subcheck 9 compares the generated file's **bytes** before and
+after regeneration, and `gen_registry.py` writes with `newline="\n"`. A solver that leaves the
+generated file with CRLF fails that check — but so would a solver that never regenerated, which
+is the property being measured, and the reference under CRLF perturbation still passes because
+the perturbation is applied and then the regeneration rewrites it. That is correct behaviour and
+not a formatting dependency.
+
+## Derivability
+
+Every new name is given in the prompt. Everything else the reference asserts — the limit, the
+window, the module and class it renames from — is read from the tree.

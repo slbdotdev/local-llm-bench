@@ -1,0 +1,30 @@
+{
+  "project": "ember-scheduler",
+  "package": "ember",
+  "stages": [
+    {
+      "name": "dispatch",
+      "module": "dispatch_store",
+      "class": "DispatchGateway",
+      "limit": 960,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_gate",
+      "class": "CompactionLedger",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_view",
+      "class": "LineageGateway",
+      "limit": 24,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    }
+  ]
+}

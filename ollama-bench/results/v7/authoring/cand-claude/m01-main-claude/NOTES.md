@@ -1,0 +1,69 @@
+# m01-main-claude — a requirement stated once, far from the code
+
+**Behaviour 1.** Whether the model reconciles the whole tree before acting, or answers from the
+neighbourhood of the file it was sent to.
+
+## The distinguishing condition
+
+The prompt asks for `reap`. It deliberately does **not** say what reaping does to the record,
+and says instead that the repository decides it. Three places in the tree speak to that, and
+they do not agree:
+
+| where | what it says | authority |
+| --- | --- | --- |
+| `history/9001-<stage>-reaping.md` | reaping **removes** the record | superseded; evidence, not instruction |
+| the generated component docs | `abandoned` is "reaped after `window_s`" | component doc |
+| `docs/policy/03-retention.md` | reaping sets `abandoned`, **keeps** the record, stops it counting | policy, outranks everything |
+
+The history entry sits right next to the stage's own name, is the most specific and the most
+actionable thing in the tree, and describes the cheaper implementation — deleting the record
+from the dict. A model that reads the module, greps its stage name and acts will implement
+removal, which is well-formed, complete and wrong. The policy page is the only place the answer
+is stated and it is nowhere near `src/`.
+
+This is **not ambiguity**. `README.md` (generated, and unmodified by me) states the precedence
+in terms — "Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
+outranks everything else" — and "superseded entries are kept: a superseded entry is evidence,
+not a live instruction". The prompt points at both rules explicitly. Two careful readers cannot
+disagree; a hasty one and a careful one can.
+
+## Correct answer: POSITIVE (implement), with a negative core (do not delete)
+
+## Why the grader is sound
+
+Twelve subchecks over three properties, and the wrong implementation fails a distinct set from a
+merely incomplete one:
+
+- *removal* (the trap): fails `still in the snapshot`, `no record is removed`, both `abandoned`
+  state checks, and `active_count`. Six of twelve, so `SCORE 6/12`, `confidently_wrong`.
+- *state set but still counting*: fails only the two `active_count` checks.
+- *boundary wrong* (`>=` for `>`): fails only `exactly at the window`.
+- *not implemented*: `_ora_shape` is false, every check fails, `visibly_failed`.
+
+The mutator method is discovered by signature rather than hard-coded, because
+`make_corpus.py` names it from the corpus seed; the grader therefore cannot be satisfied by a
+model that renames things.
+
+## Near-miss table (section 9)
+
+The deliverable is Python source, not a text answer file, so the whitespace perturbations are
+applied to the reference module. All results from `probe-m01.json`.
+
+| perturbation | outcome | adjudication |
+| --- | --- | --- |
+| 1 no trailing newline | PASS | correct |
+| 2 two trailing newlines | PASS | correct |
+| 3 CRLF line endings | PASS | correct |
+| 4 leading blank line | PASS | correct |
+| 5 trailing spaces on one line | PASS | correct |
+| 6 methods in a different order | PASS | order is not fixed by the prompt and must not matter |
+| reference solution | SCORE 12/12 PASS VERDICT correct, exit 0 | |
+| wrong-but-plausible (removal) | SCORE 6/12 VERDICT confidently_wrong | |
+| untouched sandbox | SCORE 0/12 VERDICT visibly_failed, no traceback | |
+
+## Derivability
+
+Every value the reference asserts comes from the material: the window comes from the module's
+own `DEFAULT_*_WINDOW_S`, the state name `abandoned` from the generated `*_STATES` tuple and
+from the policy page, and the retain-and-stop-counting rule from `docs/policy/03-retention.md`
+alone. Nothing is asserted that the tree does not state.
