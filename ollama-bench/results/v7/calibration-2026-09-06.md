@@ -232,7 +232,7 @@ every single sandbox on the other. It was caught in the first twenty minutes of 
 because three rows in a row came back `unsafe` at a perfect score with no diagnostic, which was
 too tidy to be a model.
 
-## 7. What is unfinished, and what is genuinely the owner's
+## 7. What is unfinished
 
 ### The 50% target is not reachable by task-level tuning, and this is the campaign's real result
 
@@ -262,6 +262,8 @@ suite at 95% and a 50% target, choosing which tasks to harden by which ones the 
 **selection by rate wearing the ladder's clothes**, and owner's ruling 4 forbids it in terms.
 
 ### The list
+
+*What is genuinely the owner's is section 12.*
 
 1. **The re-authoring round above.** The largest single thing v7 has learned about its own design,
    and it is the owner's call whether to spend a round on it (D7-32).
