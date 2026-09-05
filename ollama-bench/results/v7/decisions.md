@@ -861,3 +861,60 @@ started — v6's D6-10 hazard (an `ollama create` from a blob *path* took C: fro
 six minutes) does not apply to a Modelfile whose `FROM` is an existing tag. C: was 26.8 GB free
 before and is unchanged after. Main-band tags already existed: `q27-IQ2_M-64k`,
 `q27-UDQ3KXL-48k`, `q27-Q2_K-64k`.
+
+## D7-28 — the GPU verified by load on all six tags, and it is running faster than v6 measured
+
+*04:30-04:37.* `results/v5/gpu_verify.py` on every tag this calibration will run, one at a time,
+unloaded in between (`results/v7/gpuverify.sh`). Never a version string: v6's D6-3 protocol, and
+`org/ollama-cuda-repair-2026-09-04.md` is the reason — an interrupted upgrade once left this
+machine serving every model on the CPU at 3 tok/s for hours with the version check passing
+throughout.
+
+| tag | gen tok/s | resident (`/api/ps`, GiB) | %GPU | ctx | v6 placement resident |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| q27-IQ2_M-64k | **64.01** | 12.05 | 100 | 65536 | — (13.27 at 96k) |
+| q27-IQ2_M-24k | 63.88 | 10.52 | 100 | 24576 | — |
+| q27-UDQ3KXL-48k | **55.92** | 13.45 | 100 | 49152 | **13.45** |
+| q27-UDQ3KXL-24k | 55.89 | 12.53 | 100 | 24576 | — |
+| q27-Q2_K-64k | **59.60** | 13.07 | 100 | 65536 | **13.07** |
+
+*(`gpu_verify.py` prints size in GB at 1e9; the column above is converted to GiB at 2^30, which
+is v6's D6-2 convention, so the two campaigns' residency figures are directly comparable.)*
+
+**Two facts, and the second is the one that changes how a wall figure is read.**
+
+1. **Every tag is 100% on the GPU and every residency figure reproduces v6's placement table
+   exactly** where v6 measured the same rung — 13.45 GiB for UDQ3KXL at 48k and 13.07 GiB for Q2_K
+   at 64k, to the hundredth. IQ2_M at 64k comes in at 12.05 GiB, which is 13.27 minus 32k of KV at
+   v6's measured 39 MB per 1k (D6-21) to within 30 MB. The instrument agrees with v6, and all
+   three quants are under the ~14.2 GiB fair-weather line at the rung they will run at.
+2. **Generation is 20-25% faster than v6's own numbers for the same quants** — 55.9 against 44.8
+   for UDQ3KXL, 59.6 against 45.1 for Q2_K. That is not a new finding about the quants; it is
+   v6's D6-38 caveat expiring. v6 shared the GPU with a second campaign from 22:44 and measured
+   about 6% contention on its own probe, and its throughput figures were flagged as
+   not-comparable-to-v5 for that reason. Nothing else is running now: `/api/ps` was empty, no
+   chain process exists, and the card was at 0% before the first load. **So v7's walls are not
+   comparable with v6's**, in the same way and for the same reason v6's were not comparable with
+   v5's, and the report says so rather than reading a faster wall as a better quant.
+
+The suite itself was re-validated in the same window: `validate_all.py` over all twenty
+candidates, **20 sound, 0 problems** — files, band, seed cleanliness, compilation, selfcheck and
+the full probe (reference passes, untouched sandbox is a clean `visibly_failed`, no whitespace
+perturbation of a correct answer changes the verdict). The suite that is about to be scored is the
+suite the roundtable accepted, unchanged and still sound on disk.
+
+## D7-29 — pibench's sandboxes are already outside every git repository, so D7-18 needs no action here
+
+*04:36.* The v7 handoff's third unfinished item says sandboxes must move out of the repository
+before anything is scored, because `sanity.py`'s default put them under the bench's own checkout
+and `git show HEAD:results/v7/authoring/suite/<slot>/test.py` is a complete answer key from
+inside one. That is a fact about `sanity.py`, which built the reference arms; **it is not a fact
+about pibench**, which is what scores every row of this calibration.
+
+`pibench.run_pi()` builds each sandbox with `tempfile.mkdtemp(prefix="pib_")`, and pibench runs
+under the Windows interpreter, whose temp directory is `C:\Users\slb\AppData\Local\Temp` —
+outside `D:\local-llm-bench` and outside every git checkout on this machine. Confirmed by
+reading it out of the interpreter that will run the cells rather than by assuming it. So
+`V7_SANDBOX_ROOT` has nothing to set for this run: the property the handoff asked for holds by
+construction on the harness the calibration actually uses. It still has to be set for any future
+`sanity.py` arm, and the handoff keeps saying so.

@@ -78,8 +78,8 @@ def fmt(runs, man, quant, band):
         wall = walls[len(walls) // 2]
         turns = sum(x["turns"] for x in rs) / len(rs)
         stops = sorted({x.get("stop_reason") or "-" for x in rs})
-        lines.append("| %s | %s | %d | %d | %d | %d | %d | %d | %d | %d | %d%% | %d%% | %.0f | %.1f | %s |"
-                     % (task, m.get("failure_mode", "?"), len(rs), counts["correct"],
+        lines.append("| %s | %d | %d | %d | %d | %d | %d | %d | %d | %d | %d%% | %d%% | %.0f | %.1f | %s |"
+                     % (task, int(task[1:3]), len(rs), counts["correct"],
                         counts["confidently_wrong"], counts["visibly_failed"], counts["unsafe"],
                         counts["unverified_claim"], peak, mat,
                         round(100 * peak / mat) if mat else 0, round(100 * peak / win),
