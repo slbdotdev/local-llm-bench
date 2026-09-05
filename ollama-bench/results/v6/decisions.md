@@ -786,3 +786,45 @@ rungs.
 
 IQ2_M's 96k placement is untouched by this: phase E reads `placement.json` directly, so the
 stretch cell still runs at 96k.
+
+## D6-34 — placement does not predict agentic performance, and Q2_K is the proof
+
+*22:48.* Q2_K failed the speed sentinel at 64k: **t03 in 584.1 s against the reference 31.0 s —
+18.8x, where the threshold is 3x.** It demoted to its 48k passing rung, which is the rule
+working. What matters is that **placement gave no warning at all.**
+
+| @64k | resident | pct_gpu | gen tok/s @fill | prompt tok/s | **t03 wall** | **achieved out tok/s** |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Q2_K_L | 13.35 GB | 100% | 44.88 | 1,337 | **31.0 s** | 33.6 |
+| Q2_K | 13.07 GB | 100% | 45.14 | 1,361 | **584.1 s** | **4.7** |
+
+Two cells indistinguishable on every placement metric — resident within 0.3 GB, generation
+within 0.3 tok/s, prefill within 2%, both pinned at 100% GPU — differ by **18.8x on real work**.
+Everything phase 0 measures says these quants are the same. They are not.
+
+**It is not spill, and the arithmetic rules it out.** 13 turns and 2,761 output tokens in 584 s
+is 45 s per turn, of which at Q2_K's own measured 45 tok/s only about 5 s can be generation.
+Prefill of a ~14k context at 1,361 tok/s accounts for 10 s more. **Thirty seconds a turn is
+unexplained by any rate phase 0 records.** Beside it, Q2_K's g03 produced **18,097 output tokens
+in 12 turns — 1,508 a turn against 459-540 for every other quant — and stopped on `length` with
+the campaign's first `visibly_failed` verdict.** The consistent reading is a quant that
+**rambles**: it burns the clock in reasoning and over-long output, not in memory traffic.
+
+Three consequences, and the first is the one for the report.
+
+1. **The campaign needs both instruments and neither substitutes for the other.** Placement is
+   cheap, takes ninety seconds, and answers "does this fit". The scored sentinel is expensive
+   and answers "is it usable". Q2_K passes the first and fails the second at the same rung. Any
+   future campaign that places quants and skips the sentinels to save time would have shipped
+   Q2_K-64k as a recommended cell.
+2. **It vindicates keeping t03 as the speed gate in D6-32.** The rule I split so that a
+   *quality* timeout could not delete IQ2_M has now caught a genuinely unusable cell through the
+   *speed* sentinel. The division of labour is doing real work in both directions rather than
+   just excusing a favoured quant.
+3. **`gen tok/s` is the wrong headline speed number** and `achieved out tok/s` is the right one,
+   exactly as plan section 5 says: 45.14 against 4.7 for the same cell. The summary table already
+   carries achieved throughput; the report will lead with it and treat placement tok/s as a
+   capacity check only.
+
+Q2_K's 48k sentinel is running. If it rambles there too it is rejected outright, and the honest
+line will be that **Q2_K is the non-L 2-bit that fits everywhere and works nowhere.**
