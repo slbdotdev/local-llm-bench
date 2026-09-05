@@ -78,8 +78,16 @@ procedure is `strip.sh`: `ollama create` from the model blob's own path imports 
 projector-free copy, every other context rung is derived `FROM` that tag for free, and the
 `hf.co` tag is removed straight after to give the disk back.
 
-**And budget for the i-quant overhead.** With the projector subtracted, IQ3_XXS and IQ3_XS both
-still carry about 0.93 GiB more resident than their model layer plus Q2_K_L's overhead would
-predict, consistent across two different file sizes. So an IQ-prefixed file needs about 1 GB
-more headroom than a K-quant of the same size, and this file's size-based rules of thumb
-("13.1 GB is a strong bet for 64k") hold for K-quants only.
+**~~And budget for the i-quant overhead.~~ WITHDRAWN 2026-09-05 21:29** (`decisions.md` D6-26).
+The earlier claim here — that an IQ file needs about 1 GB more headroom than a K-quant of the
+same size — was read off cells running at 89-93% GPU, i.e. already partially offloaded, where
+`/api/ps` overstates resident size. On clean 100%-GPU cells the overhead over the model layer is
+**1.21-1.43 GB at 48k across two i-quants, two K-quants and one dynamic quant alike**. There is
+no i-quant penalty, and the size-based rules of thumb above apply to every family.
+
+**What the size rule should say instead.** Overhead at 48k is about 1.3 GB and the KV cache
+costs about **39 MB per 1k of context** (D6-21, measured between clean cells only). So a file
+holds 64k if its model layer is under about **11.1 GiB**, and 96k if it is under about
+**10.2 GiB**. Measured against that: IQ2_M (10.13) holds 96k, Q2_K (11.03) and Q2_K_L (12.18)
+hold 64k, and every 3-bit file on the roster (11.76-12.95) holds 48k at best. **No 3-bit quant
+of any publisher tested carries 64k on this card** (D6-25).

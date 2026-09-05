@@ -478,3 +478,55 @@ is on disk and placed first thing next time. `chainB.sh` is deliberately **not**
 Roster after two rejections: **Q2_K_L, Q2_K, IQ2_M, IQ3_XXS, IQ3_XS** surviving, plus
 **UDQ3KXL** and **mrIQ3M** arriving from the reserve. Rejected: **Q3_K_S** (prefill 76 tok/s at
 its only rung) and **IQ3_M** (spill at its only rung).
+
+## D6-25 — the headline answer: no 3-bit quant of any publisher carries 64k on this card
+
+*21:28.* `UD-Q3_K_XL` was pulled precisely because it was the last plausible way to answer the
+campaign's mission question "yes" — a dynamic 3-bit at Q2_K_L's file size, keeping the layers
+that matter at higher precision. Projector stripped, model layer 12.24 GiB:
+
+| UDQ3KXL | resident | pct_gpu | gen tok/s @fill | prompt tok/s | verdict |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 64k | 14.80 GB | 91% | **12.47** | 1,354 | **spill** |
+| 48k | 13.45 GB | **100%** | **44.79** | 1,745 | **pass** |
+
+So it is a clean, fast 48k quant and it does not hold 64k. That completes the sweep:
+
+| 3-bit candidate | publisher | 64k result |
+| --- | --- | --- |
+| IQ3_XXS | bartowski | marginal — 93% GPU, 28.97 tok/s |
+| IQ3_XS | bartowski | spill — 89% GPU, 10.36 tok/s |
+| IQ3_M | bartowski | spill at **48k**, never reached 64k |
+| Q3_K_S | bartowski | prefill 76 tok/s at **48k**, rejected |
+| UD-Q3_K_XL | unsloth | **spill — 91% GPU, 12.47 tok/s** |
+
+**Every quant that carries 64k on this card is a 2-bit quant** — Q2_K_L, Q2_K and IQ2_M — and
+the only one that carries 96k is IQ2_M, the most aggressively quantised file on the roster. One
+3-bit candidate remains untested, mradermacher's `i1-IQ3_M`, placing next.
+
+## D6-26 — withdrawing D6-9's i-quant overhead claim: I read it off contaminated cells
+
+*21:29.* D6-9 noted in passing that with the projector subtracted, IQ3_XXS and IQ3_XS still
+carried "about 0.93 GiB more resident than their model layer plus Q2_K_L's overhead would
+predict", and `reserve.md` repeated it as advice. **That claim is withdrawn.** It was computed
+at 64k from cells running at 93% and 89% GPU — partially offloaded, and therefore exactly the
+contaminated measurement D6-21 and D6-22 identify, where `/api/ps` `size` covers the part that
+did not fit. I made the same mistake twice in one night, on two different quantities.
+
+Overhead over the model layer, **clean cells only, every one at 100% GPU**:
+
+| ctx | IQ2_M | IQ3_XXS | Q2_K | Q3_K_S | UDQ3KXL |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 48k | 1.31 | 1.31 | 1.43 | 1.31 | 1.21 |
+
+**1.21 to 1.43 GB, across two i-quants, two K-quants and one dynamic quant — no i-quant penalty
+exists.** The overhead is a property of the context, not of the quantisation family. So the
+reason no 3-bit holds 64k is the plainest one available: a 3-bit model layer is 11.8-12.9 GiB
+against a 2-bit's 10.1-11.0, and at 64k that difference is the whole margin. Nothing subtler is
+needed, and `reserve.md`'s size-based rules of thumb apply to every family after all.
+
+One thing I cannot explain and will not paper over: at 64k the clean overheads are IQ2_M 1.92
+and Q2_K 2.04, while Q2_K_L is 1.17 — a 0.8 GB spread at identical context on identical
+architecture. Q2_K_L's record predates the manifest fields so it is the one number here not
+taken with the others. **Flagged as unexplained**, not theorised about; re-placing Q2_K_L at 64k
+with the current instrument is a ninety-second job for whoever picks this up.
