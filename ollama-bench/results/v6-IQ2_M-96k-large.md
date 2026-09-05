@@ -1,11 +1,11 @@
-# pi bench (v6-IQ2_M-64k-large)
+# pi bench (v6-IQ2_M-96k-large)
 
 | model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| q27-IQ2_M-64k | ? GB | ? | ? | 12/18 | 0.79 (18/18 runs) | 3/6 all-trials | 239s | 9138 | 18.6 | 12 | 4 | 2 | 11.1% | 8 in 7/18 |
+| q27-IQ2_M-96k | ? GB | ? | ? | 6/8 | 0.81 (8/8 runs) | 6/8 all-trials | 249s | 12801 | 30.4 | 6 | 2 | 0 | 0.0% | 5 in 4/8 |
 
 ## Per task (passes/trials)
 
-| task | q27-IQ2_M-64k |
+| task | q27-IQ2_M-96k |
 |---|---|
-| t03 | 3/3 (score 1.00) |
+| t04 | 1/1 (score 1.00) |

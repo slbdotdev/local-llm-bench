@@ -84,6 +84,49 @@
     },
     "events": {},
     "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 18759,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 154.0,
+    "turns": 17,
+    "tool_calls": 21,
+    "tools": {
+     "bash": 7,
+     "read": 8,
+     "write": 4,
+     "edit": 2
+    },
+    "in_tokens": 195091,
+    "out_tokens": 6945,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1905,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15524,
+    "final_text": "*Labels** (accepted only): edge-space strip \u2192 casefold, empty dropped, deduplicated after canonicalization, appended in first-seen order into a fresh output list.\n- **Output**: fresh tree (buckets, entries, label lists all new), exact field sets, integer arithmetic preserved, input never mutated (verified against deep-copy snapshots). Deterministic, stdlib-only, single public `transform(records)`.",
+    "stderr": "Warning: Model \"q27-IQ3_XXS-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 16,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
    }
   ]
  }

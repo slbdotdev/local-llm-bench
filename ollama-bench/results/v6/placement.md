@@ -29,6 +29,8 @@ tok/s at a ~90% fill >= 35 passes, < 20 is spill, between is marginal.*
 | UDQ3KXL | 48k | 13.45 | 100% | 15376 | 6.5 | 55.6 | 44.8 | 1745 | 25 | 43661 | **pass** |  |
 | mrIQ3M | 64k | 14.49 | 92% | 15216 | 10.2 | 25.0 | 22.0 | 1318 | 44 | 58421 | **marginal** | gen 22.0 tok/s; resident 14.49 GB over the line |
 | mrIQ3M | 48k | 13.25 | 100% | 15079 | 6.8 | 51.1 | 42.7 | 1621 | 27 | 43661 | **pass** |  |
+| UDIQ3S | 64k | 13.03 | 100% | 15084 | 12.5 | 60.0 | 46.5 | 1637 | 36 | 58421 | **pass** |  |
+| UDIQ3S | 48k | 12.42 | 100% | 14454 | 6.4 | 59.9 | 49.5 | 1747 | 25 | 43661 | **pass** |  |
 
 ## Max viable context per quant
 
@@ -48,3 +50,4 @@ the quant has no passing rung at all, and is labelled.*
 | IQ3_M | **none** | - | - | 48k — spill: gen 12.0 tok/s |
 | UDQ3KXL | 48k | 13.45 | 44.8 | 64k — spill: gen 12.5 tok/s |
 | mrIQ3M | 48k | 13.25 | 42.7 | 64k — marginal: gen 22.0 tok/s; resident 14.49 GB over the line |
+| UDIQ3S | 64k | 13.03 | 46.5 | none tried |

@@ -1,0 +1,20 @@
+{
+ "phase_d": [
+  {
+   "quant": "UDQ3KXL",
+   "num_ctx": 49152
+  },
+  {
+   "quant": "IQ2_M",
+   "num_ctx": 65536
+  }
+ ],
+ "phase_e": [
+  {
+   "quant": "IQ2_M",
+   "num_ctx": 98304
+  }
+ ],
+ "cells_run": 19,
+ "written": "2026-09-05 04:09:53"
+}
