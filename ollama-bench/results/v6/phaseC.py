@@ -13,8 +13,8 @@ Run: python3 results/v6/phaseC.py
 import json, os, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BENCH = os.path.dirname(HERE)
-RES = os.path.join(BENCH, "results")
+RES = os.path.dirname(HERE)              # .../ollama-bench/results -- where the tag JSONs live
+BENCH = os.path.dirname(RES)             # .../ollama-bench -- where pibench.py lives
 CTXNAME = {49152: "48k", 65536: "64k", 98304: "96k", 131072: "128k",
            196608: "192k", 262144: "256k"}
 # Large-band material in tokens, from authoring/bands-2026-09-05.json.

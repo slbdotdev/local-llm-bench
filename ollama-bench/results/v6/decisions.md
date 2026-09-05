@@ -663,3 +663,45 @@ task does approach its window, that task is the only one carrying a context-qual
 the report will name it. **Filling the window on purpose is a v7 question**, and it is the
 obvious one: a band authored to genuinely occupy 60% of 64k would test what this campaign
 assumed and did not measure.
+
+## D6-31 — a one-line path bug had silently disabled every rejection rule in the campaign
+
+*22:03.* The worst fault of the night, caught by reading one log line rather than by any check.
+
+Phase B printed `== reference t03 walls: {65536: None, 49152: None}` immediately after two
+sentinel trials that had both **passed and recorded walls of 31.0 s and 25.4 s**. The trials
+were fine; the reader was not.
+
+`HERE` is `.../ollama-bench/results/v6`, so `BENCH = os.path.dirname(HERE)` is
+`.../ollama-bench/**results**`, not the bench directory — and `RES = os.path.join(BENCH,
+"results")` therefore pointed at `.../results/results`, which does not exist. Every artifact
+read returned nothing. The cells still *ran* correctly, because `runcell.sh` does its own `cd`,
+so nothing looked wrong anywhere except that one printed line.
+
+**What it would have cost, in order of severity:**
+
+1. **Phase D would have selected nothing and reported success.** `rank()` returns `None` when it
+   reads no runs, every candidate would have been filtered out, `best2` would have been empty,
+   the cells loop would have done nothing — and `.phaseD-done` and `.phaseE-done` would still
+   have been written. **My own waiter would have announced "CAMPAIGN COMPLETE" with zero verdict
+   rows**, which are the entire point of the night.
+2. Phase C's two-timeouts mid-row rejection would never have fired.
+3. Phase B's 3x sentinel rejection would never have fired: with `r` as `None`, `elif r and w >
+   3 * r` is simply false, so every quant survives regardless of how slow it is.
+
+Three independent rejection mechanisms, all inert, all failing open, and every flag green. This
+is v5's lesson repeating exactly: *four of the five faults that session found came from reading
+a tool's report of what it could not do, not from looking at a rate* — and this one came from a
+line that said `None` where a number belonged.
+
+Fixed: `RES = os.path.dirname(HERE)` and `BENCH = os.path.dirname(RES)` in all three drivers,
+verified against real artifacts before restarting (`runs_for` returns 2, `wall` returns 31.0 and
+25.4, `rank` returns a tuple). Phase B was restarted; pibench resumed and skipped every finished
+trial, so the completed Q2_K_L cells took **two seconds** and nothing was re-run. The reference
+now prints `{65536: 31.0, 49152: 25.4}`.
+
+**And the fault is now loud rather than silent.** Both drivers refuse to continue on an empty
+read: phase B raises `FATAL: no reference t03 wall could be read … the 3x rejection rule would
+be inert`, and phase D raises `FATAL: phase D selected no quant … refusing to report an empty
+campaign as complete`. A guard that fails closed is the only reason to trust a green flag, and I
+did not have one until now.

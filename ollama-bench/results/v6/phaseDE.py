@@ -14,8 +14,8 @@ Run: python3 results/v6/phaseDE.py
 import json, os, statistics, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BENCH = os.path.dirname(HERE)
-RES = os.path.join(BENCH, "results")
+RES = os.path.dirname(HERE)              # .../ollama-bench/results -- where the tag JSONs live
+BENCH = os.path.dirname(RES)             # .../ollama-bench -- where pibench.py lives
 sys.path.insert(0, HERE)
 from phaseC import admits, CTXNAME, run_cell, runs_for   # noqa: E402
 
@@ -76,6 +76,11 @@ def main():
     scored = [s for s in scored if s[0] is not None]
     scored.sort(key=lambda s: s[0])
     best2 = scored[:2]
+    # An empty selection means no scored artifact could be read, and phases D and E would
+    # "complete" with zero verdict rows while every flag said success (D6-31).
+    if not best2:
+        raise SystemExit("FATAL: phase D selected no quant -- no scored rows were readable "
+                         "from %s. Refusing to report an empty campaign as complete." % RES)
     print("== phase D ranking (pass rate, then cw rate, then median wall):", flush=True)
     for k, q, c in scored:
         print("   %-10s %-5s pass %.0f%%  cw %.0f%%  median wall %.0fs"

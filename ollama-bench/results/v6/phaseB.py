@@ -14,8 +14,8 @@ Run: python3 results/v6/phaseB.py     (WSL python; it shells out to runcell.sh)
 import json, os, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BENCH = os.path.dirname(HERE)
-RES = os.path.join(BENCH, "results")
+RES = os.path.dirname(HERE)              # .../ollama-bench/results -- where the tag JSONs live
+BENCH = os.path.dirname(RES)             # .../ollama-bench -- where pibench.py lives
 CTXNAME = {49152: "48k", 65536: "64k", 98304: "96k", 131072: "128k",
            196608: "192k", 262144: "256k"}
 
@@ -79,6 +79,11 @@ def main():
         run_cell("Q2_K_L", ctx, "large", "g03,t03", 1)
     ref = {ctx: wall("Q2_K_L", ctx, "t03") for ctx in (65536, 49152)}
     print("== reference t03 walls:", ref, flush=True)
+    # A None here means the artifacts could not be read, and the 3x rejection test would then
+    # quietly never fire (D6-31). Fail loudly instead of measuring nothing.
+    if not any(v is not None for v in ref.values()):
+        raise SystemExit("FATAL: no reference t03 wall could be read from %s -- the 3x "
+                         "rejection rule would be inert. Refusing to run phase B." % RES)
 
     # 2. Every other quant at its own top rung.
     placed, rejected, demoted = [], [], []
