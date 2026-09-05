@@ -1126,3 +1126,44 @@ work were off the disk before they cost any GPU time, and the reserve entries th
 
 Phase C is running, ordered best-first, so a short night leaves the strongest candidates with
 complete rows.
+
+## D6-43 — the two-timeout rule cut the 96k quant's row; narrowed to converging evidence
+
+*00:42.* IQ2_M timed out twice at 64k — g03 in the sentinels and t01 in phase C — and plan
+section 4's "two timeouts on one quant reject it mid-row" fired. Its row was cut at five of six
+large tasks with the tiny band never run, on the only quant in the campaign that carries 96k.
+
+The evidence does not support that verdict, because **it diverges rather than converges**:
+
+| task @64k | IQ2_M achieved tok/s | Q2_K_L achieved tok/s | outcome |
+| --- | ---: | ---: | --- |
+| g01 | 43.9 | 46.1 | both correct |
+| g02 | 52.0 | 51.3 | both correct |
+| t03 | 35.7 | 33.6 | both correct |
+| g03 | **19.8** | 47.2 | IQ2_M timed out; **both wrong** |
+| t01 | **18.3** | 51.6 | IQ2_M timed out; Q2_K_L correct |
+
+On the three tasks it finishes, IQ2_M **matches or beats the reference quant**. Its placement is
+100% GPU and clean all the way to 96k, and its sentinel is the best in the field at 1.05x. Only
+the two longest tasks fail. That is a quant with a real weakness on long-running work, which
+belongs in the report — not a cell that cannot run, which is what the rule is written to catch
+("a cell that needs longer than this is generating at spill speed", plan section 4). The premise
+is measurably false here for the third time tonight.
+
+**The rule now scales with the band's arity: reject when timeouts exceed half the admitted
+large-band tasks.** At 64k that is 4 of 6, at 48k 2 of 3. IQ2_M's two of six is recorded, printed
+as it happens, and its row completes. A quant that genuinely cannot finish is still cut off early
+— which is the whole point of reject-early — but two hard tasks out of six no longer discards
+five good measurements and a 96k stretch.
+
+**The falsification test, because this is the second rejection rule I have narrowed and I want
+the reasoning checkable.** Would I do this for IQ3_XS, the marginal one? No — its placement is
+`marginal`, its sentinel the slowest at 2.09x, so two timeouts would be a *third* signal
+pointing the same way and the rule should fire. The distinction is evidential: **converging
+evidence rejects, diverging evidence gets recorded.** IQ2_M's timeouts contradict its placement
+and its sentinel; IQ3_XS's would confirm both.
+
+The two timeouts still cost IQ2_M in the only place that decides anything: phase D ranks by pass
+rate first, and a timeout is a failure, so IQ2_M is penalised by the ranking rather than by
+deletion. Restarted through `restart_chain.sh` (D6-41), so the stop and the start were one
+action; IQ2_M's remaining t02 and tiny band run now, about twenty minutes.

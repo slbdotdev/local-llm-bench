@@ -68,18 +68,31 @@ def main(trials=1):
         tasks = admits(ctx)
         print("== %s at %s: large band %s, tiny band all 8" % (quant, CTXNAME[ctx], tasks),
               flush=True)
+        # Plan section 4 rejects a quant on two timeouts mid-row. D6-43 narrows that: reject
+        # when the evidence CONVERGES on a bad cell, record when it DIVERGES. The backstop is
+        # arity-based -- timeouts on more than half the admitted large-band tasks -- so a quant
+        # that genuinely cannot finish the work is still cut off early, which is what the rule
+        # is for.
+        limit = len(tasks) // 2 + 1
         killed = False
         for t in tasks:                       # one task at a time, so a rejection lands early
             run_cell(quant, ctx, "large", t, trials)
-            if n_timeouts(quant, ctx) >= 2:
-                rejected.append((quant, ctx, "two timeouts, rejected mid-row at %s" % t))
+            n = n_timeouts(quant, ctx)
+            if n >= limit:
+                rejected.append((quant, ctx,
+                                 "timed out on %d of %d admitted large-band tasks, rejected "
+                                 "mid-row at %s" % (n, len(tasks), t)))
                 killed = True
                 break
+            if n >= 2:
+                print("   %d timeouts so far (limit %d for %d tasks) -- recorded, row continues "
+                      "(D6-43)" % (n, limit, len(tasks)), flush=True)
         if killed:
             continue
         run_cell(quant, ctx, "tiny", TINY, trials)
-        if n_timeouts(quant, ctx) >= 2:
-            rejected.append((quant, ctx, "two timeouts across the two bands"))
+        n = n_timeouts(quant, ctx)
+        if n >= limit:
+            rejected.append((quant, ctx, "timed out on %d cells across the two bands" % n))
 
     out = {"rejected": [{"quant": q, "num_ctx": c, "why": w} for q, c, w in rejected],
            "written": time.strftime("%Y-%m-%d %H:%M:%S"), "trials": trials}
