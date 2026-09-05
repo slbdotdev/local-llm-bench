@@ -1,0 +1,30 @@
+
+===== z-ai/glm-5.3-flash =====
+  g01              #0 PASS   50.0s turns=13 tools=12 out=1769 VERDICT=correct STOP=stop
+  g02              #0 PASS  283.1s turns=48 tools=52 out=18376 VERDICT=correct STOP=stop
+  g03              #0 PASS  229.7s turns=29 tools=36 out=11233 VERDICT=correct STOP=stop
+  g04              #0 PASS   36.7s turns=13 tools=16 out=1937 VERDICT=correct STOP=stop
+  t01              #0 FAIL  211.2s turns=32 tools=32 out=12542 VERDICT=confidently_wrong STOP=stop
+  t02              #0 PASS   22.1s turns=13 tools=12 out=1323 VERDICT=correct STOP=stop
+  t03              #0 PASS   11.0s turns=7 tools=6 out=779 VERDICT=correct STOP=stop
+  t04              #0 PASS   29.9s turns=13 tools=12 out=1659 VERDICT=correct STOP=stop
+
+# pi bench (pirun-sanity-large)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| z-ai/glm-5.3-flash | ? GB | ? | ? | 7/8 | 0.92 (8/8 runs) | 7/8 all-trials | 109s | 6202 | 22.2 | 7 | 0 | 1 | 12.5% | 0 in 0/8 |
+
+## Per task (passes/trials)
+
+| task | z-ai/glm-5.3-flash |
+|---|---|
+| g01 | 1/1 (score 1.00) |
+| g02 | 1/1 (score 1.00) |
+| g03 | 1/1 (score 1.00) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 0/1 (score 0.36) |
+| t02 | 1/1 (score 1.00) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 1/1 (score 1.00) |
+=== large exit=0 2026-09-04T20:00:25-06:00

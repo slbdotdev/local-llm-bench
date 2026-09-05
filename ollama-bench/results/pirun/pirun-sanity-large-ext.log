@@ -1,0 +1,30 @@
+
+===== z-ai/glm-5.3-flash =====
+  g01              #0 PASS   51.5s turns=9 tools=12 out=2239 VERDICT=correct STOP=stop
+  g02              #0 PASS  294.2s turns=45 tools=46 out=22148 VERDICT=correct STOP=stop
+  g03              #0 FAIL  399.1s turns=45 tools=49 out=17575 VERDICT=visibly_failed STOP=stop ERR=Provider finish_reason: error
+  g04              #0 PASS   64.0s turns=12 tools=16 out=2869 VERDICT=correct STOP=stop
+  t01              #0 PASS   43.1s turns=7 tools=6 out=3191 VERDICT=correct STOP=stop
+  t02              #0 PASS   50.5s turns=9 tools=9 out=1307 VERDICT=correct STOP=stop
+  t03              #0 PASS   35.1s turns=8 tools=7 out=906 VERDICT=correct STOP=stop
+  t04              #0 FAIL    9.9s turns=7 tools=7 out=618 VERDICT=confidently_wrong STOP=stop
+
+# pi bench (pirun-sanity-large-ext)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| z-ai/glm-5.3-flash | ? GB | ? | ? | 6/8 | 0.85 (8/8 runs) | 6/8 all-trials | 118s | 6357 | 19.0 | 6 | 1 | 1 | 12.5% | 0 in 0/8 |
+
+## Per task (passes/trials)
+
+| task | z-ai/glm-5.3-flash |
+|---|---|
+| g01 | 1/1 (score 1.00) |
+| g02 | 1/1 (score 1.00) |
+| g03 | 0/1 (score 0.00) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 1/1 (score 1.00) |
+| t02 | 1/1 (score 1.00) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 0/1 (score 0.80) |
+=== large-ext exit=0 2026-09-04T20:01:38-06:00

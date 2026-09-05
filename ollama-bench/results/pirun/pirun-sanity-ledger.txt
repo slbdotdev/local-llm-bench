@@ -1,0 +1,7 @@
+baseline key usage USD 37.09159822 2026-09-04T19:45:50-06:00
+=== start sanity 2026-09-04T19:45:50-06:00
+=== tiny exit=0 2026-09-04T19:50:38-06:00
+=== large exit=0 2026-09-04T20:00:25-06:00
+=== large-ext exit=0 2026-09-04T20:01:38-06:00
+after all: key usage USD 37.42127404, spent USD 0.329676 2026-09-04T20:01:39-06:00
+=== SANITY ALLDONE 2026-09-04T20:01:39-06:00
