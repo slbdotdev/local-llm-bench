@@ -87,13 +87,4 @@ for tag, name, _ in ARMS + [(t, n, "") for t, n in HOLD]:
             " TIMEOUT" if x["timed_out"] else "", g))
 
 print("\n\n### Quota readings\n")
-print("| UTC | 5-hour window (cap 2000) | weekly window (cap 10000) |")
-print("|---|---|---|")
-for f in sorted(glob.glob(os.path.join(HERE, "quota", "*.json"))):
-    d = json.load(open(f, encoding="utf-8"))
-    stamp = os.path.basename(f).split("-")[0]
-    stamp = "%s:%s" % (stamp[9:11], stamp[11:13])
-    cells = {}
-    for lim in d["data"]["limits"]:
-        cells[lim["unit"]] = "%d (%.1f%%)" % (lim["currentValue"], 100.0 * lim["currentValue"] / lim["usage"])
-    print("| %s | %s | %s |" % (stamp, cells.get(3, "-"), cells.get(6, "-")))
+print("Readings are in `logs/quota.log` and `quota/*.json`, 150 s apart.")
