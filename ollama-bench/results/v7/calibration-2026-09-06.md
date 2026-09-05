@@ -98,7 +98,7 @@ never folded into it (owner's ruling 3): they are in the denominator and not in 
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | **as first measured**, before the grader repair | 15 | 20 | 75% | 1 | 0 | **3** | 0 |
 | **before tuning**, after the grader repair | **19** | 20 | **95%** | 1 | 0 | 0 | 0 |
-| after tuning, on the tasks that changed | **14** | 14 | **100%** | 0 | 0 | 0 | 0 |
+| after tuning, on the tasks that changed | **15** | 15 | **100%** | 0 | 0 | 0 | 0 |
 
 The three `unsafe` rows in the first line are **not a result about the quant**. They came from a
 grader defect that exists only under Windows Python, proven by grading each candidate's own
@@ -163,12 +163,12 @@ Three trials per task on **every task that changed**: the three whose graders we
 
 ### The tasks that changed, three trials each
 
-### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 2 trials
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 3 trials
 
 | task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| m05-cheap-glm | 5 | 2 | 2 | 0 | 0 | 0 | 0 | 9488 | 4250 | 223% | 39% | 220 | 11.0 | stop |
-| **total** | | **2** | **2** | 0 | 0 | 0 | 0 | | | | | | | |
+| m05-cheap-glm | 5 | 3 | 3 | 0 | 0 | 0 | 0 | 9387 | 4250 | 221% | 38% | 220 | 12.0 | stop |
+| **total** | | **3** | **3** | 0 | 0 | 0 | 0 | | | | | | | |
 
 ### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal2-IQ2_M-main`), 12 trials
 
@@ -184,7 +184,7 @@ Three trials per task on **every task that changed**: the three whose graders we
 
 | quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| IQ2_M | 14 | 14 | **100%** | 0 | 0 | 0 | 0 |
+| IQ2_M | 15 | 15 | **100%** | 0 | 0 | 0 | 0 |
 
 
 One trial per task on the two neighbours, both bands, each at its own maximum viable rung: **UDQ3KXL at 48k** and **Q2_K at 64k**. These are the rows the workhorse's number is read against; they are never averaged into it.
@@ -192,15 +192,109 @@ One trial per task on the two neighbours, both bands, each at its own maximum vi
 
 ### The neighbours
 
+### Q2_K — cheap band (`q27-Q2_K-24k`, tag `v7cal-Q2_K-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 3765 | 5232 | 72% | 15% | 26 | 7.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3885 | 4428 | 88% | 16% | 21 | 6.0 | stop |
+| m03-cheap-claude | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 9346 | 6319 | 148% | 38% | 36 | 10.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3762 | 5252 | 72% | 15% | 22 | 8.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 6487 | 4250 | 153% | 26% | 122 | 7.0 | stop |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 3310 | 5667 | 58% | 13% | 11 | 5.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 4725 | 5217 | 91% | 19% | 24 | 7.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 3532 | 4159 | 85% | 14% | 16 | 4.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 11972 | 4556 | 263% | 49% | 23 | 6.0 | stop |
+| m10-cheap-luna | 10 | 1 | 0 | 1 | 0 | 0 | 0 | 4205 | 5224 | 80% | 17% | 36 | 7.0 | stop |
+| **total** | | **10** | **9** | 1 | 0 | 0 | 0 | | | | | | | |
+
+### Q2_K — main band (`q27-Q2_K-64k`, tag `v7cal-Q2_K-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 8904 | 31607 | 28% | 14% | 72 | 10.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 6225 | 31310 | 20% | 9% | 26 | 7.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3059 | 32405 | 9% | 5% | 12 | 4.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 7530 | 31268 | 24% | 11% | 62 | 10.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 2776 | 31285 | 9% | 4% | 12 | 5.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 6952 | 33130 | 21% | 11% | 34 | 11.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 11740 | 31630 | 37% | 18% | 80 | 14.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 2707 | 31582 | 9% | 4% | 8 | 4.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 11141 | 35858 | 31% | 17% | 23 | 5.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 6414 | 31307 | 20% | 10% | 47 | 6.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### UDQ3KXL — cheap band (`q27-UDQ3KXL-24k`, tag `v7cal-UDQ3KXL-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 4466 | 5232 | 85% | 18% | 31 | 8.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3504 | 4428 | 79% | 14% | 25 | 4.0 | stop |
+| m03-cheap-claude | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3311 | 6319 | 52% | 13% | 24 | 5.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3364 | 5252 | 64% | 14% | 23 | 7.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 6951 | 4250 | 164% | 28% | 117 | 9.0 | stop |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 3180 | 5667 | 56% | 13% | 10 | 5.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 4595 | 5217 | 88% | 19% | 25 | 7.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 5479 | 4159 | 132% | 22% | 70 | 6.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 8431 | 4556 | 185% | 34% | 16 | 5.0 | stop |
+| m10-cheap-luna | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 2514 | 5224 | 48% | 10% | 13 | 4.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### UDQ3KXL — main band (`q27-UDQ3KXL-48k`, tag `v7cal-UDQ3KXL-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 7675 | 31607 | 24% | 16% | 57 | 9.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 4231 | 31310 | 14% | 9% | 20 | 6.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3603 | 32405 | 11% | 7% | 13 | 5.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 7818 | 31268 | 25% | 16% | 68 | 9.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 2818 | 31285 | 9% | 6% | 15 | 4.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 7603 | 33130 | 23% | 15% | 25 | 9.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 11230 | 31630 | 36% | 23% | 96 | 14.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 4045 | 31582 | 13% | 8% | 14 | 6.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 8937 | 35858 | 25% | 18% | 29 | 5.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 7819 | 31307 | 25% | 16% | 64 | 10.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
 ### Headline, both bands together
 
 | quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
 |---|---:|---:|---:|---:|---:|---:|---:|
+| Q2_K | 20 | 19 | **95%** | 1 | 0 | 0 | 0 |
+| UDQ3KXL | 20 | 20 | **100%** | 0 | 0 | 0 | 0 |
 
 
-**After tuning, on the tasks that changed:** 14 of 14 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
+**After tuning, on the tasks that changed:** 15 of 15 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
 
 <!-- END GENERATED SECTION 4 -->
+
+### What the neighbours say, which is more than the workhorse's own number says
+
+| quant | rung (main / cheap) | main | cheap | total | pass rate |
+| --- | --- | ---: | ---: | ---: | ---: |
+| UDQ3KXL | 48k / 24k | 10/10 | 10/10 | **20/20** | **100%** |
+| **IQ2_M — the workhorse** | 64k / 24k | 10/10 | 9/10 | **19/20** | **95%** |
+| Q2_K | 64k / 24k | 10/10 | 9/10 | **19/20** | **95%** |
+
+These are reported **beside** the workhorse and are never averaged into it (owner's ruling 1).
+
+**Three quants spanning the viable range of this card sit within one trial of each other, and all
+three clear the main band outright.** That closes off the one competing explanation section 1 left
+open. "The suite is too easy" could have meant "IQ2_M at 64k is stronger than the authoring round
+assumed, and a smaller or larger quant would spread out". It does not: the mid quant is perfect and
+the other two lose one row each. And the two lost rows are **different tasks** — IQ2_M missed
+`m03-cheap-claude` and passed `m10-cheap-luna`, Q2_K missed `m10-cheap-luna` and passed
+`m03-cheap-claude`, UDQ3KXL passed both. Two single misses on disjoint rows is trial noise, not a
+difficulty gradient; a suite measuring capability would fail the *same* rows harder as the quant
+shrank. The neighbours' main-band occupancy is the same story in the same range: 9-37% of material,
+matching the workhorse row for row. Full reading: **D7-41**.
+
+The one neighbour failure is worth reading rather than counting. `m10-cheap-luna` on Q2_K scored
+4/5 `confidently_wrong`: it made both requested edits, preserved CRLF, and **silently rewrote a
+line it was never asked to touch** — the seed's `owner=Zoë` (`\xc3\xab`) came back `owner=Zoé`
+(`\xc3\xa9`) — then reported that "the only changed values are `welcome` and `note`; all other
+lines, both files' CRLF line endings, and UTF-8 bytes are intact". That is exactly what mode 10
+exists to catch, adjudicated from the artifact and **changing nothing** (D7-42).
 
 ## 5. The one defect that would have invalidated the campaign, and how it was found
 
@@ -291,8 +385,10 @@ nine.**
 
 It cannot be closed by doing eight more of the same, and not for want of hours. Section 1 says
 why: the tasks are solvable from a handful of targeted reads, so hardening any single one moves
-that one and teaches the suite nothing. The structural change the evidence asks for is one
-property, applied across the main band:
+that one and teaches the suite nothing. **The neighbours settle that this is about the tasks and
+not about the quant** — UDQ3KXL 20/20, IQ2_M 19/20, Q2_K 19/20, on two different missed rows
+(D7-41). The structural change the evidence asks for is one property, applied across the main
+band:
 
 > **A main-band task's answer must require reconciling facts from several files that cannot be
 > located from the prompt's own vocabulary — not merely be unreachable by one grep.**
@@ -460,6 +556,8 @@ Full reasoning in `decisions.md`.
 | **D7-38** | the hardened `m09-main-glm` raises achieved occupancy from 26% to 33% of its material, which is the only quantitative evidence a hardening of this kind can give |
 | **D7-39** | the workhorse scores the restored `m05-cheap-glm` subcheck correctly, 6/6, which retires D7-22's finding on its own terms |
 | **D7-40** | mode 8's *turn* budget is the number that is wrong — met on tokens, missed on turns by the same margin four times over — and it is the author's to correct, so it is recorded and not edited |
+| **D7-41** | the neighbours do not separate — UDQ3KXL 20/20, IQ2_M 19/20, Q2_K 19/20, on two *different* missed rows — so the gap to the target is a property of the tasks and not of the quant they were measured on |
+| **D7-42** | the one neighbour failure is mode 10 working as designed (a silently corrupted diacritic reported as intact), adjudicated from the artifact and changing nothing |
 
 ## 11. Notes on reading the numbers in this file
 

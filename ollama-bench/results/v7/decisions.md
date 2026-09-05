@@ -1357,3 +1357,51 @@ author's number to correct, so it is recorded rather than edited** — changing 
 declared budget to make a row pass would be exactly the move rule 4a forbids, even though nothing
 here is scored on it. What the campaign gets instead is the first evidence in any round that the
 mode-8 budgets need re-deriving from measured tool-call counts rather than estimated.
+
+## D7-41 — the neighbours do not separate, and that is the strongest form D7-32's finding could take
+
+*05:54.* Phase p3, one trial per task per band on both neighbours at their own maximum viable
+rungs, 40 trials, no cell over its timeout:
+
+| quant | rung (main/cheap) | main | cheap | total | pass rate |
+| --- | --- | ---: | ---: | ---: | ---: |
+| UDQ3KXL | 48k / 24k | 10/10 | 10/10 | **20/20** | **100%** |
+| IQ2_M *(the workhorse, first pass)* | 64k / 24k | 10/10 | 9/10 | 19/20 | 95% |
+| Q2_K | 64k / 24k | 10/10 | 9/10 | **19/20** | **95%** |
+
+**Three quants spanning the whole viable range of this card sit within one trial of each other,
+and every one of them clears the main band outright.** That matters more than the numbers look.
+Until this phase, "the suite is too easy" had a competing explanation: that IQ2_M at 64k is simply
+a stronger configuration than the authoring round assumed, and that a different quant would have
+spread out. It would not. The mid quant is *perfect*; the lowest quant loses one row; the middle
+of the three loses one row. The suite does not discriminate between them at all.
+
+And the two failures are **different tasks**: IQ2_M missed `m03-cheap-claude` and passed
+`m10-cheap-luna`; Q2_K missed `m10-cheap-luna` and passed `m03-cheap-claude`; UDQ3KXL passed both.
+Two single misses on disjoint rows is the signature of trial noise, not of a difficulty gradient —
+a suite that was measuring capability would fail the *same* rows harder as the quant got smaller,
+and this one does not fail them at all.
+
+So the recommendation in the report's section 7 stands on stronger evidence than it did when it
+was written: the gap to the 50% target is a property of the *tasks*, not of the quant they were
+measured on, and no amount of picking which task to harden reaches it. The occupancy figures say
+the same thing a second way — the neighbours' main-band peak prompts run 9-37% of material, the
+same range as the workhorse's, on the same rows.
+
+## D7-42 — the one neighbour failure is mode 10 working exactly as designed, adjudicated from the artifact and changing nothing
+
+*05:56.* `m10-cheap-luna` on Q2_K: 4/5, `confidently_wrong`, failing `operator notes has the
+expected lines`. Read from the run's own final text rather than from the rate:
+
+The task asks for two value edits in files that carry CRLF endings and UTF-8 non-ASCII text, and
+says the other lines must remain unchanged. Q2_K made both requested edits, preserved CRLF, and
+**silently rewrote an untouched line**: the seed's `owner=Zoë` (`\xc3\xab`) came back as
+`owner=Zoé` (`\xc3\xa9`). It then reported, in its own words, that "the only changed values are
+`welcome` and `note`; all other lines, both files' CRLF line endings, and UTF-8 bytes are intact,
+and no other files were touched."
+
+That is precisely the behaviour mode 10 exists to catch: a quant whose tokenizer round-trip is
+lossy on a diacritic it was not asked to touch, reporting the corruption as intact. The verdict is
+right, the subcheck is right, and the task needs no change. Recorded under owner's ruling 4: a
+task changes only on a fairness finding read out of a transcript, and this transcript shows the
+opposite of a fairness problem.
