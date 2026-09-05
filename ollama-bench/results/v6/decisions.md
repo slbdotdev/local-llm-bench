@@ -372,3 +372,39 @@ IQ3_M with 1.1 GB shaved off, and IQ3_M was v5's favourite on a-priori quality. 
 replacement for a rejected 3-bit K-quant, and tonight's own numbers say why it has a chance
 where bartowski's IQ3_M does not: at 13.90 GB that file cannot fit 64k, and 1.1 GB is most of
 the gap.
+
+## D6-21 — D6-18 is falsified, and I derived its rate from a degraded cell
+
+*21:17.* **IQ2_M placed `pass` at 96k**: 13.27 GB resident, **100% GPU**, 41.88 gen tok/s at an
+87.8k-token fill, 1,286 prompt tok/s, TTFT 68 s. D6-18 predicted no quant this campaign would
+reach 96k. It was wrong, and the way it was wrong is the more useful half.
+
+D6-18 read the KV cost off Q2_K_L's 64k-to-96k step: 13.35 GB to 16.20 GB, 2.85 GB for 32k of
+context, "about 89 MB per 1k". **That step lands in a spilled cell** — Q2_K_L at 96k is 83% GPU
+and 8.22 tok/s — so `/api/ps` `size` there is not measuring a KV cache that fits. I derived a
+rate from a degraded measurement, which is precisely the error this campaign exists to avoid,
+and it is the same error in kind as v5's: reading a number off a cell that is already broken.
+
+The clean steps, every one of them between two cells that both placed `pass` at 100% GPU:
+
+| step | delta | per 1k ctx |
+| --- | ---: | ---: |
+| IQ2_M 48k -> 64k | +0.61 GB | **39 MB** |
+| IQ2_M 64k -> 96k | +1.22 GB | **39 MB** |
+| Q2_K 48k -> 64k | +0.61 GB | **39 MB** |
+
+Three independent clean steps, across two quants and two different context spans, agreeing
+exactly. **KV cache at q8_0 with flash attention costs 39 MB per 1k of context on this model.**
+Every step that disagrees (Q2_K_L 91, IQ3_XXS 79, Q2_K 63) is a step whose upper cell spilled,
+and the excess is the contamination, not the cache.
+
+Corrected rule, and this one is derived only from clean cells: **a quant places at 96k if it
+sits at or under about 12.95 GB at 64k** (14.2 minus 32 x 39 MB). IQ2_M is 12.05 and passes;
+Q2_K is 13.07 and does not; Q2_K_L is 13.35 and does not. It also predicts **IQ2_M at 128k
+needs 14.52 GB and should fail** — that cell is running now, so the correction gets tested
+immediately rather than being believed.
+
+Two consequences for the night. Phase E has a real stretch cell after all. And because the
+working-margin rule admits **all eight** large-band tasks at 96k against six at 64k (D6-1),
+IQ2_M's stretch row is the **only place g04 and t04 are scored in this entire campaign** —
+g04 being the task Haiku went 0/3 on and the sharpest discriminator v5 found.
