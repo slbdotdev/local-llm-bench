@@ -9,7 +9,11 @@
 # so rather than staying quiet.
 V6=/mnt/d/local-llm-bench/ollama-bench/results/v6
 RES=/mnt/d/local-llm-bench/ollama-bench/results
-STALL_MIN=15
+# 25 minutes, not 15: a single large-band trial may legitimately run the full 600 s timeout,
+# and cells that RESUME from an existing artifact write nothing at all, so a run of resumed
+# cells followed by one slow trial can pass 15 minutes of silence while perfectly healthy.
+# That produced a false alarm at 23:21 with the GPU at 97%.
+STALL_MIN=25
 seen=""
 last_change=$(date +%s)
 last_stamp=""
@@ -26,11 +30,15 @@ while true; do
   # newest artifact mtime across the campaign's outputs
   stamp=$(find "$RES" -maxdepth 1 -name 'v6-*.json' -newermt '-1 day' -printf '%T@\n' 2>/dev/null | sort -n | tail -1)
   pstamp=$(stat -c %Y "$V6/placement.json" 2>/dev/null)
-  cur="${stamp}-${pstamp}"
+  # The chain's own log moves far more often than the artifacts do -- every cell start and end,
+  # and every finished task -- so it is the better liveness signal of the two.
+  lstamp=$(stat -c %Y "$V6/phaseAll.log" 2>/dev/null)
+  cur="${stamp}-${pstamp}-${lstamp}"
   if [ "$cur" != "$last_stamp" ]; then last_stamp="$cur"; last_change=$(date +%s); fi
   now=$(date +%s)
   if [ $(( (now - last_change) / 60 )) -ge $STALL_MIN ]; then
-    echo "STALL: no v6 artifact written for $STALL_MIN min as of $(date +%H:%M:%S) -- a chain may have died"
+    gpu=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1)
+    echo "STALL: nothing written for $STALL_MIN min as of $(date +%H:%M:%S) (GPU ${gpu:-?}% busy) -- a chain may have died"
     last_change=$now
   fi
   if [ -e "$V6/.phaseE-done" ]; then

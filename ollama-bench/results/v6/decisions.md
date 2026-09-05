@@ -939,3 +939,35 @@ Two fixes, because the incident exposed a real hole and not just a clumsy moment
 No orphans were left: a read-only sweep showed no `node.exe` running at all afterwards, so
 nothing of mine or anyone else's was left spending GPU. Phase B restarted; every completed
 sentinel resumed in seconds and mrIQ3M's runs fresh.
+
+## D6-38 — the stall alarm cried wolf, and a second campaign shares this GPU
+
+*23:22.* The waiter fired "no v6 artifact written for 15 min". **False alarm.** The chain was
+alive, the GPU was at **97%**, and mrIQ3M's g03 sentinel had been running for six minutes of a
+legitimate ten-minute budget. The threshold was simply too tight for its own campaign: a single
+large-band trial may run the full 600 s timeout, and **cells that resume from an existing
+artifact write nothing at all**, so a run of resumed cells followed by one slow trial passes
+fifteen minutes of silence while perfectly healthy.
+
+Fixed rather than ignored, because an alarm that cries wolf gets skimmed past, and this one
+earned real trust at 21:43 by finding a fifteen-minute idle GPU (D6-27). Threshold raised to
+**25 minutes**; the chain's own log is now watched alongside the artifacts, since it moves on
+every cell start, cell end and finished task and is the better liveness signal; and the alarm
+now prints the **GPU utilisation** beside the complaint, so the next one can be triaged from the
+notification instead of a round trip.
+
+**Also noted while diagnosing, and it matters for the handoff:** three other
+`pibench.py --provider …` processes are running on this machine — the prompt campaign under
+`results/prompt-v1/`, which the coordinator flagged at 23:15. So **this GPU is shared tonight**.
+Two consequences I am recording rather than acting on:
+
+- **My ancestry-scoped kill (D6-37) correctly leaves them alone**, which is now confirmed
+  against live processes rather than merely intended.
+- **Every v6 wall-clock number after roughly 23:00 was taken on a contended GPU.** The
+  placement figures and the sentinel walls quoted throughout this file predate that or ran
+  while the other campaign was idle, but phase C, D and E timings do not, and the handoff will
+  say so plainly. Achieved out tok/s in particular is a *shared-machine* number from here on.
+  That does not invalidate the quant-versus-quant comparison — every quant pays the same tax
+  and the ordering is what the campaign reports — but it means these walls are not comparable
+  to v5's, and no absolute throughput figure from tonight should be quoted as this card's
+  capability.
