@@ -1206,3 +1206,34 @@ For v7, and this is a suite question rather than a bench one: **either the promp
 line number must appear alone, or the checker should accept an optional `<path>:` prefix.** One
 of the two, decided deliberately. Recording it here so it is not rediscovered by another
 session reading another failing row.
+
+## D6-45 — a length stop never produced a confidently wrong answer
+
+*00:48.* Chasing why `length` kept appearing as a stop reason, over the first 44 scored trials:
+
+| | trials | correct | confidently_wrong | visibly_failed |
+| --- | ---: | ---: | ---: | ---: |
+| at least one length stop | 7 (16%) | 4 | **0** | 3 |
+| no length stop | 37 | 28 | 6 | 3 |
+
+Length-stopped trials average **17,210 output tokens against 5,041** for the rest — 3.4x the
+volume. And **not one of them came back confidently wrong.** Every confidently-wrong verdict in
+the campaign so far came from a trial that finished within its output budget.
+
+The reading, offered as a mechanism and not yet a proven one: a model generating three times the
+normal volume is losing the thread, and left alone it finishes into a fluent, plausible, wrong
+answer — the outcome v5's plan calls **worse than no worker at all**, because it costs exactly
+the verification the delegation was meant to save. Truncation interrupts that and the result
+fails *visibly* instead. Four of the seven even recovered after the stop and finished correctly.
+
+So the output cap behaves as a **safety valve**, and part of v6's elevated `visibly_failed` rate
+against v5's is not degradation at all — it is confident wrongness being intercepted and
+downgraded into the cheap failure mode. Combined with D6-44, the honest report sentence is:
+*v6 fails visibly more often than v5, and that is partly the suite's format strictness, partly
+genuine incompleteness, and partly a length cap catching answers that would otherwise have been
+confidently wrong.* The bare rate carries none of that and should not be quoted alone.
+
+Worth one v7 measurement rather than an assumption: raise the output budget on a few
+length-stopped cells and see whether those trials turn into `correct` or into
+`confidently_wrong`. If the latter, the cap is doing real safety work and should be treated as a
+setting with a purpose rather than a limit to be raised.
