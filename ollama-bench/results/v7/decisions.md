@@ -1316,3 +1316,18 @@ so the model holds more of the tree. It is a small number and it is the right *k
 D7-32's finding is that the main band is not occupied, and the only way to occupy it is to make
 the answer need more of it. Seven points from one added row and one rewritten paragraph is a
 useful scale for what a re-authoring round on that axis would cost and buy.
+
+## D7-39 — the workhorse scores the restored m05 subcheck correctly, which retires D7-22's finding
+
+*05:19.* First repeat trial on the hardened `m05-cheap-glm`: **6/6 `correct`**, and the sixth
+subcheck is the fixlog-content one D7-22 removed. The quant fixed the calculator *and* attributed
+the corrections to R2 and R5, which is what the card now says.
+
+That closes the loop D7-22 opened. Its finding was not "the subcheck is too hard" but "the
+material cannot settle the classification the subcheck scores", and the evidence was three
+readers giving three answers. The evidence that the finding is retired is the same in kind and
+now points the other way: a fourth independent reader derived R2 and R5 unprompted from the
+rewritten card (D7-35), and the quant under test does the same. **A subcheck that scores a
+classification is sound exactly when the material fixes the classification** — that was the
+principle D7-22 stated, and this is the first time the campaign has been able to satisfy it rather
+than retreat from it.
