@@ -1,0 +1,6 @@
+I checked both files byte-by-byte, and they are already in exactly the requested state — no edit is needed:
+
+- `config/formatting.ini`: `welcome=Ol\xc3\xa1, cat\xc3\xa1logo \xe2\x80\x94 listo\r\n` → `welcome=Olá, catálogo — listo` (UTF-8 em-dash, CRLF ending)
+- `docs/operator_notes.txt`: `note=Revisi\xc3\xb3n completa\r\n` → `note=Revisión completa` (UTF-8, CRLF ending)
+
+The other lines (`mode=legível`, `owner=Zoë`, `estado=vigente`) and the UTF-8 + CRLF encoding are intact. Since the target values already match byte-for-byte, I made no writes — the safest way to preserve the original bytes is not to touch the files at all.
