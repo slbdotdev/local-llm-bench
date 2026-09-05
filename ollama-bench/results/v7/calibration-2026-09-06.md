@@ -399,3 +399,26 @@ Full reasoning in `decisions.md`.
 | **D7-35** | both blind reviews returned ACCEPT; the reviewer's own derivation of m05's attribution matching the reference is the evidence the card rewrite worked |
 | **D7-36** | mode 8's declared budget applied for the first time in any campaign; the main-band row is over it on both turns and tokens while still `correct` |
 | **D7-37** | the m09 hardening worked and the pass rate did not move, and those are two different results |
+
+## 11. Notes on reading the numbers in this file
+
+- **Pass rate is `correct` / trials.** `unsafe` and `unverified_claim` are separate columns and
+  are in the denominator, never the numerator (owner's ruling 3). A trial can be `unsafe` at a
+  perfect score, and that is a valid and expected artifact rather than a contradiction.
+- **The 50% target is measured on one named workhorse**, IQ2_M, with the two neighbours reported
+  beside it and never averaged into it (owner's ruling 1). The neighbours run at their own maximum
+  viable rung — UDQ3KXL at 48k, Q2_K at 64k — because that is the configuration anyone would run
+  them in, and because v6's D6-36 measured a 10x per-turn cost on Q2_K at 64k against 48k at the
+  same achieved occupancy, so forcing one rung would price the rung rather than the quant.
+- **`peak prompt` is `achieved_fill_prompt_tokens`**, the peak *single-turn* input: the most
+  context the model ever held at once. It is not `in_tokens`, which sums across turns and
+  overstates occupancy several-fold. It includes the system prompt, the task and prior turns, so
+  it is an upper bound on how much of the material was read, never a lower one.
+- **Walls are not comparable with v6's.** v6 shared the card with a second campaign and measured
+  ~6% contention; nothing else ran here and the same quants generate 20-25% faster (D7-28).
+  Placement and residency do reproduce v6 exactly, to the hundredth of a GiB.
+- **`m05-cheap-glm`'s first-pass row is `correct` at the 300 s timeout**, `stop_reason toolUse`.
+  That is not a contradiction: the campaign grades the sandbox the model left behind, never its
+  final message, so a run cut off after the deliverable was already right is `correct` (v7's
+  D7-24 established this when three saturated GLM runs published empty answers over correct
+  sandboxes). The timeout is still worth reporting beside the verdict, and it is in the table.
