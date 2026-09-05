@@ -1,0 +1,9 @@
+TESTS: pass
+
+PYTHONPATH=src python3 tests/release_check.py exited 0.
+
+Fix applied in src/ember/dispatch_store.py:
+- DISPATCH_STATES vocabulary: "expandd" -> "expanded"
+- DispatchGateway.expand() record state: "expandd" -> "expanded"
+
+Note: `python` is not on PATH in this environment; the check was run with `python3`.

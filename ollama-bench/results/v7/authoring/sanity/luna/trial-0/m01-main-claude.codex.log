@@ -1,0 +1,1255 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703d-830f-71f1-ac12-c285d840128b
+--------
+user
+You are working in a snapshot of the `cinder-vault` repository.
+
+The `dispatch` stage has no way to release capacity held by records that have waited too long.
+Add one to it, in `src/cinder/dispatch_gate.py`, by giving the `DispatchLedger` class exactly these two
+new methods and changing nothing else about the class's existing behaviour:
+
+    def reap(self, ages):
+        # `ages` maps a record key to that record's age in seconds, as an int.
+        # A record whose age is strictly greater than the stage's `window_s` has waited too
+        # long. Returns the number of records this call reaped, as an int.
+
+    def active_count(self):
+        # Returns, as an int, how many records currently count against the stage's `limit`.
+
+A key in `ages` that the stage has never seen is ignored. A record that has already been reaped
+is not reaped again, so calling `reap` twice with the same argument reaps nothing the second
+time.
+
+**What reaping does to a record is decided by this project's own documentation, not by you.**
+The repository states its rule once and states it plainly; find it and implement exactly that.
+Where two documents disagree, the repository's `README.md` says which kind of document wins, and
+a history entry marked superseded is evidence of a past decision rather than an instruction.
+
+Do not change any other file. Do not change the existing methods, the constructor, the module
+constants, or `snapshot()`.
+
+codex
+I’ll inspect the repository guidance and the dispatch documentation, then make the narrowly scoped change in `src/cinder/dispatch_gate.py` and run the relevant validator once.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g 'README.md' -g 'src/cinder/dispatch_gate.py' -g '*dispatch*' -g '*history*' -g '*decision*' -g '*doc*' | sort" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+README.md
+docs/dispatch.md
+history/0000-dispatch.md
+history/9001-dispatch-reaping.md
+src/cinder/dispatch_gate.py
+tests/test_dispatch.py
+
+exec
+/bin/bash -lc "sed -n '1,240p' README.md; sed -n '1,240p' docs/dispatch.md; sed -n '1,240p' history/0000-dispatch.md; sed -n '1,240p' history/9001-dispatch-reaping.md; sed -n '1,240p' src/cinder/dispatch_gate.py; sed -n '1,300p' tests/test_dispatch.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+# cinder-vault
+
+A staged delivery pipeline. Each stage is a module under `src/`, is configured from one
+section of the manifest, and is documented under `docs/`. The dated history of every
+configuration decision is under `history/`.
+
+## Reading order
+
+1. `docs/architecture.md` - how the stages compose, and which order they drain in.
+2. `docs/operations.md` - what to do when a stage refuses work.
+3. `docs/policy/` - the rules that outrank both of the above.
+4. `history/` - why each number is the number it is. **Dated, and superseded entries
+   are kept**: a superseded entry is evidence, not a live instruction.
+
+## Stages
+
+| stage | module | doc | owner |
+| --- | --- | --- | --- |
+| dispatch | `src/dispatch_gate.py` | `docs/dispatch.md` | M. Lindqvist |
+| cursor | `src/cursor_view.py` | `docs/cursor.md` | L. Achterberg |
+| replay | `src/replay_core.py` | `docs/replay.md` | N. Oyelaran |
+| quota | `src/quota_core.py` | `docs/quota.md` | S. Nwachukwu |
+| drain | `src/drain_gate.py` | `docs/drain.md` | D. Ferreira |
+| envelope | `src/envelope_flow.py` | `docs/envelope.md` | P. Ravindran |
+| tenancy | `src/tenancy_core.py` | `docs/tenancy.md` | S. Nwachukwu |
+| digest | `src/digest_flow.py` | `docs/digest.md` | T. Abarca |
+| watermark | `src/watermark_flow.py` | `docs/watermark.md` | J. Maldonado |
+| checkpoint | `src/checkpoint_gate.py` | `docs/checkpoint.md` | T. Abarca |
+| backfill | `src/backfill_flow.py` | `docs/backfill.md` | N. Oyelaran |
+| lineage | `src/lineage_view.py` | `docs/lineage.md` | D. Ferreira |
+| shard | `src/shard_gate.py` | `docs/shard.md` | J. Maldonado |
+| ingest | `src/ingest_gate.py` | `docs/ingest.md` | L. Achterberg |
+| retention | `src/retention_gate.py` | `docs/retention.md` | L. Achterberg |
+| rollup | `src/rollup_gate.py` | `docs/rollup.md` | R. Okonjo |
+| attestation | `src/attestation_gate.py` | `docs/attestation.md` | E. Thorsdottir |
+| ledger | `src/ledger_view.py` | `docs/ledger.md` | J. Maldonado |
+| schema | `src/schema_flow.py` | `docs/schema.md` | N. Oyelaran |
+| routing | `src/routing_flow.py` | `docs/routing.md` | N. Oyelaran |
+| compaction | `src/compaction_view.py` | `docs/compaction.md` | T. Abarca |
+
+## Conventions
+
+- Nothing is imported at module scope across stages; the pipeline is assembled from the
+  manifest at run time.
+- A `snapshot()` is always sorted. Insertion order is never part of any contract.
+- A configuration key that is present but unparseable is a startup error, never a
+  silent fallback to the module constant.
+- Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
+  outranks everything else.
+# dispatch stage
+
+*Owner: M. Lindqvist (Compliance Review). Module: `src/dispatch_gate.py`.*
+
+## What it is for
+
+The dispatch stage is the fanout boundary of the cinder-vault pipeline. Everything upstream of it may
+still be reordered; nothing downstream of it may. That is the whole of its contract, and
+the reason the stage exists as a separate module rather than as a helper inside cursor.
+
+## Configuration
+
+| key | default | meaning |
+| --- | ---: | --- |
+| `limit` | 120 | the largest number of manifests held before the stage refuses new work |
+| `window_s` | 60 | seconds a manifest may stay `pending` before it is reaped |
+
+Both are read from the `dispatch` section of the manifest by `build_dispatch`. A key that is
+absent falls back to the module constant; a key that is present but unparseable is a
+startup error rather than a fallback, because a silently-defaulted limit has caused two
+incidents (see the history directory).
+
+## Interaction with cursor and replay
+
+`cursor` calls into this stage once per batch and expects `snapshot()` to be stable across
+the call, which is why the snapshot sorts rather than preserving insertion order. `replay`
+reads the sealed result and must not observe a `pending` record; if it does, the drain
+order in `docs/operations.md` was violated and the run should be abandoned rather than
+repaired in flight.
+
+## States
+
+- `pending` - accepted, not yet acted on; counts against `limit`
+- `resolved` - acted on by this stage and awaiting the downstream acknowledgement
+- `settled` - durable, visible to the audit trail, immutable
+- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+# 0000 - dispatch: clarify the manifest limit
+
+- Date: 2033-01-01
+- Status: **accepted**
+- Proposer: M. Lindqvist (Compliance Review)
+
+## Context
+
+The dispatch stage refuses work above `limit`, currently 120. Capacity Planning asked whether
+that number is a safety limit or a cost limit, because the two imply different responses
+to a refusal: a safety limit means shed load, a cost limit means queue and bill.
+
+## Decision
+
+It is a **safety limit**. The dispatch stage sheds rather than queues, and `cursor` is
+responsible for reporting the shed count. The number itself is unchanged at 120.
+
+## Consequences
+
+- `docs/dispatch.md` states the current behaviour and is authoritative over this entry.
+- No change to `DEFAULT_DISPATCH_LIMIT`.
+- The Compliance Review team owns the shed-count dashboard.
+# 9001 - dispatch: reap on the window boundary
+
+- Date: 2033-06-14
+- Status: **superseded**
+- Proposer: M. Lindqvist
+
+## Context
+
+The dispatch stage filled with records that would never advance, and the stage refused new work
+because they still counted against `limit`. Capacity Planning asked for a reaper.
+
+## Decision
+
+Reaping **removes** the record from the stage. `snapshot()` will no longer return it and the
+slot is returned to the pool immediately. This is the cheapest implementation and it is what
+`dispatch_gate` should do.
+
+## Note added later
+
+**Superseded.** Removal destroyed the evidence of the stall it was introduced to relieve, twice.
+The project's retention policy now governs reaping for every stage and this entry is kept only
+because two audits cite the reasoning above. It is not a live instruction; see `README.md` on
+how a superseded entry is to be read.
+"""dispatch_gate: fanout handling for the cinder-vault pipeline.
+
+This module owns the dispatch stage. It is called by cursor_view and calls into replay_core;
+neither of those may be imported at module scope, because the pipeline is
+assembled at run time from the manifest rather than at import time.
+
+Ownership: M. Lindqvist (Compliance Review).
+"""
+
+from __future__ import annotations
+
+DEFAULT_DISPATCH_LIMIT = 120
+DEFAULT_DISPATCH_WINDOW_S = 60
+DISPATCH_STATES = ("pending", "resolved", "settled", "abandoned")
+
+
+class DispatchLedger:
+    """Coordinates fanout manifests between the dispatch stage and CursorGateway."""
+
+    def __init__(self, limit=DEFAULT_DISPATCH_LIMIT, window_s=DEFAULT_DISPATCH_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._manifests = {}
+        self._sealed = False
+
+    def resolve(self, key, payload=None):
+        """Resolve the manifest named ``key``.
+
+        Returns the stored record, or ``None`` when the dispatch stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "resolved"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def admit(self, key, payload=None):
+        """Admit the manifest named ``key``.
+
+        Returns the stored record, or ``None`` when the dispatch stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "admitd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def classify(self, key, payload=None):
+        """Classify the manifest named ``key``.
+
+        Returns the stored record, or ``None`` when the dispatch stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "classifyd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._manifests)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._manifests[k] for k in sorted(self._manifests)]
+
+
+def build_dispatch(config):
+    """Construct a :class:`DispatchLedger` from the ``dispatch`` section of the manifest."""
+    section = config.get("dispatch", {})
+    return DispatchLedger(
+        limit=section.get("limit", DEFAULT_DISPATCH_LIMIT),
+        window_s=section.get("window_s", DEFAULT_DISPATCH_WINDOW_S),
+    )
+"""Behavioural checks for dispatch_gate."""
+
+from cinder.dispatch_gate import DispatchLedger, build_dispatch
+
+
+def test_dispatch_defaults():
+    engine = DispatchLedger()
+    assert engine.limit == 120
+    assert engine.window_s == 60
+
+
+def test_dispatch_seal_is_idempotent():
+    engine = DispatchLedger()
+    engine.resolve("a")
+    assert engine.seal() == 1
+    assert engine.seal() == 1
+    assert engine.admit("b") is None
+
+
+def test_dispatch_snapshot_is_sorted():
+    engine = DispatchLedger()
+    for key in ("m", "a", "z"):
+        engine.classify(key)
+    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+
+
+def test_build_dispatch_reads_the_manifest():
+    engine = build_dispatch({"dispatch": {"limit": 5}})
+    assert engine.limit == 5
+    assert engine.window_s == 60
+
+codex
+The authoritative rule is in `docs/dispatch.md`: only `pending` records count toward capacity, and reaping changes an overdue `pending` record to `abandoned` while retaining it for evidence. The superseded history entry’s “remove” rule is explicitly non-live. I’m checking nearby stage patterns and repository metadata before editing.
+exec
+/bin/bash -lc "rg -n \"def reap|active_count|abandoned|window_s|count against|strictly greater|reap\" . --glob '"'!src/cinder/dispatch_gate.py'"' --glob '"'!docs/dispatch.md'"' --glob '"'!history/9001-dispatch-reaping.md'"'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+./src/cinder/attestation_gate.py:14:ATTESTATION_STATES = ("pending", "promoted", "settled", "abandoned")
+./src/cinder/attestation_gate.py:20:    def __init__(self, limit=DEFAULT_ATTESTATION_LIMIT, window_s=DEFAULT_ATTESTATION_WINDOW_S):
+./src/cinder/attestation_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/attestation_gate.py:83:        window_s=section.get("window_s", DEFAULT_ATTESTATION_WINDOW_S),
+./src/cinder/digest_flow.py:14:DIGEST_STATES = ("pending", "narrowd", "settled", "abandoned")
+./src/cinder/digest_flow.py:20:    def __init__(self, limit=DEFAULT_DIGEST_LIMIT, window_s=DEFAULT_DIGEST_WINDOW_S):
+./src/cinder/digest_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/digest_flow.py:83:        window_s=section.get("window_s", DEFAULT_DIGEST_WINDOW_S),
+./src/cinder/compaction_view.py:14:COMPACTION_STATES = ("pending", "resolved", "settled", "abandoned")
+./src/cinder/compaction_view.py:20:    def __init__(self, limit=DEFAULT_COMPACTION_LIMIT, window_s=DEFAULT_COMPACTION_WINDOW_S):
+./src/cinder/compaction_view.py:22:        self.window_s = int(window_s)
+./src/cinder/compaction_view.py:83:        window_s=section.get("window_s", DEFAULT_COMPACTION_WINDOW_S),
+./src/cinder/backfill_flow.py:14:BACKFILL_STATES = ("pending", "retired", "settled", "abandoned")
+./src/cinder/backfill_flow.py:20:    def __init__(self, limit=DEFAULT_BACKFILL_LIMIT, window_s=DEFAULT_BACKFILL_WINDOW_S):
+./src/cinder/backfill_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/backfill_flow.py:83:        window_s=section.get("window_s", DEFAULT_BACKFILL_WINDOW_S),
+./config/manifest.json:10:      "window_s": 60,
+./config/manifest.json:18:      "window_s": 30,
+./config/manifest.json:26:      "window_s": 120,
+./config/manifest.json:34:      "window_s": 45,
+./config/manifest.json:42:      "window_s": 120,
+./config/manifest.json:50:      "window_s": 120,
+./config/manifest.json:58:      "window_s": 120,
+./config/manifest.json:66:      "window_s": 15,
+./config/manifest.json:74:      "window_s": 90,
+./config/manifest.json:82:      "window_s": 120,
+./config/manifest.json:90:      "window_s": 90,
+./config/manifest.json:98:      "window_s": 180,
+./config/manifest.json:106:      "window_s": 45,
+./config/manifest.json:114:      "window_s": 30,
+./config/manifest.json:122:      "window_s": 180,
+./config/manifest.json:130:      "window_s": 60,
+./config/manifest.json:138:      "window_s": 30,
+./config/manifest.json:146:      "window_s": 15,
+./config/manifest.json:154:      "window_s": 120,
+./config/manifest.json:162:      "window_s": 15,
+./config/manifest.json:170:      "window_s": 15,
+./src/cinder/ingest_gate.py:14:INGEST_STATES = ("pending", "settled", "settled", "abandoned")
+./src/cinder/ingest_gate.py:20:    def __init__(self, limit=DEFAULT_INGEST_LIMIT, window_s=DEFAULT_INGEST_WINDOW_S):
+./src/cinder/ingest_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/ingest_gate.py:83:        window_s=section.get("window_s", DEFAULT_INGEST_WINDOW_S),
+./src/cinder/schema_flow.py:14:SCHEMA_STATES = ("pending", "resolved", "settled", "abandoned")
+./src/cinder/schema_flow.py:20:    def __init__(self, limit=DEFAULT_SCHEMA_LIMIT, window_s=DEFAULT_SCHEMA_WINDOW_S):
+./src/cinder/schema_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/schema_flow.py:83:        window_s=section.get("window_s", DEFAULT_SCHEMA_WINDOW_S),
+./src/cinder/retention_gate.py:14:RETENTION_STATES = ("pending", "materialised", "settled", "abandoned")
+./src/cinder/retention_gate.py:20:    def __init__(self, limit=DEFAULT_RETENTION_LIMIT, window_s=DEFAULT_RETENTION_WINDOW_S):
+./src/cinder/retention_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/retention_gate.py:83:        window_s=section.get("window_s", DEFAULT_RETENTION_WINDOW_S),
+./src/cinder/watermark_flow.py:14:WATERMARK_STATES = ("pending", "coalesced", "settled", "abandoned")
+./src/cinder/watermark_flow.py:20:    def __init__(self, limit=DEFAULT_WATERMARK_LIMIT, window_s=DEFAULT_WATERMARK_WINDOW_S):
+./src/cinder/watermark_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/watermark_flow.py:83:        window_s=section.get("window_s", DEFAULT_WATERMARK_WINDOW_S),
+./src/cinder/envelope_flow.py:14:ENVELOPE_STATES = ("pending", "coalesced", "settled", "abandoned")
+./src/cinder/envelope_flow.py:20:    def __init__(self, limit=DEFAULT_ENVELOPE_LIMIT, window_s=DEFAULT_ENVELOPE_WINDOW_S):
+./src/cinder/envelope_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/envelope_flow.py:83:        window_s=section.get("window_s", DEFAULT_ENVELOPE_WINDOW_S),
+./src/cinder/checkpoint_gate.py:14:CHECKPOINT_STATES = ("pending", "materialised", "settled", "abandoned")
+./src/cinder/checkpoint_gate.py:20:    def __init__(self, limit=DEFAULT_CHECKPOINT_LIMIT, window_s=DEFAULT_CHECKPOINT_WINDOW_S):
+./src/cinder/checkpoint_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/checkpoint_gate.py:83:        window_s=section.get("window_s", DEFAULT_CHECKPOINT_WINDOW_S),
+./src/cinder/tenancy_core.py:14:TENANCY_STATES = ("pending", "classifyd", "settled", "abandoned")
+./src/cinder/tenancy_core.py:20:    def __init__(self, limit=DEFAULT_TENANCY_LIMIT, window_s=DEFAULT_TENANCY_WINDOW_S):
+./src/cinder/tenancy_core.py:22:        self.window_s = int(window_s)
+./src/cinder/tenancy_core.py:83:        window_s=section.get("window_s", DEFAULT_TENANCY_WINDOW_S),
+./src/cinder/quota_core.py:14:QUOTA_STATES = ("pending", "advanced", "settled", "abandoned")
+./src/cinder/quota_core.py:20:    def __init__(self, limit=DEFAULT_QUOTA_LIMIT, window_s=DEFAULT_QUOTA_WINDOW_S):
+./src/cinder/quota_core.py:22:        self.window_s = int(window_s)
+./src/cinder/quota_core.py:83:        window_s=section.get("window_s", DEFAULT_QUOTA_WINDOW_S),
+./src/cinder/ledger_view.py:14:LEDGER_STATES = ("pending", "classifyd", "settled", "abandoned")
+./src/cinder/ledger_view.py:20:    def __init__(self, limit=DEFAULT_LEDGER_LIMIT, window_s=DEFAULT_LEDGER_WINDOW_S):
+./src/cinder/ledger_view.py:22:        self.window_s = int(window_s)
+./src/cinder/ledger_view.py:83:        window_s=section.get("window_s", DEFAULT_LEDGER_WINDOW_S),
+./src/cinder/rollup_gate.py:14:ROLLUP_STATES = ("pending", "coalesced", "settled", "abandoned")
+./src/cinder/rollup_gate.py:20:    def __init__(self, limit=DEFAULT_ROLLUP_LIMIT, window_s=DEFAULT_ROLLUP_WINDOW_S):
+./src/cinder/rollup_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/rollup_gate.py:83:        window_s=section.get("window_s", DEFAULT_ROLLUP_WINDOW_S),
+./src/cinder/routing_flow.py:14:ROUTING_STATES = ("pending", "reconciled", "settled", "abandoned")
+./src/cinder/routing_flow.py:20:    def __init__(self, limit=DEFAULT_ROUTING_LIMIT, window_s=DEFAULT_ROUTING_WINDOW_S):
+./src/cinder/routing_flow.py:22:        self.window_s = int(window_s)
+./src/cinder/routing_flow.py:83:        window_s=section.get("window_s", DEFAULT_ROUTING_WINDOW_S),
+./src/cinder/drain_gate.py:14:DRAIN_STATES = ("pending", "expandd", "settled", "abandoned")
+./src/cinder/drain_gate.py:20:    def __init__(self, limit=DEFAULT_DRAIN_LIMIT, window_s=DEFAULT_DRAIN_WINDOW_S):
+./src/cinder/drain_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/drain_gate.py:83:        window_s=section.get("window_s", DEFAULT_DRAIN_WINDOW_S),
+./src/cinder/lineage_view.py:14:LINEAGE_STATES = ("pending", "retired", "settled", "abandoned")
+./src/cinder/lineage_view.py:20:    def __init__(self, limit=DEFAULT_LINEAGE_LIMIT, window_s=DEFAULT_LINEAGE_WINDOW_S):
+./src/cinder/lineage_view.py:22:        self.window_s = int(window_s)
+./src/cinder/lineage_view.py:83:        window_s=section.get("window_s", DEFAULT_LINEAGE_WINDOW_S),
+./src/cinder/shard_gate.py:14:SHARD_STATES = ("pending", "admitd", "settled", "abandoned")
+./src/cinder/shard_gate.py:20:    def __init__(self, limit=DEFAULT_SHARD_LIMIT, window_s=DEFAULT_SHARD_WINDOW_S):
+./src/cinder/shard_gate.py:22:        self.window_s = int(window_s)
+./src/cinder/shard_gate.py:83:        window_s=section.get("window_s", DEFAULT_SHARD_WINDOW_S),
+./src/cinder/cursor_view.py:14:CURSOR_STATES = ("pending", "resolved", "settled", "abandoned")
+./src/cinder/cursor_view.py:20:    def __init__(self, limit=DEFAULT_CURSOR_LIMIT, window_s=DEFAULT_CURSOR_WINDOW_S):
+./src/cinder/cursor_view.py:22:        self.window_s = int(window_s)
+./src/cinder/cursor_view.py:83:        window_s=section.get("window_s", DEFAULT_CURSOR_WINDOW_S),
+./src/cinder/replay_core.py:14:REPLAY_STATES = ("pending", "retired", "settled", "abandoned")
+./src/cinder/replay_core.py:20:    def __init__(self, limit=DEFAULT_REPLAY_LIMIT, window_s=DEFAULT_REPLAY_WINDOW_S):
+./src/cinder/replay_core.py:22:        self.window_s = int(window_s)
+./src/cinder/replay_core.py:83:        window_s=section.get("window_s", DEFAULT_REPLAY_WINDOW_S),
+./tests/test_tenancy.py:9:    assert engine.window_s == 120
+./tests/test_tenancy.py:30:    assert engine.window_s == 120
+./docs/compaction.md:16:| `window_s` | 15 | seconds a bundle may stay `pending` before it is reaped |
+./docs/compaction.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/compaction.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_dispatch.py:9:    assert engine.window_s == 60
+./tests/test_dispatch.py:30:    assert engine.window_s == 60
+./docs/watermark.md:16:| `window_s` | 90 | seconds a cursor may stay `pending` before it is reaped |
+./docs/watermark.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/watermark.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_backfill.py:9:    assert engine.window_s == 90
+./tests/test_backfill.py:30:    assert engine.window_s == 90
+./docs/rollup.md:16:| `window_s` | 60 | seconds a frame may stay `pending` before it is reaped |
+./docs/rollup.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/rollup.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_lineage.py:9:    assert engine.window_s == 180
+./tests/test_lineage.py:30:    assert engine.window_s == 180
+./docs/cursor.md:16:| `window_s` | 30 | seconds a entry may stay `pending` before it is reaped |
+./docs/cursor.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/cursor.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_rollup.py:9:    assert engine.window_s == 60
+./tests/test_rollup.py:30:    assert engine.window_s == 60
+./docs/ingest.md:16:| `window_s` | 30 | seconds a bundle may stay `pending` before it is reaped |
+./docs/ingest.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/ingest.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_routing.py:9:    assert engine.window_s == 15
+./tests/test_routing.py:30:    assert engine.window_s == 15
+./tests/test_watermark.py:9:    assert engine.window_s == 90
+./tests/test_watermark.py:30:    assert engine.window_s == 90
+./docs/architecture.md:47:`limit` and `window_s`; anything else in a section is ignored with a warning, which is
+./tests/test_compaction.py:9:    assert engine.window_s == 15
+./tests/test_compaction.py:30:    assert engine.window_s == 15
+./tests/test_checkpoint.py:9:    assert engine.window_s == 120
+./tests/test_checkpoint.py:30:    assert engine.window_s == 120
+./tests/test_attestation.py:9:    assert engine.window_s == 30
+./tests/test_attestation.py:30:    assert engine.window_s == 30
+./tests/test_retention.py:9:    assert engine.window_s == 180
+./tests/test_retention.py:30:    assert engine.window_s == 180
+./tests/test_ledger.py:9:    assert engine.window_s == 15
+./tests/test_ledger.py:30:    assert engine.window_s == 15
+./tests/test_replay.py:9:    assert engine.window_s == 120
+./tests/test_replay.py:30:    assert engine.window_s == 120
+./tests/test_drain.py:9:    assert engine.window_s == 120
+./tests/test_drain.py:30:    assert engine.window_s == 120
+./tests/test_shard.py:9:    assert engine.window_s == 45
+./tests/test_shard.py:30:    assert engine.window_s == 45
+./tests/test_quota.py:9:    assert engine.window_s == 45
+./tests/test_quota.py:30:    assert engine.window_s == 45
+./tests/test_ingest.py:9:    assert engine.window_s == 30
+./tests/test_ingest.py:30:    assert engine.window_s == 30
+./docs/attestation.md:16:| `window_s` | 30 | seconds a window may stay `pending` before it is reaped |
+./docs/attestation.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/attestation.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_schema.py:9:    assert engine.window_s == 120
+./tests/test_schema.py:30:    assert engine.window_s == 120
+./tests/test_digest.py:9:    assert engine.window_s == 15
+./tests/test_digest.py:30:    assert engine.window_s == 15
+./tests/test_envelope.py:9:    assert engine.window_s == 120
+./tests/test_envelope.py:30:    assert engine.window_s == 120
+./docs/backfill.md:16:| `window_s` | 90 | seconds a entry may stay `pending` before it is reaped |
+./docs/backfill.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/backfill.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/ledger.md:16:| `window_s` | 15 | seconds a handle may stay `pending` before it is reaped |
+./docs/ledger.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/ledger.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./tests/test_cursor.py:9:    assert engine.window_s == 30
+./tests/test_cursor.py:30:    assert engine.window_s == 30
+./docs/digest.md:16:| `window_s` | 15 | seconds a manifest may stay `pending` before it is reaped |
+./docs/digest.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/digest.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/retention.md:16:| `window_s` | 180 | seconds a slot may stay `pending` before it is reaped |
+./docs/retention.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/retention.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/schema.md:16:| `window_s` | 120 | seconds a frame may stay `pending` before it is reaped |
+./docs/schema.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/schema.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/drain.md:16:| `window_s` | 120 | seconds a receipt may stay `pending` before it is reaped |
+./docs/drain.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/drain.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/routing.md:16:| `window_s` | 15 | seconds a entry may stay `pending` before it is reaped |
+./docs/routing.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/routing.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/quota.md:16:| `window_s` | 45 | seconds a entry may stay `pending` before it is reaped |
+./docs/quota.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/quota.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/operations.md:46:- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
+./docs/shard.md:16:| `window_s` | 45 | seconds a manifest may stay `pending` before it is reaped |
+./docs/shard.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/shard.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/tenancy.md:16:| `window_s` | 120 | seconds a entry may stay `pending` before it is reaped |
+./docs/tenancy.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/tenancy.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/policy/03-retention.md:1:# Policy: retention of reaped records
+./docs/policy/03-retention.md:11:A record that has waited longer than its stage's `window_s` is **reaped**. Reaping is a change
+./docs/policy/03-retention.md:14:1. The record's `state` becomes `abandoned`.
+./docs/policy/03-retention.md:16:   term of its class. It is never removed from the stage by reaping.
+./docs/policy/03-retention.md:17:3. An `abandoned` record **stops counting against the stage's `limit`**. That is the entire
+./docs/policy/03-retention.md:18:   operational purpose of reaping: to return capacity without losing evidence.
+./docs/policy/03-retention.md:20:## Which records count against the limit, stated once and completely
+./docs/policy/03-retention.md:23:reaches `settled` or `abandoned`, and at every state in between**. The intermediate state a
+./docs/policy/03-retention.md:28:working set, and `abandoned`, because reaping is what returned the slot. Nothing else is exempt,
+./docs/policy/03-retention.md:34:cause somebody will later have to establish. A stage that drops its reaped records returns the
+./docs/policy/03-retention.md:36:a reaped record that was still there to read.
+./docs/policy/03-retention.md:41:governs only what reaping does, and it governs it for every stage in the project.
+./docs/checkpoint.md:16:| `window_s` | 120 | seconds a window may stay `pending` before it is reaped |
+./docs/checkpoint.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/checkpoint.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/replay.md:16:| `window_s` | 120 | seconds a bundle may stay `pending` before it is reaped |
+./docs/replay.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/replay.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/lineage.md:16:| `window_s` | 180 | seconds a manifest may stay `pending` before it is reaped |
+./docs/lineage.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/lineage.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+./docs/envelope.md:16:| `window_s` | 120 | seconds a handle may stay `pending` before it is reaped |
+./docs/envelope.md:28:order in `docs/operations.md` was violated and the run should be abandoned rather than
+./docs/envelope.md:36:- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+exec
+/bin/bash -lc "sed -n '1,240p' docs/policy/03-retention.md; sed -n '1,180p' docs/operations.md; git status --short; git diff -- src/cinder/dispatch_gate.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+# Policy: retention of reaped records
+
+*What happens to a record the pipeline stops waiting for.*
+
+**This policy outranks `docs/architecture.md`, `docs/operations.md`, every component document
+and every history entry.** Where a component document describes behaviour this policy forbids,
+the component document is stale and is to be corrected, not followed.
+
+## The rule
+
+A record that has waited longer than its stage's `window_s` is **reaped**. Reaping is a change
+of state and not a removal:
+
+1. The record's `state` becomes `abandoned`.
+2. The record **stays in the stage** and stays visible to `snapshot()`, for the full retention
+   term of its class. It is never removed from the stage by reaping.
+3. An `abandoned` record **stops counting against the stage's `limit`**. That is the entire
+   operational purpose of reaping: to return capacity without losing evidence.
+
+## Which records count against the limit, stated once and completely
+
+A record counts against its stage's `limit` **from the moment the stage accepts it until it
+reaches `settled` or `abandoned`, and at every state in between**. The intermediate state a
+stage writes when it acts on a record — the one named after the stage's own operation — is a
+record still in flight, still occupying a slot, and still counted.
+
+Only two states do not count: `settled`, because the record is durable and has left the stage's
+working set, and `abandoned`, because reaping is what returned the slot. Nothing else is exempt,
+and a stage that counts only its `pending` records will report capacity it does not have.
+
+## Why the record is kept
+
+Reaping is how the pipeline recovers from a stall, and a stall is exactly the condition whose
+cause somebody will later have to establish. A stage that drops its reaped records returns the
+same capacity and destroys the only record that the stall happened. Two reviews have turned on
+a reaped record that was still there to read.
+
+## What is out of scope here
+
+The retention term itself is a property of the record's class and is set elsewhere. This policy
+governs only what reaping does, and it governs it for every stage in the project.
+# Operations
+
+## When a stage refuses work
+
+Every stage refuses rather than queues above its `limit`. A refusal is normal and is
+not an incident on its own. It becomes an incident when the shed count exceeds the
+stage's own window for two consecutive windows.
+
+| stage | limit | window (s) | on-call team |
+| --- | ---: | ---: | --- |
+| dispatch | 120 | 60 | Compliance Review |
+| cursor | 32 | 30 | Delivery Engineering |
+| replay | 120 | 120 | Data Stewardship |
+| quota | 120 | 45 | Data Stewardship |
+| drain | 48 | 120 | Capacity Planning |
+| envelope | 250 | 120 | Delivery Engineering |
+| tenancy | 250 | 120 | Data Stewardship |
+| digest | 96 | 15 | Compliance Review |
+| watermark | 48 | 90 | Client Integrations |
+| checkpoint | 32 | 120 | Capacity Planning |
+| backfill | 12 | 90 | Platform Reliability |
+| lineage | 64 | 180 | Data Stewardship |
+| shard | 120 | 45 | Capacity Planning |
+| ingest | 250 | 30 | Capacity Planning |
+| retention | 960 | 180 | Compliance Review |
+| rollup | 48 | 60 | Client Integrations |
+| attestation | 48 | 30 | Platform Reliability |
+| ledger | 120 | 15 | Capacity Planning |
+| schema | 120 | 120 | Data Stewardship |
+| routing | 250 | 15 | Data Stewardship |
+| compaction | 250 | 15 | Delivery Engineering |
+
+## Restart procedure
+
+1. Seal in reverse manifest order (`docs/architecture.md`).
+2. Take a `snapshot()` of every stage and write it to the evidence store **before**
+   anything is restarted. A snapshot taken afterwards is not evidence.
+3. Restart the assembler, not the individual stages.
+4. Compare the new snapshot against the old one. Any record that changed state without
+   passing through `pending` is a defect and is reported rather than corrected.
+
+## What never happens in flight
+
+- A limit is never changed while the pipeline is running. It is changed in the
+  manifest and takes effect on the next assembly.
+- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
+- A stage is never sealed twice in the same drain to 'make sure'; `seal()` is
+  idempotent, so a second call is harmless, but a second call in the logs is read as
+  evidence that the operator was unsure, and the drain is audited.
+ M ../../../../cand-claude/m10-main-claude/prompt.md
+ M ../../../../cand-claude/m10-main-claude/ref/report/limits.csv
+ M ../../../../cand-claude/m10-main-claude/ref/tools/build_limits.py
+ M ../../../../cand-claude/m10-main-claude/test.py
+ M ../../../../cand-luna/m01-cheap-luna/prompt.md
+ M ../../../../cand-luna/m02-main-luna/ref/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/seed/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/test.py
+ M ../../../../composition.py
+ M ../../../haiku-pilot/trial-2/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../haiku-pilot/trial-2/m02-main-luna/docs/dispatch.md
+ M ../../../haiku-pilot/trial-2/m10-main-claude/report/limits.csv
+ M ../../../haiku-pilot/trial-2/m10-main-claude/tools/build_limits.py
+ M ../m01-cheap-luna.codex.log
+ M ../m01-cheap-luna/src/harbor/schema_store.py
+ M ../m01-main-claude.codex.log
+ M ../m02-cheap-glm.codex.log
+ M ../m02-main-luna.codex.log
+ M ../m02-main-luna/docs/dispatch.md
+ M ../m03-cheap-claude.codex.log
+ M ../m03-main-glm.codex.log
+ M ../m04-cheap-luna.codex.log
+ M ../../../sonnet-pilot/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../sonnet-pilot/trial-0/m02-main-luna/docs/dispatch.md
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/report/limits.csv
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/tools/build_limits.py
+?? ../../../../cand-claude/m10-main-claude/seed/docs/policy/
+?? ../../../../cand-luna/m02-main-luna/seed/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m10-main-claude/docs/policy/
+?? ../m01-cheap-luna.final.txt
+?? ../m01-main-claude.final.txt
+?? ../m02-cheap-glm.final.txt
+?? ../m02-main-luna.final.txt
+?? ../m02-main-luna/history/0031-dispatch-capacity.md
+?? ../m03-cheap-claude.final.txt
+?? ../m04-cheap-luna.final.txt
+?? ../m04-main-claude.codex.log
+?? ../m04-main-claude.final.txt
+?? ../m05-cheap-glm.codex.log
+?? ../m05-cheap-glm.final.txt
+?? ../m05-main-luna.codex.log
+?? ../m05-main-luna.final.txt
+?? ../m06-cheap-claude.codex.log
+?? ../m06-cheap-claude.final.txt
+?? ../m06-main-glm.codex.log
+?? ../m06-main-glm.final.txt
+?? ../m07-cheap-luna.codex.log
+?? ../m07-cheap-luna.final.txt
+?? ../m07-main-claude.codex.log
+?? ../m07-main-claude.final.txt
+?? ../m08-cheap-glm.codex.log
+?? ../m08-cheap-glm.final.txt
+?? ../m08-main-luna.codex.log
+?? ../m08-main-luna.final.txt
+?? ../m09-cheap-claude.codex.log
+?? ../m09-cheap-claude.final.txt
+?? ../m09-main-glm.codex.log
+?? ../m09-main-glm.final.txt
+?? ../m10-cheap-luna.codex.log
+?? ../m10-cheap-luna.final.txt
+?? ../m10-main-claude.codex.log
+?? ../m10-main-claude.final.txt
+?? ../m10-main-claude/docs/policy/
+?? ../results.json
+?? ../../../sonnet-pilot/trial-0/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../sonnet-pilot/trial-0/m10-main-claude/docs/policy/
+
+exec
+/bin/bash -lc 'git rev-parse --show-toplevel && git status --short -- src/cinder/dispatch_gate.py && git diff --stat -- src/cinder/dispatch_gate.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+/home/slb/bench-v7
+
+exec
+/bin/bash -lc 'realpath src/cinder/dispatch_gate.py; git ls-files --full-name -- src/cinder/dispatch_gate.py; git status --short --untracked-files=no -- /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+
+codex
+The retention policy resolves the capacity question too: every state counts until `settled` or `abandoned`, so `active_count()` must exclude only those two states. I’ll implement reaping as an in-place `pending` → `abandoned` transition, preserving snapshot visibility and making repeated calls idempotent.
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+exec
+/bin/bash -lc "rg -n \"_manifests|state|active_count|reap\" tests src/cinder --glob '*.py' | head -240; git diff --check -- ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py; git diff -- ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py" in /home/slb/bench-v7
+ succeeded in 0ms:
+rg: tests: No such file or directory (os error 2)
+rg: src/cinder: No such file or directory (os error 2)
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202..93100e6 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@ class DispatchLedger:
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+exec
+/bin/bash -lc "rg -n \"_manifests|state|active_count|reap\" tests src/cinder --glob '*.py' | head -240" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 0ms:
+src/cinder/dispatch_gate.py:23:        self._manifests = {}
+src/cinder/dispatch_gate.py:34:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/dispatch_gate.py:35:        record["state"] = "resolved"
+src/cinder/dispatch_gate.py:48:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/dispatch_gate.py:49:        record["state"] = "admitd"
+src/cinder/dispatch_gate.py:62:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/dispatch_gate.py:63:        record["state"] = "classifyd"
+src/cinder/dispatch_gate.py:68:    def reap(self, ages):
+src/cinder/dispatch_gate.py:72:        reaped = 0
+src/cinder/dispatch_gate.py:74:            record = self._manifests.get(key)
+src/cinder/dispatch_gate.py:75:            if record is not None and record["state"] == "pending" and age > self.window_s:
+src/cinder/dispatch_gate.py:76:                record["state"] = "abandoned"
+src/cinder/dispatch_gate.py:77:                reaped += 1
+src/cinder/dispatch_gate.py:78:        return reaped
+src/cinder/dispatch_gate.py:80:    def active_count(self):
+src/cinder/dispatch_gate.py:82:        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
+src/cinder/dispatch_gate.py:87:        return len(self._manifests)
+src/cinder/dispatch_gate.py:91:        return [self._manifests[k] for k in sorted(self._manifests)]
+src/cinder/ledger_view.py:34:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ledger_view.py:35:        record["state"] = "classifyd"
+src/cinder/ledger_view.py:48:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ledger_view.py:49:        record["state"] = "resolved"
+src/cinder/ledger_view.py:62:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ledger_view.py:63:        record["state"] = "retired"
+src/cinder/attestation_gate.py:34:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/attestation_gate.py:35:        record["state"] = "promoted"
+src/cinder/attestation_gate.py:48:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/attestation_gate.py:49:        record["state"] = "classifyd"
+src/cinder/attestation_gate.py:62:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/attestation_gate.py:63:        record["state"] = "advanced"
+src/cinder/drain_gate.py:34:        record = self._receipts.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/drain_gate.py:35:        record["state"] = "expandd"
+src/cinder/drain_gate.py:48:        record = self._receipts.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/drain_gate.py:49:        record["state"] = "admitd"
+src/cinder/drain_gate.py:62:        record = self._receipts.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/drain_gate.py:63:        record["state"] = "retired"
+src/cinder/digest_flow.py:23:        self._manifests = {}
+src/cinder/digest_flow.py:34:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/digest_flow.py:35:        record["state"] = "narrowd"
+src/cinder/digest_flow.py:48:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/digest_flow.py:49:        record["state"] = "promoted"
+src/cinder/digest_flow.py:62:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/digest_flow.py:63:        record["state"] = "coalesced"
+src/cinder/digest_flow.py:71:        return len(self._manifests)
+src/cinder/digest_flow.py:75:        return [self._manifests[k] for k in sorted(self._manifests)]
+src/cinder/compaction_view.py:34:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/compaction_view.py:35:        record["state"] = "resolved"
+src/cinder/compaction_view.py:48:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/compaction_view.py:49:        record["state"] = "settled"
+src/cinder/compaction_view.py:62:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/compaction_view.py:63:        record["state"] = "reconciled"
+src/cinder/shard_gate.py:23:        self._manifests = {}
+src/cinder/shard_gate.py:34:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/shard_gate.py:35:        record["state"] = "admitd"
+src/cinder/shard_gate.py:48:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/shard_gate.py:49:        record["state"] = "coalesced"
+src/cinder/shard_gate.py:62:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/shard_gate.py:63:        record["state"] = "materialised"
+src/cinder/shard_gate.py:71:        return len(self._manifests)
+src/cinder/shard_gate.py:75:        return [self._manifests[k] for k in sorted(self._manifests)]
+src/cinder/backfill_flow.py:34:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/backfill_flow.py:35:        record["state"] = "retired"
+src/cinder/backfill_flow.py:48:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/backfill_flow.py:49:        record["state"] = "classifyd"
+src/cinder/backfill_flow.py:62:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/backfill_flow.py:63:        record["state"] = "advanced"
+src/cinder/schema_flow.py:34:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/schema_flow.py:35:        record["state"] = "resolved"
+src/cinder/schema_flow.py:48:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/schema_flow.py:49:        record["state"] = "narrowd"
+src/cinder/schema_flow.py:62:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/schema_flow.py:63:        record["state"] = "coalesced"
+src/cinder/retention_gate.py:34:        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/retention_gate.py:35:        record["state"] = "materialised"
+src/cinder/retention_gate.py:48:        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/retention_gate.py:49:        record["state"] = "admitd"
+src/cinder/retention_gate.py:62:        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/retention_gate.py:63:        record["state"] = "settled"
+src/cinder/rollup_gate.py:34:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/rollup_gate.py:35:        record["state"] = "coalesced"
+src/cinder/rollup_gate.py:48:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/rollup_gate.py:49:        record["state"] = "deferd"
+src/cinder/rollup_gate.py:62:        record = self._frames.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/rollup_gate.py:63:        record["state"] = "narrowd"
+src/cinder/ingest_gate.py:34:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ingest_gate.py:35:        record["state"] = "settled"
+src/cinder/ingest_gate.py:48:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ingest_gate.py:49:        record["state"] = "admitd"
+src/cinder/ingest_gate.py:62:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/ingest_gate.py:63:        record["state"] = "narrowd"
+src/cinder/quota_core.py:34:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/quota_core.py:35:        record["state"] = "advanced"
+src/cinder/quota_core.py:48:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/quota_core.py:49:        record["state"] = "promoted"
+src/cinder/quota_core.py:62:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/quota_core.py:63:        record["state"] = "admitd"
+src/cinder/envelope_flow.py:34:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/envelope_flow.py:35:        record["state"] = "coalesced"
+src/cinder/envelope_flow.py:48:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/envelope_flow.py:49:        record["state"] = "reconciled"
+src/cinder/envelope_flow.py:62:        record = self._handles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/envelope_flow.py:63:        record["state"] = "promoted"
+src/cinder/routing_flow.py:34:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/routing_flow.py:35:        record["state"] = "reconciled"
+src/cinder/routing_flow.py:48:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/routing_flow.py:49:        record["state"] = "promoted"
+src/cinder/routing_flow.py:62:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/routing_flow.py:63:        record["state"] = "narrowd"
+src/cinder/lineage_view.py:23:        self._manifests = {}
+src/cinder/lineage_view.py:34:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/lineage_view.py:35:        record["state"] = "retired"
+src/cinder/lineage_view.py:48:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/lineage_view.py:49:        record["state"] = "advanced"
+src/cinder/lineage_view.py:62:        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/lineage_view.py:63:        record["state"] = "materialised"
+src/cinder/lineage_view.py:71:        return len(self._manifests)
+src/cinder/lineage_view.py:75:        return [self._manifests[k] for k in sorted(self._manifests)]
+src/cinder/tenancy_core.py:34:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/tenancy_core.py:35:        record["state"] = "classifyd"
+src/cinder/tenancy_core.py:48:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/tenancy_core.py:49:        record["state"] = "settled"
+src/cinder/tenancy_core.py:62:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/tenancy_core.py:63:        record["state"] = "resolved"
+src/cinder/watermark_flow.py:34:        record = self._cursors.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/watermark_flow.py:35:        record["state"] = "coalesced"
+src/cinder/watermark_flow.py:48:        record = self._cursors.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/watermark_flow.py:49:        record["state"] = "admitd"
+src/cinder/watermark_flow.py:62:        record = self._cursors.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/watermark_flow.py:63:        record["state"] = "expandd"
+src/cinder/replay_core.py:34:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/replay_core.py:35:        record["state"] = "retired"
+src/cinder/replay_core.py:48:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/replay_core.py:49:        record["state"] = "admitd"
+src/cinder/replay_core.py:62:        record = self._bundles.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/replay_core.py:63:        record["state"] = "deferd"
+src/cinder/checkpoint_gate.py:34:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/checkpoint_gate.py:35:        record["state"] = "materialised"
+src/cinder/checkpoint_gate.py:48:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/checkpoint_gate.py:49:        record["state"] = "reconciled"
+src/cinder/checkpoint_gate.py:62:        record = self._windows.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/checkpoint_gate.py:63:        record["state"] = "resolved"
+src/cinder/cursor_view.py:34:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/cursor_view.py:35:        record["state"] = "resolved"
+src/cinder/cursor_view.py:48:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/cursor_view.py:49:        record["state"] = "deferd"
+src/cinder/cursor_view.py:62:        record = self._entrys.setdefault(key, {"key": key, "state": "pending"})
+src/cinder/cursor_view.py:63:        record["state"] = "retired"
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+exec
+/bin/bash -lc 'git log --oneline --all -- ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py | head -20; git log -p -3 -- ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py' in /home/slb/bench-v7
+ succeeded in 0ms:
+af4d4ef glm revisions and reference arm rows
+commit af4d4ef1068f9b58d358c2fc6b151619acf28345
+Author: Stephen Belden <belden.stephen@gmail.com>
+Date:   Sat Sep 5 00:19:35 2026 -0600
+
+    glm revisions and reference arm rows
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+new file mode 100644
+index 0000000..d506202
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -0,0 +1,84 @@
++"""dispatch_gate: fanout handling for the cinder-vault pipeline.
++
++This module owns the dispatch stage. It is called by cursor_view and calls into replay_core;
++neither of those may be imported at module scope, because the pipeline is
++assembled at run time from the manifest rather than at import time.
++
++Ownership: M. Lindqvist (Compliance Review).
++"""
++
++from __future__ import annotations
++
++DEFAULT_DISPATCH_LIMIT = 120
++DEFAULT_DISPATCH_WINDOW_S = 60
++DISPATCH_STATES = ("pending", "resolved", "settled", "abandoned")
++
++
++class DispatchLedger:
++    """Coordinates fanout manifests between the dispatch stage and CursorGateway."""
++
++    def __init__(self, limit=DEFAULT_DISPATCH_LIMIT, window_s=DEFAULT_DISPATCH_WINDOW_S):
++        self.limit = int(limit)
++        self.window_s = int(window_s)
++        self._manifests = {}
++        self._sealed = False
++
++    def resolve(self, key, payload=None):
++        """Resolve the manifest named ``key``.
++
++        Returns the stored record, or ``None`` when the dispatch stage has
++        already sealed and no further mutation is permitted.
++        """
++        if self._sealed:
++            return None
++        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
++        record["state"] = "resolved"
++        if payload is not None:
++            record["payload"] = payload
++        return record
++
++    def admit(self, key, payload=None):
++        """Admit the manifest named ``key``.
++
++        Returns the stored record, or ``None`` when the dispatch stage has
++        already sealed and no further mutation is permitted.
++        """
++        if self._sealed:
++            return None
++        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
++        record["state"] = "admitd"
++        if payload is not None:
++            record["payload"] = payload
++        return record
++
++    def classify(self, key, payload=None):
++        """Classify the manifest named ``key``.
++
++        Returns the stored record, or ``None`` when the dispatch stage has
++        already sealed and no further mutation is permitted.
++        """
++        if self._sealed:
++            return None
++        record = self._manifests.setdefault(key, {"key": key, "state": "pending"})
++        record["state"] = "classifyd"
++        if payload is not None:
++            record["payload"] = payload
++        return record
++
++    def seal(self):
++        """Close the stage. Idempotent; see docs/operations.md on drain order."""
++        self._sealed = True
++        return len(self._manifests)
++
++    def snapshot(self):
++        """Return a stable, sorted view for the audit trail."""
++        return [self._manifests[k] for k in sorted(self._manifests)]
++
++
++def build_dispatch(config):
++    """Construct a :class:`DispatchLedger` from the ``dispatch`` section of the manifest."""
++    section = config.get("dispatch", {})
++    return DispatchLedger(
++        limit=section.get("limit", DEFAULT_DISPATCH_LIMIT),
++        window_s=section.get("window_s", DEFAULT_DISPATCH_WINDOW_S),
++    )
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+codex
+The implementation is now limited to the requested two methods; no existing methods, constants, constructor, or `snapshot()` were changed. I’m running the dispatch test suite once as the final verification.
+exec
+/bin/bash -lc 'pytest -q tests/test_dispatch.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ exited 2 in 122ms:
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_dispatch.py ____________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/tests/test_dispatch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_dispatch.py:3: in <module>
+    from cinder.dispatch_gate import DispatchLedger, build_dispatch
+E   ModuleNotFoundError: No module named 'cinder'
+=========================== short test summary info ============================
+ERROR tests/test_dispatch.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.08s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+codex
+The first test invocation failed during collection because this snapshot is not installed as a package (`ModuleNotFoundError: cinder`), before exercising the change. I’m rerunning the same dispatch tests with the repository’s `src` directory on `PYTHONPATH`.
+exec
+/bin/bash -lc 'PYTHONPATH=src pytest -q tests/test_dispatch.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude
+ succeeded in 57ms:
+....                                                                     [100%]
+4 passed in 0.01s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+codex
+Implemented in `src/cinder/dispatch_gate.py`:
+
+- Added `reap(ages)` to mark overdue pending records as `abandoned` while retaining them.
+- Added `active_count()` excluding `settled` and `abandoned` records.
+- Preserved sealed-stage behavior and all existing methods.
+
+Verification: `PYTHONPATH=src pytest -q tests/test_dispatch.py` — **4 passed**.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+index d506202845dc3388b5058d15fcaecb68255fb8b4..93100e61efaa667fcad40ee8258d5da6c777aa9e
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+@@ -65,6 +65,22 @@
+             record["payload"] = payload
+         return record
+ 
++    def reap(self, ages):
++        """Abandon pending manifests that have exceeded the dispatch window."""
++        if self._sealed:
++            return 0
++        reaped = 0
++        for key, age in ages.items():
++            record = self._manifests.get(key)
++            if record is not None and record["state"] == "pending" and age > self.window_s:
++                record["state"] = "abandoned"
++                reaped += 1
++        return reaped
++
++    def active_count(self):
++        """Return the number of manifests still occupying dispatch capacity."""
++        return sum(record["state"] not in ("settled", "abandoned") for record in self._manifests.values())
++
+     def seal(self):
+         """Close the stage. Idempotent; see docs/operations.md on drain order."""
+         self._sealed = True
+
+tokens used
+59,034
+Implemented in `src/cinder/dispatch_gate.py`:
+
+- Added `reap(ages)` to mark overdue pending records as `abandoned` while retaining them.
+- Added `active_count()` excluding `settled` and `abandoned` records.
+- Preserved sealed-stage behavior and all existing methods.
+
+Verification: `PYTHONPATH=src pytest -q tests/test_dispatch.py` — **4 passed**.

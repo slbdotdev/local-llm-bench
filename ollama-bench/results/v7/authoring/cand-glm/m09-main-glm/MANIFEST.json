@@ -1,0 +1,10 @@
+{
+  "task": "m09-main-glm",
+  "family": "glm",
+  "band": "main",
+  "material_chars": 166924,
+  "material_tokens": 35790,
+  "chars_per_token": 4.664,
+  "seed_files": 95,
+  "band_note": "inside the 29000-36000 band with 210 tokens of headroom; the measure is a deterministic char count so this cannot drift"
+}

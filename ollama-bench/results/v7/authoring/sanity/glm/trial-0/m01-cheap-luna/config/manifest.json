@@ -1,0 +1,30 @@
+{
+  "project": "harbor-indexer",
+  "package": "harbor",
+  "stages": [
+    {
+      "name": "envelope",
+      "module": "envelope_view",
+      "class": "EnvelopeRegistry",
+      "limit": 120,
+      "window_s": 120,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "schema",
+      "module": "schema_store",
+      "class": "SchemaPlanner",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "shard",
+      "module": "shard_core",
+      "class": "ShardEngine",
+      "limit": 250,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    }
+  ]
+}

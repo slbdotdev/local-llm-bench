@@ -1,0 +1,182 @@
+{
+  "project": "larkspur-vault",
+  "package": "larkspur",
+  "stages": [
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyPlanner",
+      "limit": 480,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "drain",
+      "module": "drain_flow",
+      "class": "DrainEngine",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_flow",
+      "class": "ReconcileLedger",
+      "limit": 480,
+      "window_s": 60,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "schema",
+      "module": "schema_gate",
+      "class": "SchemaPlanner",
+      "limit": 48,
+      "window_s": 45,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "quota",
+      "module": "quota_store",
+      "class": "QuotaLedger",
+      "limit": 96,
+      "window_s": 60,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "audit",
+      "module": "audit_flow",
+      "class": "AuditEngine",
+      "limit": 48,
+      "window_s": 15,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "routing",
+      "module": "routing_gate",
+      "class": "RoutingGateway",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "digest",
+      "module": "digest_gate",
+      "class": "DigestEngine",
+      "limit": 24,
+      "window_s": 45,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_core",
+      "class": "RollupLedger",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "shard",
+      "module": "shard_store",
+      "class": "ShardEngine",
+      "limit": 24,
+      "window_s": 120,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_store",
+      "class": "AttestationLedger",
+      "limit": 960,
+      "window_s": 90,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_flow",
+      "class": "DispatchEngine",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_view",
+      "class": "CompactionPlanner",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_core",
+      "class": "IngestEngine",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_flow",
+      "class": "EnvelopeRegistry",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_view",
+      "class": "ThrottleLedger",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_flow",
+      "class": "LineagePlanner",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "replay",
+      "module": "replay_core",
+      "class": "ReplayRegistry",
+      "limit": 48,
+      "window_s": 15,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "retention",
+      "module": "retention_gate",
+      "class": "RetentionRegistry",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_store",
+      "class": "CheckpointGateway",
+      "limit": 120,
+      "window_s": 60,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_core",
+      "class": "BackfillLedger",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "settle",
+      "module": "settle_gate",
+      "class": "SettleGate",
+      "limit": 24,
+      "window_s": 90,
+      "owner": "P. Ravindran"
+    }
+  ]
+}

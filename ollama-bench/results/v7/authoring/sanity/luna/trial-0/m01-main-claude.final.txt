@@ -1,0 +1,7 @@
+Implemented in `src/cinder/dispatch_gate.py`:
+
+- Added `reap(ages)` to mark overdue pending records as `abandoned` while retaining them.
+- Added `active_count()` excluding `settled` and `abandoned` records.
+- Preserved sealed-stage behavior and all existing methods.
+
+Verification: `PYTHONPATH=src pytest -q tests/test_dispatch.py` — **4 passed**.

@@ -2,56 +2,56 @@
  "candidate": "m01-main-claude",
  "rows": {
   "reference": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,
    "traceback": false
   },
   "empty": {
-   "score": "0/12",
+   "score": "0/13",
    "verdict": "visibly_failed",
    "rc": 1,
    "passed": false,
    "traceback": false
   },
   "wrong": {
-   "score": "8/12",
+   "score": "9/13",
    "verdict": "confidently_wrong",
    "rc": 1,
    "passed": false,
    "traceback": false
   },
   "perturb:no_trailing_newline": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,
    "traceback": false
   },
   "perturb:extra_trailing_nl": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,
    "traceback": false
   },
   "perturb:crlf": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,
    "traceback": false
   },
   "perturb:leading_blank": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,
    "traceback": false
   },
   "perturb:trailing_spaces": {
-   "score": "12/12",
+   "score": "13/13",
    "verdict": "correct",
    "rc": 0,
    "passed": true,

@@ -1,0 +1,30 @@
+{
+  "project": "quota-desk",
+  "package": "quota",
+  "stages": [
+    {
+      "name": "ingest",
+      "module": "ingest_gate",
+      "class": "IngestEngine",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_store",
+      "class": "LineageRegistry",
+      "limit": 480,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "retention",
+      "module": "retention_store",
+      "class": "RetentionEngine",
+      "limit": 24,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    }
+  ]
+}

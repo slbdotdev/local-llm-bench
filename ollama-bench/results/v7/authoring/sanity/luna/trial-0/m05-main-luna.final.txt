@@ -1,0 +1,9 @@
+Updated [docs/admission_policy.md](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna/docs/admission_policy.md):
+
+- `limit`: 18
+- `window_s`: 75
+- State: `held`, ordered `pending`, `held`, `settled`, `abandoned`
+
+No implementation, tests, manifest, or generated files were changed.
+
+Validation passed. `pytest -q` could not collect tests: 21 `ModuleNotFoundError: CedarSignal` errors due to repository import-path setup.

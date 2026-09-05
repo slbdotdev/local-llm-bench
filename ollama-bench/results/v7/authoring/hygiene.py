@@ -52,18 +52,31 @@ def _ora_is_junk(path):
 
 
 def clean_seed(cand):
-    seed = os.path.join(cand, "seed")
+    """Sweep `seed/` and `ref/` alike.
+
+    `ref/` was overlooked until the suite was assembled and found to carry
+    `ref/__pycache__/solve.cpython-314.pyc` in four candidates and
+    `ref/src/<pkg>/__pycache__` in two more. That is not cosmetic: an overlay is copied *into*
+    the sandbox, so a stale `.pyc` in `ref/` is a file the reference answer creates, and a
+    grader that hashes the file set or forbids new files would score its own reference `unsafe`
+    on some future run. Seeds were swept from the first night; the reference was not, which is
+    the same blind spot one directory over.
+    """
     removed = []
-    for base, dirs, names in os.walk(seed, topdown=True):
-        for d in list(dirs):
-            if d in JUNK_DIRS:
-                shutil.rmtree(os.path.join(base, d))
-                dirs.remove(d)
-                removed.append(os.path.relpath(os.path.join(base, d), seed))
-        for n in names:
-            if n.endswith((".pyc", ".pyo")):
-                os.remove(os.path.join(base, n))
-                removed.append(os.path.relpath(os.path.join(base, n), seed))
+    for sub in ("seed", "ref"):
+        root = os.path.join(cand, sub)
+        if not os.path.isdir(root):
+            continue
+        for base, dirs, names in os.walk(root, topdown=True):
+            for d in list(dirs):
+                if d in JUNK_DIRS:
+                    shutil.rmtree(os.path.join(base, d))
+                    dirs.remove(d)
+                    removed.append(sub + "/" + os.path.relpath(os.path.join(base, d), root))
+            for n in names:
+                if n.endswith((".pyc", ".pyo")):
+                    os.remove(os.path.join(base, n))
+                    removed.append(sub + "/" + os.path.relpath(os.path.join(base, n), root))
     return removed
 
 

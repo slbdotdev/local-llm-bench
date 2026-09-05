@@ -1,0 +1,6 @@
+Implemented both requested files:
+
+- [tools/build_limits.py](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m10-main-claude/tools/build_limits.py)
+- [report/limits.csv](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m10-main-claude/report/limits.csv)
+
+Generated 16 covered stages, excluding the five Platform Reliability stages. Validation passed: LF endings, final newline, correct sorting, and manifest unchanged.

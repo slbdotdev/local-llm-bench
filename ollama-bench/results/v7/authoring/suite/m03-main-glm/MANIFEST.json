@@ -1,0 +1,10 @@
+{
+  "task": "m03-main-glm",
+  "family": "glm",
+  "band": "main",
+  "failure_mode": 3,
+  "material_chars": 151139,
+  "material_tokens": 32405,
+  "chars_per_token": 4.664,
+  "seed_files": 95
+}

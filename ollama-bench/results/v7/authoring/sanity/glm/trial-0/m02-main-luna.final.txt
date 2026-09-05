@@ -1,0 +1,25 @@
+The file state is confirmed correct — the original (stale) Configuration table remains untouched, and the maintainer note with the reconciled values is at the end. Final answer:
+
+## Task complete
+
+**Reconciliation** — the dispatch stage's actual values as the repository states them:
+- `src/NorthstarLedger/dispatch_core.py`: `DEFAULT_DISPATCH_LIMIT = 96`, `DEFAULT_DISPATCH_WINDOW_S = 180`
+- `config/manifest.json` (`dispatch` section): `limit: 96`, `window_s: 180`
+- Both sources agree, and `history/0031-dispatch-capacity.md` records the deliberate change from the original 48/90 to 96/180 in implementation and manifest together — confirming the docs page's 48/90 as the stale drift.
+
+**Change** — appended a `## Maintainer note` section at the end of `docs/dispatch.md` (the only file created or modified), with all existing documentation preserved:
+
+```markdown
+## Maintainer note
+
+The configuration table above reflects the stage's original sizing. Per `history/0031-dispatch-capacity.md`,
+both values were later raised in `src/NorthstarLedger/dispatch_core.py` and in the `dispatch` section of
+`config/manifest.json` together. The values as the repository actually states them today:
+
+| key | value |
+| --- | ---: |
+| `limit` | 96 |
+| `window_s` | 180 |
+```
+
+**Scope** — verified: no other file or directory was created or modified, including the scratch area, the generated source modules, and the tests.

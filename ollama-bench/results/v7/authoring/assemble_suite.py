@@ -37,15 +37,27 @@ def accepted():
     if not os.path.exists(ROUNDTABLE):
         print("roundtable.md not found; nothing to assemble", file=sys.stderr)
         return []
+    # Only the register section counts. The narrative rounds below it also carry tables whose
+    # cells name slots, and reading the whole file picked four of them up as extra acceptances
+    # and then tried to copy a slot twice. The register is the record; prose about the register
+    # is not.
     out = []
+    seen = set()
+    in_register = False
     for line in open(ROUNDTABLE, encoding="utf-8"):
-        if not line.startswith("|"):
+        if line.startswith("## "):
+            in_register = line.strip().lower().startswith("## the register")
+            continue
+        if not in_register or not line.startswith("|"):
             continue
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if len(cells) < 5:
             continue
         slot, family = cells[0], cells[1]
         if cells[-1].lower().startswith("accepted") and re.match(r"^m\d\d-(main|cheap)-", slot):
+            if slot in seen:
+                raise SystemExit("roundtable.md lists %s in the register twice" % slot)
+            seen.add(slot)
             out.append((slot, family))
     return out
 

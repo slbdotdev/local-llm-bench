@@ -1,0 +1,55 @@
+{
+ "candidate": "m07-cheap-luna",
+ "rows": {
+  "reference": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "empty": {
+   "score": "0/5",
+   "verdict": "visibly_failed",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:no_trailing_newline": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:extra_trailing_nl": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:crlf": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:leading_blank": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:trailing_spaces": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  }
+ },
+ "problems": []
+}

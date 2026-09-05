@@ -1,0 +1,8 @@
+consignment,weight_kg,length_cm,width_cm,height_cm,zone,residential,saturday
+K-4471,8,30,20,10,A,no,no
+K-4472,4,25,15,12,A,no,yes
+K-4473,12,20,20,10,D,yes,no
+K-4474,26,20,20,20,B,no,yes
+K-4475,3,40,40,40,A,no,no
+K-4476,2,60,40,40,C,yes,no
+K-4477,1,10,10,10,A,no,no

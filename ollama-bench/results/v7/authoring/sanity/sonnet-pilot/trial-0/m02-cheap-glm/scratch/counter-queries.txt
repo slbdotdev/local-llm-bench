@@ -1,0 +1,21 @@
+Counter queries - scratch notes, answers given in person
+
+*(M. Lindqvist. Questions the counters asked at handover; kept here so
+the answers stay put. Nothing here changes any rule; the policy doc is
+where rules live.)*
+
+Q. The castors show 44 on the shelf and the point is 45 - is that a
+reorder or not?
+A. 44 is below 45, so yes, it is on the list. Below the point always is.
+
+Q. And if the shelf showed exactly 45?
+A. Then it is also on the list. The point is the level you reorder AT,
+not a line you fall through. The policy doc says this in those words.
+
+Q. The August file shows 49 for castors. Which figure do we quote?
+A. The current file. The August sheet was one Friday; the current file is
+the shelves as they are.
+
+Q. A new line came in that has no point configured at all.
+A. It stays off the low-stock check until the review gives it a point
+(policy rule 4). Do not guess one.

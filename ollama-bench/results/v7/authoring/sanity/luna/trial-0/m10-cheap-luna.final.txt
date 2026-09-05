@@ -1,0 +1,6 @@
+Updated:
+
+- [config/formatting.ini](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m10-cheap-luna/config/formatting.ini)
+- [docs/operator_notes.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m10-cheap-luna/docs/operator_notes.txt)
+
+Verified exact UTF-8 bytes, preserved CRLF endings, and unchanged unrelated content.

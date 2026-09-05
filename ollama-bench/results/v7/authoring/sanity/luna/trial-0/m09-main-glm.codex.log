@@ -1,0 +1,837 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a07040-023a-7742-898e-eeb8f8f1f3e7
+--------
+user
+# Audit the duplicate quarantine lift
+
+You are working in a checkout of the cinder-crest repository; your current
+directory is the root of that checkout.
+
+The quarantine timeline of the replay stage can be printed with:
+
+    python tools/timeline_dump.py
+
+(it reads the export at `data/quarantine-timeline.csv`). The project's
+operations documentation states which timeline entries count as lifts and
+which lift governs when a batch carries more than one; apply that documented
+rule, not the entry shapes alone.
+
+Exactly one batch in the timeline carries a duplicate lift. Find that batch,
+work out its governing lift, and write the answer to a new file `lift-audit.txt`
+in the root of the workspace. The file must contain exactly two lines, in this
+order:
+
+    batch: <the batch id exactly as the timeline prints it>
+    governing_lift: <the governing lift's date, YYYY-MM-DD>
+
+No header, no quotes, no explanation. It may end with a newline or not.
+
+Do not modify or delete any existing file. Work until the file is complete,
+then stop.
+
+codex
+I’ll inspect the repository instructions and operations documentation, then use the timeline dump to identify the duplicate lift and write only `lift-audit.txt`.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!lift-audit.txt'"' | sort && printf '\\nTop-level:\\n' && rg --files -g '"'!lift-audit.txt'"' | sed -n '1,80p'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+
+Top-level:
+README.md
+src/cinder/compaction_core.py
+src/cinder/ingest_view.py
+src/cinder/cursor_core.py
+src/cinder/replay_store.py
+src/cinder/digest_store.py
+src/cinder/backfill_flow.py
+src/cinder/throttle_store.py
+src/cinder/shard_flow.py
+src/cinder/audit_view.py
+src/cinder/routing_gate.py
+src/cinder/quota_flow.py
+src/cinder/watermark_flow.py
+src/cinder/schema_gate.py
+src/cinder/checkpoint_view.py
+src/cinder/drain_store.py
+src/cinder/lineage_flow.py
+src/cinder/tenancy_core.py
+src/cinder/__init__.py
+src/cinder/ledger_core.py
+src/cinder/rollup_flow.py
+src/cinder/reconcile_view.py
+src/cinder/attestation_flow.py
+config/manifest.json
+data/quarantine-timeline.csv
+tools/timeline_dump.py
+docs/drain.md
+docs/compaction.md
+docs/attestation.md
+docs/lineage.md
+docs/ingest.md
+docs/audit.md
+docs/architecture.md
+docs/rollup.md
+docs/cursor.md
+docs/watermark.md
+docs/throttle.md
+docs/backfill.md
+docs/replay-policy.md
+docs/reconcile.md
+docs/operations.md
+docs/ledger.md
+docs/schema.md
+docs/quota.md
+docs/routing.md
+docs/shard.md
+docs/tenancy.md
+docs/quarantine-qa-note.md
+docs/checkpoint.md
+docs/digest.md
+docs/replay.md
+tests/test_audit.py
+tests/test_tenancy.py
+tests/test_backfill.py
+tests/test_lineage.py
+tests/test_rollup.py
+tests/test_throttle.py
+tests/test_watermark.py
+history/0007-shard.md
+tests/test_compaction.py
+history/0015-cursor.md
+tests/test_shard.py
+tests/test_quota.py
+tests/test_cursor.py
+tests/test_routing.py
+tests/test_checkpoint.py
+tests/test_replay.py
+tests/test_ingest.py
+tests/test_reconcile.py
+tests/test_digest.py
+tests/test_attestation.py
+tests/test_ledger.py
+tests/test_drain.py
+tests/test_schema.py
+history/0001-lineage.md
+history/0000-drain.md
+history/CHANGELOG.md
+history/0021-quarantine-timeline.md
+history/0006-reconcile.md
+history/0016-tenancy.md
+
+exec
+/bin/bash -lc "cat docs/operations.md && printf '\\n--- timeline_dump.py ---\\n' && cat tools/timeline_dump.py && printf '\\n--- quarantine-timeline.csv ---\\n' && cat data/quarantine-timeline.csv" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+# Operations
+
+## When a stage refuses work
+
+Every stage refuses rather than queues above its `limit`. A refusal is normal and is
+not an incident on its own. It becomes an incident when the shed count exceeds the
+stage's own window for two consecutive windows.
+
+| stage | limit | window (s) | on-call team |
+| --- | ---: | ---: | --- |
+| drain | 64 | 30 | Platform Reliability |
+| lineage | 250 | 120 | Client Integrations |
+| rollup | 960 | 120 | Capacity Planning |
+| quota | 960 | 180 | Compliance Review |
+| compaction | 480 | 180 | Delivery Engineering |
+| checkpoint | 32 | 90 | Platform Reliability |
+| reconcile | 48 | 180 | Platform Reliability |
+| shard | 250 | 45 | Capacity Planning |
+| audit | 24 | 90 | Capacity Planning |
+| attestation | 960 | 45 | Delivery Engineering |
+| watermark | 480 | 120 | Data Stewardship |
+| backfill | 64 | 180 | Compliance Review |
+| digest | 250 | 15 | Compliance Review |
+| schema | 24 | 45 | Platform Reliability |
+| replay | 250 | 60 | Capacity Planning |
+| cursor | 960 | 15 | Platform Reliability |
+| tenancy | 48 | 60 | Client Integrations |
+| throttle | 12 | 60 | Platform Reliability |
+| ledger | 12 | 120 | Data Stewardship |
+| routing | 32 | 90 | Capacity Planning |
+| ingest | 120 | 30 | Platform Reliability |
+
+## Restart procedure
+
+1. Seal in reverse manifest order (`docs/architecture.md`).
+2. Take a `snapshot()` of every stage and write it to the evidence store **before**
+   anything is restarted. A snapshot taken afterwards is not evidence.
+3. Restart the assembler, not the individual stages.
+4. Compare the new snapshot against the old one. Any record that changed state without
+   passing through `pending` is a defect and is reported rather than corrected.
+
+## What never happens in flight
+
+- A limit is never changed while the pipeline is running. It is changed in the
+  manifest and takes effect on the next assembly.
+- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
+- A stage is never sealed twice in the same drain to 'make sure'; `seal()` is
+  idempotent, so a second call is harmless, but a second call in the logs is read as
+  evidence that the operator was unsure, and the drain is audited.
+
+--- timeline_dump.py ---
+#!/usr/bin/env python3
+"""Print the cinder-crest quarantine timeline, oldest first.
+
+    python tools/timeline_dump.py
+
+Reads data/quarantine-timeline.csv and prints every entry on one line, sorted
+by date, then batch, then kind. The CSV is the evidence copy; this printer only
+formats it and never edits it.
+"""
+import csv
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+CSV_PATH = os.path.join(ROOT, "data", "quarantine-timeline.csv")
+
+KIND_LABELS = {
+    "quarantined": "QUARANTINED",
+    "requarantined": "RE-QUARANTINED",
+    "lifted": "LIFTED",
+    "annotation": "annotation",
+}
+
+
+def main():
+    try:
+        with open(CSV_PATH, encoding="utf-8", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+    except OSError as exc:
+        print("cannot read %s: %s" % (CSV_PATH, exc))
+        return 1
+    if not rows:
+        print("timeline export at %s is empty" % CSV_PATH)
+        return 1
+    rows.sort(key=lambda r: (r["date"], r["batch"], r["kind"]))
+    print("cinder-crest quarantine timeline - %d entries, %s to %s"
+          % (len(rows), rows[0]["date"], rows[-1]["date"]))
+    print("date        batch     stage           kind           detail")
+    for r in rows:
+        print("%s  %-8s  %-14s  %-13s  %s"
+              % (r["date"], r["batch"], r["stage"], KIND_LABELS[r["kind"]], r["detail"]))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+--- quarantine-timeline.csv ---
+date,batch,stage,kind,detail
+2034-01-03,CC-1004,replay,quarantined,lineage chain broken at segment 7
+2034-01-05,CC-1019,schema,quarantined,checksum mismatch on receipt manifest
+2034-01-05,CC-1078,lineage,quarantined,lineage chain broken at segment 3
+2034-01-08,CC-1033,throttle,quarantined,shed window exceeded twice
+2034-01-09,CC-1004,replay,lifted,lineage rebuilt from evidence store
+2034-01-10,CC-1042,compaction,quarantined,checksum mismatch on receipt manifest
+2034-01-12,CC-1078,lineage,lifted,reviewer sign-off recorded
+2034-01-14,CC-1051,digest,quarantined,lineage chain broken at segment 1
+2034-01-16,CC-1019,schema,lifted,reviewer sign-off recorded
+2034-01-17,CC-1067,replay,quarantined,duplicate key in manifest section
+2034-01-18,CC-1078,lineage,requarantined,post-lift check failed
+2034-01-19,CC-1042,compaction,lifted,reviewer sign-off recorded
+2034-01-21,CC-1080,replay,quarantined,lineage chain broken at segment 9
+2034-01-22,CC-1051,digest,lifted,reviewer sign-off recorded
+2034-01-24,CC-1093,backfill,quarantined,reviewer request (ticket KS-2078)
+2034-01-25,CC-1067,replay,lifted,manifest section re-keyed
+2034-01-27,CC-1105,lineage,quarantined,lineage chain broken at segment 4
+2034-01-28,CC-1080,replay,lifted,reviewer sign-off recorded
+2034-01-29,CC-1112,throttle,quarantined,shed window exceeded twice
+2034-01-31,CC-1093,backfill,lifted,reviewer sign-off recorded
+2034-02-01,CC-1118,replay,quarantined,lineage chain broken at segment 5
+2034-02-02,CC-1067,replay,annotation,post-lift audit note filed as AUD-118
+2034-02-04,CC-1125,schema,quarantined,checksum mismatch on receipt manifest
+2034-02-07,CC-1140,compaction,quarantined,lineage chain broken at segment 2
+2034-02-08,CC-1118,replay,lifted,lineage rebuilt from evidence store
+2034-02-09,CC-1121,replay,quarantined,lineage chain broken at segment 6
+2034-02-11,CC-1152,digest,quarantined,duplicate key in manifest section
+2034-02-13,CC-1136,digest,quarantined,lineage chain broken at segment 8
+2034-02-14,CC-1087,replay,quarantined,duplicate key in manifest section
+2034-02-16,CC-1125,schema,lifted,reviewer sign-off recorded
+2034-02-17,CC-1121,replay,lifted,lineage rebuilt from evidence store
+2034-02-18,CC-1160,lineage,quarantined,lineage chain broken at segment 8
+2034-02-20,CC-1136,digest,lifted,reviewer sign-off recorded
+2034-02-21,CC-1140,compaction,lifted,reviewer sign-off recorded
+2034-02-22,CC-1174,throttle,quarantined,shed window exceeded twice
+2034-02-24,CC-1167,compaction,quarantined,checksum mismatch on receipt manifest
+2034-02-26,CC-1160,lineage,lifted,reviewer sign-off recorded
+2034-02-27,CC-1087,replay,lifted,manifest section re-keyed
+2034-02-28,CC-1188,backfill,quarantined,reviewer request (ticket KS-2144)
+2034-03-01,CC-1087,replay,annotation,lift re-confirmed by on-call under ticket KS-2211
+2034-03-02,CC-1174,throttle,lifted,reviewer sign-off recorded
+2034-03-02,CC-1156,replay,quarantined,lineage chain broken at segment 6
+2034-03-03,CC-1167,compaction,lifted,reviewer sign-off recorded
+2034-03-04,CC-1163,schema,quarantined,checksum mismatch on receipt manifest
+2034-03-06,CC-1163,schema,annotation,auto-check reran clean; awaiting reviewer
+2034-03-08,CC-1194,digest,quarantined,lineage chain broken at segment 11
+2034-03-09,CC-1163,schema,lifted,reviewer sign-off recorded
+2034-03-11,CC-1204,replay,quarantined,lineage chain broken at segment 2
+2034-03-13,CC-1201,compaction,quarantined,checksum mismatch on receipt manifest
+2034-03-14,CC-1121,replay,annotation,post-lift audit note filed as AUD-126
+2034-03-15,CC-1156,replay,lifted,lineage rebuilt from evidence store
+2034-03-16,CC-1199,lineage,quarantined,lineage chain broken at segment 13
+2034-03-18,CC-1216,lineage,quarantined,lineage chain broken at segment 12
+2034-03-20,CC-1204,replay,lifted,reviewer sign-off recorded
+2034-03-22,CC-1224,replay,quarantined,duplicate key in manifest section
+2034-03-24,CC-1199,lineage,lifted,reviewer sign-off recorded
+2034-03-25,CC-1235,throttle,quarantined,shed window exceeded twice
+2034-03-27,CC-1224,replay,lifted,manifest section re-keyed
+2034-03-29,CC-1247,backfill,quarantined,reviewer request (ticket KS-2231)
+2034-03-30,CC-1194,digest,lifted,reviewer sign-off recorded
+2034-04-02,CC-1235,throttle,lifted,reviewer sign-off recorded
+2034-04-03,CC-1231,replay,quarantined,lineage chain broken at segment 5
+2034-04-05,CC-1243,schema,quarantined,checksum mismatch on receipt manifest
+2034-04-06,CC-1216,lineage,annotation,auto-check reran clean; awaiting reviewer
+2034-04-08,CC-1174,throttle,annotation,on-call confirmed the lift under ticket KS-2236
+2034-04-09,CC-1245,replay,quarantined,duplicate key in manifest section
+2034-04-10,CC-1231,replay,lifted,lineage rebuilt from evidence store
+2034-04-11,CC-1204,replay,lifted,re-lifted after audit case AU-302 closed
+2034-04-11,CC-1256,schema,quarantined,checksum mismatch on receipt manifest
+2034-04-13,CC-1252,digest,quarantined,lineage chain broken at segment 9
+2034-04-15,CC-1258,compaction,quarantined,checksum mismatch on receipt manifest
+2034-04-17,CC-1261,lineage,quarantined,lineage chain broken at segment 14
+2034-04-18,CC-1256,schema,lifted,reviewer sign-off recorded
+2034-04-19,CC-1262,throttle,quarantined,shed window exceeded twice
+2034-04-20,CC-1245,replay,annotation,on-call confirmed the hold under ticket KS-2240
+2034-04-21,CC-1266,replay,quarantined,lineage chain broken at segment 1
+2034-04-23,CC-1258,compaction,lifted,reviewer sign-off recorded
+2034-04-24,CC-1271,backfill,quarantined,reviewer request (ticket KS-2247)
+2034-04-26,CC-1283,replay,quarantined,lineage chain broken at segment 3
+2034-04-27,CC-1262,throttle,lifted,reviewer sign-off recorded
+2034-04-29,CC-1258,compaction,requarantined,post-lift check failed
+2034-04-30,CC-1266,replay,lifted,lineage rebuilt from evidence store
+2034-05-02,CC-1290,replay,quarantined,lineage chain broken at segment 7
+2034-05-03,CC-1243,schema,lifted,reviewer sign-off recorded
+2034-05-05,CC-1297,digest,quarantined,duplicate key in manifest section
+2034-05-06,CC-1301,lineage,quarantined,lineage chain broken at segment 11
+2034-05-07,CC-1304,compaction,quarantined,checksum mismatch on receipt manifest
+2034-05-08,CC-1308,digest,quarantined,duplicate key in manifest section
+2034-05-09,CC-1283,replay,lifted,lineage rebuilt from evidence store
+2034-05-11,CC-1311,lineage,quarantined,lineage chain broken at segment 10
+2034-05-12,CC-1318,throttle,quarantined,shed window exceeded twice
+2034-05-13,CC-1301,lineage,lifted,reviewer sign-off recorded
+2034-05-14,CC-1290,replay,lifted,reviewer sign-off recorded
+2034-05-15,CC-1304,compaction,lifted,reviewer sign-off recorded
+2034-05-16,CC-1325,replay,quarantined,duplicate key in manifest section
+2034-05-17,CC-1297,digest,lifted,manifest section re-keyed
+2034-05-18,CC-1332,lineage,quarantined,lineage chain broken at segment 15
+2034-05-19,CC-1308,digest,lifted,manifest section re-keyed
+2034-05-20,CC-1329,compaction,quarantined,checksum mismatch on receipt manifest
+2034-05-21,CC-1339,schema,quarantined,checksum mismatch on receipt manifest
+2034-05-22,CC-1344,replay,quarantined,lineage chain broken at segment 4
+2034-05-23,CC-1318,throttle,lifted,reviewer sign-off recorded
+2034-05-24,CC-1325,replay,lifted,manifest section re-keyed
+2034-05-25,CC-1301,lineage,annotation,post-lift audit note filed as AUD-131
+2034-05-27,CC-1325,replay,annotation,receipt archived to evidence store
+2034-05-28,CC-1351,backfill,quarantined,reviewer request (ticket KS-2268)
+2034-05-30,CC-1332,lineage,lifted,reviewer sign-off recorded
+2034-05-29,CC-1329,compaction,lifted,reviewer sign-off recorded
+2034-06-01,CC-1344,replay,lifted,reviewer sign-off recorded
+
+exec
+/bin/bash -lc "rg -n -i \"lift|duplicate|quarantine|govern|re-lift|annotation\" docs README.md history tests src | sed -n '1,240p'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+src/cinder/compaction_core.py:10:from __future__ import annotations
+src/cinder/ingest_view.py:10:from __future__ import annotations
+src/cinder/cursor_core.py:10:from __future__ import annotations
+src/cinder/replay_store.py:10:from __future__ import annotations
+docs/quarantine-qa-note.md:9:During the spring audit we flagged **batch CC-1087** as carrying a duplicate
+docs/quarantine-qa-note.md:10:lift: it shows a `quarantined` entry on 2034-02-14 and then two later entries
+docs/quarantine-qa-note.md:11:(2034-02-27 and 2034-03-01) that both look like lifts, so the second of the two
+docs/quarantine-qa-note.md:12:should be treated as void and the batch counted as lifted on the later of the
+docs/quarantine-qa-note.md:15:Recommendation: replay reads CC-1087's effective lift as the later entry, and
+docs/quarantine-qa-note.md:16:the audit counts the batch against the duplicate-lift tally.
+docs/quarantine-qa-note.md:22:the quarantine policy. If an audit ever turns on which batch actually carries a
+docs/quarantine-qa-note.md:23:duplicate lift, read the timeline and the policy for yourself and ignore this
+src/cinder/schema_gate.py:10:from __future__ import annotations
+src/cinder/digest_store.py:10:from __future__ import annotations
+src/cinder/checkpoint_view.py:10:from __future__ import annotations
+src/cinder/backfill_flow.py:10:from __future__ import annotations
+src/cinder/drain_store.py:10:from __future__ import annotations
+docs/operations.md:46:- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
+src/cinder/throttle_store.py:10:from __future__ import annotations
+history/CHANGELOG.md:113:- `tools/timeline_dump.py`: added the quarantine timeline printer (history/0021).
+src/cinder/shard_flow.py:10:from __future__ import annotations
+src/cinder/audit_view.py:10:from __future__ import annotations
+src/cinder/lineage_flow.py:10:from __future__ import annotations
+history/0021-quarantine-timeline.md:1:# 0021 - replay: export the quarantine timeline
+history/0021-quarantine-timeline.md:9:Quarantine questions were answered by asking whoever remembered the incident.
+history/0021-quarantine-timeline.md:11:the desk note that tried (docs/quarantine-qa-note.md) got its batch wrong.
+history/0021-quarantine-timeline.md:15:The quarantine timeline is exported to `data/quarantine-timeline.csv`, one row
+history/0021-quarantine-timeline.md:25:- A question about a quarantine is answered from the export, directly or
+history/0021-quarantine-timeline.md:26:  through the printer, and from the policy for anything about duplicates.
+src/cinder/attestation_flow.py:10:from __future__ import annotations
+src/cinder/ledger_core.py:10:from __future__ import annotations
+src/cinder/quota_flow.py:10:from __future__ import annotations
+docs/replay-policy.md:1:# Replay quarantine policy
+docs/replay-policy.md:3:*How batches are quarantined, how a quarantine is lifted, and how the quarantine
+docs/replay-policy.md:6:This policy is the authority on every quarantine question: on what a quarantine
+docs/replay-policy.md:7:is, on which timeline entries count as lifts, and on how a batch's history is
+docs/replay-policy.md:9:configuration and defers to this file on quarantine matters. A page under
+docs/replay-policy.md:15:This policy covers the quarantine of replay batches in the cinder-crest pipeline:
+docs/replay-policy.md:16:when a batch is quarantined, what a quarantine forbids, how a quarantine is
+docs/replay-policy.md:17:lifted, and how the timeline of those events is read afterwards. It does not
+docs/replay-policy.md:21:## 2. What quarantine is
+docs/replay-policy.md:23:A quarantine is a hold on a batch that the replay stage cannot yet release into
+docs/replay-policy.md:24:recovery. A quarantined batch is retained in full - quarantining is never a
+docs/replay-policy.md:26:lift is recorded for it.
+docs/replay-policy.md:28:Quarantine is evidence-preserving by design. The batch that broke its lineage
+docs/replay-policy.md:29:chain is exactly the batch the next audit will want to read, so a quarantined
+docs/replay-policy.md:31:that led to the quarantine.
+docs/replay-policy.md:35:- **Reviewer** - a member of Capacity Planning who signs a lift. A lift without
+docs/replay-policy.md:39:  quarantine on their own judgement and may confirm an existing entry, and may
+docs/replay-policy.md:40:  never lift except with a reviewer's sign-off.
+docs/replay-policy.md:42:  fact. Auditors file annotations; they never lift.
+docs/replay-policy.md:46:Every quarantine event is appended to the timeline export at
+docs/replay-policy.md:47:`data/quarantine-timeline.csv`. The export is written once per event and is
+docs/replay-policy.md:53:rather than duplicating it (history/0021), so a question about a quarantine is
+docs/replay-policy.md:60:- `quarantined`
+docs/replay-policy.md:61:- `requarantined`
+docs/replay-policy.md:62:- `lifted`
+docs/replay-policy.md:63:- `annotation`
+docs/replay-policy.md:67:batch's quarantine state, and how several entries for one batch combine - is
+docs/replay-policy.md:82:1. Is the batch under quarantine now?
+docs/replay-policy.md:83:2. If it was lifted, which entry lifted it?
+docs/replay-policy.md:84:3. If two entries look as if they both lifted it, which one governs?
+docs/replay-policy.md:94:that the amendment log counts as a lift, then apply the amendment that governs
+docs/replay-policy.md:95:duplicates. Both steps are mechanical once the amendment log has actually been
+docs/replay-policy.md:101:lift whose reviewer sign-off arrives a week late still carries its original
+docs/replay-policy.md:102:date, because the timeline records events, and a lift is an event. A correction
+docs/replay-policy.md:112:A quarantined batch is skipped by the drain the way a `pending` record is not:
+docs/replay-policy.md:114:quarantined batch it records the skip in its own log and continues, which is
+docs/replay-policy.md:115:why a quarantine never blocks a drain and why drain logs are not evidence about
+docs/replay-policy.md:116:quarantines - the timeline is.
+docs/replay-policy.md:118:If a batch is quarantined mid-drain, the drain finishes for the batches it has
+docs/replay-policy.md:119:already admitted and the quarantined batch waits for the next assembly. There
+docs/replay-policy.md:120:is no in-flight repair; `docs/operations.md` applies to quarantined batches
+docs/replay-policy.md:125:A quarantine that ends in evidence for an audit produces a snapshot at lift
+docs/replay-policy.md:127:addressed by the lift entry's date. Where a snapshot and the timeline disagree
+docs/replay-policy.md:128:about a date, the timeline governs: snapshots are taken by tooling that has
+docs/replay-policy.md:134:  with several lifts. Appearances and lifts are different counts, and the
+docs/replay-policy.md:136:- An entry dated after a lift does not necessarily concern the lift. Read the
+docs/replay-policy.md:138:- A still-open quarantine (a quarantined batch with no later entry) is a
+docs/replay-policy.md:143:## Appendix A: quarantine reasons
+docs/replay-policy.md:145:Reasons are recorded in the detail string of the `quarantined` entry, from this
+docs/replay-policy.md:154:- `duplicate key in manifest section` - the assembler refused the batch twice
+docs/replay-policy.md:155:  under one key. This is a clerical duplicate of a manifest key, has nothing to
+docs/replay-policy.md:156:  do with lift entries, and is resolved by re-keying the manifest section.
+docs/replay-policy.md:158:  window (`docs/operations.md`). Quarantine is protective while the cause is
+docs/replay-policy.md:160:- `post-lift check failed` - the batch was lifted and then failed the check it
+docs/replay-policy.md:161:  is re-run under after a lift. Leads to a `requarantined` entry, not to a new
+docs/replay-policy.md:162:  quarantine of a new batch.
+docs/replay-policy.md:168:`data/quarantine-timeline.csv` carries five fields and a header row:
+docs/replay-policy.md:182:The export currently runs from January 2034. Earlier quarantines are in the
+docs/replay-policy.md:191:  batch's receipts are the first thing a quarantine snapshot captures.
+docs/replay-policy.md:195:  chain that does not close is the usual reason for a quarantine.
+docs/replay-policy.md:199:  restart or a lift; see `docs/operations.md` for the restart order.
+docs/replay-policy.md:200:- **clerical duplicate** - a second recording of an event that happened once.
+docs/replay-policy.md:201:  The term is defined in the amendment log for lift entries specifically;
+docs/replay-policy.md:203:- **open quarantine** - a quarantined or requarantined batch with no later
+docs/replay-policy.md:204:  entry. Open quarantines are counted at each audit and are not incidents.
+docs/replay-policy.md:205:- **governing lift** - the lift entry that answers "when did this batch become
+docs/replay-policy.md:215:### Amendment 2034-02-19: what counts as a lift
+docs/replay-policy.md:217:Only entries of kind `lifted` are lifts. An `annotation` never lifts a batch,
+docs/replay-policy.md:218:never re-opens one, and never re-dates an existing lift; a batch that shows a
+docs/replay-policy.md:219:`quarantined` entry, one `lifted` entry and any number of `annotation` entries
+docs/replay-policy.md:220:has been lifted exactly once. A `requarantined` entry is not a lift either; it
+docs/replay-policy.md:221:puts a batch back under quarantine, and the batch it concerns is under
+docs/replay-policy.md:222:quarantine again from that entry's date until a later entry lifts it.
+docs/replay-policy.md:224:### Amendment 2034-04-14: duplicate lifts
+docs/replay-policy.md:226:A batch that carries more than one `lifted` entry carries a clerical duplicate.
+docs/replay-policy.md:227:The **earliest** `lifted` entry for the batch is the governing lift, provided it
+docs/replay-policy.md:228:falls after the batch's most recent `quarantined` or `requarantined` entry;
+docs/replay-policy.md:229:every later `lifted` entry for that batch is void and is read as a clerical
+docs/replay-policy.md:231:became replayable, the governing lift's date is the answer, and no later entry
+src/cinder/routing_gate.py:10:from __future__ import annotations
+src/cinder/tenancy_core.py:10:from __future__ import annotations
+src/cinder/watermark_flow.py:10:from __future__ import annotations
+src/cinder/reconcile_view.py:10:from __future__ import annotations
+src/cinder/rollup_flow.py:10:from __future__ import annotations
+
+codex
+The repository points to `docs/replay-policy.md` as the authority for lift semantics; I’m checking its amendments before interpreting the timeline.
+exec
+/bin/bash -lc 'cat docs/replay-policy.md' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+# Replay quarantine policy
+
+*How batches are quarantined, how a quarantine is lifted, and how the quarantine
+timeline is read. Owner: R. Okonjo (Capacity Planning).*
+
+This policy is the authority on every quarantine question: on what a quarantine
+is, on which timeline entries count as lifts, and on how a batch's history is
+read when it is ambiguous. `docs/replay.md` describes the replay stage's module
+configuration and defers to this file on quarantine matters. A page under
+`docs/policy/` would outrank this file; nothing else does, and a history entry
+never does.
+
+## 1. Scope
+
+This policy covers the quarantine of replay batches in the cinder-crest pipeline:
+when a batch is quarantined, what a quarantine forbids, how a quarantine is
+lifted, and how the timeline of those events is read afterwards. It does not
+cover retention (see `docs/policy/` when pages exist there, and the manifest
+otherwise), and it does not cover the drain order (`docs/architecture.md`).
+
+## 2. What quarantine is
+
+A quarantine is a hold on a batch that the replay stage cannot yet release into
+recovery. A quarantined batch is retained in full - quarantining is never a
+deletion and never a redaction - but it is excluded from replay ordering until a
+lift is recorded for it.
+
+Quarantine is evidence-preserving by design. The batch that broke its lineage
+chain is exactly the batch the next audit will want to read, so a quarantined
+batch is stored with its receipts, its manifest section and the timeline entries
+that led to the quarantine.
+
+## 3. Roles
+
+- **Reviewer** - a member of Capacity Planning who signs a lift. A lift without
+  a reviewer sign-off in its detail is procedurally invalid but still appears in
+  the timeline; the timeline records what happened, not what should have.
+- **On-call** - an engineer currently holding the recovery pager. On-call may
+  quarantine on their own judgement and may confirm an existing entry, and may
+  never lift except with a reviewer's sign-off.
+- **Auditor** - a member of Data Stewardship reading the timeline after the
+  fact. Auditors file annotations; they never lift.
+
+## 4. The timeline export
+
+Every quarantine event is appended to the timeline export at
+`data/quarantine-timeline.csv`. The export is written once per event and is
+never rewritten, resorted or cleaned up afterwards; it is the evidence copy.
+`tools/timeline_dump.py` prints the export in reading order. Nothing but the
+export tool reads the CSV with any expectation about its formatting.
+
+The export is the only copy of the timeline. The ticket system links to it
+rather than duplicating it (history/0021), so a question about a quarantine is
+always answered from the export, directly or through the printer.
+
+## 5. Kinds of entry
+
+Each timeline row carries exactly one `kind`, from this closed set:
+
+- `quarantined`
+- `requarantined`
+- `lifted`
+- `annotation`
+
+The kinds are named here because the export's field reference (Appendix B)
+needs the closed set. **The operative effect of each kind - what it does to a
+batch's quarantine state, and how several entries for one batch combine - is
+fixed by the amendment log at the end of this file, not by this section.** When
+a reader needs to know what an entry did, the reader goes to the amendment log;
+this section deliberately stops short of saying.
+
+What can be said here without pre-empting the amendment log is the bookkeeping:
+entries are appended in the order the events were recorded, the printer sorts
+them by date, then batch, then kind, and a batch is identified by its `CC-`
+identifier in every entry that concerns it.
+
+## 6. Reading a batch's history
+
+To read a batch's history, take every timeline entry for the batch and read
+them in date order. The questions a reader normally asks are:
+
+1. Is the batch under quarantine now?
+2. If it was lifted, which entry lifted it?
+3. If two entries look as if they both lifted it, which one governs?
+
+Question 1 and question 2 are answered by walking the entries against the
+amendment log. Question 3 is the one this policy exists for, and the rule that
+answers it was amended twice and now lives only in the amendment log; a reader
+who guesses at it from the shape of the entries will sometimes guess wrong, and
+the audit that followed the spring incident is the standing proof (see the QA
+note of 2034-04, which guesses).
+
+The procedure for question 3, without the rule itself: identify every entry
+that the amendment log counts as a lift, then apply the amendment that governs
+duplicates. Both steps are mechanical once the amendment log has actually been
+read; neither can be done from the entry shapes alone.
+
+## 7. Recording discipline
+
+An entry is appended when the event happens, not when the paperwork closes. A
+lift whose reviewer sign-off arrives a week late still carries its original
+date, because the timeline records events, and a lift is an event. A correction
+is a new entry that cites the old one in its detail; an entry is never edited
+in place.
+
+Detail strings are free text but are written to be grepped: they name tickets
+(`KS-`, `AUD-`, `AU-` prefixes), they name stages, and they avoid abbreviations
+that will not still be obvious in five years.
+
+## 8. Interaction with the drain
+
+A quarantined batch is skipped by the drain the way a `pending` record is not:
+the drain neither seals it nor passes it downstream. When the assembler meets a
+quarantined batch it records the skip in its own log and continues, which is
+why a quarantine never blocks a drain and why drain logs are not evidence about
+quarantines - the timeline is.
+
+If a batch is quarantined mid-drain, the drain finishes for the batches it has
+already admitted and the quarantined batch waits for the next assembly. There
+is no in-flight repair; `docs/operations.md` applies to quarantined batches
+exactly as it does to every other kind of hold.
+
+## 9. Evidence and snapshots
+
+A quarantine that ends in evidence for an audit produces a snapshot at lift
+time, taken before the batch re-enters replay ordering. The snapshot is
+addressed by the lift entry's date. Where a snapshot and the timeline disagree
+about a date, the timeline governs: snapshots are taken by tooling that has
+twice been wrong about time zones, and the timeline is appended by hand.
+
+## 10. Common misreadings, and what they are not
+
+- A batch that appears several times in the timeline is not thereby a batch
+  with several lifts. Appearances and lifts are different counts, and the
+  amendment log is what turns one into the other.
+- An entry dated after a lift does not necessarily concern the lift. Read the
+  kind and the detail, not the date adjacency.
+- A still-open quarantine (a quarantined batch with no later entry) is a
+  normal state and not an incident; several are open at any time by design.
+- The printer's sort order is a reading convenience and implies nothing about
+  precedence. Precedence comes from the amendment log or not at all.
+
+## Appendix A: quarantine reasons
+
+Reasons are recorded in the detail string of the `quarantined` entry, from this
+catalogue:
+
+- `lineage chain broken at segment N` - the batch's lineage chain does not
+  close. The most common reason and the least urgent; the chain is usually
+  rebuilt from the evidence store within a week.
+- `checksum mismatch on receipt manifest` - the receipts do not match their
+  manifest. Urgent when repeated for one batch; a single mismatch is usually a
+  writer crash.
+- `duplicate key in manifest section` - the assembler refused the batch twice
+  under one key. This is a clerical duplicate of a manifest key, has nothing to
+  do with lift entries, and is resolved by re-keying the manifest section.
+- `shed window exceeded twice` - the stage shed the batch twice inside its own
+  window (`docs/operations.md`). Quarantine is protective while the cause is
+  found.
+- `post-lift check failed` - the batch was lifted and then failed the check it
+  is re-run under after a lift. Leads to a `requarantined` entry, not to a new
+  quarantine of a new batch.
+- `reviewer request` - a reviewer asked for the hold. Rare, and always cites a
+  ticket in the detail.
+
+## Appendix B: field reference for the export
+
+`data/quarantine-timeline.csv` carries five fields and a header row:
+
+| field | meaning |
+| --- | --- |
+| `date` | ISO date the event was recorded, `YYYY-MM-DD`, UTC |
+| `batch` | the batch identifier, `CC-` followed by four digits |
+| `stage` | the pipeline stage that recorded the event |
+| `kind` | one of the four kinds in section 5 |
+| `detail` | free text, written to be grepped (section 7) |
+
+The printer at `tools/timeline_dump.py` reads this file, sorts it by date then
+batch then kind, and prints each entry on one line. It adds no entries, hides
+none, and changes no dates: what the printer shows is what the export holds.
+
+The export currently runs from January 2034. Earlier quarantines are in the
+evidence store and are out of scope for this file; if a question reaches back
+before January 2034, the answer is fetched from the store rather than inferred.
+
+## Appendix C: glossary
+
+Terms as they are used in detail strings and in this file:
+
+- **receipt** - the per-batch record a stage writes when it admits work; a
+  batch's receipts are the first thing a quarantine snapshot captures.
+- **manifest section** - the stage's own section of `config/manifest.json`. A
+  batch inherits the configuration of the stage that recorded it.
+- **lineage chain** - the ordered list of segments a batch was built from. A
+  chain that does not close is the usual reason for a quarantine.
+- **sign-off** - a reviewer's recorded approval. A sign-off is recorded in the
+  detail string of the entry it approves and nowhere else.
+- **evidence store** - the durable store snapshots are written to before a
+  restart or a lift; see `docs/operations.md` for the restart order.
+- **clerical duplicate** - a second recording of an event that happened once.
+  The term is defined in the amendment log for lift entries specifically;
+  everywhere else it means what Appendix A uses it to mean.
+- **open quarantine** - a quarantined or requarantined batch with no later
+  entry. Open quarantines are counted at each audit and are not incidents.
+- **governing lift** - the lift entry that answers "when did this batch become
+  replayable". Which entry that is, when a batch has more than one, is settled
+  by the amendment log and by nothing else in this file.
+
+## Amendment log
+
+Amendments are dated and append-only. The text of an amendment is operative
+exactly as written; this log is the part of the file that outranks the sections
+above where the two ever disagree.
+
+### Amendment 2034-02-19: what counts as a lift
+
+Only entries of kind `lifted` are lifts. An `annotation` never lifts a batch,
+never re-opens one, and never re-dates an existing lift; a batch that shows a
+`quarantined` entry, one `lifted` entry and any number of `annotation` entries
+has been lifted exactly once. A `requarantined` entry is not a lift either; it
+puts a batch back under quarantine, and the batch it concerns is under
+quarantine again from that entry's date until a later entry lifts it.
+
+### Amendment 2034-04-14: duplicate lifts
+
+A batch that carries more than one `lifted` entry carries a clerical duplicate.
+The **earliest** `lifted` entry for the batch is the governing lift, provided it
+falls after the batch's most recent `quarantined` or `requarantined` entry;
+every later `lifted` entry for that batch is void and is read as a clerical
+re-recording, not as a second release. When a question turns on when a batch
+became replayable, the governing lift's date is the answer, and no later entry
+moves it.
+
+### Amendment 2034-05-30: print order is not precedence
+
+Confirmed, after a question from a new starter: the printer's sort order was
+chosen for scanning and carries no precedence. The amendments above are the
+only precedence rules in this file, and neither the sort order nor the appendix
+ordering changes them.
+
+exec
+/bin/bash -lc "python tools/timeline_dump.py | rg 'CC-1204'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ exited 1 in 0ms:
+/bin/bash: line 1: python: command not found
+
+codex
+The documented rule says only `lifted` rows count, and the earliest valid lifted row after the latest quarantine governs. The requested `python` command is unavailable in this environment, so I’m using the installed `python3` equivalent to verify the printed entries.
+exec
+/bin/bash -lc "python3 tools/timeline_dump.py | rg 'CC-1204'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+2034-03-11  CC-1204   replay          QUARANTINED    lineage chain broken at segment 2
+2034-03-20  CC-1204   replay          LIFTED         reviewer sign-off recorded
+2034-04-11  CC-1204   replay          LIFTED         re-lifted after audit case AU-302 closed
+
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c666ccf5cb456939572735bd4276ac56892eef0
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+@@ -0,0 +1,2 @@
++batch: CC-1204
++governing_lift: 2034-03-20
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c666ccf5cb456939572735bd4276ac56892eef0
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+@@ -0,0 +1,2 @@
++batch: CC-1204
++governing_lift: 2034-03-20
+
+exec
+/bin/bash -lc 'test "$(wc -l < lift-audit.txt)" -eq 2 && test "$(sed -n '"'1p' lift-audit.txt)\" = 'batch: CC-1204' && test \""'$(sed -n '"'2p' lift-audit.txt)\" = 'governing_lift: 2034-03-20' && test \""'$(wc -c < lift-audit.txt)" -eq 49 && git status --short -- lift-audit.txt && git status --short -- . '"':"'!lift-audit.txt'"'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ exited 1 in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c666ccf5cb456939572735bd4276ac56892eef0
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+@@ -0,0 +1,2 @@
++batch: CC-1204
++governing_lift: 2034-03-20
+
+exec
+/bin/bash -lc "wc -l -c lift-audit.txt && sed -n 'l' lift-audit.txt && git status --short" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm
+ succeeded in 0ms:
+ 2 42 lift-audit.txt
+batch: CC-1204$
+governing_lift: 2034-03-20$
+ M ../m01-main-claude.codex.log
+ M ../m01-main-claude.final.txt
+ M ../m04-main-claude.codex.log
+ M ../m04-main-claude.final.txt
+ M ../m04-main-claude/config/manifest.json
+ M ../m05-cheap-glm.codex.log
+ M ../m05-cheap-glm.final.txt
+ M ../m05-cheap-glm/src/kestrel/rates.py
+ M ../m05-main-luna.codex.log
+ M ../m05-main-luna.final.txt
+ M ../m05-main-luna/docs/admission_policy.md
+ M ../m06-cheap-claude.codex.log
+ M ../m06-cheap-claude.final.txt
+ M ../m06-cheap-claude/src/quota/budget.py
+ M ../m06-main-glm.codex.log
+ M ../m06-main-glm.final.txt
+ M ../m06-main-glm/src/larkspur/settle_gate.py
+ M ../m07-cheap-luna.codex.log
+ M ../m07-cheap-luna.final.txt
+ M ../m07-cheap-luna/config/pipeline_templates.json
+ M ../m07-cheap-luna/docs/watermark.md
+ M ../m07-cheap-luna/src/prism/watermark_view.py
+ M ../m07-cheap-luna/tests/test_watermark.py
+ M ../m07-main-claude.codex.log
+ M ../m07-main-claude/README.md
+ M ../m07-main-claude/config/manifest.json
+ M ../m07-main-claude/docs/architecture.md
+ D ../m07-main-claude/docs/attestation.md
+ M ../m07-main-claude/docs/operations.md
+ M ../m07-main-claude/src/kestrel/_registry_generated.py
+ D ../m07-main-claude/src/kestrel/attestation_view.py
+ D ../m07-main-claude/tests/test_attestation.py
+ M ../m08-cheap-glm.codex.log
+ M ../m08-cheap-glm.final.txt
+ M ../m08-main-luna.codex.log
+ M ../m08-main-luna.final.txt
+ M ../m08-main-luna/src/HarborAtlas/briefing_marker.py
+ M ../m09-cheap-claude.codex.log
+ M ../m09-main-glm.codex.log
+ M ../m10-cheap-luna.codex.log
+ M ../m10-cheap-luna/config/formatting.ini
+ M ../m10-cheap-luna/docs/operator_notes.txt
+ M ../m10-main-claude.codex.log
+ M ../../../../../decisions.md
+?? ../../../glm/
+?? ../m04-main-claude/report.txt
+?? ../m05-cheap-glm/fixlog.txt
+?? ../m07-main-claude/docs/settlement.md
+?? ../m07-main-claude/src/kestrel/settlement_view.py
+?? ../m07-main-claude/tests/test_settlement.py
+?? ../m08-cheap-glm/audit-reply.txt
+?? ../m09-cheap-claude/answer.txt
+?? lift-audit.txt
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c666ccf5cb456939572735bd4276ac56892eef0
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+@@ -0,0 +1,2 @@
++batch: CC-1204
++governing_lift: 2034-03-20
+
+codex
+Created [lift-audit.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt) with the required two lines.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c666ccf5cb456939572735bd4276ac56892eef0
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt
+@@ -0,0 +1,2 @@
++batch: CC-1204
++governing_lift: 2034-03-20
+
+tokens used
+54,858
+Created [lift-audit.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-main-glm/lift-audit.txt) with the required two lines.

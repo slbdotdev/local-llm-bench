@@ -1,0 +1,3 @@
+{"task": "m08-cheap-glm", "family": "glm", "band": "cheap",
+ "failure_mode": 8, "material_chars": 19396, "material_tokens": 4159,
+ "chars_per_token": 4.664, "seed_files": 24}

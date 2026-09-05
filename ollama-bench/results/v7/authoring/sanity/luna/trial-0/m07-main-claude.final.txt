@@ -1,0 +1,7 @@
+Completed the `attestation` → `settlement` rename across the repository.
+
+- Renamed module, docs, tests, class, constants, factory, manifest, and generated registry.
+- Preserved limit `64`, window `120`, and all methods.
+- Full suite: `84 passed`.
+- Forbidden-string and path scans are clean.
+- `history/0004-attestation.md` remains untouched.

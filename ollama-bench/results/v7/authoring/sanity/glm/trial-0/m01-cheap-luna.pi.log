@@ -1,0 +1,6 @@
+pi-run: run wr-wsl-20260905T062642Z-b19c6f360d21 started; state in /home/slb/.agent-runs/wr-wsl-20260905T062642Z-b19c6f360d21; mailbox run-b19c6f360d21@wsl
+[pi-mcp] Server "unity" failed after 0 retries: fetch failed
+[pi-mcp] Server "blender" failed after 0 retries: spawn /home/slb/.local/bin/blender-mcp ENOENT
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1302","message":"[1302][Rate limit reached for requests][2026090514264722744792c9e64a92]"},"request_id":"2026090514264722744792c9e64a92"}); retry 1/5 in 3000ms
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1302","message":"[1302][Rate limit reached for requests][202609051426527a4a23581fae4f0f]"},"request_id":"202609051426527a4a23581fae4f0f"}); retry 2/5 in 6000ms
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1302","message":"[1302][Rate limit reached for requests][20260905142703bad47b77bf7c42e9]"},"request_id":"20260905142703bad47b77bf7c42e9"}); retry 3/5 in 12000ms

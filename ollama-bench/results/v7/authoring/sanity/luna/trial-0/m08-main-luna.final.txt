@@ -1,0 +1,3 @@
+Completed `format_marker(name, status)` using the required `=` separator.
+
+Validation passed, and only [briefing_marker.py](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m08-main-luna/src/HarborAtlas/briefing_marker.py) was modified.

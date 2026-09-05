@@ -1,0 +1,3 @@
+Created `freeze-window.txt` with exactly:
+
+`no-freeze`

@@ -1,0 +1,3 @@
+TESTS: pass
+Release check with `PYTHONPATH=src python3 tests/release_check.py` exited 0.
+The requested `python` command was unavailable and exited 127, so the check was run with the available `python3` interpreter.

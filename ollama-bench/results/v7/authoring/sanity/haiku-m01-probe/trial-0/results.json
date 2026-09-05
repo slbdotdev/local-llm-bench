@@ -1,0 +1,51 @@
+{
+ "m01-main-claude": {
+  "pass": false,
+  "score": "8/13",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "tate is abandoned\", \"a second reaped record's state is abandoned\", 'abandoned records stop counting against the limit', 'active_count before any reaping counts every record']\nVERDICT confidently_wrong"
+ },
+ "m03-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nPASS\nVERDICT correct"
+ },
+ "m04-main-claude": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m06-cheap-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "m07-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct"
+ },
+ "m09-cheap-claude": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m10-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct"
+ }
+}

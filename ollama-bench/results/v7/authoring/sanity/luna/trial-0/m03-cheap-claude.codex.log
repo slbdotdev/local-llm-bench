@@ -1,0 +1,365 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703d-8300-70e2-803d-8330fb572938
+--------
+user
+You are working in a snapshot of the `ledger-tap` repository.
+
+The test suite is failing. Run it and fix the library so that it passes:
+
+    PYTHONPATH=src python -m pytest tests
+
+The tests state the behaviour the project wants and they are correct; the defect is in the
+library. Fix the defect, do not change the tests, and keep the change as small as it needs to be.
+
+`docs/rounding.md` is authoritative on what the arithmetic is supposed to do and explains why.
+
+Change nothing in this repository except what fixing that defect requires.
+
+codex
+I’ll inspect the repository instructions and the rounding documentation, run the full test suite once to identify the defect, then make the smallest library-only fix and rerun the tests.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!**/.git/**'"' -g 'docs/rounding.md' -g 'pyproject.toml' -g 'setup.cfg' -g 'setup.py' -g 'tox.ini' -g 'src/**' -g 'tests/**' | sort" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+docs/rounding.md
+src/ledger/__init__.py
+src/ledger/attestation_store.py
+src/ledger/digest_store.py
+src/ledger/lineage_gate.py
+src/ledger/normalise.py
+src/ledger/rates.py
+tests/test_attestation.py
+tests/test_digest.py
+tests/test_lineage.py
+tests/test_rates.py
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python -m pytest tests' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ exited 127 in 0ms:
+/bin/bash: line 1: python: command not found
+
+exec
+/bin/bash -lc "sed -n '1,240p' docs/rounding.md" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 0ms:
+# Rounding
+
+Every billable amount is computed in **integer cents** and rounded exactly once, at the point
+where a fractional cent first appears.
+
+## The rule
+
+`round_half_up(value)` rounds a non-negative fractional cent amount to the nearest whole cent,
+and a value exactly halfway between two cents rounds **up**, away from zero.
+
+    0.4  -> 0
+    0.5  -> 1
+    1.5  -> 2
+    2.5  -> 3
+
+This is deliberately **not** Python's built-in `round`, which rounds half to even and would send
+`0.5` to `0` and `2.5` to `2`. Bankers' rounding is correct for many purposes and is wrong for
+this one: the meter's readings are already truncated in the customer's favour upstream, and
+rounding half to even at this point compounds that in the same direction. A quarter's worth of
+half-cents came to a four-figure discrepancy the last time this was got wrong.
+
+## Where it applies
+
+Anywhere a rate multiplied by a quantity produces a fractional cent. In practice that is
+`line_total` in the rate module and nothing else today.
+
+exec
+/bin/bash -lc "sed -n '1,280p' src/ledger/rates.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 0ms:
+"""The rate table and the money arithmetic.
+
+Rates are in integer cents per unit-thousand, so a rate of 37 means 3.7 cents per unit.
+"""
+
+RATES = {
+    "transit": 37,
+    "storage": 4,
+    "lookup": 190,
+    "egress": 21,
+}
+
+
+def round_half_up(value):
+    """Round a non-negative fractional cent amount to the nearest whole cent, half away from zero.
+
+    See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+    is not what this project wants.
+    """
+    return round(value)
+
+
+def line_total(kind, units):
+    """The billable amount in whole cents for ``units`` of ``kind``."""
+    if kind not in RATES:
+        raise KeyError(kind)
+    return round_half_up(RATES[kind] * units / 1000.0)
+
+
+def invoice_total(lines):
+    """Sum a sequence of (kind, units) pairs, rounding each line before summing."""
+    return sum(line_total(kind, units) for kind, units in lines)
+
+exec
+/bin/bash -lc "sed -n '1,320p' tests/test_rates.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 0ms:
+"""Behaviour the rate arithmetic has to have. See docs/rounding.md."""
+from ledger.rates import invoice_total, line_total, round_half_up
+
+
+def test_round_half_up_rounds_half_away_from_zero():
+    assert round_half_up(0.4) == 0
+    assert round_half_up(0.5) == 1
+    assert round_half_up(1.5) == 2
+    assert round_half_up(2.5) == 3
+    assert round_half_up(3.5) == 4
+
+
+def test_round_half_up_leaves_whole_cents_alone():
+    assert round_half_up(0.0) == 0
+    assert round_half_up(7.0) == 7
+
+
+def test_line_total_uses_the_rate_table():
+    assert line_total("storage", 1000) == 4
+    assert line_total("lookup", 1000) == 190
+
+
+def test_line_total_rounds_the_half_cent_up():
+    # 37 * 500 / 1000 = 18.5 cents
+    assert line_total("transit", 500) == 19
+
+
+def test_invoice_total_rounds_each_line_before_summing():
+    assert invoice_total([("transit", 500), ("transit", 500)]) == 38
+
+codex
+The initial command cannot run because this environment has no `python` executable; I’m using the available `python3` interpreter for the required test invocation. The defect is isolated in `round_half_up`, which currently delegates to Python’s half-to-even `round()`, contrary to the documented half-up rule.
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m pytest tests' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ exited 1 in 122ms:
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+plugins: typeguard-4.4.4
+collected 17 items
+
+tests/test_attestation.py ....                                           [ 23%]
+tests/test_digest.py ....                                                [ 47%]
+tests/test_lineage.py ....                                               [ 70%]
+tests/test_rates.py F..FF                                                [100%]
+
+=================================== FAILURES ===================================
+________________ test_round_half_up_rounds_half_away_from_zero _________________
+
+    def test_round_half_up_rounds_half_away_from_zero():
+        assert round_half_up(0.4) == 0
+>       assert round_half_up(0.5) == 1
+E       assert 0 == 1
+E        +  where 0 = round_half_up(0.5)
+
+tests/test_rates.py:7: AssertionError
+___________________ test_line_total_rounds_the_half_cent_up ____________________
+
+    def test_line_total_rounds_the_half_cent_up():
+        # 37 * 500 / 1000 = 18.5 cents
+>       assert line_total("transit", 500) == 19
+E       AssertionError: assert 18 == 19
+E        +  where 18 = line_total('transit', 500)
+
+tests/test_rates.py:25: AssertionError
+______________ test_invoice_total_rounds_each_line_before_summing ______________
+
+    def test_invoice_total_rounds_each_line_before_summing():
+>       assert invoice_total([("transit", 500), ("transit", 500)]) == 38
+E       AssertionError: assert 36 == 38
+E        +  where 36 = invoice_total([('transit', 500), ('transit', 500)])
+
+tests/test_rates.py:29: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_rates.py::test_round_half_up_rounds_half_away_from_zero - a...
+FAILED tests/test_rates.py::test_line_total_rounds_the_half_cent_up - Asserti...
+FAILED tests/test_rates.py::test_invoice_total_rounds_each_line_before_summing
+========================= 3 failed, 14 passed in 0.04s =========================
+
+exec
+/bin/bash -lc 'git status --short && git diff -- src/ledger/rates.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 0ms:
+ M ../../../../cand-claude/m10-main-claude/prompt.md
+ M ../../../../cand-claude/m10-main-claude/ref/report/limits.csv
+ M ../../../../cand-claude/m10-main-claude/ref/tools/build_limits.py
+ M ../../../../cand-claude/m10-main-claude/test.py
+ M ../../../../cand-luna/m01-cheap-luna/prompt.md
+ M ../../../../cand-luna/m02-main-luna/ref/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/seed/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/test.py
+ M ../../../../composition.py
+ M ../../../haiku-pilot/trial-2/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../haiku-pilot/trial-2/m02-main-luna/docs/dispatch.md
+ M ../../../haiku-pilot/trial-2/m10-main-claude/report/limits.csv
+ M ../../../haiku-pilot/trial-2/m10-main-claude/tools/build_limits.py
+ M ../m01-cheap-luna.codex.log
+ M ../m01-main-claude.codex.log
+ M ../m02-cheap-glm.codex.log
+ M ../m02-main-luna.codex.log
+ M ../m02-main-luna/docs/dispatch.md
+ M ../m03-cheap-claude.codex.log
+ M ../m03-main-glm.codex.log
+ M ../m03-main-glm.final.txt
+ M ../m04-cheap-luna.codex.log
+ M ../../../sonnet-pilot/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../sonnet-pilot/trial-0/m02-main-luna/docs/dispatch.md
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/report/limits.csv
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/tools/build_limits.py
+?? ../../../../cand-claude/m10-main-claude/seed/docs/policy/
+?? ../../../../cand-luna/m02-main-luna/seed/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m10-main-claude/docs/policy/
+?? ../m01-cheap-luna.final.txt
+?? ../m01-main-claude.final.txt
+?? ../m02-cheap-glm.final.txt
+?? ../m02-main-luna.final.txt
+?? ../m02-main-luna/history/0031-dispatch-capacity.md
+?? ../m03-cheap-claude.final.txt
+?? ../m04-cheap-luna.final.txt
+?? ../m04-main-claude.codex.log
+?? ../m04-main-claude.final.txt
+?? ../m05-cheap-glm.codex.log
+?? ../m05-cheap-glm.final.txt
+?? ../m05-main-luna.codex.log
+?? ../m05-main-luna.final.txt
+?? ../m06-cheap-claude.codex.log
+?? ../m06-cheap-claude.final.txt
+?? ../m06-main-glm.codex.log
+?? ../m06-main-glm.final.txt
+?? ../m07-cheap-luna.codex.log
+?? ../m07-cheap-luna.final.txt
+?? ../m07-main-claude.codex.log
+?? ../m07-main-claude.final.txt
+?? ../m08-cheap-glm.codex.log
+?? ../m08-cheap-glm.final.txt
+?? ../m08-main-luna.codex.log
+?? ../m08-main-luna.final.txt
+?? ../m09-cheap-claude.codex.log
+?? ../m09-cheap-claude.final.txt
+?? ../m09-main-glm.codex.log
+?? ../m09-main-glm.final.txt
+?? ../m10-cheap-luna.codex.log
+?? ../m10-cheap-luna.final.txt
+?? ../m10-main-claude.codex.log
+?? ../m10-main-claude.final.txt
+?? ../m10-main-claude/docs/policy/
+?? ../results.json
+?? ../../../sonnet-pilot/trial-0/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../sonnet-pilot/trial-0/m10-main-claude/docs/policy/
+
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+index a4666e05723507240f48e8c21faea766234e0a8e..9047b4cec16e724378d0b804e3c670023d67ab9f
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+@@ -17,7 +17,7 @@
+     See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+     is not what this project wants.
+     """
+-    return round(value)
++    return int(value + 0.5)
+ 
+ 
+ def line_total(kind, units):
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+index a4666e05723507240f48e8c21faea766234e0a8e..9047b4cec16e724378d0b804e3c670023d67ab9f
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+@@ -17,7 +17,7 @@
+     See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+     is not what this project wants.
+     """
+-    return round(value)
++    return int(value + 0.5)
+ 
+ 
+ def line_total(kind, units):
+
+codex
+I changed only `src/ledger/rates.py`: `round_half_up` now adds 0.5 and truncates to implement half-up rounding for the documented non-negative amounts. I’m running the full suite now and will verify the final diff is limited to that function.
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m pytest tests && git diff -- src/ledger/rates.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+ succeeded in 71ms:
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude
+plugins: typeguard-4.4.4
+collected 17 items
+
+tests/test_attestation.py ....                                           [ 23%]
+tests/test_digest.py ....                                                [ 47%]
+tests/test_lineage.py ....                                               [ 70%]
+tests/test_rates.py .....                                                [100%]
+
+============================== 17 passed in 0.01s ==============================
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+index a4666e0..9047b4c 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+@@ -17,7 +17,7 @@ def round_half_up(value):
+     See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+     is not what this project wants.
+     """
+-    return round(value)
++    return int(value + 0.5)
+ 
+ 
+ def line_total(kind, units):
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+index a4666e05723507240f48e8c21faea766234e0a8e..9047b4cec16e724378d0b804e3c670023d67ab9f
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+@@ -17,7 +17,7 @@
+     See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+     is not what this project wants.
+     """
+-    return round(value)
++    return int(value + 0.5)
+ 
+ 
+ def line_total(kind, units):
+
+codex
+Fixed `round_half_up` to use half-up rounding instead of Python’s half-even rounding.
+
+Validation: `PYTHONPATH=src python3 -m pytest tests` — **17 passed**.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+index a4666e05723507240f48e8c21faea766234e0a8e..9047b4cec16e724378d0b804e3c670023d67ab9f
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-cheap-claude/src/ledger/rates.py
+@@ -17,7 +17,7 @@
+     See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+     is not what this project wants.
+     """
+-    return round(value)
++    return int(value + 0.5)
+ 
+ 
+ def line_total(kind, units):
+
+tokens used
+15,835
+Fixed `round_half_up` to use half-up rounding instead of Python’s half-even rounding.
+
+Validation: `PYTHONPATH=src python3 -m pytest tests` — **17 passed**.

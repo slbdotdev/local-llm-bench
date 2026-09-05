@@ -1,0 +1,1854 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703f-9734-7a30-bfca-3ecd16ab83cb
+--------
+user
+You are working in a snapshot of the `relay-north` repository.
+
+Prepare a drain report. Create a file named `answer.txt` in the root of the working directory
+containing exactly two lines and nothing else:
+
+    ESCALATION: <code>
+    SLOT: <number>
+
+where
+
+- `<code>` is the escalation code **currently in force**, as the operations log records it. The
+  log is append-only and contains codes that were in force in the past and have since been
+  withdrawn; only one code is currently in force and the log says which.
+- `<number>` is the slot number that the `reconcile` stage currently holds in the **`active`**
+  state, as reported by `python tools/dump_state.py`. Write the number on its own, with no
+  leading zeros and no other characters — `SLOT: 7`, not `SLOT: 007`.
+
+`README.md` says where each of the two facts lives. Write nothing else to the file and change
+nothing else in the repository.
+
+codex
+I’ll inspect the repository instructions, then read the two named sources and write only `answer.txt`, verifying its exact two-line contents.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g 'README.md' -g 'tools/dump_state.py' -g '*log*' -g '"'!answer.txt'"' | sort" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+README.md
+docs/operations-log.md
+tools/dump_state.py
+
+exec
+/bin/bash -lc "find .. -name AGENTS.md -o -name CLAUDE.md; git status --short; sed -n '1,240p' README.md; sed -n '1,260p' docs/operations-log.md; sed -n '1,260p' tools/dump_state.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+ succeeded in 0ms:
+ M ../m01-main-claude.codex.log
+ M ../m01-main-claude.final.txt
+ M ../m04-main-claude.codex.log
+ M ../m04-main-claude.final.txt
+ M ../m04-main-claude/config/manifest.json
+ M ../m05-cheap-glm.codex.log
+ M ../m05-cheap-glm/src/kestrel/rates.py
+ M ../m05-main-luna.codex.log
+ M ../m05-main-luna.final.txt
+ M ../m05-main-luna/docs/admission_policy.md
+ M ../m06-cheap-claude.codex.log
+ M ../m06-cheap-claude.final.txt
+ M ../m06-cheap-claude/src/quota/budget.py
+ M ../m06-main-glm.codex.log
+ M ../m06-main-glm.final.txt
+ M ../m06-main-glm/src/larkspur/settle_gate.py
+ M ../m07-cheap-luna.codex.log
+ M ../m07-cheap-luna/config/pipeline_templates.json
+ M ../m07-cheap-luna/docs/watermark.md
+ M ../m07-cheap-luna/src/prism/watermark_view.py
+ M ../m07-cheap-luna/tests/test_watermark.py
+ M ../m07-main-claude.codex.log
+ M ../m08-cheap-glm.codex.log
+ M ../m08-main-luna.codex.log
+ M ../m09-cheap-claude.codex.log
+?? ../../../glm/
+?? ../m04-main-claude/report.txt
+?? ../m05-cheap-glm/fixlog.txt
+# relay-north
+
+Operational tooling for the north relay. Two things live here:
+
+- `docs/operations-log.md` — the append-only operations log. Newest entries at the **bottom**.
+  Nothing in it is ever rewritten; an entry that turned out to be wrong is corrected by a later
+  entry that says so.
+- `tools/dump_state.py` — prints the current slot allocation for every stage, one line per slot.
+  Run it with `python tools/dump_state.py` from the repository root.
+
+## Reporting a drain
+
+A drain report needs two things: the escalation code currently in force, and the slot number the
+`reconcile` stage is currently allocated. The first comes from the log, the second from
+`dump_state.py`. Both change, so both are read fresh each time rather than remembered.
+# Operations log — relay-north
+
+Newest entries at the BOTTOM. Append only; nothing here is ever rewritten, because
+the log is the evidence and an edited log is not evidence. An entry that turned out
+to be wrong is corrected by a later entry that says so, never by changing it.
+
+## 2034-01-01  routine
+
+Drain completed in 40 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-04  routine
+
+Drain completed in 47 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-07  routine
+
+Drain completed in 54 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-10  routine
+
+Drain completed in 61 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-13  routine
+
+Drain completed in 68 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-16  routine
+
+Drain completed in 75 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-19  routine
+
+Drain completed in 82 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+Escalation code in force at the time of this drain: **RN-114**. This code was
+**withdrawn** later the same quarter and is recorded here only because the
+drain it governed is cited in an audit. It is not the current code.
+
+## 2034-01-22  routine
+
+Drain completed in 89 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-25  routine
+
+Drain completed in 96 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-01-28  routine
+
+Drain completed in 103 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-03  routine
+
+Drain completed in 110 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-06  routine
+
+Drain completed in 117 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-09  routine
+
+Drain completed in 124 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-12  routine
+
+Drain completed in 41 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-15  routine
+
+Drain completed in 48 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-18  routine
+
+Drain completed in 55 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-21  routine
+
+Drain completed in 62 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-24  routine
+
+Drain completed in 69 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+Escalation code in force at the time of this drain: **RN-121**. This code was
+**withdrawn** later the same quarter and is recorded here only because the
+drain it governed is cited in an audit. It is not the current code.
+
+## 2034-02-27  routine
+
+Drain completed in 76 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-02-02  routine
+
+Drain completed in 83 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-05  routine
+
+Drain completed in 90 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-08  routine
+
+Drain completed in 97 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-11  routine
+
+Drain completed in 104 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-14  routine
+
+Drain completed in 111 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-17  routine
+
+Drain completed in 118 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-20  routine
+
+Drain completed in 125 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-23  routine
+
+Drain completed in 42 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-26  routine
+
+Drain completed in 49 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-01  routine
+
+Drain completed in 56 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-03-04  routine
+
+Drain completed in 63 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+Escalation code in force at the time of this drain: **RN-121**. This code was
+**withdrawn** later the same quarter and is recorded here only because the
+drain it governed is cited in an audit. It is not the current code.
+
+## 2034-04-07  routine
+
+Drain completed in 70 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-10  routine
+
+Drain completed in 77 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-13  routine
+
+Drain completed in 84 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-16  routine
+
+Drain completed in 91 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-19  routine
+
+Drain completed in 98 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-22  routine
+
+Drain completed in 105 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-25  routine
+
+Drain completed in 112 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-28  routine
+
+Drain completed in 119 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-03  routine
+
+Drain completed in 126 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-04-06  routine
+
+Drain completed in 43 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-09  routine
+
+Drain completed in 50 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-12  routine
+
+Drain completed in 57 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-15  routine
+
+Drain completed in 64 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-18  routine
+
+Drain completed in 71 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-21  routine
+
+Drain completed in 78 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-24  routine
+
+Drain completed in 85 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-27  routine
+
+Drain completed in 92 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-02  routine
+
+Drain completed in 99 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-05  routine
+
+#!/usr/bin/env python3
+"""Print the current slot allocation, one line per slot.
+
+Slots are printed in allocation order, which is not stage order: a stage holds several
+slots and they are not contiguous. The line that matters for a drain report is the one
+whose state is `active` for the stage you are reporting on. Every other line for that
+stage is a lease that is not currently carrying work.
+"""
+
+
+def main():
+    print("slot 001  stage=envelope     state=held      lease=37s")
+    print("slot 002  stage=watermark    state=held      lease=44s")
+    print("slot 003  stage=reconcile    state=held      lease=51s")
+    print("slot 004  stage=attestation  state=held      lease=58s")
+    print("slot 005  stage=digest       state=held      lease=65s")
+    print("slot 006  stage=rollup       state=held      lease=72s")
+    print("slot 007  stage=drain        state=held      lease=79s")
+    print("slot 008  stage=ingest       state=held      lease=86s")
+    print("slot 009  stage=envelope     state=draining  lease=93s")
+    print("slot 010  stage=watermark    state=draining  lease=100s")
+    print("slot 011  stage=reconcile    state=draining  lease=107s")
+    print("slot 012  stage=attestation  state=draining  lease=114s")
+    print("slot 013  stage=digest       state=draining  lease=121s")
+    print("slot 014  stage=rollup       state=draining  lease=128s")
+    print("slot 015  stage=drain        state=draining  lease=135s")
+    print("slot 016  stage=ingest       state=draining  lease=142s")
+    print("slot 017  stage=envelope     state=idle      lease=149s")
+    print("slot 018  stage=watermark    state=idle      lease=156s")
+    print("slot 019  stage=reconcile    state=idle      lease=163s")
+    print("slot 020  stage=attestation  state=idle      lease=170s")
+    print("slot 021  stage=digest       state=idle      lease=177s")
+    print("slot 022  stage=rollup       state=idle      lease=184s")
+    print("slot 023  stage=drain        state=idle      lease=191s")
+    print("slot 024  stage=ingest       state=idle      lease=198s")
+    print("slot 025  stage=envelope     state=held      lease=205s")
+    print("slot 026  stage=watermark    state=held      lease=212s")
+    print("slot 027  stage=reconcile    state=held      lease=219s")
+    print("slot 028  stage=attestation  state=held      lease=226s")
+    print("slot 029  stage=digest       state=held      lease=233s")
+    print("slot 030  stage=rollup       state=held      lease=240s")
+    print("slot 031  stage=drain        state=held      lease=247s")
+    print("slot 032  stage=ingest       state=held      lease=254s")
+    print("slot 033  stage=envelope     state=draining  lease=261s")
+    print("slot 034  stage=watermark    state=draining  lease=268s")
+    print("slot 035  stage=reconcile    state=draining  lease=275s")
+    print("slot 036  stage=attestation  state=draining  lease=282s")
+    print("slot 037  stage=digest       state=draining  lease=289s")
+    print("slot 038  stage=rollup       state=draining  lease=296s")
+    print("slot 039  stage=drain        state=draining  lease=303s")
+    print("slot 040  stage=ingest       state=draining  lease=310s")
+    print("slot 041  stage=envelope     state=idle      lease=317s")
+    print("slot 042  stage=watermark    state=idle      lease=324s")
+    print("slot 043  stage=reconcile    state=idle      lease=31s")
+    print("slot 044  stage=attestation  state=idle      lease=38s")
+    print("slot 045  stage=digest       state=idle      lease=45s")
+    print("slot 046  stage=rollup       state=idle      lease=52s")
+    print("slot 047  stage=drain        state=idle      lease=59s")
+    print("slot 048  stage=ingest       state=idle      lease=66s")
+    print("slot 049  stage=envelope     state=held      lease=73s")
+    print("slot 050  stage=watermark    state=held      lease=80s")
+    print("slot 051  stage=reconcile    state=held      lease=87s")
+    print("slot 052  stage=attestation  state=held      lease=94s")
+    print("slot 053  stage=digest       state=held      lease=101s")
+    print("slot 054  stage=rollup       state=held      lease=108s")
+    print("slot 055  stage=drain        state=held      lease=115s")
+    print("slot 056  stage=ingest       state=held      lease=122s")
+    print("slot 057  stage=envelope     state=draining  lease=129s")
+    print("slot 058  stage=watermark    state=draining  lease=136s")
+    print("slot 059  stage=reconcile    state=draining  lease=143s")
+    print("slot 060  stage=attestation  state=draining  lease=150s")
+    print("slot 061  stage=digest       state=draining  lease=157s")
+    print("slot 062  stage=rollup       state=draining  lease=164s")
+    print("slot 063  stage=drain        state=draining  lease=171s")
+    print("slot 064  stage=ingest       state=draining  lease=178s")
+    print("slot 065  stage=envelope     state=active    lease=185s")
+    print("slot 066  stage=watermark    state=active    lease=192s")
+    print("slot 067  stage=reconcile    state=active    lease=199s")
+    print("slot 068  stage=attestation  state=active    lease=206s")
+    print("slot 069  stage=digest       state=active    lease=213s")
+    print("slot 070  stage=rollup       state=active    lease=220s")
+    print("slot 071  stage=drain        state=active    lease=227s")
+    print("slot 072  stage=ingest       state=active    lease=234s")
+    print("slot 073  stage=envelope     state=held      lease=241s")
+    print("slot 074  stage=watermark    state=held      lease=248s")
+    print("slot 075  stage=reconcile    state=held      lease=255s")
+    print("slot 076  stage=attestation  state=held      lease=262s")
+    print("slot 077  stage=digest       state=held      lease=269s")
+    print("slot 078  stage=rollup       state=held      lease=276s")
+    print("slot 079  stage=drain        state=held      lease=283s")
+    print("slot 080  stage=ingest       state=held      lease=290s")
+    print("slot 081  stage=envelope     state=draining  lease=297s")
+    print("slot 082  stage=watermark    state=draining  lease=304s")
+    print("slot 083  stage=reconcile    state=draining  lease=311s")
+    print("slot 084  stage=attestation  state=draining  lease=318s")
+    print("slot 085  stage=digest       state=draining  lease=325s")
+    print("slot 086  stage=rollup       state=draining  lease=32s")
+    print("slot 087  stage=drain        state=draining  lease=39s")
+    print("slot 088  stage=ingest       state=draining  lease=46s")
+    print("slot 089  stage=envelope     state=idle      lease=53s")
+    print("slot 090  stage=watermark    state=idle      lease=60s")
+    print("slot 091  stage=reconcile    state=idle      lease=67s")
+    print("slot 092  stage=attestation  state=idle      lease=74s")
+    print("slot 093  stage=digest       state=idle      lease=81s")
+    print("slot 094  stage=rollup       state=idle      lease=88s")
+    print("slot 095  stage=drain        state=idle      lease=95s")
+    print("slot 096  stage=ingest       state=idle      lease=102s")
+    print("slot 097  stage=envelope     state=held      lease=109s")
+    print("slot 098  stage=watermark    state=held      lease=116s")
+    print("slot 099  stage=reconcile    state=held      lease=123s")
+    print("slot 100  stage=attestation  state=held      lease=130s")
+    print("slot 101  stage=digest       state=held      lease=137s")
+    print("slot 102  stage=rollup       state=held      lease=144s")
+    print("slot 103  stage=drain        state=held      lease=151s")
+    print("slot 104  stage=ingest       state=held      lease=158s")
+    print("slot 105  stage=envelope     state=draining  lease=165s")
+    print("slot 106  stage=watermark    state=draining  lease=172s")
+    print("slot 107  stage=reconcile    state=draining  lease=179s")
+    print("slot 108  stage=attestation  state=draining  lease=186s")
+    print("slot 109  stage=digest       state=draining  lease=193s")
+    print("slot 110  stage=rollup       state=draining  lease=200s")
+    print("slot 111  stage=drain        state=draining  lease=207s")
+    print("slot 112  stage=ingest       state=draining  lease=214s")
+    print("slot 113  stage=envelope     state=idle      lease=221s")
+    print("slot 114  stage=watermark    state=idle      lease=228s")
+    print("slot 115  stage=reconcile    state=idle      lease=235s")
+    print("slot 116  stage=attestation  state=idle      lease=242s")
+    print("slot 117  stage=digest       state=idle      lease=249s")
+    print("slot 118  stage=rollup       state=idle      lease=256s")
+    print("slot 119  stage=drain        state=idle      lease=263s")
+    print("slot 120  stage=ingest       state=idle      lease=270s")
+
+
+if __name__ == "__main__":
+    main()
+
+codex
+The repository points to the append-only operations log and `dump_state.py`. The visible historical codes are explicitly withdrawn; I’m checking the log’s final entries and running the state tool to identify the current values.
+exec
+/bin/bash -lc "tail -n 140 docs/operations-log.md; python tools/dump_state.py | rg 'stage=reconcile.*state=active'; git status --short --untracked-files=all" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+ succeeded in 0ms:
+Drain completed in 43 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-09  routine
+
+Drain completed in 50 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-12  routine
+
+Drain completed in 57 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-15  routine
+
+Drain completed in 64 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-18  routine
+
+Drain completed in 71 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-21  routine
+
+Drain completed in 78 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-24  routine
+
+Drain completed in 85 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-27  routine
+
+Drain completed in 92 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-02  routine
+
+Drain completed in 99 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-05  routine
+
+Drain completed in 106 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-08  routine
+
+Drain completed in 113 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-11  routine
+
+Drain completed in 120 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-14  routine
+
+Drain completed in 127 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-17  routine
+
+Drain completed in 44 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-20  routine
+
+Drain completed in 51 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-23  routine
+
+Drain completed in 58 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-26  routine
+
+Drain completed in 65 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-01  routine
+
+Drain completed in 72 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-04  routine
+
+Drain completed in 79 s across 20 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-07  routine
+
+Drain completed in 86 s across 21 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-06-10  routine
+
+Drain completed in 93 s across 22 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-07-13  routine
+
+Drain completed in 100 s across 18 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-07-16  routine
+
+Drain completed in 107 s across 19 stages. No refusals. Snapshot written to the
+evidence store before restart, as the procedure requires.
+
+## 2034-05-19  escalation review
+
+The escalation codes were consolidated. Every code issued before this date is
+withdrawn, including the ones recorded above, which remain in the log as evidence
+of what was in force at the time of each drain.
+
+**The escalation code now in force, and the only one that is, is `RN-208`.**
+
+It replaces every earlier code. A drain that reports any other code is reporting a
+withdrawn one and the report is rejected at intake.
+
+## 2034-05-20  routine
+
+Drain completed in 55 s. No refusals. Nothing to report.
+
+## 2034-05-21  routine
+
+Drain completed in 64 s. No refusals. Nothing to report.
+
+## 2034-05-22  routine
+
+Drain completed in 73 s. No refusals. Nothing to report.
+
+## 2034-05-23  routine
+
+Drain completed in 82 s. No refusals. Nothing to report.
+
+/bin/bash: line 1: python: command not found
+ M ../m01-main-claude.codex.log
+ M ../m01-main-claude.final.txt
+ M ../m04-main-claude.codex.log
+ M ../m04-main-claude.final.txt
+ M ../m04-main-claude/config/manifest.json
+ M ../m05-cheap-glm.codex.log
+ M ../m05-cheap-glm/src/kestrel/rates.py
+ M ../m05-main-luna.codex.log
+ M ../m05-main-luna.final.txt
+ M ../m05-main-luna/docs/admission_policy.md
+ M ../m06-cheap-claude.codex.log
+ M ../m06-cheap-claude.final.txt
+ M ../m06-cheap-claude/src/quota/budget.py
+ M ../m06-main-glm.codex.log
+ M ../m06-main-glm.final.txt
+ M ../m06-main-glm/src/larkspur/settle_gate.py
+ M ../m07-cheap-luna.codex.log
+ M ../m07-cheap-luna/config/pipeline_templates.json
+ M ../m07-cheap-luna/docs/watermark.md
+ M ../m07-cheap-luna/src/prism/watermark_view.py
+ M ../m07-cheap-luna/tests/test_watermark.py
+ M ../m07-main-claude.codex.log
+ M ../m08-cheap-glm.codex.log
+ M ../m08-main-luna.codex.log
+ M ../m08-main-luna/src/HarborAtlas/briefing_marker.py
+ M ../m09-cheap-claude.codex.log
+?? ../../../glm/trial-0/m01-cheap-luna.final.txt
+?? ../../../glm/trial-0/m01-cheap-luna.pi.log
+?? ../../../glm/trial-0/m01-cheap-luna/README.md
+?? ../../../glm/trial-0/m01-cheap-luna/config/manifest.json
+?? ../../../glm/trial-0/m01-cheap-luna/docs/architecture.md
+?? ../../../glm/trial-0/m01-cheap-luna/docs/envelope.md
+?? ../../../glm/trial-0/m01-cheap-luna/docs/operations.md
+?? ../../../glm/trial-0/m01-cheap-luna/docs/policy/public-index.md
+?? ../../../glm/trial-0/m01-cheap-luna/docs/schema.md
+?? ../../../glm/trial-0/m01-cheap-luna/docs/shard.md
+?? ../../../glm/trial-0/m01-cheap-luna/history/0000-envelope.md
+?? ../../../glm/trial-0/m01-cheap-luna/history/0001-schema.md
+?? ../../../glm/trial-0/m01-cheap-luna/history/0002-shard.md
+?? ../../../glm/trial-0/m01-cheap-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m01-cheap-luna/src/harbor/__init__.py
+?? ../../../glm/trial-0/m01-cheap-luna/src/harbor/envelope_view.py
+?? ../../../glm/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+?? ../../../glm/trial-0/m01-cheap-luna/src/harbor/shard_core.py
+?? ../../../glm/trial-0/m01-cheap-luna/tests/test_envelope.py
+?? ../../../glm/trial-0/m01-cheap-luna/tests/test_schema.py
+?? ../../../glm/trial-0/m01-cheap-luna/tests/test_shard.py
+?? ../../../glm/trial-0/m01-main-claude.final.txt
+?? ../../../glm/trial-0/m01-main-claude.pi.log
+?? ../../../glm/trial-0/m01-main-claude/README.md
+?? ../../../glm/trial-0/m01-main-claude/config/manifest.json
+?? ../../../glm/trial-0/m01-main-claude/docs/architecture.md
+?? ../../../glm/trial-0/m01-main-claude/docs/attestation.md
+?? ../../../glm/trial-0/m01-main-claude/docs/backfill.md
+?? ../../../glm/trial-0/m01-main-claude/docs/checkpoint.md
+?? ../../../glm/trial-0/m01-main-claude/docs/compaction.md
+?? ../../../glm/trial-0/m01-main-claude/docs/cursor.md
+?? ../../../glm/trial-0/m01-main-claude/docs/digest.md
+?? ../../../glm/trial-0/m01-main-claude/docs/dispatch.md
+?? ../../../glm/trial-0/m01-main-claude/docs/drain.md
+?? ../../../glm/trial-0/m01-main-claude/docs/envelope.md
+?? ../../../glm/trial-0/m01-main-claude/docs/ingest.md
+?? ../../../glm/trial-0/m01-main-claude/docs/ledger.md
+?? ../../../glm/trial-0/m01-main-claude/docs/lineage.md
+?? ../../../glm/trial-0/m01-main-claude/docs/operations.md
+?? ../../../glm/trial-0/m01-main-claude/docs/policy/03-retention.md
+?? ../../../glm/trial-0/m01-main-claude/docs/quota.md
+?? ../../../glm/trial-0/m01-main-claude/docs/replay.md
+?? ../../../glm/trial-0/m01-main-claude/docs/retention.md
+?? ../../../glm/trial-0/m01-main-claude/docs/rollup.md
+?? ../../../glm/trial-0/m01-main-claude/docs/routing.md
+?? ../../../glm/trial-0/m01-main-claude/docs/schema.md
+?? ../../../glm/trial-0/m01-main-claude/docs/shard.md
+?? ../../../glm/trial-0/m01-main-claude/docs/tenancy.md
+?? ../../../glm/trial-0/m01-main-claude/docs/watermark.md
+?? ../../../glm/trial-0/m01-main-claude/history/0000-dispatch.md
+?? ../../../glm/trial-0/m01-main-claude/history/0001-cursor.md
+?? ../../../glm/trial-0/m01-main-claude/history/0002-replay.md
+?? ../../../glm/trial-0/m01-main-claude/history/0003-quota.md
+?? ../../../glm/trial-0/m01-main-claude/history/0004-drain.md
+?? ../../../glm/trial-0/m01-main-claude/history/0005-envelope.md
+?? ../../../glm/trial-0/m01-main-claude/history/0006-tenancy.md
+?? ../../../glm/trial-0/m01-main-claude/history/0007-digest.md
+?? ../../../glm/trial-0/m01-main-claude/history/0008-watermark.md
+?? ../../../glm/trial-0/m01-main-claude/history/0009-checkpoint.md
+?? ../../../glm/trial-0/m01-main-claude/history/0010-backfill.md
+?? ../../../glm/trial-0/m01-main-claude/history/0011-lineage.md
+?? ../../../glm/trial-0/m01-main-claude/history/0012-shard.md
+?? ../../../glm/trial-0/m01-main-claude/history/0013-ingest.md
+?? ../../../glm/trial-0/m01-main-claude/history/0014-retention.md
+?? ../../../glm/trial-0/m01-main-claude/history/0015-rollup.md
+?? ../../../glm/trial-0/m01-main-claude/history/0016-attestation.md
+?? ../../../glm/trial-0/m01-main-claude/history/0017-ledger.md
+?? ../../../glm/trial-0/m01-main-claude/history/0018-schema.md
+?? ../../../glm/trial-0/m01-main-claude/history/0019-routing.md
+?? ../../../glm/trial-0/m01-main-claude/history/0020-compaction.md
+?? ../../../glm/trial-0/m01-main-claude/history/9001-dispatch-reaping.md
+?? ../../../glm/trial-0/m01-main-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/__init__.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/attestation_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/backfill_flow.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/checkpoint_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/compaction_view.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/cursor_view.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/digest_flow.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/dispatch_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/drain_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/envelope_flow.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/ingest_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/ledger_view.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/lineage_view.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/quota_core.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/replay_core.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/retention_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/rollup_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/routing_flow.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/schema_flow.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/shard_gate.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/tenancy_core.py
+?? ../../../glm/trial-0/m01-main-claude/src/cinder/watermark_flow.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_attestation.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_backfill.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_compaction.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_cursor.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_digest.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_dispatch.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_drain.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_envelope.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_ingest.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_ledger.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_quota.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_replay.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_retention.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_rollup.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_routing.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_schema.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_shard.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_tenancy.py
+?? ../../../glm/trial-0/m01-main-claude/tests/test_watermark.py
+?? ../../../glm/trial-0/m02-cheap-glm.final.txt
+?? ../../../glm/trial-0/m02-cheap-glm.pi.log
+?? ../../../glm/trial-0/m02-cheap-glm/README.md
+?? ../../../glm/trial-0/m02-cheap-glm/config/reorder_points.json
+?? ../../../glm/trial-0/m02-cheap-glm/data/inventory.csv
+?? ../../../glm/trial-0/m02-cheap-glm/data/stocktake-2026-08.csv
+?? ../../../glm/trial-0/m02-cheap-glm/docs/count-procedure.md
+?? ../../../glm/trial-0/m02-cheap-glm/docs/glossary.md
+?? ../../../glm/trial-0/m02-cheap-glm/docs/onboarding.md
+?? ../../../glm/trial-0/m02-cheap-glm/docs/stocking-policy.md
+?? ../../../glm/trial-0/m02-cheap-glm/docs/usage.md
+?? ../../../glm/trial-0/m02-cheap-glm/docs/who-does-what.md
+?? ../../../glm/trial-0/m02-cheap-glm/history/2026-05-28-reorder-review.md
+?? ../../../glm/trial-0/m02-cheap-glm/history/2026-07-18-report-refactor-started.md
+?? ../../../glm/trial-0/m02-cheap-glm/history/2026-08-03-reorder-review.md
+?? ../../../glm/trial-0/m02-cheap-glm/history/2026-09-12-inventory-file-truncated.md
+?? ../../../glm/trial-0/m02-cheap-glm/reorder-check.txt
+?? ../../../glm/trial-0/m02-cheap-glm/scratch/counter-queries.txt
+?? ../../../glm/trial-0/m02-cheap-glm/scratch/draft_multi_bulk.py
+?? ../../../glm/trial-0/m02-cheap-glm/scratch/refactor-notes.md
+?? ../../../glm/trial-0/m02-cheap-glm/scratch/shelf-relabel-plan.md
+?? ../../../glm/trial-0/m02-cheap-glm/src/quartermaster/__init__.py
+?? ../../../glm/trial-0/m02-cheap-glm/src/quartermaster/report.py
+?? ../../../glm/trial-0/m02-cheap-glm/src/quartermaster/stock.py
+?? ../../../glm/trial-0/m02-cheap-glm/tests/test_report_legacy.py
+?? ../../../glm/trial-0/m02-cheap-glm/tests/test_stock.py
+?? ../../../glm/trial-0/m02-main-luna.final.txt
+?? ../../../glm/trial-0/m02-main-luna.pi.log
+?? ../../../glm/trial-0/m02-main-luna/README.md
+?? ../../../glm/trial-0/m02-main-luna/config/manifest.json
+?? ../../../glm/trial-0/m02-main-luna/docs/architecture.md
+?? ../../../glm/trial-0/m02-main-luna/docs/attestation.md
+?? ../../../glm/trial-0/m02-main-luna/docs/audit.md
+?? ../../../glm/trial-0/m02-main-luna/docs/backfill.md
+?? ../../../glm/trial-0/m02-main-luna/docs/checkpoint.md
+?? ../../../glm/trial-0/m02-main-luna/docs/compaction.md
+?? ../../../glm/trial-0/m02-main-luna/docs/cursor.md
+?? ../../../glm/trial-0/m02-main-luna/docs/digest.md
+?? ../../../glm/trial-0/m02-main-luna/docs/dispatch.md
+?? ../../../glm/trial-0/m02-main-luna/docs/drain.md
+?? ../../../glm/trial-0/m02-main-luna/docs/envelope.md
+?? ../../../glm/trial-0/m02-main-luna/docs/ingest.md
+?? ../../../glm/trial-0/m02-main-luna/docs/ledger.md
+?? ../../../glm/trial-0/m02-main-luna/docs/lineage.md
+?? ../../../glm/trial-0/m02-main-luna/docs/operations.md
+?? ../../../glm/trial-0/m02-main-luna/docs/quota.md
+?? ../../../glm/trial-0/m02-main-luna/docs/replay.md
+?? ../../../glm/trial-0/m02-main-luna/docs/retention.md
+?? ../../../glm/trial-0/m02-main-luna/docs/rollup.md
+?? ../../../glm/trial-0/m02-main-luna/docs/routing.md
+?? ../../../glm/trial-0/m02-main-luna/docs/tenancy.md
+?? ../../../glm/trial-0/m02-main-luna/docs/throttle.md
+?? ../../../glm/trial-0/m02-main-luna/docs/watermark.md
+?? ../../../glm/trial-0/m02-main-luna/history/0000-quota.md
+?? ../../../glm/trial-0/m02-main-luna/history/0001-checkpoint.md
+?? ../../../glm/trial-0/m02-main-luna/history/0002-throttle.md
+?? ../../../glm/trial-0/m02-main-luna/history/0003-backfill.md
+?? ../../../glm/trial-0/m02-main-luna/history/0004-lineage.md
+?? ../../../glm/trial-0/m02-main-luna/history/0005-retention.md
+?? ../../../glm/trial-0/m02-main-luna/history/0006-watermark.md
+?? ../../../glm/trial-0/m02-main-luna/history/0007-routing.md
+?? ../../../glm/trial-0/m02-main-luna/history/0008-rollup.md
+?? ../../../glm/trial-0/m02-main-luna/history/0009-attestation.md
+?? ../../../glm/trial-0/m02-main-luna/history/0010-dispatch.md
+?? ../../../glm/trial-0/m02-main-luna/history/0011-audit.md
+?? ../../../glm/trial-0/m02-main-luna/history/0012-replay.md
+?? ../../../glm/trial-0/m02-main-luna/history/0013-ledger.md
+?? ../../../glm/trial-0/m02-main-luna/history/0014-compaction.md
+?? ../../../glm/trial-0/m02-main-luna/history/0015-cursor.md
+?? ../../../glm/trial-0/m02-main-luna/history/0016-envelope.md
+?? ../../../glm/trial-0/m02-main-luna/history/0017-digest.md
+?? ../../../glm/trial-0/m02-main-luna/history/0018-tenancy.md
+?? ../../../glm/trial-0/m02-main-luna/history/0019-ingest.md
+?? ../../../glm/trial-0/m02-main-luna/history/0020-drain.md
+?? ../../../glm/trial-0/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../glm/trial-0/m02-main-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m02-main-luna/scratch/README.md
+?? ../../../glm/trial-0/m02-main-luna/scratch/rolling_refactor.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/__init__.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/attestation_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/audit_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/backfill_flow.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/checkpoint_core.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/compaction_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/cursor_view.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/digest_view.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/dispatch_core.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/drain_view.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/envelope_core.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/ingest_core.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/ledger_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/lineage_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/quota_store.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/replay_flow.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/retention_store.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/rollup_gate.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/routing_flow.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/tenancy_flow.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/throttle_flow.py
+?? ../../../glm/trial-0/m02-main-luna/src/NorthstarLedger/watermark_gate.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_attestation.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_audit.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_backfill.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_compaction.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_cursor.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_digest.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_dispatch.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_drain.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_envelope.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_ingest.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_ledger.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_lineage.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_quota.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_replay.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_retention.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_rollup.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_routing.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_tenancy.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_throttle.py
+?? ../../../glm/trial-0/m02-main-luna/tests/test_watermark.py
+?? ../../../glm/trial-0/m03-cheap-claude/CHANGELOG.md
+?? ../../../glm/trial-0/m03-cheap-claude/README.md
+?? ../../../glm/trial-0/m03-cheap-claude/config/manifest.json
+?? ../../../glm/trial-0/m03-cheap-claude/docs/architecture.md
+?? ../../../glm/trial-0/m03-cheap-claude/docs/attestation.md
+?? ../../../glm/trial-0/m03-cheap-claude/docs/digest.md
+?? ../../../glm/trial-0/m03-cheap-claude/docs/lineage.md
+?? ../../../glm/trial-0/m03-cheap-claude/docs/operations.md
+?? ../../../glm/trial-0/m03-cheap-claude/docs/rounding.md
+?? ../../../glm/trial-0/m03-cheap-claude/history/0000-lineage.md
+?? ../../../glm/trial-0/m03-cheap-claude/history/0001-digest.md
+?? ../../../glm/trial-0/m03-cheap-claude/history/0002-attestation.md
+?? ../../../glm/trial-0/m03-cheap-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/__init__.py
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/attestation_store.py
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/digest_store.py
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/lineage_gate.py
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/normalise.py
+?? ../../../glm/trial-0/m03-cheap-claude/src/ledger/rates.py
+?? ../../../glm/trial-0/m03-cheap-claude/tests/test_attestation.py
+?? ../../../glm/trial-0/m03-cheap-claude/tests/test_digest.py
+?? ../../../glm/trial-0/m03-cheap-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m03-cheap-claude/tests/test_rates.py
+?? ../../../glm/trial-0/m03-main-glm/README.md
+?? ../../../glm/trial-0/m03-main-glm/config/manifest.json
+?? ../../../glm/trial-0/m03-main-glm/docs/architecture.md
+?? ../../../glm/trial-0/m03-main-glm/docs/attestation.md
+?? ../../../glm/trial-0/m03-main-glm/docs/audit.md
+?? ../../../glm/trial-0/m03-main-glm/docs/backfill.md
+?? ../../../glm/trial-0/m03-main-glm/docs/checkpoint.md
+?? ../../../glm/trial-0/m03-main-glm/docs/compaction.md
+?? ../../../glm/trial-0/m03-main-glm/docs/cursor.md
+?? ../../../glm/trial-0/m03-main-glm/docs/digest.md
+?? ../../../glm/trial-0/m03-main-glm/docs/dispatch.md
+?? ../../../glm/trial-0/m03-main-glm/docs/envelope.md
+?? ../../../glm/trial-0/m03-main-glm/docs/handover-2034-10-21.md
+?? ../../../glm/trial-0/m03-main-glm/docs/ledger.md
+?? ../../../glm/trial-0/m03-main-glm/docs/lineage.md
+?? ../../../glm/trial-0/m03-main-glm/docs/onboarding.md
+?? ../../../glm/trial-0/m03-main-glm/docs/operations.md
+?? ../../../glm/trial-0/m03-main-glm/docs/ops-calendar.md
+?? ../../../glm/trial-0/m03-main-glm/docs/quota.md
+?? ../../../glm/trial-0/m03-main-glm/docs/reconcile.md
+?? ../../../glm/trial-0/m03-main-glm/docs/replay.md
+?? ../../../glm/trial-0/m03-main-glm/docs/retention.md
+?? ../../../glm/trial-0/m03-main-glm/docs/rollup.md
+?? ../../../glm/trial-0/m03-main-glm/docs/routing.md
+?? ../../../glm/trial-0/m03-main-glm/docs/schema.md
+?? ../../../glm/trial-0/m03-main-glm/docs/shard.md
+?? ../../../glm/trial-0/m03-main-glm/docs/throttle.md
+?? ../../../glm/trial-0/m03-main-glm/docs/watermark.md
+?? ../../../glm/trial-0/m03-main-glm/history/0000-reconcile.md
+?? ../../../glm/trial-0/m03-main-glm/history/0001-throttle.md
+?? ../../../glm/trial-0/m03-main-glm/history/0002-backfill.md
+?? ../../../glm/trial-0/m03-main-glm/history/0003-attestation.md
+?? ../../../glm/trial-0/m03-main-glm/history/0004-checkpoint.md
+?? ../../../glm/trial-0/m03-main-glm/history/0005-compaction.md
+?? ../../../glm/trial-0/m03-main-glm/history/0006-watermark.md
+?? ../../../glm/trial-0/m03-main-glm/history/0007-ledger.md
+?? ../../../glm/trial-0/m03-main-glm/history/0008-dispatch.md
+?? ../../../glm/trial-0/m03-main-glm/history/0009-replay.md
+?? ../../../glm/trial-0/m03-main-glm/history/0010-envelope.md
+?? ../../../glm/trial-0/m03-main-glm/history/0011-audit.md
+?? ../../../glm/trial-0/m03-main-glm/history/0012-routing.md
+?? ../../../glm/trial-0/m03-main-glm/history/0013-retention.md
+?? ../../../glm/trial-0/m03-main-glm/history/0014-digest.md
+?? ../../../glm/trial-0/m03-main-glm/history/0015-schema.md
+?? ../../../glm/trial-0/m03-main-glm/history/0016-rollup.md
+?? ../../../glm/trial-0/m03-main-glm/history/0017-quota.md
+?? ../../../glm/trial-0/m03-main-glm/history/0018-lineage.md
+?? ../../../glm/trial-0/m03-main-glm/history/0019-shard.md
+?? ../../../glm/trial-0/m03-main-glm/history/0020-cursor.md
+?? ../../../glm/trial-0/m03-main-glm/history/0021-november-train.md
+?? ../../../glm/trial-0/m03-main-glm/history/0022-doc-sweeps.md
+?? ../../../glm/trial-0/m03-main-glm/history/CHANGELOG.md
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/__init__.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/attestation_view.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/audit_view.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/backfill_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/checkpoint_store.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/compaction_store.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/cursor_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/digest_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/dispatch_view.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/envelope_store.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/ledger_flow.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/lineage_flow.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/quota_store.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/reconcile_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/replay_store.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/retention_core.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/rollup_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/routing_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/schema_flow.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/shard_gate.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/throttle_flow.py
+?? ../../../glm/trial-0/m03-main-glm/src/northgate/watermark_core.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_attestation.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_audit.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_backfill.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_compaction.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_cursor.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_digest.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_dispatch.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_envelope.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_ledger.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_lineage.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_quota.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_reconcile.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_replay.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_retention.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_rollup.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_routing.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_schema.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_shard.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_throttle.py
+?? ../../../glm/trial-0/m03-main-glm/tests/test_watermark.py
+?? ../../../glm/trial-0/m04-cheap-luna/README.md
+?? ../../../glm/trial-0/m04-cheap-luna/config/manifest.json
+?? ../../../glm/trial-0/m04-cheap-luna/docs/architecture.md
+?? ../../../glm/trial-0/m04-cheap-luna/docs/compaction.md
+?? ../../../glm/trial-0/m04-cheap-luna/docs/dispatch.md
+?? ../../../glm/trial-0/m04-cheap-luna/docs/lineage.md
+?? ../../../glm/trial-0/m04-cheap-luna/docs/operations.md
+?? ../../../glm/trial-0/m04-cheap-luna/history/0000-dispatch.md
+?? ../../../glm/trial-0/m04-cheap-luna/history/0001-compaction.md
+?? ../../../glm/trial-0/m04-cheap-luna/history/0002-lineage.md
+?? ../../../glm/trial-0/m04-cheap-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m04-cheap-luna/src/ember/__init__.py
+?? ../../../glm/trial-0/m04-cheap-luna/src/ember/compaction_gate.py
+?? ../../../glm/trial-0/m04-cheap-luna/src/ember/dispatch_store.py
+?? ../../../glm/trial-0/m04-cheap-luna/src/ember/lineage_view.py
+?? ../../../glm/trial-0/m04-cheap-luna/tests/release_check.py
+?? ../../../glm/trial-0/m04-cheap-luna/tests/test_compaction.py
+?? ../../../glm/trial-0/m04-cheap-luna/tests/test_dispatch.py
+?? ../../../glm/trial-0/m04-cheap-luna/tests/test_lineage.py
+?? ../../../glm/trial-0/m04-main-claude/README.md
+?? ../../../glm/trial-0/m04-main-claude/config/manifest.json
+?? ../../../glm/trial-0/m04-main-claude/docs/architecture.md
+?? ../../../glm/trial-0/m04-main-claude/docs/attestation.md
+?? ../../../glm/trial-0/m04-main-claude/docs/audit.md
+?? ../../../glm/trial-0/m04-main-claude/docs/backfill.md
+?? ../../../glm/trial-0/m04-main-claude/docs/checkpoint.md
+?? ../../../glm/trial-0/m04-main-claude/docs/cursor.md
+?? ../../../glm/trial-0/m04-main-claude/docs/digest.md
+?? ../../../glm/trial-0/m04-main-claude/docs/dispatch.md
+?? ../../../glm/trial-0/m04-main-claude/docs/drain.md
+?? ../../../glm/trial-0/m04-main-claude/docs/envelope.md
+?? ../../../glm/trial-0/m04-main-claude/docs/ingest.md
+?? ../../../glm/trial-0/m04-main-claude/docs/lineage.md
+?? ../../../glm/trial-0/m04-main-claude/docs/operations.md
+?? ../../../glm/trial-0/m04-main-claude/docs/quota.md
+?? ../../../glm/trial-0/m04-main-claude/docs/reconcile.md
+?? ../../../glm/trial-0/m04-main-claude/docs/replay.md
+?? ../../../glm/trial-0/m04-main-claude/docs/retention.md
+?? ../../../glm/trial-0/m04-main-claude/docs/rollup.md
+?? ../../../glm/trial-0/m04-main-claude/docs/routing.md
+?? ../../../glm/trial-0/m04-main-claude/docs/schema.md
+?? ../../../glm/trial-0/m04-main-claude/docs/shard.md
+?? ../../../glm/trial-0/m04-main-claude/docs/tenancy.md
+?? ../../../glm/trial-0/m04-main-claude/docs/watermark.md
+?? ../../../glm/trial-0/m04-main-claude/history/0000-tenancy.md
+?? ../../../glm/trial-0/m04-main-claude/history/0001-routing.md
+?? ../../../glm/trial-0/m04-main-claude/history/0002-ingest.md
+?? ../../../glm/trial-0/m04-main-claude/history/0003-envelope.md
+?? ../../../glm/trial-0/m04-main-claude/history/0004-drain.md
+?? ../../../glm/trial-0/m04-main-claude/history/0005-checkpoint.md
+?? ../../../glm/trial-0/m04-main-claude/history/0006-dispatch.md
+?? ../../../glm/trial-0/m04-main-claude/history/0007-reconcile.md
+?? ../../../glm/trial-0/m04-main-claude/history/0008-backfill.md
+?? ../../../glm/trial-0/m04-main-claude/history/0009-rollup.md
+?? ../../../glm/trial-0/m04-main-claude/history/0010-lineage.md
+?? ../../../glm/trial-0/m04-main-claude/history/0011-retention.md
+?? ../../../glm/trial-0/m04-main-claude/history/0012-audit.md
+?? ../../../glm/trial-0/m04-main-claude/history/0013-replay.md
+?? ../../../glm/trial-0/m04-main-claude/history/0014-attestation.md
+?? ../../../glm/trial-0/m04-main-claude/history/0015-shard.md
+?? ../../../glm/trial-0/m04-main-claude/history/0016-cursor.md
+?? ../../../glm/trial-0/m04-main-claude/history/0017-watermark.md
+?? ../../../glm/trial-0/m04-main-claude/history/0018-schema.md
+?? ../../../glm/trial-0/m04-main-claude/history/0019-quota.md
+?? ../../../glm/trial-0/m04-main-claude/history/0020-digest.md
+?? ../../../glm/trial-0/m04-main-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/__init__.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/attestation_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/audit_flow.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/backfill_core.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/checkpoint_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/cursor_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/digest_store.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/dispatch_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/drain_core.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/envelope_view.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/ingest_view.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/lineage_store.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/quota_flow.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/reconcile_view.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/replay_flow.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/retention_view.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/rollup_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/routing_store.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/schema_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/shard_view.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/tenancy_gate.py
+?? ../../../glm/trial-0/m04-main-claude/src/harrow/watermark_store.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_attestation.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_audit.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_backfill.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_cursor.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_digest.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_dispatch.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_drain.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_envelope.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_ingest.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_pipeline_contract.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_quota.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_reconcile.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_replay.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_retention.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_rollup.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_routing.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_schema.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_shard.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_tenancy.py
+?? ../../../glm/trial-0/m04-main-claude/tests/test_watermark.py
+?? ../../../glm/trial-0/m05-cheap-glm/README.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/claims-process.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/depot-handbook-extract.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/faq.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/glossary.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/handover-notes.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/rate-card.md
+?? ../../../glm/trial-0/m05-cheap-glm/docs/review-calendar.md
+?? ../../../glm/trial-0/m05-cheap-glm/history/2026-02-02-spring-card.md
+?? ../../../glm/trial-0/m05-cheap-glm/history/2026-05-15-may-review.md
+?? ../../../glm/trial-0/m05-cheap-glm/history/2026-09-01-rate-card-effective.md
+?? ../../../glm/trial-0/m05-cheap-glm/history/CHANGELOG.md
+?? ../../../glm/trial-0/m05-cheap-glm/history/superseded/2026-02-02-rate-card.md
+?? ../../../glm/trial-0/m05-cheap-glm/samples/consignments-2026-09.csv
+?? ../../../glm/trial-0/m05-cheap-glm/samples/disputed-2026-09.md
+?? ../../../glm/trial-0/m05-cheap-glm/src/kestrel/__init__.py
+?? ../../../glm/trial-0/m05-cheap-glm/src/kestrel/rates.py
+?? ../../../glm/trial-0/m05-cheap-glm/src/kestrel/zones.py
+?? ../../../glm/trial-0/m05-cheap-glm/tests/test_zones.py
+?? ../../../glm/trial-0/m05-main-luna/README.md
+?? ../../../glm/trial-0/m05-main-luna/config/manifest.json
+?? ../../../glm/trial-0/m05-main-luna/docs/admission_policy.md
+?? ../../../glm/trial-0/m05-main-luna/docs/architecture.md
+?? ../../../glm/trial-0/m05-main-luna/docs/attestation.md
+?? ../../../glm/trial-0/m05-main-luna/docs/audit.md
+?? ../../../glm/trial-0/m05-main-luna/docs/checkpoint.md
+?? ../../../glm/trial-0/m05-main-luna/docs/compaction.md
+?? ../../../glm/trial-0/m05-main-luna/docs/cursor.md
+?? ../../../glm/trial-0/m05-main-luna/docs/digest.md
+?? ../../../glm/trial-0/m05-main-luna/docs/dispatch.md
+?? ../../../glm/trial-0/m05-main-luna/docs/drain.md
+?? ../../../glm/trial-0/m05-main-luna/docs/envelope.md
+?? ../../../glm/trial-0/m05-main-luna/docs/ingest.md
+?? ../../../glm/trial-0/m05-main-luna/docs/ledger.md
+?? ../../../glm/trial-0/m05-main-luna/docs/operations.md
+?? ../../../glm/trial-0/m05-main-luna/docs/reconcile.md
+?? ../../../glm/trial-0/m05-main-luna/docs/replay.md
+?? ../../../glm/trial-0/m05-main-luna/docs/retention.md
+?? ../../../glm/trial-0/m05-main-luna/docs/rollup.md
+?? ../../../glm/trial-0/m05-main-luna/docs/routing.md
+?? ../../../glm/trial-0/m05-main-luna/docs/schema.md
+?? ../../../glm/trial-0/m05-main-luna/docs/shard.md
+?? ../../../glm/trial-0/m05-main-luna/docs/tenancy.md
+?? ../../../glm/trial-0/m05-main-luna/docs/throttle.md
+?? ../../../glm/trial-0/m05-main-luna/docs/watermark.md
+?? ../../../glm/trial-0/m05-main-luna/history/0000-audit.md
+?? ../../../glm/trial-0/m05-main-luna/history/0001-reconcile.md
+?? ../../../glm/trial-0/m05-main-luna/history/0002-attestation.md
+?? ../../../glm/trial-0/m05-main-luna/history/0003-watermark.md
+?? ../../../glm/trial-0/m05-main-luna/history/0004-ingest.md
+?? ../../../glm/trial-0/m05-main-luna/history/0005-ledger.md
+?? ../../../glm/trial-0/m05-main-luna/history/0006-envelope.md
+?? ../../../glm/trial-0/m05-main-luna/history/0007-drain.md
+?? ../../../glm/trial-0/m05-main-luna/history/0008-tenancy.md
+?? ../../../glm/trial-0/m05-main-luna/history/0009-checkpoint.md
+?? ../../../glm/trial-0/m05-main-luna/history/0010-compaction.md
+?? ../../../glm/trial-0/m05-main-luna/history/0011-dispatch.md
+?? ../../../glm/trial-0/m05-main-luna/history/0012-throttle.md
+?? ../../../glm/trial-0/m05-main-luna/history/0013-routing.md
+?? ../../../glm/trial-0/m05-main-luna/history/0014-replay.md
+?? ../../../glm/trial-0/m05-main-luna/history/0015-shard.md
+?? ../../../glm/trial-0/m05-main-luna/history/0016-digest.md
+?? ../../../glm/trial-0/m05-main-luna/history/0017-retention.md
+?? ../../../glm/trial-0/m05-main-luna/history/0018-cursor.md
+?? ../../../glm/trial-0/m05-main-luna/history/0019-rollup.md
+?? ../../../glm/trial-0/m05-main-luna/history/0020-schema.md
+?? ../../../glm/trial-0/m05-main-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/__init__.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/admission_policy.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/attestation_gate.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/audit_core.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/checkpoint_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/compaction_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/cursor_core.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/digest_flow.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/dispatch_core.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/drain_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/envelope_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/ingest_store.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/ledger_core.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/reconcile_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/replay_flow.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/retention_view.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/rollup_core.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/routing_gate.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/schema_flow.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/shard_flow.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/tenancy_store.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/throttle_flow.py
+?? ../../../glm/trial-0/m05-main-luna/src/CedarSignal/watermark_core.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_attestation.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_audit.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_compaction.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_cursor.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_digest.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_dispatch.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_drain.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_envelope.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_ingest.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_ledger.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_reconcile.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_replay.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_retention.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_rollup.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_routing.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_schema.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_shard.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_tenancy.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_throttle.py
+?? ../../../glm/trial-0/m05-main-luna/tests/test_watermark.py
+?? ../../../glm/trial-0/m06-cheap-claude/README.md
+?? ../../../glm/trial-0/m06-cheap-claude/config/manifest.json
+?? ../../../glm/trial-0/m06-cheap-claude/docs/architecture.md
+?? ../../../glm/trial-0/m06-cheap-claude/docs/budget.md
+?? ../../../glm/trial-0/m06-cheap-claude/docs/ingest.md
+?? ../../../glm/trial-0/m06-cheap-claude/docs/lineage.md
+?? ../../../glm/trial-0/m06-cheap-claude/docs/operations.md
+?? ../../../glm/trial-0/m06-cheap-claude/docs/retention.md
+?? ../../../glm/trial-0/m06-cheap-claude/history/0000-ingest.md
+?? ../../../glm/trial-0/m06-cheap-claude/history/0001-lineage.md
+?? ../../../glm/trial-0/m06-cheap-claude/history/0002-retention.md
+?? ../../../glm/trial-0/m06-cheap-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m06-cheap-claude/src/quota/__init__.py
+?? ../../../glm/trial-0/m06-cheap-claude/src/quota/budget.py
+?? ../../../glm/trial-0/m06-cheap-claude/src/quota/ingest_gate.py
+?? ../../../glm/trial-0/m06-cheap-claude/src/quota/lineage_store.py
+?? ../../../glm/trial-0/m06-cheap-claude/src/quota/retention_store.py
+?? ../../../glm/trial-0/m06-cheap-claude/tests/test_budget.py
+?? ../../../glm/trial-0/m06-cheap-claude/tests/test_ingest.py
+?? ../../../glm/trial-0/m06-cheap-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m06-cheap-claude/tests/test_retention.py
+?? ../../../glm/trial-0/m06-main-glm/README.md
+?? ../../../glm/trial-0/m06-main-glm/config/manifest.json
+?? ../../../glm/trial-0/m06-main-glm/docs/architecture.md
+?? ../../../glm/trial-0/m06-main-glm/docs/attestation.md
+?? ../../../glm/trial-0/m06-main-glm/docs/audit.md
+?? ../../../glm/trial-0/m06-main-glm/docs/backfill.md
+?? ../../../glm/trial-0/m06-main-glm/docs/checkpoint.md
+?? ../../../glm/trial-0/m06-main-glm/docs/compaction.md
+?? ../../../glm/trial-0/m06-main-glm/docs/digest.md
+?? ../../../glm/trial-0/m06-main-glm/docs/dispatch.md
+?? ../../../glm/trial-0/m06-main-glm/docs/drain.md
+?? ../../../glm/trial-0/m06-main-glm/docs/envelope.md
+?? ../../../glm/trial-0/m06-main-glm/docs/ingest.md
+?? ../../../glm/trial-0/m06-main-glm/docs/lineage.md
+?? ../../../glm/trial-0/m06-main-glm/docs/operations.md
+?? ../../../glm/trial-0/m06-main-glm/docs/quota.md
+?? ../../../glm/trial-0/m06-main-glm/docs/reconcile.md
+?? ../../../glm/trial-0/m06-main-glm/docs/replay.md
+?? ../../../glm/trial-0/m06-main-glm/docs/retention.md
+?? ../../../glm/trial-0/m06-main-glm/docs/rollup.md
+?? ../../../glm/trial-0/m06-main-glm/docs/routing.md
+?? ../../../glm/trial-0/m06-main-glm/docs/schema.md
+?? ../../../glm/trial-0/m06-main-glm/docs/settle.md
+?? ../../../glm/trial-0/m06-main-glm/docs/shard.md
+?? ../../../glm/trial-0/m06-main-glm/docs/tenancy.md
+?? ../../../glm/trial-0/m06-main-glm/docs/throttle.md
+?? ../../../glm/trial-0/m06-main-glm/history/0000-tenancy.md
+?? ../../../glm/trial-0/m06-main-glm/history/0001-drain.md
+?? ../../../glm/trial-0/m06-main-glm/history/0002-reconcile.md
+?? ../../../glm/trial-0/m06-main-glm/history/0003-schema.md
+?? ../../../glm/trial-0/m06-main-glm/history/0004-quota.md
+?? ../../../glm/trial-0/m06-main-glm/history/0005-audit.md
+?? ../../../glm/trial-0/m06-main-glm/history/0006-routing.md
+?? ../../../glm/trial-0/m06-main-glm/history/0007-digest.md
+?? ../../../glm/trial-0/m06-main-glm/history/0008-rollup.md
+?? ../../../glm/trial-0/m06-main-glm/history/0009-shard.md
+?? ../../../glm/trial-0/m06-main-glm/history/0010-attestation.md
+?? ../../../glm/trial-0/m06-main-glm/history/0011-dispatch.md
+?? ../../../glm/trial-0/m06-main-glm/history/0012-compaction.md
+?? ../../../glm/trial-0/m06-main-glm/history/0013-ingest.md
+?? ../../../glm/trial-0/m06-main-glm/history/0014-envelope.md
+?? ../../../glm/trial-0/m06-main-glm/history/0015-throttle.md
+?? ../../../glm/trial-0/m06-main-glm/history/0016-lineage.md
+?? ../../../glm/trial-0/m06-main-glm/history/0017-replay.md
+?? ../../../glm/trial-0/m06-main-glm/history/0018-retention.md
+?? ../../../glm/trial-0/m06-main-glm/history/0019-checkpoint.md
+?? ../../../glm/trial-0/m06-main-glm/history/0020-backfill.md
+?? ../../../glm/trial-0/m06-main-glm/history/0021-settle-gate.md
+?? ../../../glm/trial-0/m06-main-glm/history/CHANGELOG.md
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/__init__.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/attestation_store.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/audit_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/backfill_core.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/checkpoint_store.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/compaction_view.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/digest_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/dispatch_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/drain_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/envelope_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/ingest_core.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/lineage_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/quota_store.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/reconcile_flow.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/replay_core.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/retention_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/rollup_core.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/routing_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/schema_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/shard_store.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/tenancy_gate.py
+?? ../../../glm/trial-0/m06-main-glm/src/larkspur/throttle_view.py
+?? ../../../glm/trial-0/m06-main-glm/tests/run_all.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_attestation.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_audit.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_backfill.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_compaction.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_digest.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_dispatch.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_drain.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_envelope.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_ingest.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_lineage.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_quota.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_reconcile.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_replay.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_retention.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_rollup.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_routing.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_schema.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_settle_gate.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_shard.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_tenancy.py
+?? ../../../glm/trial-0/m06-main-glm/tests/test_throttle.py
+?? ../../../glm/trial-0/m07-cheap-luna/README.md
+?? ../../../glm/trial-0/m07-cheap-luna/config/manifest.json
+?? ../../../glm/trial-0/m07-cheap-luna/config/pipeline_templates.json
+?? ../../../glm/trial-0/m07-cheap-luna/docs/architecture.md
+?? ../../../glm/trial-0/m07-cheap-luna/docs/compaction.md
+?? ../../../glm/trial-0/m07-cheap-luna/docs/ingest.md
+?? ../../../glm/trial-0/m07-cheap-luna/docs/operations.md
+?? ../../../glm/trial-0/m07-cheap-luna/docs/watermark.md
+?? ../../../glm/trial-0/m07-cheap-luna/history/0000-ingest.md
+?? ../../../glm/trial-0/m07-cheap-luna/history/0001-watermark.md
+?? ../../../glm/trial-0/m07-cheap-luna/history/0002-compaction.md
+?? ../../../glm/trial-0/m07-cheap-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m07-cheap-luna/src/prism/__init__.py
+?? ../../../glm/trial-0/m07-cheap-luna/src/prism/compaction_core.py
+?? ../../../glm/trial-0/m07-cheap-luna/src/prism/ingest_flow.py
+?? ../../../glm/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+?? ../../../glm/trial-0/m07-cheap-luna/tests/test_compaction.py
+?? ../../../glm/trial-0/m07-cheap-luna/tests/test_ingest.py
+?? ../../../glm/trial-0/m07-cheap-luna/tests/test_watermark.py
+?? ../../../glm/trial-0/m07-main-claude/README.md
+?? ../../../glm/trial-0/m07-main-claude/config/manifest.json
+?? ../../../glm/trial-0/m07-main-claude/docs/architecture.md
+?? ../../../glm/trial-0/m07-main-claude/docs/attestation.md
+?? ../../../glm/trial-0/m07-main-claude/docs/audit.md
+?? ../../../glm/trial-0/m07-main-claude/docs/backfill.md
+?? ../../../glm/trial-0/m07-main-claude/docs/checkpoint.md
+?? ../../../glm/trial-0/m07-main-claude/docs/compaction.md
+?? ../../../glm/trial-0/m07-main-claude/docs/cursor.md
+?? ../../../glm/trial-0/m07-main-claude/docs/digest.md
+?? ../../../glm/trial-0/m07-main-claude/docs/dispatch.md
+?? ../../../glm/trial-0/m07-main-claude/docs/envelope.md
+?? ../../../glm/trial-0/m07-main-claude/docs/ingest.md
+?? ../../../glm/trial-0/m07-main-claude/docs/ledger.md
+?? ../../../glm/trial-0/m07-main-claude/docs/lineage.md
+?? ../../../glm/trial-0/m07-main-claude/docs/operations.md
+?? ../../../glm/trial-0/m07-main-claude/docs/quota.md
+?? ../../../glm/trial-0/m07-main-claude/docs/reconcile.md
+?? ../../../glm/trial-0/m07-main-claude/docs/replay.md
+?? ../../../glm/trial-0/m07-main-claude/docs/rollup.md
+?? ../../../glm/trial-0/m07-main-claude/docs/schema.md
+?? ../../../glm/trial-0/m07-main-claude/docs/shard.md
+?? ../../../glm/trial-0/m07-main-claude/docs/tenancy.md
+?? ../../../glm/trial-0/m07-main-claude/docs/throttle.md
+?? ../../../glm/trial-0/m07-main-claude/docs/watermark.md
+?? ../../../glm/trial-0/m07-main-claude/history/0000-envelope.md
+?? ../../../glm/trial-0/m07-main-claude/history/0001-schema.md
+?? ../../../glm/trial-0/m07-main-claude/history/0002-rollup.md
+?? ../../../glm/trial-0/m07-main-claude/history/0003-compaction.md
+?? ../../../glm/trial-0/m07-main-claude/history/0004-attestation.md
+?? ../../../glm/trial-0/m07-main-claude/history/0005-ledger.md
+?? ../../../glm/trial-0/m07-main-claude/history/0006-watermark.md
+?? ../../../glm/trial-0/m07-main-claude/history/0007-throttle.md
+?? ../../../glm/trial-0/m07-main-claude/history/0008-dispatch.md
+?? ../../../glm/trial-0/m07-main-claude/history/0009-quota.md
+?? ../../../glm/trial-0/m07-main-claude/history/0010-audit.md
+?? ../../../glm/trial-0/m07-main-claude/history/0011-lineage.md
+?? ../../../glm/trial-0/m07-main-claude/history/0012-checkpoint.md
+?? ../../../glm/trial-0/m07-main-claude/history/0013-replay.md
+?? ../../../glm/trial-0/m07-main-claude/history/0014-tenancy.md
+?? ../../../glm/trial-0/m07-main-claude/history/0015-shard.md
+?? ../../../glm/trial-0/m07-main-claude/history/0016-backfill.md
+?? ../../../glm/trial-0/m07-main-claude/history/0017-digest.md
+?? ../../../glm/trial-0/m07-main-claude/history/0018-cursor.md
+?? ../../../glm/trial-0/m07-main-claude/history/0019-ingest.md
+?? ../../../glm/trial-0/m07-main-claude/history/0020-reconcile.md
+?? ../../../glm/trial-0/m07-main-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/__init__.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/_registry_generated.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/attestation_view.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/audit_core.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/backfill_store.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/checkpoint_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/compaction_core.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/cursor_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/digest_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/dispatch_view.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/envelope_view.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/ingest_gate.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/ledger_gate.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/lineage_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/quota_store.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/reconcile_view.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/replay_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/rollup_core.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/schema_flow.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/shard_core.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/tenancy_core.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/throttle_gate.py
+?? ../../../glm/trial-0/m07-main-claude/src/kestrel/watermark_flow.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_attestation.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_audit.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_backfill.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_compaction.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_cursor.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_digest.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_dispatch.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_envelope.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_ingest.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_ledger.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_quota.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_reconcile.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_replay.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_rollup.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_schema.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_shard.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_tenancy.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_throttle.py
+?? ../../../glm/trial-0/m07-main-claude/tests/test_watermark.py
+?? ../../../glm/trial-0/m07-main-claude/tools/gen_registry.py
+?? ../../../glm/trial-0/m08-cheap-glm/README.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/account-map.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/archive-note.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/glossary.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/month-end-procedure.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/queries-handling.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/reconciliation-rules.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/who-does-what.md
+?? ../../../glm/trial-0/m08-cheap-glm/docs/year-end-checklist.md
+?? ../../../glm/trial-0/m08-cheap-glm/history/2026-02-01-ledger-practice.md
+?? ../../../glm/trial-0/m08-cheap-glm/history/2026-04-29-s1-query-resolved.md
+?? ../../../glm/trial-0/m08-cheap-glm/history/2026-06-30-opening-balances.md
+?? ../../../glm/trial-0/m08-cheap-glm/history/CHANGELOG.md
+?? ../../../glm/trial-0/m08-cheap-glm/incident/2026-08-21-shortage.md
+?? ../../../glm/trial-0/m08-cheap-glm/incident/2026-08-24-scanner-request.txt
+?? ../../../glm/trial-0/m08-cheap-glm/ledger/2026-07.csv
+?? ../../../glm/trial-0/m08-cheap-glm/ledger/2026-08.csv
+?? ../../../glm/trial-0/m08-cheap-glm/ledger/2026-09.csv
+?? ../../../glm/trial-0/m08-cheap-glm/ledger/README.md
+?? ../../../glm/trial-0/m08-cheap-glm/notes/balance-draft-2026-10-01.txt
+?? ../../../glm/trial-0/m08-cheap-glm/notes/mooring-rebate-working.txt
+?? ../../../glm/trial-0/m08-cheap-glm/notes/stocktake-partial.txt
+?? ../../../glm/trial-0/m08-cheap-glm/ops/count-rota.md
+?? ../../../glm/trial-0/m08-cheap-glm/ops/depot-checklist.md
+?? ../../../glm/trial-0/m08-main-luna/README.md
+?? ../../../glm/trial-0/m08-main-luna/config/manifest.json
+?? ../../../glm/trial-0/m08-main-luna/docs/architecture.md
+?? ../../../glm/trial-0/m08-main-luna/docs/attestation.md
+?? ../../../glm/trial-0/m08-main-luna/docs/audit.md
+?? ../../../glm/trial-0/m08-main-luna/docs/backfill.md
+?? ../../../glm/trial-0/m08-main-luna/docs/checkpoint.md
+?? ../../../glm/trial-0/m08-main-luna/docs/compaction.md
+?? ../../../glm/trial-0/m08-main-luna/docs/cursor.md
+?? ../../../glm/trial-0/m08-main-luna/docs/digest.md
+?? ../../../glm/trial-0/m08-main-luna/docs/dispatch.md
+?? ../../../glm/trial-0/m08-main-luna/docs/drain.md
+?? ../../../glm/trial-0/m08-main-luna/docs/envelope.md
+?? ../../../glm/trial-0/m08-main-luna/docs/handoff-marker.md
+?? ../../../glm/trial-0/m08-main-luna/docs/incidents/INC-214.md
+?? ../../../glm/trial-0/m08-main-luna/docs/ingest.md
+?? ../../../glm/trial-0/m08-main-luna/docs/ledger.md
+?? ../../../glm/trial-0/m08-main-luna/docs/lineage.md
+?? ../../../glm/trial-0/m08-main-luna/docs/operations.md
+?? ../../../glm/trial-0/m08-main-luna/docs/quota.md
+?? ../../../glm/trial-0/m08-main-luna/docs/retention.md
+?? ../../../glm/trial-0/m08-main-luna/docs/roadmap.md
+?? ../../../glm/trial-0/m08-main-luna/docs/rollup.md
+?? ../../../glm/trial-0/m08-main-luna/docs/routing.md
+?? ../../../glm/trial-0/m08-main-luna/docs/schema.md
+?? ../../../glm/trial-0/m08-main-luna/docs/shard.md
+?? ../../../glm/trial-0/m08-main-luna/docs/tenancy.md
+?? ../../../glm/trial-0/m08-main-luna/docs/throttle.md
+?? ../../../glm/trial-0/m08-main-luna/history/0000-compaction.md
+?? ../../../glm/trial-0/m08-main-luna/history/0001-lineage.md
+?? ../../../glm/trial-0/m08-main-luna/history/0002-backfill.md
+?? ../../../glm/trial-0/m08-main-luna/history/0003-drain.md
+?? ../../../glm/trial-0/m08-main-luna/history/0004-rollup.md
+?? ../../../glm/trial-0/m08-main-luna/history/0005-routing.md
+?? ../../../glm/trial-0/m08-main-luna/history/0006-envelope.md
+?? ../../../glm/trial-0/m08-main-luna/history/0007-retention.md
+?? ../../../glm/trial-0/m08-main-luna/history/0008-dispatch.md
+?? ../../../glm/trial-0/m08-main-luna/history/0009-throttle.md
+?? ../../../glm/trial-0/m08-main-luna/history/0010-ledger.md
+?? ../../../glm/trial-0/m08-main-luna/history/0011-schema.md
+?? ../../../glm/trial-0/m08-main-luna/history/0012-cursor.md
+?? ../../../glm/trial-0/m08-main-luna/history/0013-quota.md
+?? ../../../glm/trial-0/m08-main-luna/history/0014-digest.md
+?? ../../../glm/trial-0/m08-main-luna/history/0015-attestation.md
+?? ../../../glm/trial-0/m08-main-luna/history/0016-shard.md
+?? ../../../glm/trial-0/m08-main-luna/history/0017-checkpoint.md
+?? ../../../glm/trial-0/m08-main-luna/history/0018-ingest.md
+?? ../../../glm/trial-0/m08-main-luna/history/0019-audit.md
+?? ../../../glm/trial-0/m08-main-luna/history/0020-tenancy.md
+?? ../../../glm/trial-0/m08-main-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/__init__.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/attestation_view.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/audit_core.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/backfill_flow.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/briefing_marker.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/checkpoint_view.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/compaction_gate.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/cursor_core.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/digest_view.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/dispatch_flow.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/drain_store.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/envelope_store.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/ingest_core.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/ledger_gate.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/lineage_core.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/quota_flow.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/retention_core.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/rollup_store.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/routing_store.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/schema_view.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/shard_flow.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/tenancy_view.py
+?? ../../../glm/trial-0/m08-main-luna/src/HarborAtlas/throttle_core.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_attestation.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_audit.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_backfill.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_compaction.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_cursor.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_digest.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_dispatch.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_drain.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_envelope.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_ingest.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_ledger.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_lineage.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_quota.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_retention.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_rollup.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_routing.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_schema.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_shard.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_tenancy.py
+?? ../../../glm/trial-0/m08-main-luna/tests/test_throttle.py
+?? ../../../glm/trial-0/m09-cheap-claude/README.md
+?? ../../../glm/trial-0/m09-cheap-claude/docs/operations-log.md
+?? ../../../glm/trial-0/m09-cheap-claude/tools/dump_state.py
+?? ../../../glm/trial-0/m09-main-glm/README.md
+?? ../../../glm/trial-0/m09-main-glm/config/manifest.json
+?? ../../../glm/trial-0/m09-main-glm/data/quarantine-timeline.csv
+?? ../../../glm/trial-0/m09-main-glm/docs/architecture.md
+?? ../../../glm/trial-0/m09-main-glm/docs/attestation.md
+?? ../../../glm/trial-0/m09-main-glm/docs/audit.md
+?? ../../../glm/trial-0/m09-main-glm/docs/backfill.md
+?? ../../../glm/trial-0/m09-main-glm/docs/checkpoint.md
+?? ../../../glm/trial-0/m09-main-glm/docs/compaction.md
+?? ../../../glm/trial-0/m09-main-glm/docs/cursor.md
+?? ../../../glm/trial-0/m09-main-glm/docs/digest.md
+?? ../../../glm/trial-0/m09-main-glm/docs/drain.md
+?? ../../../glm/trial-0/m09-main-glm/docs/ingest.md
+?? ../../../glm/trial-0/m09-main-glm/docs/ledger.md
+?? ../../../glm/trial-0/m09-main-glm/docs/lineage.md
+?? ../../../glm/trial-0/m09-main-glm/docs/operations.md
+?? ../../../glm/trial-0/m09-main-glm/docs/quarantine-qa-note.md
+?? ../../../glm/trial-0/m09-main-glm/docs/quota.md
+?? ../../../glm/trial-0/m09-main-glm/docs/reconcile.md
+?? ../../../glm/trial-0/m09-main-glm/docs/replay-policy.md
+?? ../../../glm/trial-0/m09-main-glm/docs/replay.md
+?? ../../../glm/trial-0/m09-main-glm/docs/rollup.md
+?? ../../../glm/trial-0/m09-main-glm/docs/routing.md
+?? ../../../glm/trial-0/m09-main-glm/docs/schema.md
+?? ../../../glm/trial-0/m09-main-glm/docs/shard.md
+?? ../../../glm/trial-0/m09-main-glm/docs/tenancy.md
+?? ../../../glm/trial-0/m09-main-glm/docs/throttle.md
+?? ../../../glm/trial-0/m09-main-glm/docs/watermark.md
+?? ../../../glm/trial-0/m09-main-glm/history/0000-drain.md
+?? ../../../glm/trial-0/m09-main-glm/history/0001-lineage.md
+?? ../../../glm/trial-0/m09-main-glm/history/0002-rollup.md
+?? ../../../glm/trial-0/m09-main-glm/history/0003-quota.md
+?? ../../../glm/trial-0/m09-main-glm/history/0004-compaction.md
+?? ../../../glm/trial-0/m09-main-glm/history/0005-checkpoint.md
+?? ../../../glm/trial-0/m09-main-glm/history/0006-reconcile.md
+?? ../../../glm/trial-0/m09-main-glm/history/0007-shard.md
+?? ../../../glm/trial-0/m09-main-glm/history/0008-audit.md
+?? ../../../glm/trial-0/m09-main-glm/history/0009-attestation.md
+?? ../../../glm/trial-0/m09-main-glm/history/0010-watermark.md
+?? ../../../glm/trial-0/m09-main-glm/history/0011-backfill.md
+?? ../../../glm/trial-0/m09-main-glm/history/0012-digest.md
+?? ../../../glm/trial-0/m09-main-glm/history/0013-schema.md
+?? ../../../glm/trial-0/m09-main-glm/history/0014-replay.md
+?? ../../../glm/trial-0/m09-main-glm/history/0015-cursor.md
+?? ../../../glm/trial-0/m09-main-glm/history/0016-tenancy.md
+?? ../../../glm/trial-0/m09-main-glm/history/0017-throttle.md
+?? ../../../glm/trial-0/m09-main-glm/history/0018-ledger.md
+?? ../../../glm/trial-0/m09-main-glm/history/0019-routing.md
+?? ../../../glm/trial-0/m09-main-glm/history/0020-ingest.md
+?? ../../../glm/trial-0/m09-main-glm/history/0021-quarantine-timeline.md
+?? ../../../glm/trial-0/m09-main-glm/history/CHANGELOG.md
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/__init__.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/attestation_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/audit_view.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/backfill_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/checkpoint_view.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/compaction_core.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/cursor_core.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/digest_store.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/drain_store.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/ingest_view.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/ledger_core.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/lineage_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/quota_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/reconcile_view.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/replay_store.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/rollup_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/routing_gate.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/schema_gate.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/shard_flow.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/tenancy_core.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/throttle_store.py
+?? ../../../glm/trial-0/m09-main-glm/src/cinder/watermark_flow.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_attestation.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_audit.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_backfill.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_compaction.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_cursor.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_digest.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_drain.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_ingest.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_ledger.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_lineage.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_quota.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_reconcile.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_replay.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_rollup.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_routing.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_schema.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_shard.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_tenancy.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_throttle.py
+?? ../../../glm/trial-0/m09-main-glm/tests/test_watermark.py
+?? ../../../glm/trial-0/m09-main-glm/tools/timeline_dump.py
+?? ../../../glm/trial-0/m10-cheap-luna/README.md
+?? ../../../glm/trial-0/m10-cheap-luna/config/formatting.ini
+?? ../../../glm/trial-0/m10-cheap-luna/config/manifest.json
+?? ../../../glm/trial-0/m10-cheap-luna/docs/architecture.md
+?? ../../../glm/trial-0/m10-cheap-luna/docs/attestation.md
+?? ../../../glm/trial-0/m10-cheap-luna/docs/operations.md
+?? ../../../glm/trial-0/m10-cheap-luna/docs/operator_notes.txt
+?? ../../../glm/trial-0/m10-cheap-luna/docs/replay.md
+?? ../../../glm/trial-0/m10-cheap-luna/docs/watermark.md
+?? ../../../glm/trial-0/m10-cheap-luna/history/0000-attestation.md
+?? ../../../glm/trial-0/m10-cheap-luna/history/0001-watermark.md
+?? ../../../glm/trial-0/m10-cheap-luna/history/0002-replay.md
+?? ../../../glm/trial-0/m10-cheap-luna/history/CHANGELOG.md
+?? ../../../glm/trial-0/m10-cheap-luna/src/cedar/__init__.py
+?? ../../../glm/trial-0/m10-cheap-luna/src/cedar/attestation_flow.py
+?? ../../../glm/trial-0/m10-cheap-luna/src/cedar/replay_store.py
+?? ../../../glm/trial-0/m10-cheap-luna/src/cedar/watermark_core.py
+?? ../../../glm/trial-0/m10-cheap-luna/tests/test_attestation.py
+?? ../../../glm/trial-0/m10-cheap-luna/tests/test_replay.py
+?? ../../../glm/trial-0/m10-cheap-luna/tests/test_watermark.py
+?? ../../../glm/trial-0/m10-main-claude/README.md
+?? ../../../glm/trial-0/m10-main-claude/config/manifest.json
+?? ../../../glm/trial-0/m10-main-claude/docs/architecture.md
+?? ../../../glm/trial-0/m10-main-claude/docs/attestation.md
+?? ../../../glm/trial-0/m10-main-claude/docs/audit.md
+?? ../../../glm/trial-0/m10-main-claude/docs/backfill.md
+?? ../../../glm/trial-0/m10-main-claude/docs/checkpoint.md
+?? ../../../glm/trial-0/m10-main-claude/docs/compaction.md
+?? ../../../glm/trial-0/m10-main-claude/docs/cursor.md
+?? ../../../glm/trial-0/m10-main-claude/docs/digest.md
+?? ../../../glm/trial-0/m10-main-claude/docs/dispatch.md
+?? ../../../glm/trial-0/m10-main-claude/docs/drain.md
+?? ../../../glm/trial-0/m10-main-claude/docs/envelope.md
+?? ../../../glm/trial-0/m10-main-claude/docs/ingest.md
+?? ../../../glm/trial-0/m10-main-claude/docs/ledger.md
+?? ../../../glm/trial-0/m10-main-claude/docs/lineage.md
+?? ../../../glm/trial-0/m10-main-claude/docs/operations.md
+?? ../../../glm/trial-0/m10-main-claude/docs/policy/capacity-report.md
+?? ../../../glm/trial-0/m10-main-claude/docs/reconcile.md
+?? ../../../glm/trial-0/m10-main-claude/docs/retention.md
+?? ../../../glm/trial-0/m10-main-claude/docs/rollup.md
+?? ../../../glm/trial-0/m10-main-claude/docs/routing.md
+?? ../../../glm/trial-0/m10-main-claude/docs/schema.md
+?? ../../../glm/trial-0/m10-main-claude/docs/shard.md
+?? ../../../glm/trial-0/m10-main-claude/docs/throttle.md
+?? ../../../glm/trial-0/m10-main-claude/docs/watermark.md
+?? ../../../glm/trial-0/m10-main-claude/history/0000-lineage.md
+?? ../../../glm/trial-0/m10-main-claude/history/0001-retention.md
+?? ../../../glm/trial-0/m10-main-claude/history/0002-compaction.md
+?? ../../../glm/trial-0/m10-main-claude/history/0003-watermark.md
+?? ../../../glm/trial-0/m10-main-claude/history/0004-dispatch.md
+?? ../../../glm/trial-0/m10-main-claude/history/0005-shard.md
+?? ../../../glm/trial-0/m10-main-claude/history/0006-ingest.md
+?? ../../../glm/trial-0/m10-main-claude/history/0007-schema.md
+?? ../../../glm/trial-0/m10-main-claude/history/0008-digest.md
+?? ../../../glm/trial-0/m10-main-claude/history/0009-backfill.md
+?? ../../../glm/trial-0/m10-main-claude/history/0010-attestation.md
+?? ../../../glm/trial-0/m10-main-claude/history/0011-cursor.md
+?? ../../../glm/trial-0/m10-main-claude/history/0012-rollup.md
+?? ../../../glm/trial-0/m10-main-claude/history/0013-checkpoint.md
+?? ../../../glm/trial-0/m10-main-claude/history/0014-routing.md
+?? ../../../glm/trial-0/m10-main-claude/history/0015-ledger.md
+?? ../../../glm/trial-0/m10-main-claude/history/0016-reconcile.md
+?? ../../../glm/trial-0/m10-main-claude/history/0017-throttle.md
+?? ../../../glm/trial-0/m10-main-claude/history/0018-drain.md
+?? ../../../glm/trial-0/m10-main-claude/history/0019-envelope.md
+?? ../../../glm/trial-0/m10-main-claude/history/0020-audit.md
+?? ../../../glm/trial-0/m10-main-claude/history/CHANGELOG.md
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/__init__.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/attestation_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/audit_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/backfill_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/checkpoint_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/compaction_store.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/cursor_view.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/digest_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/dispatch_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/drain_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/envelope_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/ingest_view.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/ledger_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/lineage_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/reconcile_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/retention_view.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/rollup_flow.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/routing_gate.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/schema_core.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/shard_view.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/throttle_store.py
+?? ../../../glm/trial-0/m10-main-claude/src/thistle/watermark_core.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_attestation.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_audit.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_backfill.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_checkpoint.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_compaction.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_cursor.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_digest.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_dispatch.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_drain.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_envelope.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_ingest.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_ledger.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_lineage.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_reconcile.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_retention.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_rollup.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_routing.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_schema.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_shard.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_throttle.py
+?? ../../../glm/trial-0/m10-main-claude/tests/test_watermark.py
+?? ../m04-main-claude/report.txt
+?? ../m05-cheap-glm/fixlog.txt
+?? ../m08-cheap-glm/audit-reply.txt
+
+exec
+/bin/bash -lc "python3 tools/dump_state.py | rg 'stage=reconcile[[:space:]]+state=active'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+ succeeded in 0ms:
+slot 067  stage=reconcile    state=active    lease=199s
+
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..81f3b184b5887795423401c786c187abdfcc1fbc
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+@@ -0,0 +1,2 @@
++ESCALATION: RN-208
++SLOT: 67
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..81f3b184b5887795423401c786c187abdfcc1fbc
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+@@ -0,0 +1,2 @@
++ESCALATION: RN-208
++SLOT: 67
+
+codex
+The current escalation code is `RN-208`, and the tool reports `slot 067` as the active `reconcile` slot. I’ve written the normalized slot number and am performing the final exact-content check.
+exec
+/bin/bash -lc 'wc -l -c answer.txt; sed -n l answer.txt; git status --short -- answer.txt' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude
+ succeeded in 0ms:
+ 2 28 answer.txt
+ESCALATION: RN-208$
+SLOT: 67$
+?? answer.txt
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..81f3b184b5887795423401c786c187abdfcc1fbc
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+@@ -0,0 +1,2 @@
++ESCALATION: RN-208
++SLOT: 67
+
+codex
+Created [answer.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt) with exactly two lines:
+
+`ESCALATION: RN-208`  
+`SLOT: 67`
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..81f3b184b5887795423401c786c187abdfcc1fbc
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt
+@@ -0,0 +1,2 @@
++ESCALATION: RN-208
++SLOT: 67
+
+tokens used
+26,793
+Created [answer.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude/answer.txt) with exactly two lines:
+
+`ESCALATION: RN-208`  
+`SLOT: 67`

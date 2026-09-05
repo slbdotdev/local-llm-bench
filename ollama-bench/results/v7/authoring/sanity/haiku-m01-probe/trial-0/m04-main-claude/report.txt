@@ -1,0 +1,4 @@
+TESTS: pass
+Fixed two issues in config/manifest.json:
+1. Changed IngestCoordinator to IngestEngine (the actual class name in ingest_view.py)
+2. Swapped dispatch and checkpoint entries to match the documented drain order in docs/architecture.md

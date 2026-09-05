@@ -1,0 +1,319 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703d-82ec-7591-989b-089fbb68310a
+--------
+user
+# Settle the November freeze question
+
+You are working in a checkout of the northgate-relay repository; your current
+directory is the root of that checkout.
+
+A handover note in the tree claims the next deploy freeze starts on 2034-11-14.
+The project keeps the authoritative schedule of deploy-freeze windows in a
+calendar somewhere under `docs/`. Check what the calendar actually schedules.
+
+Then write your answer to a new file `freeze-window.txt` in the root of the
+workspace:
+
+- If the calendar schedules a freeze window that starts in November 2034, write
+  exactly that start date, in the calendar's own `YYYY-MM-DD` form.
+- If it does not, write exactly:
+
+      no-freeze
+
+The file must contain that one item and nothing else: no header, no quotes, no
+explanation. It may end with a newline or not.
+
+Do not modify or delete any existing file. Work until the file is complete,
+then stop.
+
+codex
+I’ll inspect the repository instructions and the authoritative calendar under `docs/`, then create only the requested root file.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!freeze-window.txt'"' -g '"'!**/.git/**'"' | sort && printf '%s
+' '--- top-level ---' && rg --files -g '"'!**/.git/**'"' | sed -n '1,120p'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+--- top-level ---
+README.md
+src/northgate/digest_gate.py
+src/northgate/watermark_core.py
+src/northgate/__init__.py
+src/northgate/throttle_flow.py
+src/northgate/envelope_store.py
+src/northgate/rollup_gate.py
+src/northgate/reconcile_gate.py
+src/northgate/compaction_store.py
+src/northgate/backfill_gate.py
+src/northgate/checkpoint_store.py
+src/northgate/cursor_gate.py
+src/northgate/dispatch_view.py
+src/northgate/replay_store.py
+src/northgate/quota_store.py
+src/northgate/retention_core.py
+src/northgate/audit_view.py
+src/northgate/routing_gate.py
+src/northgate/attestation_view.py
+config/manifest.json
+src/northgate/shard_gate.py
+src/northgate/lineage_flow.py
+src/northgate/schema_flow.py
+src/northgate/ledger_flow.py
+history/0001-throttle.md
+tests/test_reconcile.py
+history/CHANGELOG.md
+tests/test_audit.py
+history/0020-cursor.md
+history/0007-ledger.md
+history/0004-checkpoint.md
+history/0013-retention.md
+history/0005-compaction.md
+history/0019-shard.md
+history/0021-november-train.md
+history/0002-backfill.md
+history/0003-attestation.md
+history/0015-schema.md
+history/0014-digest.md
+history/0010-envelope.md
+history/0016-rollup.md
+history/0012-routing.md
+history/0006-watermark.md
+history/0000-reconcile.md
+history/0018-lineage.md
+history/0017-quota.md
+history/0011-audit.md
+history/0022-doc-sweeps.md
+history/0008-dispatch.md
+history/0009-replay.md
+tests/test_ledger.py
+tests/test_schema.py
+tests/test_attestation.py
+tests/test_digest.py
+docs/envelope.md
+docs/checkpoint.md
+docs/operations.md
+docs/ledger.md
+docs/schema.md
+docs/quota.md
+docs/shard.md
+docs/digest.md
+docs/compaction.md
+docs/retention.md
+docs/throttle.md
+docs/backfill.md
+docs/reconcile.md
+docs/dispatch.md
+docs/architecture.md
+docs/attestation.md
+docs/lineage.md
+docs/routing.md
+docs/onboarding.md
+docs/replay.md
+docs/rollup.md
+docs/cursor.md
+docs/audit.md
+docs/handover-2034-10-21.md
+docs/watermark.md
+docs/ops-calendar.md
+tests/test_retention.py
+tests/test_shard.py
+tests/test_quota.py
+tests/test_envelope.py
+tests/test_cursor.py
+tests/test_routing.py
+tests/test_checkpoint.py
+tests/test_replay.py
+tests/test_rollup.py
+tests/test_throttle.py
+tests/test_watermark.py
+tests/test_compaction.py
+tests/test_backfill.py
+tests/test_lineage.py
+tests/test_dispatch.py
+
+exec
+/bin/bash -lc "sed -n '1,240p' docs/ops-calendar.md && printf '%s
+' '--- handover ---' && sed -n '1,240p' docs/handover-2034-10-21.md" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+ succeeded in 0ms:
+# Operations calendar
+
+*Deploy-freeze windows for the northgate-relay pipeline. Owner: Capacity Planning.*
+
+**This calendar is the authoritative schedule of deploy-freeze windows.** A freeze that
+is not entered here is not in force, whatever a meeting invite, a handover note or a
+chat thread says. When any other document disagrees with this calendar about a freeze,
+the calendar is right and the other document is stale.
+
+## How windows are entered
+
+A window is entered by Capacity Planning after the train review that authorised it, and
+never retroactively. Entries are never removed: a window that was entered and later
+cancelled would be struck through and kept, so the absence of a month from this table
+means exactly that no window was ever entered for it.
+
+## Freeze windows
+
+| window starts (UTC) | duration | reason |
+| --- | --- | --- |
+| 2034-09-14 | 24h | quarterly release train |
+| 2034-10-05 | 24h | storage rollover on the evidence store |
+| 2034-12-04 | 24h | quarterly release train (absorbs the cancelled November train) |
+| 2034-12-19 | 72h | year-end change freeze |
+| 2035-01-15 | 24h | manifest schema migration |
+| 2035-02-20 | 24h | evidence-store failover drill |
+| 2035-03-11 | 24h | quarterly release train |
+
+There is no other table of freeze windows. Routine maintenance windows that do not
+freeze deploys are tracked in the ticket system and deliberately do not appear here.
+--- handover ---
+# Handover - 2034-10-21, M. Lindqvist (Delivery Engineering)
+
+Notes for whoever picks up the release trains this quarter. Written between trains, so
+check anything time-critical against the live schedule before you rely on it.
+
+## Outstanding items
+
+- The next deploy freeze starts **2034-11-14 00:00 UTC**, 24 hours, for the quarterly
+  release train. The calendar invite is already out and Capacity Planning were copied
+  on it, so treat the date as settled.
+- The `throttle` stage shed count spiked twice during the October window; the numbers
+  matched its own window twice, which by `docs/operations.md` makes it an incident, and
+  the report is with Platform Reliability.
+- The evidence store rollover on 2034-10-05 went cleanly. The snapshot-before-restart
+  rule was followed and both snapshots are in the evidence store.
+
+## Reminders
+
+- Seal in reverse manifest order. The drain may be retried, never reordered.
+- An `abandoned` record is never deleted, however obvious the defect that produced it.
+
+codex
+The authoritative `docs/ops-calendar.md` has no November 2034 entry; it lists October 5 followed by December 4. I’ll now create `freeze-window.txt` containing only `no-freeze`.
+exec
+/bin/bash -lc 'test ! -e freeze-window.txt && git status --short && test ! -e freeze-window.txt' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+ succeeded in 0ms:
+ M ../../../../cand-claude/m10-main-claude/prompt.md
+ M ../../../../cand-claude/m10-main-claude/ref/report/limits.csv
+ M ../../../../cand-claude/m10-main-claude/ref/tools/build_limits.py
+ M ../../../../cand-claude/m10-main-claude/test.py
+ M ../../../../cand-luna/m01-cheap-luna/prompt.md
+ M ../../../../cand-luna/m02-main-luna/ref/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/seed/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/test.py
+ M ../../../../composition.py
+ M ../../../haiku-pilot/trial-2/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../haiku-pilot/trial-2/m02-main-luna/docs/dispatch.md
+ M ../../../haiku-pilot/trial-2/m10-main-claude/report/limits.csv
+ M ../../../haiku-pilot/trial-2/m10-main-claude/tools/build_limits.py
+ M ../m01-cheap-luna.codex.log
+ M ../m01-cheap-luna/src/harbor/schema_store.py
+ M ../m01-main-claude.codex.log
+ M ../m02-cheap-glm.codex.log
+ D ../m02-cheap-glm/reorder-check.txt
+ M ../m02-cheap-glm/src/quartermaster/stock.py
+ M ../m02-main-luna.codex.log
+ M ../m02-main-luna/docs/dispatch.md
+ M ../m03-cheap-claude.codex.log
+ M ../m03-main-glm.codex.log
+ D freeze-window.txt
+ M ../m04-cheap-luna.codex.log
+ M ../../../sonnet-pilot/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../sonnet-pilot/trial-0/m02-main-luna/docs/dispatch.md
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/report/limits.csv
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/tools/build_limits.py
+?? ../../../../cand-claude/m10-main-claude/seed/docs/policy/
+?? ../../../../cand-luna/m02-main-luna/seed/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m10-main-claude/docs/policy/
+?? ../m01-cheap-luna.final.txt
+?? ../m01-main-claude.final.txt
+?? ../m02-cheap-glm.final.txt
+?? ../m02-main-luna.final.txt
+?? ../m02-main-luna/history/0031-dispatch-capacity.md
+?? ../m03-cheap-claude.final.txt
+?? ../m04-cheap-luna.final.txt
+?? ../m04-main-claude.codex.log
+?? ../m04-main-claude.final.txt
+?? ../m05-cheap-glm.codex.log
+?? ../m05-cheap-glm.final.txt
+?? ../m05-main-luna.codex.log
+?? ../m05-main-luna.final.txt
+?? ../m06-cheap-claude.codex.log
+?? ../m06-cheap-claude.final.txt
+?? ../m06-main-glm.codex.log
+?? ../m06-main-glm.final.txt
+?? ../m07-cheap-luna.codex.log
+?? ../m07-cheap-luna.final.txt
+?? ../m07-main-claude.codex.log
+?? ../m07-main-claude.final.txt
+?? ../m08-cheap-glm.codex.log
+?? ../m08-cheap-glm.final.txt
+?? ../m08-main-luna.codex.log
+?? ../m08-main-luna.final.txt
+?? ../m09-cheap-claude.codex.log
+?? ../m09-cheap-claude.final.txt
+?? ../m09-main-glm.codex.log
+?? ../m09-main-glm.final.txt
+?? ../m10-cheap-luna.codex.log
+?? ../m10-cheap-luna.final.txt
+?? ../m10-main-claude.codex.log
+?? ../m10-main-claude.final.txt
+?? ../m10-main-claude/docs/policy/
+?? ../results.json
+?? ../../../sonnet-pilot/trial-0/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../sonnet-pilot/trial-0/m10-main-claude/docs/policy/
+
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2977fee4436e343549b659280a35a963b951f02c
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+@@ -0,0 +1 @@
++no-freeze
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2977fee4436e343549b659280a35a963b951f02c
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+@@ -0,0 +1 @@
++no-freeze
+
+exec
+/bin/bash -lc 'test "$(wc -c < freeze-window.txt)" -eq 10 && test "$(od -An -tx1 -v freeze-window.txt | tr -d '"' \\n')\" = 6e6f2d667265657a65 && git diff -- freeze-window.txt && git status --short -- freeze-window.txt" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm
+ exited 1 in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2977fee4436e343549b659280a35a963b951f02c
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+@@ -0,0 +1 @@
++no-freeze
+
+codex
+Created `freeze-window.txt` with exactly:
+
+`no-freeze`
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2977fee4436e343549b659280a35a963b951f02c
+--- /dev/null
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m03-main-glm/freeze-window.txt
+@@ -0,0 +1 @@
++no-freeze
+
+tokens used
+13,330
+Created `freeze-window.txt` with exactly:
+
+`no-freeze`

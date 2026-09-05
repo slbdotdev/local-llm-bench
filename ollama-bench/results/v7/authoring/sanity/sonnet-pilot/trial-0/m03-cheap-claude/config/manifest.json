@@ -1,0 +1,30 @@
+{
+  "project": "ledger-tap",
+  "package": "ledger",
+  "stages": [
+    {
+      "name": "lineage",
+      "module": "lineage_gate",
+      "class": "LineagePlanner",
+      "limit": 48,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "digest",
+      "module": "digest_store",
+      "class": "DigestGateway",
+      "limit": 64,
+      "window_s": 30,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_store",
+      "class": "AttestationGateway",
+      "limit": 120,
+      "window_s": 180,
+      "owner": "T. Abarca"
+    }
+  ]
+}

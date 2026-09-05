@@ -1,0 +1,6 @@
+Implemented:
+
+- Changed `low_stock()` to use `<=`.
+- Created `reorder-check.txt` with 6 SKUs in inventory order.
+- Validation: `3 passed`.
+- Left unrelated repository changes untouched.

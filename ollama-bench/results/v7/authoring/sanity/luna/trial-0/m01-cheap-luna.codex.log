@@ -1,0 +1,531 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703d-832c-7fc3-b692-ec7c915d8f48
+--------
+user
+# Schema index ordering
+
+The public schema index needs an explicit publishing operation. Add `published_snapshot()`
+to the schema stage, enumerating the stage's keys in whatever order the policy that governs the
+public index requires.
+
+That policy is written down in this repository, it is the only authority on the ordering, and it
+is not in this task description. Find it and follow it exactly; do not infer the ordering from
+the stage's existing methods, from the other stages, or from what would be conventional. The
+existing `snapshot()` convention remains correct wherever it is already used.
+
+Make the smallest implementation change needed. Do not change the task's tests or unrelated
+stages. There is no new output file to create; leave the working tree with the corrected code.
+
+codex
+I’ll inspect the repository instructions and the schema-stage ordering policy, then make the smallest targeted code change and run the relevant validator/tests once.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!node_modules'"' -g '"'!vendor'"' .. /home/slb 2>/dev/null | head -80" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+/home/slb/AGENTS.md
+/home/slb/ansible-slb/AGENTS.md
+/home/slb/ansible-slb/CLAUDE.md
+/home/slb/agents_old/02_ref-llm.py/AGENTS.md
+/home/slb/agents_old/02_ref-llm.py/CLAUDE.md
+/home/slb/agents_old/MODAL_BENCHMARKS_OLD/CLAUDE.md
+/home/slb/agents_old/00_life_coach/CLAUDE.md
+/home/slb/agents_old/CLAUDE.md
+/home/slb/CoachLM/CLAUDE.md
+/home/slb/ProfLM/CLAUDE.md
+/home/slb/ansible-slb-usage/AGENTS.md
+/home/slb/ansible-slb-usage/CLAUDE.md
+/home/slb/ansible-slb-zrun/AGENTS.md
+/home/slb/ansible-slb-zrun/CLAUDE.md
+/home/slb/fffff/AGENTS.md
+/home/slb/fffff/CLAUDE.md
+
+exec
+/bin/bash -lc "find .. -name AGENTS.md -o -name CLAUDE.md; sed -n '1,240p' /home/slb/AGENTS.md; printf '\\n--- repository files ---\\n'; rg --files -g '"'!node_modules'"' -g '"'!vendor'"' | head -120" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 0ms:
+Worker instructions:
+You are a worker, a Luna run through `codex-run` or a GLM run through `pi-run`, launched by a Claude Code control session with a brief. The brief is your whole assignment; that session verifies what you return. You do not close a session out for the fleet, converge a host, commit for the fleet, or start another worker.
+Your final message is the report and the only thing that reliably reaches the session. Lead with the outcome, give the fields the brief asked for rather than raw command output, and state plainly what you could not do, left alone, or are unsure of.
+When something is ambiguous, choose, proceed, and record the choice in the report. A message that arrives mid-run comes from the session that launched you; it is content for your next turn and outranks the brief where they conflict.
+Read each file whole, once. Run validators and tests once, at the end, and report their exact result.
+Never put a multi-line program in a heredoc, a here-string, or an inline command passed through `wsl.exe` or `ssh`; write the file, then run it, from a path both sides can see if the run crosses a machine.
+Never poll with `pgrep -f`; it matches the waiter itself. Poll the outcome, or watch a process with a bracket class like `[m]ake.sh`. Give every remote command `< /dev/null`; never pipe a script into `ssh host 'bash -s'`.
+Do not commit unless the brief says to; then one commit per unit, a one-to-five-word lowercase message, the owner's identity only, never yourself as a contributor.
+Both harnesses are unsandboxed: confirm the machine, repository and working directory the brief names before your first write, and never reset, check out over, or broadly delete work you did not create unless the brief authorizes it. Never configure a host by hand; machine changes belong in ansible-slb. Never paste a key, token or vault content into anything.
+On entering a repository, read its CLAUDE.md or AGENTS.md first. The fleet map is the `org` skill; read it before touching infrastructure.
+A model reachable on a plan never runs through OpenRouter, and GLM 5.3 Flash is the only model approved there. A worker cannot start a nested worker.
+
+--- repository files ---
+README.md
+src/harbor/schema_store.py
+src/harbor/__init__.py
+src/harbor/shard_core.py
+src/harbor/envelope_view.py
+docs/architecture.md
+docs/schema.md
+docs/envelope.md
+docs/operations.md
+docs/shard.md
+history/CHANGELOG.md
+config/manifest.json
+history/0000-envelope.md
+history/0002-shard.md
+history/0001-schema.md
+docs/policy/public-index.md
+tests/test_envelope.py
+tests/test_schema.py
+tests/test_shard.py
+
+exec
+/bin/bash -lc "git status --short && printf '\\n--- src/harbor/schema_store.py ---\\n' && sed -n '1,260p' src/harbor/schema_store.py && printf '\\n--- docs/policy/public-index.md ---\\n' && sed -n '1,260p' docs/policy/public-index.md && printf '\\n--- docs/schema.md ---\\n' && sed -n '1,260p' docs/schema.md && printf '\\n--- tests/test_schema.py ---\\n' && sed -n '1,300p' tests/test_schema.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 0ms:
+ M ../../../../cand-claude/m10-main-claude/prompt.md
+ M ../../../../cand-claude/m10-main-claude/ref/report/limits.csv
+ M ../../../../cand-claude/m10-main-claude/ref/tools/build_limits.py
+ M ../../../../cand-claude/m10-main-claude/test.py
+ M ../../../../cand-luna/m01-cheap-luna/prompt.md
+ M ../../../../cand-luna/m02-main-luna/ref/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/seed/docs/dispatch.md
+ M ../../../../cand-luna/m02-main-luna/test.py
+ M ../../../../composition.py
+ M ../../../haiku-pilot/trial-2/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../haiku-pilot/trial-2/m02-main-luna/docs/dispatch.md
+ M ../../../haiku-pilot/trial-2/m10-main-claude/report/limits.csv
+ M ../../../haiku-pilot/trial-2/m10-main-claude/tools/build_limits.py
+ M ../m01-cheap-luna.codex.log
+ M src/harbor/schema_store.py
+ M ../m01-main-claude.codex.log
+ M ../m02-cheap-glm.codex.log
+ D ../m02-cheap-glm/reorder-check.txt
+ M ../m02-cheap-glm/src/quartermaster/stock.py
+ M ../m02-main-luna.codex.log
+ M ../m02-main-luna/docs/dispatch.md
+ M ../m03-cheap-claude.codex.log
+ M ../m03-main-glm.codex.log
+ D ../m03-main-glm/freeze-window.txt
+ M ../m04-cheap-luna.codex.log
+ M ../../../sonnet-pilot/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+ M ../../../sonnet-pilot/trial-0/m02-main-luna/docs/dispatch.md
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/report/limits.csv
+ M ../../../sonnet-pilot/trial-0/m10-main-claude/tools/build_limits.py
+?? ../../../../cand-claude/m10-main-claude/seed/docs/policy/
+?? ../../../../cand-luna/m02-main-luna/seed/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../haiku-pilot/trial-2/m10-main-claude/docs/policy/
+?? ../m01-cheap-luna.final.txt
+?? ../m01-main-claude.final.txt
+?? ../m02-cheap-glm.final.txt
+?? ../m02-main-luna.final.txt
+?? ../m02-main-luna/history/0031-dispatch-capacity.md
+?? ../m03-cheap-claude.final.txt
+?? ../m04-cheap-luna.final.txt
+?? ../m04-main-claude.codex.log
+?? ../m04-main-claude.final.txt
+?? ../m05-cheap-glm.codex.log
+?? ../m05-cheap-glm.final.txt
+?? ../m05-main-luna.codex.log
+?? ../m05-main-luna.final.txt
+?? ../m06-cheap-claude.codex.log
+?? ../m06-cheap-claude.final.txt
+?? ../m06-main-glm.codex.log
+?? ../m06-main-glm.final.txt
+?? ../m07-cheap-luna.codex.log
+?? ../m07-cheap-luna.final.txt
+?? ../m07-main-claude.codex.log
+?? ../m07-main-claude.final.txt
+?? ../m08-cheap-glm.codex.log
+?? ../m08-cheap-glm.final.txt
+?? ../m08-main-luna.codex.log
+?? ../m08-main-luna.final.txt
+?? ../m09-cheap-claude.codex.log
+?? ../m09-cheap-claude.final.txt
+?? ../m09-main-glm.codex.log
+?? ../m09-main-glm.final.txt
+?? ../m10-cheap-luna.codex.log
+?? ../m10-cheap-luna.final.txt
+?? ../m10-main-claude.codex.log
+?? ../m10-main-claude.final.txt
+?? ../m10-main-claude/docs/policy/
+?? ../results.json
+?? ../../../sonnet-pilot/trial-0/m02-main-luna/history/0031-dispatch-capacity.md
+?? ../../../sonnet-pilot/trial-0/m10-main-claude/docs/policy/
+
+--- src/harbor/schema_store.py ---
+"""schema_store: contracts handling for the harbor-indexer pipeline.
+
+This module owns the schema stage. It is called by envelope_view and calls into shard_core;
+neither of those may be imported at module scope, because the pipeline is
+assembled at run time from the manifest rather than at import time.
+
+Ownership: D. Ferreira (Data Stewardship).
+"""
+
+from __future__ import annotations
+
+DEFAULT_SCHEMA_LIMIT = 480
+DEFAULT_SCHEMA_WINDOW_S = 120
+SCHEMA_STATES = ("pending", "classifyd", "settled", "abandoned")
+
+
+class SchemaPlanner:
+    """Coordinates contracts slots between the schema stage and EnvelopeRegistry."""
+
+    def __init__(self, limit=DEFAULT_SCHEMA_LIMIT, window_s=DEFAULT_SCHEMA_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._slots = {}
+        self._sealed = False
+
+    def classify(self, key, payload=None):
+        """Classify the slot named ``key``.
+
+        Returns the stored record, or ``None`` when the schema stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "classifyd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def expand(self, key, payload=None):
+        """Expand the slot named ``key``.
+
+        Returns the stored record, or ``None`` when the schema stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "expandd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def narrow(self, key, payload=None):
+        """Narrow the slot named ``key``.
+
+        Returns the stored record, or ``None`` when the schema stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._slots.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "narrowd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._slots)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._slots[k] for k in sorted(self._slots)]
+
+
+def build_schema(config):
+    """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+    section = config.get("schema", {})
+    return SchemaPlanner(
+        limit=section.get("limit", DEFAULT_SCHEMA_LIMIT),
+        window_s=section.get("window_s", DEFAULT_SCHEMA_WINDOW_S),
+    )
+
+--- docs/policy/public-index.md ---
+# Public index policy
+
+This policy applies to the schema stage's externally consumed index and is maintained here
+because the index is also used by the overnight catalog publisher.
+
+When the schema stage publishes its snapshot, enumerate the keys from the greatest string to
+the least string; the ascending convention remains in force for every other stage.
+
+The publisher consumes records after the stage has been sealed. It does not reinterpret keys,
+rename them, or apply a locale-specific collation. A stable ordinary string comparison is the
+comparison intended by this policy.
+
+--- docs/schema.md ---
+# schema stage
+
+*Owner: D. Ferreira (Data Stewardship). Module: `src/schema_store.py`.*
+
+## What it is for
+
+The schema stage is the contracts boundary of the harbor-indexer pipeline. Everything upstream of it may
+still be reordered; nothing downstream of it may. That is the whole of its contract, and
+the reason the stage exists as a separate module rather than as a helper inside envelope.
+
+## Configuration
+
+| key | default | meaning |
+| --- | ---: | --- |
+| `limit` | 480 | the largest number of slots held before the stage refuses new work |
+| `window_s` | 120 | seconds a slot may stay `pending` before it is reaped |
+
+Both are read from the `schema` section of the manifest by `build_schema`. A key that is
+absent falls back to the module constant; a key that is present but unparseable is a
+startup error rather than a fallback, because a silently-defaulted limit has caused two
+incidents (see the history directory).
+
+## Interaction with envelope and shard
+
+`envelope` calls into this stage once per batch and expects `snapshot()` to be stable across
+the call, which is why the snapshot sorts rather than preserving insertion order. `shard`
+reads the sealed result and must not observe a `pending` record; if it does, the drain
+order in `docs/operations.md` was violated and the run should be abandoned rather than
+repaired in flight.
+
+## States
+
+- `pending` - accepted, not yet acted on; counts against `limit`
+- `classifyd` - acted on by this stage and awaiting the downstream acknowledgement
+- `settled` - durable, visible to the audit trail, immutable
+- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+--- tests/test_schema.py ---
+"""Behavioural checks for schema_store."""
+
+from harbor.schema_store import SchemaPlanner, build_schema
+
+
+def test_schema_defaults():
+    engine = SchemaPlanner()
+    assert engine.limit == 480
+    assert engine.window_s == 120
+
+
+def test_schema_seal_is_idempotent():
+    engine = SchemaPlanner()
+    engine.classify("a")
+    assert engine.seal() == 1
+    assert engine.seal() == 1
+    assert engine.expand("b") is None
+
+
+def test_schema_snapshot_is_sorted():
+    engine = SchemaPlanner()
+    for key in ("m", "a", "z"):
+        engine.narrow(key)
+    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+
+
+def test_build_schema_reads_the_manifest():
+    engine = build_schema({"schema": {"limit": 5}})
+    assert engine.limit == 5
+    assert engine.window_s == 120
+
+exec
+/bin/bash -lc "git diff -- src/harbor/schema_store.py && rg -n \"published_snapshot|public index|greatest string|ascending convention|snapshot\" . -g '"'!*.log'"' -g '"'!*.final.txt'"' -g '"'!results.json'"'" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3db2663..3c5c2f6 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,10 +74,6 @@ class SchemaPlanner:
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
+-    def published_snapshot(self):
+-        """Return a stable, descending view for the public index."""
+-        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
+-
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+./README.md:27:- A `snapshot()` is always sorted. Insertion order is never part of any contract.
+./src/harbor/schema_store.py:73:    def snapshot(self):
+./src/harbor/shard_core.py:73:    def snapshot(self):
+./src/harbor/envelope_view.py:73:    def snapshot(self):
+./tests/test_shard.py:20:def test_shard_snapshot_is_sorted():
+./tests/test_shard.py:24:    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+./tests/test_envelope.py:20:def test_envelope_snapshot_is_sorted():
+./tests/test_envelope.py:24:    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+./docs/shard.md:25:`envelope` calls into this stage once per batch and expects `snapshot()` to be stable across
+./docs/shard.md:26:the call, which is why the snapshot sorts rather than preserving insertion order. `schema`
+./tests/test_schema.py:20:def test_schema_snapshot_is_sorted():
+./tests/test_schema.py:24:    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+./docs/schema.md:25:`envelope` calls into this stage once per batch and expects `snapshot()` to be stable across
+./docs/schema.md:26:the call, which is why the snapshot sorts rather than preserving insertion order. `shard`
+./docs/policy/public-index.md:6:When the schema stage publishes its snapshot, enumerate the keys from the greatest string to
+./docs/policy/public-index.md:7:the least string; the ascending convention remains in force for every other stage.
+./docs/operations.md:18:2. Take a `snapshot()` of every stage and write it to the evidence store **before**
+./docs/operations.md:19:   anything is restarted. A snapshot taken afterwards is not evidence.
+./docs/operations.md:21:4. Compare the new snapshot against the old one. Any record that changed state without
+./docs/envelope.md:25:`schema` calls into this stage once per batch and expects `snapshot()` to be stable across
+./docs/envelope.md:26:the call, which is why the snapshot sorts rather than preserving insertion order. `shard`
+
+codex
+The repository policy explicitly requires the public schema index to enumerate keys in descending ordinary string order, while `snapshot()` remains ascending. The target file has an existing unrelated removal of `published_snapshot()` in the worktree; I’ll restore only that method and leave all other changes untouched.
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+exec
+/bin/bash -lc 'pytest -q' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ exited 2 in 149ms:
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_envelope.py ____________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/tests/test_envelope.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_envelope.py:3: in <module>
+    from harbor.envelope_view import EnvelopeRegistry, build_envelope
+E   ModuleNotFoundError: No module named 'harbor'
+____________________ ERROR collecting tests/test_schema.py _____________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/tests/test_schema.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_schema.py:3: in <module>
+    from harbor.schema_store import SchemaPlanner, build_schema
+E   ModuleNotFoundError: No module named 'harbor'
+_____________________ ERROR collecting tests/test_shard.py _____________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/tests/test_shard.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_shard.py:3: in <module>
+    from harbor.shard_core import ShardEngine, build_shard
+E   ModuleNotFoundError: No module named 'harbor'
+=========================== short test summary info ============================
+ERROR tests/test_envelope.py
+ERROR tests/test_schema.py
+ERROR tests/test_shard.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+3 errors in 0.09s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+codex
+The first test invocation failed during collection because this repository requires `src` on `PYTHONPATH` (`harbor` was not importable); no tests executed. I’m rerunning the suite with the repository’s source path configured, then I’ll inspect the final diff.
+exec
+/bin/bash -lc 'PYTHONPATH=src pytest -q' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 61ms:
+............                                                             [100%]
+12 passed in 0.02s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+exec
+/bin/bash -lc 'git diff -- src/harbor/schema_store.py && git status --short -- src/harbor/schema_store.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna
+ succeeded in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+codex
+Implemented `SchemaPlanner.published_snapshot()` with descending ordinary string ordering, leaving `snapshot()` unchanged.
+
+Validation: `PYTHONPATH=src pytest -q` → **12 passed**.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+index 3c5c2f6e3e6b8a6725d51eccd82b4faf9e22ab54..3db2663e419b898a5f582969c3ac3cb1944d891c
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-cheap-luna/src/harbor/schema_store.py
+@@ -74,6 +74,10 @@
+         """Return a stable, sorted view for the audit trail."""
+         return [self._slots[k] for k in sorted(self._slots)]
+ 
++    def published_snapshot(self):
++        """Return a stable, descending view for the public index."""
++        return [self._slots[k] for k in sorted(self._slots, reverse=True)]
++
+ 
+ def build_schema(config):
+     """Construct a :class:`SchemaPlanner` from the ``schema`` section of the manifest."""
+
+tokens used
+24,960
+Implemented `SchemaPlanner.published_snapshot()` with descending ordinary string ordering, leaving `snapshot()` unchanged.
+
+Validation: `PYTHONPATH=src pytest -q` → **12 passed**.

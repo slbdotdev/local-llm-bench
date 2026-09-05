@@ -1,0 +1,14 @@
+Mooring rebate working, September - T. Abarca.
+
+Agreed with the moorings committee on 2026-09-12: a one-off rebate of
+90.00 from trade debtors (K-7) to moorings berths accounting (M-2),
+since the mooring fee invoices for the summer were raised on the wrong
+side. Keyed as TR-2160 on 2026-09-15, both sides, same reference, as
+the ledger column notes require.
+
+The committee minutes are filed offline with the invoice folder. The
+ledger lines are the whole of the bookkeeping side: -90.00 on K-7,
++90.00 on M-2, both dated 2026-09-15, both entry TR-2160.
+
+Nothing pending on this one. Recorded here only because the rebate was
+discussed twice and somebody will ask again next season.

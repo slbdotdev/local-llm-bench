@@ -1,0 +1,4 @@
+TESTS: pass
+Fixed the manifest to name IngestEngine and to place checkpoint before dispatch.
+Final validation: PYTHONPATH=src python3 -m pytest tests/test_pipeline_contract.py — 2 passed.
+The literal command using `python` could not start because this environment has no `python` executable.

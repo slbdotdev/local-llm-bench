@@ -1,0 +1,1080 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703f-63e5-7ba2-8ca2-4309b61d3340
+--------
+user
+# Rename the watermark factory
+
+Rename the public factory for the watermark stage from `build_watermark` to `load_watermark`.
+Update every ordinary code, documentation, test, and configuration reference so the old public
+name is no longer used anywhere in the repository. The factory's behavior and all other stage
+APIs must remain unchanged. Do not add a compatibility alias.
+
+codex
+I’ll inspect the repository guidance and all references to `build_watermark`, then rename the public factory and run the relevant validation once at the end.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!**/.git/**'"' | sort && rg -n --hidden -g '"'!**/.git/**'"' 'build_watermark' ." in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+ succeeded in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+./src/prism/watermark_view.py:78:def build_watermark(config):
+./docs/watermark.md:18:Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
+./tests/test_watermark.py:3:from prism.watermark_view import WatermarkEngine, build_watermark
+./tests/test_watermark.py:27:def test_build_watermark_reads_the_manifest():
+./tests/test_watermark.py:28:    engine = build_watermark({"watermark": {"limit": 5}})
+./config/pipeline_templates.json:3:  "factory": "build_watermark",
+
+exec
+/bin/bash -lc "ls -la && rg --files -g '"'!**/.git/**'"' | sort | sed -n '1,160p' && sed -n '1,220p' src/prism/watermark_view.py && sed -n '1,180p' tests/test_watermark.py && sed -n '1,160p' docs/watermark.md && sed -n '1,120p' config/pipeline_templates.json" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+ succeeded in 0ms:
+total 32
+drwxr-xr-x  7 slb slb 4096 Sep  4 23:33 .
+drwxr-xr-x 22 slb slb 4096 Sep  5 00:24 ..
+-rw-r--r--  1 slb slb 1362 Sep  4 23:28 README.md
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:29 config
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:28 docs
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:28 history
+drwxr-xr-x  3 slb slb 4096 Sep  4 23:28 src
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:54 tests
+README.md
+config/manifest.json
+config/pipeline_templates.json
+docs/architecture.md
+docs/compaction.md
+docs/ingest.md
+docs/operations.md
+docs/watermark.md
+history/0000-ingest.md
+history/0001-watermark.md
+history/0002-compaction.md
+history/CHANGELOG.md
+src/prism/__init__.py
+src/prism/compaction_core.py
+src/prism/ingest_flow.py
+src/prism/watermark_view.py
+tests/test_compaction.py
+tests/test_ingest.py
+tests/test_watermark.py
+"""watermark_view: ordering handling for the prism-notifier pipeline.
+
+This module owns the watermark stage. It is called by ingest_flow and calls into compaction_core;
+neither of those may be imported at module scope, because the pipeline is
+assembled at run time from the manifest rather than at import time.
+
+Ownership: R. Okonjo (Capacity Planning).
+"""
+
+from __future__ import annotations
+
+DEFAULT_WATERMARK_LIMIT = 48
+DEFAULT_WATERMARK_WINDOW_S = 120
+WATERMARK_STATES = ("pending", "expandd", "settled", "abandoned")
+
+
+class WatermarkEngine:
+    """Coordinates ordering records between the watermark stage and IngestPlanner."""
+
+    def __init__(self, limit=DEFAULT_WATERMARK_LIMIT, window_s=DEFAULT_WATERMARK_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._records = {}
+        self._sealed = False
+
+    def expand(self, key, payload=None):
+        """Expand the record named ``key``.
+
+        Returns the stored record, or ``None`` when the watermark stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._records.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "expandd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def retire(self, key, payload=None):
+        """Retire the record named ``key``.
+
+        Returns the stored record, or ``None`` when the watermark stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._records.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "retired"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def materialise(self, key, payload=None):
+        """Materialise the record named ``key``.
+
+        Returns the stored record, or ``None`` when the watermark stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._records.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "materialised"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._records)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._records[k] for k in sorted(self._records)]
+
+
+def build_watermark(config):
+    """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+    section = config.get("watermark", {})
+    return WatermarkEngine(
+        limit=section.get("limit", DEFAULT_WATERMARK_LIMIT),
+        window_s=section.get("window_s", DEFAULT_WATERMARK_WINDOW_S),
+    )
+"""Behavioural checks for watermark_view."""
+
+from prism.watermark_view import WatermarkEngine, build_watermark
+
+
+def test_watermark_defaults():
+    engine = WatermarkEngine()
+    assert engine.limit == 48
+    assert engine.window_s == 120
+
+
+def test_watermark_seal_is_idempotent():
+    engine = WatermarkEngine()
+    engine.expand("a")
+    assert engine.seal() == 1
+    assert engine.seal() == 1
+    assert engine.retire("b") is None
+
+
+def test_watermark_snapshot_is_sorted():
+    engine = WatermarkEngine()
+    for key in ("m", "a", "z"):
+        engine.materialise(key)
+    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+
+
+def test_build_watermark_reads_the_manifest():
+    engine = build_watermark({"watermark": {"limit": 5}})
+    assert engine.limit == 5
+    assert engine.window_s == 120
+# watermark stage
+
+*Owner: R. Okonjo (Capacity Planning). Module: `src/watermark_view.py`.*
+
+## What it is for
+
+The watermark stage is the ordering boundary of the prism-notifier pipeline. Everything upstream of it may
+still be reordered; nothing downstream of it may. That is the whole of its contract, and
+the reason the stage exists as a separate module rather than as a helper inside ingest.
+
+## Configuration
+
+| key | default | meaning |
+| --- | ---: | --- |
+| `limit` | 48 | the largest number of records held before the stage refuses new work |
+| `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+
+Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
+absent falls back to the module constant; a key that is present but unparseable is a
+startup error rather than a fallback, because a silently-defaulted limit has caused two
+incidents (see the history directory).
+
+## Interaction with ingest and compaction
+
+`ingest` calls into this stage once per batch and expects `snapshot()` to be stable across
+the call, which is why the snapshot sorts rather than preserving insertion order. `compaction`
+reads the sealed result and must not observe a `pending` record; if it does, the drain
+order in `docs/operations.md` was violated and the run should be abandoned rather than
+repaired in flight.
+
+## States
+
+- `pending` - accepted, not yet acted on; counts against `limit`
+- `expandd` - acted on by this stage and awaiting the downstream acknowledgement
+- `settled` - durable, visible to the audit trail, immutable
+- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+{
+  "job_kind": "watermark-refresh",
+  "factory": "build_watermark",
+  "arguments": {"watermark": {"limit": 12}},
+  "owner_note": "The factory name is loaded by the nightly template renderer."
+}
+
+codex
+The old public name appears in exactly four ordinary references: the factory definition, its test import/use and test name, the watermark documentation, and the pipeline template. I’ll update all four consistently, with no alias.
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+exec
+/bin/bash -lc 'git diff -- src/prism/watermark_view.py tests/test_watermark.py docs/watermark.md config/pipeline_templates.json && git diff --check && ! rg -n --hidden -g '"'"'!**/.git/**'"' 'build_watermark' . && pytest -q" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+ exited 2 in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df80..f98c445 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459..21f8780 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@ the reason the stage exists as a separate module rather than as a helper inside
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e..27a41f3 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@ class WatermarkEngine:
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89..56c9308 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@ def test_watermark_snapshot_is_sorted():
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1154: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1190: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1226: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:427: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:429: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:432: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:434: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:436: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:438: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:440: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:442: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:444: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:446: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:448: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:450: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:452: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:454: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:456: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:458: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:460: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:462: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:464: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:466: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:468: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:470: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:472: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:474: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:476: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:478: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:480: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:482: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:484: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:486: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:488: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:490: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:492: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:494: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:496: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:498: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:500: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:502: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:859: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:866: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:868: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:880: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:887: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:889: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:901: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:903: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:905: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:907: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:909: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:911: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:914: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:916: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:918: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:920: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:922: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:924: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:931: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:938: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:940: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:971: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:978: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:980: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:992: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:999: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1001: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1255: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1262: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1264: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1286: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1293: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1295: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:445: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:450: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:451: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:459: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:464: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:465: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:476: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:481: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:482: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:491: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:496: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:497: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:523: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:528: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:529: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:541: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:546: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:547: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:683: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:685: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:687: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:690: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:692: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:694: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:696: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:698: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:700: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:702: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:704: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:706: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:708: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:710: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:712: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:714: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:716: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:718: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:720: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:722: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:724: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:726: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:728: trailing whitespace.
+++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:730: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:732: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:734: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:736: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:738: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:740: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:742: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:744: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:746: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:748: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:750: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:752: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:754: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:756: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:758: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:760: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:762: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:764: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:766: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:768: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:770: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:772: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:774: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:776: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:778: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:780: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:782: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:784: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:786: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:788: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:790: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:792: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:794: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:796: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:798: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:800: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:802: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:804: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:806: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:808: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:810: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:812: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:814: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:816: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:818: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:821: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:823: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:825: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:827: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:829: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:831: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:833: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:835: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:837: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:839: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:841: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:843: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:845: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:847: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:849: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:851: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:853: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:855: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna.codex.log:350: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-main-claude.codex.log:775: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m08-cheap-glm.codex.log:232: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m08-main-luna.codex.log:228: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m09-cheap-claude.codex.log:1789: new blank line at EOF.
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+codex
+The scoped code changes are clean, but the repository’s broader worktree already contains unrelated generated log changes with trailing-whitespace warnings, so a repository-wide `git diff --check` is noisy and not attributable to this task. I’m validating only the four edited files, confirming the old name is absent in this repository directory, and running the full test suite.
+exec
+/bin/bash -lc "git diff --check -- src/prism/watermark_view.py tests/test_watermark.py docs/watermark.md config/pipeline_templates.json && if rg -n --hidden -g '"'!**/.git/**'"' 'build_watermark' .; then exit 1; fi && pytest -q" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+ exited 2 in 151ms:
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_compaction.py ___________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_compaction.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_compaction.py:3: in <module>
+    from prism.compaction_core import CompactionGateway, build_compaction
+E   ModuleNotFoundError: No module named 'prism'
+____________________ ERROR collecting tests/test_ingest.py _____________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_ingest.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_ingest.py:3: in <module>
+    from prism.ingest_flow import IngestPlanner, build_ingest
+E   ModuleNotFoundError: No module named 'prism'
+___________________ ERROR collecting tests/test_watermark.py ___________________
+ImportError while importing test module '/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.14/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_watermark.py:3: in <module>
+    from prism.watermark_view import WatermarkEngine, load_watermark
+E   ModuleNotFoundError: No module named 'prism'
+=========================== short test summary info ============================
+ERROR tests/test_compaction.py
+ERROR tests/test_ingest.py
+ERROR tests/test_watermark.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+3 errors in 0.08s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+codex
+The first test invocation reached collection but failed because this source-layout repository requires `src` on `PYTHONPATH`; no test body ran. I’ll rerun the suite with that repository-local path configured.
+exec
+/bin/bash -lc 'PYTHONPATH=src pytest -q' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna
+ succeeded in 61ms:
+............                                                             [100%]
+12 passed in 0.02s
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+codex
+Renamed `build_watermark` to `load_watermark` across code, tests, docs, and configuration. No compatibility alias added.
+
+Validation: `12 passed`; old name has no remaining references in the repository directory.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+index 7d2df805bd422ee736b2037e35c20dc05085e8da..f98c4456c738ae118cdc387c72c8e6c38d2fdf9d
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/config/pipeline_templates.json
+@@ -1,6 +1,6 @@
+ {
+   "job_kind": "watermark-refresh",
+-  "factory": "build_watermark",
++  "factory": "load_watermark",
+   "arguments": {"watermark": {"limit": 12}},
+   "owner_note": "The factory name is loaded by the nightly template renderer."
+ }
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+index 13c7459bbfb993395c01842109907f8bd25ccbe5..21f8780b79ba6fa4bee767ac9b358045514c9828
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/docs/watermark.md
+@@ -15,7 +15,7 @@
+ | `limit` | 48 | the largest number of records held before the stage refuses new work |
+ | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
+ 
+-Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
++Both are read from the `watermark` section of the manifest by `load_watermark`. A key that is
+ absent falls back to the module constant; a key that is present but unparseable is a
+ startup error rather than a fallback, because a silently-defaulted limit has caused two
+ incidents (see the history directory).
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+index d05139e5637be1d94b8ea992612e62c7a33add1a..27a41f3a64cd59b444750a4db1c144df61667dca
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/src/prism/watermark_view.py
+@@ -75,7 +75,7 @@
+         return [self._records[k] for k in sorted(self._records)]
+ 
+ 
+-def build_watermark(config):
++def load_watermark(config):
+     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
+     section = config.get("watermark", {})
+     return WatermarkEngine(
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+index 0438f89d17a775533d52aa8d7fe16b8c05a7fe19..56c9308b1afbcae5b1bb081fa2d326ec7c87c3fc
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna/tests/test_watermark.py
+@@ -1,6 +1,6 @@
+ """Behavioural checks for watermark_view."""
+ 
+-from prism.watermark_view import WatermarkEngine, build_watermark
++from prism.watermark_view import WatermarkEngine, load_watermark
+ 
+ 
+ def test_watermark_defaults():
+@@ -24,7 +24,7 @@
+     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+ 
+ 
+-def test_build_watermark_reads_the_manifest():
+-    engine = build_watermark({"watermark": {"limit": 5}})
++def test_load_watermark_reads_the_manifest():
++    engine = load_watermark({"watermark": {"limit": 5}})
+     assert engine.limit == 5
+     assert engine.window_s == 120
+
+tokens used
+22,581
+Renamed `build_watermark` to `load_watermark` across code, tests, docs, and configuration. No compatibility alias added.
+
+Validation: `12 passed`; old name has no remaining references in the repository directory.

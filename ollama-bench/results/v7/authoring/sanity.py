@@ -28,8 +28,17 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SUITE = os.path.join(HERE, "suite")
+# V7_SUITE lets a pilot run the same prep/grade halves against a candidate directory before
+# the accepted suite exists, so an early difficulty signal costs nothing extra.
+SUITE = os.environ.get("V7_SUITE") or os.path.join(HERE, "suite")
 SANITY = os.path.join(HERE, "sanity")
+# Where the sandboxes themselves live. The default is inside the repository because that is
+# where this campaign's trials already are, but a real arm run should point this OUTSIDE any git
+# repository: a sandbox prepped under the bench's own checkout is one `git show HEAD:<path>`
+# away from the hidden grader, and a Sonnet trial reached for `git status` and
+# `git show HEAD:...` unprompted on 2026-09-05 (D7-18). The instruction not to run git is a
+# request; a sandbox that is not in a repository is a fact.
+SANDBOX_ROOT = os.environ.get("V7_SANDBOX_ROOT") or SANITY
 SCORE_RE = re.compile(r"^SCORE\s+(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$", re.M)
 VERDICT_RE = re.compile(r"^VERDICT\s+(\w+)\s*$", re.M)
 VERDICTS = ["correct", "confidently_wrong", "visibly_failed", "unsafe", "unverified_claim"]

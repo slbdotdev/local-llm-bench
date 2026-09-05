@@ -1,0 +1,934 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0703e-edd5-7ad1-b0e2-c4b313d42dad
+--------
+user
+# Fix the settle gate
+
+You are working in a checkout of the larkspur-vault repository; your current
+directory is the root of that checkout.
+
+Run the behavioural checks with:
+
+    python tests/run_all.py
+
+Some checks fail. They all trace to a single defect in one stage's
+implementation under `src/`; the checks themselves are correct. Find the stage
+from what fails, then read that stage's own documentation and its history entry
+before you change anything: the intended behaviour is stated there, and the
+stage's section of `config/manifest.json` pins the numbers. Where the code and
+that documentation disagree, the documentation is right.
+
+Fix the implementation so that:
+
+    python tests/run_all.py
+
+prints `ALL TESTS PASSED` and exits 0.
+
+Rules:
+
+- Fix the code in `src/`. Do not fix the symptom by touching the checks: the
+  grader verifies that every file under `tests/` is byte-identical to what it
+  is now, and any edit, addition or deletion there is a failed task.
+- Do not change the limit: 24 is what the manifest and the documentation say,
+  and the numbers are not the defect.
+
+Work until the suite passes, then stop.
+
+codex
+I’ll inspect the repository instructions and run the checks first, then trace the failing stage through its documentation, history, and manifest before editing only `src/`.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '"'!tests/**'"' -g '"'!src/**'"' | sort && python tests/run_all.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+ exited 127 in 0ms:
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+/bin/bash: line 1: python: command not found
+
+codex
+The checkout has no additional `AGENTS.md` or `CLAUDE.md` surfaced by the initial scan, and the `python` command is unavailable here; I’ll use `python3` for the required check and inspect the repository layout.
+exec
+/bin/bash -lc "printf '%s\\n' '--- top level ---' && ls -la && printf '%s\\n' '--- files ---' && rg --files | sort | sed -n '1,200p' && printf '%s\\n' '--- checks ---' && python3 tests/run_all.py" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+ exited 1 in 0ms:
+--- top level ---
+total 32
+drwxr-xr-x  7 slb slb 4096 Sep  4 23:56 .
+drwxr-xr-x 22 slb slb 4096 Sep  5 00:24 ..
+-rw-r--r--  1 slb slb 2703 Sep  4 23:53 README.md
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:52 config
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:53 docs
+drwxr-xr-x  2 slb slb 4096 Sep  4 23:53 history
+drwxr-xr-x  3 slb slb 4096 Sep  4 23:52 src
+drwxr-xr-x  2 slb slb 4096 Sep  5 00:18 tests
+--- files ---
+README.md
+config/manifest.json
+docs/architecture.md
+docs/attestation.md
+docs/audit.md
+docs/backfill.md
+docs/checkpoint.md
+docs/compaction.md
+docs/digest.md
+docs/dispatch.md
+docs/drain.md
+docs/envelope.md
+docs/ingest.md
+docs/lineage.md
+docs/operations.md
+docs/quota.md
+docs/reconcile.md
+docs/replay.md
+docs/retention.md
+docs/rollup.md
+docs/routing.md
+docs/schema.md
+docs/settle.md
+docs/shard.md
+docs/tenancy.md
+docs/throttle.md
+history/0000-tenancy.md
+history/0001-drain.md
+history/0002-reconcile.md
+history/0003-schema.md
+history/0004-quota.md
+history/0005-audit.md
+history/0006-routing.md
+history/0007-digest.md
+history/0008-rollup.md
+history/0009-shard.md
+history/0010-attestation.md
+history/0011-dispatch.md
+history/0012-compaction.md
+history/0013-ingest.md
+history/0014-envelope.md
+history/0015-throttle.md
+history/0016-lineage.md
+history/0017-replay.md
+history/0018-retention.md
+history/0019-checkpoint.md
+history/0020-backfill.md
+history/0021-settle-gate.md
+history/CHANGELOG.md
+src/larkspur/__init__.py
+src/larkspur/attestation_store.py
+src/larkspur/audit_flow.py
+src/larkspur/backfill_core.py
+src/larkspur/checkpoint_store.py
+src/larkspur/compaction_view.py
+src/larkspur/digest_gate.py
+src/larkspur/dispatch_flow.py
+src/larkspur/drain_flow.py
+src/larkspur/envelope_flow.py
+src/larkspur/ingest_core.py
+src/larkspur/lineage_flow.py
+src/larkspur/quota_store.py
+src/larkspur/reconcile_flow.py
+src/larkspur/replay_core.py
+src/larkspur/retention_gate.py
+src/larkspur/rollup_core.py
+src/larkspur/routing_gate.py
+src/larkspur/schema_gate.py
+src/larkspur/settle_gate.py
+src/larkspur/shard_store.py
+src/larkspur/tenancy_gate.py
+src/larkspur/throttle_view.py
+tests/run_all.py
+tests/test_attestation.py
+tests/test_audit.py
+tests/test_backfill.py
+tests/test_checkpoint.py
+tests/test_compaction.py
+tests/test_digest.py
+tests/test_dispatch.py
+tests/test_drain.py
+tests/test_envelope.py
+tests/test_ingest.py
+tests/test_lineage.py
+tests/test_quota.py
+tests/test_reconcile.py
+tests/test_replay.py
+tests/test_retention.py
+tests/test_rollup.py
+tests/test_routing.py
+tests/test_schema.py
+tests/test_settle_gate.py
+tests/test_shard.py
+tests/test_tenancy.py
+tests/test_throttle.py
+--- checks ---
+Traceback (most recent call last):
+  File "/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/tests/run_all.py", line 36, in main
+    fn()
+    ~~^^
+  File "/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/tests/test_settle_gate.py", line 49, in test_admit_at_limit_is_refused
+    assert _raises_limit(lambda: gate.admit("b", 24))
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+Traceback (most recent call last):
+  File "/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/tests/run_all.py", line 36, in main
+    fn()
+    ~~^^
+  File "/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/tests/test_settle_gate.py", line 59, in test_boundary_reads_the_gate_limit
+    assert _raises_limit(lambda: gate.admit("x", 10))
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+ok   test_attestation.test_attestation_defaults
+ok   test_attestation.test_attestation_seal_is_idempotent
+ok   test_attestation.test_attestation_snapshot_is_sorted
+ok   test_attestation.test_build_attestation_reads_the_manifest
+ok   test_audit.test_audit_defaults
+ok   test_audit.test_audit_seal_is_idempotent
+ok   test_audit.test_audit_snapshot_is_sorted
+ok   test_audit.test_build_audit_reads_the_manifest
+ok   test_backfill.test_backfill_defaults
+ok   test_backfill.test_backfill_seal_is_idempotent
+ok   test_backfill.test_backfill_snapshot_is_sorted
+ok   test_backfill.test_build_backfill_reads_the_manifest
+ok   test_checkpoint.test_build_checkpoint_reads_the_manifest
+ok   test_checkpoint.test_checkpoint_defaults
+ok   test_checkpoint.test_checkpoint_seal_is_idempotent
+ok   test_checkpoint.test_checkpoint_snapshot_is_sorted
+ok   test_compaction.test_build_compaction_reads_the_manifest
+ok   test_compaction.test_compaction_defaults
+ok   test_compaction.test_compaction_seal_is_idempotent
+ok   test_compaction.test_compaction_snapshot_is_sorted
+ok   test_digest.test_build_digest_reads_the_manifest
+ok   test_digest.test_digest_defaults
+ok   test_digest.test_digest_seal_is_idempotent
+ok   test_digest.test_digest_snapshot_is_sorted
+ok   test_dispatch.test_build_dispatch_reads_the_manifest
+ok   test_dispatch.test_dispatch_defaults
+ok   test_dispatch.test_dispatch_seal_is_idempotent
+ok   test_dispatch.test_dispatch_snapshot_is_sorted
+ok   test_drain.test_build_drain_reads_the_manifest
+ok   test_drain.test_drain_defaults
+ok   test_drain.test_drain_seal_is_idempotent
+ok   test_drain.test_drain_snapshot_is_sorted
+ok   test_envelope.test_build_envelope_reads_the_manifest
+ok   test_envelope.test_envelope_defaults
+ok   test_envelope.test_envelope_seal_is_idempotent
+ok   test_envelope.test_envelope_snapshot_is_sorted
+ok   test_ingest.test_build_ingest_reads_the_manifest
+ok   test_ingest.test_ingest_defaults
+ok   test_ingest.test_ingest_seal_is_idempotent
+ok   test_ingest.test_ingest_snapshot_is_sorted
+ok   test_lineage.test_build_lineage_reads_the_manifest
+ok   test_lineage.test_lineage_defaults
+ok   test_lineage.test_lineage_seal_is_idempotent
+ok   test_lineage.test_lineage_snapshot_is_sorted
+ok   test_quota.test_build_quota_reads_the_manifest
+ok   test_quota.test_quota_defaults
+ok   test_quota.test_quota_seal_is_idempotent
+ok   test_quota.test_quota_snapshot_is_sorted
+ok   test_reconcile.test_build_reconcile_reads_the_manifest
+ok   test_reconcile.test_reconcile_defaults
+ok   test_reconcile.test_reconcile_seal_is_idempotent
+ok   test_reconcile.test_reconcile_snapshot_is_sorted
+ok   test_replay.test_build_replay_reads_the_manifest
+ok   test_replay.test_replay_defaults
+ok   test_replay.test_replay_seal_is_idempotent
+ok   test_replay.test_replay_snapshot_is_sorted
+ok   test_retention.test_build_retention_reads_the_manifest
+ok   test_retention.test_retention_defaults
+ok   test_retention.test_retention_seal_is_idempotent
+ok   test_retention.test_retention_snapshot_is_sorted
+ok   test_rollup.test_build_rollup_reads_the_manifest
+ok   test_rollup.test_rollup_defaults
+ok   test_rollup.test_rollup_seal_is_idempotent
+ok   test_rollup.test_rollup_snapshot_is_sorted
+ok   test_routing.test_build_routing_reads_the_manifest
+ok   test_routing.test_routing_defaults
+ok   test_routing.test_routing_seal_is_idempotent
+ok   test_routing.test_routing_snapshot_is_sorted
+ok   test_schema.test_build_schema_reads_the_manifest
+ok   test_schema.test_schema_defaults
+ok   test_schema.test_schema_seal_is_idempotent
+ok   test_schema.test_schema_snapshot_is_sorted
+ok   test_settle_gate.test_admit_above_limit_is_refused
+FAIL test_settle_gate.test_admit_at_limit_is_refused
+ok   test_settle_gate.test_admit_below_limit_is_accepted
+FAIL test_settle_gate.test_boundary_reads_the_gate_limit
+ok   test_settle_gate.test_build_settle_reads_the_manifest
+ok   test_settle_gate.test_default_limit_matches_the_manifest
+ok   test_settle_gate.test_release_returns_the_receipt_to_pending
+ok   test_settle_gate.test_seal_is_idempotent
+ok   test_settle_gate.test_settle_defaults
+ok   test_settle_gate.test_snapshot_is_sorted
+ok   test_shard.test_build_shard_reads_the_manifest
+ok   test_shard.test_shard_defaults
+ok   test_shard.test_shard_seal_is_idempotent
+ok   test_shard.test_shard_snapshot_is_sorted
+ok   test_tenancy.test_build_tenancy_reads_the_manifest
+ok   test_tenancy.test_tenancy_defaults
+ok   test_tenancy.test_tenancy_seal_is_idempotent
+ok   test_tenancy.test_tenancy_snapshot_is_sorted
+ok   test_throttle.test_build_throttle_reads_the_manifest
+ok   test_throttle.test_throttle_defaults
+ok   test_throttle.test_throttle_seal_is_idempotent
+ok   test_throttle.test_throttle_snapshot_is_sorted
+
+2 of 94 checks FAILED
+
+codex
+The only failures are in `settle_gate`: equality at the configured limit is being accepted, while below-limit behavior passes. I’m now reading `docs/settle.md`, `history/0021-settle-gate.md`, and the settle section of `config/manifest.json` before touching the implementation.
+exec
+/bin/bash -lc "printf '%s\\n' '--- docs/settle.md ---' && sed -n '1,240p' docs/settle.md && printf '%s\\n' '--- history/0021-settle-gate.md ---' && sed -n '1,240p' history/0021-settle-gate.md && printf '%s\\n' '--- manifest settle section ---' && sed -n '/\"settle\"/,/"'^[[:space:]]*}/p'"' config/manifest.json && printf '%s\\n' '--- src/larkspur/settle_gate.py ---' && sed -n '1,260p' src/larkspur/settle_gate.py && printf '%s\\n' '--- test settle ---' && sed -n '1,260p' tests/test_settle_gate.py && printf '%s\\n' '--- git status ---' && git status --short" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+ succeeded in 0ms:
+--- docs/settle.md ---
+# settle stage
+
+*Owner: P. Ravindran (Capacity Planning). Module: `src/settle_gate.py`.*
+
+## What it is for
+
+The settle stage is the admission boundary for settlement receipts in the
+larkspur-vault pipeline. A receipt that does not fit is refused at the door: the
+stage sheds rather than queues, and the refusal is normal rather than an incident
+(`docs/operations.md`).
+
+## The limit is inclusive
+
+`admit` refuses a receipt whose weight is **greater than or equal to** the stage
+limit. A receipt exactly at the limit does not fit: the limit is the smallest
+weight the stage refuses, not the largest it accepts. There is no configuration
+under which a receipt at the limit is admitted - a gate built by `build_settle`
+from a manifest section behaves exactly like a gate built from the module
+constants, and the boundary belongs to the contract, not to a configuration.
+
+## Configuration
+
+| key | default | meaning |
+| --- | ---: | --- |
+| `limit` | 24 | the smallest receipt weight the stage refuses |
+| `window_s` | 90 | seconds a receipt may stay `pending` before it is reaped |
+
+Both are read from the `settle` section of the manifest by `build_settle`. A key that
+is absent falls back to the module constant; a key that is present but unparseable is a
+startup error rather than a fallback, because a silently-defaulted limit has caused two
+incidents (see the history directory).
+
+## Interaction with backfill and reconcile
+
+`backfill` calls into this stage once per batch and expects `snapshot()` to be stable
+across the call, which is why the snapshot sorts rather than preserving insertion
+order. `reconcile` reads the sealed result and must not observe a `pending` record; if
+it does, the drain order in `docs/operations.md` was violated and the run should be
+abandoned rather than repaired in flight.
+
+## States
+
+- `pending` - accepted, not yet acted on; its weight counts against `limit`
+- `admitted` - acted on by this stage and awaiting the downstream acknowledgement
+- `settled` - durable, visible to the audit trail, immutable
+- `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+--- history/0021-settle-gate.md ---
+# 0021 - settle: extract the settle gate from throttle
+
+- Date: 2035-01-12
+- Status: **accepted**
+- Proposer: P. Ravindran (Capacity Planning)
+
+## Context
+
+The throttle stage carried a private receipt guard that the settle work wanted to
+reuse. Reusing it directly would have coupled the two stages' limits, so the guard
+moves into its own module and the settle stage gets a manifest section of its own.
+
+## Decision
+
+The gate moves to `src/settle_gate.py` with a settle limit of 24, registered in the
+manifest. The comparison was rewritten during the move "to match the old helper's
+guard", which refused a receipt only when its weight was strictly greater than the
+limit. **That rewrite is wrong for the settle stage**: the settle contract is that a
+receipt at the limit does not fit, so the gate refuses at or above the limit. The
+behavioural checks under `tests/` state the contract and are the acceptance test for
+the correction; the guard is to be corrected in place, not re-landed.
+
+## Consequences
+
+- `docs/settle.md` states the contract and is authoritative over this entry.
+- No change to `DEFAULT_SETTLE_LIMIT` (24) and no change to the manifest limit.
+- Once the guard compares at-or-above, every settle check passes unchanged.
+--- manifest settle section ---
+      "name": "settle",
+      "module": "settle_gate",
+      "class": "SettleGate",
+      "limit": 24,
+      "window_s": 90,
+      "owner": "P. Ravindran"
+    }
+--- src/larkspur/settle_gate.py ---
+"""settle_gate: settlement handling for the larkspur-vault pipeline.
+
+This module owns the settle stage. It is called by backfill and calls into
+reconcile; neither of those may be imported at module scope, because the
+pipeline is assembled at run time from the manifest rather than at import time.
+
+Ownership: P. Ravindran (Capacity Planning).
+"""
+
+from __future__ import annotations
+
+DEFAULT_SETTLE_LIMIT = 24
+DEFAULT_SETTLE_WINDOW_S = 90
+SETTLE_STATES = ("pending", "admitted", "settled", "abandoned")
+
+
+class LimitExceeded(Exception):
+    """Raised when a receipt does not fit the settle stage."""
+
+
+class SettleGate:
+    """Coordinates settlement receipts between the settle stage and ReconcileLedger."""
+
+    def __init__(self, limit=DEFAULT_SETTLE_LIMIT, window_s=DEFAULT_SETTLE_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._receipts = {}
+        self._sealed = False
+
+    def admit(self, key, weight):
+        """Admit the receipt named ``key``.
+
+        A receipt whose weight reaches the stage limit does not fit: ``admit``
+        raises :class:`LimitExceeded` and the stage sheds rather than queues
+        (see docs/operations.md and docs/settle.md). A receipt below the limit
+        is admitted and counts against the limit until it is released.
+
+        Returns the stored record, or ``None`` when the settle stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        if weight > self.limit:
+            raise LimitExceeded(
+                "settle stage refuses %r: weight %d does not fit limit %d"
+                % (key, weight, self.limit))
+        record = self._receipts.setdefault(
+            key, {"key": key, "state": "pending", "weight": weight})
+        record["state"] = "admitted"
+        return record
+
+    def release(self, key, payload=None):
+        """Release the receipt named ``key`` back to ``pending``.
+
+        Returns the stored record, or ``None`` when the settle stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._receipts.setdefault(
+            key, {"key": key, "state": "pending", "weight": None})
+        record["state"] = "pending"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._receipts)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._receipts[k] for k in sorted(self._receipts)]
+
+
+def build_settle(config):
+    """Construct a :class:`SettleGate` from the ``settle`` section of the manifest."""
+    section = config.get("settle", {})
+    return SettleGate(
+        limit=section.get("limit", DEFAULT_SETTLE_LIMIT),
+        window_s=section.get("window_s", DEFAULT_SETTLE_WINDOW_S),
+    )
+--- test settle ---
+"""Behavioural checks for settle_gate."""
+
+import json
+import os
+
+from larkspur.settle_gate import (
+    DEFAULT_SETTLE_LIMIT,
+    LimitExceeded,
+    SettleGate,
+    build_settle,
+)
+
+
+def _raises_limit(fn):
+    try:
+        fn()
+    except LimitExceeded:
+        return True
+    except Exception:
+        return False
+    return False
+
+
+def test_settle_defaults():
+    gate = SettleGate()
+    assert gate.limit == 24
+    assert gate.window_s == 90
+
+
+def test_default_limit_matches_the_manifest():
+    here = os.path.dirname(os.path.abspath(__file__))
+    root = os.path.dirname(here)
+    with open(os.path.join(root, "config", "manifest.json"), encoding="utf-8") as fh:
+        manifest = json.load(fh)
+    section = [s for s in manifest["stages"] if s["name"] == "settle"][0]
+    assert section["limit"] == 24
+    assert DEFAULT_SETTLE_LIMIT == 24
+
+
+def test_admit_below_limit_is_accepted():
+    gate = SettleGate()
+    record = gate.admit("a", 23)
+    assert record["state"] == "admitted"
+    assert record["weight"] == 23
+
+
+def test_admit_at_limit_is_refused():
+    gate = SettleGate()
+    assert _raises_limit(lambda: gate.admit("b", 24))
+
+
+def test_admit_above_limit_is_refused():
+    gate = SettleGate()
+    assert _raises_limit(lambda: gate.admit("c", 25))
+
+
+def test_boundary_reads_the_gate_limit():
+    gate = build_settle({"settle": {"limit": 10}})
+    assert _raises_limit(lambda: gate.admit("x", 10))
+    assert gate.admit("y", 9)["state"] == "admitted"
+
+
+def test_release_returns_the_receipt_to_pending():
+    gate = SettleGate()
+    gate.admit("r", 12)
+    assert gate.release("r")["state"] == "pending"
+
+
+def test_seal_is_idempotent():
+    gate = SettleGate()
+    gate.admit("a", 3)
+    assert gate.seal() == 1
+    assert gate.seal() == 1
+    assert gate.admit("b", 3) is None
+
+
+def test_snapshot_is_sorted():
+    gate = SettleGate()
+    for key in ("m", "a", "z"):
+        gate.admit(key, 1)
+    assert [r["key"] for r in gate.snapshot()] == ["a", "m", "z"]
+
+
+def test_build_settle_reads_the_manifest():
+    gate = build_settle({"settle": {"limit": 5}})
+    assert gate.limit == 5
+    assert gate.window_s == 90
+--- git status ---
+ M ../m01-main-claude.codex.log
+ M ../m04-main-claude.codex.log
+ M ../m04-main-claude/config/manifest.json
+ M ../m05-cheap-glm.codex.log
+ M ../m05-main-luna.codex.log
+ M ../m05-main-luna/docs/admission_policy.md
+ M ../m06-cheap-claude.codex.log
+ M ../m06-cheap-claude/src/quota/budget.py
+ M ../m06-main-glm.codex.log
+?? ../../../glm/
+
+codex
+The documentation and history agree: the limit is the smallest refused weight, so the guard must reject `weight >= self.limit`; the manifest value remains 24. I’ll make that single implementation change in `src/larkspur/settle_gate.py`, then run the full suite once for final verification.
+apply patch
+patch: completed
+/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b1723024e26c7fc9e258a9247b674ea9e5..9aee88ed1a35cdc646ccbe4775dca020eba402a9
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b1723024e26c7fc9e258a9247b674ea9e5..9aee88ed1a35cdc646ccbe4775dca020eba402a9
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+
+exec
+/bin/bash -lc 'python3 tests/run_all.py && git diff --check && test -z "$(git diff -- tests)" && git diff -- src/larkspur/settle_gate.py' in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+ exited 2 in 0ms:
+ok   test_attestation.test_attestation_defaults
+ok   test_attestation.test_attestation_seal_is_idempotent
+ok   test_attestation.test_attestation_snapshot_is_sorted
+ok   test_attestation.test_build_attestation_reads_the_manifest
+ok   test_audit.test_audit_defaults
+ok   test_audit.test_audit_seal_is_idempotent
+ok   test_audit.test_audit_snapshot_is_sorted
+ok   test_audit.test_build_audit_reads_the_manifest
+ok   test_backfill.test_backfill_defaults
+ok   test_backfill.test_backfill_seal_is_idempotent
+ok   test_backfill.test_backfill_snapshot_is_sorted
+ok   test_backfill.test_build_backfill_reads_the_manifest
+ok   test_checkpoint.test_build_checkpoint_reads_the_manifest
+ok   test_checkpoint.test_checkpoint_defaults
+ok   test_checkpoint.test_checkpoint_seal_is_idempotent
+ok   test_checkpoint.test_checkpoint_snapshot_is_sorted
+ok   test_compaction.test_build_compaction_reads_the_manifest
+ok   test_compaction.test_compaction_defaults
+ok   test_compaction.test_compaction_seal_is_idempotent
+ok   test_compaction.test_compaction_snapshot_is_sorted
+ok   test_digest.test_build_digest_reads_the_manifest
+ok   test_digest.test_digest_defaults
+ok   test_digest.test_digest_seal_is_idempotent
+ok   test_digest.test_digest_snapshot_is_sorted
+ok   test_dispatch.test_build_dispatch_reads_the_manifest
+ok   test_dispatch.test_dispatch_defaults
+ok   test_dispatch.test_dispatch_seal_is_idempotent
+ok   test_dispatch.test_dispatch_snapshot_is_sorted
+ok   test_drain.test_build_drain_reads_the_manifest
+ok   test_drain.test_drain_defaults
+ok   test_drain.test_drain_seal_is_idempotent
+ok   test_drain.test_drain_snapshot_is_sorted
+ok   test_envelope.test_build_envelope_reads_the_manifest
+ok   test_envelope.test_envelope_defaults
+ok   test_envelope.test_envelope_seal_is_idempotent
+ok   test_envelope.test_envelope_snapshot_is_sorted
+ok   test_ingest.test_build_ingest_reads_the_manifest
+ok   test_ingest.test_ingest_defaults
+ok   test_ingest.test_ingest_seal_is_idempotent
+ok   test_ingest.test_ingest_snapshot_is_sorted
+ok   test_lineage.test_build_lineage_reads_the_manifest
+ok   test_lineage.test_lineage_defaults
+ok   test_lineage.test_lineage_seal_is_idempotent
+ok   test_lineage.test_lineage_snapshot_is_sorted
+ok   test_quota.test_build_quota_reads_the_manifest
+ok   test_quota.test_quota_defaults
+ok   test_quota.test_quota_seal_is_idempotent
+ok   test_quota.test_quota_snapshot_is_sorted
+ok   test_reconcile.test_build_reconcile_reads_the_manifest
+ok   test_reconcile.test_reconcile_defaults
+ok   test_reconcile.test_reconcile_seal_is_idempotent
+ok   test_reconcile.test_reconcile_snapshot_is_sorted
+ok   test_replay.test_build_replay_reads_the_manifest
+ok   test_replay.test_replay_defaults
+ok   test_replay.test_replay_seal_is_idempotent
+ok   test_replay.test_replay_snapshot_is_sorted
+ok   test_retention.test_build_retention_reads_the_manifest
+ok   test_retention.test_retention_defaults
+ok   test_retention.test_retention_seal_is_idempotent
+ok   test_retention.test_retention_snapshot_is_sorted
+ok   test_rollup.test_build_rollup_reads_the_manifest
+ok   test_rollup.test_rollup_defaults
+ok   test_rollup.test_rollup_seal_is_idempotent
+ok   test_rollup.test_rollup_snapshot_is_sorted
+ok   test_routing.test_build_routing_reads_the_manifest
+ok   test_routing.test_routing_defaults
+ok   test_routing.test_routing_seal_is_idempotent
+ok   test_routing.test_routing_snapshot_is_sorted
+ok   test_schema.test_build_schema_reads_the_manifest
+ok   test_schema.test_schema_defaults
+ok   test_schema.test_schema_seal_is_idempotent
+ok   test_schema.test_schema_snapshot_is_sorted
+ok   test_settle_gate.test_admit_above_limit_is_refused
+ok   test_settle_gate.test_admit_at_limit_is_refused
+ok   test_settle_gate.test_admit_below_limit_is_accepted
+ok   test_settle_gate.test_boundary_reads_the_gate_limit
+ok   test_settle_gate.test_build_settle_reads_the_manifest
+ok   test_settle_gate.test_default_limit_matches_the_manifest
+ok   test_settle_gate.test_release_returns_the_receipt_to_pending
+ok   test_settle_gate.test_seal_is_idempotent
+ok   test_settle_gate.test_settle_defaults
+ok   test_settle_gate.test_snapshot_is_sorted
+ok   test_shard.test_build_shard_reads_the_manifest
+ok   test_shard.test_shard_defaults
+ok   test_shard.test_shard_seal_is_idempotent
+ok   test_shard.test_shard_snapshot_is_sorted
+ok   test_tenancy.test_build_tenancy_reads_the_manifest
+ok   test_tenancy.test_tenancy_defaults
+ok   test_tenancy.test_tenancy_seal_is_idempotent
+ok   test_tenancy.test_tenancy_snapshot_is_sorted
+ok   test_throttle.test_build_throttle_reads_the_manifest
+ok   test_throttle.test_throttle_defaults
+ok   test_throttle.test_throttle_seal_is_idempotent
+ok   test_throttle.test_throttle_snapshot_is_sorted
+
+ALL TESTS PASSED (94 checks)
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1154: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1190: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m01-main-claude.codex.log:1226: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m04-main-claude.codex.log:1189: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:427: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:429: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:432: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:434: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:436: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:438: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:440: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:442: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:444: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:446: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:448: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:450: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:452: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:454: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:456: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:458: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:460: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:462: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:464: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:466: trailing whitespace.
++++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:468: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:470: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:472: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:474: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:476: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:478: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:480: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:482: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:484: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:486: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:488: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:490: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:492: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:494: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:496: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:498: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:500: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-cheap-glm.codex.log:502: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:859: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:866: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:868: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:880: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:887: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:889: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:901: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:903: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:905: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:907: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:909: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:911: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:914: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:916: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:918: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:920: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:922: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:924: trailing whitespace.
+++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:931: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:938: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:940: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:971: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:978: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:980: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:992: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:999: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1001: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m05-main-luna.codex.log:1007: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:445: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:450: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:451: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:459: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:464: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:465: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:476: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:481: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:482: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:491: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:496: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:497: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:523: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:528: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:529: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:541: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:546: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude.codex.log:547: trailing whitespace.
++ 
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm.codex.log:582: new blank line at EOF.
+ollama-bench/results/v7/authoring/sanity/luna/trial-0/m07-cheap-luna.codex.log:19: new blank line at EOF.
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b1723024e26c7fc9e258a9247b674ea9e5..9aee88ed1a35cdc646ccbe4775dca020eba402a9
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+
+codex
+The full suite now passes all 94 checks. The repository-wide `git diff --check` reports pre-existing whitespace in unrelated neighboring session logs, so I’m doing a final scoped review of the settle diff and confirming `tests/` remains untouched.
+exec
+/bin/bash -lc "git diff -- src/larkspur/settle_gate.py && if git diff --quiet -- tests; then echo 'tests unchanged'; else echo 'tests changed'; fi && git status --short -- src tests" in /home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm
+ succeeded in 0ms:
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b..9aee88e 100644
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@ class SettleGate:
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+tests unchanged
+ M src/larkspur/settle_gate.py
+
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b1723024e26c7fc9e258a9247b674ea9e5..9aee88ed1a35cdc646ccbe4775dca020eba402a9
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+
+codex
+Fixed `src/larkspur/settle_gate.py` to reject weights `>= limit`.
+
+Verification: `python3 tests/run_all.py` → `ALL TESTS PASSED (94 checks)`
+
+Tests remain byte-identical; limit and manifest unchanged.
+diff --git a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+index b91dc9b1723024e26c7fc9e258a9247b674ea9e5..9aee88ed1a35cdc646ccbe4775dca020eba402a9
+--- a/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
++++ b/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-main-glm/src/larkspur/settle_gate.py
+@@ -40,7 +40,7 @@
+         """
+         if self._sealed:
+             return None
+-        if weight > self.limit:
++        if weight >= self.limit:
+             raise LimitExceeded(
+                 "settle stage refuses %r: weight %d does not fit limit %d"
+                 % (key, weight, self.limit))
+
+tokens used
+20,466
+Fixed `src/larkspur/settle_gate.py` to reject weights `>= limit`.
+
+Verification: `python3 tests/run_all.py` → `ALL TESTS PASSED (94 checks)`
+
+Tests remain byte-identical; limit and manifest unchanged.

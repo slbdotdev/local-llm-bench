@@ -1,0 +1,3 @@
+Updated `dispatch_store.py` to use `expanded` consistently in the state vocabulary and expansion records.
+
+Release check passed with `python3` (exit 0). Created [report.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m04-cheap-luna/report.txt).

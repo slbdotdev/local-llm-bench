@@ -1,0 +1,5 @@
+Fixed `src/larkspur/settle_gate.py` to reject weights `>= limit`.
+
+Verification: `python3 tests/run_all.py` → `ALL TESTS PASSED (94 checks)`
+
+Tests remain byte-identical; limit and manifest unchanged.

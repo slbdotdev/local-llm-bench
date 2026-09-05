@@ -1,0 +1,3 @@
+Fixed `remaining()` to clamp negative values at zero in [src/quota/budget.py](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m06-cheap-claude/src/quota/budget.py:6).
+
+Verification: `PYTHONPATH=src python3 -m pytest tests` — **17 passed**. The requested `python` command was unavailable in the environment.

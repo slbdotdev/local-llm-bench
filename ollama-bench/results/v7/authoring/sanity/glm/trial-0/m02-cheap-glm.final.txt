@@ -1,0 +1,27 @@
+The task is complete and has been verified repeatedly; the interrupted attempts were only delivery failures, not failures of the work. Final answer:
+
+## 1. The fix — `src/quartermaster/stock.py`
+
+`low_stock()` implements the documented at-or-below rule with the corrected comparison at line 52:
+
+```python
+if row["on_hand"] <= point:
+```
+
+This matches rule 2 in `docs/stocking-policy.md` and `docs/usage.md`: an item whose on-hand quantity **equals** its reorder point has fallen to its point and must be reported — the strict `<` defect dropped exactly those rows. The function's names, signature, docstring, and the module's default paths are untouched, it is the only `low_stock` in the tree, and its tests pass (3/3). No other existing file was modified.
+
+## 2. The deliverable — `reorder-check.txt` (repository root)
+
+Created by running the corrected check over `data/inventory.csv` against `config/reorder_points.json`. It was verified byte-for-byte (`cmp` clean) and by checksum (md5 `04be26f1…`, 83 bytes) against a fresh run of the module:
+
+```
+ITEMS AT OR BELOW REORDER POINT: 6
+QM-1712
+QM-1145
+QM-1501
+QM-1904
+QM-1402
+QM-1310
+```
+
+**Why this is correct:** the inventory contains two rows sitting exactly at their reorder points — QM-1145 (12 on hand, point 12) and QM-1501 (36 on hand, point 36) — and the corrected check reports both; under the old strict comparison the count would have been 4. QM-1633 (9 on hand vs point 8) is correctly above its point and excluded. The SKUs appear in `data/inventory.csv` row order, one per line, with only the required header line and no other text.

@@ -1,0 +1,3 @@
+Renamed `build_watermark` to `load_watermark` across code, tests, docs, and configuration. No compatibility alias added.
+
+Validation: `12 passed`; old name has no remaining references in the repository directory.

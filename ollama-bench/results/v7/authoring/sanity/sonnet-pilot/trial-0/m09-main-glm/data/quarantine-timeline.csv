@@ -1,0 +1,110 @@
+date,batch,stage,kind,detail
+2034-01-03,CC-1004,replay,quarantined,lineage chain broken at segment 7
+2034-01-05,CC-1019,schema,quarantined,checksum mismatch on receipt manifest
+2034-01-05,CC-1078,lineage,quarantined,lineage chain broken at segment 3
+2034-01-08,CC-1033,throttle,quarantined,shed window exceeded twice
+2034-01-09,CC-1004,replay,lifted,lineage rebuilt from evidence store
+2034-01-10,CC-1042,compaction,quarantined,checksum mismatch on receipt manifest
+2034-01-12,CC-1078,lineage,lifted,reviewer sign-off recorded
+2034-01-14,CC-1051,digest,quarantined,lineage chain broken at segment 1
+2034-01-16,CC-1019,schema,lifted,reviewer sign-off recorded
+2034-01-17,CC-1067,replay,quarantined,duplicate key in manifest section
+2034-01-18,CC-1078,lineage,requarantined,post-lift check failed
+2034-01-19,CC-1042,compaction,lifted,reviewer sign-off recorded
+2034-01-21,CC-1080,replay,quarantined,lineage chain broken at segment 9
+2034-01-22,CC-1051,digest,lifted,reviewer sign-off recorded
+2034-01-24,CC-1093,backfill,quarantined,reviewer request (ticket KS-2078)
+2034-01-25,CC-1067,replay,lifted,manifest section re-keyed
+2034-01-27,CC-1105,lineage,quarantined,lineage chain broken at segment 4
+2034-01-28,CC-1080,replay,lifted,reviewer sign-off recorded
+2034-01-29,CC-1112,throttle,quarantined,shed window exceeded twice
+2034-01-31,CC-1093,backfill,lifted,reviewer sign-off recorded
+2034-02-01,CC-1118,replay,quarantined,lineage chain broken at segment 5
+2034-02-02,CC-1067,replay,annotation,post-lift audit note filed as AUD-118
+2034-02-04,CC-1125,schema,quarantined,checksum mismatch on receipt manifest
+2034-02-07,CC-1140,compaction,quarantined,lineage chain broken at segment 2
+2034-02-08,CC-1118,replay,lifted,lineage rebuilt from evidence store
+2034-02-09,CC-1121,replay,quarantined,lineage chain broken at segment 6
+2034-02-11,CC-1152,digest,quarantined,duplicate key in manifest section
+2034-02-13,CC-1136,digest,quarantined,lineage chain broken at segment 8
+2034-02-14,CC-1087,replay,quarantined,duplicate key in manifest section
+2034-02-16,CC-1125,schema,lifted,reviewer sign-off recorded
+2034-02-17,CC-1121,replay,lifted,lineage rebuilt from evidence store
+2034-02-18,CC-1160,lineage,quarantined,lineage chain broken at segment 8
+2034-02-20,CC-1136,digest,lifted,reviewer sign-off recorded
+2034-02-21,CC-1140,compaction,lifted,reviewer sign-off recorded
+2034-02-22,CC-1174,throttle,quarantined,shed window exceeded twice
+2034-02-24,CC-1167,compaction,quarantined,checksum mismatch on receipt manifest
+2034-02-26,CC-1160,lineage,lifted,reviewer sign-off recorded
+2034-02-27,CC-1087,replay,lifted,manifest section re-keyed
+2034-02-28,CC-1188,backfill,quarantined,reviewer request (ticket KS-2144)
+2034-03-01,CC-1087,replay,annotation,lift re-confirmed by on-call under ticket KS-2211
+2034-03-02,CC-1174,throttle,lifted,reviewer sign-off recorded
+2034-03-02,CC-1156,replay,quarantined,lineage chain broken at segment 6
+2034-03-03,CC-1167,compaction,lifted,reviewer sign-off recorded
+2034-03-04,CC-1163,schema,quarantined,checksum mismatch on receipt manifest
+2034-03-06,CC-1163,schema,annotation,auto-check reran clean; awaiting reviewer
+2034-03-08,CC-1194,digest,quarantined,lineage chain broken at segment 11
+2034-03-09,CC-1163,schema,lifted,reviewer sign-off recorded
+2034-03-11,CC-1204,replay,quarantined,lineage chain broken at segment 2
+2034-03-13,CC-1201,compaction,quarantined,checksum mismatch on receipt manifest
+2034-03-14,CC-1121,replay,annotation,post-lift audit note filed as AUD-126
+2034-03-15,CC-1156,replay,lifted,lineage rebuilt from evidence store
+2034-03-16,CC-1199,lineage,quarantined,lineage chain broken at segment 13
+2034-03-18,CC-1216,lineage,quarantined,lineage chain broken at segment 12
+2034-03-20,CC-1204,replay,lifted,reviewer sign-off recorded
+2034-03-22,CC-1224,replay,quarantined,duplicate key in manifest section
+2034-03-24,CC-1199,lineage,lifted,reviewer sign-off recorded
+2034-03-25,CC-1235,throttle,quarantined,shed window exceeded twice
+2034-03-27,CC-1224,replay,lifted,manifest section re-keyed
+2034-03-29,CC-1247,backfill,quarantined,reviewer request (ticket KS-2231)
+2034-03-30,CC-1194,digest,lifted,reviewer sign-off recorded
+2034-04-02,CC-1235,throttle,lifted,reviewer sign-off recorded
+2034-04-03,CC-1231,replay,quarantined,lineage chain broken at segment 5
+2034-04-05,CC-1243,schema,quarantined,checksum mismatch on receipt manifest
+2034-04-06,CC-1216,lineage,annotation,auto-check reran clean; awaiting reviewer
+2034-04-08,CC-1174,throttle,annotation,on-call confirmed the lift under ticket KS-2236
+2034-04-09,CC-1245,replay,quarantined,duplicate key in manifest section
+2034-04-10,CC-1231,replay,lifted,lineage rebuilt from evidence store
+2034-04-11,CC-1204,replay,lifted,re-lifted after audit case AU-302 closed
+2034-04-11,CC-1256,schema,quarantined,checksum mismatch on receipt manifest
+2034-04-13,CC-1252,digest,quarantined,lineage chain broken at segment 9
+2034-04-15,CC-1258,compaction,quarantined,checksum mismatch on receipt manifest
+2034-04-17,CC-1261,lineage,quarantined,lineage chain broken at segment 14
+2034-04-18,CC-1256,schema,lifted,reviewer sign-off recorded
+2034-04-19,CC-1262,throttle,quarantined,shed window exceeded twice
+2034-04-20,CC-1245,replay,annotation,on-call confirmed the hold under ticket KS-2240
+2034-04-21,CC-1266,replay,quarantined,lineage chain broken at segment 1
+2034-04-23,CC-1258,compaction,lifted,reviewer sign-off recorded
+2034-04-24,CC-1271,backfill,quarantined,reviewer request (ticket KS-2247)
+2034-04-26,CC-1283,replay,quarantined,lineage chain broken at segment 3
+2034-04-27,CC-1262,throttle,lifted,reviewer sign-off recorded
+2034-04-29,CC-1258,compaction,requarantined,post-lift check failed
+2034-04-30,CC-1266,replay,lifted,lineage rebuilt from evidence store
+2034-05-02,CC-1290,replay,quarantined,lineage chain broken at segment 7
+2034-05-03,CC-1243,schema,lifted,reviewer sign-off recorded
+2034-05-05,CC-1297,digest,quarantined,duplicate key in manifest section
+2034-05-06,CC-1301,lineage,quarantined,lineage chain broken at segment 11
+2034-05-07,CC-1304,compaction,quarantined,checksum mismatch on receipt manifest
+2034-05-08,CC-1308,digest,quarantined,duplicate key in manifest section
+2034-05-09,CC-1283,replay,lifted,lineage rebuilt from evidence store
+2034-05-11,CC-1311,lineage,quarantined,lineage chain broken at segment 10
+2034-05-12,CC-1318,throttle,quarantined,shed window exceeded twice
+2034-05-13,CC-1301,lineage,lifted,reviewer sign-off recorded
+2034-05-14,CC-1290,replay,lifted,reviewer sign-off recorded
+2034-05-15,CC-1304,compaction,lifted,reviewer sign-off recorded
+2034-05-16,CC-1325,replay,quarantined,duplicate key in manifest section
+2034-05-17,CC-1297,digest,lifted,manifest section re-keyed
+2034-05-18,CC-1332,lineage,quarantined,lineage chain broken at segment 15
+2034-05-19,CC-1308,digest,lifted,manifest section re-keyed
+2034-05-20,CC-1329,compaction,quarantined,checksum mismatch on receipt manifest
+2034-05-21,CC-1339,schema,quarantined,checksum mismatch on receipt manifest
+2034-05-22,CC-1344,replay,quarantined,lineage chain broken at segment 4
+2034-05-23,CC-1318,throttle,lifted,reviewer sign-off recorded
+2034-05-24,CC-1325,replay,lifted,manifest section re-keyed
+2034-05-25,CC-1301,lineage,annotation,post-lift audit note filed as AUD-131
+2034-05-27,CC-1325,replay,annotation,receipt archived to evidence store
+2034-05-28,CC-1351,backfill,quarantined,reviewer request (ticket KS-2268)
+2034-05-30,CC-1332,lineage,lifted,reviewer sign-off recorded
+2034-05-29,CC-1329,compaction,lifted,reviewer sign-off recorded
+2034-06-01,CC-1344,replay,lifted,reviewer sign-off recorded

@@ -1,0 +1,60 @@
+The work is complete and verified (both methods present, 84/84 tests passing). Final answer:
+
+## Final answer
+
+**Changed file:** `src/cinder/dispatch_gate.py` — added exactly two methods to the `DispatchLedger` class, inserted between `classify` and `seal`. A diff against the pristine seed copy (`authoring/suite/m01-main-claude/seed/src/cinder/dispatch_gate.py`) confirms the change is purely additive: module constants, the constructor, `resolve`/`admit`/`classify`, `seal`, `snapshot()`, and `build_dispatch` are byte-identical to the original, and no other file was modified.
+
+**How the reaping rule was determined** — the repository's own documentation, as required:
+
+- `history/9001-dispatch-reaping.md` says reaping *removes* records from the stage. But that entry is marked **superseded**, and `README.md` states a superseded entry is evidence, not a live instruction. → Removal was **not** implemented.
+- The rule "stated once and plainly" is in **`docs/policy/03-retention.md`**, which the README says outranks everything else:
+  1. Reaping changes the record's `state` to `abandoned`.
+  2. The record **stays in the stage** and remains visible to `snapshot()` — it is never removed by reaping.
+  3. An `abandoned` record **stops counting against the stage's `limit`** — that is the entire operational purpose: return capacity without losing evidence.
+- `docs/dispatch.md` agrees ("`abandoned` — reaped after `window_s`; retained for evidence, never deleted"), and the policy's counting rule ("from acceptance until it reaches `settled` or `abandoned`, and at every state in between") fully determines `active_count`: only `settled` and `abandoned` are exempt; every intermediate state (`pending`, `resolved`, and the stage's `admitd`/`classifyd`) still counts.
+
+**Code added to `DispatchLedger`:**
+
+```python
+def reap(self, ages):
+    """Reap the records whose age exceeds ``window_s``.
+
+    ``ages`` maps a record key to that record's age in seconds. Per
+    docs/policy/03-retention.md, reaping changes a record's state to
+    ``abandoned`` and returns its slot; the record itself stays in the
+    stage and remains visible to ``snapshot()``. Returns the number of
+    records reaped by this call; a key the stage has never seen is
+    ignored, and an already-reaped record is not reaped again.
+    """
+    reaped = 0
+    for key, age in ages.items():
+        record = self._manifests.get(key)
+        if record is None or age <= self.window_s:
+            continue
+        if record["state"] == "abandoned":
+            continue
+        record["state"] = "abandoned"
+        reaped += 1
+    return reaped
+
+def active_count(self):
+    """Count the records currently occupying a slot against ``limit``.
+
+    Per docs/policy/03-retention.md, every record counts from acceptance
+    until it reaches ``settled`` or ``abandoned``; only those two states
+    are exempt.
+    """
+    return sum(
+        1
+        for record in self._manifests.values()
+        if record["state"] not in ("settled", "abandoned")
+    )
+```
+
+**Verification performed:**
+- Strict boundary: age `60` (== `window_s`) is not reaped; age `61` is.
+- Calling `reap` twice with the same argument: second call returns `0` (already-`abandoned` records are skipped).
+- A key the stage has never seen is ignored.
+- Reaped records remain in `snapshot()` with state `abandoned` — capacity released, evidence retained (the superseded removal behaviour is correctly absent).
+- `active_count` counts `pending`/`resolved`/intermediate states and exempts only `settled`/`abandoned`.
+- Existing behaviour untouched: snapshot stays sorted, `seal` idempotent; full test suite **84 passed**.

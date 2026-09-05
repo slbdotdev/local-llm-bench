@@ -1,0 +1,22 @@
+TESTS: pass
+
+Both checks in tests/test_pipeline_contract.py were failing because config/manifest.json
+had drifted from the code and from the documented drain order in docs/architecture.md:
+
+1. test_every_manifest_stage_names_a_real_class failed because the "ingest" stage in
+   manifest.json named a class "IngestCoordinator", but src/harrow/ingest_view.py
+   defines "IngestEngine" (and tests/test_ingest.py already imports and exercises
+   IngestEngine directly, so the code and its own tests agree on that name). Fixed by
+   changing the manifest's "class" field for the ingest stage to "IngestEngine".
+
+2. test_manifest_order_matches_the_documented_drain_order failed because manifest.json
+   listed the "dispatch" stage before "checkpoint", while docs/architecture.md's
+   "Drain order" list (and history/CHANGELOG.md, which documents checkpoint's window
+   change at history/0005 before dispatch's at history/0006) both put checkpoint before
+   dispatch. Fixed by swapping the checkpoint and dispatch entries in manifest.json's
+   "stages" array so their order matches the documented order.
+
+After both fixes, PYTHONPATH=src python3 -m pytest tests/test_pipeline_contract.py
+reports 2 passed, and the full suite (PYTHONPATH=src python3 -m pytest tests/) reports
+86 passed with no failures. No test file was modified, and no conftest.py, plugin,
+pyproject.toml, or setup.py was added.

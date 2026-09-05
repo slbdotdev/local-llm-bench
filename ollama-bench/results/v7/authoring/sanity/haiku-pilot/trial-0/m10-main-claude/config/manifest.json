@@ -1,0 +1,174 @@
+{
+  "project": "thistle-works",
+  "package": "thistle",
+  "stages": [
+    {
+      "name": "lineage",
+      "module": "lineage_flow",
+      "class": "LineageEngine",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "retention",
+      "module": "retention_view",
+      "class": "RetentionRegistry",
+      "limit": 120,
+      "window_s": 60,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_store",
+      "class": "CompactionGateway",
+      "limit": 32,
+      "window_s": 15,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_core",
+      "class": "WatermarkEngine",
+      "limit": 120,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_gate",
+      "class": "DispatchEngine",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "shard",
+      "module": "shard_view",
+      "class": "ShardGateway",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_view",
+      "class": "IngestRegistry",
+      "limit": 120,
+      "window_s": 15,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "schema",
+      "module": "schema_core",
+      "class": "SchemaGateway",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "digest",
+      "module": "digest_flow",
+      "class": "DigestLedger",
+      "limit": 64,
+      "window_s": 15,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_gate",
+      "class": "BackfillGateway",
+      "limit": 96,
+      "window_s": 120,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_gate",
+      "class": "AttestationEngine",
+      "limit": 960,
+      "window_s": 120,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_view",
+      "class": "CursorPlanner",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_flow",
+      "class": "RollupGateway",
+      "limit": 96,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_flow",
+      "class": "CheckpointLedger",
+      "limit": 64,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "routing",
+      "module": "routing_gate",
+      "class": "RoutingRegistry",
+      "limit": 960,
+      "window_s": 180,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerGateway",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_gate",
+      "class": "ReconcileEngine",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_store",
+      "class": "ThrottlePlanner",
+      "limit": 64,
+      "window_s": 180,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "drain",
+      "module": "drain_gate",
+      "class": "DrainPlanner",
+      "limit": 120,
+      "window_s": 15,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_flow",
+      "class": "EnvelopeLedger",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "audit",
+      "module": "audit_flow",
+      "class": "AuditLedger",
+      "limit": 120,
+      "window_s": 120,
+      "owner": "R. Okonjo"
+    }
+  ]
+}

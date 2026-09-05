@@ -1,0 +1,142 @@
+{
+ "m01-cheap-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m01-main-claude": {
+  "pass": false,
+  "score": "9/13",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "nts only records past the window', \"a reaped record's state is abandoned\", \"a second reaped record's state is abandoned\", 'abandoned records stop counting against the limit']\nVERDICT confidently_wrong"
+ },
+ "m02-cheap-glm": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nPASS\nVERDICT correct"
+ },
+ "m02-main-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m03-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nPASS\nVERDICT correct"
+ },
+ "m03-main-glm": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m04-cheap-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m04-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "m05-cheap-glm": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m05-main-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m06-cheap-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "m06-main-glm": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "m07-cheap-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m07-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct"
+ },
+ "m08-cheap-glm": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m08-main-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m09-cheap-claude": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m09-main-glm": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct"
+ },
+ "m10-cheap-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct"
+ },
+ "m10-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct"
+ }
+}

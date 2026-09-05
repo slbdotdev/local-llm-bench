@@ -1,0 +1,30 @@
+{
+  "project": "prism-notifier",
+  "package": "prism",
+  "stages": [
+    {
+      "name": "ingest",
+      "module": "ingest_flow",
+      "class": "IngestPlanner",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_view",
+      "class": "WatermarkEngine",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_core",
+      "class": "CompactionGateway",
+      "limit": 96,
+      "window_s": 30,
+      "owner": "S. Nwachukwu"
+    }
+  ]
+}

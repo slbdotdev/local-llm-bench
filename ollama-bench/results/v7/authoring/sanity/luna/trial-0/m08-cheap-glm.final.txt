@@ -1,0 +1,5 @@
+Created [audit-reply.txt](/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/luna/trial-0/m08-cheap-glm/audit-reply.txt) with the required three lines:
+
+- `DISAGREE`
+- `BALANCE 3516.00`
+- `EXCLUDED 2`

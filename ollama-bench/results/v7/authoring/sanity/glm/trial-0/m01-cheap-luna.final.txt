@@ -1,0 +1,21 @@
+The task was already fully completed; the provider errors only interrupted my final replies. Re-confirmed just now: `published_snapshot()` is present and all 12 tests pass.
+
+## Final answer
+
+**Policy (the repo's only authority):** `docs/policy/public-index.md` — the schema stage's published index must *"enumerate the keys from the greatest string to the least string"* using *"a stable ordinary string comparison"*; ascending remains in force for every other stage. So the public snapshot is **descending** plain string order.
+
+**Implementation** — `src/harbor/schema_store.py`:
+
+```python
+def published_snapshot(self):
+    """Return the public index view; see docs/policy/public-index.md. ..."""
+    return [self._slots[k] for k in sorted(self._slots, reverse=True)]
+```
+
+`sorted(..., reverse=True)` on the key strings is exactly the mandated stable, locale-independent, greatest→least enumeration — the smallest change that satisfies the policy.
+
+**State of the working tree:**
+- `src/harbor/schema_store.py` — contains `published_snapshot()` (descending) alongside the unchanged ascending `snapshot()`; verified correct against the policy.
+- Tests (`tests/test_schema.py`), the other stages, and docs — untouched. `pytest -q tests/` → **12 passed**.
+- Behavioral check: `published_snapshot()` on `("m","a","zz","Z","ab","z")` → `['zz','z','m','ab','a','Z']`; `snapshot()` still `['Z','a','ab','m','z','zz']`.
+- No new output file created, as instructed.

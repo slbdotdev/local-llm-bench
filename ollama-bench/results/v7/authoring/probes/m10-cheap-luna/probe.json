@@ -1,0 +1,60 @@
+{
+ "candidate": "m10-cheap-luna",
+ "rows": {
+  "reference": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "empty": {
+   "score": "2/5",
+   "verdict": "visibly_failed",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:no_trailing_newline": {
+   "score": "3/5",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:extra_trailing_nl": {
+   "score": "1/5",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:crlf": {
+   "score": "5/5",
+   "verdict": "correct",
+   "rc": 0,
+   "passed": true,
+   "traceback": false
+  },
+  "perturb:leading_blank": {
+   "score": "1/5",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  },
+  "perturb:trailing_spaces": {
+   "score": "1/5",
+   "verdict": "confidently_wrong",
+   "rc": 1,
+   "passed": false,
+   "traceback": false
+  }
+ },
+ "problems": [
+  "GRADER DEFECT: perturb:no_trailing_newline on a correct answer -> 3/5 confidently_wrong",
+  "GRADER DEFECT: perturb:extra_trailing_nl on a correct answer -> 1/5 confidently_wrong",
+  "GRADER DEFECT: perturb:leading_blank on a correct answer -> 1/5 confidently_wrong",
+  "GRADER DEFECT: perturb:trailing_spaces on a correct answer -> 1/5 confidently_wrong"
+ ]
+}

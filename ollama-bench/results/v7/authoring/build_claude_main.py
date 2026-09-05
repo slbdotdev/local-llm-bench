@@ -148,6 +148,17 @@ of state and not a removal:
 3. An `abandoned` record **stops counting against the stage's `limit`**. That is the entire
    operational purpose of reaping: to return capacity without losing evidence.
 
+## Which records count against the limit, stated once and completely
+
+A record counts against its stage's `limit` **from the moment the stage accepts it until it
+reaches `settled` or `abandoned`, and at every state in between**. The intermediate state a
+stage writes when it acts on a record — the one named after the stage's own operation — is a
+record still in flight, still occupying a slot, and still counted.
+
+Only two states do not count: `settled`, because the record is durable and has left the stage's
+working set, and `abandoned`, because reaping is what returned the slot. Nothing else is exempt,
+and a stage that counts only its `pending` records will report capacity it does not have.
+
 ## Why the record is kept
 
 Reaping is how the pipeline recovers from a stall, and a stall is exactly the condition whose

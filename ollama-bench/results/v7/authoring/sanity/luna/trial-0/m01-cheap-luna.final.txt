@@ -1,0 +1,3 @@
+Implemented `SchemaPlanner.published_snapshot()` with descending ordinary string ordering, leaving `snapshot()` unchanged.
+
+Validation: `PYTHONPATH=src pytest -q` → **12 passed**.

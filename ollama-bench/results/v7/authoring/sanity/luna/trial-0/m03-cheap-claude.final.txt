@@ -1,0 +1,3 @@
+Fixed `round_half_up` to use half-up rounding instead of Python’s half-even rounding.
+
+Validation: `PYTHONPATH=src python3 -m pytest tests` — **17 passed**.

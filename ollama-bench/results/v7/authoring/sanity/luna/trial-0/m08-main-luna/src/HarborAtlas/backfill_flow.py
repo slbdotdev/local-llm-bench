@@ -1,0 +1,84 @@
+"""backfill_flow: repair handling for the HarborAtlas pipeline.
+
+This module owns the backfill stage. It is called by compaction_gate and calls into lineage_core;
+neither of those may be imported at module scope, because the pipeline is
+assembled at run time from the manifest rather than at import time.
+
+Ownership: R. Okonjo (Platform Reliability).
+"""
+
+from __future__ import annotations
+
+DEFAULT_BACKFILL_LIMIT = 960
+DEFAULT_BACKFILL_WINDOW_S = 60
+BACKFILL_STATES = ("pending", "advanced", "settled", "abandoned")
+
+
+class BackfillLedger:
+    """Coordinates repair batchs between the backfill stage and CompactionLedger."""
+
+    def __init__(self, limit=DEFAULT_BACKFILL_LIMIT, window_s=DEFAULT_BACKFILL_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._batchs = {}
+        self._sealed = False
+
+    def advance(self, key, payload=None):
+        """Advance the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the backfill stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "advanced"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def coalesce(self, key, payload=None):
+        """Coalesce the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the backfill stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "coalesced"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def retire(self, key, payload=None):
+        """Retire the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the backfill stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "retired"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._batchs)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._batchs[k] for k in sorted(self._batchs)]
+
+
+def build_backfill(config):
+    """Construct a :class:`BackfillLedger` from the ``backfill`` section of the manifest."""
+    section = config.get("backfill", {})
+    return BackfillLedger(
+        limit=section.get("limit", DEFAULT_BACKFILL_LIMIT),
+        window_s=section.get("window_s", DEFAULT_BACKFILL_WINDOW_S),
+    )

@@ -58,14 +58,15 @@
    "traceback": false
   },
   "perturb:trailing_spaces": {
-   "score": "6/6",
-   "verdict": "correct",
-   "rc": 0,
-   "passed": true,
+   "score": "4/6",
+   "verdict": "visibly_failed",
+   "rc": 1,
+   "passed": false,
    "traceback": false
   }
  },
  "problems": [
-  "GRADER DEFECT: perturb:leading_blank on a correct answer -> 4/6 visibly_failed"
+  "GRADER DEFECT: perturb:leading_blank on a correct answer -> 4/6 visibly_failed",
+  "GRADER DEFECT: perturb:trailing_spaces on a correct answer -> 4/6 visibly_failed"
  ]
 }
