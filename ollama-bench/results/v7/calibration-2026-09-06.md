@@ -323,3 +323,57 @@ Phase markers are `results/v7/.cal-<phase>-done`; `results/v7/waiter.sh <phase>`
 prints GPU utilisation beside a stall alarm. **GPU near 0% with no chain process is a dead chain;
 GPU near 100% is a trial running** — and a phase's CPU-only steps (re-assembling the suite) look
 like the first and are not, which is why the waiter counts the chain script as well as pibench.
+
+## 9. What the two hardenings did, with the transcript evidence
+
+Rule 4a stands: neither task was changed because a quant passed or failed it. Both were on the
+hardening list written on **authoring night**, before any quant ran, and both were listed there on
+design grounds — a proviso the data never exercised, and a card that could not settle an
+attribution. Both were blind-reviewed by a family that is neither the author's nor the editor's,
+and both came back `ACCEPT` with "hard to understand: none".
+
+### `m09-main-glm` — the governing-lift proviso now has to be applied
+
+Before: CC-1204's earliest `lifted` entry was also the first one printed, so the reference answer
+was reachable by taking the first lift met, without ever finding — let alone applying — the rule
+that decides duplicates. After: one timeline row, `2034-03-28 … requarantined`, voids that lift and
+moves the governing lift to 2034-04-11.
+
+**The evidence that it worked is a transcript, not a rate.** The workhorse still passes it, and on
+the hardened task it now says:
+
+> "…28 requarantine), so it is void and the governing lift is the one on **2034-04-11**. The
+> earlier QA note pointing at CC-1087 was explicitly the misguess the policy warns about —
+> CC-1087's second entry is an `annotation`, which never counts as a lift."
+
+The rule is being applied where before it could be skipped, and the decoy is being rejected by the
+amendment that rules it out. **A hardening that does not move the pass rate is not a failed
+hardening** (D7-37); what would be a failure is a hardening that moves the rate by making the task
+ambiguous, and the same edit closed an ambiguity rather than opening one — the amendment previously
+said what happens when the earliest lift falls after the most recent quarantine and said *nothing*
+about the case where it does not.
+
+### `m05-cheap-glm` — the card now settles the attribution, so the removed subcheck comes back
+
+D7-22 removed the fixlog-content subcheck after three independent readers gave three different
+attributions of the same correct fix, and the diagnosis was exact: the card stated the fuel *rate*
+in R5 and the fuel *exclusions* in R4, R6 and R7 and never said which owned the fuel *base*, and no
+wording of a reporting convention can settle a question the source of truth does not answer.
+
+The card now answers it. R5 carries "This rule, and no other, defines what the fuel line is
+computed on"; R4, R6 and R7 no longer mention fuel. The subcheck is restored, 5 -> 6, so a correct
+calculator with a wrong attribution now scores 5/6 instead of 5/5.
+
+**The evidence that it worked is a fourth independent reader.** Asked to derive the answer before
+looking at the reference, Luna returned **R2 and R5 `CORRECTED`, the other six `MATCHES`** — the
+reference's attribution, unprompted, quoting the sentence that settles it. Against three readers
+giving three answers on the old card, that is the difference between a convention stated and an
+authority established.
+
+### `m06-main-glm` — labelled, not hardened
+
+Mode 6 hands the model a failing test suite and the traceback names the file holding the defect.
+No rung of the ladder reaches around that: more material does not help when the failure names its
+own file, and the plausible wrong course (edit the assertion) is already there. It is
+**intrinsically short-traversal**, which is what its `NOTES.md` and the v7 handoff already said.
+Under owner's ruling 2 it stays and is labelled, because only one other task covers mode 6.
