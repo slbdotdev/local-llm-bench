@@ -1277,3 +1277,25 @@ applied is a budget nobody has ever calibrated**: 5 turns for "read the tree, fi
 helper, find the separator statement, edit one function, verify" is tight for an agentic loop that
 spends a turn per tool call, and the repeat trials will say whether 9 is typical. The number goes
 in the report either way. A declared budget that is only quoted when it is met is not a check.
+
+## D7-37 — the m09 hardening worked and the pass rate did not move, and those are two different results
+
+*05:15.* First repeat trial on the hardened `m09-main-glm`: **6/6 `correct`**. The task got harder
+and the workhorse still cleared it. The transcript says why, and it is the outcome a hardening
+wants rather than a hardening that failed:
+
+> "…28 requarantine), so it is void and the governing lift is the one on **2034-04-11**. The
+> earlier QA note pointing at CC-1087 was explicitly the misguess the policy warns about —
+> CC-1087's second entry is an `annotation`, which never counts as a lift."
+
+Before the edit the model could reach the reference answer by taking the first `lifted` entry it
+met and never opening the amendment log. After it, the same model **names the requarantine, applies
+the proviso, voids the earlier lift, and rejects the decoy by the amendment that rules it out**.
+The task now measures the thing it claims to measure; the quant happens to be able to do it.
+
+Recorded because the two are easy to conflate and the plan's ladder invites the conflation. "Harder
+to reach, not harder to understand" is a property of the *task*, verified by a reader deriving the
+new answer unprompted from the material (D7-35) and by the transcript showing the rule being
+applied. Whether the pass rate falls is a property of the *quant*. A hardening that does not move
+the rate is not a failed hardening; a hardening that moves the rate by making the task ambiguous is
+a failed hardening that looks like a success, and that is the one the ladder exists to prevent.
