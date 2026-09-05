@@ -860,3 +860,45 @@ closed on its own uncertainty is the only kind worth adding.
 Verified before restarting: 30 tags visible, `q27-Q3_K_S` absent, `q27-IQ3_M` absent,
 `q27-IQ2_M` present. Phase B now prints
 `== skipping, no tag on the daemon (rejected and removed): IQ3_M, Q3_K_S`.
+
+## D6-36 — correcting D6-34: Q2_K does not ramble, its 64k *cell* is pathological
+
+*23:02.* D6-34 read Q2_K's 584 s t03 as a quant that "rambles — it burns the clock in reasoning
+and over-long output". **That reading is wrong**, and the 48k sentinel refutes it. Same quant,
+same task, one rung apart, both cells at 100% GPU, no errors, no retries, no timeouts:
+
+| Q2_K t03 | cell | turns | out tok | **peak prompt** | wall | **achieved out tok/s** | s/turn |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| at 64k | 13.07 GB, 100% | 13 | 2,761 | **16,098** | **584.1 s** | **4.7** | **44.9** |
+| at 48k | 12.46 GB, 100% | 7 | 1,101 | **15,914** | **31.2 s** | **35.3** | **4.5** |
+
+**The model saw the same amount of context in both — 16.1k against 15.9k peak prompt — and one
+took ten times as long per turn.** The only difference between the cells is the *allocated*
+`num_ctx`: 65,536 against 49,152. Not the material, not the achieved occupancy, not residency,
+not the GPU split.
+
+And it is not "64k is slow" in general: **Q2_K_L runs the same task in the same 64k window in
+31.0 s.** It is this quant in this cell.
+
+So the corrected finding is sharper than the one it replaces: **a cell can place perfectly clean
+— under the resident line, 100% GPU, 45 tok/s generation, 1,361 tok/s prefill — and still cost
+10x per turn on real work, and the cost tracks the context you *allocated* rather than the
+context you *used*.** Q2_K's g03 numbers that I read as verbosity (18,097 tokens, 1,508 a turn,
+`length` stop, the campaign's first `visibly_failed`) sit at 64k too, and at 48k the same quant
+produced 27,816 tokens across 45 turns at **46.4 achieved tok/s** — the most productive cell
+measured tonight. Nothing about Q2_K is verbose; its 64k cell is broken in a way no phase 0
+number detects.
+
+**I do not know the mechanism and will not guess one in the report.** The candidates I can name
+but not distinguish with the data I have: prompt-cache invalidation that scales with allocated
+KV, a flash-attention kernel or batch choice that changes at a size threshold, or per-turn cache
+shifting over the full allocation. Distinguishing them needs a probe this campaign has no time
+for, and it is the single most valuable thing v7 could run: **hold the task and the achieved
+context fixed and sweep `num_ctx` alone.** If the effect reproduces, the fleet has been sizing
+context windows by what fits rather than by what performs, and 96k IQ2_M may carry the same
+hidden tax.
+
+D6-34's three consequences stand unchanged — placement and sentinels are not substitutes,
+t03-as-speed-gate earned its keep, and achieved out tok/s is the headline number. Only the
+*cause* was wrong, and it was wrong because I inferred a mechanism from one cell instead of
+waiting for the controlled comparison that was already scheduled.
