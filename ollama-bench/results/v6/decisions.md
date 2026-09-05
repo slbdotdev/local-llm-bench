@@ -555,3 +555,36 @@ in v7 — and because the alarm is the only reason I know about it at all. A mon
 only for things ending would have reported this fifteen-minute hole as healthy progress.
 
 Cost of the fault: about 15 minutes of GPU time out of a night budgeted at 11 hours.
+
+## D6-28 — owner's order: no more downloads tonight; rank 3 deferred, partials preserved
+
+*21:46.* Owner's order relayed by the coordinator: **no further model downloads tonight, the
+bandwidth is needed elsewhere.** The `UD-IQ3_S` (reserve rank 3) pull started at 21:45 under
+D6-24 was killed by the coordinator, along with its `ollama.exe pull` client.
+
+What I checked and did, in order:
+
+1. **The retry loop was the real hazard, and it did not fire.** `reserve_pull.sh` retries a
+   failed pull once before giving up, so a kill mid-download is exactly the shape that makes it
+   start over. Verified by process list that `pull2.sh`, `pull3.sh` and `reserve_pull.sh` are
+   all gone, and by command-line match — never by image name, since the daemon and its model
+   runner share it — that the only `ollama.exe` alive is the daemon, pid 19824, with no `pull`
+   client. **No retry relaunched and none can: every script that could invoke a pull is dead.**
+2. **Nothing is gated on a download any more.** The only pull-gated wait was phase A5's, and it
+   is already past it: `mrIQ3M` landed at 21:45:31, was stripped, and is being placed now with
+   the GPU at 98%. `chainB.sh` waits on `.phaseA5-done` and `chainCDE.sh` on `.phaseB-done` —
+   both GPU-readiness flags, neither a download. No re-gating was needed; confirmed rather than
+   assumed.
+3. **The partial blobs stay.** `sha256-d847e2c1…-partial` is 12.04 GB — the full file size, so
+   the pull was all but complete — plus sixteen tiny `-partial-N` chunk files.
+
+**Guard, and this is the one that could go wrong.** My own orphan-blob cleanup from D6-10 was
+`rm -f COPY* *-partial *-partial-0`, and the unreferenced-blob scan I use to find reclaimable
+space lists **every one of these sixteen files as unreferenced, 12.0 GB of apparently free
+space.** It is not free space, it is a deferred download. **No blob cleanup runs for the rest of
+this session, and the end-of-night tidy does not touch `~/.ollama/models/blobs`.** C: has 46.9
+GB free, so nothing needs reclaiming anyway.
+
+Consequence for the campaign: none. Rank 3 was already outside the scored plan under D6-24 — on
+disk for v7, not queued for phase B or C — so deferring it changes no row. The GPU continues on
+the seven candidates already on the daemon.

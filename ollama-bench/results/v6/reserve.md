@@ -35,7 +35,7 @@ printf 'FROM %s\nPARAMETER num_ctx %s\n' "<src>" 65536 > /tmp/mf && ollama creat
 | ---: | --- | --- | ---: | :---: | --- |
 | ~~1~~ | ~~`UDQ3KXL`~~ | ~~`hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL`~~ | 13.15 | yes | **pulled 2026-09-05 20:59 (D6-13)**, ahead of a rejection, because IQ3_XXS reached only `marginal` at 64k and a dynamic 3-bit at Q2_K_L's file size is the only remaining way the campaign's headline question is answered yes |
 | ~~2~~ | ~~`mrIQ3M`~~ | ~~`hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-IQ3_M`~~ | 12.77 | yes | **pulled 2026-09-05 21:15 (D6-20)** as the swap for rejected Q3_K_S |
-| ~~3~~ | ~~`UDIQ3S`~~ | ~~`hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S`~~ | 12.04 | yes | **pulled 2026-09-05 21:24 (D6-24)** as the swap for rejected IQ3_M; on disk but **not yet placed** — queued behind phase E |
+| ~~3~~ | ~~`UDIQ3S`~~ | ~~`hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S`~~ | 12.04 | yes | **pull started 2026-09-05 21:24 (D6-24), STOPPED 21:45 on the owner's order (D6-28)**. Not on the daemon. Its blob is on disk as `sha256-d847e2c1e4aa276e4b7b8e9ad7628050e61e165d49ab995407bc36677a6f3864-partial`, 12.04 GB — the full file size, so the download was all but complete and should resume quickly. **Do not delete these partials** |
 | 4 | `GSQIQ3S` | `hf.co/ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S` | 11.77 | yes | a research-lab quantisation method (GSQ-RCO), not a llama.cpp default; the one genuinely different algorithm in the sweep |
 | 5 | `mrQ3KM` | `hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-Q3_K_M` | 13.50 | yes | Q3_K_M at 48k was degraded from bartowski's 14.61 GB file; this one is 1.1 GB smaller and may pass 48k, possibly 64k |
 | 6 | `UDIQ3XXS` | `hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_XXS` | 10.93 | yes | dynamic IQ3_XXS, 1.7 GB under bartowski's; a 128k candidate at 3 bits |
@@ -62,10 +62,16 @@ add a line if a later sweep finds a better one.
 - **rank 2 `mrIQ3M`, pulled 2026-09-05 21:15** (`decisions.md` D6-20), as the swap for
   **Q3_K_S**, rejected because its only rung (48k) prefills at 76 tok/s — a 571-second wait
   before the first token — while generating at a healthy 41 tok/s and reporting 100% GPU.
-- **rank 3 `UDIQ3S`, pulled 2026-09-05 21:24** (`decisions.md` D6-24), as the swap for
-  **IQ3_M**, rejected at 14.98 GB and 89% GPU on its only rung. **On disk, not yet placed**:
-  the campaign is limited by scored-trial time rather than by candidates, so its placement is
-  queued behind phase E. First thing for the next session if this one does not reach it.
+- **rank 3 `UDIQ3S`, pull started 2026-09-05 21:24, stopped 21:45** (`decisions.md` D6-24,
+  D6-28), as the swap for **IQ3_M**, rejected at 14.98 GB and 89% GPU on its only rung. The
+  owner needed the bandwidth, so **no further download ran that night**. The blob is on disk as
+  a `-partial` at its full 12.04 GB with sixteen chunk files beside it, so
+  `ollama pull hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S` should finish almost immediately when
+  it is next allowed. **These partials look like 12 GB of unreferenced reclaimable space to any
+  blob-cleanup scan and must not be deleted.** Strip its projector before placing it (D6-11).
+
+**Nothing else in this list was pulled.** Ranks 4 to 7 are untouched and the whole file below
+rank 3 stands as written.
 
 ## What the v6 placement pass adds to this file
 
