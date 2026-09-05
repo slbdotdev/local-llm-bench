@@ -1,0 +1,90 @@
+{
+ "q27-Q2_K_L-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 25748,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 350.5,
+    "turns": 36,
+    "tool_calls": 43,
+    "tools": {
+     "bash": 29,
+     "read": 3,
+     "edit": 11
+    },
+    "in_tokens": 606833,
+    "out_tokens": 16533,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/14\nFAIL ['all sources compile', 'all modules import']\nVERDICT confidently_wrong",
+    "score": 0.8571,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15569,
+    "final_text": "`/`build_many`, `registry.build_from_name`\n- The test call `core.make_badge(\"A\", tone=\"red\")`\n\n**Verification:**\n- `python tests/test_badges.py` \u2192 exit 0 (doctest via `testmod` also: `TestResults(failed=0, attempted=1)`)\n- `make_tag` string appears nowhere in the tree (grep returns nothing)\n- No reordering, no prose/non-Python changes, no new artifacts; package remains pure standard-library Python",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 35,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 16502,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 31.0,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 5,
+     "write": 1
+    },
+    "in_tokens": 62023,
+    "out_tokens": 1043,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15457,
+    "final_text": " Named decision owner (team/assignee excluded) |\n| deadline | `\"2034-11-18\"` | Committed ISO date |\n| room | `\"Juniper-2\"` | Physical verification room |\n| escalation_code | `\"MERIDIAN-9\"` | Policy escalation code (not RELAY-17/AP-17) |\n\nExcluded as non-baseline: MR-42 emergency values (rejected), P-16 (superseded), dashboard percentages, build \"Juniper\" label, bridge name, and agenda target date.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 30887 chars exceeded 24000; truncated 14887 chars (~48%) from the middle",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "q27-IQ3_XS-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 26155,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 437.9,
+    "turns": 23,
+    "tool_calls": 26,
+    "tools": {
+     "bash": 19,
+     "read": 3,
+     "write": 3,
+     "edit": 1
+    },
+    "in_tokens": 394742,
+    "out_tokens": 11233,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 13/14\nFAIL ['pipeline integration']\nVERDICT confidently_wrong",
+    "score": 0.9286,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.34,
+    "ps_vram_gb": 13.38,
+    "ps_pct_gpu": 93,
+    "nvidia_smi_peak_mib": 15474,
+    "final_text": "lls keep the default.\n4. **Verified**: all modules under `badges/` import cleanly, `grep` finds zero remaining `make_tag` (identifier or reflected string) in any file, the original definition/statement order and test assertion order are untouched, and the supplied test passes:\n   ```\n   PYTHONPATH=. python tests/test_badges.py  \u2192  TEST_PASSED\n   ```\n   (includes the `doctest.testmod(core)` check).",
+    "stderr": "Warning: Model \"q27-IQ3_XS-48k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 31744 chars exceeded 24000; truncated 15744 chars (~50%) from the middle",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 22,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 13209,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 53.1,
+    "turns": 10,
+    "tool_calls": 13,
+    "tools": {
+     "bash": 3,
+     "read": 9,
+     "write": 1
+    },
+    "in_tokens": 76859,
+    "out_tokens": 1252,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.34,
+    "ps_vram_gb": 13.38,
+    "ps_pct_gpu": 93,
+    "nvidia_smi_peak_mib": 15474,
+    "final_text": "`decision_owner`: \"Mara Chen\" (named person, not team/assignee)\n- `deadline`: \"2034-11-18\" (committed ISO date, not 2034-10-31 agenda target)\n- `room`: \"Juniper-2\" (physical room, not zone/bridge/Juniper-1)\n- `escalation_code`: \"MERIDIAN-9\" (not RELAY-17 or MERIDIAN-8)\n\nThe rejected MR-42 override, P-16 superseded values, and fixture/dashboard forms were all excluded per approval status and scope.",
+    "stderr": "Warning: Model \"q27-IQ3_XS-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 9,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

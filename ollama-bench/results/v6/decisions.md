@@ -1088,3 +1088,41 @@ GPU idleness, all of it self-inflicted and all of it found by the alarm rather t
 
 Chain restarted at 23:53. Q2_K's t03 at 64k is being re-measured in situ, which is the point of
 the quarantine.
+
+## D6-42 — phase B closes: six survivors, no rejections, no demotions
+
+*00:01.* The sentinel pass is complete. Reference t03: **31.0 s at 64k, 25.4 s at 48k**.
+
+| # | quant | rung | t03 | x ref | g03 timed out |
+| ---: | --- | --- | ---: | ---: | :---: |
+| 1 | IQ2_M | 64k | 32.7 s | 1.05x | yes |
+| 2 | Q2_K | 64k | 32.9 s | 1.06x | no |
+| 3 | IQ3_XXS | 48k | 35.2 s | 1.39x | no |
+| 4 | mrIQ3M | 48k | 46.5 s | 1.83x | no |
+| 5 | UDQ3KXL | 48k | 49.5 s | 1.95x | no |
+| 6 | IQ3_XS | 48k | 53.1 s | 2.09x | no |
+
+**Nothing was rejected and nothing was demoted.** The spread runs 1.05x to 2.09x with no gap in
+it — a very different picture from the one I had at 22:48, when Q2_K appeared to sit at 18.8x
+and was demoted for it. That entry was the contaminated trial (D6-40), and with it removed the
+ordering is unremarkable, which is the correct outcome: **six quants that all placed cleanly all
+run the bend-exposing task at between one and two times the reference.**
+
+Two things the table is honest about rather than hiding:
+
+- **IQ3_XS is in this list at 2.09x on a `marginal` placement** (14.34 GB, over the line, 93%
+  GPU). It survived because the sentinel gates wall-clock at 3x and it is inside that. Its row
+  in the report carries the marginal label, per D6-33.
+- **IQ2_M leads the ordering and still has `g03_timed_out`.** Under D6-32 a g03 timeout is
+  recorded, not punished, because g03 is the quality sentinel and t03 is the speed one. It is
+  the only quant carrying that flag and the report will say so beside its 96k placement rather
+  than let the ordering imply an unblemished row.
+
+Both rejections in this campaign therefore came from **placement**, not from the sentinels:
+Q3_K_S on the prefill gate and IQ3_M on spill, both before a single scored trial was spent on
+them. Reject-early did what plan section 6 designed it to do — the two quants that could not
+work were off the disk before they cost any GPU time, and the reserve entries that replaced them
+(UDQ3KXL, mrIQ3M) both survived to phase C.
+
+Phase C is running, ordered best-first, so a short night leaves the strongest candidates with
+complete rows.

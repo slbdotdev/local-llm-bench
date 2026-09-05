@@ -1,0 +1,91 @@
+{
+ "q27-UDQ3KXL-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 21411,
+    "task": "g03",
+    "pass": true,
+    "wall_s": 294.6,
+    "turns": 27,
+    "tool_calls": 46,
+    "tools": {
+     "bash": 24,
+     "read": 2,
+     "edit": 20
+    },
+    "in_tokens": 394718,
+    "out_tokens": 13743,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 14/14\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.45,
+    "ps_vram_gb": 13.45,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15456,
+    "final_text": " `normalizing.py`, `operations/window.py`, `rules/priority.py`, `storage/migrations.py`, `thresholds.py`, `transformers.py`, `variants.py`).\n\n**Verification**\n- `grep make_tag` \u2192 zero occurrences left in Python source\n- All 174 package modules import cleanly; all compile\n- `python tests/test_badges.py` (run from the tree root with the package on the path) exits 0, including `doctest.testmod(core)`",
+    "stderr": "Warning: Model \"q27-UDQ3KXL-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 26,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 18266,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 49.5,
+    "turns": 10,
+    "tool_calls": 18,
+    "tools": {
+     "bash": 6,
+     "read": 11,
+     "write": 1
+    },
+    "in_tokens": 111431,
+    "out_tokens": 1959,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.45,
+    "ps_vram_gb": 13.45,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15458,
+    "final_text": "the booked physical verification room, not the building or the relay-review-17 bridge\n- **escalation_code**: `\"MERIDIAN-9\"` \u2014 RELAY-17 is a ticket and MERIDIAN-8/ALERT-90 are stale/panel identifiers\n\nThe rejected MR-42 emergency request and the simulation history branch left no effective changes, as confirmed by the 07-01 audit record. The file is valid JSON with exactly the eight required fields.",
+    "stderr": "Warning: Model \"q27-UDQ3KXL-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 9,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

@@ -1,0 +1,99 @@
+{
+ "q27-Q2_K-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 28436,
+    "task": "g03",
+    "pass": true,
+    "wall_s": 600.1,
+    "turns": 45,
+    "tool_calls": 55,
+    "tools": {
+     "bash": 26,
+     "read": 14,
+     "write": 4,
+     "edit": 11
+    },
+    "in_tokens": 751412,
+    "out_tokens": 27816,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason",
+     "Stream ended without finish_reason"
+    ],
+    "grader": "SCORE 14/14\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 12.46,
+    "ps_vram_gb": 12.46,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14538,
+    "final_text": "The test passed. Let me do a final verification pass to confirm everything is clean:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "error",
+    "stop_reasons": {
+     "toolUse": 40,
+     "error": 4,
+     "length": 1
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 15914,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 31.2,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 5,
+     "write": 1
+    },
+    "in_tokens": 65555,
+    "out_tokens": 1101,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 12.46,
+    "ps_vram_gb": 12.46,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14515,
+    "final_text": " team)\n  - deadline: `\"2034-11-18\"` (ISO)\n  - room: `\"Juniper-2\"` (physical room)\n  - code: `\"MERIDIAN-9\"` (not RELAY-17 / AP-17)\n\nWrote `answer.json`:\n\n```json\n{\n  \"approved_cadence\": \"biweekly\",\n  \"budget_cap_usd\": 47200,\n  \"retention_days\": 45,\n  \"alert_threshold\": \"0.82\",\n  \"decision_owner\": \"Mara Chen\",\n  \"deadline\": \"2034-11-18\",\n  \"room\": \"Juniper-2\",\n  \"escalation_code\": \"MERIDIAN-9\"\n}\n```",
+    "stderr": "Warning: Model \"q27-Q2_K-48k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 25242 chars exceeded 24000; truncated 9242 chars (~37%) from the middle\npi-run-resilience: tool output 42609 chars exceeded 24000; truncated 26609 chars (~62%) from the middle",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

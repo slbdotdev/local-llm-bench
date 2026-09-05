@@ -1,0 +1,90 @@
+{
+ "q27-Q2_K_L-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 31024,
+    "task": "g03",
+    "pass": true,
+    "wall_s": 452.5,
+    "turns": 37,
+    "tool_calls": 48,
+    "tools": {
+     "bash": 25,
+     "read": 13,
+     "edit": 10
+    },
+    "in_tokens": 705622,
+    "out_tokens": 22155,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 14/14\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 12.74,
+    "ps_vram_gb": 12.74,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14836,
+    "final_text": "The supplied test uses the old positional form per the spec \u2014 calls that provide a tone must pass it by keyword. I'll update that call (a minimal change required for the new interface):\n\n",
+    "stderr": "Warning: Model \"q27-Q2_K_L-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "toolUse": 36,
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 13809,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 25.4,
+    "turns": 6,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 4,
+     "write": 1
+    },
+    "in_tokens": 44945,
+    "out_tokens": 850,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 12.74,
+    "ps_vram_gb": 12.74,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 14833,
+    "final_text": "ncy gate; 2034-10-31 was only an agenda target)\n- **Room**: `Juniper-2` (physical verification room; \"Juniper\" is the building zone, relay-review-17 the bridge)\n- **Escalation code**: `MERIDIAN-9` (RELAY-17 is a work ticket, MERIDIAN-8 pre-approval)\n\nMR-42 (emergency override) was rejected and not effective, so it does not alter the baseline. `answer.json` written with exactly the required fields.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "q27-IQ3_XXS-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 17912,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 285.8,
+    "turns": 29,
+    "tool_calls": 34,
+    "tools": {
+     "bash": 26,
+     "read": 7,
+     "write": 1
+    },
+    "in_tokens": 356891,
+    "out_tokens": 13941,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 13/14\nFAIL ['pipeline integration']\nVERDICT confidently_wrong",
+    "score": 0.9286,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15439,
+    "final_text": "atement order, prose documentation, and all non-Python files.\n\n**Verification:**\n- All modules compile (`py_compile`).\n- Zero remaining `make_tag` identifiers (and zero reflected strings) in the source tree.\n- `inspect.signature` confirms the exact required interface.\n- The supplied test passes: `PYTHONPATH=. python tests/test_badges.py` \u2192 all assertions, including the executable doctest, succeed.",
+    "stderr": "Warning: Model \"q27-IQ3_XXS-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 28,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 16939,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 35.2,
+    "turns": 7,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 7,
+     "write": 1
+    },
+    "in_tokens": 64317,
+    "out_tokens": 1350,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15040,
+    "final_text": "gree across the effective component records: policy module (biweekly cadence, 45-day primary retention), finance (47200 USD, not the 48000 reserve or 50000 incident threshold), alerts (\"0.82\" string fraction, not 82%; MERIDIAN-9, not MERIDIAN-8/RELAY-17/ALERT-90), governance (Mara Chen as named owner, not a team/action assignee; 2034-11-18 ISO date), and locations (Juniper-2, not Juniper-1 draft).",
+    "stderr": "Warning: Model \"q27-IQ3_XXS-48k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 34194 chars exceeded 24000; truncated 18194 chars (~53%) from the middle",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}
