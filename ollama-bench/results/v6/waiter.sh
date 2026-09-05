@@ -9,11 +9,11 @@
 # so rather than staying quiet.
 V6=/mnt/d/local-llm-bench/ollama-bench/results/v6
 RES=/mnt/d/local-llm-bench/ollama-bench/results
-# 25 minutes, not 15: a single large-band trial may legitimately run the full 600 s timeout,
-# and cells that RESUME from an existing artifact write nothing at all, so a run of resumed
-# cells followed by one slow trial can pass 15 minutes of silence while perfectly healthy.
-# That produced a false alarm at 23:21 with the GPU at 97%.
-STALL_MIN=25
+# Back to 15 minutes (D6-41). It was raised to 25 after a false alarm, but the alarm now prints
+# GPU utilisation beside the complaint, which tells the two cases apart at a glance: "GPU 97%"
+# is a long trial running normally, "GPU 0%" is a dead chain. A discriminating alarm should fire
+# early; a silent one cost 26 minutes of idle GPU on the one night that mattered.
+STALL_MIN=15
 seen=""
 last_change=$(date +%s)
 last_stamp=""

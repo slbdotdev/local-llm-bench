@@ -1056,3 +1056,35 @@ before it shipped. Every time, a real measurement was compared against something
 different conditions. **A single trial is a claim about one moment on one machine.** The campaign
 already had the right instinct written into it — phase D exists because one trial is not a
 verdict — and I published a headline from one anyway, twice, within twenty minutes.
+
+## D6-41 — I killed the chain to fix an artifact and never restarted it: 26 minutes of idle GPU
+
+*23:53.* The stall alarm fired with **GPU 0% busy** and it was right. At 23:26 I stopped the
+chain to quarantine the contaminated Q2_K trial (D6-40), did the surgery, wrote up the
+withdrawal, committed — and never started the chain again. The GPU sat idle from 23:26 to 23:53.
+
+This is the same failure as D6-27 in a different costume: there the GPU idled because I gated a
+GPU phase behind a download, here because a stop and a start were two separate actions and only
+the first happened. **All evening I have been killing and relaunching the chain by hand, five or
+six times, and it worked every time until the once it did not.**
+
+Two fixes, both about making the good path the only path:
+
+1. **`restart_chain.sh` makes stop-and-start atomic.** Killing without restarting is never what
+   this campaign wants, so the two are now one command — it stops the chain's process group,
+   clears the pi children by ancestry, relaunches, and then **verifies the chain is actually
+   alive**, printing `FAILED TO RESTART -- the GPU is idle, fix this now` and exiting non-zero if
+   not. Every future intervention goes through it.
+2. **The stall threshold goes back to 15 minutes.** I raised it to 25 at 23:22 after a false
+   alarm (D6-38), and that decision directly cost ten of these twenty-six minutes. The reason it
+   is safe to lower again is that the alarm now prints **GPU utilisation** beside the complaint,
+   which separates the two cases at a glance: `GPU 97% busy` is a long trial running normally,
+   `GPU 0% busy` is a dead chain. **The right response to a false alarm was to make the alarm
+   more discriminating, not quieter** — I did the lazy half first and paid for it within thirty
+   minutes.
+
+Cost tonight: 26 minutes here, 15 at D6-27, about 41 minutes of an eleven-hour budget lost to
+GPU idleness, all of it self-inflicted and all of it found by the alarm rather than by me.
+
+Chain restarted at 23:53. Q2_K's t03 at 64k is being re-measured in situ, which is the point of
+the quarantine.
