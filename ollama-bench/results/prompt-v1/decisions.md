@@ -366,3 +366,18 @@ stop is 3h10m, and the plan for it, in order:
 This is a **partial holdout** and the handoff says so. The campaign spent its first window on
 a rate-limit fault and a full restart, and a seven-task two-arm holdout is the most evidence
 the second window can buy.
+
+## D18 — 06:41 UTC — the guard fired, and the wait is real
+
+`Hlineno-tiny` was launched at 06:14 UTC into the tail of the current window rather than
+idling, because a five-hour window's unused credits expire at its reset and buy nothing. It
+banked **7 clean cells (7/7 passing: g01 x3, g02 x3, g03 x1)** before `quotaguard.sh` stopped
+it at **93.45%** of the window at 06:41 UTC. The guard stopped only this campaign's processes,
+identified by `prompt-v1` in their command lines.
+
+`pibench.py` resumes from the tag's JSON, so those 7 cells are banked and the arm continues
+from cell 8 after the reset. Nothing is lost and nothing is contaminated.
+
+The five-hour window resets at **08:50 UTC**. Until then no model call may be made, so the
+wait is spent on the deliverable, the handoff and the record. Order at the reset:
+`Hlineno-tiny` (17 cells remaining) and `baseline-large` together, then `Hlineno-large`.

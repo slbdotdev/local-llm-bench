@@ -3,3 +3,10 @@
 === attempt 1: 0/24 cells filled, 2026-09-05T00:14:11-06:00
 
 ===== glm-5.3-flash =====
+  g01              #0 PASS  227.3s turns=9 tools=9 out=10594 VERDICT=correct STOP=stop
+  g01              #1 PASS  216.8s turns=9 tools=9 out=8942 VERDICT=correct STOP=stop
+  g01              #2 PASS  293.0s turns=15 tools=15 out=11389 VERDICT=correct STOP=stop
+  g02              #0 PASS   64.9s turns=6 tools=7 out=2138 VERDICT=correct STOP=stop
+  g02              #1 PASS   51.6s turns=5 tools=6 out=1933 VERDICT=correct STOP=stop
+  g02              #2 PASS  208.6s turns=21 tools=11 out=3470 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #0 PASS  278.2s turns=7 tools=13 out=11787 VERDICT=correct STOP=stop
