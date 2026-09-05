@@ -381,3 +381,23 @@ from cell 8 after the reset. Nothing is lost and nothing is contaminated.
 The five-hour window resets at **08:50 UTC**. Until then no model call may be made, so the
 wait is spent on the deliverable, the handoff and the record. Order at the reset:
 `Hlineno-tiny` (17 cells remaining) and `baseline-large` together, then `Hlineno-large`.
+
+## D19 — 07:10 UTC — hand-off with the campaign unfinished
+
+The control session is handing off before the 08:50 UTC reset, so no session will be present
+when `resume_after_reset.sh` fires. `handoff-2026-09-06.md` is therefore written from what
+exists — baseline and H complete, `Hlineno` partial at 7/24, no holdout — and carries a
+**How to re-attach** section with the exact commands to check whether the resume fired, read
+each arm from its JSON, detect rate-limit contamination, stop the arms and the guard cleanly,
+relaunch a single arm, and re-render the handoff once the holdout lands.
+
+`resume_after_reset.sh` and `quotaguard.sh` are **left armed and running detached**. At the
+reset the resume launches `Hlineno-tiny` (resuming at cell 8) and `base-large` (holdout,
+7 tasks) and writes `logs/endgame.started`. Nothing else is left running.
+
+One observation recorded here because it changes how a guard must be set: after every arm of
+this campaign was stopped at 06:41 UTC with the window at 93.5%, the reading kept climbing to
+100.0% by 06:51 — about 130 further credits over ten minutes with nothing of this campaign
+running. **The quota endpoint lags actual usage by several minutes**, so a reading is a floor
+rather than a current value, and a stop threshold has to leave room for the lag. The 78% first
+chosen would have been the safer number after all.
