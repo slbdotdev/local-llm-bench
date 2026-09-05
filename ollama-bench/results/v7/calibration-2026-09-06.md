@@ -226,3 +226,66 @@ interpreter. The defect that fell through was invisible on one side of that fork
 every single sandbox on the other. It was caught in the first twenty minutes of scored trials only
 because three rows in a row came back `unsafe` at a perfect score with no diagnostic, which was
 too tidy to be a model.
+
+## 7. What is unfinished, and what is genuinely the owner's
+
+### The 50% target is not reachable by task-level tuning, and this is the campaign's real result
+
+The plan asks for about 10 of 20 correct on the workhorse and gives the ladder to get there:
+harden by more material to reconcile, then a more plausible wrong course, then more serial steps.
+Two tasks were hardened by that ladder tonight, both from the list drawn up on authoring night on
+design grounds, both blind-reviewed and accepted. Two tasks move at most two slots. **The gap is
+nine.**
+
+It cannot be closed by doing eight more of the same, and not for want of hours. Section 1 says
+why: the tasks are solvable from a handful of targeted reads, so hardening any single one moves
+that one and teaches the suite nothing. The structural change the evidence asks for is one
+property, applied across the main band:
+
+> **A main-band task's answer must require reconciling facts from several files that cannot be
+> located from the prompt's own vocabulary — not merely be unreachable by one grep.**
+
+That is a re-authoring round on ten tasks, with the same roundtable and the same acceptance rule
+plus that one addition, and an acceptance test for it that can actually fail: **run the accepted
+task on the workhorse and require the achieved peak prompt to reach a stated fraction of the
+material.** Occupancy becomes a gate on the task rather than a caveat on the report. It is the
+first check in this toolchain that would have caught what section 1 found, and it costs one trial
+per candidate.
+
+Doing eight rushed hardenings tonight instead would have been worse than not doing them: with the
+suite at 95% and a 50% target, choosing which tasks to harden by which ones the quant passed is
+**selection by rate wearing the ladder's clothes**, and owner's ruling 4 forbids it in terms.
+
+### The list
+
+1. **The re-authoring round above.** The largest single thing v7 has learned about its own design,
+   and it is the owner's call whether to spend a round on it (D7-32).
+2. **`m06-main-glm` is labelled `short-traversal`, not hardened.** Mode 6 hands the model a failing
+   test whose traceback names the file holding the defect; no rung of the ladder reaches around
+   that. Under owner's ruling 2 it stays and is labelled, because mode 6 is covered by only one
+   other task (D7-34).
+3. **`m05-main-luna`'s scope gate may be stricter than its prompt.** The prompt forbids *modifying*
+   files and says nothing about *creating* one; the gate fails any created file. One reviewer (GLM)
+   read "Edit only the documentation" as covering both and accepted it. One reader is not two, and
+   the gate now names the file it objected to, so the next occurrence is adjudicable from the
+   artifact rather than guessed at (D7-31, D7-35).
+4. **The ZCode arm is still the only missing reference row**, unchanged from the v7 handoff.
+5. **`sanity.py` still defaults its sandboxes inside the repository.** It does not affect any row
+   here — pibench's sandboxes are in the Windows temp directory, outside every checkout (D7-29) —
+   but it is still true of the arm driver and `V7_SANDBOX_ROOT` still has to be set before any
+   future arm is run.
+6. **Mode 8's budget is applied here for the first time, and one row is over it.** That grader
+   cannot see turns or tokens by design; the budget is declared in `NOTES.md` and the manager
+   applies it from the bench's own fields. On the workhorse's first pass:
+
+   | task | declared budget | measured | verdict |
+   | --- | --- | --- | --- |
+   | m08-cheap-glm | 12 turns, 3,000 output tokens | 5 turns, 1,419 tokens | `correct`, **inside** |
+   | m08-main-luna | 5 turns, 900 output tokens | 9 turns, 1,267 tokens | `correct`, **over on both** |
+
+   The main-band row finished the assignment and stopped — it did not wander into the incident
+   report or the refactor TODO, which is what mode 8 measures — but it took nearly twice the
+   declared turns to do it. Whether that budget is too tight for a 27B quant or the row is a
+   genuine finishing cost is one trial's worth of evidence and is not settled here; the repeat
+   trials in section 4 are the place to read it, and the budget line belongs in every future
+   mode-8 report whether or not it is breached.
