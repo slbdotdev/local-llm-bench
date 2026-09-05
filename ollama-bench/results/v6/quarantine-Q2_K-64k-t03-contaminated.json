@@ -1,0 +1,90 @@
+{
+ "q27-Q2_K-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 25763,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 359.9,
+    "turns": 12,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 9,
+     "read": 2,
+     "write": 1
+    },
+    "in_tokens": 156235,
+    "out_tokens": 18097,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 7/14\nFAIL ['new symbol', 'old name absent', 'keyword-only signature', 'direct output', 'positional tone rejected', 'package export', 'definition order']\nVERDICT visibly_failed",
+    "score": 0.5,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15034,
+    "final_text": "The heredoc broke the regex. Let me write the script to a file:\n\n",
+    "stderr": "Warning: Model \"q27-Q2_K-64k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 30477 chars exceeded 24000; truncated 14477 chars (~48%) from the middle",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "toolUse": 11,
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 16098,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 584.1,
+    "turns": 13,
+    "tool_calls": 13,
+    "tools": {
+     "bash": 12,
+     "write": 1
+    },
+    "in_tokens": 141469,
+    "out_tokens": 2761,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15190,
+    "final_text": "sion_owner`: `\"Mara Chen\"` \u2014 named policy owner (escalation contact), not a team/assignee\n  - `deadline`: `\"2034-11-18\"` \u2014 effective committed date in ISO form (2034-10-31 was only a discussion target)\n  - `room`: `\"Juniper-2\"` \u2014 physical verification room (not building/bridge metadata)\n  - `escalation_code`: `\"MERIDIAN-9\"` \u2014 effective route (MERIDIAN-8 was pre-approval; RELAY-17 is a work ticket)",
+    "stderr": "Warning: Model \"q27-Q2_K-64k\" not found for provider \"ollama\". Using custom model id.\npi-run-resilience: tool output 28194 chars exceeded 24000; truncated 12194 chars (~43%) from the middle\npi-run-resilience: tool output 43010 chars exceeded 24000; truncated 27010 chars (~63%) from the middle",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 12,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

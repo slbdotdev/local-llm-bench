@@ -1007,3 +1007,52 @@ Cost: the in-flight mrIQ3M g03 sentinel restarts, about six minutes. Worth it �
 headline methodological claim that turns out to be another campaign's load would be the worst
 outcome available tonight. `recheck.sh` `exec`s the campaign chain when it finishes, so the
 night resumes by itself either way.
+
+## D6-40 — WITHDRAWN: D6-34 and D6-36. The 18.8x did not reproduce
+
+*23:26.* The recheck of D6-39 is in, and **my headline methodological finding was wrong.** Both
+quants, t03, one trial each, back to back in a single pibench invocation under identical
+contention:
+
+| t03 @ 64k | original | **recheck** | conditions |
+| --- | ---: | ---: | --- |
+| Q2_K_L | 31.0 s | **32.8 s** | 21:54 alone / 23:24 shared |
+| Q2_K | **584.1 s** | **48.9 s** | 22:38-22:48 overlapping the other campaign's start / 23:24 shared |
+| **ratio** | **18.8x** | **1.49x** | |
+
+Contention costs about **6%** on this machine, measured on Q2_K_L's own two runs — nowhere near
+enough to explain 1,780%. But Q2_K's 584 s **does not reproduce at all**, and 48.9 s against a
+32.8 s contemporaneous reference is an ordinary quant-to-quant difference, not a pathology.
+
+**Withdrawn in full: D6-34 ("placement does not predict agentic performance, and Q2_K is the
+proof") and D6-36 ("Q2_K's 64k cell is pathological").** Both were built on that single trial.
+The most likely cause of the outlier is what the timing points at: the other campaign started at
+22:44 and would have loaded its own model onto a 16 GB card already holding Q2_K-64k's 13.07 GB,
+and Ollama juggling two models across that boundary is exactly the shape of a one-off collapse
+to 4.7 achieved tok/s. **That is a finding about sharing a GPU, not about a quantisation.**
+
+What survives, and what does not:
+
+- **Does not survive:** any claim that a clean placement fails to predict real work. On this
+  evidence placement and the sentinels agree.
+- **Survives, because it was measured before 22:44 and is unrelated:** Q2_K's g03 at 64k —
+  18,097 output tokens in 12 turns, `length` stop, the campaign's first `visibly_failed`. That
+  ran 22:32-22:38, uncontended. It is one trial and now stands alone, so it is reported as an
+  observation and not as a characterisation of the quant.
+- **Survives and is strengthened:** D6-32's split of the sentinel by task role. It was the
+  *speed* sentinel that produced the false alarm here, and the retest is what caught it — the
+  rule did not silently reject anything, it demoted, and a demotion is recoverable.
+
+**Action taken.** The contaminated trial is removed from `results/v6-Q2_K-64k-large.json` and the
+whole original artifact is preserved at
+`results/v6/quarantine-Q2_K-64k-t03-contaminated.json` — no measurement is deleted, one is set
+aside with its reason. Phase B will re-measure Q2_K's t03 at 64k in situ rather than have a
+number hand-copied in from the recheck tag. On the recheck evidence Q2_K should then place at
+**64k, not demoted**, and the phase B ordering changes accordingly.
+
+**The lesson, which is the fourth instance tonight of one error.** D6-21 read a KV rate off a
+spilled cell; D6-26 read an i-quant overhead off two offloaded cells; D6-39 caught this one
+before it shipped. Every time, a real measurement was compared against something taken under
+different conditions. **A single trial is a claim about one moment on one machine.** The campaign
+already had the right instinct written into it — phase D exists because one trial is not a
+verdict — and I published a headline from one anyway, twice, within twenty minutes.
