@@ -422,3 +422,21 @@ Full reasoning in `decisions.md`.
   final message, so a run cut off after the deliverable was already right is `correct` (v7's
   D7-24 established this when three saturated GLM runs published empty answers over correct
   sandboxes). The timeout is still worth reporting beside the verdict, and it is in the table.
+
+## 12. What is genuinely the owner's
+
+1. **Whether to spend a re-authoring round on the traversal axis.** Section 7 states the property
+   and the acceptance test. Recommendation: **yes**, and it is the only change on the table that
+   would make this suite discriminate. Without it the suite reports that a 10 GB 2-bit quant and
+   GPT-5.6 are one task apart, which is a statement about the suite.
+2. **Whether the workhorse and its neighbours are the right three.** IQ2_M was named by the
+   control session from v6's phase D rows and recorded as D7-26 without owner confirmation, and
+   the run proceeded on it per the brief. Nothing here depends on it being confirmed after the
+   fact — the per-task tables are per quant — but the headline number is IQ2_M's.
+3. **Whether `m05-main-luna`'s scope gate should be widened to permit a created file**, which its
+   prompt does not forbid. Reviewed once and accepted; one reader is not two.
+4. **Ending the campaign and reading the result.**
+
+Everything else was the manager's and was taken: the rung, the bakes, the grader repair, the two
+hardenings, the labelling of `m06-main-glm`, the quarantine of three invalidated rows, and the
+decision not to harden eight more tasks tonight.
