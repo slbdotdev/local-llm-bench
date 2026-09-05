@@ -18,6 +18,7 @@ RES = os.path.dirname(HERE)              # .../ollama-bench/results -- where the
 BENCH = os.path.dirname(RES)             # .../ollama-bench -- where pibench.py lives
 sys.path.insert(0, HERE)
 from phaseC import admits, CTXNAME, run_cell, runs_for   # noqa: E402
+from gate import verdict_of                              # noqa: E402
 
 
 # The owner's just-in-time pull rule (D6-29): the deferred UD-IQ3_S download starts only when
@@ -60,7 +61,8 @@ def top_rung_any(quant):
     for r in json.load(open(os.path.join(HERE, "placement.json"), encoding="utf-8")):
         if r["quant"] != quant or r.get("has_projector"):
             continue
-        if r.get("verdict") not in ("pass", "marginal"):
+        v, _ = verdict_of(r)              # re-derive; the stored verdict may predate a rule (D6-35)
+        if v != "pass":                   # a stretch cell must be clean, never marginal (D6-33)
             continue
         if best is None or r["num_ctx"] > best["num_ctx"]:
             best = r

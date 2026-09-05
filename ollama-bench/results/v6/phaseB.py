@@ -11,7 +11,10 @@ the strongest candidates with complete rows.
 
 Run: python3 results/v6/phaseB.py     (WSL python; it shells out to runcell.sh)
 """
-import json, os, subprocess, sys, time
+import json, os, subprocess, sys, time, urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gate import verdict_of
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.dirname(HERE)              # .../ollama-bench/results -- where the tag JSONs live
@@ -21,7 +24,44 @@ CTXNAME = {49152: "48k", 65536: "64k", 98304: "96k", 131072: "128k",
 
 
 def placement():
-    return json.load(open(os.path.join(HERE, "placement.json"), encoding="utf-8"))
+    """Placement records with verdicts RE-DERIVED through the shared gate (D6-35).
+
+    `placement.json` is append-only, so a record written before a gate rule existed still
+    carries its original verdict -- Q3_K_S-48k was stored `pass` and is `spill` under the
+    prefill rule of D6-19. The renderers already re-derived; the drivers did not, and phase B
+    duly tried to sentinel a quant that had been rejected and removed from the daemon hours
+    earlier.
+    """
+    recs = json.load(open(os.path.join(HERE, "placement.json"), encoding="utf-8"))
+    for r in recs:
+        r["verdict"], r["verdict_why"] = verdict_of(r)
+    return recs
+
+
+WIN_PY = "/mnt/c/Users/slb/scoop/apps/python/current/python.exe"
+
+
+def tags_on_daemon():
+    """Tag basenames the WINDOWS daemon serves, fetched through the Windows interpreter.
+
+    This must not be asked from WSL's own python: `localhost:11434` inside WSL is WSL's
+    loopback, and a WSL-side `ollama serve` answers it with zero models -- "`ollama list` from
+    WSL is a lie" (v5 handoff). Asking the wrong daemon here returns an empty set, which would
+    have looked exactly like "every quant has been rejected" and skipped the entire campaign.
+
+    Returns None on any doubt, and None means "do not filter".
+    """
+    try:
+        out = subprocess.run(
+            [WIN_PY, "-c",
+             "import json,urllib.request;"
+             "d=json.load(urllib.request.urlopen('http://localhost:11434/api/tags',timeout=30));"
+             "print('\\n'.join(m['name'].split(':')[0] for m in d['models']))"],
+            capture_output=True, text=True, timeout=90)
+        tags = {t.strip() for t in out.stdout.splitlines() if t.strip()}
+        return tags or None          # empty is never trusted
+    except Exception:
+        return None
 
 
 def rungs(quant, cap=65536):
@@ -86,6 +126,14 @@ def timed_out_task(quant, ctx, task):
 
 def main():
     quants = sorted({r["quant"] for r in placement()})
+    live = tags_on_daemon()
+    if live is not None:
+        gone = [q for q in quants
+                if not any(t.startswith("q27-%s-" % q) for t in live)]
+        if gone:
+            print("== skipping, no tag on the daemon (rejected and removed): %s"
+                  % ", ".join(gone), flush=True)
+        quants = [q for q in quants if q not in gone]
     # 1. Reference first, at both rungs a candidate can place on.
     print("== reference sentinels: Q2_K_L at 64k and 48k", flush=True)
     for ctx in (65536, 49152):

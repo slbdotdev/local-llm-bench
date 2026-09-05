@@ -828,3 +828,35 @@ Three consequences, and the first is the one for the report.
 
 Q2_K's 48k sentinel is running. If it rambles there too it is rejected outright, and the honest
 line will be that **Q2_K is the non-L 2-bit that fits everywhere and works nowhere.**
+
+## D6-35 — the drivers read stale verdicts, and the fix nearly walked into the WSL loopback trap
+
+*22:59.* Phase B began sentinelling **Q3_K_S** — a quant rejected at 21:15 whose every tag was
+deleted from the daemon. Two faults, the second worse than the first.
+
+**One: `placement.json` is append-only, so a record keeps the verdict it was written with.**
+Q3_K_S-48k was measured at 21:02, before the prefill gate existed (D6-19, 21:14), so it is
+stored `pass`. The renderers already re-derived verdicts through `gate.py` and showed it
+correctly as `spill`; **the drivers did not**, and read the raw field. Exactly one record in the
+campaign disagrees between stored and derived, and it is the one that sent phase B chasing a
+deleted model. Fixed: `phaseB.placement()` and `phaseDE.top_rung_any()` now re-derive through
+the shared gate, so a rule added at any hour reaches every record ever written.
+
+**Two, and this is the one that would have cost the night.** I added a belt-and-braces guard —
+skip any quant with no tag on the daemon — and wrote it as a plain `urllib` call to
+`localhost:11434` from the driver, which runs under **WSL's** python. It returned **zero tags**.
+`localhost:11434` inside WSL is WSL's own loopback, and a WSL-side `ollama serve` answers there
+with no models: "`ollama list` from WSL is a lie" is written down in the v5 handoff, and I
+walked into it anyway. An empty set from that call means "every quant has been rejected", so the
+guard I added to protect the run would have **skipped all nine quants and produced an empty
+campaign.**
+
+Caught only because I printed the count while testing rather than trusting the patch. Fixed
+twice over: the query now goes through the **Windows** interpreter, which is how every other
+daemon call in this campaign is made, and an empty result is treated as *unknown* and never as
+*everything is gone* — `return tags or None`, and `None` means do not filter. A guard that fails
+closed on its own uncertainty is the only kind worth adding.
+
+Verified before restarting: 30 tags visible, `q27-Q3_K_S` absent, `q27-IQ3_M` absent,
+`q27-IQ2_M` present. Phase B now prints
+`== skipping, no tag on the daemon (rejected and removed): IQ3_M, Q3_K_S`.
