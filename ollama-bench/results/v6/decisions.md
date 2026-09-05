@@ -623,3 +623,43 @@ Implemented rather than intended:
 
 Nothing else pulls. `pull2.sh` and `pull3.sh` are dead (D6-28) and `reserve_pull.sh` is invoked
 by nothing that still runs.
+
+## D6-30 — the scored rows do not fill the window they are placed in, and the report must say so
+
+*21:56.* The first two scored trials carry a caveat that changes how every quality number in
+this campaign should be read, so I am recording it now rather than discovering it in the
+morning.
+
+| trial | material | **peak prompt** | % of the 64k window | turns |
+| --- | ---: | ---: | ---: | ---: |
+| g03 @ 64k | 30,018 | **25,748** | **39%** | 36 |
+| t03 @ 64k | 30,604 | **16,502** | **25%** | 7 |
+
+`achieved_fill_prompt_tokens` is the peak single-turn input, which is the most context the model
+ever actually held. **A cell configured for 64k is being worked at 25-39% occupancy.**
+
+Two causes, both deliberate and neither a fault. v5 withdrew synthetic prompt-side fill from
+every scored row, so the only material in the window is what the task genuinely requires. And
+the pi-resilience extension every v6 row runs under middle-truncates tool output over 24,000
+characters — about 5,100 tokens — so no single tool result can flood the context, which is
+exactly what it was shipped to do.
+
+**The consequence is the important part.** Placement measures capacity honestly, with a
+synthetic fill to about 90% of `num_ctx`, and those numbers stand. But the *scored* rows do
+**not** exercise the context they are placed at, so a 64k row and a 48k row are, on the evidence
+of these two trials, running the model at a very similar occupancy. **The quality comparison
+across context rungs is therefore weak by construction**, and any sentence of the form "quant X
+is still accurate at 64k" means "at 64k of *configured* window and about 26k of *used* window".
+
+This is not a reason to change the suite mid-campaign — the v5 suite is frozen and changing it
+would invalidate every row against the reference. It is a reason to report **max viable context
+and quality as two separate findings** rather than one, and to stop the report from implying the
+suite proved a context-quality relationship it never tested. The honest headline is: placement
+says what each quant *can hold*; the bands say how well it *works*; the campaign does not
+measure how well it works *when full*.
+
+I will track `peak_prompt` across every row and put the distribution in the handoff. If some
+task does approach its window, that task is the only one carrying a context-quality signal and
+the report will name it. **Filling the window on purpose is a v7 question**, and it is the
+obvious one: a band authored to genuinely occupy 60% of 64k would test what this campaign
+assumed and did not measure.
