@@ -339,10 +339,14 @@ suite at 95% and a 50% target, choosing which tasks to harden by which ones the 
 
    The main-band row finished the assignment and stopped — it did not wander into the incident
    report or the refactor TODO, which is what mode 8 measures — but it took nearly twice the
-   declared turns to do it. Whether that budget is too tight for a 27B quant or the row is a
-   genuine finishing cost is one trial's worth of evidence and is not settled here; the repeat
-   trials in section 4 are the place to read it, and the budget line belongs in every future
-   mode-8 report whether or not it is breached.
+   declared turns to do it. **The three repeat trials settle which it is:** 7 turns and 681, 855
+   and 676 output tokens. The token budget is comfortably met every time; the **turn** budget is
+   exceeded every time, by the same margin. That is not a wandering model, it is an agentic loop
+   spending a turn per tool call on a task whose budget was written as though turns and steps were
+   the same thing. **The budget is too tight and it is the estimate that should move, not the
+   task** — and it is the author's to move, so it is recorded here rather than edited. A declared
+   budget that is only quoted when it is met is not a check; this line belongs in every mode-8
+   report whether or not it is breached.
 
 ## 8. How to re-attach, and what the artifacts are
 

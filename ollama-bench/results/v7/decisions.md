@@ -1331,3 +1331,29 @@ rewritten card (D7-35), and the quant under test does the same. **A subcheck tha
 classification is sound exactly when the material fixes the classification** — that was the
 principle D7-22 stated, and this is the first time the campaign has been able to satisfy it rather
 than retreat from it.
+
+## D7-40 — mode 8's turn budget is the number that is wrong, and the repeat trials say so
+
+*05:24.* D7-36 recorded `m08-main-luna` over its declared budget on one trial and declined to say
+whether the budget or the quant was at fault. Three repeat trials settle it:
+
+| trial | turns (budget 5) | output tokens (budget 900) |
+| ---: | ---: | ---: |
+| first pass | 9 | 1,267 |
+| repeat 0 | 7 | 681 |
+| repeat 1 | 7 | 855 |
+| repeat 2 | 7 | 676 |
+
+**The token budget is met on three of four trials and the turn budget is missed on all four, by
+about the same margin every time.** A model that wandered would show the opposite pattern — turns
+and tokens climbing together, and varying wildly between trials. Seven turns, four times over,
+with output well inside its ceiling, is a stable cost, and it is the cost of an agentic loop that
+spends one turn per tool call: read the roadmap, read the marker-format statement, read the
+implementation, edit it, verify it.
+
+So the estimate is wrong, not the task and not the quant. The declared budget was written as
+though a turn were a step of reasoning; in this harness a turn is a tool call. **It is the
+author's number to correct, so it is recorded rather than edited** — changing another family's
+declared budget to make a row pass would be exactly the move rule 4a forbids, even though nothing
+here is scored on it. What the campaign gets instead is the first evidence in any round that the
+mode-8 budgets need re-deriving from measured tool-call counts rather than estimated.
