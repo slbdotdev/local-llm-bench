@@ -75,6 +75,11 @@ third column suggests. In the cheap band the same figure runs 64-335% of materia
 same measurement saying the opposite thing: a 4-6k tree is small enough that the conversation
 outgrows it.
 
+The behaviour behind those numbers is visible in the tool counts. The median main-band trial is
+**8 turns, 10 tool calls, and 4 file reads** — against a tree of 91-95 files. The median cheap-band
+trial is 7 turns and 2 reads. A model that reads four files out of ninety-two is not failing to
+traverse the material; it is declining to, because four is enough.
+
 So every main-band row below is a capacity result as much as a quality one, and "IQ2_M is accurate
 at 64k" would mean "at 64k of *allocated* window and about 8k of *used* window". The full reading
 is D7-32, and its short form is: **material on disk is not context.** v5 withdrew prompt-side
