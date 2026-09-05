@@ -55,7 +55,8 @@
 | node | v24.20.0 |
 | model | `z-ai/glm-5.3-flash` via `--provider openrouter` |
 | agent dir | managed `C:\Users\slb\.pi\agent` (no `--agent-dir`) |
-| clone commit | `07de475` ("large band and the headroom bend"), clean |
+| bench code commit (scratch clone) | `07de475` ("large band and the headroom bend"), clean |
+| campaign clone at commit time | `a9ab63e` ("v6 plan revised"); it advanced by two commits from another session while this ran |
 | scratch clone | `C:\Users\slb\bench-pirun` (clone of `D:\local-llm-bench`) |
 | GPU before / after | 711 MiB, 0% / 721 MiB, 0% (idle; openrouter provider, no Ollama) |
 
