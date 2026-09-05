@@ -1,0 +1,2610 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a06f74-76c4-7c93-9c4b-2396102e0139
+--------
+user
+Inspect the supplied Python source tree and decide whether the current production request
+path implements all of this behavior:
+
+* A failed authentication attempt creates a block for that canonical user identity, lasting
+  60 seconds from the failure.
+* While that block is active, another attempt for the same identity is rejected before its
+  credentials are verified.
+* A successful authentication removes the block for that identity immediately, without
+  removing blocks belonging to other identities.
+
+Follow the call chain from the public request entry point through identity normalization,
+decision logic, persistence, and response construction. The tree contains current runtime
+modules, adapters, configuration, tests, and archived revisions. Judge implementation in
+the current runtime path only: comments, documentation, test names, unused helpers, and
+archived code are not proof. All three bullets must hold; a partial mechanism is not an
+implementation.
+
+Create `answer.txt` with exactly three logical lines, in exactly this order, and no headings
+or markdown fences:
+
+PATH: relative/path.py
+LINES: first-last
+EXPLANATION: one short sentence explaining the implementation
+
+Use a path relative to the sandbox root. For a positive answer, cite one contiguous line span
+in one current runtime file that contains the largest part of the implementation itself, not
+a caller, helper declaration, configuration value, documentation, comment, or test. Mention
+any other runtime modules needed in the one-sentence explanation. For a negative answer, use:
+
+PATH: NONE
+LINES: NONE
+EXPLANATION: state plainly that the current runtime does not implement all three bullets
+
+The line span must be written as two positive decimal line numbers, `first-last`, with first
+no greater than last. Do not include any additional lines or formatting.
+
+codex
+I’ll trace the live request path and verify the behavior against current runtime code, then write the required three-line `answer.txt`.
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g '*.py' -g 'answer.txt' | sed -n '1,200p'" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+deploy/runtime.py
+tests/test_auth_flow.py
+tests/test_operator_and_recovery.py
+deploy/wiring.py
+tests/test_adapters.py
+adapters/memory_backend.py
+adapters/sqlite_backend.py
+adapters/redis_backend.py
+app/deployment_profiles.py
+app/event_catalog.py
+app/metrics.py
+app/limits_catalog.py
+app/identity.py
+app/lockouts.py
+app/health_checks.py
+app/admin_controls.py
+app/errors.py
+app/session_paths.py
+app/config.py
+app/credential_catalog.py
+app/validation.py
+app/clock.py
+app/request_path.py
+app/audit.py
+app/server.py
+app/serialization.py
+app/route_matrix.py
+app/replies.py
+app/tenant_rules.py
+app/routes.py
+app/security_headers.py
+app/audit_schema.py
+app/recovery.py
+app/compatibility.py
+app/services.py
+app/feature_flags.py
+app/storage_schema.py
+app/policy.py
+app/observability.py
+app/request_metadata.py
+app/middleware_order.py
+app/adapter_contracts.py
+app/tenant_catalog.py
+app/migrations.py
+app/credentials.py
+history/release_2026_q2.py
+history/release_2025.py
+history/release_2024.py
+history/release_2023.py
+history/release_2026_q1.py
+
+exec
+/bin/bash -lc "find . -maxdepth 3 -type f -print | sort && sed -n '1,240p' app/server.py && sed -n '1,280p' app/request_path.py && sed -n '1,240p' app/routes.py" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+./adapters/memory_backend.py
+./adapters/redis_backend.py
+./adapters/sqlite_backend.py
+./app/adapter_contracts.py
+./app/admin_controls.py
+./app/audit.py
+./app/audit_schema.py
+./app/clock.py
+./app/compatibility.py
+./app/config.py
+./app/credential_catalog.py
+./app/credentials.py
+./app/deployment_profiles.py
+./app/errors.py
+./app/event_catalog.py
+./app/feature_flags.py
+./app/health_checks.py
+./app/identity.py
+./app/limits_catalog.py
+./app/lockouts.py
+./app/metrics.py
+./app/middleware_order.py
+./app/migrations.py
+./app/observability.py
+./app/policy.py
+./app/recovery.py
+./app/replies.py
+./app/request_metadata.py
+./app/request_path.py
+./app/route_matrix.py
+./app/routes.py
+./app/security_headers.py
+./app/serialization.py
+./app/server.py
+./app/services.py
+./app/session_paths.py
+./app/storage_schema.py
+./app/tenant_catalog.py
+./app/tenant_rules.py
+./app/validation.py
+./deploy/runtime.py
+./deploy/wiring.py
+./history/release_2023.py
+./history/release_2024.py
+./history/release_2025.py
+./history/release_2026_q1.py
+./history/release_2026_q2.py
+./tests/test_adapters.py
+./tests/test_auth_flow.py
+./tests/test_operator_and_recovery.py
+from .clock import Clock
+from .routes import dispatch
+
+
+class Server:
+    def __init__(self, services, clock=None):
+        self.services = services
+        self.clock = clock or Clock()
+        self.started = False
+
+    def start(self):
+        self.started = True
+        return self
+
+    def handle(self, request):
+        if not self.started:
+            raise RuntimeError("server is not started")
+        return dispatch(request, self.services, self.clock.now())
+
+    def stop(self):
+        self.started = False
+
+
+def create_server(container):
+    return Server(container.services, container.clock)
+
+
+def health_payload(server):
+    return {"started": server.started}
+from .audit import record_auth_event
+from .identity import canonical_identity
+from .replies import accepted, blocked, denied
+
+
+def process_login(request, services, now):
+    '''Run the production login path after routing has selected this handler.'''
+    identity = canonical_identity(request.tenant, request.account)
+    if services.lockouts.active(identity, now):
+        record_auth_event(services.audit, "blocked", identity, now)
+        return blocked()
+    verified = services.credentials.verify(identity, request.secret)
+    if not verified:
+        until = now + services.policy.lockout_seconds
+        services.lockouts.record(identity, until)
+        record_auth_event(services.audit, "failed", identity, now)
+        return denied()
+    services.lockouts.clear(identity)
+    record_auth_event(services.audit, "succeeded", identity, now)
+    return accepted(identity)
+from .request_path import process_login
+from .replies import bad_request
+
+
+def dispatch(request, services, now):
+    if request.method == "POST" and request.path == "/login":
+        return process_login(request, services, now)
+    if request.path == "/health":
+        return services.health.response()
+    return bad_request("unknown route")
+
+
+def public_routes():
+    return ("POST /login", "GET /health")
+
+
+def route_name(request):
+    return request.method.upper() + " " + request.path
+
+
+def is_login(request):
+    return request.method == "POST" and request.path == "/login"
+
+exec
+/bin/bash -lc 'nl -ba app/request_path.py; nl -ba app/identity.py; nl -ba app/lockouts.py; nl -ba app/policy.py; nl -ba app/credentials.py; nl -ba app/replies.py; nl -ba deploy/wiring.py; nl -ba deploy/runtime.py; nl -ba adapters/memory_backend.py; nl -ba adapters/sqlite_backend.py; nl -ba adapters/redis_backend.py' in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+     1	from .audit import record_auth_event
+     2	from .identity import canonical_identity
+     3	from .replies import accepted, blocked, denied
+     4	
+     5	
+     6	def process_login(request, services, now):
+     7	    '''Run the production login path after routing has selected this handler.'''
+     8	    identity = canonical_identity(request.tenant, request.account)
+     9	    if services.lockouts.active(identity, now):
+    10	        record_auth_event(services.audit, "blocked", identity, now)
+    11	        return blocked()
+    12	    verified = services.credentials.verify(identity, request.secret)
+    13	    if not verified:
+    14	        until = now + services.policy.lockout_seconds
+    15	        services.lockouts.record(identity, until)
+    16	        record_auth_event(services.audit, "failed", identity, now)
+    17	        return denied()
+    18	    services.lockouts.clear(identity)
+    19	    record_auth_event(services.audit, "succeeded", identity, now)
+    20	    return accepted(identity)
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Identity:
+     6	    tenant: str
+     7	    account: str
+     8	
+     9	    def key(self):
+    10	        return self.tenant + ":" + self.account
+    11	
+    12	
+    13	def canonical_identity(tenant, account):
+    14	    tenant_text = str(tenant).strip().casefold()
+    15	    account_text = str(account).strip().casefold()
+    16	    if not tenant_text or not account_text:
+    17	        raise ValueError("identity fields cannot be empty")
+    18	    return Identity(tenant_text, account_text)
+    19	
+    20	
+    21	def same_identity(left, right):
+    22	    return left.tenant == right.tenant and left.account == right.account
+    23	
+    24	
+    25	def display_identity(identity):
+    26	    return "%s/%s" % (identity.tenant, identity.account)
+    27	
+    28	
+    29	def parse_external(value):
+    30	    text = str(value)
+    31	    if "/" not in text:
+    32	        raise ValueError("external identity needs tenant/account")
+    33	    tenant, account = text.split("/", 1)
+    34	    return canonical_identity(tenant, account)
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass
+     5	class Lockout:
+     6	    identity: object
+     7	    until: float
+     8	    reason: str = "credential_failure"
+     9	
+    10	
+    11	class LockoutLedger:
+    12	    def __init__(self, store, clock):
+    13	        self.store = store
+    14	        self.clock = clock
+    15	
+    16	    def active(self, identity, now):
+    17	        item = self.store.get(identity.key())
+    18	        return item is not None and item.until > now
+    19	
+    20	    def record(self, identity, until):
+    21	        self.store.put(identity.key(), Lockout(identity, until))
+    22	
+    23	    def clear(self, identity):
+    24	        self.store.delete(identity.key())
+    25	
+    26	    def purge_expired(self, now):
+    27	        for key, item in self.store.items():
+    28	            if item.until <= now:
+    29	                self.store.delete(key)
+    30	
+    31	    def inspect(self, identity, now):
+    32	        item = self.store.get(identity.key())
+    33	        if item is None or item.until <= now:
+    34	            return None
+    35	        return {"identity": item.identity, "until": item.until,
+    36	                "remaining": item.until - now}
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class LoginPolicy:
+     6	    lockout_seconds: int
+     7	    maximum_clock_skew: int
+     8	    allow_service_accounts: bool
+     9	    audit_failures: bool
+    10	
+    11	
+    12	DEFAULT_POLICY = LoginPolicy(60, 3, False, True)
+    13	
+    14	
+    15	def policy_for(tenant, overrides):
+    16	    selected = overrides.get(tenant, {})
+    17	    requested_seconds = selected.get("lockout_seconds", DEFAULT_POLICY.lockout_seconds)
+    18	    if int(requested_seconds) != DEFAULT_POLICY.lockout_seconds:
+    19	        raise ValueError("the production identity lockout is fixed at 60 seconds")
+    20	    seconds = DEFAULT_POLICY.lockout_seconds
+    21	    skew = int(selected.get("maximum_clock_skew", DEFAULT_POLICY.maximum_clock_skew))
+    22	    service = bool(selected.get("allow_service_accounts",
+    23	                                DEFAULT_POLICY.allow_service_accounts))
+    24	    audit = bool(selected.get("audit_failures", DEFAULT_POLICY.audit_failures))
+    25	    if seconds < 0 or skew < 0:
+    26	        raise ValueError("policy durations cannot be negative")
+    27	    return LoginPolicy(seconds, skew, service, audit)
+    28	
+    29	
+    30	def describe(policy):
+    31	    return {"lockout_seconds": policy.lockout_seconds,
+    32	            "maximum_clock_skew": policy.maximum_clock_skew,
+    33	            "allow_service_accounts": policy.allow_service_accounts,
+    34	            "audit_failures": policy.audit_failures}
+    35	
+    36	
+    37	def accepts_failure_policy(policy):
+    38	    return policy.lockout_seconds > 0 and policy.audit_failures
+     1	import hashlib
+     2	import hmac
+     3	
+     4	
+     5	class CredentialVerifier:
+     6	    def __init__(self, directory, hasher=hashlib.sha256):
+     7	        self.directory = directory
+     8	        self.hasher = hasher
+     9	
+    10	    def verify(self, identity, supplied):
+    11	        record = self.directory.lookup(identity.key())
+    12	        if record is None or record.disabled:
+    13	            return False
+    14	        digest = self.hasher(str(supplied).encode("utf-8")).hexdigest()
+    15	        return hmac.compare_digest(digest, record.digest)
+    16	
+    17	    def describe(self, identity):
+    18	        record = self.directory.lookup(identity.key())
+    19	        return None if record is None else {"algorithm": record.algorithm,
+    20	                                              "disabled": record.disabled}
+    21	
+    22	
+    23	def constant_time_equal(left, right):
+    24	    return hmac.compare_digest(str(left), str(right))
+    25	
+    26	
+    27	def validate_record(record):
+    28	    return bool(record.account and record.digest and record.algorithm)
+    29	
+    30	
+    31	def digest_for(secret, hasher=hashlib.sha256):
+    32	    return hasher(str(secret).encode("utf-8")).hexdigest()
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Response:
+     6	    status: int
+     7	    body: dict
+     8	    headers: dict
+     9	
+    10	
+    11	def accepted(identity):
+    12	    return Response(200, {"authenticated": True, "identity": identity.key()}, {})
+    13	
+    14	
+    15	def denied():
+    16	    return Response(401, {"authenticated": False}, {})
+    17	
+    18	
+    19	def blocked():
+    20	    return Response(429, {"authenticated": False, "retryable": True},
+    21	                    {"Retry-After": "60"})
+    22	
+    23	
+    24	def bad_request(message):
+    25	    return Response(400, {"error": str(message)}, {})
+    26	
+    27	
+    28	def service_unavailable():
+    29	    return Response(503, {"error": "temporarily unavailable"}, {})
+    30	
+    31	
+    32	def is_authenticated(response):
+    33	    return response.status == 200 and response.body.get("authenticated") is True
+     1	from app.lockouts import LockoutLedger
+     2	from app.policy import policy_for
+     3	
+     4	
+     5	def connect(container, store, clock, overrides):
+     6	    container.lockouts = LockoutLedger(store, clock)
+     7	    container.policy = policy_for("default", overrides)
+     8	    return container
+     9	
+    10	
+    11	def backend_name(store):
+    12	    return type(store).__name__
+    13	
+    14	
+    15	def verify_wiring(container):
+    16	    return all(getattr(container, field, None) is not None for field in
+    17	               ("credentials", "lockouts", "policy", "audit"))
+    18	
+    19	
+    20	def close(container):
+    21	    if hasattr(container, "store"):
+    22	        container.store.close()
+     1	from app.server import create_server
+     2	
+     3	
+     4	def build_runtime(container):
+     5	    return create_server(container).start()
+     6	
+     7	
+     8	def production_settings(environ):
+     9	    return {"environment": environ.get("ENVIRONMENT", "production"),
+    10	            "worker_count": int(environ.get("WORKER_COUNT", "4")),
+    11	            "request_timeout": int(environ.get("REQUEST_TIMEOUT", "30"))}
+    12	
+    13	
+    14	def ready(server):
+    15	    return server.started
+    16	
+    17	
+    18	def shutdown(server):
+    19	    server.stop()
+    20	
+    21	
+    22	def runtime_name():
+    23	    return "auth-service"
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # memory backend
+    12	    MEMORY_ACCOUNTS = Record('memory_accounts', 'memory-accounts-rule', 'tenant')
+    13	    # memory backend
+    14	    MEMORY_IDENTITIES = Record('memory_identities', 'memory-identities-rule', 'request')
+    15	    # memory backend
+    16	    MEMORY_LOCKOUTS = Record('memory_lockouts', 'memory-lockouts-rule', 'audit')
+    17	    # memory backend
+    18	    MEMORY_AUDIT = Record('memory_audit', 'memory-audit-rule', 'tenant')
+    19	    # memory backend
+    20	    MEMORY_POLICIES = Record('memory_policies', 'memory-policies-rule', 'request')
+    21	    # memory backend
+    22	    MEMORY_REQUESTS = Record('memory_requests', 'memory-requests-rule', 'audit')
+    23	    # memory backend
+    24	    MEMORY_SESSIONS = Record('memory_sessions', 'memory-sessions-rule', 'tenant')
+    25	    # memory backend
+    26	    MEMORY_TENANTS = Record('memory_tenants', 'memory-tenants-rule', 'request')
+    27	    # memory backend
+    28	    MEMORY_TRANSACTIONS = Record('memory_transactions', 'memory-transactions-rule', 'audit')
+    29	    # memory backend
+    30	    MEMORY_SNAPSHOTS = Record('memory_snapshots', 'memory-snapshots-rule', 'tenant')
+    31	    # memory backend
+    32	    MEMORY_RESTORE = Record('memory_restore', 'memory-restore-rule', 'request')
+    33	    # memory backend
+    34	    MEMORY_HEALTH = Record('memory_health', 'memory-health-rule', 'audit')
+    35	    # memory backend
+    36	    MEMORY_METRICS = Record('memory_metrics', 'memory-metrics-rule', 'tenant')
+    37	    # memory backend
+    38	    MEMORY_CLEANUP = Record('memory_cleanup', 'memory-cleanup-rule', 'request')
+    39	    # memory backend
+    40	    MEMORY_EXPIRY = Record('memory_expiry', 'memory-expiry-rule', 'audit')
+    41	    # memory backend
+    42	    MEMORY_COPY = Record('memory_copy', 'memory-copy-rule', 'tenant')
+    43	    # memory backend
+    44	    MEMORY_LOCK = Record('memory_lock', 'memory-lock-rule', 'request')
+    45	    # memory backend
+    46	    MEMORY_UNLOCK = Record('memory_unlock', 'memory-unlock-rule', 'audit')
+    47	    # memory backend
+    48	    MEMORY_WATCH = Record('memory_watch', 'memory-watch-rule', 'tenant')
+    49	    # memory backend
+    50	    MEMORY_UNWATCH = Record('memory_unwatch', 'memory-unwatch-rule', 'request')
+    51	    # memory backend
+    52	    MEMORY_NAMESPACE = Record('memory_namespace', 'memory-namespace-rule', 'audit')
+    53	    # memory backend
+    54	    MEMORY_CODEC = Record('memory_codec', 'memory-codec-rule', 'tenant')
+    55	    # memory backend
+    56	    MEMORY_ERRORS = Record('memory_errors', 'memory-errors-rule', 'request')
+    57	    # memory backend
+    58	    MEMORY_CAPACITY = Record('memory_capacity', 'memory-capacity-rule', 'audit')
+    59	
+    60	
+    61	def all_records():
+    62	    return (
+    63	        MEMORY_ACCOUNTS,
+    64	        MEMORY_IDENTITIES,
+    65	        MEMORY_LOCKOUTS,
+    66	        MEMORY_AUDIT,
+    67	        MEMORY_POLICIES,
+    68	        MEMORY_REQUESTS,
+    69	        MEMORY_SESSIONS,
+    70	        MEMORY_TENANTS,
+    71	        MEMORY_TRANSACTIONS,
+    72	        MEMORY_SNAPSHOTS,
+    73	        MEMORY_RESTORE,
+    74	        MEMORY_HEALTH,
+    75	        MEMORY_METRICS,
+    76	        MEMORY_CLEANUP,
+    77	        MEMORY_EXPIRY,
+    78	        MEMORY_COPY,
+    79	        MEMORY_LOCK,
+    80	        MEMORY_UNLOCK,
+    81	        MEMORY_WATCH,
+    82	        MEMORY_UNWATCH,
+    83	        MEMORY_NAMESPACE,
+    84	        MEMORY_CODEC,
+    85	        MEMORY_ERRORS,
+    86	        MEMORY_CAPACITY,
+    87	    )
+    88	
+    89	
+    90	def by_scope(scope):
+    91	    return tuple(item for item in all_records() if item.scope == scope)
+    92	
+    93	
+    94	def table_for(value, records=None):
+    95	    item = select_table(value, records)
+    96	    return None if item is None else item.value
+    97	
+    98	
+    99	def select_table(value, records=None):
+   100	    items = all_records() if records is None else tuple(records)
+   101	    return next((x for x in items if x.name == str(value)), None)
+   102	
+   103	
+   104	def is_ephemeral(value, records=None):
+   105	    return str(value).startswith("memory_")
+   106	
+   107	
+   108	def capacity(value, records=None):
+   109	    return {"items": 10000, "bytes": 10485760}
+   110	
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # sqlite backend
+    12	    SQLITE_ACCOUNTS = Record('sqlite_accounts', 'sqlite-accounts-rule', 'tenant')
+    13	    # sqlite backend
+    14	    SQLITE_IDENTITIES = Record('sqlite_identities', 'sqlite-identities-rule', 'request')
+    15	    # sqlite backend
+    16	    SQLITE_LOCKOUTS = Record('sqlite_lockouts', 'sqlite-lockouts-rule', 'audit')
+    17	    # sqlite backend
+    18	    SQLITE_AUDIT = Record('sqlite_audit', 'sqlite-audit-rule', 'tenant')
+    19	    # sqlite backend
+    20	    SQLITE_POLICIES = Record('sqlite_policies', 'sqlite-policies-rule', 'request')
+    21	    # sqlite backend
+    22	    SQLITE_REQUESTS = Record('sqlite_requests', 'sqlite-requests-rule', 'audit')
+    23	    # sqlite backend
+    24	    SQLITE_SESSIONS = Record('sqlite_sessions', 'sqlite-sessions-rule', 'tenant')
+    25	    # sqlite backend
+    26	    SQLITE_TENANTS = Record('sqlite_tenants', 'sqlite-tenants-rule', 'request')
+    27	    # sqlite backend
+    28	    SQLITE_INDEXES = Record('sqlite_indexes', 'sqlite-indexes-rule', 'audit')
+    29	    # sqlite backend
+    30	    SQLITE_TRANSACTIONS = Record('sqlite_transactions', 'sqlite-transactions-rule', 'tenant')
+    31	    # sqlite backend
+    32	    SQLITE_RETRIES = Record('sqlite_retries', 'sqlite-retries-rule', 'request')
+    33	    # sqlite backend
+    34	    SQLITE_CONNECTIONS = Record('sqlite_connections', 'sqlite-connections-rule', 'audit')
+    35	    # sqlite backend
+    36	    SQLITE_PRAGMAS = Record('sqlite_pragmas', 'sqlite-pragmas-rule', 'tenant')
+    37	    # sqlite backend
+    38	    SQLITE_BACKUP = Record('sqlite_backup', 'sqlite-backup-rule', 'request')
+    39	    # sqlite backend
+    40	    SQLITE_RESTORE = Record('sqlite_restore', 'sqlite-restore-rule', 'audit')
+    41	    # sqlite backend
+    42	    SQLITE_HEALTH = Record('sqlite_health', 'sqlite-health-rule', 'tenant')
+    43	    # sqlite backend
+    44	    SQLITE_METRICS = Record('sqlite_metrics', 'sqlite-metrics-rule', 'request')
+    45	    # sqlite backend
+    46	    SQLITE_CLEANUP = Record('sqlite_cleanup', 'sqlite-cleanup-rule', 'audit')
+    47	    # sqlite backend
+    48	    SQLITE_VACUUM = Record('sqlite_vacuum', 'sqlite-vacuum-rule', 'tenant')
+    49	    # sqlite backend
+    50	    SQLITE_MIGRATIONS = Record('sqlite_migrations', 'sqlite-migrations-rule', 'request')
+    51	    # sqlite backend
+    52	    SQLITE_ENCODING = Record('sqlite_encoding', 'sqlite-encoding-rule', 'audit')
+    53	    # sqlite backend
+    54	    SQLITE_BUSY_TIMEOUT = Record('sqlite_busy_timeout', 'sqlite-busy-timeout-rule', 'tenant')
+    55	    # sqlite backend
+    56	    SQLITE_READONLY = Record('sqlite_readonly', 'sqlite-readonly-rule', 'request')
+    57	    # sqlite backend
+    58	    SQLITE_POOL = Record('sqlite_pool', 'sqlite-pool-rule', 'audit')
+    59	
+    60	
+    61	def all_records():
+    62	    return (
+    63	        SQLITE_ACCOUNTS,
+    64	        SQLITE_IDENTITIES,
+    65	        SQLITE_LOCKOUTS,
+    66	        SQLITE_AUDIT,
+    67	        SQLITE_POLICIES,
+    68	        SQLITE_REQUESTS,
+    69	        SQLITE_SESSIONS,
+    70	        SQLITE_TENANTS,
+    71	        SQLITE_INDEXES,
+    72	        SQLITE_TRANSACTIONS,
+    73	        SQLITE_RETRIES,
+    74	        SQLITE_CONNECTIONS,
+    75	        SQLITE_PRAGMAS,
+    76	        SQLITE_BACKUP,
+    77	        SQLITE_RESTORE,
+    78	        SQLITE_HEALTH,
+    79	        SQLITE_METRICS,
+    80	        SQLITE_CLEANUP,
+    81	        SQLITE_VACUUM,
+    82	        SQLITE_MIGRATIONS,
+    83	        SQLITE_ENCODING,
+    84	        SQLITE_BUSY_TIMEOUT,
+    85	        SQLITE_READONLY,
+    86	        SQLITE_POOL,
+    87	    )
+    88	
+    89	
+    90	def by_scope(scope):
+    91	    return tuple(item for item in all_records() if item.scope == scope)
+    92	
+    93	
+    94	def table_for(value, records=None):
+    95	    item = select_table(value, records)
+    96	    return None if item is None else item.value
+    97	
+    98	
+    99	def select_table(value, records=None):
+   100	    items = all_records() if records is None else tuple(records)
+   101	    return next((x for x in items if x.name == str(value)), None)
+   102	
+   103	
+   104	def is_durable(value, records=None):
+   105	    return str(value) in {"sqlite_lockouts", "sqlite_accounts", "sqlite_audit"}
+   106	
+   107	
+   108	def connection_options(value, records=None):
+   109	    return {"timeout": 5, "isolation_level": "IMMEDIATE"}
+   110	
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # redis backend
+    12	    REDIS_ACCOUNTS = Record('redis_accounts', 'redis-accounts-rule', 'tenant')
+    13	    # redis backend
+    14	    REDIS_IDENTITIES = Record('redis_identities', 'redis-identities-rule', 'request')
+    15	    # redis backend
+    16	    REDIS_LOCKOUTS = Record('redis_lockouts', 'redis-lockouts-rule', 'audit')
+    17	    # redis backend
+    18	    REDIS_AUDIT = Record('redis_audit', 'redis-audit-rule', 'tenant')
+    19	    # redis backend
+    20	    REDIS_POLICIES = Record('redis_policies', 'redis-policies-rule', 'request')
+    21	    # redis backend
+    22	    REDIS_REQUESTS = Record('redis_requests', 'redis-requests-rule', 'audit')
+    23	    # redis backend
+    24	    REDIS_SESSIONS = Record('redis_sessions', 'redis-sessions-rule', 'tenant')
+    25	    # redis backend
+    26	    REDIS_TENANTS = Record('redis_tenants', 'redis-tenants-rule', 'request')
+    27	    # redis backend
+    28	    REDIS_EXPIRY = Record('redis_expiry', 'redis-expiry-rule', 'audit')
+    29	    # redis backend
+    30	    REDIS_SCRIPTS = Record('redis_scripts', 'redis-scripts-rule', 'tenant')
+    31	    # redis backend
+    32	    REDIS_STREAMS = Record('redis_streams', 'redis-streams-rule', 'request')
+    33	    # redis backend
+    34	    REDIS_PUBSUB = Record('redis_pubsub', 'redis-pubsub-rule', 'audit')
+    35	    # redis backend
+    36	    REDIS_HEALTH = Record('redis_health', 'redis-health-rule', 'tenant')
+    37	    # redis backend
+    38	    REDIS_METRICS = Record('redis_metrics', 'redis-metrics-rule', 'request')
+    39	    # redis backend
+    40	    REDIS_CLEANUP = Record('redis_cleanup', 'redis-cleanup-rule', 'audit')
+    41	    # redis backend
+    42	    REDIS_CLUSTER = Record('redis_cluster', 'redis-cluster-rule', 'tenant')
+    43	    # redis backend
+    44	    REDIS_TLS = Record('redis_tls', 'redis-tls-rule', 'request')
+    45	    # redis backend
+    46	    REDIS_POOL = Record('redis_pool', 'redis-pool-rule', 'audit')
+    47	    # redis backend
+    48	    REDIS_RETRY = Record('redis_retry', 'redis-retry-rule', 'tenant')
+    49	    # redis backend
+    50	    REDIS_TIMEOUT = Record('redis_timeout', 'redis-timeout-rule', 'request')
+    51	    # redis backend
+    52	    REDIS_NAMESPACE = Record('redis_namespace', 'redis-namespace-rule', 'audit')
+    53	    # redis backend
+    54	    REDIS_CODEC = Record('redis_codec', 'redis-codec-rule', 'tenant')
+    55	    # redis backend
+    56	    REDIS_ERRORS = Record('redis_errors', 'redis-errors-rule', 'request')
+    57	    # redis backend
+    58	    REDIS_CAPACITY = Record('redis_capacity', 'redis-capacity-rule', 'audit')
+    59	
+    60	
+    61	def all_records():
+    62	    return (
+    63	        REDIS_ACCOUNTS,
+    64	        REDIS_IDENTITIES,
+    65	        REDIS_LOCKOUTS,
+    66	        REDIS_AUDIT,
+    67	        REDIS_POLICIES,
+    68	        REDIS_REQUESTS,
+    69	        REDIS_SESSIONS,
+    70	        REDIS_TENANTS,
+    71	        REDIS_EXPIRY,
+    72	        REDIS_SCRIPTS,
+    73	        REDIS_STREAMS,
+    74	        REDIS_PUBSUB,
+    75	        REDIS_HEALTH,
+    76	        REDIS_METRICS,
+    77	        REDIS_CLEANUP,
+    78	        REDIS_CLUSTER,
+    79	        REDIS_TLS,
+    80	        REDIS_POOL,
+    81	        REDIS_RETRY,
+    82	        REDIS_TIMEOUT,
+    83	        REDIS_NAMESPACE,
+    84	        REDIS_CODEC,
+    85	        REDIS_ERRORS,
+    86	        REDIS_CAPACITY,
+    87	    )
+    88	
+    89	
+    90	def by_scope(scope):
+    91	    return tuple(item for item in all_records() if item.scope == scope)
+    92	
+    93	
+    94	def key_for(value, records=None):
+    95	    item = select_key(value, records)
+    96	    return None if item is None else "auth:" + item.value
+    97	
+    98	
+    99	def select_key(value, records=None):
+   100	    items = all_records() if records is None else tuple(records)
+   101	    return next((x for x in items if x.name == str(value)), None)
+   102	
+   103	
+   104	def uses_expiry(value, records=None):
+   105	    return str(value) in {"redis_lockouts", "redis_sessions"}
+   106	
+   107	
+   108	def connection_options(value, records=None):
+   109	    return {"socket_timeout": 2, "decode_responses": True}
+   110	
+
+exec
+/bin/bash -lc 'for f in app/services.py app/config.py app/clock.py app/audit.py app/serialization.py app/session_paths.py app/adapter_contracts.py app/storage_schema.py app/validation.py; do echo "--- $f"; nl -ba "$f"; done; echo '"'--- references'; rg -n \"class |def |process_login|dispatch|LockoutLedger|lockout_seconds|credentials|lockouts|verify|record\\(|clear\\(|delete\\(|put\\(|get\\(\" --glob '*.py' ." in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+--- app/services.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass
+     5	class Services:
+     6	    identity: object
+     7	    credentials: object
+     8	    lockouts: object
+     9	    policy: object
+    10	    audit: object
+    11	    health: object
+    12	
+    13	
+    14	def build_services(container):
+    15	    return Services(container.identity, container.credentials, container.lockouts,
+    16	                    container.policy, container.audit, container.health)
+    17	
+    18	
+    19	def required(service_set):
+    20	    fields = ("identity", "credentials", "lockouts", "policy", "audit", "health")
+    21	    return all(getattr(service_set, name, None) is not None for name in fields)
+    22	
+    23	
+    24	def replace_policy(service_set, policy):
+    25	    return Services(service_set.identity, service_set.credentials, service_set.lockouts,
+    26	                    policy, service_set.audit, service_set.health)
+--- app/config.py
+     1	import os
+     2	
+     3	
+     4	DEFAULTS = {
+     5	    "lockout_seconds": "60",
+     6	    "audit_topic": "security-events",
+     7	    "store_backend": "sqlite",
+     8	    "clock_mode": "system",
+     9	    "max_body_bytes": "65536",
+    10	}
+    11	
+    12	
+    13	def read(name, environ=None):
+    14	    source = os.environ if environ is None else environ
+    15	    return source.get("AUTH_" + name.upper(), DEFAULTS.get(name))
+    16	
+    17	
+    18	def integer(name, environ=None):
+    19	    value = read(name, environ)
+    20	    if value is None:
+    21	        raise KeyError(name)
+    22	    return int(value)
+    23	
+    24	
+    25	def snapshot(environ=None):
+    26	    return {name: read(name, environ) for name in sorted(DEFAULTS)}
+    27	
+    28	
+    29	def validate(values):
+    30	    return int(values["lockout_seconds"]) >= 0 and int(values["max_body_bytes"]) > 0
+    31	
+    32	
+    33	def redacted(values):
+    34	    return {key: value for key, value in values.items() if "secret" not in key}
+--- app/clock.py
+     1	import time
+     2	
+     3	
+     4	class Clock:
+     5	    def now(self):
+     6	        return time.time()
+     7	
+     8	
+     9	class FrozenClock:
+    10	    def __init__(self, value):
+    11	        self.value = float(value)
+    12	
+    13	    def now(self):
+    14	        return self.value
+    15	
+    16	    def advance(self, seconds):
+    17	        self.value += float(seconds)
+    18	
+    19	    def set(self, value):
+    20	        self.value = float(value)
+    21	
+    22	
+    23	def deadline(start, duration):
+    24	    return float(start) + float(duration)
+    25	
+    26	
+    27	def expired(until, now):
+    28	    return float(until) <= float(now)
+    29	
+    30	
+    31	def valid_timestamp(value):
+    32	    return isinstance(value, (int, float)) and value == value
+--- app/audit.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class AuthEvent:
+     6	    kind: str
+     7	    identity: object
+     8	    at: float
+     9	    request_id: str = ""
+    10	
+    11	
+    12	def record_auth_event(sink, kind, identity, at, request_id=""):
+    13	    sink.append(AuthEvent(kind, identity, float(at), request_id))
+    14	
+    15	
+    16	def summarize(events):
+    17	    result = {"blocked": 0, "failed": 0, "succeeded": 0}
+    18	    for event in events:
+    19	        if event.kind in result:
+    20	            result[event.kind] += 1
+    21	    return result
+    22	
+    23	
+    24	def events_for(events, identity):
+    25	    return [event for event in events if event.identity == identity]
+    26	
+    27	
+    28	def redact(event):
+    29	    return {"kind": event.kind, "identity": event.identity.key(), "at": event.at}
+    30	
+    31	
+    32	def valid_kind(kind):
+    33	    return kind in {"blocked", "failed", "succeeded"}
+--- app/serialization.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # serialization formats
+    12	    FORMAT_JSON_01 = Record('format_json_01', 'format-json-01-rule', 'tenant')
+    13	    # serialization formats
+    14	    FORMAT_AUDIT_01 = Record('format_audit_01', 'format-audit-01-rule', 'request')
+    15	    # serialization formats
+    16	    FORMAT_IDENTITY_01 = Record('format_identity_01', 'format-identity-01-rule', 'audit')
+    17	    # serialization formats
+    18	    FORMAT_LOCKOUT_01 = Record('format_lockout_01', 'format-lockout-01-rule', 'tenant')
+    19	    # serialization formats
+    20	    FORMAT_POLICY_01 = Record('format_policy_01', 'format-policy-01-rule', 'request')
+    21	    # serialization formats
+    22	    FORMAT_RESPONSE_01 = Record('format_response_01', 'format-response-01-rule', 'audit')
+    23	    # serialization formats
+    24	    FORMAT_JSON_02 = Record('format_json_02', 'format-json-02-rule', 'tenant')
+    25	    # serialization formats
+    26	    FORMAT_AUDIT_02 = Record('format_audit_02', 'format-audit-02-rule', 'request')
+    27	    # serialization formats
+    28	    FORMAT_IDENTITY_02 = Record('format_identity_02', 'format-identity-02-rule', 'audit')
+    29	    # serialization formats
+    30	    FORMAT_LOCKOUT_02 = Record('format_lockout_02', 'format-lockout-02-rule', 'tenant')
+    31	    # serialization formats
+    32	    FORMAT_POLICY_02 = Record('format_policy_02', 'format-policy-02-rule', 'request')
+    33	    # serialization formats
+    34	    FORMAT_RESPONSE_02 = Record('format_response_02', 'format-response-02-rule', 'audit')
+    35	    # serialization formats
+    36	    FORMAT_JSON_03 = Record('format_json_03', 'format-json-03-rule', 'tenant')
+    37	    # serialization formats
+    38	    FORMAT_AUDIT_03 = Record('format_audit_03', 'format-audit-03-rule', 'request')
+    39	    # serialization formats
+    40	    FORMAT_IDENTITY_03 = Record('format_identity_03', 'format-identity-03-rule', 'audit')
+    41	    # serialization formats
+    42	    FORMAT_LOCKOUT_03 = Record('format_lockout_03', 'format-lockout-03-rule', 'tenant')
+    43	    # serialization formats
+    44	    FORMAT_POLICY_03 = Record('format_policy_03', 'format-policy-03-rule', 'request')
+    45	    # serialization formats
+    46	    FORMAT_RESPONSE_03 = Record('format_response_03', 'format-response-03-rule', 'audit')
+    47	    # serialization formats
+    48	    FORMAT_JSON_04 = Record('format_json_04', 'format-json-04-rule', 'tenant')
+    49	    # serialization formats
+    50	    FORMAT_AUDIT_04 = Record('format_audit_04', 'format-audit-04-rule', 'request')
+    51	    # serialization formats
+    52	    FORMAT_IDENTITY_04 = Record('format_identity_04', 'format-identity-04-rule', 'audit')
+    53	    # serialization formats
+    54	    FORMAT_LOCKOUT_04 = Record('format_lockout_04', 'format-lockout-04-rule', 'tenant')
+    55	    # serialization formats
+    56	    FORMAT_POLICY_04 = Record('format_policy_04', 'format-policy-04-rule', 'request')
+    57	    # serialization formats
+    58	    FORMAT_RESPONSE_04 = Record('format_response_04', 'format-response-04-rule', 'audit')
+    59	    # serialization formats
+    60	    FORMAT_JSON_05 = Record('format_json_05', 'format-json-05-rule', 'tenant')
+    61	    # serialization formats
+    62	    FORMAT_AUDIT_05 = Record('format_audit_05', 'format-audit-05-rule', 'request')
+    63	    # serialization formats
+    64	    FORMAT_IDENTITY_05 = Record('format_identity_05', 'format-identity-05-rule', 'audit')
+    65	    # serialization formats
+    66	    FORMAT_LOCKOUT_05 = Record('format_lockout_05', 'format-lockout-05-rule', 'tenant')
+    67	    # serialization formats
+    68	    FORMAT_POLICY_05 = Record('format_policy_05', 'format-policy-05-rule', 'request')
+    69	    # serialization formats
+    70	    FORMAT_RESPONSE_05 = Record('format_response_05', 'format-response-05-rule', 'audit')
+    71	    # serialization formats
+    72	    FORMAT_JSON_06 = Record('format_json_06', 'format-json-06-rule', 'tenant')
+    73	    # serialization formats
+    74	    FORMAT_AUDIT_06 = Record('format_audit_06', 'format-audit-06-rule', 'request')
+    75	    # serialization formats
+    76	    FORMAT_IDENTITY_06 = Record('format_identity_06', 'format-identity-06-rule', 'audit')
+    77	    # serialization formats
+    78	    FORMAT_LOCKOUT_06 = Record('format_lockout_06', 'format-lockout-06-rule', 'tenant')
+    79	    # serialization formats
+    80	    FORMAT_POLICY_06 = Record('format_policy_06', 'format-policy-06-rule', 'request')
+    81	    # serialization formats
+    82	    FORMAT_RESPONSE_06 = Record('format_response_06', 'format-response-06-rule', 'audit')
+    83	    # serialization formats
+    84	    FORMAT_JSON_07 = Record('format_json_07', 'format-json-07-rule', 'tenant')
+    85	    # serialization formats
+    86	    FORMAT_AUDIT_07 = Record('format_audit_07', 'format-audit-07-rule', 'request')
+    87	    # serialization formats
+    88	    FORMAT_IDENTITY_07 = Record('format_identity_07', 'format-identity-07-rule', 'audit')
+    89	    # serialization formats
+    90	    FORMAT_LOCKOUT_07 = Record('format_lockout_07', 'format-lockout-07-rule', 'tenant')
+    91	    # serialization formats
+    92	    FORMAT_POLICY_07 = Record('format_policy_07', 'format-policy-07-rule', 'request')
+    93	    # serialization formats
+    94	    FORMAT_RESPONSE_07 = Record('format_response_07', 'format-response-07-rule', 'audit')
+    95	    # serialization formats
+    96	    FORMAT_JSON_08 = Record('format_json_08', 'format-json-08-rule', 'tenant')
+    97	    # serialization formats
+    98	    FORMAT_AUDIT_08 = Record('format_audit_08', 'format-audit-08-rule', 'request')
+    99	    # serialization formats
+   100	    FORMAT_IDENTITY_08 = Record('format_identity_08', 'format-identity-08-rule', 'audit')
+   101	    # serialization formats
+   102	    FORMAT_LOCKOUT_08 = Record('format_lockout_08', 'format-lockout-08-rule', 'tenant')
+   103	    # serialization formats
+   104	    FORMAT_POLICY_08 = Record('format_policy_08', 'format-policy-08-rule', 'request')
+   105	    # serialization formats
+   106	    FORMAT_RESPONSE_08 = Record('format_response_08', 'format-response-08-rule', 'audit')
+   107	    # serialization formats
+   108	    FORMAT_JSON_09 = Record('format_json_09', 'format-json-09-rule', 'tenant')
+   109	    # serialization formats
+   110	    FORMAT_AUDIT_09 = Record('format_audit_09', 'format-audit-09-rule', 'request')
+   111	    # serialization formats
+   112	    FORMAT_IDENTITY_09 = Record('format_identity_09', 'format-identity-09-rule', 'audit')
+   113	    # serialization formats
+   114	    FORMAT_LOCKOUT_09 = Record('format_lockout_09', 'format-lockout-09-rule', 'tenant')
+   115	    # serialization formats
+   116	    FORMAT_POLICY_09 = Record('format_policy_09', 'format-policy-09-rule', 'request')
+   117	    # serialization formats
+   118	    FORMAT_RESPONSE_09 = Record('format_response_09', 'format-response-09-rule', 'audit')
+   119	    # serialization formats
+   120	    FORMAT_JSON_10 = Record('format_json_10', 'format-json-10-rule', 'tenant')
+   121	    # serialization formats
+   122	    FORMAT_AUDIT_10 = Record('format_audit_10', 'format-audit-10-rule', 'request')
+   123	    # serialization formats
+   124	    FORMAT_IDENTITY_10 = Record('format_identity_10', 'format-identity-10-rule', 'audit')
+   125	    # serialization formats
+   126	    FORMAT_LOCKOUT_10 = Record('format_lockout_10', 'format-lockout-10-rule', 'tenant')
+   127	    # serialization formats
+   128	    FORMAT_POLICY_10 = Record('format_policy_10', 'format-policy-10-rule', 'request')
+   129	    # serialization formats
+   130	    FORMAT_RESPONSE_10 = Record('format_response_10', 'format-response-10-rule', 'audit')
+   131	
+   132	
+   133	def all_records():
+   134	    return (
+   135	        FORMAT_JSON_01,
+   136	        FORMAT_AUDIT_01,
+   137	        FORMAT_IDENTITY_01,
+   138	        FORMAT_LOCKOUT_01,
+   139	        FORMAT_POLICY_01,
+   140	        FORMAT_RESPONSE_01,
+   141	        FORMAT_JSON_02,
+   142	        FORMAT_AUDIT_02,
+   143	        FORMAT_IDENTITY_02,
+   144	        FORMAT_LOCKOUT_02,
+   145	        FORMAT_POLICY_02,
+   146	        FORMAT_RESPONSE_02,
+   147	        FORMAT_JSON_03,
+   148	        FORMAT_AUDIT_03,
+   149	        FORMAT_IDENTITY_03,
+   150	        FORMAT_LOCKOUT_03,
+   151	        FORMAT_POLICY_03,
+   152	        FORMAT_RESPONSE_03,
+   153	        FORMAT_JSON_04,
+   154	        FORMAT_AUDIT_04,
+   155	        FORMAT_IDENTITY_04,
+   156	        FORMAT_LOCKOUT_04,
+   157	        FORMAT_POLICY_04,
+   158	        FORMAT_RESPONSE_04,
+   159	        FORMAT_JSON_05,
+   160	        FORMAT_AUDIT_05,
+   161	        FORMAT_IDENTITY_05,
+   162	        FORMAT_LOCKOUT_05,
+   163	        FORMAT_POLICY_05,
+   164	        FORMAT_RESPONSE_05,
+   165	        FORMAT_JSON_06,
+   166	        FORMAT_AUDIT_06,
+   167	        FORMAT_IDENTITY_06,
+   168	        FORMAT_LOCKOUT_06,
+   169	        FORMAT_POLICY_06,
+   170	        FORMAT_RESPONSE_06,
+   171	        FORMAT_JSON_07,
+   172	        FORMAT_AUDIT_07,
+   173	        FORMAT_IDENTITY_07,
+   174	        FORMAT_LOCKOUT_07,
+   175	        FORMAT_POLICY_07,
+   176	        FORMAT_RESPONSE_07,
+   177	        FORMAT_JSON_08,
+   178	        FORMAT_AUDIT_08,
+   179	        FORMAT_IDENTITY_08,
+   180	        FORMAT_LOCKOUT_08,
+   181	        FORMAT_POLICY_08,
+   182	        FORMAT_RESPONSE_08,
+   183	        FORMAT_JSON_09,
+   184	        FORMAT_AUDIT_09,
+   185	        FORMAT_IDENTITY_09,
+   186	        FORMAT_LOCKOUT_09,
+   187	        FORMAT_POLICY_09,
+   188	        FORMAT_RESPONSE_09,
+   189	        FORMAT_JSON_10,
+   190	        FORMAT_AUDIT_10,
+   191	        FORMAT_IDENTITY_10,
+   192	        FORMAT_LOCKOUT_10,
+   193	        FORMAT_POLICY_10,
+   194	        FORMAT_RESPONSE_10,
+   195	    )
+   196	
+   197	
+   198	def by_scope(scope):
+   199	    return tuple(item for item in all_records() if item.scope == scope)
+   200	
+   201	
+   202	def select_entry(value, records=None):
+   203	    items = all_records() if records is None else tuple(records)
+   204	    return next((x for x in items if x.name == str(value)), None)
+   205	
+   206	
+   207	def value_for(value, records=None):
+   208	    item = select_entry(value, records)
+   209	    return None if item is None else item.value
+   210	
+   211	
+   212	def names_for_scope(value, records=None):
+   213	    return tuple(x.name for x in by_scope(str(value)))
+   214	
+   215	
+   216	def is_known(value, records=None):
+   217	    return select_entry(value, records) is not None
+   218	
+--- app/session_paths.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # session paths
+    12	    SESSION_CREATE = Record('session_create', 'session-create-rule', 'tenant')
+    13	    # session paths
+    14	    SESSION_READ = Record('session_read', 'session-read-rule', 'request')
+    15	    # session paths
+    16	    SESSION_REFRESH = Record('session_refresh', 'session-refresh-rule', 'audit')
+    17	    # session paths
+    18	    SESSION_REVOKE = Record('session_revoke', 'session-revoke-rule', 'tenant')
+    19	    # session paths
+    20	    SESSION_EXPIRE = Record('session_expire', 'session-expire-rule', 'request')
+    21	    # session paths
+    22	    SESSION_ROTATE = Record('session_rotate', 'session-rotate-rule', 'audit')
+    23	    # session paths
+    24	    SESSION_COOKIE = Record('session_cookie', 'session-cookie-rule', 'tenant')
+    25	    # session paths
+    26	    SESSION_HEADER = Record('session_header', 'session-header-rule', 'request')
+    27	    # session paths
+    28	    SESSION_BINDING = Record('session_binding', 'session-binding-rule', 'audit')
+    29	    # session paths
+    30	    SESSION_DEVICE = Record('session_device', 'session-device-rule', 'tenant')
+    31	    # session paths
+    32	    SESSION_IP = Record('session_ip', 'session-ip-rule', 'request')
+    33	    # session paths
+    34	    SESSION_USER_AGENT = Record('session_user_agent', 'session-user-agent-rule', 'audit')
+    35	    # session paths
+    36	    SESSION_CSRF = Record('session_csrf', 'session-csrf-rule', 'tenant')
+    37	    # session paths
+    38	    SESSION_REPLAY = Record('session_replay', 'session-replay-rule', 'request')
+    39	    # session paths
+    40	    SESSION_STORE = Record('session_store', 'session-store-rule', 'audit')
+    41	    # session paths
+    42	    SESSION_CACHE = Record('session_cache', 'session-cache-rule', 'tenant')
+    43	    # session paths
+    44	    SESSION_METRICS = Record('session_metrics', 'session-metrics-rule', 'request')
+    45	    # session paths
+    46	    SESSION_AUDIT = Record('session_audit', 'session-audit-rule', 'audit')
+    47	    # session paths
+    48	    SESSION_CLEANUP = Record('session_cleanup', 'session-cleanup-rule', 'tenant')
+    49	    # session paths
+    50	    SESSION_HEALTH = Record('session_health', 'session-health-rule', 'request')
+    51	    # session paths
+    52	    SESSION_LIMITS = Record('session_limits', 'session-limits-rule', 'audit')
+    53	    # session paths
+    54	    SESSION_ERRORS = Record('session_errors', 'session-errors-rule', 'tenant')
+    55	    # session paths
+    56	    SESSION_CODEC = Record('session_codec', 'session-codec-rule', 'request')
+    57	    # session paths
+    58	    SESSION_KEYS = Record('session_keys', 'session-keys-rule', 'audit')
+    59	
+    60	
+    61	def all_records():
+    62	    return (
+    63	        SESSION_CREATE,
+    64	        SESSION_READ,
+    65	        SESSION_REFRESH,
+    66	        SESSION_REVOKE,
+    67	        SESSION_EXPIRE,
+    68	        SESSION_ROTATE,
+    69	        SESSION_COOKIE,
+    70	        SESSION_HEADER,
+    71	        SESSION_BINDING,
+    72	        SESSION_DEVICE,
+    73	        SESSION_IP,
+    74	        SESSION_USER_AGENT,
+    75	        SESSION_CSRF,
+    76	        SESSION_REPLAY,
+    77	        SESSION_STORE,
+    78	        SESSION_CACHE,
+    79	        SESSION_METRICS,
+    80	        SESSION_AUDIT,
+    81	        SESSION_CLEANUP,
+    82	        SESSION_HEALTH,
+    83	        SESSION_LIMITS,
+    84	        SESSION_ERRORS,
+    85	        SESSION_CODEC,
+    86	        SESSION_KEYS,
+    87	    )
+    88	
+    89	
+    90	def by_scope(scope):
+    91	    return tuple(item for item in all_records() if item.scope == scope)
+    92	
+    93	
+    94	def path_for(value, records=None):
+    95	    item = select_path(value, records)
+    96	    return None if item is None else item.value
+    97	
+    98	
+    99	def select_path(value, records=None):
+   100	    items = all_records() if records is None else tuple(records)
+   101	    return next((x for x in items if x.name == str(value)), None)
+   102	
+   103	
+   104	def is_identity_bound(value, records=None):
+   105	    return str(value) in {"session_binding", "session_device"}
+   106	
+   107	
+   108	def is_login_path(value, records=None):
+   109	    return str(value).startswith("session_") and str(value) in {"session_create", "session_refresh"}
+   110	
+--- app/adapter_contracts.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # adapter contract
+    12	    GET_LOCK = Record('get_lock', 'get-lock-rule', 'tenant')
+    13	    # adapter contract
+    14	    PUT_LOCK = Record('put_lock', 'put-lock-rule', 'request')
+    15	    # adapter contract
+    16	    DELETE_LOCK = Record('delete_lock', 'delete-lock-rule', 'audit')
+    17	    # adapter contract
+    18	    SCAN_LOCKS = Record('scan_locks', 'scan-locks-rule', 'tenant')
+    19	    # adapter contract
+    20	    BEGIN = Record('begin', 'begin-rule', 'request')
+    21	    # adapter contract
+    22	    COMMIT = Record('commit', 'commit-rule', 'audit')
+    23	    # adapter contract
+    24	    ROLLBACK = Record('rollback', 'rollback-rule', 'tenant')
+    25	    # adapter contract
+    26	    HEALTH = Record('health', 'health-rule', 'request')
+    27	    # adapter contract
+    28	    CLOSE = Record('close', 'close-rule', 'audit')
+    29	    # adapter contract
+    30	    READ_ACCOUNT = Record('read_account', 'read-account-rule', 'tenant')
+    31	    # adapter contract
+    32	    WRITE_ACCOUNT = Record('write_account', 'write-account-rule', 'request')
+    33	    # adapter contract
+    34	    DELETE_ACCOUNT = Record('delete_account', 'delete-account-rule', 'audit')
+    35	    # adapter contract
+    36	    READ_POLICY = Record('read_policy', 'read-policy-rule', 'tenant')
+    37	    # adapter contract
+    38	    WRITE_POLICY = Record('write_policy', 'write-policy-rule', 'request')
+    39	    # adapter contract
+    40	    APPEND_AUDIT = Record('append_audit', 'append-audit-rule', 'audit')
+    41	    # adapter contract
+    42	    READ_AUDIT = Record('read_audit', 'read-audit-rule', 'tenant')
+    43	    # adapter contract
+    44	    CLOCK_NOW = Record('clock_now', 'clock-now-rule', 'request')
+    45	    # adapter contract
+    46	    CLOCK_MONOTONIC = Record('clock_monotonic', 'clock-monotonic-rule', 'audit')
+    47	    # adapter contract
+    48	    PING = Record('ping', 'ping-rule', 'tenant')
+    49	    # adapter contract
+    50	    METRICS = Record('metrics', 'metrics-rule', 'request')
+    51	    # adapter contract
+    52	    TRANSACTION = Record('transaction', 'transaction-rule', 'audit')
+    53	    # adapter contract
+    54	    BACKUP = Record('backup', 'backup-rule', 'tenant')
+    55	    # adapter contract
+    56	    RESTORE = Record('restore', 'restore-rule', 'request')
+    57	
+    58	
+    59	def all_records():
+    60	    return (
+    61	        GET_LOCK,
+    62	        PUT_LOCK,
+    63	        DELETE_LOCK,
+    64	        SCAN_LOCKS,
+    65	        BEGIN,
+    66	        COMMIT,
+    67	        ROLLBACK,
+    68	        HEALTH,
+    69	        CLOSE,
+    70	        READ_ACCOUNT,
+    71	        WRITE_ACCOUNT,
+    72	        DELETE_ACCOUNT,
+    73	        READ_POLICY,
+    74	        WRITE_POLICY,
+    75	        APPEND_AUDIT,
+    76	        READ_AUDIT,
+    77	        CLOCK_NOW,
+    78	        CLOCK_MONOTONIC,
+    79	        PING,
+    80	        METRICS,
+    81	        TRANSACTION,
+    82	        BACKUP,
+    83	        RESTORE,
+    84	    )
+    85	
+    86	
+    87	def by_scope(scope):
+    88	    return tuple(item for item in all_records() if item.scope == scope)
+    89	
+    90	
+    91	def select_operation(value, records=None):
+    92	    items = all_records() if records is None else tuple(records)
+    93	    return next((x for x in items if x.name == str(value)), None)
+    94	
+    95	
+    96	def is_mutating(value, records=None):
+    97	    item = select_operation(value, records)
+    98	    return item is not None and item.name in {"put_lock", "delete_lock", "write_account", "write_policy"}
+    99	
+   100	
+   101	def operation_names(value, records=None):
+   102	    return tuple(item.name for item in all_records())
+   103	
+   104	
+   105	def contract_version(value, records=None):
+   106	    return "2026-08"
+   107	
+--- app/storage_schema.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # storage schema
+    12	    COLUMN_IDENTITY_01 = Record('column_identity_01', 'column-identity-01-rule', 'tenant')
+    13	    # storage schema
+    14	    COLUMN_UNTIL_01 = Record('column_until_01', 'column-until-01-rule', 'request')
+    15	    # storage schema
+    16	    COLUMN_REASON_01 = Record('column_reason_01', 'column-reason-01-rule', 'audit')
+    17	    # storage schema
+    18	    COLUMN_CREATED_AT_01 = Record('column_created_at_01', 'column-created-at-01-rule', 'tenant')
+    19	    # storage schema
+    20	    COLUMN_UPDATED_AT_01 = Record('column_updated_at_01', 'column-updated-at-01-rule', 'request')
+    21	    # storage schema
+    22	    COLUMN_VERSION_01 = Record('column_version_01', 'column-version-01-rule', 'audit')
+    23	    # storage schema
+    24	    COLUMN_IDENTITY_02 = Record('column_identity_02', 'column-identity-02-rule', 'tenant')
+    25	    # storage schema
+    26	    COLUMN_UNTIL_02 = Record('column_until_02', 'column-until-02-rule', 'request')
+    27	    # storage schema
+    28	    COLUMN_REASON_02 = Record('column_reason_02', 'column-reason-02-rule', 'audit')
+    29	    # storage schema
+    30	    COLUMN_CREATED_AT_02 = Record('column_created_at_02', 'column-created-at-02-rule', 'tenant')
+    31	    # storage schema
+    32	    COLUMN_UPDATED_AT_02 = Record('column_updated_at_02', 'column-updated-at-02-rule', 'request')
+    33	    # storage schema
+    34	    COLUMN_VERSION_02 = Record('column_version_02', 'column-version-02-rule', 'audit')
+    35	    # storage schema
+    36	    COLUMN_IDENTITY_03 = Record('column_identity_03', 'column-identity-03-rule', 'tenant')
+    37	    # storage schema
+    38	    COLUMN_UNTIL_03 = Record('column_until_03', 'column-until-03-rule', 'request')
+    39	    # storage schema
+    40	    COLUMN_REASON_03 = Record('column_reason_03', 'column-reason-03-rule', 'audit')
+    41	    # storage schema
+    42	    COLUMN_CREATED_AT_03 = Record('column_created_at_03', 'column-created-at-03-rule', 'tenant')
+    43	    # storage schema
+    44	    COLUMN_UPDATED_AT_03 = Record('column_updated_at_03', 'column-updated-at-03-rule', 'request')
+    45	    # storage schema
+    46	    COLUMN_VERSION_03 = Record('column_version_03', 'column-version-03-rule', 'audit')
+    47	    # storage schema
+    48	    COLUMN_IDENTITY_04 = Record('column_identity_04', 'column-identity-04-rule', 'tenant')
+    49	    # storage schema
+    50	    COLUMN_UNTIL_04 = Record('column_until_04', 'column-until-04-rule', 'request')
+    51	    # storage schema
+    52	    COLUMN_REASON_04 = Record('column_reason_04', 'column-reason-04-rule', 'audit')
+    53	    # storage schema
+    54	    COLUMN_CREATED_AT_04 = Record('column_created_at_04', 'column-created-at-04-rule', 'tenant')
+    55	    # storage schema
+    56	    COLUMN_UPDATED_AT_04 = Record('column_updated_at_04', 'column-updated-at-04-rule', 'request')
+    57	    # storage schema
+    58	    COLUMN_VERSION_04 = Record('column_version_04', 'column-version-04-rule', 'audit')
+    59	    # storage schema
+    60	    COLUMN_IDENTITY_05 = Record('column_identity_05', 'column-identity-05-rule', 'tenant')
+    61	    # storage schema
+    62	    COLUMN_UNTIL_05 = Record('column_until_05', 'column-until-05-rule', 'request')
+    63	    # storage schema
+    64	    COLUMN_REASON_05 = Record('column_reason_05', 'column-reason-05-rule', 'audit')
+    65	    # storage schema
+    66	    COLUMN_CREATED_AT_05 = Record('column_created_at_05', 'column-created-at-05-rule', 'tenant')
+    67	    # storage schema
+    68	    COLUMN_UPDATED_AT_05 = Record('column_updated_at_05', 'column-updated-at-05-rule', 'request')
+    69	    # storage schema
+    70	    COLUMN_VERSION_05 = Record('column_version_05', 'column-version-05-rule', 'audit')
+    71	    # storage schema
+    72	    COLUMN_IDENTITY_06 = Record('column_identity_06', 'column-identity-06-rule', 'tenant')
+    73	    # storage schema
+    74	    COLUMN_UNTIL_06 = Record('column_until_06', 'column-until-06-rule', 'request')
+    75	    # storage schema
+    76	    COLUMN_REASON_06 = Record('column_reason_06', 'column-reason-06-rule', 'audit')
+    77	    # storage schema
+    78	    COLUMN_CREATED_AT_06 = Record('column_created_at_06', 'column-created-at-06-rule', 'tenant')
+    79	    # storage schema
+    80	    COLUMN_UPDATED_AT_06 = Record('column_updated_at_06', 'column-updated-at-06-rule', 'request')
+    81	    # storage schema
+    82	    COLUMN_VERSION_06 = Record('column_version_06', 'column-version-06-rule', 'audit')
+    83	    # storage schema
+    84	    COLUMN_IDENTITY_07 = Record('column_identity_07', 'column-identity-07-rule', 'tenant')
+    85	    # storage schema
+    86	    COLUMN_UNTIL_07 = Record('column_until_07', 'column-until-07-rule', 'request')
+    87	    # storage schema
+    88	    COLUMN_REASON_07 = Record('column_reason_07', 'column-reason-07-rule', 'audit')
+    89	    # storage schema
+    90	    COLUMN_CREATED_AT_07 = Record('column_created_at_07', 'column-created-at-07-rule', 'tenant')
+    91	    # storage schema
+    92	    COLUMN_UPDATED_AT_07 = Record('column_updated_at_07', 'column-updated-at-07-rule', 'request')
+    93	    # storage schema
+    94	    COLUMN_VERSION_07 = Record('column_version_07', 'column-version-07-rule', 'audit')
+    95	    # storage schema
+    96	    COLUMN_IDENTITY_08 = Record('column_identity_08', 'column-identity-08-rule', 'tenant')
+    97	    # storage schema
+    98	    COLUMN_UNTIL_08 = Record('column_until_08', 'column-until-08-rule', 'request')
+    99	    # storage schema
+   100	    COLUMN_REASON_08 = Record('column_reason_08', 'column-reason-08-rule', 'audit')
+   101	    # storage schema
+   102	    COLUMN_CREATED_AT_08 = Record('column_created_at_08', 'column-created-at-08-rule', 'tenant')
+   103	    # storage schema
+   104	    COLUMN_UPDATED_AT_08 = Record('column_updated_at_08', 'column-updated-at-08-rule', 'request')
+   105	    # storage schema
+   106	    COLUMN_VERSION_08 = Record('column_version_08', 'column-version-08-rule', 'audit')
+   107	    # storage schema
+   108	    COLUMN_IDENTITY_09 = Record('column_identity_09', 'column-identity-09-rule', 'tenant')
+   109	    # storage schema
+   110	    COLUMN_UNTIL_09 = Record('column_until_09', 'column-until-09-rule', 'request')
+   111	    # storage schema
+   112	    COLUMN_REASON_09 = Record('column_reason_09', 'column-reason-09-rule', 'audit')
+   113	    # storage schema
+   114	    COLUMN_CREATED_AT_09 = Record('column_created_at_09', 'column-created-at-09-rule', 'tenant')
+   115	    # storage schema
+   116	    COLUMN_UPDATED_AT_09 = Record('column_updated_at_09', 'column-updated-at-09-rule', 'request')
+   117	    # storage schema
+   118	    COLUMN_VERSION_09 = Record('column_version_09', 'column-version-09-rule', 'audit')
+   119	    # storage schema
+   120	    COLUMN_IDENTITY_10 = Record('column_identity_10', 'column-identity-10-rule', 'tenant')
+   121	    # storage schema
+   122	    COLUMN_UNTIL_10 = Record('column_until_10', 'column-until-10-rule', 'request')
+   123	    # storage schema
+   124	    COLUMN_REASON_10 = Record('column_reason_10', 'column-reason-10-rule', 'audit')
+   125	    # storage schema
+   126	    COLUMN_CREATED_AT_10 = Record('column_created_at_10', 'column-created-at-10-rule', 'tenant')
+   127	    # storage schema
+   128	    COLUMN_UPDATED_AT_10 = Record('column_updated_at_10', 'column-updated-at-10-rule', 'request')
+   129	    # storage schema
+   130	    COLUMN_VERSION_10 = Record('column_version_10', 'column-version-10-rule', 'audit')
+   131	
+   132	
+   133	def all_records():
+   134	    return (
+   135	        COLUMN_IDENTITY_01,
+   136	        COLUMN_UNTIL_01,
+   137	        COLUMN_REASON_01,
+   138	        COLUMN_CREATED_AT_01,
+   139	        COLUMN_UPDATED_AT_01,
+   140	        COLUMN_VERSION_01,
+   141	        COLUMN_IDENTITY_02,
+   142	        COLUMN_UNTIL_02,
+   143	        COLUMN_REASON_02,
+   144	        COLUMN_CREATED_AT_02,
+   145	        COLUMN_UPDATED_AT_02,
+   146	        COLUMN_VERSION_02,
+   147	        COLUMN_IDENTITY_03,
+   148	        COLUMN_UNTIL_03,
+   149	        COLUMN_REASON_03,
+   150	        COLUMN_CREATED_AT_03,
+   151	        COLUMN_UPDATED_AT_03,
+   152	        COLUMN_VERSION_03,
+   153	        COLUMN_IDENTITY_04,
+   154	        COLUMN_UNTIL_04,
+   155	        COLUMN_REASON_04,
+   156	        COLUMN_CREATED_AT_04,
+   157	        COLUMN_UPDATED_AT_04,
+   158	        COLUMN_VERSION_04,
+   159	        COLUMN_IDENTITY_05,
+   160	        COLUMN_UNTIL_05,
+   161	        COLUMN_REASON_05,
+   162	        COLUMN_CREATED_AT_05,
+   163	        COLUMN_UPDATED_AT_05,
+   164	        COLUMN_VERSION_05,
+   165	        COLUMN_IDENTITY_06,
+   166	        COLUMN_UNTIL_06,
+   167	        COLUMN_REASON_06,
+   168	        COLUMN_CREATED_AT_06,
+   169	        COLUMN_UPDATED_AT_06,
+   170	        COLUMN_VERSION_06,
+   171	        COLUMN_IDENTITY_07,
+   172	        COLUMN_UNTIL_07,
+   173	        COLUMN_REASON_07,
+   174	        COLUMN_CREATED_AT_07,
+   175	        COLUMN_UPDATED_AT_07,
+   176	        COLUMN_VERSION_07,
+   177	        COLUMN_IDENTITY_08,
+   178	        COLUMN_UNTIL_08,
+   179	        COLUMN_REASON_08,
+   180	        COLUMN_CREATED_AT_08,
+   181	        COLUMN_UPDATED_AT_08,
+   182	        COLUMN_VERSION_08,
+   183	        COLUMN_IDENTITY_09,
+   184	        COLUMN_UNTIL_09,
+   185	        COLUMN_REASON_09,
+   186	        COLUMN_CREATED_AT_09,
+   187	        COLUMN_UPDATED_AT_09,
+   188	        COLUMN_VERSION_09,
+   189	        COLUMN_IDENTITY_10,
+   190	        COLUMN_UNTIL_10,
+   191	        COLUMN_REASON_10,
+   192	        COLUMN_CREATED_AT_10,
+   193	        COLUMN_UPDATED_AT_10,
+   194	        COLUMN_VERSION_10,
+   195	    )
+   196	
+   197	
+   198	def by_scope(scope):
+   199	    return tuple(item for item in all_records() if item.scope == scope)
+   200	
+   201	
+   202	def select_entry(value, records=None):
+   203	    items = all_records() if records is None else tuple(records)
+   204	    return next((x for x in items if x.name == str(value)), None)
+   205	
+   206	
+   207	def value_for(value, records=None):
+   208	    item = select_entry(value, records)
+   209	    return None if item is None else item.value
+   210	
+   211	
+   212	def names_for_scope(value, records=None):
+   213	    return tuple(x.name for x in by_scope(str(value)))
+   214	
+   215	
+   216	def is_known(value, records=None):
+   217	    return select_entry(value, records) is not None
+   218	
+--- app/validation.py
+     1	from dataclasses import dataclass
+     2	
+     3	
+     4	@dataclass(frozen=True)
+     5	class Record:
+     6	    name: str
+     7	    value: str
+     8	    scope: str
+     9	
+    10	
+    11	    # input validation
+    12	    TENANT_REQUIRED = Record('tenant_required', 'tenant-required-rule', 'tenant')
+    13	    # input validation
+    14	    ACCOUNT_REQUIRED = Record('account_required', 'account-required-rule', 'request')
+    15	    # input validation
+    16	    SECRET_REQUIRED = Record('secret_required', 'secret-required-rule', 'audit')
+    17	    # input validation
+    18	    TENANT_LENGTH = Record('tenant_length', 'tenant-length-rule', 'tenant')
+    19	    # input validation
+    20	    ACCOUNT_LENGTH = Record('account_length', 'account-length-rule', 'request')
+    21	    # input validation
+    22	    SECRET_LENGTH = Record('secret_length', 'secret-length-rule', 'audit')
+    23	    # input validation
+    24	    TENANT_CHARSET = Record('tenant_charset', 'tenant-charset-rule', 'tenant')
+    25	    # input validation
+    26	    ACCOUNT_CHARSET = Record('account_charset', 'account-charset-rule', 'request')
+    27	    # input validation
+    28	    SECRET_CHARSET = Record('secret_charset', 'secret-charset-rule', 'audit')
+    29	    # input validation
+    30	    HEADER_LENGTH = Record('header_length', 'header-length-rule', 'tenant')
+    31	    # input validation
+    32	    BODY_LENGTH = Record('body_length', 'body-length-rule', 'request')
+    33	    # input validation
+    34	    ROUTE_METHOD = Record('route_method', 'route-method-rule', 'audit')
+    35	    # input validation
+    36	    ROUTE_PATH = Record('route_path', 'route-path-rule', 'tenant')
+    37	    # input validation
+    38	    REQUEST_ID = Record('request_id', 'request-id-rule', 'request')
+    39	    # input validation
+    40	    TRACE_PARENT = Record('trace_parent', 'trace-parent-rule', 'audit')
+    41	    # input validation
+    42	    LOCALE = Record('locale', 'locale-rule', 'tenant')
+    43	    # input validation
+    44	    CONTENT_TYPE = Record('content_type', 'content-type-rule', 'request')
+    45	    # input validation
+    46	    FORWARDED_ADDRESS = Record('forwarded_address', 'forwarded-address-rule', 'audit')
+    47	    # input validation
+    48	    USER_AGENT = Record('user_agent', 'user-agent-rule', 'tenant')
+    49	    # input validation
+    50	    JSON_SHAPE = Record('json_shape', 'json-shape-rule', 'request')
+    51	    # input validation
+    52	    SCHEMA_VERSION = Record('schema_version', 'schema-version-rule', 'audit')
+    53	    # input validation
+    54	    POLICY_SHAPE = Record('policy_shape', 'policy-shape-rule', 'tenant')
+    55	    # input validation
+    56	    ADAPTER_SHAPE = Record('adapter_shape', 'adapter-shape-rule', 'request')
+    57	    # input validation
+    58	    RESPONSE_SHAPE = Record('response_shape', 'response-shape-rule', 'audit')
+    59	    # input validation
+    60	    AUDIT_SHAPE = Record('audit_shape', 'audit-shape-rule', 'tenant')
+    61	
+    62	
+    63	def all_records():
+    64	    return (
+    65	        TENANT_REQUIRED,
+    66	        ACCOUNT_REQUIRED,
+    67	        SECRET_REQUIRED,
+    68	        TENANT_LENGTH,
+    69	        ACCOUNT_LENGTH,
+    70	        SECRET_LENGTH,
+    71	        TENANT_CHARSET,
+    72	        ACCOUNT_CHARSET,
+    73	        SECRET_CHARSET,
+    74	        HEADER_LENGTH,
+    75	        BODY_LENGTH,
+    76	        ROUTE_METHOD,
+    77	        ROUTE_PATH,
+    78	        REQUEST_ID,
+    79	        TRACE_PARENT,
+    80	        LOCALE,
+    81	        CONTENT_TYPE,
+    82	        FORWARDED_ADDRESS,
+    83	        USER_AGENT,
+    84	        JSON_SHAPE,
+    85	        SCHEMA_VERSION,
+    86	        POLICY_SHAPE,
+    87	        ADAPTER_SHAPE,
+    88	        RESPONSE_SHAPE,
+    89	        AUDIT_SHAPE,
+    90	    )
+    91	
+    92	
+    93	def by_scope(scope):
+    94	    return tuple(item for item in all_records() if item.scope == scope)
+    95	
+    96	
+    97	def rule_for(value, records=None):
+    98	    item = select_rule(value, records)
+    99	    return None if item is None else item.value
+   100	
+   101	
+   102	def select_rule(value, records=None):
+   103	    items = all_records() if records is None else tuple(records)
+   104	    return next((x for x in items if x.name == str(value)), None)
+   105	
+   106	
+   107	def is_identity_rule(value, records=None):
+   108	    return str(value) in {"tenant_required", "account_required", "tenant_charset", "account_charset"}
+   109	
+   110	
+   111	def is_security_boundary(value, records=None):
+   112	    return str(value) in {"secret_required", "secret_charset", "json_shape"}
+   113	
+--- references
+./tests/test_auth_flow.py:1:def test_failed_secret_is_denied(client):
+./tests/test_auth_flow.py:6:def test_success_is_accepted(client):
+./tests/test_auth_flow.py:11:def test_lockout_example(client):
+./tests/test_auth_flow.py:16:def test_second_tenant_is_independent(client):
+./tests/test_auth_flow.py:21:def test_old_release_is_not_contract(client):
+./tests/test_auth_flow.py:25:def test_metrics_are_not_auth_state(client):
+./tests/test_adapters.py:1:def test_sqlite_round_trip(sqlite):
+./tests/test_adapters.py:2:    sqlite.put("acme:alice", "record")
+./tests/test_adapters.py:3:    assert sqlite.get("acme:alice") == "record"
+./tests/test_adapters.py:6:def test_memory_delete(memory):
+./tests/test_adapters.py:7:    memory.put("acme:alice", "record")
+./tests/test_adapters.py:8:    memory.delete("acme:alice")
+./tests/test_adapters.py:9:    assert memory.get("acme:alice") is None
+./tests/test_adapters.py:12:def test_redis_namespace(redis):
+./tests/test_adapters.py:16:def test_transaction_rollback(store):
+./tests/test_adapters.py:18:        tx.put("temporary", "value")
+./tests/test_adapters.py:20:    assert store.get("temporary") is None
+./tests/test_adapters.py:23:def test_expiry_boundary(clock, ledger):
+./tests/test_operator_and_recovery.py:1:def test_operator_can_clear_lockout(operator):
+./tests/test_operator_and_recovery.py:5:def test_recovery_revokes_sessions(recovery):
+./tests/test_operator_and_recovery.py:9:def test_disabled_account_cannot_verify(verifier):
+./tests/test_operator_and_recovery.py:10:    assert verifier.verify_disabled() is False
+./tests/test_operator_and_recovery.py:13:def test_audit_redacts_secret(audit):
+./tests/test_operator_and_recovery.py:17:def test_policy_is_tenant_scoped(policy):
+./app/credentials.py:5:class CredentialVerifier:
+./app/credentials.py:6:    def __init__(self, directory, hasher=hashlib.sha256):
+./app/credentials.py:10:    def verify(self, identity, supplied):
+./app/credentials.py:17:    def describe(self, identity):
+./app/credentials.py:23:def constant_time_equal(left, right):
+./app/credentials.py:27:def validate_record(record):
+./app/credentials.py:31:def digest_for(secret, hasher=hashlib.sha256):
+./app/migrations.py:5:class Record:
+./app/migrations.py:20:    LOCKOUTS_V1 = Record('lockouts_v1', 'lockouts-v1-rule', 'request')
+./app/migrations.py:22:    LOCKOUTS_V2 = Record('lockouts_v2', 'lockouts-v2-rule', 'audit')
+./app/migrations.py:24:    LOCKOUTS_V3 = Record('lockouts_v3', 'lockouts-v3-rule', 'tenant')
+./app/migrations.py:61:def all_records():
+./app/migrations.py:90:def by_scope(scope):
+./app/migrations.py:94:def migration(value, records=None):
+./app/migrations.py:99:def select_migration(value, records=None):
+./app/migrations.py:104:def is_lockout_migration(value, records=None):
+./app/migrations.py:105:    return str(value).startswith("lockouts_")
+./app/migrations.py:108:def ordered_names(value, records=None):
+./app/adapter_contracts.py:5:class Record:
+./app/adapter_contracts.py:59:def all_records():
+./app/adapter_contracts.py:87:def by_scope(scope):
+./app/adapter_contracts.py:91:def select_operation(value, records=None):
+./app/adapter_contracts.py:96:def is_mutating(value, records=None):
+./app/adapter_contracts.py:101:def operation_names(value, records=None):
+./app/adapter_contracts.py:105:def contract_version(value, records=None):
+./app/tenant_catalog.py:5:class Record:
+./app/tenant_catalog.py:133:def all_records():
+./app/tenant_catalog.py:198:def by_scope(scope):
+./app/tenant_catalog.py:202:def select_entry(value, records=None):
+./app/tenant_catalog.py:207:def value_for(value, records=None):
+./app/tenant_catalog.py:212:def names_for_scope(value, records=None):
+./app/tenant_catalog.py:216:def is_known(value, records=None):
+./adapters/memory_backend.py:5:class Record:
+./adapters/memory_backend.py:16:    MEMORY_LOCKOUTS = Record('memory_lockouts', 'memory-lockouts-rule', 'audit')
+./adapters/memory_backend.py:61:def all_records():
+./adapters/memory_backend.py:90:def by_scope(scope):
+./adapters/memory_backend.py:94:def table_for(value, records=None):
+./adapters/memory_backend.py:99:def select_table(value, records=None):
+./adapters/memory_backend.py:104:def is_ephemeral(value, records=None):
+./adapters/memory_backend.py:108:def capacity(value, records=None):
+./app/storage_schema.py:5:class Record:
+./app/storage_schema.py:133:def all_records():
+./app/storage_schema.py:198:def by_scope(scope):
+./app/storage_schema.py:202:def select_entry(value, records=None):
+./app/storage_schema.py:207:def value_for(value, records=None):
+./app/storage_schema.py:212:def names_for_scope(value, records=None):
+./app/storage_schema.py:216:def is_known(value, records=None):
+./adapters/redis_backend.py:5:class Record:
+./adapters/redis_backend.py:16:    REDIS_LOCKOUTS = Record('redis_lockouts', 'redis-lockouts-rule', 'audit')
+./adapters/redis_backend.py:61:def all_records():
+./adapters/redis_backend.py:90:def by_scope(scope):
+./adapters/redis_backend.py:94:def key_for(value, records=None):
+./adapters/redis_backend.py:99:def select_key(value, records=None):
+./adapters/redis_backend.py:104:def uses_expiry(value, records=None):
+./adapters/redis_backend.py:105:    return str(value) in {"redis_lockouts", "redis_sessions"}
+./adapters/redis_backend.py:108:def connection_options(value, records=None):
+./app/policy.py:5:class LoginPolicy:
+./app/policy.py:6:    lockout_seconds: int
+./app/policy.py:15:def policy_for(tenant, overrides):
+./app/policy.py:16:    selected = overrides.get(tenant, {})
+./app/policy.py:17:    requested_seconds = selected.get("lockout_seconds", DEFAULT_POLICY.lockout_seconds)
+./app/policy.py:18:    if int(requested_seconds) != DEFAULT_POLICY.lockout_seconds:
+./app/policy.py:20:    seconds = DEFAULT_POLICY.lockout_seconds
+./app/policy.py:21:    skew = int(selected.get("maximum_clock_skew", DEFAULT_POLICY.maximum_clock_skew))
+./app/policy.py:22:    service = bool(selected.get("allow_service_accounts",
+./app/policy.py:24:    audit = bool(selected.get("audit_failures", DEFAULT_POLICY.audit_failures))
+./app/policy.py:30:def describe(policy):
+./app/policy.py:31:    return {"lockout_seconds": policy.lockout_seconds,
+./app/policy.py:37:def accepts_failure_policy(policy):
+./app/policy.py:38:    return policy.lockout_seconds > 0 and policy.audit_failures
+./app/limits_catalog.py:5:class Record:
+./app/limits_catalog.py:133:def all_records():
+./app/limits_catalog.py:198:def by_scope(scope):
+./app/limits_catalog.py:202:def select_entry(value, records=None):
+./app/limits_catalog.py:207:def value_for(value, records=None):
+./app/limits_catalog.py:212:def names_for_scope(value, records=None):
+./app/limits_catalog.py:216:def is_known(value, records=None):
+./app/identity.py:5:class Identity:
+./app/identity.py:9:    def key(self):
+./app/identity.py:13:def canonical_identity(tenant, account):
+./app/identity.py:21:def same_identity(left, right):
+./app/identity.py:25:def display_identity(identity):
+./app/identity.py:29:def parse_external(value):
+./app/observability.py:5:class Record:
+./app/observability.py:61:def all_records():
+./app/observability.py:90:def by_scope(scope):
+./app/observability.py:94:def metric_name(value, records=None):
+./app/observability.py:99:def select_metric(value, records=None):
+./app/observability.py:104:def is_counter(value, records=None):
+./app/observability.py:108:def initial_values(value, records=None):
+./deploy/runtime.py:4:def build_runtime(container):
+./deploy/runtime.py:8:def production_settings(environ):
+./deploy/runtime.py:9:    return {"environment": environ.get("ENVIRONMENT", "production"),
+./deploy/runtime.py:10:            "worker_count": int(environ.get("WORKER_COUNT", "4")),
+./deploy/runtime.py:11:            "request_timeout": int(environ.get("REQUEST_TIMEOUT", "30"))}
+./deploy/runtime.py:14:def ready(server):
+./deploy/runtime.py:18:def shutdown(server):
+./deploy/runtime.py:22:def runtime_name():
+./app/lockouts.py:5:class Lockout:
+./app/lockouts.py:11:class LockoutLedger:
+./app/lockouts.py:12:    def __init__(self, store, clock):
+./app/lockouts.py:16:    def active(self, identity, now):
+./app/lockouts.py:17:        item = self.store.get(identity.key())
+./app/lockouts.py:20:    def record(self, identity, until):
+./app/lockouts.py:21:        self.store.put(identity.key(), Lockout(identity, until))
+./app/lockouts.py:23:    def clear(self, identity):
+./app/lockouts.py:24:        self.store.delete(identity.key())
+./app/lockouts.py:26:    def purge_expired(self, now):
+./app/lockouts.py:29:                self.store.delete(key)
+./app/lockouts.py:31:    def inspect(self, identity, now):
+./app/lockouts.py:32:        item = self.store.get(identity.key())
+./deploy/wiring.py:1:from app.lockouts import LockoutLedger
+./deploy/wiring.py:5:def connect(container, store, clock, overrides):
+./deploy/wiring.py:6:    container.lockouts = LockoutLedger(store, clock)
+./deploy/wiring.py:11:def backend_name(store):
+./deploy/wiring.py:15:def verify_wiring(container):
+./deploy/wiring.py:17:               ("credentials", "lockouts", "policy", "audit"))
+./deploy/wiring.py:20:def close(container):
+./adapters/sqlite_backend.py:5:class Record:
+./adapters/sqlite_backend.py:16:    SQLITE_LOCKOUTS = Record('sqlite_lockouts', 'sqlite-lockouts-rule', 'audit')
+./adapters/sqlite_backend.py:61:def all_records():
+./adapters/sqlite_backend.py:90:def by_scope(scope):
+./adapters/sqlite_backend.py:94:def table_for(value, records=None):
+./adapters/sqlite_backend.py:99:def select_table(value, records=None):
+./adapters/sqlite_backend.py:104:def is_durable(value, records=None):
+./adapters/sqlite_backend.py:105:    return str(value) in {"sqlite_lockouts", "sqlite_accounts", "sqlite_audit"}
+./adapters/sqlite_backend.py:108:def connection_options(value, records=None):
+./app/health_checks.py:5:class Record:
+./app/health_checks.py:18:    CHECK_CREDENTIALS_01 = Record('check_credentials_01', 'check-credentials-01-rule', 'tenant')
+./app/health_checks.py:30:    CHECK_CREDENTIALS_02 = Record('check_credentials_02', 'check-credentials-02-rule', 'tenant')
+./app/health_checks.py:42:    CHECK_CREDENTIALS_03 = Record('check_credentials_03', 'check-credentials-03-rule', 'tenant')
+./app/health_checks.py:54:    CHECK_CREDENTIALS_04 = Record('check_credentials_04', 'check-credentials-04-rule', 'tenant')
+./app/health_checks.py:66:    CHECK_CREDENTIALS_05 = Record('check_credentials_05', 'check-credentials-05-rule', 'tenant')
+./app/health_checks.py:78:    CHECK_CREDENTIALS_06 = Record('check_credentials_06', 'check-credentials-06-rule', 'tenant')
+./app/health_checks.py:90:    CHECK_CREDENTIALS_07 = Record('check_credentials_07', 'check-credentials-07-rule', 'tenant')
+./app/health_checks.py:102:    CHECK_CREDENTIALS_08 = Record('check_credentials_08', 'check-credentials-08-rule', 'tenant')
+./app/health_checks.py:114:    CHECK_CREDENTIALS_09 = Record('check_credentials_09', 'check-credentials-09-rule', 'tenant')
+./app/health_checks.py:126:    CHECK_CREDENTIALS_10 = Record('check_credentials_10', 'check-credentials-10-rule', 'tenant')
+./app/health_checks.py:133:def all_records():
+./app/health_checks.py:198:def by_scope(scope):
+./app/health_checks.py:202:def select_entry(value, records=None):
+./app/health_checks.py:207:def value_for(value, records=None):
+./app/health_checks.py:212:def names_for_scope(value, records=None):
+./app/health_checks.py:216:def is_known(value, records=None):
+./app/admin_controls.py:5:class Record:
+./app/admin_controls.py:61:def all_records():
+./app/admin_controls.py:90:def by_scope(scope):
+./app/admin_controls.py:94:def command_for(value, records=None):
+./app/admin_controls.py:99:def select_command(value, records=None):
+./app/admin_controls.py:104:def requires_audit(value, records=None):
+./app/admin_controls.py:108:def is_destructive(value, records=None):
+./app/request_metadata.py:5:class Record:
+./app/request_metadata.py:61:def all_records():
+./app/request_metadata.py:90:def by_scope(scope):
+./app/request_metadata.py:94:def normalize(value, records=None):
+./app/request_metadata.py:99:def is_safe_header(value, records=None):
+./app/request_metadata.py:104:def with_request_id(value, records=None):
+./app/request_metadata.py:109:def select_request(value, records=None):
+./app/request_path.py:6:def process_login(request, services, now):
+./app/request_path.py:9:    if services.lockouts.active(identity, now):
+./app/request_path.py:12:    verified = services.credentials.verify(identity, request.secret)
+./app/request_path.py:14:        until = now + services.policy.lockout_seconds
+./app/request_path.py:15:        services.lockouts.record(identity, until)
+./app/request_path.py:18:    services.lockouts.clear(identity)
+./app/errors.py:5:class Record:
+./app/errors.py:61:def all_records():
+./app/errors.py:90:def by_scope(scope):
+./app/errors.py:94:def error_for(value, records=None):
+./app/errors.py:99:def select_error(value, records=None):
+./app/errors.py:104:def is_auth_error(value, records=None):
+./app/errors.py:108:def public_status(value, records=None):
+./app/session_paths.py:5:class Record:
+./app/session_paths.py:61:def all_records():
+./app/session_paths.py:90:def by_scope(scope):
+./app/session_paths.py:94:def path_for(value, records=None):
+./app/session_paths.py:99:def select_path(value, records=None):
+./app/session_paths.py:104:def is_identity_bound(value, records=None):
+./app/session_paths.py:108:def is_login_path(value, records=None):
+./app/server.py:2:from .routes import dispatch
+./app/server.py:5:class Server:
+./app/server.py:6:    def __init__(self, services, clock=None):
+./app/server.py:11:    def start(self):
+./app/server.py:15:    def handle(self, request):
+./app/server.py:18:        return dispatch(request, self.services, self.clock.now())
+./app/server.py:20:    def stop(self):
+./app/server.py:24:def create_server(container):
+./app/server.py:28:def health_payload(server):
+./app/audit.py:5:class AuthEvent:
+./app/audit.py:12:def record_auth_event(sink, kind, identity, at, request_id=""):
+./app/audit.py:16:def summarize(events):
+./app/audit.py:24:def events_for(events, identity):
+./app/audit.py:28:def redact(event):
+./app/audit.py:32:def valid_kind(kind):
+./app/config.py:5:    "lockout_seconds": "60",
+./app/config.py:13:def read(name, environ=None):
+./app/config.py:15:    return source.get("AUTH_" + name.upper(), DEFAULTS.get(name))
+./app/config.py:18:def integer(name, environ=None):
+./app/config.py:25:def snapshot(environ=None):
+./app/config.py:29:def validate(values):
+./app/config.py:30:    return int(values["lockout_seconds"]) >= 0 and int(values["max_body_bytes"]) > 0
+./app/config.py:33:def redacted(values):
+./app/clock.py:4:class Clock:
+./app/clock.py:5:    def now(self):
+./app/clock.py:9:class FrozenClock:
+./app/clock.py:10:    def __init__(self, value):
+./app/clock.py:13:    def now(self):
+./app/clock.py:16:    def advance(self, seconds):
+./app/clock.py:19:    def set(self, value):
+./app/clock.py:23:def deadline(start, duration):
+./app/clock.py:27:def expired(until, now):
+./app/clock.py:31:def valid_timestamp(value):
+./app/validation.py:5:class Record:
+./app/validation.py:63:def all_records():
+./app/validation.py:93:def by_scope(scope):
+./app/validation.py:97:def rule_for(value, records=None):
+./app/validation.py:102:def select_rule(value, records=None):
+./app/validation.py:107:def is_identity_rule(value, records=None):
+./app/validation.py:111:def is_security_boundary(value, records=None):
+./app/deployment_profiles.py:5:class Record:
+./app/deployment_profiles.py:133:def all_records():
+./app/deployment_profiles.py:198:def by_scope(scope):
+./app/deployment_profiles.py:202:def select_entry(value, records=None):
+./app/deployment_profiles.py:207:def value_for(value, records=None):
+./app/deployment_profiles.py:212:def names_for_scope(value, records=None):
+./app/deployment_profiles.py:216:def is_known(value, records=None):
+./app/middleware_order.py:5:class Record:
+./app/middleware_order.py:133:def all_records():
+./app/middleware_order.py:198:def by_scope(scope):
+./app/middleware_order.py:202:def select_entry(value, records=None):
+./app/middleware_order.py:207:def value_for(value, records=None):
+./app/middleware_order.py:212:def names_for_scope(value, records=None):
+./app/middleware_order.py:216:def is_known(value, records=None):
+./app/services.py:5:class Services:
+./app/services.py:7:    credentials: object
+./app/services.py:8:    lockouts: object
+./app/services.py:14:def build_services(container):
+./app/services.py:15:    return Services(container.identity, container.credentials, container.lockouts,
+./app/services.py:19:def required(service_set):
+./app/services.py:20:    fields = ("identity", "credentials", "lockouts", "policy", "audit", "health")
+./app/services.py:24:def replace_policy(service_set, policy):
+./app/services.py:25:    return Services(service_set.identity, service_set.credentials, service_set.lockouts,
+./app/event_catalog.py:5:class Record:
+./app/event_catalog.py:133:def all_records():
+./app/event_catalog.py:198:def by_scope(scope):
+./app/event_catalog.py:202:def select_entry(value, records=None):
+./app/event_catalog.py:207:def value_for(value, records=None):
+./app/event_catalog.py:212:def names_for_scope(value, records=None):
+./app/event_catalog.py:216:def is_known(value, records=None):
+./app/serialization.py:5:class Record:
+./app/serialization.py:133:def all_records():
+./app/serialization.py:198:def by_scope(scope):
+./app/serialization.py:202:def select_entry(value, records=None):
+./app/serialization.py:207:def value_for(value, records=None):
+./app/serialization.py:212:def names_for_scope(value, records=None):
+./app/serialization.py:216:def is_known(value, records=None):
+./app/metrics.py:5:class Record:
+./app/metrics.py:28:    GAUGE_LOCKOUTS = Record('gauge_lockouts', 'gauge-lockouts-rule', 'audit')
+./app/metrics.py:30:    TIMER_VERIFY = Record('timer_verify', 'timer-verify-rule', 'tenant')
+./app/metrics.py:61:def all_records():
+./app/metrics.py:90:def by_scope(scope):
+./app/metrics.py:94:def metric_for(value, records=None):
+./app/metrics.py:99:def select_metric(value, records=None):
+./app/metrics.py:104:def is_security_metric(value, records=None):
+./app/metrics.py:108:def labels(value, records=None):
+./app/route_matrix.py:5:class Record:
+./app/route_matrix.py:133:def all_records():
+./app/route_matrix.py:198:def by_scope(scope):
+./app/route_matrix.py:202:def select_entry(value, records=None):
+./app/route_matrix.py:207:def value_for(value, records=None):
+./app/route_matrix.py:212:def names_for_scope(value, records=None):
+./app/route_matrix.py:216:def is_known(value, records=None):
+./app/credential_catalog.py:5:class Record:
+./app/credential_catalog.py:133:def all_records():
+./app/credential_catalog.py:198:def by_scope(scope):
+./app/credential_catalog.py:202:def select_entry(value, records=None):
+./app/credential_catalog.py:207:def value_for(value, records=None):
+./app/credential_catalog.py:212:def names_for_scope(value, records=None):
+./app/credential_catalog.py:216:def is_known(value, records=None):
+./app/feature_flags.py:5:class Record:
+./app/feature_flags.py:50:    SHADOW_VERIFY = Record('shadow_verify', 'shadow-verify-rule', 'request')
+./app/feature_flags.py:61:def all_records():
+./app/feature_flags.py:90:def by_scope(scope):
+./app/feature_flags.py:94:def flag_for(value, records=None):
+./app/feature_flags.py:99:def select_flag(value, records=None):
+./app/feature_flags.py:104:def is_runtime_flag(value, records=None):
+./app/feature_flags.py:108:def default_state(value, records=None):
+./app/recovery.py:5:class Record:
+./app/recovery.py:22:    VERIFY_RECOVERY_SECRET = Record('verify_recovery_secret', 'verify-recovery-secret-rule', 'audit')
+./app/recovery.py:61:def all_records():
+./app/recovery.py:90:def by_scope(scope):
+./app/recovery.py:94:def step_for(value, records=None):
+./app/recovery.py:99:def select_step(value, records=None):
+./app/recovery.py:104:def changes_auth_state(value, records=None):
+./app/recovery.py:108:def is_terminal(value, records=None):
+./app/routes.py:1:from .request_path import process_login
+./app/routes.py:5:def dispatch(request, services, now):
+./app/routes.py:7:        return process_login(request, services, now)
+./app/routes.py:13:def public_routes():
+./app/routes.py:17:def route_name(request):
+./app/routes.py:21:def is_login(request):
+./app/compatibility.py:5:class Record:
+./app/compatibility.py:133:def all_records():
+./app/compatibility.py:198:def by_scope(scope):
+./app/compatibility.py:202:def select_entry(value, records=None):
+./app/compatibility.py:207:def value_for(value, records=None):
+./app/compatibility.py:212:def names_for_scope(value, records=None):
+./app/compatibility.py:216:def is_known(value, records=None):
+./history/release_2026_q2.py:6:def behavior_notes():
+./history/release_2026_q2.py:14:def migration_step_00(state, value):
+./history/release_2026_q2.py:20:def migration_step_01(state, value):
+./history/release_2026_q2.py:26:def migration_step_02(state, value):
+./history/release_2026_q2.py:32:def migration_step_03(state, value):
+./history/release_2026_q2.py:38:def migration_step_04(state, value):
+./history/release_2026_q2.py:44:def migration_step_05(state, value):
+./history/release_2026_q2.py:50:def migration_step_06(state, value):
+./history/release_2026_q2.py:56:def migration_step_07(state, value):
+./history/release_2026_q2.py:62:def migration_step_08(state, value):
+./history/release_2026_q2.py:68:def migration_step_09(state, value):
+./history/release_2026_q2.py:74:def migration_step_10(state, value):
+./history/release_2026_q2.py:80:def migration_step_11(state, value):
+./history/release_2026_q2.py:86:def migration_step_12(state, value):
+./history/release_2026_q2.py:92:def migration_step_13(state, value):
+./history/release_2026_q2.py:98:def migration_step_14(state, value):
+./history/release_2026_q2.py:104:def migration_step_15(state, value):
+./history/release_2026_q2.py:110:def migration_step_16(state, value):
+./history/release_2026_q2.py:116:def migration_step_17(state, value):
+./history/release_2026_q1.py:6:def behavior_notes():
+./history/release_2026_q1.py:14:def migration_step_00(state, value):
+./history/release_2026_q1.py:20:def migration_step_01(state, value):
+./history/release_2026_q1.py:26:def migration_step_02(state, value):
+./history/release_2026_q1.py:32:def migration_step_03(state, value):
+./history/release_2026_q1.py:38:def migration_step_04(state, value):
+./history/release_2026_q1.py:44:def migration_step_05(state, value):
+./history/release_2026_q1.py:50:def migration_step_06(state, value):
+./history/release_2026_q1.py:56:def migration_step_07(state, value):
+./history/release_2026_q1.py:62:def migration_step_08(state, value):
+./history/release_2026_q1.py:68:def migration_step_09(state, value):
+./history/release_2026_q1.py:74:def migration_step_10(state, value):
+./history/release_2026_q1.py:80:def migration_step_11(state, value):
+./history/release_2026_q1.py:86:def migration_step_12(state, value):
+./history/release_2026_q1.py:92:def migration_step_13(state, value):
+./history/release_2026_q1.py:98:def migration_step_14(state, value):
+./history/release_2026_q1.py:104:def migration_step_15(state, value):
+./history/release_2026_q1.py:110:def migration_step_16(state, value):
+./history/release_2026_q1.py:116:def migration_step_17(state, value):
+./history/release_2023.py:6:def behavior_notes():
+./history/release_2023.py:14:def migration_step_00(state, value):
+./history/release_2023.py:20:def migration_step_01(state, value):
+./history/release_2023.py:26:def migration_step_02(state, value):
+./history/release_2023.py:32:def migration_step_03(state, value):
+./history/release_2023.py:38:def migration_step_04(state, value):
+./history/release_2023.py:44:def migration_step_05(state, value):
+./history/release_2023.py:50:def migration_step_06(state, value):
+./history/release_2023.py:56:def migration_step_07(state, value):
+./history/release_2023.py:62:def migration_step_08(state, value):
+./history/release_2023.py:68:def migration_step_09(state, value):
+./history/release_2023.py:74:def migration_step_10(state, value):
+./history/release_2023.py:80:def migration_step_11(state, value):
+./history/release_2023.py:86:def migration_step_12(state, value):
+./history/release_2023.py:92:def migration_step_13(state, value):
+./history/release_2023.py:98:def migration_step_14(state, value):
+./history/release_2023.py:104:def migration_step_15(state, value):
+./history/release_2023.py:110:def migration_step_16(state, value):
+./history/release_2023.py:116:def migration_step_17(state, value):
+./history/release_2024.py:6:def behavior_notes():
+./history/release_2024.py:14:def migration_step_00(state, value):
+./history/release_2024.py:20:def migration_step_01(state, value):
+./history/release_2024.py:26:def migration_step_02(state, value):
+./history/release_2024.py:32:def migration_step_03(state, value):
+./history/release_2024.py:38:def migration_step_04(state, value):
+./history/release_2024.py:44:def migration_step_05(state, value):
+./history/release_2024.py:50:def migration_step_06(state, value):
+./history/release_2024.py:56:def migration_step_07(state, value):
+./history/release_2024.py:62:def migration_step_08(state, value):
+./history/release_2024.py:68:def migration_step_09(state, value):
+./history/release_2024.py:74:def migration_step_10(state, value):
+./history/release_2024.py:80:def migration_step_11(state, value):
+./history/release_2024.py:86:def migration_step_12(state, value):
+./history/release_2024.py:92:def migration_step_13(state, value):
+./history/release_2024.py:98:def migration_step_14(state, value):
+./history/release_2024.py:104:def migration_step_15(state, value):
+./history/release_2024.py:110:def migration_step_16(state, value):
+./history/release_2024.py:116:def migration_step_17(state, value):
+./app/replies.py:5:class Response:
+./app/replies.py:11:def accepted(identity):
+./app/replies.py:15:def denied():
+./app/replies.py:19:def blocked():
+./app/replies.py:24:def bad_request(message):
+./app/replies.py:28:def service_unavailable():
+./app/replies.py:32:def is_authenticated(response):
+./app/replies.py:33:    return response.status == 200 and response.body.get("authenticated") is True
+./history/release_2025.py:6:def behavior_notes():
+./history/release_2025.py:14:def migration_step_00(state, value):
+./history/release_2025.py:20:def migration_step_01(state, value):
+./history/release_2025.py:26:def migration_step_02(state, value):
+./history/release_2025.py:32:def migration_step_03(state, value):
+./history/release_2025.py:38:def migration_step_04(state, value):
+./history/release_2025.py:44:def migration_step_05(state, value):
+./history/release_2025.py:50:def migration_step_06(state, value):
+./history/release_2025.py:56:def migration_step_07(state, value):
+./history/release_2025.py:62:def migration_step_08(state, value):
+./history/release_2025.py:68:def migration_step_09(state, value):
+./history/release_2025.py:74:def migration_step_10(state, value):
+./history/release_2025.py:80:def migration_step_11(state, value):
+./history/release_2025.py:86:def migration_step_12(state, value):
+./history/release_2025.py:92:def migration_step_13(state, value):
+./history/release_2025.py:98:def migration_step_14(state, value):
+./history/release_2025.py:104:def migration_step_15(state, value):
+./history/release_2025.py:110:def migration_step_16(state, value):
+./history/release_2025.py:116:def migration_step_17(state, value):
+./app/audit_schema.py:5:class Record:
+./app/audit_schema.py:61:def all_records():
+./app/audit_schema.py:90:def by_scope(scope):
+./app/audit_schema.py:94:def event_for(value, records=None):
+./app/audit_schema.py:99:def select_event(value, records=None):
+./app/audit_schema.py:104:def is_security_event(value, records=None):
+./app/audit_schema.py:108:def required_fields(value, records=None):
+./app/security_headers.py:5:class Record:
+./app/security_headers.py:133:def all_records():
+./app/security_headers.py:198:def by_scope(scope):
+./app/security_headers.py:202:def select_entry(value, records=None):
+./app/security_headers.py:207:def value_for(value, records=None):
+./app/security_headers.py:212:def names_for_scope(value, records=None):
+./app/security_headers.py:216:def is_known(value, records=None):
+./app/tenant_rules.py:5:class Record:
+./app/tenant_rules.py:61:def all_records():
+./app/tenant_rules.py:90:def by_scope(scope):
+./app/tenant_rules.py:94:def select_tenant(value, records=None):
+./app/tenant_rules.py:99:def allows_login(value, records=None):
+./app/tenant_rules.py:104:def names(value, records=None):
+./app/tenant_rules.py:108:def as_mapping(value, records=None):
+
+exec
+/bin/bash -lc 'nl -ba tests/test_auth_flow.py; nl -ba tests/test_adapters.py; nl -ba tests/test_operator_and_recovery.py' in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+     1	def test_failed_secret_is_denied(client):
+     2	    response = client.login("Acme", "alice", "bad")
+     3	    assert response.status == 401
+     4	
+     5	
+     6	def test_success_is_accepted(client):
+     7	    response = client.login("Acme", "alice", "good")
+     8	    assert response.status == 200
+     9	
+    10	
+    11	def test_lockout_example(client):
+    12	    client.login("Acme", "alice", "bad")
+    13	    assert client.login("Acme", "alice", "good").status in (200, 429)
+    14	
+    15	
+    16	def test_second_tenant_is_independent(client):
+    17	    client.login("Acme", "alice", "bad")
+    18	    assert client.login("Other", "alice", "good").status == 200
+    19	
+    20	
+    21	def test_old_release_is_not_contract(client):
+    22	    assert client.release_name() != "2025.08"
+    23	
+    24	
+    25	def test_metrics_are_not_auth_state(client):
+    26	    before = client.metrics()
+    27	    client.login("Acme", "alice", "bad")
+    28	    assert client.metrics()["auth_failures"] == before["auth_failures"] + 1
+     1	def test_sqlite_round_trip(sqlite):
+     2	    sqlite.put("acme:alice", "record")
+     3	    assert sqlite.get("acme:alice") == "record"
+     4	
+     5	
+     6	def test_memory_delete(memory):
+     7	    memory.put("acme:alice", "record")
+     8	    memory.delete("acme:alice")
+     9	    assert memory.get("acme:alice") is None
+    10	
+    11	
+    12	def test_redis_namespace(redis):
+    13	    assert redis.key("acme:alice").startswith("auth:")
+    14	
+    15	
+    16	def test_transaction_rollback(store):
+    17	    with store.transaction() as tx:
+    18	        tx.put("temporary", "value")
+    19	        tx.rollback()
+    20	    assert store.get("temporary") is None
+    21	
+    22	
+    23	def test_expiry_boundary(clock, ledger):
+    24	    assert ledger.active("acme:alice", clock.now()) is False
+     1	def test_operator_can_clear_lockout(operator):
+     2	    assert operator.authorize("clear_lockout")
+     3	
+     4	
+     5	def test_recovery_revokes_sessions(recovery):
+     6	    assert recovery.changes_auth_state("revoke_sessions")
+     7	
+     8	
+     9	def test_disabled_account_cannot_verify(verifier):
+    10	    assert verifier.verify_disabled() is False
+    11	
+    12	
+    13	def test_audit_redacts_secret(audit):
+    14	    assert "secret" not in audit.redacted_fields()
+    15	
+    16	
+    17	def test_policy_is_tenant_scoped(policy):
+    18	    assert policy.scope == "tenant"
+
+codex
+The live chain is `Server.handle → routes.dispatch → request_path.process_login`. The request handler canonicalizes the identity, checks the ledger before verification, records `now + policy.lockout_seconds` on failure, and clears only that identity on success; I’m checking wiring and alternate runtime paths before finalizing the citation.
+exec
+/bin/bash -lc "rg -n -i \"login|lockout|authenticate|verify|canonical|dispatch|handle|build_runtime|connect\\(\" --glob '*.py' . | sed -n '1,260p'; echo '--- package/tree metadata'; find . -maxdepth 2 -type f "'! -name '"'*.py' -print -exec sed -n '1,120p' {} \\;" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+./tests/test_auth_flow.py:2:    response = client.login("Acme", "alice", "bad")
+./tests/test_auth_flow.py:7:    response = client.login("Acme", "alice", "good")
+./tests/test_auth_flow.py:11:def test_lockout_example(client):
+./tests/test_auth_flow.py:12:    client.login("Acme", "alice", "bad")
+./tests/test_auth_flow.py:13:    assert client.login("Acme", "alice", "good").status in (200, 429)
+./tests/test_auth_flow.py:17:    client.login("Acme", "alice", "bad")
+./tests/test_auth_flow.py:18:    assert client.login("Other", "alice", "good").status == 200
+./tests/test_auth_flow.py:27:    client.login("Acme", "alice", "bad")
+./app/credentials.py:10:    def verify(self, identity, supplied):
+./app/migrations.py:20:    LOCKOUTS_V1 = Record('lockouts_v1', 'lockouts-v1-rule', 'request')
+./app/migrations.py:22:    LOCKOUTS_V2 = Record('lockouts_v2', 'lockouts-v2-rule', 'audit')
+./app/migrations.py:24:    LOCKOUTS_V3 = Record('lockouts_v3', 'lockouts-v3-rule', 'tenant')
+./app/migrations.py:67:        LOCKOUTS_V1,
+./app/migrations.py:68:        LOCKOUTS_V2,
+./app/migrations.py:69:        LOCKOUTS_V3,
+./app/migrations.py:104:def is_lockout_migration(value, records=None):
+./app/migrations.py:105:    return str(value).startswith("lockouts_")
+./tests/test_operator_and_recovery.py:1:def test_operator_can_clear_lockout(operator):
+./tests/test_operator_and_recovery.py:2:    assert operator.authorize("clear_lockout")
+./tests/test_operator_and_recovery.py:9:def test_disabled_account_cannot_verify(verifier):
+./tests/test_operator_and_recovery.py:10:    assert verifier.verify_disabled() is False
+./history/release_2026_q1.py:9:        "records": ['canonical_key', 'lockout_record', 'audit_event'],
+./adapters/memory_backend.py:16:    MEMORY_LOCKOUTS = Record('memory_lockouts', 'memory-lockouts-rule', 'audit')
+./adapters/memory_backend.py:65:        MEMORY_LOCKOUTS,
+./deploy/runtime.py:4:def build_runtime(container):
+./adapters/redis_backend.py:16:    REDIS_LOCKOUTS = Record('redis_lockouts', 'redis-lockouts-rule', 'audit')
+./adapters/redis_backend.py:65:        REDIS_LOCKOUTS,
+./adapters/redis_backend.py:105:    return str(value) in {"redis_lockouts", "redis_sessions"}
+./deploy/wiring.py:1:from app.lockouts import LockoutLedger
+./deploy/wiring.py:5:def connect(container, store, clock, overrides):
+./deploy/wiring.py:6:    container.lockouts = LockoutLedger(store, clock)
+./deploy/wiring.py:15:def verify_wiring(container):
+./deploy/wiring.py:17:               ("credentials", "lockouts", "policy", "audit"))
+./app/config.py:5:    "lockout_seconds": "60",
+./app/config.py:30:    return int(values["lockout_seconds"]) >= 0 and int(values["max_body_bytes"]) > 0
+./app/server.py:2:from .routes import dispatch
+./app/server.py:15:    def handle(self, request):
+./app/server.py:18:        return dispatch(request, self.services, self.clock.now())
+./app/policy.py:5:class LoginPolicy:
+./app/policy.py:6:    lockout_seconds: int
+./app/policy.py:12:DEFAULT_POLICY = LoginPolicy(60, 3, False, True)
+./app/policy.py:17:    requested_seconds = selected.get("lockout_seconds", DEFAULT_POLICY.lockout_seconds)
+./app/policy.py:18:    if int(requested_seconds) != DEFAULT_POLICY.lockout_seconds:
+./app/policy.py:19:        raise ValueError("the production identity lockout is fixed at 60 seconds")
+./app/policy.py:20:    seconds = DEFAULT_POLICY.lockout_seconds
+./app/policy.py:27:    return LoginPolicy(seconds, skew, service, audit)
+./app/policy.py:31:    return {"lockout_seconds": policy.lockout_seconds,
+./app/policy.py:38:    return policy.lockout_seconds > 0 and policy.audit_failures
+./adapters/sqlite_backend.py:16:    SQLITE_LOCKOUTS = Record('sqlite_lockouts', 'sqlite-lockouts-rule', 'audit')
+./adapters/sqlite_backend.py:65:        SQLITE_LOCKOUTS,
+./adapters/sqlite_backend.py:105:    return str(value) in {"sqlite_lockouts", "sqlite_accounts", "sqlite_audit"}
+./app/serialization.py:18:    FORMAT_LOCKOUT_01 = Record('format_lockout_01', 'format-lockout-01-rule', 'tenant')
+./app/serialization.py:30:    FORMAT_LOCKOUT_02 = Record('format_lockout_02', 'format-lockout-02-rule', 'tenant')
+./app/serialization.py:42:    FORMAT_LOCKOUT_03 = Record('format_lockout_03', 'format-lockout-03-rule', 'tenant')
+./app/serialization.py:54:    FORMAT_LOCKOUT_04 = Record('format_lockout_04', 'format-lockout-04-rule', 'tenant')
+./app/serialization.py:66:    FORMAT_LOCKOUT_05 = Record('format_lockout_05', 'format-lockout-05-rule', 'tenant')
+./app/serialization.py:78:    FORMAT_LOCKOUT_06 = Record('format_lockout_06', 'format-lockout-06-rule', 'tenant')
+./app/serialization.py:90:    FORMAT_LOCKOUT_07 = Record('format_lockout_07', 'format-lockout-07-rule', 'tenant')
+./app/serialization.py:102:    FORMAT_LOCKOUT_08 = Record('format_lockout_08', 'format-lockout-08-rule', 'tenant')
+./app/serialization.py:114:    FORMAT_LOCKOUT_09 = Record('format_lockout_09', 'format-lockout-09-rule', 'tenant')
+./app/serialization.py:126:    FORMAT_LOCKOUT_10 = Record('format_lockout_10', 'format-lockout-10-rule', 'tenant')
+./app/serialization.py:138:        FORMAT_LOCKOUT_01,
+./app/serialization.py:144:        FORMAT_LOCKOUT_02,
+./app/serialization.py:150:        FORMAT_LOCKOUT_03,
+./app/serialization.py:156:        FORMAT_LOCKOUT_04,
+./app/serialization.py:162:        FORMAT_LOCKOUT_05,
+./app/serialization.py:168:        FORMAT_LOCKOUT_06,
+./app/serialization.py:174:        FORMAT_LOCKOUT_07,
+./app/serialization.py:180:        FORMAT_LOCKOUT_08,
+./app/serialization.py:186:        FORMAT_LOCKOUT_09,
+./app/serialization.py:192:        FORMAT_LOCKOUT_10,
+./app/lockouts.py:5:class Lockout:
+./app/lockouts.py:11:class LockoutLedger:
+./app/lockouts.py:21:        self.store.put(identity.key(), Lockout(identity, until))
+./app/request_path.py:2:from .identity import canonical_identity
+./app/request_path.py:6:def process_login(request, services, now):
+./app/request_path.py:7:    '''Run the production login path after routing has selected this handler.'''
+./app/request_path.py:8:    identity = canonical_identity(request.tenant, request.account)
+./app/request_path.py:9:    if services.lockouts.active(identity, now):
+./app/request_path.py:12:    verified = services.credentials.verify(identity, request.secret)
+./app/request_path.py:14:        until = now + services.policy.lockout_seconds
+./app/request_path.py:15:        services.lockouts.record(identity, until)
+./app/request_path.py:18:    services.lockouts.clear(identity)
+./app/identity.py:13:def canonical_identity(tenant, account):
+./app/identity.py:34:    return canonical_identity(tenant, account)
+./app/replies.py:12:    return Response(200, {"authenticated": True, "identity": identity.key()}, {})
+./app/replies.py:16:    return Response(401, {"authenticated": False}, {})
+./app/replies.py:20:    return Response(429, {"authenticated": False, "retryable": True},
+./app/replies.py:32:def is_authenticated(response):
+./app/replies.py:33:    return response.status == 200 and response.body.get("authenticated") is True
+./app/session_paths.py:108:def is_login_path(value, records=None):
+./app/observability.py:22:    LOCKOUT_READS = Record('lockout_reads', 'lockout-reads-rule', 'audit')
+./app/observability.py:24:    LOCKOUT_WRITES = Record('lockout_writes', 'lockout-writes-rule', 'tenant')
+./app/observability.py:26:    LOCKOUT_DELETES = Record('lockout_deletes', 'lockout-deletes-rule', 'request')
+./app/observability.py:68:        LOCKOUT_READS,
+./app/observability.py:69:        LOCKOUT_WRITES,
+./app/observability.py:70:        LOCKOUT_DELETES,
+./app/admin_controls.py:12:    VIEW_LOCKOUT = Record('view_lockout', 'view-lockout-rule', 'tenant')
+./app/admin_controls.py:14:    CLEAR_LOCKOUT = Record('clear_lockout', 'clear-lockout-rule', 'request')
+./app/admin_controls.py:54:    PAUSE_LOGIN = Record('pause_login', 'pause-login-rule', 'tenant')
+./app/admin_controls.py:56:    RESUME_LOGIN = Record('resume_login', 'resume-login-rule', 'request')
+./app/admin_controls.py:63:        VIEW_LOCKOUT,
+./app/admin_controls.py:64:        CLEAR_LOCKOUT,
+./app/admin_controls.py:84:        PAUSE_LOGIN,
+./app/admin_controls.py:85:        RESUME_LOGIN,
+./app/admin_controls.py:109:    return str(value) in {"clear_lockout", "disable_account", "remove_tenant", "flush_cache"}
+./app/event_catalog.py:18:    EVENT_LOCKOUT_01 = Record('event_lockout_01', 'event-lockout-01-rule', 'tenant')
+./app/event_catalog.py:30:    EVENT_LOCKOUT_02 = Record('event_lockout_02', 'event-lockout-02-rule', 'tenant')
+./app/event_catalog.py:42:    EVENT_LOCKOUT_03 = Record('event_lockout_03', 'event-lockout-03-rule', 'tenant')
+./app/event_catalog.py:54:    EVENT_LOCKOUT_04 = Record('event_lockout_04', 'event-lockout-04-rule', 'tenant')
+./app/event_catalog.py:66:    EVENT_LOCKOUT_05 = Record('event_lockout_05', 'event-lockout-05-rule', 'tenant')
+./app/event_catalog.py:78:    EVENT_LOCKOUT_06 = Record('event_lockout_06', 'event-lockout-06-rule', 'tenant')
+./app/event_catalog.py:90:    EVENT_LOCKOUT_07 = Record('event_lockout_07', 'event-lockout-07-rule', 'tenant')
+./app/event_catalog.py:102:    EVENT_LOCKOUT_08 = Record('event_lockout_08', 'event-lockout-08-rule', 'tenant')
+./app/event_catalog.py:114:    EVENT_LOCKOUT_09 = Record('event_lockout_09', 'event-lockout-09-rule', 'tenant')
+./app/event_catalog.py:126:    EVENT_LOCKOUT_10 = Record('event_lockout_10', 'event-lockout-10-rule', 'tenant')
+./app/event_catalog.py:138:        EVENT_LOCKOUT_01,
+./app/event_catalog.py:144:        EVENT_LOCKOUT_02,
+./app/event_catalog.py:150:        EVENT_LOCKOUT_03,
+./app/event_catalog.py:156:        EVENT_LOCKOUT_04,
+./app/event_catalog.py:162:        EVENT_LOCKOUT_05,
+./app/event_catalog.py:168:        EVENT_LOCKOUT_06,
+./app/event_catalog.py:174:        EVENT_LOCKOUT_07,
+./app/event_catalog.py:180:        EVENT_LOCKOUT_08,
+./app/event_catalog.py:186:        EVENT_LOCKOUT_09,
+./app/event_catalog.py:192:        EVENT_LOCKOUT_10,
+./app/metrics.py:28:    GAUGE_LOCKOUTS = Record('gauge_lockouts', 'gauge-lockouts-rule', 'audit')
+./app/metrics.py:30:    TIMER_VERIFY = Record('timer_verify', 'timer-verify-rule', 'tenant')
+./app/metrics.py:71:        GAUGE_LOCKOUTS,
+./app/metrics.py:72:        TIMER_VERIFY,
+./app/audit_schema.py:22:    LOCKOUT_WRITTEN = Record('lockout_written', 'lockout-written-rule', 'audit')
+./app/audit_schema.py:24:    LOCKOUT_DELETED = Record('lockout_deleted', 'lockout-deleted-rule', 'tenant')
+./app/audit_schema.py:68:        LOCKOUT_WRITTEN,
+./app/audit_schema.py:69:        LOCKOUT_DELETED,
+./app/audit_schema.py:105:    return str(value).startswith("auth_") or str(value).startswith("lockout_")
+./app/tenant_rules.py:12:    ALPHA_LOGIN = Record('alpha_login', 'alpha-login-rule', 'tenant')
+./app/tenant_rules.py:14:    BETA_LOGIN = Record('beta_login', 'beta-login-rule', 'request')
+./app/tenant_rules.py:16:    GAMMA_LOGIN = Record('gamma_login', 'gamma-login-rule', 'audit')
+./app/tenant_rules.py:18:    DELTA_LOGIN = Record('delta_login', 'delta-login-rule', 'tenant')
+./app/tenant_rules.py:20:    EPSILON_LOGIN = Record('epsilon_login', 'epsilon-login-rule', 'request')
+./app/tenant_rules.py:22:    ZETA_LOGIN = Record('zeta_login', 'zeta-login-rule', 'audit')
+./app/tenant_rules.py:24:    ETA_LOGIN = Record('eta_login', 'eta-login-rule', 'tenant')
+./app/tenant_rules.py:26:    THETA_LOGIN = Record('theta_login', 'theta-login-rule', 'request')
+./app/tenant_rules.py:28:    IOTA_LOGIN = Record('iota_login', 'iota-login-rule', 'audit')
+./app/tenant_rules.py:30:    KAPPA_LOGIN = Record('kappa_login', 'kappa-login-rule', 'tenant')
+./app/tenant_rules.py:32:    LAMBDA_LOGIN = Record('lambda_login', 'lambda-login-rule', 'request')
+./app/tenant_rules.py:34:    MU_LOGIN = Record('mu_login', 'mu-login-rule', 'audit')
+./app/tenant_rules.py:36:    NU_LOGIN = Record('nu_login', 'nu-login-rule', 'tenant')
+./app/tenant_rules.py:38:    XI_LOGIN = Record('xi_login', 'xi-login-rule', 'request')
+./app/tenant_rules.py:40:    OMICRON_LOGIN = Record('omicron_login', 'omicron-login-rule', 'audit')
+./app/tenant_rules.py:42:    PI_LOGIN = Record('pi_login', 'pi-login-rule', 'tenant')
+./app/tenant_rules.py:44:    RHO_LOGIN = Record('rho_login', 'rho-login-rule', 'request')
+./app/tenant_rules.py:46:    SIGMA_LOGIN = Record('sigma_login', 'sigma-login-rule', 'audit')
+./app/tenant_rules.py:48:    TAU_LOGIN = Record('tau_login', 'tau-login-rule', 'tenant')
+./app/tenant_rules.py:50:    UPSILON_LOGIN = Record('upsilon_login', 'upsilon-login-rule', 'request')
+./app/tenant_rules.py:52:    PHI_LOGIN = Record('phi_login', 'phi-login-rule', 'audit')
+./app/tenant_rules.py:54:    CHI_LOGIN = Record('chi_login', 'chi-login-rule', 'tenant')
+./app/tenant_rules.py:56:    PSI_LOGIN = Record('psi_login', 'psi-login-rule', 'request')
+./app/tenant_rules.py:58:    OMEGA_LOGIN = Record('omega_login', 'omega-login-rule', 'audit')
+./app/tenant_rules.py:63:        ALPHA_LOGIN,
+./app/tenant_rules.py:64:        BETA_LOGIN,
+./app/tenant_rules.py:65:        GAMMA_LOGIN,
+./app/tenant_rules.py:66:        DELTA_LOGIN,
+./app/tenant_rules.py:67:        EPSILON_LOGIN,
+./app/tenant_rules.py:68:        ZETA_LOGIN,
+./app/tenant_rules.py:69:        ETA_LOGIN,
+./app/tenant_rules.py:70:        THETA_LOGIN,
+./app/tenant_rules.py:71:        IOTA_LOGIN,
+./app/tenant_rules.py:72:        KAPPA_LOGIN,
+./app/tenant_rules.py:73:        LAMBDA_LOGIN,
+./app/tenant_rules.py:74:        MU_LOGIN,
+./app/tenant_rules.py:75:        NU_LOGIN,
+./app/tenant_rules.py:76:        XI_LOGIN,
+./app/tenant_rules.py:77:        OMICRON_LOGIN,
+./app/tenant_rules.py:78:        PI_LOGIN,
+./app/tenant_rules.py:79:        RHO_LOGIN,
+./app/tenant_rules.py:80:        SIGMA_LOGIN,
+./app/tenant_rules.py:81:        TAU_LOGIN,
+./app/tenant_rules.py:82:        UPSILON_LOGIN,
+./app/tenant_rules.py:83:        PHI_LOGIN,
+./app/tenant_rules.py:84:        CHI_LOGIN,
+./app/tenant_rules.py:85:        PSI_LOGIN,
+./app/tenant_rules.py:86:        OMEGA_LOGIN,
+./app/tenant_rules.py:99:def allows_login(value, records=None):
+./app/services.py:8:    lockouts: object
+./app/services.py:15:    return Services(container.identity, container.credentials, container.lockouts,
+./app/services.py:20:    fields = ("identity", "credentials", "lockouts", "policy", "audit", "health")
+./app/services.py:25:    return Services(service_set.identity, service_set.credentials, service_set.lockouts,
+./app/route_matrix.py:12:    ROUTE_LOGIN_01 = Record('route_login_01', 'route-login-01-rule', 'tenant')
+./app/route_matrix.py:24:    ROUTE_LOGIN_02 = Record('route_login_02', 'route-login-02-rule', 'tenant')
+./app/route_matrix.py:36:    ROUTE_LOGIN_03 = Record('route_login_03', 'route-login-03-rule', 'tenant')
+./app/route_matrix.py:48:    ROUTE_LOGIN_04 = Record('route_login_04', 'route-login-04-rule', 'tenant')
+./app/route_matrix.py:60:    ROUTE_LOGIN_05 = Record('route_login_05', 'route-login-05-rule', 'tenant')
+./app/route_matrix.py:72:    ROUTE_LOGIN_06 = Record('route_login_06', 'route-login-06-rule', 'tenant')
+./app/route_matrix.py:84:    ROUTE_LOGIN_07 = Record('route_login_07', 'route-login-07-rule', 'tenant')
+./app/route_matrix.py:96:    ROUTE_LOGIN_08 = Record('route_login_08', 'route-login-08-rule', 'tenant')
+./app/route_matrix.py:108:    ROUTE_LOGIN_09 = Record('route_login_09', 'route-login-09-rule', 'tenant')
+./app/route_matrix.py:120:    ROUTE_LOGIN_10 = Record('route_login_10', 'route-login-10-rule', 'tenant')
+./app/route_matrix.py:135:        ROUTE_LOGIN_01,
+./app/route_matrix.py:141:        ROUTE_LOGIN_02,
+./app/route_matrix.py:147:        ROUTE_LOGIN_03,
+./app/route_matrix.py:153:        ROUTE_LOGIN_04,
+./app/route_matrix.py:159:        ROUTE_LOGIN_05,
+./app/route_matrix.py:165:        ROUTE_LOGIN_06,
+./app/route_matrix.py:171:        ROUTE_LOGIN_07,
+./app/route_matrix.py:177:        ROUTE_LOGIN_08,
+./app/route_matrix.py:183:        ROUTE_LOGIN_09,
+./app/route_matrix.py:189:        ROUTE_LOGIN_10,
+./app/feature_flags.py:12:    NEW_LOGIN_ROUTE = Record('new_login_route', 'new-login-route-rule', 'tenant')
+./app/feature_flags.py:14:    LEGACY_LOGIN_ROUTE = Record('legacy_login_route', 'legacy-login-route-rule', 'request')
+./app/feature_flags.py:16:    LOCKOUT_LEDGER = Record('lockout_ledger', 'lockout-ledger-rule', 'audit')
+./app/feature_flags.py:50:    SHADOW_VERIFY = Record('shadow_verify', 'shadow-verify-rule', 'request')
+./app/feature_flags.py:63:        NEW_LOGIN_ROUTE,
+./app/feature_flags.py:64:        LEGACY_LOGIN_ROUTE,
+./app/feature_flags.py:65:        LOCKOUT_LEDGER,
+./app/feature_flags.py:82:        SHADOW_VERIFY,
+./app/recovery.py:22:    VERIFY_RECOVERY_SECRET = Record('verify_recovery_secret', 'verify-recovery-secret-rule', 'audit')
+./app/recovery.py:68:        VERIFY_RECOVERY_SECRET,
+./app/routes.py:1:from .request_path import process_login
+./app/routes.py:5:def dispatch(request, services, now):
+./app/routes.py:6:    if request.method == "POST" and request.path == "/login":
+./app/routes.py:7:        return process_login(request, services, now)
+./app/routes.py:14:    return ("POST /login", "GET /health")
+./app/routes.py:21:def is_login(request):
+./app/routes.py:22:    return request.method == "POST" and request.path == "/login"
+--- package/tree metadata
+
+exec
+/bin/bash -lc 'test ! -e answer.txt && echo '"'answer.txt absent' || { echo 'answer.txt exists'; nl -ba answer.txt; }" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+answer.txt absent
+
+apply patch
+patch: completed
+/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+codex
+The implementation is positive: the handler’s ordering and per-key ledger operations satisfy all three requirements, with the 60-second duration enforced by the live policy wiring. I’ve written the requested answer file and am doing a final format check.
+exec
+/bin/bash -lc "wc -l answer.txt && sed -n '1,3p' answer.txt && tail -c 1 answer.txt | od -An -t x1 && python -m py_compile app/server.py app/routes.py app/request_path.py app/identity.py app/lockouts.py app/policy.py app/replies.py deploy/wiring.py" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ exited 127 in 0ms:
+3 answer.txt
+PATH: app/request_path.py
+LINES: 8-20
+EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+ 0a
+/bin/bash: line 1: python: command not found
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+exec
+/bin/bash -lc "python3 -m py_compile app/server.py app/routes.py app/request_path.py app/identity.py app/lockouts.py app/policy.py app/replies.py deploy/wiring.py && echo 'py_compile: ok'" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+py_compile: ok
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+exec
+/bin/bash -lc "find . -type f -path '*/__pycache__/*' -print; git status --short 2>/dev/null || true" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04
+ succeeded in 0ms:
+./app/__pycache__/request_path.cpython-314.pyc
+./app/__pycache__/lockouts.cpython-314.pyc
+./app/__pycache__/policy.cpython-314.pyc
+./app/__pycache__/identity.cpython-314.pyc
+./app/__pycache__/routes.cpython-314.pyc
+./app/__pycache__/replies.cpython-314.pyc
+./app/__pycache__/server.cpython-314.pyc
+./deploy/__pycache__/wiring.cpython-314.pyc
+?? ../../../../../../../../large-driver.log
+?? ../../
+?? ../../../tiny/trial-0/g01.codex.log
+?? ../../../tiny/trial-0/g01.final.txt
+?? ../../../tiny/trial-0/g01/
+?? ../../../tiny/trial-0/g02.codex.log
+?? ../../../tiny/trial-0/g02.final.txt
+?? ../../../tiny/trial-0/g02/test_calls.py
+?? ../../../tiny/trial-0/g03.codex.log
+?? ../../../tiny/trial-0/g03.final.txt
+?? ../../../tiny/trial-0/g04.codex.log
+?? ../../../tiny/trial-0/g04.final.txt
+?? ../../../tiny/trial-0/g04/
+?? ../../../tiny/trial-0/results.json
+?? ../../../tiny/trial-0/t01.codex.log
+?? ../../../tiny/trial-0/t01.final.txt
+?? ../../../tiny/trial-0/t01/
+?? ../../../tiny/trial-0/t02.codex.log
+?? ../../../tiny/trial-0/t02.final.txt
+?? ../../../tiny/trial-0/t02/
+?? ../../../tiny/trial-0/t03.codex.log
+?? ../../../tiny/trial-0/t03.final.txt
+?? ../../../tiny/trial-0/t03/
+?? ../../../tiny/trial-0/t04.codex.log
+?? ../../../tiny/trial-0/t04.final.txt
+?? ../../../tiny/trial-0/t04/
+?? ../../../../make_luna_page.py
+?? ../../../../run_luna_gate.py
+?? ../../../../../../../../tiny-driver.log
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+2026-09-05T02:46:19.306367Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`/bin/bash -lc 'rm -f app/__pycache__/request_path.cpython-314.pyc app/__pycache__/lockouts.cpython-314.pyc app/__pycache__/policy.cpython-314.pyc app/__pycache__/identity.cpython-314.pyc app/__pycache__/routes.cpython-314.pyc app/__pycache__/replies.cpython-314.pyc app/__pycache__/server.cpython-314.pyc deploy/__pycache__/wiring.cpython-314.pyc && rmdir app/__pycache__ deploy/__pycache__ 2>/dev/null || true; test \\\"$(wc -l < answer.txt)\\\" -eq 3 && echo '\\\"'answer format: ok'\\\"` rejected: rm -f style commands are not permitted. Use a safer approach\")" }
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+codex
+Created `answer.txt` with the required three lines. Runtime modules compile successfully.
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbd556db4f4bba2553eaefb6d62c529399a4e7c8
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t04/answer.txt
+@@ -0,0 +1,3 @@
++PATH: app/request_path.py
++LINES: 8-20
++EXPLANATION: The live handler canonicalizes identities via app/identity.py, checks and persists per-identity 60-second lockouts via app/lockouts.py and app/policy.py before verification, clears only the successful identity, and constructs the response via app/replies.py.
+
+tokens used
+44,590
+Created `answer.txt` with the required three lines. Runtime modules compile successfully.

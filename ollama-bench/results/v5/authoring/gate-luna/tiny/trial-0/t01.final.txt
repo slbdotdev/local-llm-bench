@@ -1,0 +1,1 @@
+Created and verified [reference_audit.txt](/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/tiny/trial-0/t01/reference_audit.txt) with exactly seven correctly ordered, tab-delimited lines.

@@ -1,0 +1,103 @@
+{
+ "g01": {
+  "wall_s": 68.4,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 16527,
+  "attempt": 1,
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g02": {
+  "wall_s": 157.7,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 36765,
+  "attempt": 1,
+  "pass": true,
+  "score": "13/13",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 13/13\nPASS\nVERDICT correct"
+ },
+ "g03": {
+  "wall_s": 244.9,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 58417,
+  "attempt": 1,
+  "pass": true,
+  "score": "15/15",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 15/15\nPASS\nVERDICT correct"
+ },
+ "g04": {
+  "wall_s": 30.3,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 10041,
+  "attempt": 1,
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "t01": {
+  "wall_s": 38.6,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 13435,
+  "attempt": 1,
+  "pass": true,
+  "score": "14/14",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 14/14\nPASS\nVERDICT correct"
+ },
+ "t02": {
+  "wall_s": 30.0,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 15264,
+  "attempt": 1,
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t03": {
+  "wall_s": 27.5,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 13402,
+  "attempt": 1,
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t04": {
+  "wall_s": 25.0,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 10252,
+  "attempt": 1,
+  "pass": true,
+  "score": "4/4",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 4/4\nPASS\nVERDICT correct"
+ },
+ "_meta": {
+  "band": "tiny",
+  "rate_limit_events": [],
+  "final_max_concurrency": 8
+ }
+}

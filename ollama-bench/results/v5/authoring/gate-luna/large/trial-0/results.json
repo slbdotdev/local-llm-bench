@@ -1,0 +1,103 @@
+{
+ "g01": {
+  "wall_s": 158.9,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 83728,
+  "attempt": 1,
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g02": {
+  "wall_s": 260.9,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 72787,
+  "attempt": 1,
+  "pass": true,
+  "score": "15/15",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 15/15\nPASS\nVERDICT correct"
+ },
+ "g03": {
+  "wall_s": 356.1,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 140292,
+  "attempt": 1,
+  "pass": true,
+  "score": "14/14",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 14/14\nPASS\nVERDICT correct"
+ },
+ "g04": {
+  "wall_s": 234.6,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 134488,
+  "attempt": 1,
+  "pass": true,
+  "score": "10/10",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 10/10\nPASS\nVERDICT correct"
+ },
+ "t01": {
+  "wall_s": 160.3,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 59930,
+  "attempt": 1,
+  "pass": true,
+  "score": "55/55",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 55/55\nPASS\nVERDICT correct"
+ },
+ "t02": {
+  "wall_s": 79.9,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 62642,
+  "attempt": 1,
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t03": {
+  "wall_s": 61.0,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 53347,
+  "attempt": 1,
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t04": {
+  "wall_s": 85.3,
+  "codex_rc": 0,
+  "timed_out": false,
+  "tokens_used": 44590,
+  "attempt": 1,
+  "pass": false,
+  "score": "4/5",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 4/5\nFAIL ['explanation covers serial behavior']\nVERDICT confidently_wrong"
+ },
+ "_meta": {
+  "band": "large",
+  "rate_limit_events": [],
+  "final_max_concurrency": 8
+ }
+}

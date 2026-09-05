@@ -1,0 +1,8 @@
+Migration complete across the Python application and integration test.
+
+- Renamed `make_tag` to `make_badge` everywhere.
+- Enforced `make_badge(label, *, tone="plain")`.
+- Updated positional tone calls, registries, dispatch, aliases, defaults, doctest, and reflected strings.
+- Verified all subpackages import successfully.
+- Supplied test passes: `PYTHONPATH=. python3 tests/test_badges.py`
+- Confirmed no `make_tag` remains in Python source.

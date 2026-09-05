@@ -1,0 +1,1198 @@
+OpenAI Codex v0.153.4
+--------
+workdir: /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+model: gpt-5.6-luna
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a06f74-770c-71c0-9183-7c620fd0f1df
+--------
+user
+# Classify references after a relocation
+
+Work in the documentation tree copied into the current workspace. Do not rewrite any document.
+Find every standalone occurrence of this exact old path:
+
+`//infra/handbook/oncall.md`
+
+It has moved to:
+
+`//infra/runbooks/oncall.md`
+
+For each occurrence, read its surrounding section and the document's status to decide whether it is a live pointer or historical record:
+
+- `UPDATE` a current operational link, instruction, index entry, or runbook pointer that directs present-day work to the old location.
+- `LEAVE` a dated history entry, changelog, postmortem, incident transcript, archived record, or quoted evidence that accurately records what was true before the move. Historical evidence must not be rewritten, even when it appears inside a current document.
+
+A current document can contain a quoted historical passage; classify that occurrence by the passage's role, not by the filename alone. Conversely, a current migration or rollout procedure is a live instruction and must be updated. The tree contains current guidance, service modules, operations records, and history/archive material; inspect enough surrounding context to distinguish them.
+
+“Standalone occurrence” means the exact literal path string above appearing anywhere in a `.md` file. Prose, lists, link targets, code spans, fenced code, quotations, and comments all count. Do not count the string when it is a proper prefix or substring of a longer path, filename, or near-miss. Search all `.md` files recursively. There are exactly 55 standalone occurrences.
+
+Create `reference_audit.txt` with exactly 55 non-empty records, ordered by relative source-file path and then ascending 1-based line number. Use no header or other text. Each record has exactly five fields separated by literal tab characters (U+0009):
+
+`ACTION<TAB>RELATIVE_FILE<TAB>LINE<TAB>OLD_PATH<TAB>REPLACEMENT`
+
+Use `UPDATE` or `LEAVE` exactly for `ACTION`. Use a POSIX path relative to the workspace root for `RELATIVE_FILE`, without `./` or `seed/`. Use a positive decimal line number. Copy the two paths above verbatim into `OLD_PATH` and, for `UPDATE`, `REPLACEMENT`; use `-` as `REPLACEMENT` for `LEAVE`.
+
+The output order and field spelling are part of the contract. Do not modify the source documents. Stop after the output file is complete.
+
+
+codex
+I’ll scan every Markdown file, verify the 55 standalone hits and their contexts/status, then write only `reference_audit.txt` and validate its exact format and ordering.
+exec
+/bin/bash -lc "pwd; rg --files -g 'CLAUDE.md' -g '"'!reference_audit.txt'"'; rg --files -g '*.md' | wc -l; rg -n -F '//infra/handbook/oncall.md' --glob '*.md'" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+26
+README.md:17:The current catalog still points operators to //infra/handbook/oncall.md; that live catalog entry is part of the relocation audit.
+current/data-handling.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/data-handling.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/data-handling.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/operations.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/operations.md:110:The current page quotes a 2026-07 incident transcript: //infra/handbook/oncall.md. This is historical evidence and must remain unchanged.
+current/operations.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/operations.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+current/release.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/release.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/release.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/release.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+history/2026-06-release.md:20:The release checklist captured the handbook location that existed at promotion time //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-06-release.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-06-release.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+current/reliability.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/reliability.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/reliability.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/reliability.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+ops/access-review.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/access-review.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/access-review.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/security.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/security.md:110:The current page preserves an audit quotation from 2026-06: //infra/handbook/oncall.md. This is historical evidence and must remain unchanged.
+current/security.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/security.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+ops/observability.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/observability.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/observability.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+ops/migration-status.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/migration-status.md:110:The status page quotes the pre-cutover register: //infra/handbook/oncall.md. This dated evidence must remain unchanged.
+ops/migration-status.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+history/2026-07-postmortem.md:20:The responder transcript shows the path printed by the old pager integration //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-07-postmortem.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-07-postmortem.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+ops/change-calendar.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/change-calendar.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/change-calendar.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+history/2026-08-31-relocation.md:20:The move was executed during the scheduled window. Before cutover, responders used //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-08-31-relocation.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-08-31-relocation.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+services/warehouse/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/warehouse/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/warehouse/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/identity/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/identity/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/identity/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/warehouse/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/warehouse/runbook.md:110:The runbook includes a preserved postmortem excerpt: //infra/handbook/oncall.md. It describes past state and must remain unchanged.
+services/warehouse/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+archive/quarterly-review.md:20:The review compares the old and new operating locations during the quarter //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/quarterly-review.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/quarterly-review.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+services/identity/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/identity/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/identity/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+archive/legacy-guide.md:20:This guide was retired after the service split. Its examples describe the former operating model //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/legacy-guide.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/legacy-guide.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+services/search/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/search/runbook.md:110:The runbook retains a dated responder note from 2026-07: //infra/handbook/oncall.md. It is historical evidence, not a live pointer.
+services/search/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/search/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/search/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/search/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/edge/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/edge/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/edge/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/ledger/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/ledger/overview.md:110:The module records a prior settlement incident as quoted evidence: //infra/handbook/oncall.md. It is historical and must remain unchanged.
+services/ledger/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/ledger/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/ledger/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/ledger/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+archive/incident-2025.md:20:The transcript records commands and links exactly as responders saw them during the event //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/incident-2025.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/incident-2025.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+services/edge/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/edge/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/edge/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+
+codex
+I found the expected Markdown tree and raw matches, including deliberate near-misses such as `.bak`, `/legacy`, and `.txt`. I’m having a separate pass independently classify the true hits while I build the exact ordered inventory locally.
+collab: SpawnAgent
+exec
+/bin/bash -lc "rg -n -o -P '(?<"'![A-Za-z0-9._/-])//infra/handbook/oncall'"\\.md(?"'![A-Za-z0-9._/-])'"' --glob '*.md' | tee /tmp/oncall-standalone.txt; printf '%s\\n' \"count="'$(wc -l < /tmp/oncall-standalone.txt)"' in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+README.md:17://infra/handbook/oncall.md
+current/security.md:152://infra/handbook/oncall.md
+current/data-handling.md:110://infra/handbook/oncall.md
+current/release.md:110://infra/handbook/oncall.md
+current/release.md:152://infra/handbook/oncall.md
+current/operations.md:152://infra/handbook/oncall.md
+history/2026-06-release.md:50://infra/handbook/oncall.md
+current/reliability.md:110://infra/handbook/oncall.md
+current/reliability.md:152://infra/handbook/oncall.md
+history/2026-07-postmortem.md:50://infra/handbook/oncall.md
+history/2026-08-31-relocation.md:50://infra/handbook/oncall.md
+ops/change-calendar.md:110://infra/handbook/oncall.md
+services/identity/runbook.md:110://infra/handbook/oncall.md
+ops/access-review.md:110://infra/handbook/oncall.md
+archive/legacy-guide.md:50://infra/handbook/oncall.md
+services/warehouse/overview.md:110://infra/handbook/oncall.md
+ops/observability.md:110://infra/handbook/oncall.md
+services/identity/overview.md:110://infra/handbook/oncall.md
+services/edge/overview.md:110://infra/handbook/oncall.md
+archive/incident-2025.md:50://infra/handbook/oncall.md
+archive/quarterly-review.md:50://infra/handbook/oncall.md
+services/search/overview.md:110://infra/handbook/oncall.md
+services/ledger/runbook.md:110://infra/handbook/oncall.md
+services/edge/runbook.md:110://infra/handbook/oncall.md
+count=24
+
+exec
+/bin/bash -lc "rg -n -o -P '(?<"'![A-Za-z0-9._/-])//infra/handbook/oncall'"\\.md(?"'!(?:[/-]|'"\\.)[A-Za-z0-9])' --glob '*.md' | tee /tmp/oncall-standalone.txt; printf '%s\\n' \"count="'$(wc -l < /tmp/oncall-standalone.txt)"' in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+current/data-handling.md:27://infra/handbook/oncall.md
+current/data-handling.md:110://infra/handbook/oncall.md
+current/operations.md:27://infra/handbook/oncall.md
+current/operations.md:110://infra/handbook/oncall.md
+current/operations.md:152://infra/handbook/oncall.md
+current/security.md:27://infra/handbook/oncall.md
+current/security.md:110://infra/handbook/oncall.md
+current/security.md:152://infra/handbook/oncall.md
+current/reliability.md:27://infra/handbook/oncall.md
+current/reliability.md:110://infra/handbook/oncall.md
+current/reliability.md:152://infra/handbook/oncall.md
+current/release.md:27://infra/handbook/oncall.md
+current/release.md:110://infra/handbook/oncall.md
+current/release.md:152://infra/handbook/oncall.md
+ops/access-review.md:27://infra/handbook/oncall.md
+ops/access-review.md:110://infra/handbook/oncall.md
+archive/legacy-guide.md:20://infra/handbook/oncall.md
+archive/legacy-guide.md:50://infra/handbook/oncall.md
+history/2026-06-release.md:20://infra/handbook/oncall.md
+history/2026-06-release.md:50://infra/handbook/oncall.md
+README.md:17://infra/handbook/oncall.md
+ops/observability.md:27://infra/handbook/oncall.md
+ops/observability.md:110://infra/handbook/oncall.md
+archive/quarterly-review.md:20://infra/handbook/oncall.md
+archive/quarterly-review.md:50://infra/handbook/oncall.md
+history/2026-07-postmortem.md:20://infra/handbook/oncall.md
+history/2026-07-postmortem.md:50://infra/handbook/oncall.md
+ops/change-calendar.md:27://infra/handbook/oncall.md
+ops/change-calendar.md:110://infra/handbook/oncall.md
+ops/migration-status.md:27://infra/handbook/oncall.md
+ops/migration-status.md:110://infra/handbook/oncall.md
+archive/incident-2025.md:20://infra/handbook/oncall.md
+archive/incident-2025.md:50://infra/handbook/oncall.md
+history/2026-08-31-relocation.md:20://infra/handbook/oncall.md
+history/2026-08-31-relocation.md:50://infra/handbook/oncall.md
+services/identity/runbook.md:27://infra/handbook/oncall.md
+services/identity/runbook.md:110://infra/handbook/oncall.md
+services/warehouse/overview.md:27://infra/handbook/oncall.md
+services/warehouse/overview.md:110://infra/handbook/oncall.md
+services/edge/runbook.md:27://infra/handbook/oncall.md
+services/edge/runbook.md:110://infra/handbook/oncall.md
+services/identity/overview.md:27://infra/handbook/oncall.md
+services/identity/overview.md:110://infra/handbook/oncall.md
+services/warehouse/runbook.md:27://infra/handbook/oncall.md
+services/warehouse/runbook.md:110://infra/handbook/oncall.md
+services/search/runbook.md:27://infra/handbook/oncall.md
+services/search/runbook.md:110://infra/handbook/oncall.md
+services/ledger/overview.md:27://infra/handbook/oncall.md
+services/ledger/overview.md:110://infra/handbook/oncall.md
+services/ledger/runbook.md:27://infra/handbook/oncall.md
+services/ledger/runbook.md:110://infra/handbook/oncall.md
+services/edge/overview.md:27://infra/handbook/oncall.md
+services/edge/overview.md:110://infra/handbook/oncall.md
+services/search/overview.md:27://infra/handbook/oncall.md
+services/search/overview.md:110://infra/handbook/oncall.md
+count=55
+
+exec
+/bin/bash -lc "rg -n '"'^(#{1,6} |.*//infra/handbook/oncall'"\\.md)' --glob '*.md' | sort -t: -k1,1 -k2,2n" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+README.md:1:# Documentation tree
+README.md:17:The current catalog still points operators to //infra/handbook/oncall.md; that live catalog entry is part of the relocation audit.
+archive/incident-2025.md:1:# Incident transcript — November 2025
+archive/incident-2025.md:7:## Record status
+archive/incident-2025.md:18:## Timeline
+archive/incident-2025.md:20:The transcript records commands and links exactly as responders saw them during the event //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/incident-2025.md:22:## Evidence handling
+archive/incident-2025.md:33:## What this authorizes
+archive/incident-2025.md:37:## Review findings
+archive/incident-2025.md:48:## Near misses
+archive/incident-2025.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/incident-2025.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+archive/incident-2025.md:54:## Retention
+archive/incident-2025.md:65:## Terminology
+archive/legacy-guide.md:1:# Archived on-call guide
+archive/legacy-guide.md:7:## Record status
+archive/legacy-guide.md:18:## Timeline
+archive/legacy-guide.md:20:This guide was retired after the service split. Its examples describe the former operating model //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/legacy-guide.md:22:## Evidence handling
+archive/legacy-guide.md:33:## What this authorizes
+archive/legacy-guide.md:37:## Review findings
+archive/legacy-guide.md:48:## Near misses
+archive/legacy-guide.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/legacy-guide.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+archive/legacy-guide.md:54:## Retention
+archive/legacy-guide.md:65:## Terminology
+archive/quarterly-review.md:1:# Quarterly review archive — Q2 2026
+archive/quarterly-review.md:7:## Record status
+archive/quarterly-review.md:18:## Timeline
+archive/quarterly-review.md:20:The review compares the old and new operating locations during the quarter //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+archive/quarterly-review.md:22:## Evidence handling
+archive/quarterly-review.md:33:## What this authorizes
+archive/quarterly-review.md:37:## Review findings
+archive/quarterly-review.md:48:## Near misses
+archive/quarterly-review.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+archive/quarterly-review.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+archive/quarterly-review.md:54:## Retention
+archive/quarterly-review.md:65:## Terminology
+current/data-handling.md:1:# Data handling standard
+current/data-handling.md:10:## Purpose
+current/data-handling.md:14:## Boundary
+current/data-handling.md:25:## Start of work
+current/data-handling.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/data-handling.md:29:## State model
+current/data-handling.md:33:## Dependencies
+current/data-handling.md:37:## Approval
+current/data-handling.md:48:## Signals
+current/data-handling.md:52:## Deployment
+current/data-handling.md:56:## Recovery
+current/data-handling.md:60:## Data contract
+current/data-handling.md:71:## Review
+current/data-handling.md:75:## Failure modes
+current/data-handling.md:79:## Maintenance
+current/data-handling.md:83:## Access
+current/data-handling.md:94:## Communication
+current/data-handling.md:98:## Exceptions
+current/data-handling.md:102:## Capacity
+current/data-handling.md:106:## Decision record
+current/data-handling.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/data-handling.md:119:## Closing
+current/data-handling.md:123:## Near miss
+current/data-handling.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/data-handling.md:127:## Vocabulary
+current/data-handling.md:131:## Cross-module handoff
+current/data-handling.md:142:## Audit sample
+current/data-handling.md:146:## Operator checklist
+current/operations.md:1:# Operations handbook
+current/operations.md:10:## Purpose
+current/operations.md:14:## Boundary
+current/operations.md:25:## Start of work
+current/operations.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/operations.md:29:## State model
+current/operations.md:33:## Dependencies
+current/operations.md:37:## Approval
+current/operations.md:48:## Signals
+current/operations.md:52:## Deployment
+current/operations.md:56:## Recovery
+current/operations.md:60:## Data contract
+current/operations.md:71:## Review
+current/operations.md:75:## Failure modes
+current/operations.md:79:## Maintenance
+current/operations.md:83:## Access
+current/operations.md:94:## Communication
+current/operations.md:98:## Exceptions
+current/operations.md:102:## Capacity
+current/operations.md:106:## Decision record
+current/operations.md:110:The current page quotes a 2026-07 incident transcript: //infra/handbook/oncall.md. This is historical evidence and must remain unchanged.
+current/operations.md:119:## Closing
+current/operations.md:123:## Near miss
+current/operations.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/operations.md:127:## Vocabulary
+current/operations.md:131:## Cross-module handoff
+current/operations.md:142:## Audit sample
+current/operations.md:146:## Operator checklist
+current/operations.md:150:## Current index entry
+current/operations.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+current/release.md:1:# Release operating model
+current/release.md:10:## Purpose
+current/release.md:14:## Boundary
+current/release.md:25:## Start of work
+current/release.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/release.md:29:## State model
+current/release.md:33:## Dependencies
+current/release.md:37:## Approval
+current/release.md:48:## Signals
+current/release.md:52:## Deployment
+current/release.md:56:## Recovery
+current/release.md:60:## Data contract
+current/release.md:71:## Review
+current/release.md:75:## Failure modes
+current/release.md:79:## Maintenance
+current/release.md:83:## Access
+current/release.md:94:## Communication
+current/release.md:98:## Exceptions
+current/release.md:102:## Capacity
+current/release.md:106:## Decision record
+current/release.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/release.md:119:## Closing
+current/release.md:123:## Near miss
+current/release.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/release.md:127:## Vocabulary
+current/release.md:131:## Cross-module handoff
+current/release.md:142:## Audit sample
+current/release.md:146:## Operator checklist
+current/release.md:150:## Current index entry
+current/release.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+current/reliability.md:1:# Reliability standards
+current/reliability.md:10:## Purpose
+current/reliability.md:14:## Boundary
+current/reliability.md:25:## Start of work
+current/reliability.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/reliability.md:29:## State model
+current/reliability.md:33:## Dependencies
+current/reliability.md:37:## Approval
+current/reliability.md:48:## Signals
+current/reliability.md:52:## Deployment
+current/reliability.md:56:## Recovery
+current/reliability.md:60:## Data contract
+current/reliability.md:71:## Review
+current/reliability.md:75:## Failure modes
+current/reliability.md:79:## Maintenance
+current/reliability.md:83:## Access
+current/reliability.md:94:## Communication
+current/reliability.md:98:## Exceptions
+current/reliability.md:102:## Capacity
+current/reliability.md:106:## Decision record
+current/reliability.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+current/reliability.md:119:## Closing
+current/reliability.md:123:## Near miss
+current/reliability.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/reliability.md:127:## Vocabulary
+current/reliability.md:131:## Cross-module handoff
+current/reliability.md:142:## Audit sample
+current/reliability.md:146:## Operator checklist
+current/reliability.md:150:## Current index entry
+current/reliability.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+current/security.md:1:# Security response guide
+current/security.md:10:## Purpose
+current/security.md:14:## Boundary
+current/security.md:25:## Start of work
+current/security.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+current/security.md:29:## State model
+current/security.md:33:## Dependencies
+current/security.md:37:## Approval
+current/security.md:48:## Signals
+current/security.md:52:## Deployment
+current/security.md:56:## Recovery
+current/security.md:60:## Data contract
+current/security.md:71:## Review
+current/security.md:75:## Failure modes
+current/security.md:79:## Maintenance
+current/security.md:83:## Access
+current/security.md:94:## Communication
+current/security.md:98:## Exceptions
+current/security.md:102:## Capacity
+current/security.md:106:## Decision record
+current/security.md:110:The current page preserves an audit quotation from 2026-06: //infra/handbook/oncall.md. This is historical evidence and must remain unchanged.
+current/security.md:119:## Closing
+current/security.md:123:## Near miss
+current/security.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+current/security.md:127:## Vocabulary
+current/security.md:131:## Cross-module handoff
+current/security.md:142:## Audit sample
+current/security.md:146:## Operator checklist
+current/security.md:150:## Current index entry
+current/security.md:152:The active escalation link in the shared index is [on-call guide](//infra/handbook/oncall.md). Use the relocated destination for all new links.
+history/2026-06-release.md:1:# Release note — June platform release
+history/2026-06-release.md:7:## Record status
+history/2026-06-release.md:18:## Timeline
+history/2026-06-release.md:20:The release checklist captured the handbook location that existed at promotion time //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-06-release.md:22:## Evidence handling
+history/2026-06-release.md:33:## What this authorizes
+history/2026-06-release.md:37:## Review findings
+history/2026-06-release.md:48:## Near misses
+history/2026-06-release.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-06-release.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+history/2026-06-release.md:54:## Retention
+history/2026-06-release.md:65:## Terminology
+history/2026-07-postmortem.md:1:# Postmortem — July paging delay
+history/2026-07-postmortem.md:7:## Record status
+history/2026-07-postmortem.md:18:## Timeline
+history/2026-07-postmortem.md:20:The responder transcript shows the path printed by the old pager integration //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-07-postmortem.md:22:## Evidence handling
+history/2026-07-postmortem.md:33:## What this authorizes
+history/2026-07-postmortem.md:37:## Review findings
+history/2026-07-postmortem.md:48:## Near misses
+history/2026-07-postmortem.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-07-postmortem.md:52:The archive also contains //infra/handbook/oncall.md.txt, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+history/2026-07-postmortem.md:54:## Retention
+history/2026-07-postmortem.md:65:## Terminology
+history/2026-08-31-relocation.md:1:# Relocation record — 2026-08-31
+history/2026-08-31-relocation.md:7:## Record status
+history/2026-08-31-relocation.md:18:## Timeline
+history/2026-08-31-relocation.md:20:The move was executed during the scheduled window. Before cutover, responders used //infra/handbook/oncall.md. The line is reproduced verbatim from contemporaneous material. Preparation recorded ownership and rollback; execution recorded actor and UTC time; review compared the expected outcome with evidence.
+history/2026-08-31-relocation.md:22:## Evidence handling
+history/2026-08-31-relocation.md:33:## What this authorizes
+history/2026-08-31-relocation.md:37:## Review findings
+history/2026-08-31-relocation.md:48:## Near misses
+history/2026-08-31-relocation.md:50:The evidence index repeats //infra/handbook/oncall.md so the historical event can be reconciled with its original source.
+history/2026-08-31-relocation.md:52:The archive also contains //infra/handbook/oncall.md/legacy, which is a different filename or path and is not a standalone occurrence. Similar-looking strings stay untouched for the same reason.
+history/2026-08-31-relocation.md:54:## Retention
+history/2026-08-31-relocation.md:65:## Terminology
+ops/access-review.md:1:# Access review procedure
+ops/access-review.md:10:## Purpose
+ops/access-review.md:14:## Boundary
+ops/access-review.md:25:## Start of work
+ops/access-review.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/access-review.md:29:## State model
+ops/access-review.md:33:## Dependencies
+ops/access-review.md:37:## Approval
+ops/access-review.md:48:## Signals
+ops/access-review.md:52:## Deployment
+ops/access-review.md:56:## Recovery
+ops/access-review.md:60:## Data contract
+ops/access-review.md:71:## Review
+ops/access-review.md:75:## Failure modes
+ops/access-review.md:79:## Maintenance
+ops/access-review.md:83:## Access
+ops/access-review.md:94:## Communication
+ops/access-review.md:98:## Exceptions
+ops/access-review.md:102:## Capacity
+ops/access-review.md:106:## Decision record
+ops/access-review.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/access-review.md:119:## Closing
+ops/access-review.md:123:## Near miss
+ops/access-review.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+ops/access-review.md:127:## Vocabulary
+ops/access-review.md:131:## Cross-module handoff
+ops/access-review.md:142:## Audit sample
+ops/access-review.md:146:## Operator checklist
+ops/change-calendar.md:1:# Change calendar
+ops/change-calendar.md:10:## Purpose
+ops/change-calendar.md:14:## Boundary
+ops/change-calendar.md:25:## Start of work
+ops/change-calendar.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/change-calendar.md:29:## State model
+ops/change-calendar.md:33:## Dependencies
+ops/change-calendar.md:37:## Approval
+ops/change-calendar.md:48:## Signals
+ops/change-calendar.md:52:## Deployment
+ops/change-calendar.md:56:## Recovery
+ops/change-calendar.md:60:## Data contract
+ops/change-calendar.md:71:## Review
+ops/change-calendar.md:75:## Failure modes
+ops/change-calendar.md:79:## Maintenance
+ops/change-calendar.md:83:## Access
+ops/change-calendar.md:94:## Communication
+ops/change-calendar.md:98:## Exceptions
+ops/change-calendar.md:102:## Capacity
+ops/change-calendar.md:106:## Decision record
+ops/change-calendar.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/change-calendar.md:119:## Closing
+ops/change-calendar.md:123:## Near miss
+ops/change-calendar.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+ops/change-calendar.md:127:## Vocabulary
+ops/change-calendar.md:131:## Cross-module handoff
+ops/change-calendar.md:142:## Audit sample
+ops/change-calendar.md:146:## Operator checklist
+ops/migration-status.md:1:# Migration status
+ops/migration-status.md:10:## Purpose
+ops/migration-status.md:14:## Boundary
+ops/migration-status.md:25:## Start of work
+ops/migration-status.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/migration-status.md:29:## State model
+ops/migration-status.md:33:## Dependencies
+ops/migration-status.md:37:## Approval
+ops/migration-status.md:48:## Signals
+ops/migration-status.md:52:## Deployment
+ops/migration-status.md:56:## Recovery
+ops/migration-status.md:60:## Data contract
+ops/migration-status.md:71:## Review
+ops/migration-status.md:75:## Failure modes
+ops/migration-status.md:79:## Maintenance
+ops/migration-status.md:83:## Access
+ops/migration-status.md:94:## Communication
+ops/migration-status.md:98:## Exceptions
+ops/migration-status.md:102:## Capacity
+ops/migration-status.md:106:## Decision record
+ops/migration-status.md:110:The status page quotes the pre-cutover register: //infra/handbook/oncall.md. This dated evidence must remain unchanged.
+ops/migration-status.md:119:## Closing
+ops/migration-status.md:123:## Near miss
+ops/migration-status.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+ops/migration-status.md:127:## Vocabulary
+ops/migration-status.md:131:## Cross-module handoff
+ops/migration-status.md:142:## Audit sample
+ops/migration-status.md:146:## Operator checklist
+ops/observability.md:1:# Observability standards
+ops/observability.md:10:## Purpose
+ops/observability.md:14:## Boundary
+ops/observability.md:25:## Start of work
+ops/observability.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+ops/observability.md:29:## State model
+ops/observability.md:33:## Dependencies
+ops/observability.md:37:## Approval
+ops/observability.md:48:## Signals
+ops/observability.md:52:## Deployment
+ops/observability.md:56:## Recovery
+ops/observability.md:60:## Data contract
+ops/observability.md:71:## Review
+ops/observability.md:75:## Failure modes
+ops/observability.md:79:## Maintenance
+ops/observability.md:83:## Access
+ops/observability.md:94:## Communication
+ops/observability.md:98:## Exceptions
+ops/observability.md:102:## Capacity
+ops/observability.md:106:## Decision record
+ops/observability.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+ops/observability.md:119:## Closing
+ops/observability.md:123:## Near miss
+ops/observability.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+ops/observability.md:127:## Vocabulary
+ops/observability.md:131:## Cross-module handoff
+ops/observability.md:142:## Audit sample
+ops/observability.md:146:## Operator checklist
+services/edge/overview.md:1:# Edge service module
+services/edge/overview.md:10:## Purpose
+services/edge/overview.md:14:## Boundary
+services/edge/overview.md:25:## Start of work
+services/edge/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/edge/overview.md:29:## State model
+services/edge/overview.md:33:## Dependencies
+services/edge/overview.md:37:## Approval
+services/edge/overview.md:48:## Signals
+services/edge/overview.md:52:## Deployment
+services/edge/overview.md:56:## Recovery
+services/edge/overview.md:60:## Data contract
+services/edge/overview.md:71:## Review
+services/edge/overview.md:75:## Failure modes
+services/edge/overview.md:79:## Maintenance
+services/edge/overview.md:83:## Access
+services/edge/overview.md:94:## Communication
+services/edge/overview.md:98:## Exceptions
+services/edge/overview.md:102:## Capacity
+services/edge/overview.md:106:## Decision record
+services/edge/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/edge/overview.md:119:## Closing
+services/edge/overview.md:123:## Near miss
+services/edge/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/edge/overview.md:127:## Vocabulary
+services/edge/overview.md:131:## Cross-module handoff
+services/edge/overview.md:142:## Audit sample
+services/edge/overview.md:146:## Operator checklist
+services/edge/runbook.md:1:# Edge service runbook
+services/edge/runbook.md:10:## Purpose
+services/edge/runbook.md:14:## Boundary
+services/edge/runbook.md:25:## Start of work
+services/edge/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/edge/runbook.md:29:## State model
+services/edge/runbook.md:33:## Dependencies
+services/edge/runbook.md:37:## Approval
+services/edge/runbook.md:48:## Signals
+services/edge/runbook.md:52:## Deployment
+services/edge/runbook.md:56:## Recovery
+services/edge/runbook.md:60:## Data contract
+services/edge/runbook.md:71:## Review
+services/edge/runbook.md:75:## Failure modes
+services/edge/runbook.md:79:## Maintenance
+services/edge/runbook.md:83:## Access
+services/edge/runbook.md:94:## Communication
+services/edge/runbook.md:98:## Exceptions
+services/edge/runbook.md:102:## Capacity
+services/edge/runbook.md:106:## Decision record
+services/edge/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/edge/runbook.md:119:## Closing
+services/edge/runbook.md:123:## Near miss
+services/edge/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/edge/runbook.md:127:## Vocabulary
+services/edge/runbook.md:131:## Cross-module handoff
+services/edge/runbook.md:142:## Audit sample
+services/edge/runbook.md:146:## Operator checklist
+services/identity/overview.md:1:# Identity service module
+services/identity/overview.md:10:## Purpose
+services/identity/overview.md:14:## Boundary
+services/identity/overview.md:25:## Start of work
+services/identity/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/identity/overview.md:29:## State model
+services/identity/overview.md:33:## Dependencies
+services/identity/overview.md:37:## Approval
+services/identity/overview.md:48:## Signals
+services/identity/overview.md:52:## Deployment
+services/identity/overview.md:56:## Recovery
+services/identity/overview.md:60:## Data contract
+services/identity/overview.md:71:## Review
+services/identity/overview.md:75:## Failure modes
+services/identity/overview.md:79:## Maintenance
+services/identity/overview.md:83:## Access
+services/identity/overview.md:94:## Communication
+services/identity/overview.md:98:## Exceptions
+services/identity/overview.md:102:## Capacity
+services/identity/overview.md:106:## Decision record
+services/identity/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/identity/overview.md:119:## Closing
+services/identity/overview.md:123:## Near miss
+services/identity/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/identity/overview.md:127:## Vocabulary
+services/identity/overview.md:131:## Cross-module handoff
+services/identity/overview.md:142:## Audit sample
+services/identity/overview.md:146:## Operator checklist
+services/identity/runbook.md:1:# Identity service runbook
+services/identity/runbook.md:10:## Purpose
+services/identity/runbook.md:14:## Boundary
+services/identity/runbook.md:25:## Start of work
+services/identity/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/identity/runbook.md:29:## State model
+services/identity/runbook.md:33:## Dependencies
+services/identity/runbook.md:37:## Approval
+services/identity/runbook.md:48:## Signals
+services/identity/runbook.md:52:## Deployment
+services/identity/runbook.md:56:## Recovery
+services/identity/runbook.md:60:## Data contract
+services/identity/runbook.md:71:## Review
+services/identity/runbook.md:75:## Failure modes
+services/identity/runbook.md:79:## Maintenance
+services/identity/runbook.md:83:## Access
+services/identity/runbook.md:94:## Communication
+services/identity/runbook.md:98:## Exceptions
+services/identity/runbook.md:102:## Capacity
+services/identity/runbook.md:106:## Decision record
+services/identity/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/identity/runbook.md:119:## Closing
+services/identity/runbook.md:123:## Near miss
+services/identity/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/identity/runbook.md:127:## Vocabulary
+services/identity/runbook.md:131:## Cross-module handoff
+services/identity/runbook.md:142:## Audit sample
+services/identity/runbook.md:146:## Operator checklist
+services/ledger/overview.md:1:# Ledger service module
+services/ledger/overview.md:10:## Purpose
+services/ledger/overview.md:14:## Boundary
+services/ledger/overview.md:25:## Start of work
+services/ledger/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/ledger/overview.md:29:## State model
+services/ledger/overview.md:33:## Dependencies
+services/ledger/overview.md:37:## Approval
+services/ledger/overview.md:48:## Signals
+services/ledger/overview.md:52:## Deployment
+services/ledger/overview.md:56:## Recovery
+services/ledger/overview.md:60:## Data contract
+services/ledger/overview.md:71:## Review
+services/ledger/overview.md:75:## Failure modes
+services/ledger/overview.md:79:## Maintenance
+services/ledger/overview.md:83:## Access
+services/ledger/overview.md:94:## Communication
+services/ledger/overview.md:98:## Exceptions
+services/ledger/overview.md:102:## Capacity
+services/ledger/overview.md:106:## Decision record
+services/ledger/overview.md:110:The module records a prior settlement incident as quoted evidence: //infra/handbook/oncall.md. It is historical and must remain unchanged.
+services/ledger/overview.md:119:## Closing
+services/ledger/overview.md:123:## Near miss
+services/ledger/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/ledger/overview.md:127:## Vocabulary
+services/ledger/overview.md:131:## Cross-module handoff
+services/ledger/overview.md:142:## Audit sample
+services/ledger/overview.md:146:## Operator checklist
+services/ledger/runbook.md:1:# Ledger service runbook
+services/ledger/runbook.md:10:## Purpose
+services/ledger/runbook.md:14:## Boundary
+services/ledger/runbook.md:25:## Start of work
+services/ledger/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/ledger/runbook.md:29:## State model
+services/ledger/runbook.md:33:## Dependencies
+services/ledger/runbook.md:37:## Approval
+services/ledger/runbook.md:48:## Signals
+services/ledger/runbook.md:52:## Deployment
+services/ledger/runbook.md:56:## Recovery
+services/ledger/runbook.md:60:## Data contract
+services/ledger/runbook.md:71:## Review
+services/ledger/runbook.md:75:## Failure modes
+services/ledger/runbook.md:79:## Maintenance
+services/ledger/runbook.md:83:## Access
+services/ledger/runbook.md:94:## Communication
+services/ledger/runbook.md:98:## Exceptions
+services/ledger/runbook.md:102:## Capacity
+services/ledger/runbook.md:106:## Decision record
+services/ledger/runbook.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/ledger/runbook.md:119:## Closing
+services/ledger/runbook.md:123:## Near miss
+services/ledger/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/ledger/runbook.md:127:## Vocabulary
+services/ledger/runbook.md:131:## Cross-module handoff
+services/ledger/runbook.md:142:## Audit sample
+services/ledger/runbook.md:146:## Operator checklist
+services/search/overview.md:1:# Search service module
+services/search/overview.md:10:## Purpose
+services/search/overview.md:14:## Boundary
+services/search/overview.md:25:## Start of work
+services/search/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/search/overview.md:29:## State model
+services/search/overview.md:33:## Dependencies
+services/search/overview.md:37:## Approval
+services/search/overview.md:48:## Signals
+services/search/overview.md:52:## Deployment
+services/search/overview.md:56:## Recovery
+services/search/overview.md:60:## Data contract
+services/search/overview.md:71:## Review
+services/search/overview.md:75:## Failure modes
+services/search/overview.md:79:## Maintenance
+services/search/overview.md:83:## Access
+services/search/overview.md:94:## Communication
+services/search/overview.md:98:## Exceptions
+services/search/overview.md:102:## Capacity
+services/search/overview.md:106:## Decision record
+services/search/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/search/overview.md:119:## Closing
+services/search/overview.md:123:## Near miss
+services/search/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/search/overview.md:127:## Vocabulary
+services/search/overview.md:131:## Cross-module handoff
+services/search/overview.md:142:## Audit sample
+services/search/overview.md:146:## Operator checklist
+services/search/runbook.md:1:# Search service runbook
+services/search/runbook.md:10:## Purpose
+services/search/runbook.md:14:## Boundary
+services/search/runbook.md:25:## Start of work
+services/search/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/search/runbook.md:29:## State model
+services/search/runbook.md:33:## Dependencies
+services/search/runbook.md:37:## Approval
+services/search/runbook.md:48:## Signals
+services/search/runbook.md:52:## Deployment
+services/search/runbook.md:56:## Recovery
+services/search/runbook.md:60:## Data contract
+services/search/runbook.md:71:## Review
+services/search/runbook.md:75:## Failure modes
+services/search/runbook.md:79:## Maintenance
+services/search/runbook.md:83:## Access
+services/search/runbook.md:94:## Communication
+services/search/runbook.md:98:## Exceptions
+services/search/runbook.md:102:## Capacity
+services/search/runbook.md:106:## Decision record
+services/search/runbook.md:110:The runbook retains a dated responder note from 2026-07: //infra/handbook/oncall.md. It is historical evidence, not a live pointer.
+services/search/runbook.md:119:## Closing
+services/search/runbook.md:123:## Near miss
+services/search/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/search/runbook.md:127:## Vocabulary
+services/search/runbook.md:131:## Cross-module handoff
+services/search/runbook.md:142:## Audit sample
+services/search/runbook.md:146:## Operator checklist
+services/warehouse/overview.md:1:# Warehouse service module
+services/warehouse/overview.md:10:## Purpose
+services/warehouse/overview.md:14:## Boundary
+services/warehouse/overview.md:25:## Start of work
+services/warehouse/overview.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/warehouse/overview.md:29:## State model
+services/warehouse/overview.md:33:## Dependencies
+services/warehouse/overview.md:37:## Approval
+services/warehouse/overview.md:48:## Signals
+services/warehouse/overview.md:52:## Deployment
+services/warehouse/overview.md:56:## Recovery
+services/warehouse/overview.md:60:## Data contract
+services/warehouse/overview.md:71:## Review
+services/warehouse/overview.md:75:## Failure modes
+services/warehouse/overview.md:79:## Maintenance
+services/warehouse/overview.md:83:## Access
+services/warehouse/overview.md:94:## Communication
+services/warehouse/overview.md:98:## Exceptions
+services/warehouse/overview.md:102:## Capacity
+services/warehouse/overview.md:106:## Decision record
+services/warehouse/overview.md:110:Before closing this module, verify the current pointer at //infra/handbook/oncall.md and record the result in the audit.
+services/warehouse/overview.md:119:## Closing
+services/warehouse/overview.md:123:## Near miss
+services/warehouse/overview.md:125:A suffix is a different path: //infra/handbook/oncall.md/appendix. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/warehouse/overview.md:127:## Vocabulary
+services/warehouse/overview.md:131:## Cross-module handoff
+services/warehouse/overview.md:142:## Audit sample
+services/warehouse/overview.md:146:## Operator checklist
+services/warehouse/runbook.md:1:# Warehouse service runbook
+services/warehouse/runbook.md:10:## Purpose
+services/warehouse/runbook.md:14:## Boundary
+services/warehouse/runbook.md:25:## Start of work
+services/warehouse/runbook.md:27:At the start of an event, identify the component, write the incident key, and open the current on-call guide at //infra/handbook/oncall.md. That is a live entry point for today's operator and this occurrence is a current pointer that needs correction.
+services/warehouse/runbook.md:29:## State model
+services/warehouse/runbook.md:33:## Dependencies
+services/warehouse/runbook.md:37:## Approval
+services/warehouse/runbook.md:48:## Signals
+services/warehouse/runbook.md:52:## Deployment
+services/warehouse/runbook.md:56:## Recovery
+services/warehouse/runbook.md:60:## Data contract
+services/warehouse/runbook.md:71:## Review
+services/warehouse/runbook.md:75:## Failure modes
+services/warehouse/runbook.md:79:## Maintenance
+services/warehouse/runbook.md:83:## Access
+services/warehouse/runbook.md:94:## Communication
+services/warehouse/runbook.md:98:## Exceptions
+services/warehouse/runbook.md:102:## Capacity
+services/warehouse/runbook.md:106:## Decision record
+services/warehouse/runbook.md:110:The runbook includes a preserved postmortem excerpt: //infra/handbook/oncall.md. It describes past state and must remain unchanged.
+services/warehouse/runbook.md:119:## Closing
+services/warehouse/runbook.md:123:## Near miss
+services/warehouse/runbook.md:125:A suffix is a different path: //infra/handbook/oncall.md.bak. Do not count it in the audit. The literal old path can be prose, a live pointer, or evidence; heading, date, and sentence role determine the action.
+services/warehouse/runbook.md:127:## Vocabulary
+services/warehouse/runbook.md:131:## Cross-module handoff
+services/warehouse/runbook.md:142:## Audit sample
+services/warehouse/runbook.md:146:## Operator checklist
+
+exec
+/bin/bash -lc 'sort -t: -k1,1 -k2,2n /tmp/oncall-standalone.txt' in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+README.md:17://infra/handbook/oncall.md
+archive/incident-2025.md:20://infra/handbook/oncall.md
+archive/incident-2025.md:50://infra/handbook/oncall.md
+archive/legacy-guide.md:20://infra/handbook/oncall.md
+archive/legacy-guide.md:50://infra/handbook/oncall.md
+archive/quarterly-review.md:20://infra/handbook/oncall.md
+archive/quarterly-review.md:50://infra/handbook/oncall.md
+current/data-handling.md:27://infra/handbook/oncall.md
+current/data-handling.md:110://infra/handbook/oncall.md
+current/operations.md:27://infra/handbook/oncall.md
+current/operations.md:110://infra/handbook/oncall.md
+current/operations.md:152://infra/handbook/oncall.md
+current/release.md:27://infra/handbook/oncall.md
+current/release.md:110://infra/handbook/oncall.md
+current/release.md:152://infra/handbook/oncall.md
+current/reliability.md:27://infra/handbook/oncall.md
+current/reliability.md:110://infra/handbook/oncall.md
+current/reliability.md:152://infra/handbook/oncall.md
+current/security.md:27://infra/handbook/oncall.md
+current/security.md:110://infra/handbook/oncall.md
+current/security.md:152://infra/handbook/oncall.md
+history/2026-06-release.md:20://infra/handbook/oncall.md
+history/2026-06-release.md:50://infra/handbook/oncall.md
+history/2026-07-postmortem.md:20://infra/handbook/oncall.md
+history/2026-07-postmortem.md:50://infra/handbook/oncall.md
+history/2026-08-31-relocation.md:20://infra/handbook/oncall.md
+history/2026-08-31-relocation.md:50://infra/handbook/oncall.md
+ops/access-review.md:27://infra/handbook/oncall.md
+ops/access-review.md:110://infra/handbook/oncall.md
+ops/change-calendar.md:27://infra/handbook/oncall.md
+ops/change-calendar.md:110://infra/handbook/oncall.md
+ops/migration-status.md:27://infra/handbook/oncall.md
+ops/migration-status.md:110://infra/handbook/oncall.md
+ops/observability.md:27://infra/handbook/oncall.md
+ops/observability.md:110://infra/handbook/oncall.md
+services/edge/overview.md:27://infra/handbook/oncall.md
+services/edge/overview.md:110://infra/handbook/oncall.md
+services/edge/runbook.md:27://infra/handbook/oncall.md
+services/edge/runbook.md:110://infra/handbook/oncall.md
+services/identity/overview.md:27://infra/handbook/oncall.md
+services/identity/overview.md:110://infra/handbook/oncall.md
+services/identity/runbook.md:27://infra/handbook/oncall.md
+services/identity/runbook.md:110://infra/handbook/oncall.md
+services/ledger/overview.md:27://infra/handbook/oncall.md
+services/ledger/overview.md:110://infra/handbook/oncall.md
+services/ledger/runbook.md:27://infra/handbook/oncall.md
+services/ledger/runbook.md:110://infra/handbook/oncall.md
+services/search/overview.md:27://infra/handbook/oncall.md
+services/search/overview.md:110://infra/handbook/oncall.md
+services/search/runbook.md:27://infra/handbook/oncall.md
+services/search/runbook.md:110://infra/handbook/oncall.md
+services/warehouse/overview.md:27://infra/handbook/oncall.md
+services/warehouse/overview.md:110://infra/handbook/oncall.md
+services/warehouse/runbook.md:27://infra/handbook/oncall.md
+services/warehouse/runbook.md:110://infra/handbook/oncall.md
+
+collab: Wait
+codex
+The independent classification matches the local context review: 55 hits, with historical/quoted evidence preserved and current pointers marked for relocation. I’m writing the audit records now, in lexical file order and line order.
+apply patch
+patch: completed
+/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..71eb74be2d8dfc609c19ccdc5ec8b427497b5a39
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+@@ -0,0 +1,55 @@
++UPDATE	README.md	17	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	archive/incident-2025.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/incident-2025.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	50	//infra/handbook/oncall.md	-
++UPDATE	current/data-handling.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/data-handling.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/operations.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/operations.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/operations.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/security.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/security.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/security.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	history/2026-06-release.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-06-release.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	50	//infra/handbook/oncall.md	-
++UPDATE	ops/access-review.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/access-review.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/migration-status.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	ops/migration-status.md	110	//infra/handbook/oncall.md	-
++UPDATE	ops/observability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/observability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/ledger/overview.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/ledger/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/search/runbook.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/warehouse/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/warehouse/runbook.md	110	//infra/handbook/oncall.md	-
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..71eb74be2d8dfc609c19ccdc5ec8b427497b5a39
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+@@ -0,0 +1,55 @@
++UPDATE	README.md	17	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	archive/incident-2025.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/incident-2025.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	50	//infra/handbook/oncall.md	-
++UPDATE	current/data-handling.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/data-handling.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/operations.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/operations.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/operations.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/security.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/security.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/security.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	history/2026-06-release.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-06-release.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	50	//infra/handbook/oncall.md	-
++UPDATE	ops/access-review.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/access-review.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/migration-status.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	ops/migration-status.md	110	//infra/handbook/oncall.md	-
++UPDATE	ops/observability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/observability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/ledger/overview.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/ledger/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/search/runbook.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/warehouse/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/warehouse/runbook.md	110	//infra/handbook/oncall.md	-
+
+exec
+/bin/bash -lc "wc -l reference_audit.txt; awk -F '\\t' 'NF "'!= 5 {bad=1; print "bad_fields", NR, NF} END {if (bad) exit 1}'"' reference_audit.txt; awk -F '\\t' '"'$1=="UPDATE" && $5!="//infra/runbooks/oncall.md" {bad=1; print "bad_update", NR} $1=="LEAVE" && $5!="-" {bad=1; print "bad_leave", NR} $1!="UPDATE" && $1!="LEAVE" {bad=1; print "bad_action", NR} END {if (bad) exit 1}'"' reference_audit.txt" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+55 reference_audit.txt
+
+exec
+/bin/bash -lc "rg -n -o -P '(?<"'![A-Za-z0-9._/-])//infra/handbook/oncall'"\\.md(?"'!(?:[/-]|'"\\.)[A-Za-z0-9])' --glob '*.md' | sort -t: -k1,1 -k2,2n | sed 's/:/\\t/; s/:.*"'$//'"' > /tmp/expected-keys.txt; cut -f2,3 reference_audit.txt > /tmp/audit-keys.txt; diff -u /tmp/expected-keys.txt /tmp/audit-keys.txt" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+exec
+/bin/bash -lc "git status --short -- '*.md' reference_audit.txt; git diff --stat -- '*.md' reference_audit.txt" in /home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01
+ succeeded in 0ms:
+?? README.md
+?? archive/incident-2025.md
+?? archive/legacy-guide.md
+?? archive/quarterly-review.md
+?? current/data-handling.md
+?? current/operations.md
+?? current/release.md
+?? current/reliability.md
+?? current/security.md
+?? history/2026-06-release.md
+?? history/2026-07-postmortem.md
+?? history/2026-08-31-relocation.md
+?? ops/access-review.md
+?? ops/change-calendar.md
+?? ops/migration-status.md
+?? ops/observability.md
+?? reference_audit.txt
+?? services/edge/overview.md
+?? services/edge/runbook.md
+?? services/identity/overview.md
+?? services/identity/runbook.md
+?? services/ledger/overview.md
+?? services/ledger/runbook.md
+?? services/search/overview.md
+?? services/search/runbook.md
+?? services/warehouse/overview.md
+?? services/warehouse/runbook.md
+
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..71eb74be2d8dfc609c19ccdc5ec8b427497b5a39
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+@@ -0,0 +1,55 @@
++UPDATE	README.md	17	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	archive/incident-2025.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/incident-2025.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	50	//infra/handbook/oncall.md	-
++UPDATE	current/data-handling.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/data-handling.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/operations.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/operations.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/operations.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/security.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/security.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/security.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	history/2026-06-release.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-06-release.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	50	//infra/handbook/oncall.md	-
++UPDATE	ops/access-review.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/access-review.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/migration-status.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	ops/migration-status.md	110	//infra/handbook/oncall.md	-
++UPDATE	ops/observability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/observability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/ledger/overview.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/ledger/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/search/runbook.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/warehouse/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/warehouse/runbook.md	110	//infra/handbook/oncall.md	-
+
+codex
+The audit file is complete. Validation confirms 55 lines, five tab-separated fields per record, exact path/replacement values, and a byte-for-byte match between its file/line keys and the 55 standalone source occurrences; no Markdown source files were edited.
+codex
+Created and validated [reference_audit.txt](/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt).
+diff --git a/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..71eb74be2d8dfc609c19ccdc5ec8b427497b5a39
+--- /dev/null
++++ b/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt
+@@ -0,0 +1,55 @@
++UPDATE	README.md	17	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	archive/incident-2025.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/incident-2025.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/legacy-guide.md	50	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	20	//infra/handbook/oncall.md	-
++LEAVE	archive/quarterly-review.md	50	//infra/handbook/oncall.md	-
++UPDATE	current/data-handling.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/data-handling.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/operations.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/operations.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/operations.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/release.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/reliability.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	current/security.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	current/security.md	110	//infra/handbook/oncall.md	-
++UPDATE	current/security.md	152	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	history/2026-06-release.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-06-release.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-07-postmortem.md	50	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	20	//infra/handbook/oncall.md	-
++LEAVE	history/2026-08-31-relocation.md	50	//infra/handbook/oncall.md	-
++UPDATE	ops/access-review.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/access-review.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/change-calendar.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/migration-status.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	ops/migration-status.md	110	//infra/handbook/oncall.md	-
++UPDATE	ops/observability.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	ops/observability.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/edge/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/identity/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/ledger/overview.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/ledger/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/ledger/runbook.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/search/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/search/runbook.md	110	//infra/handbook/oncall.md	-
++UPDATE	services/warehouse/overview.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/overview.md	110	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++UPDATE	services/warehouse/runbook.md	27	//infra/handbook/oncall.md	//infra/runbooks/oncall.md
++LEAVE	services/warehouse/runbook.md	110	//infra/handbook/oncall.md	-
+
+tokens used
+59,930
+Created and validated [reference_audit.txt](/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/large/trial-0/t01/reference_audit.txt).

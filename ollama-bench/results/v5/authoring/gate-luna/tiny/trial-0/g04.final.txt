@@ -1,0 +1,5 @@
+Repaired `policy.py` minimally. The checker now prints:
+
+```text
+CLEAN
+```

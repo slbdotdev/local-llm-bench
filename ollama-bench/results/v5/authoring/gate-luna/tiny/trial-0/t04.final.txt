@@ -1,0 +1,3 @@
+PATH: gateway.py
+LINES: 7-9
+EXPLANATION: When the session expiry time has passed, the server returns a 401 unauthenticated response and removes the session cookie.

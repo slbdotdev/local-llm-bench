@@ -1,0 +1,9 @@
+Fixed `_call_spans` in [calls.py](/home/slb/bench-luna/ollama-bench/results/v5/authoring/gate-luna/tiny/trial-0/g02/calls.py:46) to rewrite exact matched call targets.
+
+Verified:
+
+- `python3 test_calls.py`: 8 passed
+- Full unittest discovery: 8 passed
+- Contract smoke checks and compilation passed
+
+Committed as `4e75d28 fix call spans`. Push was refused because the local remote has `main` checked out.

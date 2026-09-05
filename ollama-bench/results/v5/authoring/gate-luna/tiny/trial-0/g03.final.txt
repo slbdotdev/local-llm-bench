@@ -1,0 +1,9 @@
+Updated the three application modules and supplied test.
+
+- Migrated `emit_event` → `publish_event`
+- Applied payload-first API and keyword-only options
+- Updated batching, reflection, fallback, doctest, and test calls
+- Verified old spelling is absent from application modules
+- `python3 test_events.py` passes
+
+Committed as `migrate event api`. Push was rejected because the shared remote is a checked-out non-bare repository.
