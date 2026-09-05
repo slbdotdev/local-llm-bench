@@ -203,3 +203,18 @@ compares quantisations rather than manifests. The projector-carrying records alr
 Decision: **IQ3_XXS does not carry 64k even projector-free.** 14.31 GB is over the 14.2 line,
 93% GPU means about 0.95 GB is still on the CPU, and 28.97 tok/s is under the 35 tok/s gate.
 It is placed 64k **marginal**, and its real rung is 48k, to be measured.
+
+## D6-12 — the working-margin rule states itself twice and the two forms disagree at 48k
+
+*21:00.* Implementing D6-1 in `phaseC.py` surfaced a wrinkle worth writing down. v5 plan
+section 3.3 gives the rule as "a cell's `num_ctx` must be at least 1.6x the task's material,
+**and** the material must never exceed about 60% of the window". 1/1.6 is 62.5%, so the second
+clause is very slightly the stricter one — and at 48k it is strict enough to matter: g01 is
+30,001 tokens, which is 61.0% of a 49,152-token window. It clears 1.6x (48,001 <= 49,152) and
+fails 60%.
+
+Taken literally, the 60% form admits **no large-band task at all at 48k**, while v6 plan
+section 6C says in as many words that a 48k-only quant "runs the three large-band tasks that
+fit". So the 1.6x form is the operative test and "about 60%" is its approximate restatement —
+the word "about" is doing the work. `admits()` implements 1.6x alone, which reproduces D6-1's
+table exactly: three tasks at 48k (g01, g03, t03), six at 64k, all eight at 96k and above.
