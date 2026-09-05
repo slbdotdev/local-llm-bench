@@ -1,0 +1,29 @@
+
+===== nvidia/nemotron-3-nano-30b-a3b =====
+  g01              #0 PASS   77.1s turns=5 tools=4 out=19148 VERDICT=correct STOP=stop
+  g02              #0 FAIL  100.2s turns=15 tools=14 out=18869 VERDICT=visibly_failed STOP=stop
+  g03              #0 PASS  241.6s turns=44 tools=43 out=33829 VERDICT=correct STOP=stop
+  g04              #0 PASS   22.3s turns=12 tools=11 out=3932 VERDICT=correct STOP=stop
+  t01              #0 FAIL   56.9s turns=11 tools=10 out=13073 VERDICT=visibly_failed STOP=stop
+  t02              #0 FAIL   15.2s turns=4 tools=3 out=3808 VERDICT=confidently_wrong STOP=stop
+  t03              #0 PASS   17.8s turns=4 tools=3 out=4456 VERDICT=correct STOP=stop
+  t04              #0 PASS    8.1s turns=9 tools=8 out=1515 VERDICT=correct STOP=stop
+
+# pi bench (smoke-nemotron)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| nvidia/nemotron-3-nano-30b-a3b | ? GB | ? | ? | 5/8 | 0.79 (8/8 runs) | 5/8 all-trials | 67s | 12329 | 12.0 | 5 | 2 | 1 | 12.5% | 0 in 0/8 |
+
+## Per task (passes/trials)
+
+| task | nvidia/nemotron-3-nano-30b-a3b |
+|---|---|
+| g01 | 1/1 (score 1.00) |
+| g02 | 0/1 (score 0.69) |
+| g03 | 1/1 (score 1.00) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 0/1 (score 0.00) |
+| t02 | 0/1 (score 0.67) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 1/1 (score 1.00) |

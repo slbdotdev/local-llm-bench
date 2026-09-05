@@ -1,0 +1,29 @@
+
+===== upstage/solar-pro4 =====
+  g01              #0 FAIL  300.1s turns=3 tools=3 out=16525 VERDICT=visibly_failed STOP=toolUse TIMEOUT
+  g02              #0 PASS   30.1s turns=4 tools=4 out=996 VERDICT=correct STOP=stop
+  g03              #0 FAIL  157.0s turns=15 tools=29 out=15807 VERDICT=confidently_wrong STOP=stop
+  g04              #0 PASS   19.9s turns=5 tools=7 out=1925 VERDICT=correct STOP=stop
+  t01              #0 FAIL   62.3s turns=6 tools=11 out=5783 VERDICT=visibly_failed STOP=stop
+  t02              #0 PASS  175.1s turns=12 tools=11 out=12895 VERDICT=correct STOP=stop
+  t03              #0 PASS   18.8s turns=5 tools=4 out=936 VERDICT=correct STOP=stop
+  t04              #0 FAIL   32.7s turns=3 tools=6 out=1238 VERDICT=visibly_failed STOP=stop
+
+# pi bench (smoke-solar)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| upstage/solar-pro4 | ? GB | ? | ? | 4/8 | 0.61 (8/8 runs) | 4/8 all-trials | 100s | 7013 | 9.4 | 4 | 3 | 1 | 12.5% | 0 in 0/8 |
+
+## Per task (passes/trials)
+
+| task | upstage/solar-pro4 |
+|---|---|
+| g01 | 0/1 (score 0.00) |
+| g02 | 1/1 (score 1.00) |
+| g03 | 0/1 (score 0.87) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 0/1 (score 0.00) |
+| t02 | 1/1 (score 1.00) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 0/1 (score 0.00) |

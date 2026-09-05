@@ -1,0 +1,29 @@
+
+===== inclusionai/ling-3.0-flash =====
+  g01              #0 FAIL  146.1s turns=18 tools=17 out=19668 VERDICT=visibly_failed STOP=stop
+  g02              #0 PASS   10.7s turns=6 tools=6 out=709 VERDICT=correct STOP=stop
+  g03              #0 PASS  154.0s turns=16 tools=17 out=6871 VERDICT=correct STOP=stop ERR=Provider timed out after 13351ms
+  g04              #0 PASS   30.5s turns=14 tools=14 out=4205 VERDICT=correct STOP=stop
+  t01              #0 PASS   58.6s turns=8 tools=14 out=5330 VERDICT=correct STOP=stop
+  t02              #0 PASS   54.4s turns=9 tools=8 out=4219 VERDICT=correct STOP=stop
+  t03              #0 PASS   32.3s turns=13 tools=10 out=1990 VERDICT=correct STOP=stop ERR=429: {"message":"Provider returned error","code":429,"metada
+  t04              #0 PASS   14.8s turns=8 tools=16 out=1903 VERDICT=correct STOP=stop
+
+# pi bench (smoke-ling)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| inclusionai/ling-3.0-flash | ? GB | ? | ? | 7/8 | 0.88 (8/8 runs) | 7/8 all-trials | 63s | 5612 | 12.8 | 7 | 1 | 0 | 0.0% | 0 in 0/8 |
+
+## Per task (passes/trials)
+
+| task | inclusionai/ling-3.0-flash |
+|---|---|
+| g01 | 0/1 (score 0.00) |
+| g02 | 1/1 (score 1.00) |
+| g03 | 1/1 (score 1.00) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 1/1 (score 1.00) |
+| t02 | 1/1 (score 1.00) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 1/1 (score 1.00) |
