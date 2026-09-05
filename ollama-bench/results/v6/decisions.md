@@ -971,3 +971,39 @@ Two consequences I am recording rather than acting on:
   and the ordering is what the campaign reports — but it means these walls are not comparable
   to v5's, and no absolute throughput figure from tonight should be quoted as this card's
   capability.
+
+## D6-39 — D6-34/D6-36 may be a shared-GPU artifact; re-measuring before it goes in the report
+
+*23:24.* Having recorded in D6-38 that a second campaign shares this GPU, I checked when it
+started, and the answer puts my headline finding in doubt.
+
+`results/prompt-v1/`'s earliest artifact is **22:44**. My Q2_K sentinel at 64k ran **22:32 to
+22:48**, with the t03 trial — the 584.1 s measurement that D6-34 and D6-36 are built on —
+occupying roughly **22:38 to 22:48**. It overlapped the other campaign's start. The reference it
+is compared against, Q2_K_L's 31.0 s at the same rung, was taken at **21:54 with this GPU to
+itself.**
+
+**So the two halves of an 18.8x comparison were measured under different machine conditions,
+and I did not know it when I wrote either entry.** That is the same error the campaign has now
+made three times in different clothes — D6-21 read a KV rate off a spilled cell, D6-26 read an
+i-quant overhead off two offloaded cells, and here I read a slowdown off a contended one. Each
+time the measurement was real and the comparison was not.
+
+It may still be sound: contention plausibly costs tens of percent, not 1,780%, and IQ2_M's
+healthy 32.7 s at 64k was taken at 22:14, also before the other campaign started. But
+"plausibly" is not a measurement, and this claim is load-bearing enough to be worth ten minutes.
+
+**Test, running now** (`recheck.sh`, tag `v6-recheck-64k-t03`, so no campaign artifact is
+touched): Q2_K_L-64k and Q2_K-64k, t03, one trial each, **back to back in a single pibench
+invocation** under whatever contention exists tonight. Both arms then share every condition that
+differed before.
+
+- If Q2_K remains roughly 15-20x Q2_K_L, D6-34 and D6-36 stand and the shared GPU is irrelevant
+  to them.
+- If the two come out close, **D6-34 and D6-36 are withdrawn**, Q2_K's demotion from 64k was
+  driven by an artifact, and the phase B ordering has to be re-derived.
+
+Cost: the in-flight mrIQ3M g03 sentinel restarts, about six minutes. Worth it — publishing a
+headline methodological claim that turns out to be another campaign's load would be the worst
+outcome available tonight. `recheck.sh` `exec`s the campaign chain when it finishes, so the
+night resumes by itself either way.
