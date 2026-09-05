@@ -41,7 +41,13 @@ def rungs(quant, cap=65536):
         if r.get("verdict") not in ("pass", "marginal"):
             continue
         seen[r["num_ctx"]] = r              # later record wins
-    return [seen[c] for c in sorted(seen, reverse=True)]
+    # A PASS rung always outranks a MARGINAL one, however much context the marginal rung holds
+    # (D6-33). The owner's ruling defines viable as "runs with no performance degradation", and
+    # plan section 4 keeps a marginal cell "only if no better rung exists" -- so a marginal rung
+    # is used only when the quant has no passing rung at all.
+    ps = sorted((c for c, r in seen.items() if r.get("verdict") == "pass"), reverse=True)
+    ms = sorted((c for c, r in seen.items() if r.get("verdict") == "marginal"), reverse=True)
+    return [seen[c] for c in (ps if ps else ms)]
 
 
 def run_cell(quant, ctx, band, tasks, trials):

@@ -749,3 +749,40 @@ before it could consume the phaseB.json written under the old one. Everything no
 single `chainAll.sh` (B -> C -> D -> E) which **halts if phase B exits non-zero** rather than
 running phase C on a bad ordering. Every completed trial resumes from its artifact, so the
 restart re-ran nothing.
+
+## D6-33 — a passing rung outranks a marginal one, so the headline table cannot claim a context the quant does not hold
+
+*22:26.* Phase B began sentinelling IQ3_XXS at **64k marginal** when the same quant has a clean
+**48k pass** (13.07 GB, 100% GPU, 47.03 tok/s, against 14.31 GB, 93% GPU, 28.97 tok/s). The plan
+supports both readings and they disagree:
+
+- section 6C: "every survivor at **its top rung** up to 64k" — which is 64k, marginal or not;
+- section 4: "between the two is marginal — record it, **keep the cell only if no better rung
+  exists**" — which says use 48k;
+- and the owner's ruling 1, which outranks both: a quant is viable "only if it runs 48k context
+  **with no performance degradation**".
+
+Marginal *is* degradation — that is what the word records. Scoring IQ3_XXS at 64k would put a
+row in the campaign's headline table at a context the quant does not viably hold, and the table's
+column is literally "max viable context". Section 4 is also the more specific clause and it
+addresses exactly this case.
+
+Decision: **`rungs()` returns passing rungs only, highest first; marginal rungs are used solely
+when a quant has no passing rung at all.** The resulting scored cells:
+
+| quant | scored rung | why |
+| --- | --- | --- |
+| Q2_K_L, Q2_K, IQ2_M | 64k pass | clean at 64k |
+| IQ3_XXS, UDQ3KXL, mrIQ3M | 48k pass | 64k is marginal or spill |
+| IQ3_XS | 48k **marginal** | its only rung — no passing rung exists, so section 4 keeps it, and the row says so |
+
+IQ3_XXS's 64k marginal placement is not lost: it stays in `placement.json` and in the placement
+table, reported as the stretch it is. And the question "does a marginal cell actually work?" is
+already answered by IQ3_XS at 48k, which passed its sentinel `correct` but at **2.09x the
+reference wall** — degradation visible on real work, exactly as the gate predicted from resident
+size and tok/s alone. That is the first time in this campaign the cheap gate and an expensive
+scored measurement have independently agreed, and it is why the gate can be trusted to set the
+rungs.
+
+IQ2_M's 96k placement is untouched by this: phase E reads `placement.json` directly, so the
+stretch cell still runs at 96k.
