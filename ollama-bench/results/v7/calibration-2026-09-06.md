@@ -45,8 +45,6 @@ correct answer changes the verdict).
 directory is `C:\Users\slb\AppData\Local\Temp`. The handoff's open item was about `sanity.py`,
 which built the reference arms, and it still stands for any future arm.
 
-<!-- RESULTS SECTIONS ARE APPENDED BELOW AS EACH PHASE LANDS -->
-
 ---
 
 ## 1. Occupancy, read before the pass rate
@@ -59,17 +57,18 @@ peak single-turn input, which is the most context it ever carried at once — wa
 | --- | ---: | ---: | ---: | ---: |
 | m07-main-claude | 17,376 | 31,630 | 55% | **27%** |
 | m01-main-claude | 11,488 | 31,607 | 36% | 18% |
-| m09-main-glm | 9,458 | 35,790 | 26% | 14% |
+| m09-main-glm | 9,458 | 35,858 | 26% | 14% |
 | m04-main-claude | 9,048 | 31,268 | 29% | 14% |
 | m06-main-glm | 8,048 | 33,130 | 24% | 12% |
 | m10-main-claude | 6,940 | 31,307 | 22% | 11% |
+| m02-main-luna | 6,004 | 31,310 | 19% | 9% |
 | m05-main-luna | 5,093 | 31,285 | 16% | 8% |
-| m02-main-luna | 4,833 | 31,310 | 15% | 7% |
 | m03-main-glm | 4,463 | 32,405 | 14% | 7% |
 | m08-main-luna | 4,384 | 31,582 | 14% | **7%** |
 
 **No main-band row reached half the occupancy the band was authored for; the median row reached a
-quarter of it.** Note that `peak prompt` counts the *whole* turn — system prompt, the task, prior
+quarter of it.** (Regenerated from `results/v7cal-IQ2_M-main.json` and each task's own
+`MANIFEST.json`, so the three rows the grader repair re-ran carry their valid figures.) Note that `peak prompt` counts the *whole* turn — system prompt, the task, prior
 turns and tool results — so the share of the *material* actually read is lower still than the
 third column suggests. In the cheap band the same figure runs 64-335% of material, which is the
 same measurement saying the opposite thing: a 4-6k tree is small enough that the conversation
