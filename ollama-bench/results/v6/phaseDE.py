@@ -20,6 +20,30 @@ sys.path.insert(0, HERE)
 from phaseC import admits, CTXNAME, run_cell, runs_for   # noqa: E402
 
 
+# The owner's just-in-time pull rule (D6-29): the deferred UD-IQ3_S download starts only when
+# the GPU is already inside the campaign's final scored cell, so it overlaps exactly one trial.
+# If there is no room left afterwards for the placement, it does not start at all.
+JIT_NAME = "UDIQ3S"
+JIT_SRC = "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S"
+JIT_CUTOFF = "05:45"        # local clock; past this the night belongs to the handoff
+
+
+def maybe_jit_pull():
+    now = time.strftime("%H:%M")
+    if now >= JIT_CUTOFF:
+        print("== JIT pull SKIPPED: %s is past the %s cutoff, no room for the placement "
+              "(D6-29); UD-IQ3_S stays a -partial on disk for the next session"
+              % (now, JIT_CUTOFF), flush=True)
+        return
+    print("== JIT pull: launching the UD-IQ3_S resume alongside the final scored cell "
+          "(D6-29)", flush=True)
+    subprocess.Popen(["setsid", "nohup", "bash", os.path.join(HERE, "jit_pull.sh"),
+                      JIT_NAME, JIT_SRC],
+                     cwd=BENCH, stdout=open(os.path.join(HERE, "jitpull.log"), "w"),
+                     stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
+                     start_new_session=True)
+
+
 def rank(quant, ctx):
     runs = runs_for(quant, ctx, "large") + runs_for(quant, ctx, "tiny")
     if not runs:
@@ -58,30 +82,45 @@ def main():
               % (q, CTXNAME[c], -k[0] * 100, k[1] * 100, k[2]), flush=True)
     print("== phase D takes:", [(q, CTXNAME[c]) for _, q, c in best2], flush=True)
 
+    # Build every remaining scored cell up front, so the LAST one is knowable before it starts.
+    # The owner's just-in-time pull rule (D6-29) launches the deferred download at the start of
+    # that final cell and nowhere earlier.
+    cells = []
     for _, q, c in best2:
-        print("== phase D: %s at %s, three trials, both bands" % (q, CTXNAME[c]), flush=True)
         for t in admits(c):
-            run_cell(q, c, "large", t, 3)
-        run_cell(q, c, "tiny", "g01,g02,g03,g04,t01,t02,t03,t04", 3)
-    open(os.path.join(HERE, ".phaseD-done"), "w").write("")
-
-    # E -- stretch, only for a phase D quant that placed at 96k or above.
+            cells.append(("D", q, c, "large", t, 3))
+        cells.append(("D", q, c, "tiny", "g01,g02,g03,g04,t01,t02,t03,t04", 3))
     stretched = []
     for _, q, c in best2:
         top = top_rung_any(q)
         if top and top["num_ctx"] >= 98304:
             sc = top["num_ctx"]
-            print("== phase E: %s at %s, large band once (all eight tasks admitted)"
-                  % (q, CTXNAME[sc]), flush=True)
             for t in admits(sc):
-                run_cell(q, sc, "large", t, 1)
+                cells.append(("E", q, sc, "large", t, 1))
             stretched.append({"quant": q, "num_ctx": sc})
         else:
             print("== phase E: %s placed no rung at 96k or above; nothing to stretch" % q,
                   flush=True)
+
+    d_done = False
+    for i, (kind, q, c, band, tasks, trials) in enumerate(cells):
+        if kind == "E" and not d_done:
+            open(os.path.join(HERE, ".phaseD-done"), "w").write("")
+            d_done = True
+        if i == len(cells) - 1:
+            maybe_jit_pull()
+        print("== phase %s: %s at %s, %s band, %s, %d trial(s)"
+              % (kind, q, CTXNAME[c], band, tasks, trials), flush=True)
+        run_cell(q, c, band, tasks, trials)
+    if not d_done:
+        open(os.path.join(HERE, ".phaseD-done"), "w").write("")
+
     json.dump({"phase_d": [{"quant": q, "num_ctx": c} for _, q, c in best2],
-               "phase_e": stretched, "written": time.strftime("%Y-%m-%d %H:%M:%S")},
+               "phase_e": stretched, "cells_run": len(cells),
+               "written": time.strftime("%Y-%m-%d %H:%M:%S")},
               open(os.path.join(HERE, "phaseDE.json"), "w", encoding="utf-8"), indent=1)
+    # .phaseE-done is load-bearing twice over: the session waiter treats it as the end of the
+    # campaign, and jit_pull.sh waits on it before touching the GPU (D6-29).
     open(os.path.join(HERE, ".phaseE-done"), "w").write("")
     print("== phases D and E complete", flush=True)
 

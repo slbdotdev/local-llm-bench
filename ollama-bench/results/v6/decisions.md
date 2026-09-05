@@ -588,3 +588,38 @@ GB free, so nothing needs reclaiming anyway.
 Consequence for the campaign: none. Rank 3 was already outside the scored plan under D6-24 — on
 disk for v7, not queued for phase B or C — so deferring it changes no row. The GPU continues on
 the seven candidates already on the daemon.
+
+## D6-29 — the owner's just-in-time pull rule, and how it is implemented
+
+*21:50.* Owner's update relayed by the coordinator: downloads may resume, **but only just in
+time**. A pull starts when the GPU is about to need that candidate, never as a disk-side
+background job run ahead of time. For `UD-IQ3_S` that means launching the resume **when phase
+E's last cell is running**, so the download overlaps only the final trial and the placement
+follows straight after. **If phase E ends with no time left for that placement, no pull happens
+at all.** The same rule governs every other reserve entry.
+
+This reverses D6-13, where I pulled reserve rank 1 hours ahead of need to "keep the disk end
+busy". That was the wrong instinct on a machine whose bandwidth is shared with its owner: an
+idle link is not waste, and a download that finishes six hours before anything reads it has
+bought nothing and cost someone else their evening.
+
+Implemented rather than intended:
+
+- **`phaseDE.py` now builds every remaining scored cell up front**, phase D and phase E
+  together, so the *final* cell of the campaign is knowable before it starts. `maybe_jit_pull()`
+  fires at the start of that cell and nowhere else. Where phase E is empty — which happens if
+  neither of the best two placed at 96k — the final cell is phase D's last, so the rule still
+  has a well-defined trigger and the pull still overlaps exactly one trial.
+- **A time cutoff of 05:45** on the local clock. Past it, `maybe_jit_pull()` logs that it is
+  skipping and does nothing: the rest of the night belongs to the handoff, and a pull whose
+  placement cannot run is precisely the pull the owner asked me not to start.
+- **`jit_pull.sh` separates the two halves.** The download runs immediately, overlapping the
+  final trial, which the plan explicitly permits. The **placement then waits on `.phaseE-done`**
+  before touching the GPU, so a pull and a trial overlap while two GPU loads never do. It also
+  strips the projector first (D6-11) and retries a failed pull exactly once.
+- `.phaseE-done` is now load-bearing twice — the session waiter reads it as the end of the
+  campaign and `jit_pull.sh` waits on it — so it is written explicitly and was verified present
+  after I clipped it once while editing.
+
+Nothing else pulls. `pull2.sh` and `pull3.sh` are dead (D6-28) and `reserve_pull.sh` is invoked
+by nothing that still runs.

@@ -543,5 +543,32 @@
   "verdict_why": "gen 22.0 tok/s; resident 14.49 GB over the line",
   "nvidia_smi_peak_mib": 15216,
   "finished": "2026-09-04 21:46:54"
+ },
+ {
+  "quant": "mrIQ3M",
+  "tag": "q27-mrIQ3M-48k",
+  "num_ctx": 49152,
+  "manifest_model_gib": 11.89,
+  "manifest_projector_gib": 0.0,
+  "has_projector": false,
+  "started": "2026-09-04 21:46:56",
+  "load_s": 6.8,
+  "resident_gb": 13.25,
+  "vram_gb": 13.25,
+  "pct_gpu": 100,
+  "ps_context_length": 49152,
+  "gen_tps_empty": 51.1,
+  "fill_wall_s": 30.3,
+  "fill_prompt_tokens": 43661,
+  "fill_target_tokens": 44236,
+  "prompt_tps_fill": 1621.4,
+  "gen_tps_fill": 42.72,
+  "ttft_fill_s": 26.9,
+  "out_tokens_fill": 48,
+  "over_resident_line": false,
+  "verdict": "pass",
+  "verdict_why": "",
+  "nvidia_smi_peak_mib": 15079,
+  "finished": "2026-09-04 21:47:51"
  }
 ]
