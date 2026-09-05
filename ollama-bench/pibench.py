@@ -574,7 +574,15 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     env["PYTHONIOENCODING"] = "utf-8"
     cmd = [NODE_EXE, PI_CLI, "-p", "--no-session", "--no-context-files", "--no-extensions", "--no-skills",
            "--no-prompt-templates", "--mode", "json", "--model", f"{provider}/{model}",
-           "--thinking", think, "--", prompt_arg]
+           "--thinking", think]
+    # Opt-in only: PIBENCH_PI_ARGS is whitespace-split and inserted just before the prompt
+    # separator, so a single process can carry extra pi flags without changing any other row.
+    # `--no-extensions` disables discovery but still honours an explicit `-e <path>`.
+    # From WSL over interop the variable reaches the Windows process ONLY when WSLENV names it:
+    #   export WSLENV="PIBENCH_PI_ARGS${WSLENV:+:$WSLENV}"
+    # Without that it arrives as None and the row silently runs without the flags.
+    cmd += os.environ.get("PIBENCH_PI_ARGS", "").split()
+    cmd += ["--", prompt_arg]
     smi_sampler = _NvidiaSmiSampler() if provider == "ollama" else None
     if smi_sampler:
         smi_sampler.start()
