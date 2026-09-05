@@ -1,8 +1,13 @@
 """Render results/v6/placement.json into placement.md (plan section 5, phase 0 fields)."""
-import json, os
+import json, os, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gate import verdict_of
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 data = json.load(open(os.path.join(HERE, "placement.json"), encoding="utf-8"))
+for _r in data:                       # re-derive, so a gate added later reaches older records
+    _r["verdict"], _r["verdict_why"] = verdict_of(_r)
 
 def g(r, k, fmt="%s", dash="-"):
     v = r.get(k)
@@ -15,16 +20,16 @@ rows = ["# v6 phase 0 — placement",
         "and never used for the verdict (it reads ~1.5 GB high). Speed gate (plan section 4): gen",
         "tok/s at a ~90% fill >= 35 passes, < 20 is spill, between is marginal.*",
         "",
-        "| quant | ctx | resident GB | %GPU | smi peak MiB | load s | gen tok/s empty | gen tok/s @fill | prompt tok/s @fill | TTFT s | fill tok | verdict |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+        "| quant | ctx | resident GB | %GPU | smi peak MiB | load s | gen tok/s empty | gen tok/s @fill | prompt tok/s @fill | TTFT s | fill tok | verdict | why |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|"]
 for r in data:
-    rows.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | **%s** |" % (
+    rows.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | **%s** | %s |" % (
         r["quant"], "%dk" % (r["num_ctx"] // 1024),
         g(r, "resident_gb", "%.2f"), g(r, "pct_gpu", "%s%%"),
         g(r, "nvidia_smi_peak_mib", "%d"), g(r, "load_s", "%.1f"),
         g(r, "gen_tps_empty", "%.1f"), g(r, "gen_tps_fill", "%.1f"),
         g(r, "prompt_tps_fill", "%.0f"), g(r, "ttft_fill_s", "%.0f"),
-        g(r, "fill_prompt_tokens", "%d"), r.get("verdict", "-")))
+        g(r, "fill_prompt_tokens", "%d"), r.get("verdict", "-"), r.get("verdict_why") or ""))
 
 rows += ["", "## Max viable context per quant", "",
          "| quant | max viable ctx | resident there | gen tok/s there | first rung rejected |",

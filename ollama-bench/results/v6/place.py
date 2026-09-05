@@ -12,6 +12,8 @@ Appends one object to results/v6/placement.json. Never rewrites a record.
 """
 import json, os, subprocess, sys, threading, time, urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 BASE = "http://localhost:11434"
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "placement.json")
@@ -195,19 +197,11 @@ def main():
             rec["vram_gb"] = max(rec.get("vram_gb") or 0, v2)
             rec["pct_gpu"] = p2
 
-        # 4. Verdict (plan section 4 speed gate + the resident line).
-        g = rec["gen_tps_fill"]
-        over_line = (rec.get("resident_gb") or 0) >= LINE_GB
-        if g < SPILL_TPS:
-            v = "spill"
-        elif g >= PASS_TPS and not over_line:
-            v = "pass"
-        elif g >= PASS_TPS and over_line:
-            v = "marginal"
-        else:
-            v = "marginal"
-        rec["over_resident_line"] = over_line
-        rec["verdict"] = v
+        # 4. Verdict -- the shared gate, so a rule added later applies to old records too.
+        from gate import verdict_of, LINE_GB
+        rec["over_resident_line"] = (rec.get("resident_gb") or 0) >= LINE_GB
+        v, why = verdict_of(rec)
+        rec["verdict"], rec["verdict_why"] = v, why
     finally:
         pass
     return finish(rec, smi)

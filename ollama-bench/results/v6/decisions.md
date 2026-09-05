@@ -323,3 +323,52 @@ The one candidate that could falsify this is reserve rank 7, `UD-Q2_K_XL` at 9.8
 pulled and I am not pulling it ahead of the roster: the campaign's question is 64k quality, and
 a 2-bit dynamic at 96k answers a different one. Recorded here so the next session can take it
 deliberately rather than rediscover it.
+
+## D6-19 — a second failure mode: prefill collapses while generation stays healthy
+
+*21:14.* Q3_K_S at 48k passed the plan's speed gate and is unusable. The gate reads generation
+tok/s; this cell's generation is fine and its **prefill** is destroyed:
+
+| Q3_K_S @ 48k | value |
+| --- | ---: |
+| resident | 14.09 GB — **under** the 14.2 line |
+| pct_gpu | **100%** |
+| gen tok/s empty / @43.7k fill | 47.15 / **41.31** — comfortably over the 35 tok/s gate |
+| **prompt tok/s @fill** | **76.4** |
+| **time to first token @fill** | **571 seconds** |
+| `nvidia-smi` peak | 15,879 MiB of 16,303 — **424 MiB free on the device** |
+
+Every other cell measured tonight prefills between **946 and 1,788 tok/s**, including the
+spilled ones: IQ3_XS at 82% GPU still prefills at 1,035. Q3_K_S is a 12-to-23x outlier on that
+axis alone. Nothing sits between 76 and 946, so this is a cliff, not a gradient.
+
+**It is a different fault from the v5 headroom bend, and the two are diagnosable apart.** The
+headroom bend — Q2_K_L and Q2_K at 96k, IQ3_XS at 64k — shows as *generation* collapsing with
+`pct_gpu` falling below 100. This shows as *prefill* collapsing with `pct_gpu` pinned at 100%
+and resident under the line. The signature is the `nvidia-smi` figure, not the `/api/ps` one:
+424 MiB free on the device is not enough for the prefill scratch buffer, which scales with
+batch size, while generation needs almost none. So the whole-device number that v5 correctly
+refused to use for the *residency* verdict is exactly the number that explains *this* one.
+
+Consequence for an agentic bench: at 76 tok/s a 44k-token prompt waits **9.5 minutes** before
+its first token, so the 600 s large-band timeout is guaranteed to fire on every task, and every
+row would have been recorded as `timed_out` with no indication why.
+
+Decision: **the verdict gate gains a prefill rule** — >= 500 tok/s clean (the plan's own
+number), < 200 tok/s spill, between them marginal — and the gate moves into one shared module,
+`gate.py`, imported by the instrument and by both renderers. The renderers **re-derive** every
+verdict from the raw measured fields, so a rule added at 21:14 reaches a record taken at 20:41
+without `placement.json` ever being rewritten, which plan section 6 requires.
+
+## D6-20 — Q3_K_S is rejected, and reserve rank 2 replaces it
+
+*21:15.* Q3_K_S was on the roster for a 48k placement only (plan section 2), 48k is now `spill`
+under D6-19, and there is no lower rung to demote to. **Rejected: no viable context.** Under
+the plan section 2 swap rule every tag of it is removed and the top remaining reserve line is
+pulled in the background while the GPU carries on.
+
+Pulled: **reserve rank 2, `mradermacher/Qwen3.8-27B-i1-GGUF:i1-IQ3_M`, 12.77 GB** — bartowski's
+IQ3_M with 1.1 GB shaved off, and IQ3_M was v5's favourite on a-priori quality. It is the right
+replacement for a rejected 3-bit K-quant, and tonight's own numbers say why it has a chance
+where bartowski's IQ3_M does not: at 13.90 GB that file cannot fit 64k, and 1.1 GB is most of
+the gap.

@@ -34,7 +34,7 @@ printf 'FROM %s\nPARAMETER num_ctx %s\n' "<src>" 65536 > /tmp/mf && ollama creat
 | rank | name for tags | src (`ollama pull`) | file GB | imatrix | why |
 | ---: | --- | --- | ---: | :---: | --- |
 | ~~1~~ | ~~`UDQ3KXL`~~ | ~~`hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL`~~ | 13.15 | yes | **pulled 2026-09-05 20:59 (D6-13)**, ahead of a rejection, because IQ3_XXS reached only `marginal` at 64k and a dynamic 3-bit at Q2_K_L's file size is the only remaining way the campaign's headline question is answered yes |
-| 2 | `mrIQ3M` | `hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-IQ3_M` | 12.77 | yes | IQ3_M with 1.1 GB less than bartowski's; IQ3_M was the v5 favourite on a-priori quality |
+| ~~2~~ | ~~`mrIQ3M`~~ | ~~`hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-IQ3_M`~~ | 12.77 | yes | **pulled 2026-09-05 21:15 (D6-20)** as the swap for rejected Q3_K_S |
 | 3 | `UDIQ3S` | `hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S` | 12.04 | yes | dynamic IQ3_S with 1 GB of extra headroom; may reach 96k |
 | 4 | `GSQIQ3S` | `hf.co/ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S` | 11.77 | yes | a research-lab quantisation method (GSQ-RCO), not a llama.cpp default; the one genuinely different algorithm in the sweep |
 | 5 | `mrQ3KM` | `hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-Q3_K_M` | 13.50 | yes | Q3_K_M at 48k was degraded from bartowski's 14.61 GB file; this one is 1.1 GB smaller and may pass 48k, possibly 64k |
@@ -59,6 +59,9 @@ add a line if a later sweep finds a better one.
 
 - **rank 1 `UDQ3KXL`, pulled 2026-09-05 20:59** (`decisions.md` D6-13). Pulled ahead of a
   rejection to keep the disk end busy while the GPU ran phase A.
+- **rank 2 `mrIQ3M`, pulled 2026-09-05 21:15** (`decisions.md` D6-20), as the swap for
+  **Q3_K_S**, rejected because its only rung (48k) prefills at 76 tok/s — a 571-second wait
+  before the first token — while generating at a healthy 41 tok/s and reporting 100% GPU.
 
 ## What the v6 placement pass adds to this file
 

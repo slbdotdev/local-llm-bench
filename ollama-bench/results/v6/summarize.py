@@ -7,9 +7,11 @@ a class is viable when its quant solves three quarters of the class's tasks in t
 (rounded up) and marginal at half. The confidently-wrong rate is a verdict line of its own and
 outranks pass rate.
 """
-import glob, json, math, os, statistics
+import glob, json, math, os, statistics, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from gate import verdict_of
 RES = os.path.dirname(HERE)
 
 def med(xs):
@@ -19,6 +21,8 @@ place = []
 p = os.path.join(HERE, "placement.json")
 if os.path.exists(p):
     place = json.load(open(p, encoding="utf-8"))
+    for _r in place:                  # re-derive (D6-19)
+        _r["verdict"], _r["verdict_why"] = verdict_of(_r)
 
 def latest_per_cell(records):
     """A cell measured twice is superseded by its later record -- the projector-free rebake
