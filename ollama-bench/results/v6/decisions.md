@@ -218,3 +218,29 @@ section 6C says in as many words that a 48k-only quant "runs the three large-ban
 fit". So the 1.6x form is the operative test and "about 60%" is its approximate restatement —
 the word "about" is doing the work. `admits()` implements 1.6x alone, which reproduces D6-1's
 table exactly: three tasks at 48k (g01, g03, t03), six at 64k, all eight at 96k and above.
+
+## D6-13 — reserve rank 1 is pulled now rather than on a rejection, to keep the disk end busy
+
+*20:59.* Plan section 2 pulls the top reserve entry when a roster quant is rejected. I am
+pulling `UD-Q3_K_XL` (unsloth, 13.15 GB, reserve rank 1) now instead, while the GPU works
+phase A3 and the sentinels. Three reasons.
+
+The disk and network end is otherwise completely idle for the next few hours, and a pull never
+contends with a trial (plan section 9). C: is back to 45 GB free after the strip, which is the
+most headroom this campaign will ever have. And the placement result that has just landed makes
+this specific entry the most informative thing on the list: **IQ3_XXS, the smallest 3-bit
+imatrix quant on the roster, reached only `marginal` at 64k even projector-free** (14.31 GB,
+93% GPU, 28.97 tok/s). If no bartowski 3-bit carries 64k, the campaign's headline question is
+answered "no" — unless a dynamic quant, which keeps the layers that matter at higher precision
+and quantises the rest harder, does it at the same file size. That is exactly what
+`UD-Q3_K_XL` is, and it is a 13.15 GB file against Q2_K_L's proven 13.08 GB.
+
+It is struck from `reserve.md` on arrival, per that file's swap rule.
+
+## D6-14 — `has_projector` is null on the first three placement records
+
+*20:59.* The field was added to the instrument at 20:51 (D6-11), so the first three records
+carry `null`. For the avoidance of doubt, from the manifests as they stood: **Q2_K_L had no
+projector** (its record stands unchanged), and the **IQ3_XXS and IQ3_XS records started 20:43
+and 20:44 both carried one** and are superseded by the stripped re-placements. The IQ2_M-48k
+record started 20:47:05 is the indeterminate one from D6-10 and is used for nothing.

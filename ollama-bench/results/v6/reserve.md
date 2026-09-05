@@ -33,7 +33,7 @@ printf 'FROM %s\nPARAMETER num_ctx %s\n' "<src>" 65536 > /tmp/mf && ollama creat
 
 | rank | name for tags | src (`ollama pull`) | file GB | imatrix | why |
 | ---: | --- | --- | ---: | :---: | --- |
-| 1 | `UDQ3KXL` | `hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL` | 13.15 | yes | a dynamic 3-bit at Q2_K_L's size; the best-quality 3-bit that can plausibly hold 64k |
+| ~~1~~ | ~~`UDQ3KXL`~~ | ~~`hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL`~~ | 13.15 | yes | **pulled 2026-09-05 20:59 (D6-13)**, ahead of a rejection, because IQ3_XXS reached only `marginal` at 64k and a dynamic 3-bit at Q2_K_L's file size is the only remaining way the campaign's headline question is answered yes |
 | 2 | `mrIQ3M` | `hf.co/mradermacher/Qwen3.8-27B-i1-GGUF:i1-IQ3_M` | 12.77 | yes | IQ3_M with 1.1 GB less than bartowski's; IQ3_M was the v5 favourite on a-priori quality |
 | 3 | `UDIQ3S` | `hf.co/unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S` | 12.04 | yes | dynamic IQ3_S with 1 GB of extra headroom; may reach 96k |
 | 4 | `GSQIQ3S` | `hf.co/ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S` | 11.77 | yes | a research-lab quantisation method (GSQ-RCO), not a llama.cpp default; the one genuinely different algorithm in the sweep |
@@ -54,3 +54,25 @@ When a roster quant is rejected: `ollama rm` every tag of it, pull the top remai
 in the background while the GPU runs the next quant, bake its 48k and 64k tags, and move the
 line to `decisions.md` with the reason. Keep this file current: strike a line when it is pulled,
 add a line if a later sweep finds a better one.
+
+## Struck lines and what replaced them
+
+- **rank 1 `UDQ3KXL`, pulled 2026-09-05 20:59** (`decisions.md` D6-13). Pulled ahead of a
+  rejection to keep the disk end busy while the GPU ran phase A.
+
+## What the v6 placement pass adds to this file
+
+**Check every reserve candidate for a vision projector before comparing it to anything.** Four
+of the seven roster quants turned out to carry the 927 MB `mmproj` layer in their Ollama
+manifest and three did not, which on a 16 GB card is the difference between a `pass` and a
+`spill` verdict at 64k (`decisions.md` D6-9, D6-11). Every publisher in this list ships the
+projector alongside the model, so every one of these entries needs the same strip. The worked
+procedure is `strip.sh`: `ollama create` from the model blob's own path imports one
+projector-free copy, every other context rung is derived `FROM` that tag for free, and the
+`hf.co` tag is removed straight after to give the disk back.
+
+**And budget for the i-quant overhead.** With the projector subtracted, IQ3_XXS and IQ3_XS both
+still carry about 0.93 GiB more resident than their model layer plus Q2_K_L's overhead would
+predict, consistent across two different file sizes. So an IQ-prefixed file needs about 1 GB
+more headroom than a K-quant of the same size, and this file's size-based rules of thumb
+("13.1 GB is a strong bet for 64k") hold for K-quants only.
