@@ -1,0 +1,16 @@
+Fixed — all 8 tests pass.
+
+**The defect** was in `_call_spans` (calls.py:50): it returned an empty list unconditionally, so `rewrite_calls` never rewrote anything. That single stub made `test_rewrites_exact_call_targets` fail while every "leave unchanged" test passed trivially. The upstream machinery was already correct: `_call_targets` yields maximal dotted callees (skipping names preceded by `.`, `def`, or `class`, and only when the next token is `(`), and `_apply` splices replacements in by absolute offsets, which preserves all surrounding characters including line endings.
+
+**The fix** (3 lines) connects them:
+
+```python
+def _call_spans(tokens, mapping):
+    return [(first, last, mapping[name])
+            for name, first, last in _call_targets(tokens)
+            if name in mapping]
+```
+
+Exact dict lookup on the maximal dotted name inherently rejects prefix matches (`oldpkg.runner`, `oldpkg.run.extra`), subexpressions (`obj.oldpkg.run()` yields the full name `obj.oldpkg.run`), and non-calls, since `_call_targets` already filters those out.
+
+Verified: `python test_calls.py` failed 1/8 before the change and now reports `Ran 8 tests ... OK`; the three docstring examples, `called_names` ordering, and CRLF preservation (`oldpkg.run(1)\r\n` → `newpkg.run(1)\r\n`) all behave as specified. No test file was touched.

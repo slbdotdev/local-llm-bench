@@ -1,0 +1,15 @@
+Done. `reference_audit.txt` is complete with exactly 55 records — 37 `UPDATE` and 18 `LEAVE` — validated for field count, tab separators, path spelling, and ordering (no source document was modified).
+
+How the classification breaks down:
+
+**UPDATE (37)** — live pointers directing present-day work:
+- The 20 identical "Start of work" entries (line 27) across `current/`, `ops/`, and `services/` modules, each explicitly a live entry point for today's operator.
+- The 12 "verify the current pointer" audit checks (line 110) and 5 "active escalation link" index entries (line 152).
+- The live catalog entry in `README.md:17`.
+- Notably, `ops/migration-status.md:27` is a live instruction in a current migration procedure, so it's an UPDATE even though the file concerns the relocation.
+
+**LEAVE (18)** — historical evidence, never rewritten:
+- All 12 occurrences in `archive/` (incident transcript, retired guide, quarterly review) and `history/` (release note, postmortem, relocation record) — every one of these files carries "Status: historical and immutable."
+- Six quoted historical passages inside current documents, classified by passage role rather than file: `current/operations.md:110` (quoted 2026-07 incident transcript), `current/security.md:110` (2026-06 audit quotation), `ops/migration-status.md:110` (quoted pre-cutover register), `services/ledger/overview.md:110` (prior settlement incident evidence), `services/search/runbook.md:110` (dated responder note), and `services/warehouse/runbook.md:110` (preserved postmortem excerpt).
+
+Occurrence counting excluded the 25 near-misses embedded as proper prefixes — `//infra/handbook/oncall.md.bak`, `.txt`, `/legacy`, and `/appendix` — which appear in "Near miss" and archive sections specifically to test boundary handling. The count of 55 was confirmed both by grep (80 raw matching lines) and by a boundary-aware scan.

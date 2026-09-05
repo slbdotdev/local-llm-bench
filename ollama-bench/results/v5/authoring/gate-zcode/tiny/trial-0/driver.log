@@ -1,0 +1,22 @@
+[prep] tiny: 8 sandboxes under /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/tiny/trial-0
+[rate-limit] tiny/g01: waiting 60 s, concurrency -> 2
+[conc] pool 2 -> 1
+[run] tiny/g02 rc=0 outcome=ok wall=294s in=109831 out=3212 reqs=6 1302=16
+[run] tiny/g03 rc=0 outcome=ok wall=208s in=128937 out=11654 reqs=6 1302=2
+[run] tiny/t03 rc=0 outcome=ok wall=29s in=74812 out=695 reqs=4 1302=0
+[run] tiny/t02 rc=0 outcome=ok wall=55s in=63691 out=1666 reqs=4 1302=0
+[run] tiny/g01 rc=0 outcome=ok wall=570s in=478847 out=18297 reqs=17 1302=0
+[run] tiny/g04 rc=0 outcome=ok wall=87s in=101330 out=3531 reqs=6 1302=0
+[run] tiny/t04 rc=0 outcome=ok wall=48s in=63422 out=1334 reqs=4 1302=0
+[run] tiny/t01 rc=0 outcome=ok wall=101s in=104536 out=3594 reqs=6 1302=0
+[run] tiny band complete in 1356s
+g01   PASS score=24/24 verdict=correct outcome=ok 1302=0
+g02   PASS score=13/13 verdict=correct outcome=ok 1302=16
+g03   PASS score=15/15 verdict=correct outcome=ok 1302=2
+g04   PASS score=12/12 verdict=correct outcome=ok 1302=0
+t01   PASS score=14/14 verdict=correct outcome=ok 1302=0
+t02   PASS score=3/3 verdict=correct outcome=ok 1302=0
+t03   PASS score=8/8 verdict=correct outcome=ok 1302=0
+t04   PASS score=4/4 verdict=correct outcome=ok 1302=0
+
+tiny: 8/8 passed (rate_limited excluded: none), 1302 retries total 18 -> /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/tiny/trial-0/results.json

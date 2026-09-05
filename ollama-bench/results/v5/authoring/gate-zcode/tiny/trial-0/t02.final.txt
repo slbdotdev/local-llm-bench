@@ -1,0 +1,9 @@
+Answer: **yes** — `parse_port` in `net_helpers.py` does exactly what its docstring claims.
+
+The docstring specifies: return the integer from a nonempty ASCII-decimal string, raising `ValueError` for anything else or any value outside the inclusive range 1–65535. The implementation matches on every point: line 22 rejects non-strings and empty input, line 24 enforces ASCII digits only (correctly rejecting `+`/`-`, whitespace, and Unicode digits that `int()` would otherwise accept), every failure raises `ValueError`, and line 27 implements the inclusive range correctly at both endpoints — 1 passes (`1 < 1` is false) and 65535 passes (`65535 > 65535` is false), while 0 and 65536 are rejected.
+
+`answer.txt` now contains:
+```
+ANSWER: yes
+EVIDENCE: 27: if value < 1 or value > 65535:
+```

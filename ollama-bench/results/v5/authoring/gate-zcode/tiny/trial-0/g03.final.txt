@@ -1,0 +1,11 @@
+The migration is complete and the test suite passes. Here's what changed in each file:
+
+**`event_core.py`** — `emit_event` is now `publish_event(payload, kind, *, channel=DEFAULT_CHANNEL, stamped=False)`. It still forwards to `event_bus.forward(kind, payload, ...)`, so the displayed text keeps the `channel|kind|payload` order (doctest updated to `'ops|disk|alarm'`). `batch` keeps its `(kind, payload)` event pairs working by swapping the comprehension arguments to `sender(event[1], event[0], ...)`, and its default `sender` now points at `publish_event`.
+
+**`event_bus.py`** — `forward` keeps its data order but `channel` and `stamped` became keyword-only, and it still passes them through to `present` by keyword.
+
+**`event_view.py`** — `present` formats `channel|kind|payload` unchanged, now keyword-only. `_fallback` mirrors the new `publish_event` shape (`payload, kind` with keyword-only options). `reflected` looks up `"publish_event"` via `getattr` and swapped its call to `writer(event[1], event[0], ...)` since the writer now takes payload first.
+
+**`test_events.py`** — updated the one call site to `publish_event("alarm", "disk", channel="ops")` with the expected `'ops|disk|alarm'`. It ran clean with `python test_events.py`.
+
+All three modules' `channel`/`stamped` options are keyword-only and every call supplies them as keywords, the `event_core → event_bus → event_view → event_core` import relationship (with the late import) is untouched, and a grep confirms no `emit_event` spelling remains in any of the three modules. I also verified with `inspect.signature` that `publish_event` is exactly `(payload, kind, *, channel='main', stamped=False)`, that asymmetric kind/payload values render correctly on default and stamped paths, and that the old three-positional call raises `TypeError`.

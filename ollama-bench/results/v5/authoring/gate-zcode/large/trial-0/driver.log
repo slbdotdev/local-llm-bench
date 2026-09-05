@@ -1,0 +1,32 @@
+[prep] large: 8 sandboxes under /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/large/trial-0
+[conc] pool 2 -> 1
+[run] large/g01 rc=0 outcome=ok wall=539s in=1768644 out=26757 reqs=34 1302=0
+[run] large/t04 rc=0 outcome=ok wall=210s in=323729 out=6742 reqs=13 1302=0
+[rate-limit] large/g03: waiting 60 s, concurrency -> 2
+[resume] large/g01 already succeeded (run 503d3779ffff), kept
+[resume] large/t04 already succeeded (run f2d8a63b2f23), kept
+[resume] large: 2 kept, 6 to run: g02 g03 g04 t01 t02 t03
+[prep] large: 6 sandboxes under /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/large/trial-0
+[conc] pool 2 -> 1
+[resume] large/g01 already succeeded (run 503d3779ffff), kept
+[resume] large/g03 already succeeded (run c4507ee77606), kept
+[resume] large/t04 already succeeded (run f2d8a63b2f23), kept
+[resume] large: 3 kept, 5 to run: g02 g04 t01 t02 t03
+[prep] large: 5 sandboxes under /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/large/trial-0
+[conc] pool 2 -> 1
+[run] large/t02 rc=0 outcome=ok wall=190s in=381418 out=6246 reqs=13 1302=0
+[run] large/t03 rc=0 outcome=ok wall=132s in=337902 out=4268 reqs=12 1302=0
+[run] large/g02 rc=0 outcome=ok wall=806s in=623860 out=24924 reqs=21 1302=15
+[run] large/t01 rc=0 outcome=ok wall=299s in=659015 out=10475 reqs=17 1302=0
+[run] large/g04 rc=0 outcome=ok wall=259s in=305210 out=4727 reqs=13 1302=30
+[run] large band pass complete in 1688s
+g01   PASS score=24/24 verdict=correct outcome=ok 1302=0
+g02   PASS score=15/15 verdict=correct outcome=ok 1302=15
+g03   FAIL score=7/14 verdict=visibly_failed outcome=timed_out 1302=5
+g04   PASS score=10/10 verdict=correct outcome=ok 1302=30
+t01   PASS score=55/55 verdict=correct outcome=ok 1302=0
+t02   FAIL score=0/3 verdict=visibly_failed outcome=ok 1302=0
+t03   PASS score=8/8 verdict=correct outcome=ok 1302=0
+t04   PASS score=5/5 verdict=correct outcome=ok 1302=0
+
+large: 6/8 passed (rate_limited excluded: none), 1302 retries total 50 -> /mnt/d/bench-zcode/ollama-bench/results/v5/authoring/gate-zcode/large/trial-0/results.json

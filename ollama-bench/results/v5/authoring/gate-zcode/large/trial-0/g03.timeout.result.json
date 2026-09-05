@@ -1,0 +1,29 @@
+{
+  "detail": "killed at the --timeout deadline",
+  "diagnostic": "killed at the --timeout deadline",
+  "ended": "2026-09-05T06:16:21Z",
+  "final_bytes": 0,
+  "harness": "zcode",
+  "messages_accepted": [],
+  "messages_delivered": [],
+  "messages_refused": [],
+  "messages_undelivered": [],
+  "model": "GLM-5.3-Flash",
+  "notification": {
+    "requested": false
+  },
+  "partial": true,
+  "resumes": 0,
+  "run_id": "wr-wsl-20260905T060120Z-c4507ee77606",
+  "runtime_protocol": 1,
+  "started": "2026-09-05T06:01:20Z",
+  "state": "timed_out",
+  "usage": {
+    "cacheRead": 57664,
+    "input": 59837,
+    "modelRequestCount": 0,
+    "output": 13109,
+    "reasoning": 0
+  },
+  "variant": "high"
+}

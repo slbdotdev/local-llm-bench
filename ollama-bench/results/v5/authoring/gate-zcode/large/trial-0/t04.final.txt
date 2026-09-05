@@ -1,0 +1,11 @@
+**Verdict: positive — all three bullets are implemented in the current runtime path.** I wrote `answer.txt` citing `app/request_path.py` lines 6-20 (the `process_login` handler).
+
+The call chain, fully traced:
+
+1. **Entry point**: `Server.handle` (`app/server.py:15`) → `dispatch` (`app/routes.py:6-7`) routes `POST /login` to `process_login` (`app/request_path.py:6`), wired with the real `LockoutLedger` and policy in `deploy/wiring.py:6-7`.
+2. **Normalization**: `canonical_identity` (`app/identity.py:13-18`) strips and casefolds tenant/account into a frozen `Identity` keyed as `tenant:account`.
+3. **Bullet 1** — a failed `credentials.verify` stores a block with `until = now + services.policy.lockout_seconds` (`request_path.py:13-15`), and `app/policy.py:12,18-19` fixes that value at exactly 60 seconds (any override raises).
+4. **Bullet 2** — the `lockouts.active(identity, now)` check (`request_path.py:9-11`, evaluated in `app/lockouts.py:16-18` as `item.until > now`) returns a 429 `blocked()` response *before* `credentials.verify` is called.
+5. **Bullet 3** — success calls `lockouts.clear(identity)` (`request_path.py:18`), which is a per-key `store.delete(identity.key())` (`app/lockouts.py:23-24`), so only that canonical identity's block is removed.
+
+Decoys ruled out: `feature_flags.py`, `admin_controls.py`, `recovery.py`, and the adapter modules are inert record catalogs (nothing imports them), the `history/` releases are archives, and the tests are deliberately non-committal (`assert ... .status in (200, 429)`), so none of that was treated as evidence. The concrete store backing `LockoutLedger` is injected rather than defined in-tree, but the block semantics (create on failure, expiry check before verification, per-key clear on success) live entirely in the cited span plus `app/lockouts.py` and `app/policy.py`, which the explanation mentions.

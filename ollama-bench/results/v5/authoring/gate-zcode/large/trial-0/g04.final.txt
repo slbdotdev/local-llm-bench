@@ -1,0 +1,13 @@
+`python3 check_project.py` prints **CLEAN**, and the repaired `src/reconcile.py` is in place.
+
+## What was wrong and what I changed
+
+Five minimal edits to `src/reconcile.py`, all traced to the current 2025-12-31 policy memo (the archived 2022–2024 memos and history notes describe superseded rules that the old code had retained):
+
+1. **State filter was inverted** (line 32): the code kept only rows whose state was `void` — the retired 2022 "accept anything not void" rule. Policy requires exactly `state == "posted"`, so the check is now `row["state"] != "posted"`.
+2. **Dispute filter was wrong** (line 34): it tested `row["dispute"] == None`, which excluded nothing (disputes are strings) and also triggered the checker's identity-check finding. Policy excludes only `dispute == "lost"`; `none`, `open`, and `won` stay in.
+3. **Bare `except` with silent alias fallback** (lines 36–39): unknown aliases were uppercased into a new account, which policy explicitly forbids ("input error... must not be silently assigned"). Now a plain `ACCOUNT_ALIASES[...]` lookup — all feed accounts are known, and an unknown one would raise rather than pass silently. This also clears the checker's bare-except finding.
+4. **No per-row rounding** in `_row_usd`: it converted native cents to USD but summed unrounded values. Policy requires each row rounded to 0.01 with `Decimal` `ROUND_HALF_UP` before summing, so the function now quantizes the converted amount. Refund signs are preserved (the feed's `gross_cents` is already signed, per policy rule 2).
+5. **Wrong ID ordering**: `accepted_ids` was sorted by `entry_id` alone; policy requires `(posted_on, entry_id)`, which is what `accepted.sort()` on the `(posted_on, entry_id)` tuples now produces.
+
+Public signatures, return types (`Decimal`/`str`/`int`/`list`), the five report keys, and `format_report()`'s five-line layout are unchanged. Verified output: 231 accepted rows, total `11336.29` across the four canonical accounts (ACME, BLUEBIRD, CINDER, DOVETAIL) and tax codes T0–T3, groups sorted lexicographically, amounts quantized to `0.01`.

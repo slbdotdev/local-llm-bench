@@ -1,0 +1,20 @@
+`reference_audit.txt` is written and verified — exactly seven tab-separated lines, ordered by LC_ALL=C byte order of the file paths and then line number:
+
+```
+UPDATE  README.md              3  /srv/ops/oncall/handbook.md  /srv/ops/oncall/runbook.md
+UPDATE  docs/links.md          5  /srv/ops/oncall/handbook.md  /srv/ops/oncall/runbook.md
+LEAVE   history/2025-move.md   3  /srv/ops/oncall/handbook.md  -
+LEAVE   history/postmortem.md  3  /srv/ops/oncall/handbook.md  -
+UPDATE  runbooks/incident.md   5  /srv/ops/oncall/handbook.md  /srv/ops/oncall/runbook.md
+LEAVE   runbooks/incident.md   9  /srv/ops/oncall/handbook.md  -
+UPDATE  runbooks/recovery.md   7  /srv/ops/oncall/handbook.md  /srv/ops/oncall/runbook.md
+```
+
+(`→` above stands in for the literal tab characters, confirmed via `cat -A` showing `^I`.)
+
+How the seven were classified:
+
+- **UPDATE (4):** the README's current landing-page link; the `docs/links.md` table cell explicitly labeled "Current destination" for the current support portal; `runbooks/incident.md:5` under "Active procedure" ("Run … before escalating a live incident"); and `runbooks/recovery.md:7`, whose fenced code block is framed as a live fallback that "remains part of the current recovery procedure."
+- **LEAVE (3):** the dated 2025-11-04 migration note preserving the former location; the archived postmortem quoting the responder's command; and `runbooks/incident.md:9`, which despite being in a current file sits under "Historical note" and is "retained only to explain the old response."
+
+The three `misc/path-policy.md` mentions were excluded as near-matches (`.bak` suffix, `/appendix` child path, `handbook.mdx`), and the new path on that file's line 3 was not counted. No documents were modified.

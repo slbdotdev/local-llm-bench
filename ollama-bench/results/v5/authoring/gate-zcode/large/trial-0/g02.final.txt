@@ -1,0 +1,26 @@
+The suite is green — 8/8 tests pass. The task folder is untracked in the outer repo, so there's no git diff to show, but the entire repair is confined to `releaseplan/planner.py`.
+
+## What was wrong
+
+The failing test was `test_newest_policy_revision_wins`. The defect was a single hunk in `plan_records` (`releaseplan/planner.py:20-27`) with two symptoms:
+
+1. **Policy was evaluated against a fake platform.** `allowed()` called `decision(name, "*", release, policy)`, so `_active` in `policy.py` could never activate an exact-platform rule — the exact `windows` allow at revision 6 for `pkg-019` was invisible, and the older wildcard deny at revision 3 wrongly won. This broke both halves of the precedence rule ("greatest revision wins; at a tie, exact platform beats wildcard").
+
+2. **Platform availability was enforced on the whole closure instead of the target.** `pkg-019`'s lock closure necessarily contains `pkg-017` (the only platform-restricted package in the catalog: `["linux", "bsd"]`). The suite pins both that `pkg-017` on windows is empty *as a target* and that `pkg-019` on windows is *deployable* — so availability is a target-level gate, while the closure-wide gate is policy (as `test_missing_or_blocked_dependency_is_empty` confirms: a denied dependency empties the plan).
+
+## The fix
+
+```python
+target = canon(target)
+if (target not in catalog or target not in lock
+        or not available(catalog[target], platform)):
+    return []
+
+def allowed(name):
+    return (name in catalog and name in lock
+            and decision(name, platform, release, policy) == "allow")
+```
+
+No tests, data, or documentation were touched; everything remains standard-library only.
+
+**Verification:** `python3 tests/test_planner.py` → `Ran 8 tests ... OK`. I also checked the two worked examples from the spec byte-for-byte: the one-package `app` plan renders as `release=2025-03 platform=linux\ntarget=app\n- app@1.0 requires=\n`, and with an active deny rule it returns the empty string.

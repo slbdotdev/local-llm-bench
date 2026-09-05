@@ -1,0 +1,10 @@
+`answer.json` is created with the eight approved values taken from the record's final decision log:
+
+- **approved_cadence**: `biweekly` — the log's normalized lower-case label, not the rejected weekly proposal or monthly alternative.
+- **budget_cap_usd**: `18400` — the approved cap including migration validation, not the 18000 proposal, the 20000 company purchasing threshold, or rounded forecasts.
+- **retention_days**: `30` — the approved common baseline, not the rejected 14-day proposal or the audit stream's shorter lifecycle.
+- **alert_threshold**: `0.75` — kept in fractional form as the log requires, not the 80% phrasing or the dashboard's 0.9/0.6 lines.
+- **decision_owner**: `Leila Ortiz` — the named accountable owner, not a team alias or action-item assignees.
+- **deadline**: `2033-02-28` — the committed ISO date, not the agenda's 15 February discussion target.
+- **room**: `Cedar-3` — the official attendance-header room for the verification review, not the display's abbreviated label.
+- **escalation_code**: `ORBIT-7` — the incident tracker code, not similar-looking dashboard or ticket identifiers.

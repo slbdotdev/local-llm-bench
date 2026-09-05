@@ -1,0 +1,29 @@
+{
+  "detail": null,
+  "diagnostic": null,
+  "ended": "2026-09-05T05:44:08Z",
+  "final_bytes": 2023,
+  "harness": "zcode",
+  "messages_accepted": [],
+  "messages_delivered": [],
+  "messages_refused": [],
+  "messages_undelivered": [],
+  "model": "GLM-5.3-Flash",
+  "notification": {
+    "requested": false
+  },
+  "partial": false,
+  "resumes": 0,
+  "run_id": "wr-wsl-20260905T053439Z-d98793605808",
+  "runtime_protocol": 1,
+  "started": "2026-09-05T05:34:39Z",
+  "state": "succeeded",
+  "usage": {
+    "cacheRead": 453568,
+    "input": 478847,
+    "modelRequestCount": 17,
+    "output": 18297,
+    "reasoning": 0
+  },
+  "variant": "high"
+}

@@ -1,0 +1,10 @@
+Done. `solution.py` is in the sandbox root with the single public function `transform(text: str) -> str`, implemented exactly per `specification.py`, which I left untouched.
+
+How it works:
+
+- **Records**: the input is split on `\n`, each record is transformed independently (quote state resets per record, so a trailing LF stays a trailing LF), and results are rejoined with `\n`.
+- **Quote tracking**: each `"` toggles the quoted state only when the run of backslashes immediately before it has even length (zero counts as even); odd runs mean escaped and no toggle. Quotes and backslashes are always copied.
+- **Comments**: outside quotes, a `#` at record start or immediately after an ASCII space starts a comment — the `#` and everything after is copied verbatim with no further quote or digit processing. `#` after a tab or any other character, or inside quotes, is plain data.
+- **Digit wrapping**: maximal ASCII-digit runs outside quotes and before any comment are wrapped in `<...>` only if neither neighbor is an ASCII letter, digit, or underscore (ASCII-only side test, so `é123` and `123é` are eligible, and CR/`#`/punctuation don't block). Only the first two eligible runs per record are wrapped; everything else — including quoted digits, blocked runs, and post-limit runs — is copied unchanged.
+
+Verification: all 11 worked examples in the spec's `EXAMPLES` list pass, plus 23 additional edge cases I wrote covering backslash-quote parity (1/2/3 backslashes), escaped quotes, comment interactions, the two-wrap limit across records, Unicode neighbors, CR-as-data, and blocked runs. (The test script was removed after running; the only files in the sandbox are `solution.py` and the untouched `specification.py`.) One recurring note from testing: every "failure" along the way was an error in my hand-written test expectations, not in the implementation — e.g., in `12" 34`, the quote has zero preceding backslashes so it genuinely opens a quote, leaving `34` quoted and unwrapped, which is what the code does.

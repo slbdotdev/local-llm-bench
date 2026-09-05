@@ -1,0 +1,8 @@
+The checker now prints `CLEAN`, and a behavioral test pass confirms the resolver still works as before. All five findings were genuine defects, fixed in place in `policy.py`:
+
+- **Mutable default arguments** (`choose`, `add_rule`): `rules=[]` became `rules=None` with `if rules is None: rules = []` inside each function. This removes the shared-list pitfall where `add_rule(rule)` calls would all append to one hidden list, while keeping both signatures and call patterns identical.
+- **String identity test** (`if action is "read"`): changed to `==`. The line normalizes `action` to `"read"`, so equality is the correct test — `is` only matched the interned literal and would miss equal strings from other sources.
+- **Comparison to bool** (`condition(context) == False`): replaced with `not condition(context)`, the boolean expression the checker requires.
+- **Bare `except:`**: now `except Exception:`, so rule evaluation failures are still skipped but `KeyboardInterrupt`/`SystemExit` propagate.
+
+The rule-resolution semantics are untouched: first applicable rule wins, a rule with no `action` field matches any action, a rule with no `effect` defaults to `"deny"`, conditions returning falsy (or raising) skip the rule, and no rules means `"deny"`. No other files were modified and no dependencies were added.

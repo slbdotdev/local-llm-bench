@@ -1,0 +1,14 @@
+`answer.json` is written and validated. The eight facts come from the effective ordinary baseline — approval packet AP-17 (revision P-17.1), gated effective on 2034-06-27 and confirmed current by the 2034-07-01 audit closeout, with no later effective amendment in the snapshot.
+
+| Field | Value | Source of authority |
+|---|---|---|
+| `approved_cadence` | `"biweekly"` | Policy module's normalized label (the "fourteen-day" motion is the interval behind it, not the label) |
+| `budget_cap_usd` | `47200` | Finance correction accepted into AP-17 (45000 forecast + 2200 validation) |
+| `retention_days` | `45` | Ordinary primary-archive queryability |
+| `alert_threshold` | `"0.82"` | Fraction storage; 82% is display-only |
+| `decision_owner` | `"Mara Chen"` | Governance attachment — a named person, not a team or assignee |
+| `deadline` | `"2034-11-18"` | Committed date, ISO form |
+| `room` | `"Juniper-2"` | Physical booked room (Juniper is the building zone; relay-review-17 is the bridge) |
+| `escalation_code` | `"MERIDIAN-9"` | Alert approval (RELAY-17 is a work ticket, not this field) |
+
+Nearby alternatives the repository explicitly marks as non-baseline and that I excluded: the superseded P-16 values (weekly, 45000, 30 days, 0.70, team alias, 2034-10-31 agenda target, "Juniper", RELAY-17), the rejected MR-42 emergency request (90 days, 50000, 0.90, incident commander — status: rejected, no effective change), the unpromoted draft fixture (14 days, 48000, 60, 82%), the 50000 incident-procedure threshold, and dashboard percentage renders. JSON validity, exact field set, and integer types were verified programmatically.

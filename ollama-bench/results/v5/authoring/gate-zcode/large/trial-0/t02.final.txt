@@ -1,0 +1,18 @@
+**Answer: no** — written to `answer.txt`. The docstring promises one thing the implementation does not deliver.
+
+**The violation:** `should_grant`'s docstring (`decision.py:81`) states "Every applicable required constraint in the published policy chain must pass." But the live call path at `decision.py:130` goes through `evaluate_policy_chain`, which aggregates at `release_control/policy_chain.py:77` with:
+
+```python
+return any(result.applicable and result.passed for result in results)
+```
+
+That's the legacy **any-of** shortcut: a chain passes if merely *one* applicable node passes, so a request that clears one friendly check alongside a *failed* applicable required check would be granted. The correct current-contract aggregator, `all_required_pass` (`policy_chain.py:60-65`, "The current contract: every applicable required node must pass"), exists but is dead code — nothing in the tree calls it, and it also ignores the `required` flag entirely in the `any()` version.
+
+**The records agree:** `history/2026-02-current-contract.md` (Status: CURRENT) specifies the chain row as "all applicable required nodes" and its change note explicitly asks reviewers to distinguish "the intended all-required rule from any implementation that aggregates with an any-of shortcut." `2026-09-review-signoff.md` adds "Legacy aggregation belongs only to archived replay." The archived 2024-08 record explains the any-of helper was kept for pre-chain replay — it explains the code's presence but doesn't make it satisfy the current contract.
+
+**Everything else checked out:** normalization before policy, vocabulary + catalogued-public capability checks, single published rule at the matching revision, active tenant, active member with sufficient assurance, window bounds, delegation, expired-vs-current deny veto precedence, grant/deny audit conflict rejection, replay-only snapshot exclusion, and quota checked last as a read. The any-of aggregation is the single decisive disagreement, so:
+
+```
+ANSWER: no
+EVIDENCE: release_control/policy_chain.py:77: return any(result.applicable and result.passed for result in results)
+```
