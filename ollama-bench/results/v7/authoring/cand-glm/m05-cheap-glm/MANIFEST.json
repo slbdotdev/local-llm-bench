@@ -1,3 +1,10 @@
-{"task": "m05-cheap-glm", "family": "glm", "band": "cheap",
- "failure_mode": 5, "material_chars": 19610, "material_tokens": 4205,
- "chars_per_token": 4.664, "seed_files": 19}
+{
+ "task": "m05-cheap-glm",
+ "family": "glm",
+ "band": "cheap",
+ "failure_mode": 5,
+ "material_chars": 19820,
+ "material_tokens": 4250,
+ "chars_per_token": 4.664,
+ "seed_files": 19
+}

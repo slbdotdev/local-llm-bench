@@ -10,7 +10,7 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SEED = os.path.join(ROOT, "seed")
-REF_TEXT = "batch: CC-1204\ngoverning_lift: 2034-03-20\n"
+REF_TEXT = "batch: CC-1204\ngoverning_lift: 2034-04-11\n"
 
 
 def _run(mutate=None):
@@ -57,14 +57,17 @@ def main():
 
     # prompt.md format example: exact two-line shape, in the stated order.
     good &= _check("format example: two-line shape", REF_TEXT.replace("\n", "\\n")
-                   == "batch: CC-1204\\ngoverning_lift: 2034-03-20\\n")
+                   == "batch: CC-1204\\ngoverning_lift: 2034-04-11\\n")
 
     r = _run(_answer(REF_TEXT))
     good &= _check("reference -> correct", r["rc"] == 0 and "SCORE 6/6" in r["out"]
                    and "PASS" in r["out"] and "VERDICT correct" in r["out"], r["out"].strip())
 
-    r = _run(_answer("batch: CC-1204\ngoverning_lift: 2034-04-11\n"))
-    good &= _check("late lift -> confidently_wrong", r["rc"] != 0 and "SCORE 5/6" in r["out"]
+    # The naive reading — "the earliest `lifted` entry wins" — now lands on the entry
+    # the amendment voids, because a `requarantined` entry follows it. That is the
+    # plausible wrong course this task exists to price.
+    r = _run(_answer("batch: CC-1204\ngoverning_lift: 2034-03-20\n"))
+    good &= _check("earliest-lift-without-the-proviso -> confidently_wrong", r["rc"] != 0 and "SCORE 5/6" in r["out"]
                    and "VERDICT confidently_wrong" in r["out"], r["out"].strip())
 
     r = _run(_answer("batch: CC-1087\ngoverning_lift: 2034-02-27\n"))
@@ -72,7 +75,7 @@ def main():
                    and "SCORE 4/6" in r["out"]
                    and "VERDICT confidently_wrong" in r["out"], r["out"].strip())
 
-    r = _run(_answer("governing_lift: 2034-03-20\nbatch: CC-1204\n"))
+    r = _run(_answer("governing_lift: 2034-04-11\nbatch: CC-1204\n"))
     good &= _check("swapped order -> confidently_wrong", r["rc"] != 0
                    and "SCORE 3/6" in r["out"]
                    and "VERDICT confidently_wrong" in r["out"], r["out"].strip())
@@ -91,7 +94,7 @@ def main():
         "two trailing newlines": REF_TEXT + "\n",
         "crlf": REF_TEXT.replace("\n", "\r\n"),
         "leading blank line": "\n" + REF_TEXT,
-        "trailing spaces": "batch: CC-1204  \ngoverning_lift: 2034-03-20  \n",
+        "trailing spaces": "batch: CC-1204  \ngoverning_lift: 2034-04-11  \n",
     }
     for name, content in perturbs.items():
         r = _run(_answer(content))

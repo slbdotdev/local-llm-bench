@@ -57,6 +57,7 @@ date,batch,stage,kind,detail
 2034-03-24,CC-1199,lineage,lifted,reviewer sign-off recorded
 2034-03-25,CC-1235,throttle,quarantined,shed window exceeded twice
 2034-03-27,CC-1224,replay,lifted,manifest section re-keyed
+2034-03-28,CC-1204,replay,requarantined,post-lift check failed
 2034-03-29,CC-1247,backfill,quarantined,reviewer request (ticket KS-2231)
 2034-03-30,CC-1194,digest,lifted,reviewer sign-off recorded
 2034-04-02,CC-1235,throttle,lifted,reviewer sign-off recorded

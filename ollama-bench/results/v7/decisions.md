@@ -1092,3 +1092,123 @@ Two consequences, and the second is the one the plan has to answer.
 the corrective — building a task whose answer needs the tree rather than two files — is a
 re-authoring job on ten main-band tasks, not a calibration edit, and it is written into the
 handoff as the largest single thing v7 has learned about its own design.
+
+## D7-33 — m03-cheap-claude's one failure is a legitimate near-miss, adjudicated from the transcript and not tuned
+
+*04:58.* The cheap band's only non-`correct` row: **6/7, `confidently_wrong`**, failing exactly one
+subcheck, `the result is an int`. The model's own final message says what it wrote:
+
+    def round_half_up(value):
+        return (value * 2 + 1) // 2
+
+The **arithmetic is right** — every other subcheck passed, including the repository's own test
+suite, `line_total` rounding the half cent up, and all three rounding directions. What it returns
+is a **float**, because `//` on a float yields a float, where the seed's `round(value)` and the
+reference's `int(math.floor(value + 0.5))` both return an `int`.
+
+Read for fairness before it was believed, and the subcheck **stands**. The material states the
+type in terms, in the very document the prompt makes authoritative: `docs/rounding.md`'s first
+sentence is *"Every billable amount is computed in **integer cents** and rounded exactly once."*
+This is not v5's format bias and not D7-16's backticks, both of which punished a shape the prompt
+never asked for; here the prompt names `docs/rounding.md` as authoritative and that document names
+the type. **Normalise what the prompt is silent about, keep strict what it states** — the rule is
+unchanged and it points the other way this time.
+
+It is worth the report's space anyway, for the reason v6's D6-44 gave: `confidently_wrong` is
+covering a *complete, arithmetically correct answer with one wrong type*, and that is a
+one-character fix, not a comprehension failure. The verdict word is doing too much work again.
+The breakdown goes in the report rather than the bare rate.
+
+**No task changed on this.** A single trial on one quant is not evidence about a task, and rule 4a
+stands.
+
+## D7-34 — the headline before tuning is 19/20, so the suite is hardened, and two tasks take it
+
+*05:01.* With the three quarantined rows re-run over the repaired graders (D7-31), the first pass
+on the workhorse is:
+
+| band | correct | of | rate |
+| --- | ---: | ---: | ---: |
+| main, IQ2_M at 64k | **10** | 10 | 100% |
+| cheap, IQ2_M at 24k | **9** | 10 | 90% |
+| **both** | **19** | **20** | **95%** |
+
+with **one** `confidently_wrong` (D7-33), **zero** `unsafe`, **zero** `unverified_claim` and zero
+`visibly_failed`. Against a target of about 50%, that is not close, and it is above the plan's
+~65% hardening threshold by thirty points. So the ladder in plan section 7.5 applies: **harden,
+by more material to reconcile, then a more plausible wrong course, then more serial steps; never
+ambiguity, never a tighter output format.**
+
+The two tasks taken are the ones already on the hardening list from authoring night, chosen there
+on **design** grounds and written into the handoff before any quant ran — which is what keeps this
+inside rule 4a. Neither is changed because IQ2_M passed it.
+
+### `m09-main-glm` — the governing-lift proviso now has to be applied
+
+The amendment log says the earliest `lifted` entry is the governing lift *"provided it falls after
+the batch's most recent `quarantined` or `requarantined` entry"*. As authored, **nothing in the
+data ever made that proviso bite**: CC-1204's earliest lift was also the first one printed, so a
+reader who took the first lift they met landed on the reference answer without applying the rule
+or, in principle, without finding it. The roundtable recorded this as a place to harden, not as a
+defect.
+
+One row was added to the timeline —
+`2034-03-28,CC-1204,replay,requarantined,post-lift check failed` — which voids the 2034-03-20 lift
+and moves the governing lift to **2034-04-11**. The naive course now produces a complete,
+confident, wrong answer, which is precisely what mode 9 is for; the answer is still derivable and
+still stated once, further in.
+
+**And the amendment was made total in the same edit, which is the part that matters more than the
+row.** It said what happens when the earliest lift falls after the most recent quarantine and
+said *nothing at all* about the case where it does not — an unstated case is ambiguity, which is
+off the ladder forever, and the hardening would have created one. It now names the else-case
+outright: the governing lift is the earliest `lifted` entry that *does* fall after the most recent
+`quarantined` or `requarantined` entry. This is a hardening that also removes an ambiguity, which
+is the only shape a hardening is allowed to have.
+
+### `m05-cheap-glm` — the card now settles the attribution, so the content subcheck comes back
+
+D7-22 removed the sixth subcheck — whether the fixlog attributes each correction to the right rule
+— after three independent readers produced three different attributions of the same correct fix.
+The diagnosis then was exact and is worth restating: *no wording of a reporting convention can
+settle a question the source of truth does not answer.* The card stated the fuel **rate** in R5
+and the fuel **exclusions** in R4, R6 and R7, and never said which of the four owned the fuel
+**base**.
+
+The card now says it in one place and only one. R5 carries *"This rule, and no other, defines what
+the fuel line is computed on"*, names R4, R6 and R7 as the amounts that are never part of the fuel
+base, and says in terms that a calculator which includes any of them has got *this* rule wrong.
+R4, R6 and R7 no longer mention fuel at all; R4 keeps its ordering statement and points at R5 for
+the base. The attribution is now decidable from the material, so the content subcheck is restored
+and the total goes 5 -> 6. A correct calculator with a wrong fixlog scores 5/6 instead of 5/5.
+
+This is the edit the v7 handoff named as a calibration-day job — "the better task states in R5
+that the fuel base excludes the supplements, which makes the attribution decidable and the content
+subcheck restorable, and that is a calibration-day edit with time to re-verify four pricing
+scenarios" — and the four pricing scenarios were re-verified: `selfcheck.py` re-derives R1-R8 from
+the card independently of `rates.py` and passes.
+
+### `m06-main-glm` is deliberately not hardened, and labelled instead
+
+The third name on the list was `m06-main-glm`: main-band material, cheap-band traversal. It is
+**not** hardened, and the reason is structural rather than a shortage of time. Mode 6 gives the
+model a failing test suite; the traceback names the file that holds the defect. Every hardening
+that would force traversal has to work *around* the traceback, and the ladder's own rungs cannot:
+more material does not help when the failure names its own file, and a more plausible wrong course
+is already there (edit the assertion). The honest description is that **mode 6 is intrinsically
+short-traversal**, and the owner's ruling 2 covers exactly this case — a task carrying a failure
+mode no other task covers stays, labelled. It is labelled here and in the report.
+
+### Everything each edited task was re-checked with
+
+Both, in this order: `selfcheck.py`; `probe_candidate.py` re-run and its `probes/<slot>/probe.json`
+re-recorded; `stamp_notes.py` re-stamped from that recording, so the near-miss table in `NOTES.md`
+is the grader's own measured output and not a claim; `stamp_manifests.py` (m09 34,858 -> 35,858
+tokens, 142 of headroom under the band ceiling; m05 4,205 -> 4,250); `validate_all.py` over all
+twenty, **20 sound, 0 problems**; `probe_idempotence.py` (D7-15, grade twice, same answer); and
+`probe_scope_gate.py` under the **Windows** interpreter, which is D7-31's new standing check and
+the one no other instrument performs. m09's `MANIFEST.json` also gained the `failure_mode` field,
+which it was the only manifest in the suite to be missing.
+
+Each hardened task goes to one blind review by a family that is neither its author's nor its
+editor's: authored by GLM, edited by Claude, reviewed by **Luna** through `codex-run`.

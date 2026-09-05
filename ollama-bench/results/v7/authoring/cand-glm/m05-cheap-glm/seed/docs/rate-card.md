@@ -43,26 +43,27 @@ nearest cent, halves up:
 ## R4 - residential supplement
 
 Deliveries to a residential address carry a flat 4.50 supplement. The
-supplement is not zone-multiplied and does not attract fuel surcharge; it
-is added after the fuel line.
+supplement is not zone-multiplied, and it is added after the fuel line.
+What the fuel line is computed on is R5's to say, not this rule's.
 
 ## R5 - fuel surcharge
 
 12% of the zone-multiplied base charge (R3), rounded to the nearest cent,
-halves up. The fuel line is computed on the zone-multiplied base charge
-alone: the residential, oversize and Saturday amounts are never part of
-it.
+halves up. **This rule, and no other, defines what the fuel line is
+computed on**: the fuel base is the zone-multiplied base charge and
+nothing else. The residential (R4), Saturday (R6) and oversize (R7)
+amounts are never part of the fuel base; they are separate amounts added
+after the fuel line, and a calculator that includes any of them in the
+fuel base has got *this* rule wrong.
 
 ## R6 - Saturday delivery
 
-A requested Saturday delivery adds a flat 9.00 after everything else. It
-does not attract fuel surcharge.
+A requested Saturday delivery adds a flat 9.00 after everything else.
 
 ## R7 - oversize supplement
 
 A parcel whose billable weight is over 25 kg adds a flat 14.00. Like the
-residential and Saturday amounts it is added after the fuel line and does
-not attract fuel.
+residential and Saturday amounts it is added after the fuel line.
 
 ## R8 - returns label
 

@@ -56,7 +56,7 @@ def cells(prefixes):
 def fmt(runs, man, quant, band):
     lines = []
     lines.append("| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | "
-                 "material | occ vs material | occ vs window | median wall | turns | stop |")
+                 "material | peak vs material | peak vs window | median wall | turns | stop |")
     lines.append("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
     by_task = {}
     for x in runs:

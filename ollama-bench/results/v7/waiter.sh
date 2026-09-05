@@ -33,7 +33,11 @@ while true; do
     exit 0
   fi
   g=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1)
-  alive=$(ps -eo args | grep -c '[p]ibench\.py')
+  # "Alive" is not only a running trial. A phase also spends minutes in CPU-only steps —
+  # re-assembling the suite, quarantining rows — during which the GPU is legitimately idle and
+  # no pibench exists. Counting only pibench cried wolf once at 04:58; count the chain too.
+  # Bracket classes throughout: `grep -c 'pibench.py'` would match this waiter's own line.
+  alive=$(ps -eo args | grep -cE '[p]ibench\.py|[c]hain_[a-z]*\.sh|[a]ssemble_suite\.py')
   if [ "${g:-100}" -lt 5 ] && [ "$alive" -eq 0 ]; then
     stalled=$((stalled + 1))
     if [ "$stalled" -eq 2 ]; then

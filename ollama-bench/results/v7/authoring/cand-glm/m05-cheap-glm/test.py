@@ -30,7 +30,7 @@ import re
 import sys
 import threading
 
-TOTAL = 5
+TOTAL = 6
 
 
 def _watchdog():
@@ -53,7 +53,7 @@ HASHES = {
     'docs/faq.md': '125a7ab85156e83f3209fa28882e6c822604766c022fb92254860e5103362621',
     'docs/glossary.md': '1f84875397ad77cedac3233a506083262e3425448d5c05de72d9c4fdcc1a8f77',
     'docs/handover-notes.md': '849ae0f2e684220aa6fc1e9b1ce52f9e56e52428a5b25f222ac609b4ae52e6d9',
-    'docs/rate-card.md': '8bc531790683bccadaff8f27c89d599f5355041a3778dcf6f27363777e17a221',
+    'docs/rate-card.md': 'd9abbc94172d711c8499655237867030734d8da99a05f401c5015d0f08cc21bd',
     'docs/review-calendar.md': 'fd57a8ed847abbc32148779e698357bde13237780c1df7249dc120c58b8b1a16',
     'history/2026-02-02-spring-card.md': '1c5a137fd13287222dd45b20c3c691809cd80f30b5c618821491a96fb35e3a93',
     'history/2026-05-15-may-review.md': '4baf3263d4b4fe758abba91a87e9b0bbd73678a02b8d570515709c53debf051b',
@@ -191,12 +191,19 @@ def main():
             else:
                 notes.append("fixlog.txt is not eight ascending R<n> "
                              "MATCHES/CORRECTED lines")
-            # The fixlog's CONTENT is deliberately not scored (D7-22). Three independent
-            # readers produced three different attributions of the same correct fix, because
-            # the card states a fuel rate in R5 and the supplements in R4 and R7 and never
-            # says which of them owns the fuel base. A subcheck cannot settle a question the
-            # source of truth does not answer; it can only score the author's own reading.
-            # The format above IS scored: it is stated in the prompt with a worked example.
+            # The fixlog's CONTENT is scored again (D7-34), reversing D7-22's removal.
+            # D7-22 removed it because three independent readers gave three different
+            # attributions of the same correct fix: the card stated the fuel rate in R5 and
+            # the fuel exclusions in R4, R6 and R7, and never said which of them owned the
+            # fuel *base*. A subcheck cannot settle a question the source of truth does not
+            # answer. The source of truth now answers it — R5 says in terms that it and no
+            # other rule defines the fuel base, and R4, R6 and R7 no longer say anything
+            # about it — so the attribution is decidable from the card and is scored.
+            if lines == EXPECTED_FIXLOG:
+                score += 1
+            else:
+                notes.append("fixlog.txt does not attribute the corrections as the "
+                             "card's own rules assign them")
         except BaseException as exc:
             notes.append("fixlog.txt unreadable (%s)" % exc)
 
