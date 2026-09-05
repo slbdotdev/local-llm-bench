@@ -24,6 +24,17 @@ cd /mnt/d/local-llm-bench/ollama-bench || exit 1
 PY=/mnt/c/Users/slb/scoop/apps/python/current/python.exe
 export PIBENCH_PI_ARGS='-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts'
 export WSLENV="PIBENCH_PI_ARGS${WSLENV:+:$WSLENV}"
+# Opt-in only, and unset for the scored passes so they are unchanged: V7_KEEP=1 makes
+# pibench preserve each sandbox under D:\v7keep before deleting it, which is the evidence
+# a fairness re-read needs — pibench keeps only the last 400 characters of the model's
+# final message, so the tree it left behind is the transcript. The path is a Windows path
+# because pibench runs under the Windows interpreter, and it is outside every git checkout
+# (D7-18: a sandbox inside the bench's own repository is one `git show HEAD:` from the
+# hidden grader). WSLENV is what carries the variable across the interop boundary at all.
+if [ "${V7_KEEP:-}" = "1" ]; then
+  export PIBENCH_KEEP='D:\v7keep'
+  export WSLENV="PIBENCH_KEEP${WSLENV:+:$WSLENV}"
+fi
 
 quant=$1; ctxname=$2; ctx=$3; band=$4; trials=$5; tag=$6; tasks=${7:-}
 dir=results/v7/authoring/suite
