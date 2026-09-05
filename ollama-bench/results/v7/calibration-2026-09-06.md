@@ -457,6 +457,9 @@ Full reasoning in `decisions.md`.
 | **D7-35** | both blind reviews returned ACCEPT; the reviewer's own derivation of m05's attribution matching the reference is the evidence the card rewrite worked |
 | **D7-36** | mode 8's declared budget applied for the first time in any campaign; the main-band row is over it on both turns and tokens while still `correct` |
 | **D7-37** | the m09 hardening worked and the pass rate did not move, and those are two different results |
+| **D7-38** | the hardened `m09-main-glm` raises achieved occupancy from 26% to 33% of its material, which is the only quantitative evidence a hardening of this kind can give |
+| **D7-39** | the workhorse scores the restored `m05-cheap-glm` subcheck correctly, 6/6, which retires D7-22's finding on its own terms |
+| **D7-40** | mode 8's *turn* budget is the number that is wrong — met on tokens, missed on turns by the same margin four times over — and it is the author's to correct, so it is recorded and not edited |
 
 ## 11. Notes on reading the numbers in this file
 
