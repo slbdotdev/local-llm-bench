@@ -1,6 +1,9 @@
 *.log
 *.out
+*.err
 .cal-*-done
 .gpuverify-done
 .validate-baseline-done
+.winprobe-done
+.evidence-p1-done
 _mf
