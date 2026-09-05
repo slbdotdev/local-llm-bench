@@ -22,9 +22,13 @@ rows = ["# v6 phase 0 — placement",
         "",
         "| quant | ctx | resident GB | %GPU | smi peak MiB | load s | gen tok/s empty | gen tok/s @fill | prompt tok/s @fill | TTFT s | fill tok | verdict | why |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|"]
-for r in data:
-    rows.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | **%s** | %s |" % (
-        r["quant"], "%dk" % (r["num_ctx"] // 1024),
+seen_later = {}
+for i, r in enumerate(data):
+    seen_later[(r["quant"], r["num_ctx"])] = i     # index of the LAST record for each cell
+for i, r in enumerate(data):
+    sup = "" if seen_later[(r["quant"], r["num_ctx"])] == i else " _(superseded)_"
+    rows.append("| %s%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | **%s** | %s |" % (
+        r["quant"], sup, "%dk" % (r["num_ctx"] // 1024),
         g(r, "resident_gb", "%.2f"), g(r, "pct_gpu", "%s%%"),
         g(r, "nvidia_smi_peak_mib", "%d"), g(r, "load_s", "%.1f"),
         g(r, "gen_tps_empty", "%.1f"), g(r, "gen_tps_fill", "%.1f"),
@@ -32,7 +36,11 @@ for r in data:
         g(r, "fill_prompt_tokens", "%d"), r.get("verdict", "-"), r.get("verdict_why") or ""))
 
 rows += ["", "## Max viable context per quant", "",
-         "| quant | max viable ctx | resident there | gen tok/s there | first rung rejected |",
+         "*A **passing** rung outranks a marginal one however much context the marginal rung",
+         "holds (D6-33): the owner's ruling defines viable as running with no performance",
+         "degradation, and marginal is degradation. A marginal rung is reported here only when",
+         "the quant has no passing rung at all, and is labelled.*", "",
+         "| quant | max viable ctx | resident there | gen tok/s there | next rung up, and why it is not viable |",
          "|---|---:|---:|---:|---|"]
 latest = {}
 for r in data:
@@ -41,16 +49,25 @@ byq = {}
 for r in latest.values():
     byq.setdefault(r["quant"], []).append(r)
 for q, rs in byq.items():
-    ok = [r for r in rs if r.get("verdict") in ("pass", "marginal")]
+    passes = [r for r in rs if r.get("verdict") == "pass"]
+    margs = [r for r in rs if r.get("verdict") == "marginal"]
     bad = [r for r in rs if r.get("verdict") not in ("pass", "marginal")]
+    ok = passes if passes else margs
     best = max(ok, key=lambda r: r["num_ctx"]) if ok else None
-    first_bad = min(bad, key=lambda r: r["num_ctx"]) if bad else None
+    # The next rung ABOVE the viable one, whatever its verdict -- a marginal rung is a real
+    # result and reporting it as "-" hid it.
+    above = [r for r in rs if best is not None and r["num_ctx"] > best["num_ctx"]]
+    first_bad = min(above, key=lambda r: r["num_ctx"]) if above else (
+        min(bad, key=lambda r: r["num_ctx"]) if bad else None)
     rows.append("| %s | %s | %s | %s | %s |" % (
         q,
-        "%dk" % (best["num_ctx"] // 1024) if best else "**none**",
+        ("%dk%s" % (best["num_ctx"] // 1024,
+                    "" if best.get("verdict") == "pass" else " _(marginal)_")) if best else "**none**",
         g(best, "resident_gb", "%.2f") if best else "-",
         g(best, "gen_tps_fill", "%.1f") if best else "-",
-        ("%dk (%s)" % (first_bad["num_ctx"] // 1024, first_bad.get("verdict"))) if first_bad else "-"))
+        ("%dk — %s%s" % (first_bad["num_ctx"] // 1024, first_bad.get("verdict"),
+                         (": " + first_bad["verdict_why"]) if first_bad.get("verdict_why") else ""))
+        if first_bad else "none tried"))
 
 open(os.path.join(HERE, "placement.md"), "w", encoding="utf-8").write("\n".join(rows) + "\n")
 print("\n".join(rows))
