@@ -1,0 +1,17 @@
+stage,limit,window_s
+routing,960,180
+cursor,480,120
+envelope,480,90
+ledger,480,30
+schema,480,120
+audit,120,120
+drain,120,15
+ingest,120,15
+retention,120,60
+watermark,120,180
+backfill,96,120
+digest,64,15
+shard,64,90
+throttle,64,180
+lineage,48,120
+reconcile,32,30

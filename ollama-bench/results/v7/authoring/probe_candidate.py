@@ -48,7 +48,8 @@ def apply_answer(sb, answer):
     overlay(answer, sb)
     solve = os.path.join(sb, "solve.py")
     if os.path.exists(solve):
-        env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+        env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8",
+                   PYTHONDONTWRITEBYTECODE="1")
         subprocess.run([sys.executable, "solve.py"], cwd=sb, env=env,
                        capture_output=True, timeout=120)
         os.remove(solve)
@@ -116,7 +117,8 @@ def run(cand, answer=None, how=None, only=None):
                 if os.path.exists(p):
                     perturb(p, how)
         shutil.copy(os.path.join(cand, "test.py"), os.path.join(sb, "_hidden_test.py"))
-        env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+        env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8",
+                   PYTHONDONTWRITEBYTECODE="1")
         try:
             p = subprocess.run([sys.executable, "_hidden_test.py"], cwd=sb, env=env,
                                capture_output=True, text=True, encoding="utf-8",

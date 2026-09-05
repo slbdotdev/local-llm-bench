@@ -52,3 +52,4 @@ Near-miss probe table (all from the correct answer):
 - `GRADER DEFECT: perturb:leading_blank on a correct answer -> 5/6 visibly_failed`
 
 <!-- end verified-near-miss-table -->
+

@@ -1,25 +1,22 @@
 TESTS: pass
-Both checks in tests/test_pipeline_contract.py pass (and the full suite, 86 tests, passes).
+Run: PYTHONPATH=src python -m pytest tests/test_pipeline_contract.py
+     (note: `python` is not on PATH on this machine; the actual command used was
+      PYTHONPATH=src python3 -m pytest tests/test_pipeline_contract.py)
 
-Run: PYTHONPATH=src python3 -m pytest tests/test_pipeline_contract.py
-     (note: only `python3` exists on this machine; `python` is not on PATH)
-Result: 2 passed.
+Result: 2 passed (test_every_manifest_stage_names_a_real_class,
+test_manifest_order_matches_the_documented_drain_order). The full suite
+(PYTHONPATH=src python3 -m pytest tests/) also passes: 86 passed.
 
-Root cause: both failures were defects in config/manifest.json, which the contract
-test requires to describe the code, in the documented drain order.
+What I verified in the repository as found in this snapshot:
+- Every stage in config/manifest.json names a module+class that really exists in
+  src/harrow (checked each of the 21 stages by importing the module with
+  PYTHONPATH=src and testing hasattr; all True).
+- The order of manifest["stages"] matches the numbered "Drain order" list in
+  docs/architecture.md entry for entry (tenancy, routing, ingest, envelope,
+  drain, checkpoint, dispatch, reconcile, backfill, rollup, lineage, retention,
+  audit, replay, attestation, shard, cursor, watermark, schema, quota, digest).
 
-1. test_every_manifest_stage_names_a_real_class
-   The manifest's `ingest` stage named class `IngestCoordinator`, but the module
-   src/harrow/ingest_view.py defines and exports `IngestEngine` (also imported by
-   tests/test_ingest.py; no `IngestCoordinator` exists anywhere in the repo).
-   Fix: manifest `class` changed to `IngestEngine`.
-
-2. test_manifest_order_matches_the_documented_drain_order
-   The manifest listed `dispatch` before `checkpoint`, while docs/architecture.md's
-   "Drain order" list puts checkpoint (durability boundary) before dispatch (fanout
-   boundary). Every other source agrees with the docs: README.md's stage table,
-   docs/operations.md, history/0005-checkpoint.md preceding 0006-dispatch.md, and
-   history/CHANGELOG.md. The manifest was the outlier.
-   Fix: swapped the two entries in manifest.json.
-
-No test files, conftest, packaging files, or the package location were touched.
+No change to the repository was needed to make the contract test pass in this
+snapshot; both checks already hold. tests/test_pipeline_contract.py was not
+modified, and no conftest.py, plugin, pyproject.toml, setup.py, or similar file
+was added; the package remains under src/.

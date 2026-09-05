@@ -142,9 +142,13 @@ def run(cand):
 
     sc = os.path.join(cand, "selfcheck.py")
     if os.path.exists(sc):
+        # PYTHONDONTWRITEBYTECODE is the fix for a defect this script kept re-creating: a
+        # selfcheck imports the seed's modules, CPython writes __pycache__ beside them, and the
+        # next run of this very script reports "build artifacts in seed/". Sweeping afterwards
+        # treats the symptom; not writing them treats the cause (D7-23).
         s = subprocess.run([sys.executable, "selfcheck.py"], cwd=cand, capture_output=True,
                            text=True, timeout=600,
-                           env=dict(os.environ, PYTHONUTF8="1"))
+                           env=dict(os.environ, PYTHONUTF8="1", PYTHONDONTWRITEBYTECODE="1"))
         rec["selfcheck"] = s.returncode == 0
         if s.returncode != 0:
             rec["problems"].append("selfcheck: " + (s.stdout or s.stderr).strip()[-200:])

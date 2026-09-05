@@ -1,0 +1,12 @@
+The task is complete — no further work is needed.
+
+**Final answer:** `freeze-window.txt` is in place at the root of the workspace (`/home/slb/bench-v7/ollama-bench/results/v7/authoring/sanity/glm/trial-0/m03-main-glm/freeze-window.txt`) and contains exactly:
+
+```
+no-freeze
+```
+
+**Verification recap:**
+- The handover note (`docs/handover-2034-10-21.md`) claimed a freeze starting **2034-11-14**.
+- The authoritative calendar (`docs/ops-calendar.md`) schedules no freeze window starting in November 2034: it goes from 2034-10-05 directly to 2034-12-04, and that December entry explicitly "absorbs the cancelled November train."
+- Per the calendar's own statement, it wins over any stale handover note — so the correct answer is `no-freeze`, which is exactly what the file contains. No existing files were modified.

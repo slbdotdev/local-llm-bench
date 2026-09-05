@@ -1,0 +1,12 @@
+Drain report prepared.
+
+**`answer.txt`** (exactly two lines):
+```
+ESCALATION: RN-208
+SLOT: 67
+```
+
+- **ESCALATION: RN-208** — from `docs/operations-log.md`: the 2034-05-19 escalation review entry states RN-208 is "the escalation code now in force, and the only one"; the earlier RN-114 and RN-121 entries are explicitly marked withdrawn.
+- **SLOT: 67** — from `python3 tools/dump_state.py`: the only `reconcile` slot in the `active` state is slot 067 (other reconcile slots are held/draining/idle).
+
+Nothing else in the repository was changed.

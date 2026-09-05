@@ -1,6 +1,6 @@
-"""attestation_view: signing handling for the kestrel-yard pipeline.
+"""settlement_view: signing handling for the kestrel-yard pipeline.
 
-This module owns the attestation stage. It is called by envelope_view and calls into schema_flow;
+This module owns the settlement stage. It is called by envelope_view and calls into schema_flow;
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
@@ -9,15 +9,15 @@ Ownership: K. Sorensen (Client Integrations).
 
 from __future__ import annotations
 
-DEFAULT_ATTESTATION_LIMIT = 64
-DEFAULT_ATTESTATION_WINDOW_S = 120
-ATTESTATION_STATES = ("pending", "resolved", "settled", "abandoned")
+DEFAULT_SETTLEMENT_LIMIT = 64
+DEFAULT_SETTLEMENT_WINDOW_S = 120
+SETTLEMENT_STATES = ("pending", "resolved", "settled", "abandoned")
 
 
-class AttestationEngine:
-    """Coordinates signing batchs between the attestation stage and EnvelopeGateway."""
+class SettlementLedger:
+    """Coordinates signing batchs between the settlement stage and EnvelopeGateway."""
 
-    def __init__(self, limit=DEFAULT_ATTESTATION_LIMIT, window_s=DEFAULT_ATTESTATION_WINDOW_S):
+    def __init__(self, limit=DEFAULT_SETTLEMENT_LIMIT, window_s=DEFAULT_SETTLEMENT_WINDOW_S):
         self.limit = int(limit)
         self.window_s = int(window_s)
         self._batchs = {}
@@ -26,7 +26,7 @@ class AttestationEngine:
     def resolve(self, key, payload=None):
         """Resolve the batch named ``key``.
 
-        Returns the stored record, or ``None`` when the attestation stage has
+        Returns the stored record, or ``None`` when the settlement stage has
         already sealed and no further mutation is permitted.
         """
         if self._sealed:
@@ -40,7 +40,7 @@ class AttestationEngine:
     def expand(self, key, payload=None):
         """Expand the batch named ``key``.
 
-        Returns the stored record, or ``None`` when the attestation stage has
+        Returns the stored record, or ``None`` when the settlement stage has
         already sealed and no further mutation is permitted.
         """
         if self._sealed:
@@ -54,7 +54,7 @@ class AttestationEngine:
     def defer(self, key, payload=None):
         """Defer the batch named ``key``.
 
-        Returns the stored record, or ``None`` when the attestation stage has
+        Returns the stored record, or ``None`` when the settlement stage has
         already sealed and no further mutation is permitted.
         """
         if self._sealed:
@@ -75,10 +75,10 @@ class AttestationEngine:
         return [self._batchs[k] for k in sorted(self._batchs)]
 
 
-def build_attestation(config):
-    """Construct a :class:`AttestationEngine` from the ``attestation`` section of the manifest."""
-    section = config.get("attestation", {})
-    return AttestationEngine(
-        limit=section.get("limit", DEFAULT_ATTESTATION_LIMIT),
-        window_s=section.get("window_s", DEFAULT_ATTESTATION_WINDOW_S),
+def build_settlement(config):
+    """Construct a :class:`SettlementLedger` from the ``settlement`` section of the manifest."""
+    section = config.get("settlement", {})
+    return SettlementLedger(
+        limit=section.get("limit", DEFAULT_SETTLEMENT_LIMIT),
+        window_s=section.get("window_s", DEFAULT_SETTLEMENT_WINDOW_S),
     )

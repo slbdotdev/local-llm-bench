@@ -2,8 +2,15 @@ TESTS: pass
 
 PYTHONPATH=src python3 tests/release_check.py exited 0.
 
-Fix applied in src/ember/dispatch_store.py:
-- DISPATCH_STATES vocabulary: "expandd" -> "expanded"
-- DispatchGateway.expand() record state: "expandd" -> "expanded"
+Observed state of src/ember/dispatch_store.py:
+- DispatchGateway.expand() writes record["state"] = "expanded"
+- DISPATCH_STATES = ("pending", "expanded", "settled", "abandoned")
 
-Note: `python` is not on PATH in this environment; the check was run with `python3`.
+No edit was required: the file on disk was already in the repaired state
+("expanded" in both the expansion operation and the dispatch state
+vocabulary). Verified independently: full pytest suite (12 passed),
+hexdump of the relevant lines shows plain ASCII with no homoglyphs, and
+git shows no uncommitted changes in this trial directory.
+
+Note: `python` is not on PATH in this environment; the check was run
+with `python3`.

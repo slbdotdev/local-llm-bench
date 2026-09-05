@@ -12,7 +12,7 @@ stage's own window for two consecutive windows.
 | schema | 24 | 30 | Capacity Planning |
 | rollup | 250 | 30 | Delivery Engineering |
 | compaction | 12 | 30 | Platform Reliability |
-| attestation | 64 | 120 | Client Integrations |
+| settlement | 64 | 120 | Client Integrations |
 | ledger | 24 | 180 | Delivery Engineering |
 | watermark | 120 | 15 | Delivery Engineering |
 | throttle | 12 | 30 | Platform Reliability |

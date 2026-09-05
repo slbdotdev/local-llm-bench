@@ -686,3 +686,123 @@ author's mental model unless the material fixes the classification, and the mate
 does. The suite has other reporting artifacts — `report.txt`'s two lines, `answer.txt`'s two
 lines, `audit-reply.txt`'s three — and every one of them is scored against a value the tree
 states outright. This one was scored against a judgement, and a judgement needs an authority.
+
+---
+
+## D7-23 — the validator stopped creating the defect it reports
+
+*2026-09-05, ~00:50 local*
+
+`validate_all.py` reported "build artifacts in seed/" on `m05-cheap-glm` on three separate runs
+tonight, and each time I ran `hygiene.py`, and each time it came back. The cause is that m05's
+`selfcheck.py` loads the seed's module in-process to check that the seeded defect really is a
+defect — a correct thing for a selfcheck to do — and CPython writes `__pycache__` beside the
+source when it does.
+
+So the validator's own act of validating created the artifact that the validator then reported,
+and `hygiene.py` was being asked to sweep up after a mess that was regenerated on the next run.
+Sweeping treats the symptom; `PYTHONDONTWRITEBYTECODE=1` in the environment of the selfcheck and
+the probe treats the cause. `validate_all.py` now runs twice in a row over all twenty candidates
+and leaves the tree byte-identical.
+
+This is the same shape as D7-8, where the validator wrote `__pycache__` into seeds through
+`compileall`, and I fixed it there with `-b` plus a sweep — a sweep, again. The lesson only
+landed the second time: **a tool that has to clean up after itself has a bug, not a chore.**
+
+Two other measurement artifacts went the same way in the same pass, both found by asking whether
+a written-down number still matched the thing it described:
+
+- **`probes/` was stale or missing.** Three graders had been patched since their probe was last
+  recorded and the whole GLM family had no recorded probe at all, so `stamp_notes.py` was
+  generating near-miss tables from old output for three slots and none for six. All twenty are
+  re-probed and re-stamped; four report expected perturbation strictness that their NOTES.md
+  adjudicates, and `validate_all.py` reads those adjudications rather than guessing.
+- **Three `MANIFEST.json` files carried pre-repair material counts** — `m02-main-luna`,
+  `m10-main-claude` and `m08-main-luna`, all of which gained seed files during a repair.
+  `stamp_manifests.py` now regenerates the material fields from the seed on disk and has a
+  `--check` mode that reports drift without writing.
+
+Every one of these is the same failure in a different costume, and it is the campaign's most
+repeated: **a number written down once is a claim about a directory, and the directory moves.**
+Three tools now generate what used to be typed — `stamp_notes.py` for the near-miss tables,
+`stamp_manifests.py` for the material counts, `composition.py` for the handoff's suite table —
+and the handoff's sanity table comes straight out of `sanity.py tally`. Nothing in the deliverables
+is transcribed.
+
+---
+
+## D7-24 — four arms, 90-100%, and one of them ran on a saturated plan
+
+*2026-09-05, ~00:55 local*
+
+The four reference arms, one trial per task over the accepted twenty:
+
+| arm | correct | pass rate | confidently_wrong | wall |
+| --- | ---: | ---: | ---: | ---: |
+| Sonnet 5 | 20/20 | 100% | 0 | — |
+| GLM 5.3 Flash (pi, Z.ai plan) | 20/20 | 100% | 0 | 1,344 s |
+| gpt-5.6-luna | 19/20 | 95% | 1 | 305 s |
+| Haiku 4.5 | 18/20 | 90% | 2 | — |
+| GLM 5.3 Flash (ZCode) | — | not run, by the owner's instruction | — | — |
+
+**The GLM row was measured through a saturated plan window and still came back clean.** It ran
+with the Z.ai five-hour window at 98-99%; the harness logs carry **136 `1302` rate-limit lines**
+across the twenty tasks, and the arm took 1,344 s against Luna's 305 s for identical work. pi's
+resilience extension retried every one and all twenty recovered. Three tasks published an
+**empty final answer** while having done the work correctly in the sandbox — `m05-main-luna`'s
+policy document, `m08-main-luna`'s marker helper and `m09-cheap-claude`'s `answer.txt` were all
+checked by hand and all three are right.
+
+That is worth two conclusions.
+
+1. **Grade the sandbox, never the answer text.** Three of twenty runs would have been recorded as
+   failures by any harness that read the model's final message instead of the tree it left behind.
+   The campaign already worked this way; this is the first time it mattered.
+2. **A rate limit is an absence, not a miss.** `sanity.py tally` now carries an `excluded` column
+   that leaves such rows out of the denominator entirely, and `run_zcode_arm.py` classifies a run
+   that ends `failed` with `1302` as `rate_limited` rather than as a zero. Scoring a billing state
+   as a capability is the same category error as scoring a grader artifact as a model failure —
+   and in the end no row needed excluding, because pi recovered all twenty.
+
+**And the loudest calibration signal of the night: four frontier arms between 90% and 100%.**
+The target is ~50% on a 27B workhorse quant. Either the gap between GLM 5.3 Flash at 100% and a
+27B quant at 60-75% context occupancy does all the work by itself, or the suite needs hardening
+by the v5 ladder — more material to reconcile, a more plausible wrong course, longer serial
+chains, and never ambiguity or a tighter output format. Step 4 of the calibration plan decides
+between those two worlds by reading occupancy before pass rate, and the hardening list is already
+started: `m06-main-glm`'s traversal, `m09-main-glm`'s unexercised proviso, `m05-cheap-glm`'s rate
+card.
+
+Nothing here is tuned on this evidence. Twenty single trials on four models that are not the
+subject cannot set a difficulty, and v5's rule 4a stands: no task is kept, dropped, reworded or
+reordered because a model passed or failed it.
+
+## D7-25 — the ZCode row, twice reversed, and what was built for it anyway
+
+*2026-09-05, ~01:00 local*
+
+The instruction not to run `z-run` tonight was withdrawn mid-session and then reinstated. The
+standing position at the end of the campaign is that **the ZCode row is not run**, and the sanity
+table says exactly that rather than leaving a gap — a blank cell reads as an oversight, and
+"not run, by the owner's instruction" reads as a decision.
+
+`run_zcode_arm.py` was rewritten during the window when the row was live, and the rewrite is kept
+because it is the correct driver whenever the row is next wanted:
+
+- **one run at a time, never more.** The plan answers concurrency with `1302`, and the ZCode
+  runtime answers `1302` by retrying up to eleven times with about a minute of backoff — so
+  concurrency does not fail fast, it turns into a slow run that looks like a slow model. The pi
+  arm demonstrated exactly that tonight at 1,344 s against Luna's 305 s.
+- **sandboxes staged on a Windows-visible path.** ZCode is Windows-only on this fleet and a WSL
+  invocation drives it through interop, so `--cwd` has to be `/mnt/<drive>/...`; the driver stages
+  under `/mnt/d/bench-zcode/trial-<n>/<slot>` and grades there in place, and only `results.json`
+  comes back into the repository.
+- **every launch gated on `plan-usage.py`**, stopping rather than launching at or above 85% of the
+  five-hour window, and recording how many rows the window carried if it stops early.
+
+What that row would have bought is the one comparison the table cannot make from what it has:
+`glm` and `zcode` are the *same model on the same plan through two different harnesses*, so any
+difference between them is a harness effect and not a model effect. Given that pi's resilience
+extension demonstrably rescued twenty out of twenty runs from a saturated window tonight, and
+ZCode has no equivalent, that comparison is now more interesting than it was when the arm was
+first written.

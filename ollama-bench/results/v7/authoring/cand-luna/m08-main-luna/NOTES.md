@@ -49,3 +49,4 @@ confidently_wrong; and an untouched sandbox was visibly_failed.
 **Probe result:** clean — the reference passes, an untouched sandbox fails cleanly, and no whitespace perturbation of a correct answer changes the verdict.
 
 <!-- end verified-near-miss-table -->
+

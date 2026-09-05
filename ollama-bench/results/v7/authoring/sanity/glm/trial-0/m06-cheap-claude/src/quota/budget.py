@@ -3,7 +3,7 @@
 
 def remaining(used, cap):
     """The budget still available, in whole units, clamped at zero."""
-    return cap - used
+    return max(0, cap - used)
 
 
 def overspend(used, cap):

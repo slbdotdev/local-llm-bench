@@ -1,6 +1,6 @@
 {
   "job_kind": "watermark-refresh",
-  "factory": "build_watermark",
+  "factory": "load_watermark",
   "arguments": {"watermark": {"limit": 12}},
   "owner_note": "The factory name is loaded by the nightly template renderer."
 }

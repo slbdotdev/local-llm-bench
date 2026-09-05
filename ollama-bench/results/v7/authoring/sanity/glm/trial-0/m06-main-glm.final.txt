@@ -1,0 +1,23 @@
+**`ALL TESTS PASSED (94 checks)`, exit 0.** The task remains complete — verified again just now, nothing further to change.
+
+## Final answer
+
+**Defect:** `SettleGate.admit` in `src/larkspur/settle_gate.py` refused a receipt only when its weight was *strictly greater* than the limit (`weight > self.limit`), wrongly admitting a receipt exactly at the limit.
+
+**Documentation consulted first (as required):**
+- `docs/settle.md`: *"the limit is inclusive... `admit` refuses a receipt whose weight is **greater than or equal to** the stage limit... the limit is the smallest weight the stage refuses, not the largest it accepts."*
+- `history/0021-settle-gate.md`: the comparison was rewritten during the move out of throttle "to match the old helper's guard" — *"That rewrite is wrong for the settle stage... the gate refuses at or above the limit."* The guard is to be corrected in place.
+- `config/manifest.json` settle section pins `limit: 24` — the numbers were never the defect.
+
+**Fix (one line, line 43, confirmed in the working tree):**
+
+```diff
+-        if weight > self.limit:
++        if weight >= self.limit:
+```
+
+**Rules honoured:**
+- `tests/` untouched — zero modified files there, byte-identical to HEAD.
+- Limit unchanged: `DEFAULT_SETTLE_LIMIT = 24` in code, `24` in the manifest.
+
+**Verification:** `python tests/run_all.py` from a clean state prints `ALL TESTS PASSED (94 checks)` and exits 0. Stopping here.

@@ -1,0 +1,20 @@
+## Final answer: no edit needed — the documentation already matches the implementation
+
+**Located the pair:** searching the repository for "admission"/"handoff" identified the unique matching set:
+- Implementation (authoritative): `src/CedarSignal/admission_policy.py`
+- Documentation: `docs/admission_policy.md`
+
+**Verified against the code (including executing it):**
+
+| Item | Implementation | Runtime | Documentation | Match |
+|---|---|---|---|---|
+| `limit` | `DEFAULT_ADMISSION_LIMIT = 18` | 18 | 18 | ✓ |
+| `window_s` | `DEFAULT_ADMISSION_WINDOW_S = 75` | 75 | 75 | ✓ |
+| State name | `held` | — | `held` | ✓ |
+| Lifecycle order | `pending, held, settled, abandoned` | same | same | ✓ |
+
+**Explanation of the drift:** the doc was seeded disagreeing with the code (`limit` 24, `window_s` 60, state `queued`). Git history shows commit `cbe00a4` already applied exactly the corrections this task requires — and only to `docs/admission_policy.md`, never to the implementation. The working tree is clean.
+
+**Scope confirmed:** no other file references the admission defaults (all of `docs/`, `history/`, `README.md`, `config/manifest.json`, `tests/` checked). The implementation, tests, manifest, and generated files are unmodified, and the doc's style and explanatory text are intact.
+
+**Conclusion:** the desired end state already holds — the documentation accurately describes the implementation's defaults and lifecycle states, in the code's order, with the correct state name. The correct action is to change nothing; any further edit would reintroduce disagreement. Zero files modified.

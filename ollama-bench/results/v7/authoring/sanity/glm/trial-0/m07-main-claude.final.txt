@@ -1,0 +1,21 @@
+The rename is already fully applied in this snapshot — no changes were required. I verified every requirement rather than assuming:
+
+## Verification results
+
+**Renames in place**
+- `src/kestrel/settlement_view.py` exists (no `attestation_view.py` anywhere); class is `SettlementLedger`
+- Constants: `DEFAULT_SETTLEMENT_LIMIT = 64`, `DEFAULT_SETTLEMENT_WINDOW_S = 120`, `SETTLEMENT_STATES = ("pending", "resolved", "settled", "abandoned")`; factory is `build_settlement(config)`
+- Doc renamed: `docs/settlement.md` exists (no `docs/attestation.md`); `tests/test_settlement.py` imports `SettlementLedger, build_settlement` from `kestrel.settlement_view`
+
+**Forbidden strings absent** — case-insensitive `grep -ria` (including binaries, e.g. `__pycache__`) finds zero occurrences of `attestation` / `AttestationEngine` under `src/`, `config/`, `tools/`, `tests/`, `docs/`.
+
+**History preserved** — `history/0004-attestation.md` is untouched (it still records the original 2034-05-18 decision, marked superseded; `docs/settlement.md` still points readers at "the history directory" as its own doc promises).
+
+**Repository claims still hold true**
+- `config/manifest.json`: `{"name": "settlement", "module": "settlement_view", "class": "SettlementLedger", "limit": 64, "window_s": 120}` — same limit and window as the module constants and `docs/settlement.md` / `docs/operations.md` (64 / 120)
+- `_registry_generated.py` is **byte-for-byte in sync** with what `tools/gen_registry.py` regenerates from the manifest (verified by replicating the generator to a temp file and diffing — repo not modified)
+- `README.md` stage table, `docs/architecture.md` (stage 5, "signing") and `docs/operations.md` all reference `settlement` consistently
+
+**Behaviour unchanged** — full test suite passes: **84 passed**, including `test_settlement.py` (defaults 64/120, idempotent `seal()`, sorted `snapshot()`, manifest-driven `build_settlement`).
+
+The stage keeps its identical API (`resolve`, `expand`, `defer`, `seal`, `snapshot`) and configuration semantics; only names differ from the pre-rename state.

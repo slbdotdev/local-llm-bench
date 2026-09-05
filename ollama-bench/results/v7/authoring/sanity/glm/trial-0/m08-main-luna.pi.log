@@ -1,0 +1,3 @@
+pi-run: run wr-wsl-20260905T064738Z-2f7d41ae350c started; state in /home/slb/.agent-runs/wr-wsl-20260905T064738Z-2f7d41ae350c; mailbox run-2f7d41ae350c@wsl
+[pi-mcp] Server "unity" failed after 0 retries: fetch failed
+[pi-mcp] Server "blender" failed after 0 retries: spawn /home/slb/.local/bin/blender-mcp ENOENT

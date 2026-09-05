@@ -8,7 +8,7 @@ STAGE_CLASSES = {
     "schema": ("schema_flow", "SchemaLedger"),
     "rollup": ("rollup_core", "RollupLedger"),
     "compaction": ("compaction_core", "CompactionRegistry"),
-    "attestation": ("attestation_view", "AttestationEngine"),
+    "settlement": ("settlement_view", "SettlementLedger"),
     "ledger": ("ledger_gate", "LedgerPlanner"),
     "watermark": ("watermark_flow", "WatermarkRegistry"),
     "throttle": ("throttle_gate", "ThrottleRegistry"),

@@ -43,3 +43,4 @@ Near-miss probe table (all from the correct answer):
 **Probe result:** clean — the reference passes, an untouched sandbox fails cleanly, and no whitespace perturbation of a correct answer changes the verdict.
 
 <!-- end verified-near-miss-table -->
+

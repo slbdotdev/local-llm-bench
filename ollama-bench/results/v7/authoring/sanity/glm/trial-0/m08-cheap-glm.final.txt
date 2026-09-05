@@ -1,0 +1,11 @@
+Done. `audit-reply.txt` is written with exactly three lines.
+
+**Result: DISAGREE** — the claimed 3696.00 is not correct.
+
+**K-7 computation across the three files:**
+- Opening (July): 2510.00
+- July: +412.00 (INV-2041) − 96.50 (CN-2044) + 187.25 (INV-2053) → 3012.75
+- August: +264.00 (INV-2088) − 52.75 (CN-2101) → 3224.00
+- September: +348.50 (INV-2147) − 90.00 (TR-2160) + 95.00 (INV-2164) − 61.50 (CN-2166) → **3516.00**
+
+**Excluded rows:** 2 — INV-2093 (REVERSED, 180.00) and REV-2093 (REVERSAL, −180.00) in the August file; neither counts.

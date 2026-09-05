@@ -53,3 +53,4 @@ Four perturbations fail a correct answer — `no_trailing_newline`, `extra_trail
 - `GRADER DEFECT: perturb:trailing_spaces on a correct answer -> 1/5 confidently_wrong`
 
 <!-- end verified-near-miss-table -->
+

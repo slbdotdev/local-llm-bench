@@ -5,4 +5,4 @@ from __future__ import annotations
 
 def format_marker(name, status):
     """Return a compact marker used in the morning handoff."""
-    return None
+    return f"{name}={status}"

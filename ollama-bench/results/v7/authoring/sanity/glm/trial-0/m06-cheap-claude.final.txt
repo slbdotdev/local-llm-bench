@@ -1,0 +1,26 @@
+All work is complete and verified. Final answer:
+
+## Changed file: `src/quota/budget.py` (one line)
+
+```diff
+ def remaining(used, cap):
+     """The budget still available, in whole units, clamped at zero."""
+-    return cap - used
++    return max(0, cap - used)
+```
+
+## The bug
+
+`tests/test_budget.py::test_remaining_is_clamped_at_zero` asserts `remaining(12, 10) == 0`. The library returned the raw signed difference (`-2`), so an overspent account was reported as having negative remaining budget.
+
+## Why the assertion is right
+
+- **`README.md` invariant:** "No account is ever reported as having negative remaining budget" — on overspend, remaining is zero and the overshoot is reported separately by `overspend()`.
+- **`docs/budget.md`:** `remaining(12, 10) -> 0  not -2`; the result is clamped at zero and never negative.
+- `overspend()` already clamped correctly and `summary()` delegates to both, so `summary(12, 10)` now yields `remaining == 0, overspend == 2` as the consistency test requires.
+
+## Verification performed
+
+- `PYTHONPATH=src python3 -m pytest tests` → **17 passed** (budget 5, ingest 4, lineage 4, retention 4), re-run from a clean state with all `__pycache__`/`.pytest_cache` removed.
+- `git status`/`git diff` confirm `src/quota/budget.py` is the only file changed in this snapshot.
+- Filesystem check confirms nothing under `tests/` was modified and there is no `conftest.py`, pytest config, marker, or skip anywhere — every assertion runs and counts unchanged.

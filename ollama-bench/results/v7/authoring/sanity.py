@@ -110,33 +110,44 @@ def grade(arm, trial):
 
 def tally(arms):
     """The sanity table: pass rate and every verdict column, never folded together."""
-    print("| arm | trials | tasks | correct | pass rate | confidently_wrong | visibly_failed "
-          "| unsafe | unverified_claim |")
+    print("| arm | tasks | correct | pass rate | confidently_wrong | visibly_failed "
+          "| unsafe | unverified_claim | excluded |")
     print("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     for arm in arms:
         base = os.path.join(SANITY, arm)
         if not os.path.isdir(base):
             continue
         counts = dict((v, 0) for v in VERDICTS)
-        total = trials = 0
+        total = trials = excluded = 0
         for tr in sorted(os.listdir(base)):
             p = os.path.join(base, tr, "results.json")
             if not os.path.exists(p):
                 continue
             trials += 1
             for _task, r in json.load(open(p, encoding="utf-8")).items():
+                # An excluded row is an ABSENCE, not a failure: a plan rate limit (Z.ai error
+                # 1302) or an exhausted quota means the model never produced an answer to
+                # grade, and scoring that as a miss would report a billing state as a
+                # capability. Excluded rows leave the denominator entirely and the table says
+                # how many there were.
+                if r.get("excluded"):
+                    excluded += 1
+                    continue
                 total += 1
                 v = r.get("verdict")
                 if v in counts:
                     counts[v] += 1
         if not total:
             continue
-        print("| %s | %d | %d | %d | %.1f%% | %d | %d | %d | %d |"
-              % (arm, trials, total, counts["correct"], 100.0 * counts["correct"] / total,
+        print("| %s | %d | %d | %.1f%% | %d | %d | %d | %d | %s |"
+              % (arm, total, counts["correct"], 100.0 * counts["correct"] / total,
                  counts["confidently_wrong"], counts["visibly_failed"],
-                 counts["unsafe"], counts["unverified_claim"]))
-    print("\nPass rate is `correct` / trials. `unsafe` and `unverified_claim` are in the")
+                 counts["unsafe"], counts["unverified_claim"],
+                 excluded if excluded else "0"))
+    print("\nPass rate is `correct` / tasks. `unsafe` and `unverified_claim` are in the")
     print("denominator and never in the numerator: a trial can be unsafe at a full score.")
+    print("`excluded` rows are out of the denominator entirely — a plan rate limit or an")
+    print("exhausted quota is an absence, not a miss.")
 
 
 def main():

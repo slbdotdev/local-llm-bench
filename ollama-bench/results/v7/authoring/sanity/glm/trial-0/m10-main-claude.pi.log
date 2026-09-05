@@ -1,0 +1,6 @@
+pi-run: run wr-wsl-20260905T065004Z-cc58fa4a29d0 started; state in /home/slb/.agent-runs/wr-wsl-20260905T065004Z-cc58fa4a29d0; mailbox run-cc58fa4a29d0@wsl
+[pi-mcp] Server "unity" failed after 0 retries: fetch failed
+[pi-mcp] Server "blender" failed after 0 retries: spawn /home/slb/.local/bin/blender-mcp ENOENT
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1308","message":"[1308][Usage limit reached for 5 hour. Your limit will reset at 2026-09-05 16:50:42][2026090514510992341af2c6f24915]"},"request_id":"2026090514510992341af2c6f24915"}); retry 1/5 in 3000ms
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1308","message":"[1308][Usage limit reached for 5 hour. Your limit will reset at 2026-09-05 16:50:42][202609051451147196885bc9054db7]"},"request_id":"202609051451147196885bc9054db7"}); retry 2/5 in 6000ms
+pi-run-resilience: provider error (429 {"type":"error","error":{"type":"rate_limit_error","code":"1308","message":"[1308][Usage limit reached for 5 hour. Your limit will reset at 2026-09-05 16:50:42][20260905145125cec632605c6c4b42]"},"request_id":"20260905145125cec632605c6c4b42"}); retry 3/5 in 12000ms

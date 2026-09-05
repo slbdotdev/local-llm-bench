@@ -35,9 +35,9 @@
       "owner": "D. Ferreira"
     },
     {
-      "name": "attestation",
-      "module": "attestation_view",
-      "class": "AttestationEngine",
+      "name": "settlement",
+      "module": "settlement_view",
+      "class": "SettlementLedger",
       "limit": 64,
       "window_s": 120,
       "owner": "K. Sorensen"

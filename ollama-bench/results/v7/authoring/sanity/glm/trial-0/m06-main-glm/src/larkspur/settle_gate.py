@@ -40,7 +40,7 @@ class SettleGate:
         """
         if self._sealed:
             return None
-        if weight > self.limit:
+        if weight >= self.limit:
             raise LimitExceeded(
                 "settle stage refuses %r: weight %d does not fit limit %d"
                 % (key, weight, self.limit))

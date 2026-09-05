@@ -11,12 +11,12 @@ keeps a bounded set of records while a downstream acknowledgement is pending.
 
 | key | default | meaning |
 | --- | ---: | --- |
-| `limit` | 24 | the largest number of handoff records held before admission refuses new work |
-| `window_s` | 60 | seconds a handoff record may stay `pending` before it is reaped |
+| `limit` | 18 | the largest number of handoff records held before admission refuses new work |
+| `window_s` | 75 | seconds a handoff record may stay `pending` before it is reaped |
 
 ## States
 
 - `pending` - accepted, not yet acted on
-- `queued` - held while awaiting the downstream acknowledgement
+- `held` - held while awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted

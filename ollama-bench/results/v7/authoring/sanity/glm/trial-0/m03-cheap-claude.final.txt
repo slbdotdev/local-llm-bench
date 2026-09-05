@@ -1,0 +1,27 @@
+The task is complete and the state is confirmed intact — the fix is in place and all 17 tests pass. Final answer:
+
+## The defect
+
+`src/ledger/rates.py` — the only module where rounding lives, per `docs/rounding.md`. `round_half_up` was implemented with Python's built-in `round()`, which rounds **half-to-even** (bankers' rounding): `0.5 → 0`, `2.5 → 2`. The doc is authoritative and explicit that this is wrong here: halves must round **up**, away from zero (`0.4→0, 0.5→1, 1.5→2, 2.5→3`), because the meter's readings are already truncated in the customer's favour upstream and half-to-even compounds that bias in the same direction — the cause of the four-figure quarterly discrepancy recorded in the changelog.
+
+## The fix (one line)
+
+```python
+def round_half_up(value):
+    """Round a non-negative fractional cent amount to the nearest whole cent, half away from zero.
+
+    See docs/rounding.md, which is authoritative. Python's built-in round() is half-to-even and
+    is not what this project wants.
+    """
+    return math.floor(value + 0.5)
+```
+
+`math.floor(value + 0.5)` is the half-up round for non-negative amounts. It is numerically safe in this context: rates are integers ≤ 190 and units are integers, so `rate * units / 1000.0` can never land close enough to a half-cent boundary for float representation to flip a result. `line_total` still rounds each line exactly once, and `invoice_total` sums the per-line rounded cents — matching the doc's rule that every amount is rounded exactly once, where the fractional cent first appears.
+
+## Verification
+
+- Suite run fresh (caches wiped, then re-confirmed again just now): **17 passed** — attestation 4, digest 4, lineage 4, rates 5.
+- Every example in `docs/rounding.md` checked directly against the module: all correct; `line_total` returns integer cents.
+- File mtimes confirm `src/ledger/rates.py` is the only file changed relative to the snapshot — no tests, docs, history, or config were touched.
+
+Environment note: this machine has no `python` binary, so the suite runs as `PYTHONPATH=src python3 -m pytest tests` (Python 3.14.4).

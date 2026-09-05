@@ -1,0 +1,202 @@
+{
+ "m01-cheap-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct",
+  "wall_s": 151.0,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m01-main-claude": {
+  "pass": true,
+  "score": "13/13",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 13/13\nPASS\nVERDICT correct",
+  "wall_s": 225.1,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m02-cheap-glm": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nPASS\nVERDICT correct",
+  "wall_s": 364.7,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m02-main-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 288.2,
+  "pi_rc": 1,
+  "timed_out": false
+ },
+ "m03-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nPASS\nVERDICT correct",
+  "wall_s": 162.9,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m03-main-glm": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct",
+  "wall_s": 281.4,
+  "pi_rc": 1,
+  "timed_out": false
+ },
+ "m04-cheap-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct",
+  "wall_s": 134.1,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m04-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct",
+  "wall_s": 412.9,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m05-cheap-glm": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 242.8,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m05-main-luna": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct",
+  "wall_s": 303.0,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m06-cheap-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct",
+  "wall_s": 277.0,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m06-main-glm": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct",
+  "wall_s": 340.9,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m07-cheap-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 284.4,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m07-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct",
+  "wall_s": 451.5,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m08-cheap-glm": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 307.2,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m08-main-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 147.7,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m09-cheap-claude": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 108.8,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m09-main-glm": {
+  "pass": true,
+  "score": "6/6",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 6/6\nPASS\nVERDICT correct",
+  "wall_s": 237.6,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m10-cheap-luna": {
+  "pass": true,
+  "score": "5/5",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 5/5\nPASS\nVERDICT correct",
+  "wall_s": 127.5,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "m10-main-claude": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct",
+  "wall_s": 192.7,
+  "pi_rc": 0,
+  "timed_out": false
+ }
+}

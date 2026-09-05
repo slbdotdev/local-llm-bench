@@ -75,7 +75,7 @@ asserted that the material does not state.
 | --- | --- | ---: | --- | ---: |
 | `reference` | the reference solution | 9/9 | `correct` | 0 |
 | `empty` | an untouched sandbox | 0/9 | `visibly_failed` | 1 |
-| `wrong` | a wrong-but-plausible answer | 8/9 | `confidently_wrong` | 1 |
+| `wrong` | a wrong-but-plausible answer | 5/9 | `confidently_wrong` | 1 |
 | `perturb:no_trailing_newline` | correct answer, no trailing newline | 7/9 | `confidently_wrong` | 1 |
 | `perturb:extra_trailing_nl` | correct answer, two trailing newlines | 8/9 | `confidently_wrong` | 1 |
 | `perturb:crlf` | correct answer, CRLF line endings | 6/9 | `confidently_wrong` | 1 |
@@ -91,3 +91,4 @@ asserted that the material does not state.
 - `GRADER DEFECT: perturb:trailing_spaces on a correct answer -> 7/9 confidently_wrong`
 
 <!-- end verified-near-miss-table -->
+

@@ -88,3 +88,4 @@ alone. Nothing is asserted that the tree does not state.
 **Probe result:** clean — the reference passes, an untouched sandbox fails cleanly, and no whitespace perturbation of a correct answer changes the verdict.
 
 <!-- end verified-near-miss-table -->
+

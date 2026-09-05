@@ -1,6 +1,6 @@
 """Behavioural checks for watermark_view."""
 
-from prism.watermark_view import WatermarkEngine, build_watermark
+from prism.watermark_view import WatermarkEngine, load_watermark
 
 
 def test_watermark_defaults():
@@ -24,7 +24,7 @@ def test_watermark_snapshot_is_sorted():
     assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
 
 
-def test_build_watermark_reads_the_manifest():
-    engine = build_watermark({"watermark": {"limit": 5}})
+def test_load_watermark_reads_the_manifest():
+    engine = load_watermark({"watermark": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 120

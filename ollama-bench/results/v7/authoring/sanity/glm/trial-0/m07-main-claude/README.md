@@ -20,7 +20,7 @@ configuration decision is under `history/`.
 | schema | `src/schema_flow.py` | `docs/schema.md` | J. Maldonado |
 | rollup | `src/rollup_core.py` | `docs/rollup.md` | L. Achterberg |
 | compaction | `src/compaction_core.py` | `docs/compaction.md` | D. Ferreira |
-| attestation | `src/attestation_view.py` | `docs/attestation.md` | K. Sorensen |
+| settlement | `src/settlement_view.py` | `docs/settlement.md` | K. Sorensen |
 | ledger | `src/ledger_gate.py` | `docs/ledger.md` | E. Thorsdottir |
 | watermark | `src/watermark_flow.py` | `docs/watermark.md` | E. Thorsdottir |
 | throttle | `src/throttle_gate.py` | `docs/throttle.md` | S. Nwachukwu |

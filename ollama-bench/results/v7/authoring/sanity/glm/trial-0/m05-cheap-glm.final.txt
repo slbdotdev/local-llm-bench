@@ -1,0 +1,38 @@
+The task is complete and all work is verified in place. Final answer:
+
+## Result
+
+**`src/kestrel/rates.py` already implements all eight rules of `docs/rate-card.md` exactly. No code correction was needed — every fixlog line is `MATCHES`.**
+
+### Rule-by-rule audit (card is authoritative)
+
+- **R1** — `_base_cents`: bands ≤1 / 1–5 / >5 kg at 6.00 / 6.00+1.80 per kg / 13.20+1.10 per kg; all five worked weights reproduce (1→6.00, 3→9.60, 5→13.20, 10→18.70, 12→20.90). **MATCHES**
+- **R2** — exact ceiling of L·W·H÷5000 (whole results stay: 5000 cm³ → 1 kg, 5001 → 2 kg); billable = max(actual, volumetric). **MATCHES**
+- **R3** — factors A 1.00 / B 1.15 / C 1.30 / D 1.55, nearest cent halves up (exact-half case verified: 1430 ¢ × 1.15 = 1644.5 ¢ → 1645). **MATCHES**
+- **R4** — flat 4.50, after the fuel line, never zoned or fuelled. **MATCHES**
+- **R5** — fuel = 12% of the zone-multiplied base alone, computed before any supplement. **MATCHES**
+- **R6** — flat 9.00 added after everything else. **MATCHES**
+- **R7** — strictly over 25 kg → flat 14.00 (25 exempt, 26 charged), after fuel. **MATCHES**
+- **R8** — flat 5.80, zone A only, `ValueError` for B/C/D. **MATCHES**
+
+### Verification
+- Independent card-literal reference (exact `Fraction` arithmetic, in `/tmp` outside the repo) vs `rates.py` over **7,680 quotes**: weights 1–40 kg × 12 dimension sets × 4 zones × all flag combinations — all pass, plus boundaries (R1 band edges, R2 ceiling, R7 at 25/26 kg, half-cent rounding).
+- Card's worked examples reproduce to the cent: **18.48** and **21.77**.
+- `tests/test_zones.py`: 3 passed.
+
+### Stale fixlog note
+The tree contained a pre-existing `fixlog.txt` claiming R2 and R5 were `CORRECTED`; the code demonstrably implements both correctly, so that log was stale (recording corrections already applied to the tree by an earlier run). Since `CORRECTED` applies only if I changed that rule's own code — and I changed nothing — I replaced it with the audited result.
+
+### Deliverable — `fixlog.txt` (repository root, next to README.md)
+```
+R1 MATCHES
+R2 MATCHES
+R3 MATCHES
+R4 MATCHES
+R5 MATCHES
+R6 MATCHES
+R7 MATCHES
+R8 MATCHES
+```
+
+`quote()` and `returns_label()` keep their names, parameter order, and return type; `src/kestrel/rates.py` and every other existing file are exactly as they were.

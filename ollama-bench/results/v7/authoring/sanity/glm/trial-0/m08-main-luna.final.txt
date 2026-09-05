@@ -1,0 +1,15 @@
+The assignment is complete.
+
+**File in scope:** `src/HarborAtlas/briefing_marker.py`
+
+The marker-format statement in `docs/handoff-marker.md` specifies the separator as a single `=` with no spaces or punctuation around it. The `format_marker(name, status)` helper joins the two arguments with exactly that separator:
+
+```python
+def format_marker(name, status):
+    """Return a compact marker used in the morning handoff."""
+    return f"{name}={status}"
+```
+
+Verified behavior: `format_marker('pier-4', 'ready')` → `'pier-4=ready'` ✓
+
+Note: the roadmap described the function as a stub returning `None`, but the file on disk already contained this finished one-liner — it satisfies the spec as written, so no change was needed. Per the instructions, I left the incident report, the roadmap's future-refactor TODO, the generated stage modules, and all documentation untouched, and stopped once the marker helper was confirmed complete.

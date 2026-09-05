@@ -16,7 +16,7 @@
    "traceback": false
   },
   "wrong": {
-   "score": "8/9",
+   "score": "5/9",
    "verdict": "confidently_wrong",
    "rc": 1,
    "passed": false,

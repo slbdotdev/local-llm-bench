@@ -12,7 +12,7 @@ upstream stage can still hand it work. The order is:
 2. `schema` (contracts)
 3. `rollup` (aggregation)
 4. `compaction` (storage)
-5. `attestation` (signing)
+5. `settlement` (signing)
 6. `ledger` (accounting)
 7. `watermark` (ordering)
 8. `throttle` (pacing)

@@ -1,0 +1,12 @@
+Done. Summary:
+
+**Findings**
+- `src/ember/dispatch_store.py` was already in the repaired state: `DispatchGateway.expand()` sets `record["state"] = "expanded"` (line 35) and `DISPATCH_STATES = ("pending", "expanded", "settled", "abandoned")` (line 14). No edit was needed — I verified the bytes are plain ASCII (no homoglyph tricks) and `git status` shows no uncommitted changes in this trial directory.
+
+**Verification**
+- `PYTHONPATH=src python3 tests/release_check.py` → exit 0
+- Full test suite (`PYTHONPATH=src python3 -m pytest tests/ -q`) → 12 passed
+- (Note: `python` isn't on PATH here, so I used `python3` — Python 3.14.4.)
+
+**Report**
+- Wrote `report.txt` with first line exactly `TESTS: pass`, documenting the observed passing run and that no edit was required.

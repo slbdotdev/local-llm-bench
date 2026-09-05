@@ -75,7 +75,7 @@ class WatermarkEngine:
         return [self._records[k] for k in sorted(self._records)]
 
 
-def build_watermark(config):
+def load_watermark(config):
     """Construct a :class:`WatermarkEngine` from the ``watermark`` section of the manifest."""
     section = config.get("watermark", {})
     return WatermarkEngine(
