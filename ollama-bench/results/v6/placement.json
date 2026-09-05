@@ -197,5 +197,31 @@
   "verdict": "pass",
   "nvidia_smi_peak_mib": 14672,
   "finished": "2026-09-04 20:57:29"
+ },
+ {
+  "quant": "Q2_K",
+  "tag": "q27-Q2_K-96k",
+  "num_ctx": 98304,
+  "manifest_model_gib": 11.03,
+  "manifest_projector_gib": 0.0,
+  "has_projector": false,
+  "started": "2026-09-04 20:57:31",
+  "load_s": 8.0,
+  "resident_gb": 15.04,
+  "vram_gb": 13.36,
+  "pct_gpu": 89,
+  "ps_context_length": 98304,
+  "gen_tps_empty": 22.04,
+  "fill_wall_s": 98.2,
+  "fill_prompt_tokens": 87761,
+  "fill_target_tokens": 88473,
+  "prompt_tps_fill": 986.5,
+  "gen_tps_fill": 8.97,
+  "ttft_fill_s": 89.0,
+  "out_tokens_fill": 60,
+  "over_resident_line": true,
+  "verdict": "spill",
+  "nvidia_smi_peak_mib": 14976,
+  "finished": "2026-09-04 20:59:43"
  }
 ]

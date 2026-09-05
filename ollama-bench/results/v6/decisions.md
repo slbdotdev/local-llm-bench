@@ -244,3 +244,28 @@ carry `null`. For the avoidance of doubt, from the manifests as they stood: **Q2
 projector** (its record stands unchanged), and the **IQ3_XXS and IQ3_XS records started 20:43
 and 20:44 both carried one** and are superseded by the stripped re-placements. The IQ2_M-48k
 record started 20:47:05 is the indeterminate one from D6-10 and is used for nothing.
+
+## D6-15 — the reserve candidate is placed inside phase A, not bolted on after the campaign
+
+*21:00.* Having pulled `UD-Q3_K_XL` early (D6-13), the question was where it enters the run
+order. `phaseB.py` derives its candidate list from `placement.json`, so a quant with no
+placement record is simply invisible to phases B through E — the reserve entry would have been
+measured, if at all, as an afterthought once the verdict rows were already written.
+
+So I added **phase A4**: it waits on phase A3's flag (the GPU is free) *and* on the pull's own
+outcome (the `q27-UDQ3KXL-64k` tag existing on the daemon — polled as an artifact, never as a
+process), strips the projector if the pull brought one, places 64k and 48k, and only then
+releases phase B. `chainB.sh` was re-gated from `.phaseA3-done` to `.phaseA4-done`. If the pull
+has not landed within forty minutes of the GPU going free, A4 gives up and releases phase B
+without it, so a slow download can delay the campaign by at most that and can never stall it.
+
+The cost is that phase B starts a few minutes later than it would have. The benefit is that the
+one candidate that could still answer the campaign's headline question "yes" is ranked against
+the roster on the same instrument, in the same ordering, rather than compared across sessions.
+
+## D6-16 — Q2_K's ladder, and the first quant with a settled rung
+
+*21:00.* Q2_K (the non-L 2-bit, 11.03 GiB model layer, no projector) placed **pass at 48k**
+(12.46 GB, 100% GPU, 49.19 tok/s at fill), **pass at 64k**, and **spill at 96k**, so the ladder
+stopped there and its top rung is **64k**. It is the second quant after Q2_K_L to carry 64k,
+and both are K-quants. No i-quant has managed it yet.
