@@ -1,0 +1,66 @@
+{
+ "rows": [
+  {
+   "task": "t01c1",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "reference_audit.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "reference_audit.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "reference_audit.txt": "pass"
+    },
+    "crlf": {
+     "reference_audit.txt": "pass"
+    },
+    "leading_blank": {
+     "reference_audit.txt": "pass"
+    },
+    "trailing_spaces": {
+     "reference_audit.txt": "FAIL(0/8,visibly_failed)"
+    }
+   }
+  },
+  {
+   "task": "t01c2",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "reference_audit.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "reference_audit.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "reference_audit.txt": "pass"
+    },
+    "crlf": {
+     "reference_audit.txt": "pass"
+    },
+    "leading_blank": {
+     "reference_audit.txt": "pass"
+    },
+    "trailing_spaces": {
+     "reference_audit.txt": "FAIL(0/8,visibly_failed)"
+    }
+   }
+  }
+ ],
+ "defects": [
+  "t01c1: trailing_spaces on reference_audit.txt -> FAIL(0/8,visibly_failed)",
+  "t01c2: trailing_spaces on reference_audit.txt -> FAIL(0/8,visibly_failed)"
+ ]
+}

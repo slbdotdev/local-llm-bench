@@ -1,0 +1,10 @@
+{
+  "approved_cadence": "biweekly",
+  "budget_cap_usd": 47200,
+  "retention_days": 45,
+  "alert_threshold": "0.82",
+  "decision_owner": "Mara Chen",
+  "deadline": "2034-11-18",
+  "room": "Juniper-2",
+  "escalation_code": "MERIDIAN-9"
+}

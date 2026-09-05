@@ -1,0 +1,18 @@
+{
+ "g01c1": "g01/cand-1",
+ "g01c3": "g01/cand-3",
+ "g02c1": "g02/cand-1",
+ "g02c2": "g02/cand-2",
+ "g03c2": "g03/cand-2",
+ "g03c3": "g03/cand-3",
+ "g04c2": "g04/cand-2",
+ "g04c3": "g04/cand-3",
+ "t01c1": "t01/cand-1",
+ "t01c2": "t01/cand-2",
+ "t02c1": "t02/cand-1",
+ "t02c3": "t02/cand-3",
+ "t03c1": "t03/cand-1",
+ "t03c2": "t03/cand-2",
+ "t04c1": "t04/cand-1",
+ "t04c2": "t04/cand-2"
+}

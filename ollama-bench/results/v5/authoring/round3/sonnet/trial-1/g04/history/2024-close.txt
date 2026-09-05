@@ -1,0 +1,6 @@
+2024 close note: control review rejected approval-based inclusion of captured entries.
+The signed 2025 procedure requires the literal state `posted`.  A void marker is an
+independent exclusion and is checked even on a posted row.
+
+The review also rejected whole-unit rounding.  Monetary values remain integer cents
+until conversion, then each row is rounded half up to cents.

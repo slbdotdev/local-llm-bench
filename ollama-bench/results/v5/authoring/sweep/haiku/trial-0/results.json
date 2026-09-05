@@ -1,0 +1,114 @@
+{
+ "g01c1": {
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g01c3": {
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g02c1": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "g02c2": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "g03c2": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "g03c3": {
+  "pass": true,
+  "score": "13/13",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 13/13\nPASS\nVERDICT correct"
+ },
+ "g04c2": {
+  "pass": true,
+  "score": "9/9",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 9/9\nPASS\nVERDICT correct"
+ },
+ "g04c3": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t01c1": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t01c2": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t02c1": {
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t02c3": {
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t03c1": {
+  "pass": false,
+  "score": "0/8",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 0/8\nFAIL ['incident_date', 'affected_region', 'impact_scope', 'detection_channel', 'customer_minutes', 'root_cause', 'rollback_build', 'followup_owner']\nVERDICT visibly_failed"
+ },
+ "t03c2": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nPASS\nVERDICT correct"
+ },
+ "t04c1": {
+  "pass": false,
+  "score": "3/4",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 3/4\nFAIL ['explanation']\nVERDICT confidently_wrong"
+ },
+ "t04c2": {
+  "pass": false,
+  "score": "3/4",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 3/4\nFAIL ['cited line span']\nVERDICT confidently_wrong"
+ }
+}

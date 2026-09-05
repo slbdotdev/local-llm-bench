@@ -1,0 +1,7 @@
+UPDATE	README.md	3	/srv/ops/oncall/handbook.md	/srv/ops/oncall/runbook.md
+UPDATE	docs/links.md	5	/srv/ops/oncall/handbook.md	/srv/ops/oncall/runbook.md
+LEAVE	history/2025-move.md	3	/srv/ops/oncall/handbook.md	-
+LEAVE	history/postmortem.md	3	/srv/ops/oncall/handbook.md	-
+UPDATE	runbooks/incident.md	5	/srv/ops/oncall/handbook.md	/srv/ops/oncall/runbook.md
+LEAVE	runbooks/incident.md	9	/srv/ops/oncall/handbook.md	-
+UPDATE	runbooks/recovery.md	7	/srv/ops/oncall/handbook.md	/srv/ops/oncall/runbook.md

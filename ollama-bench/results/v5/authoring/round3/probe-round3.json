@@ -1,0 +1,208 @@
+{
+ "rows": [
+  {
+   "task": "g01",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "24/24",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "solution.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "solution.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "solution.py": "pass"
+    },
+    "crlf": {
+     "solution.py": "pass"
+    },
+    "leading_blank": {
+     "solution.py": "pass"
+    },
+    "trailing_spaces": {
+     "solution.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "g02",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "15/15",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "releaseplan/planner.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "releaseplan/planner.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "releaseplan/planner.py": "pass"
+    },
+    "crlf": {
+     "releaseplan/planner.py": "pass"
+    },
+    "leading_blank": {
+     "releaseplan/planner.py": "pass"
+    },
+    "trailing_spaces": {
+     "releaseplan/planner.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "g04",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "10/10",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "src/reconcile.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "src/reconcile.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "src/reconcile.py": "pass"
+    },
+    "crlf": {
+     "src/reconcile.py": "pass"
+    },
+    "leading_blank": {
+     "src/reconcile.py": "pass"
+    },
+    "trailing_spaces": {
+     "src/reconcile.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "t01",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "55/55",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "reference_audit.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "reference_audit.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "reference_audit.txt": "pass"
+    },
+    "crlf": {
+     "reference_audit.txt": "pass"
+    },
+    "leading_blank": {
+     "reference_audit.txt": "pass"
+    },
+    "trailing_spaces": {
+     "reference_audit.txt": "pass"
+    }
+   }
+  },
+  {
+   "task": "t02",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "3/3",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.txt": "pass"
+    },
+    "crlf": {
+     "answer.txt": "pass"
+    },
+    "leading_blank": {
+     "answer.txt": "pass"
+    },
+    "trailing_spaces": {
+     "answer.txt": "pass"
+    }
+   }
+  },
+  {
+   "task": "t03",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.json"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.json": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.json": "pass"
+    },
+    "crlf": {
+     "answer.json": "pass"
+    },
+    "leading_blank": {
+     "answer.json": "pass"
+    },
+    "trailing_spaces": {
+     "answer.json": "pass"
+    }
+   }
+  },
+  {
+   "task": "t04",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "5/5",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.txt": "pass"
+    },
+    "crlf": {
+     "answer.txt": "pass"
+    },
+    "leading_blank": {
+     "answer.txt": "pass"
+    },
+    "trailing_spaces": {
+     "answer.txt": "pass"
+    }
+   }
+  }
+ ],
+ "defects": []
+}

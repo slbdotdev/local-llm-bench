@@ -1,0 +1,12 @@
+{
+  "release_train": "rly-2034.06",
+  "approved_mode": "active-forward",
+  "packet_limit_bytes": 262144,
+  "retry_budget": 3,
+  "rollout_date": "2034-06-14",
+  "rollback_trigger": "archive acknowledgement gap > 2 minutes",
+  "decision_owner": "Priya Nandakumar",
+  "review_window": "15 minutes",
+  "audit_retention_days": 60,
+  "external_ticket": "not assigned"
+}

@@ -1,0 +1,2 @@
+ANSWER: no
+EVIDENCE: 77: return any(result.applicable and result.passed for result in results)

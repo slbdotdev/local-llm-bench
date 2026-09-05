@@ -1,0 +1,3 @@
+PATH: app/request_path.py
+LINES: 6-20
+EXPLANATION: The production path canonicalizes each identity, checks the 60-second failure block before credential verification, records failures, and clears only that identity after successful authentication.

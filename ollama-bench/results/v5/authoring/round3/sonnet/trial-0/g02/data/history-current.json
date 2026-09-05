@@ -1,0 +1,17 @@
+[
+  {
+    "old": "legacy-root",
+    "new": "pkg-120",
+    "effective": "2025-03"
+  },
+  {
+    "old": "pkg-old-core",
+    "new": "pkg-004",
+    "effective": "2024-04"
+  },
+  {
+    "old": "pkg-legacy-core",
+    "new": "pkg-old-core",
+    "effective": "2025-02"
+  }
+]

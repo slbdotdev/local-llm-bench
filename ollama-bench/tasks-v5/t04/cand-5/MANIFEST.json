@@ -1,0 +1,9 @@
+{
+  "task": "t04",
+  "candidate": "cand-5",
+  "band": "large",
+  "material_chars": 191868,
+  "material_tokens": 41138,
+  "chars_per_token": 4.664,
+  "seed_files": 50
+}

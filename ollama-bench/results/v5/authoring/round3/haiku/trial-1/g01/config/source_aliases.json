@@ -1,0 +1,18 @@
+{
+  "release": "3.2",
+  "normalization": "exact alias after ASCII-space edge removal",
+  "aliases": {
+    "core": "platform",
+    "svc": "service",
+    "web": "frontend",
+    "ui": "frontend",
+    "jobs": "worker",
+    "batch": "worker"
+  },
+  "notes": [
+    "Aliases are case-sensitive after edge-space removal.",
+    "Unknown names are retained.",
+    "A tab is not an edge space.",
+    "The canonical target is not recursively looked up."
+  ]
+}

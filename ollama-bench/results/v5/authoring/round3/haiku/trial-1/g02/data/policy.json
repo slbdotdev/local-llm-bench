@@ -1,0 +1,2290 @@
+[
+  {
+    "package": "pkg-001",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-002",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-003",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-004",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-005",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-006",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-007",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-008",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-009",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-010",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-011",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-012",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-013",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-014",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-015",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-016",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-017",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-018",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-019",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-020",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-021",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-022",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-023",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-024",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-025",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-026",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-027",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-028",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-029",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-030",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-031",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-032",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-033",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-034",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-035",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-036",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-037",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-038",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-039",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-040",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-041",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-042",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-043",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-044",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-045",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-046",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-047",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-048",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-049",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-050",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-051",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-052",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-053",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-054",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-055",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-056",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-057",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-058",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-059",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-060",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-061",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-062",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-063",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-064",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-065",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-066",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-067",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-068",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-069",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-070",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-071",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-072",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-073",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-074",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-075",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-076",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-077",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-078",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-079",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-080",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-081",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-082",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-083",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-084",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-085",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-086",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-087",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-088",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-089",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-090",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-091",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-092",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-093",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-094",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-095",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-096",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-097",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-098",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-099",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-100",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-101",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-102",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-103",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-104",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-105",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-106",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-107",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-108",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-109",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-110",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-111",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-112",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-113",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-114",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-115",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-116",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-117",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-118",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-119",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-120",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-121",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-122",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-123",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-124",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-125",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-126",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-127",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-128",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-129",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-130",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-131",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-132",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-133",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-134",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-135",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-136",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-137",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-138",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-139",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-140",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-141",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-142",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-143",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-144",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-145",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-146",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-147",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-148",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-149",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-150",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-151",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-152",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-153",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-154",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-155",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-156",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-157",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-158",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-159",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-160",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-161",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-162",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-163",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-164",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-165",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-166",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-167",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-168",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-169",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-170",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-171",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-172",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-173",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-174",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-175",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-176",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-177",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-178",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-179",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-180",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-181",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-182",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-183",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-184",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-185",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-186",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-187",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-188",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-189",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-190",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-191",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-192",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-193",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-194",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-195",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-196",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-197",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-198",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-199",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-200",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-201",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-202",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-203",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-204",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-205",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-206",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-207",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-208",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-209",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-210",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-211",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-212",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-213",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-214",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-215",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-216",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-217",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-218",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-219",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-220",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-221",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-222",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-223",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-224",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-225",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-226",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-227",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-228",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-229",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-230",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-231",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-232",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-233",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-234",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-235",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-236",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-237",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-238",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-239",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-240",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-017",
+    "platform": "linux",
+    "effect": "deny",
+    "start": "2024-01",
+    "end": "2026-01",
+    "revision": 4
+  },
+  {
+    "package": "pkg-017",
+    "platform": "linux",
+    "effect": "allow",
+    "start": "2026-01",
+    "end": "9999-99",
+    "revision": 5
+  },
+  {
+    "package": "pkg-019",
+    "platform": "*",
+    "effect": "deny",
+    "start": "2025-01",
+    "end": "2026-01",
+    "revision": 3
+  },
+  {
+    "package": "pkg-019",
+    "platform": "windows",
+    "effect": "allow",
+    "start": "2025-01",
+    "end": "2026-01",
+    "revision": 6
+  },
+  {
+    "package": "pkg-044",
+    "platform": "linux",
+    "effect": "deny",
+    "start": "2025-06",
+    "end": "2025-12",
+    "revision": 7
+  },
+  {
+    "package": "pkg-044",
+    "platform": "*",
+    "effect": "allow",
+    "start": "2026-01",
+    "end": "9999-99",
+    "revision": 8
+  },
+  {
+    "package": "pkg-241",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-242",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-243",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-244",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-245",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-246",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-247",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-248",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-249",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-250",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-251",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-252",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-253",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-254",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-255",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-256",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-257",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-258",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-259",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-260",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-261",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-262",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-263",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-264",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-265",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-266",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-267",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-268",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-269",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-270",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-271",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-272",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-273",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-274",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-275",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-276",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-277",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-278",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-279",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  },
+  {
+    "package": "pkg-280",
+    "platform": "*",
+    "effect": "allow",
+    "start": "0000-00",
+    "end": "9999-99",
+    "revision": 1
+  }
+]

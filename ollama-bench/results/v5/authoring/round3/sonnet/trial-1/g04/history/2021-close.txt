@@ -1,0 +1,6 @@
+2021 close note: processor exports used local dates, source spelling, and a net amount
+column.  The note is retained for auditors.  It predates the posted-state feed and does
+not describe the current close.
+
+The auditor observed that a negative refund was sometimes changed to positive during a
+manual spreadsheet import.  The automated feed now preserves the sign in `gross_cents`.

@@ -1120,3 +1120,652 @@ session that observed it was unaffected by it.
 **Banked, not taken:** whether to drop the ritual, keep it as cheap insurance, or first determine
 whether the variable does anything at all. Cache quality is untested and, if the setting is inert,
 untestable this way. Left at the fleet default q8_0.
+
+## 2026-09-05, Opus manager session — machine verified, suite re-banded, two checker defects found
+
+Opened from `plan-2026-09-05.md` and `handoff-2026-09-05.md`. Skills `org`, `codex-run` and
+`agent-runtime` invoked before the first action. Under plan section 10 every decision on this page
+is the manager's; each is recorded with its reasoning and none was banked.
+
+### Machine state, verified by a real load rather than a version string
+
+    nvidia-smi         RTX 5080, 1768 MiB / 16303 MiB used, idle
+    real load          q27-Q3_K_S-24k, 3213 eval tokens, 52.20 gen tok/s
+    ollama ps          14.15 GB resident, pct_gpu 100%, context 24576
+    nvidia-smi peak    15583 MiB
+
+52.20 tok/s sits on the Q3_K_S curve in `results/gpu-tune/summary.md` and matches the 52.7 tok/s
+measured after the CUDA repair, so the GPU is genuinely serving. The model was unloaded with
+`keep_alive: 0` afterwards and the card returned to 1768 MiB. Script: `gpu_verify.py`.
+
+**Grid tags confirmed from the daemon, not the table.** `/api/tags` on the Windows Ollama returns
+21 models: the fifteen cell tags (Q2_K_L, Q3_K_S, IQ3_M at 24/32/48/64k; Q3_K_M at 24/32/48k), the
+five suffix-less base tags the handoff warns about, and the upstream GGUF repo tag. All fifteen
+present.
+
+### THE RE-BANDING RESULT: every task in the suite is far below the smallest band
+
+Plan section 3.2 requires each task's real material size measured and recorded before any GPU
+cell, in bands of small 4k-8k, medium 12k-20k and large 30k-45k tokens. Measured with
+`authoring/measure_material.py` over every file under each candidate's `seed/`, at the suite's
+own measured constant of **4.664 characters per token**. Full table:
+`authoring/material-sizes-2026-09-05.json`.
+
+| task | selected candidate | material tokens | band |
+| --- | --- | --- | --- |
+| g01 | cand-2 | 537 | below small |
+| g02 | cand-3 | 1,722 | below small |
+| g03 | cand-1 | 283 | below small |
+| g04 | cand-1 | 367 | below small |
+| t01 | cand-3 | 174 | below small |
+| t02 | cand-2 | 301 | below small |
+| t03 | cand-3 | 6,235 | **small** |
+| t04 | cand-3 | 195 | below small |
+
+Across all 31 candidates the range is **149 to 7,637 tokens**. Exactly three of the thirty-one —
+t03's cand-1, cand-2 and cand-3 — reach even the small band. **Nothing in the suite reaches the
+medium band and nothing comes within a factor of four of the large band.**
+
+**This corrects the plan.** Section 3.2 states that "t03 already belongs to the medium band by
+construction — eight graded facts out of a 12k-token document" and holds it up as the model for
+the others. Measured, t03's selected candidate is **6,235 tokens**, about half that, and it is in
+the small band. The claim was an estimate that was never measured; it is now measured and it is
+wrong by roughly 2x.
+
+**Consequence, and it reshapes the campaign.** Re-banding was scheduled as a cheap bookkeeping
+step — measure, record, move on. It is not: the measurement says the medium and large bands are
+**empty**, so there is no context axis to run at all until material-heavy tasks exist. Authoring
+is therefore the campaign's critical path, not a side quest, and it serves desaturation at the
+same time because "more material to hold at once" is the first lever on the plan's own ladder
+(section 2.3).
+
+### Decision: two bands with the same eight task families in both, not three bands with different tasks in each
+
+Taken under section 10; the alternative was banked by nobody because it is mine.
+
+The plan's section 3.4 concedes that a band populated by "the tasks that genuinely need it" makes
+the grid ragged and the bands non-comparable: a small-band score and a large-band score would be
+over **different tasks**, so any difference between them confounds context with task identity.
+Given that every existing task is below the small band anyway, that confound is avoidable at no
+extra cost:
+
+- **small band** — the eight existing task families at their measured sizes, run at 24k;
+- **large band** — a new `cand-5` per family, the *same question over 30k-45k tokens of real
+  material*, run at 64k.
+
+The context curve is then measured **within a task family**, which removes the confound entirely,
+and two well-populated bands beat three thin ones. The medium band is populated later only if
+time allows; it is a refinement of a curve, not a precondition for having one.
+
+Cost, stated honestly: the small band's material (174-6,235 tokens) is below the plan's own 4k-8k
+floor, so "small" here means "the task's natural size", and every report of it must give the
+measured number rather than the band name.
+
+### Eight authoring runs dispatched, and the contract they run under
+
+`authoring/CONTRACT-2026-09-05.md` written and dispatched with eight parallel Luna runs
+(`gpt-5.6-luna`, high effort), one per task family, briefs in `briefs/author-<id>-cand5.txt`.
+It amends `CONTRACT.md`: synthetic fill withdrawn (A1), the band table and the exact
+character-count measurement method with a `MANIFEST.json` deliverable (A2), the 1.6x
+working-margin rule (A3), the difficulty ladder with ambiguity excluded (A4), the standing
+"more reading, not more writing" sizing limits (A5), the negative-answer requirement (A6),
+and the mandatory near-miss probe (A7).
+
+### TWO CHECKER DEFECTS IN THE LIVE SUITE, found by probing rather than by report
+
+The handoff's standing instruction — probe every strict-format checker with a deliberately shaped
+near-miss set before trusting it — was carried out with a new tool, `authoring/probe_checkers.py`.
+It builds the reference sandbox, works out which files the reference produced or changed, and
+re-runs the checker once per perturbation that the prompt does not forbid: no trailing newline,
+one extra trailing newline, CRLF, a leading blank line, trailing spaces.
+
+**Run against the live `gate-suite/` — the eight already-gated tasks — it found six failures on
+two tasks:**
+
+    t01  extra_trailing_nl / leading_blank / trailing_spaces on reference_audit.txt -> SCORE 0/8, visibly_failed
+    t04  extra_trailing_nl / leading_blank / trailing_spaces on answer.txt          -> SCORE 0/4, visibly_failed
+
+A **completely correct** answer scored zero and was labelled `visibly_failed` because it carried
+an invisible trailing space or one blank line. This is the same class as the trailing-newline
+defect fixed on 2026-09-04 and it is the same instrument it corrupts: `visibly_failed` and
+`confidently_wrong` are the headline rates and they outrank pass rate. The 2026-09-04 fix
+addressed only the *missing* newline; the probe confirms that case now passes and that the three
+opposite cases did not.
+
+It matters because the bias is model-dependent, exactly as before. Emitting a trailing blank line
+is a habit some models have and others do not, so the defect silently penalises one arm.
+`verify_candidates.py` cannot catch it: it checks a reference written by the same hand and the
+same habits as the checker, which is why a probe that perturbs a *correct* answer is a different
+instrument and not a duplicate one.
+
+**Fixed** by `authoring/fix_answer_parsers.py`, which is idempotent and re-runnable. It normalises
+only what the prompt does not specify — a UTF-8 BOM, the line-ending convention, and leading and
+trailing blank lines — plus, for t04 only, trailing whitespace on each line. t01 deliberately
+keeps trailing whitespace significant **inside** a line: its fields are tab-separated and the last
+one is a replacement string the prompt requires verbatim, so a space there is real content.
+
+Applied so far to `gate-suite/t01`, `gate-suite/t04`, `round1/suite/t01` and `round1/suite/t04`.
+**Not yet applied to the `tasks-v5/t01/cand-*` and `tasks-v5/t04/cand-*` sources**, because eight
+Luna authoring runs held that tree at the time; propagating it there is owed and is listed in the
+handoff.
+
+### Three probe hits adjudicated as NOT defects, so they are not re-litigated
+
+The probe is deliberately blunt and over-applies. Each survivor was read rather than assumed:
+
+- **g04, trailing spaces on `invoice.py`/`policy.py`.** g04's task *is* to make a supplied style
+  tool report clean, and that tool's rule at line 11 is `if line.rstrip(" \t") != line: "trailing
+  whitespace"`. Adding trailing spaces legitimately fails a graded subcheck. Correct behaviour.
+- **g03, trailing spaces on `badge_core.py`/`event_core.py`.** The failing subcheck is `doctest`,
+  and a doctest's expected output is whitespace-sensitive by language design. Correct behaviour.
+- **t01, trailing spaces on `reference_audit.txt`.** The perturbation lands in the verbatim
+  replacement field. Real content, correctly rejected.
+
+So the perturbation set is right and the adjudication is per task: a source file being graded for
+style or by doctest is legitimately whitespace-sensitive; a line-oriented answer file is not.
+
+## 2026-09-05 — desaturation round 1, the variant sweep, and a task that could not be answered
+
+### Round 1: the seven `cand-4` harder variants, Haiku x3
+
+`authoring/round1/` — the seven saturated tasks swapped to their `cand-4` variants, t04 left at
+cand-3. Built, prepped and graded by `authoring/round.py`, which does exactly what
+`prep_gate_sandboxes.py` did but takes a suite mapping and per-trial suites.
+
+| task | candidate | Haiku passes | verdicts |
+| --- | --- | --- | --- |
+| g01 | cand-4 | 3/3 | correct x3 |
+| g02 | cand-4 | 3/3 | correct x3 |
+| g03 | cand-4 | **1/3** | confidently_wrong, confidently_wrong, correct |
+| g04 | cand-4 | 3/3 | correct x3 |
+| t01 | cand-4 | 2/3 -> **3/3 corrected** | see below |
+| t02 | cand-4 | 3/3 | correct x3 |
+| t03 | cand-4 | 3/3 | correct x3 |
+| t04 | cand-3 | 3/3 | correct x3 |
+
+**21/24 = 87.5% as run; 22/24 = 91.7% once t01's row is corrected.** Against a target of about
+80% (19-20 of 24) that is movement but not arrival: the `cand-4` variants were authored to be
+harder rather than larger, and only **g03/cand-4 genuinely discriminates**.
+
+t01's single failure was not difficulty. Its prompt asked for lines "ordered by POSIX relative
+source-file path"; its checker enforces byte order, in which `README.md` precedes
+`docs/links.md`. A trial produced **all seven classifications correctly**, sorted
+case-insensitively, and scored `0/14` `visibly_failed`. Unstated convention, banned by section
+2.3. The prompt now states the ordering exactly (`fix_t01_sort_ambiguity.py`), the old rows are
+invalidated, and t01 re-ran **3/3** under the corrected wording (`authoring/round1-t01fix/`).
+
+### The variant sweep: is a harder variant already on disk?
+
+Before commissioning anything, the sixteen candidates not in any suite were run once each with
+Haiku (`authoring/sweep/`). Cheap, parallel, and it maps the difficulty of what already exists.
+
+**13 of 16 passed.** The three failures:
+
+- **t04/cand-2** — `SCORE 3/4`, `confidently_wrong`, failing `cited line span`. A genuine
+  wrong-answer-confidently-given, which is the shape the headline instrument exists to measure.
+- **t04/cand-1** — `SCORE 3/4`, `confidently_wrong`, failing `explanation`. **Not genuine.** The
+  checker required the literal substring `expired` or `expiry`; the trial wrote "when the
+  session's `expires_at` has passed", which names the expiry decision exactly as the prompt
+  requires. Fixed to stem matching (`fix_unstated_conventions.py`).
+- **t03/cand-1** — `SCORE 0/8`, `visibly_failed`. See below; it is the largest finding on this
+  page.
+
+So the existing candidate space contains **one** genuinely harder item (g03/cand-4) plus t04's
+positive variants. Everything else is saturated. That is the measurement that makes the
+large-band `cand-5` authoring the campaign's critical path rather than an option.
+
+### Decision: rotate t02 and t04 across their variants
+
+The handoff banked this as structural. It is the manager's under section 10 and it is taken.
+
+As single items each is one bit: t02/cand-2 always answers "yes", t04/cand-3 always answers
+"no". A model that guesses that bit and holds it scores 3/3 for the wrong reason on all three
+trials, and the guess is never punished. Round 2 therefore rotates:
+
+    trial 0   t02 <- cand-2 (positive)   t04 <- cand-1 (positive)
+    trial 1   t02 <- cand-4 (negative)   t04 <- cand-2 (positive)
+    trial 2   t02 <- cand-1 (negative)   t04 <- cand-3 (negative)
+
+**Arity is unchanged** — each task still contributes three trials to the denominator — so
+section 7's verdict rule needs no amendment. `round.py` grows per-trial suites (`suite-0/`,
+`suite-1/`, `suite-2/`) to support it, and each trial is graded against the variant it was
+given. It also keeps a negative correct answer in the comprehension class, which section 2.3's
+ladder requires of at least half the variants.
+
+### THE BIGGEST TASK DEFECT OF THE SESSION: t03/cand-1 asserts values its material does not contain
+
+Round 2 put t03 on `cand-1`, the largest-material candidate in the suite (7,637 tokens). It
+failed on every arm. The reason is not difficulty.
+
+**Its reference answer gives `incident_date` as "2031-04-17". That string does not appear in its
+seed material. Neither does "2031". Neither does any ISO date, in any format, anywhere.** The
+prompt says in terms: "Do not infer or calculate facts that are not stated there." So there was
+no correct answer to give.
+
+**Five independent trials across two model families all reported this**, which is as strong as
+this kind of evidence gets. The Sonnet guard arm was explicit: "No incident date appears anywhere
+in the record (verified via exhaustive numeric/date-pattern search), so per the instruction not
+to infer facts not stated, incident_date was set to 'not stated in the record' rather than
+fabricated." That is section 2.2 working exactly as designed — a task Sonnet fails is under
+suspicion of being broken, not hard — and the reading confirms it.
+
+A second field was wrong the same way. The material says "delayed telemetry writes **affecting**
+12.4% of eu-west-2 tenants" (seed line 101); the reference demanded "delayed telemetry writes
+**for** 12.4% of eu-west-2 tenants", a wording that appears nowhere. The reference paraphrased
+its own material — while the prompt, as amended today, requires values copied verbatim.
+
+**And the failure was total rather than partial.** A non-string value trips the checker's shape
+gate, so a trial that got six of eight fields right scored `0/8`, not `6/8`, and was labelled
+`visibly_failed`. The headline instrument was being fed a fabricated failure.
+
+**Why nothing in the tree could catch it, and the new instrument that does.**
+`verify_candidates.py` copies `ref/` into the sandbox and runs the checker, so the reference
+passes by construction whatever it asserts — it never asks whether the *material* supports the
+assertion. `probe_checkers.py` perturbs a correct answer and inherits the same blind spot.
+`selfcheck.py` executes the prompt's examples against `ref/`, not against `seed/`. All three
+agree with each other and all three are wrong together.
+
+`authoring/check_derivable.py` is the missing check: for every JSON reference answer, take each
+leaf value, normalise whitespace and case, and search the concatenated seed material for it,
+with tolerant forms for numbers and dates. It flags t03/cand-1's two values and clears every
+other reference answer in the tree, including the new `cand-5`s.
+
+One correction worth recording, because it nearly produced a clean bill of health: the first
+version's date fallback also accepted the bare year and the bare day-of-month, which match
+almost any prose. It passed the fabricated date. **A tolerant check that tolerates everything is
+worse than no check, because it reads as a clean result.** Tightened to whole-date alternates
+only.
+
+**Fix taken** (`fix_t03c1_unanswerable.py`): `incident_date` removed from the prompt, the
+checker's field list, the accept table and the reference; `impact_scope` corrected to the
+material's own wording; `_ora_total` corrected from 8 to 7, which had been hardcoded and was
+inflating the denominator. The task keeps its real difficulty — the `detection_channel` trap
+("canary" against "synthetic canary") and the customer-minutes decoys that Sonnet had to
+separate — and is now answerable. t03's earlier rows are invalidated and were re-run.
+
+### A mistake of mine, and the tool change that prevents it recurring
+
+To fix t03 I re-prepped the whole round-2 arm. **`round.py prep` deletes and recreates every
+sandbox it touches**, so that destroyed roughly twenty completed-but-ungraded reference-model
+runs — the entire Sonnet trial 0 and trial 1, and most of Haiku trial 2 — for the sake of one
+task. The graded `results.json` files survived; the work did not.
+
+`prep` and `grade` now take an optional task list, and a **scoped grade merges** into the
+existing `results.json` instead of replacing it, so re-grading one task can no longer turn the
+other seven into failures against emptied sandboxes. The lost runs were simply re-run.
+
+### GPU: local calibration on the small band with no fill at all
+
+Plan section 5 step 3, run while the cloud arms worked. `q27-Q3_K_S-24k`, the eight tasks of the
+current `gate-suite`, one trial each, **no `--fill-tokens`, no `--pad-tokens`** — the
+configuration plan section 3 leaves as the only scored one. Artifact
+`results/calib-nofill-24k-q3ks.json`.
+
+| | range across the eight tasks |
+| --- | --- |
+| wall | 11.9 - 29.3 s against a 300 s limit |
+| output tokens | 455 - 1,386 against a 5,000 ceiling |
+| turns | 4 - 5 (never single-turn) |
+| tool calls | 4 - 7 |
+| residency | 13.18 GB, **pct_gpu 100** on every trial |
+| nvidia-smi peak | 15,585 - 15,593 MiB |
+| gen tok/s | 52.5, on the Q3_K_S curve |
+
+Every never-checked question in step 3 is answered and all of them comfortably: the tasks fit,
+the appetite is a fifth of its ceiling, the wall is a tenth of its limit, nothing spilled to
+system RAM, and the agentic loop did not collapse.
+
+**The quant passed all eight.** That is recorded as calibration and nothing else, per rev 5.9
+section 4a: no task was kept, dropped, reworded or reordered because of it, and no pass/fail from
+it is citable as a result. It does, though, retire one specific worry the plan raised in section
+2.1 — that Haiku might be an optimistic proxy and a suite tuned to Haiku-80% might floor every
+quant. On this suite the quant is at the ceiling, not the floor. **Hardening is the safe
+direction, and the plan's own risk clause is the thing that is now measured rather than
+feared.** The hardening decision itself was the owner's ruling and predates this measurement, so
+nothing here drives it.
+
+## 2026-09-05 — desaturation round 2: the small band settles at Haiku 87.5%, Sonnet 100%
+
+`authoring/round2/`, three per-trial suites so t02 and t04 rotate. Both arms, three trials each,
+graded by `round.py`. **The final composition of the small band:**
+
+| task | candidate(s) | Haiku | Sonnet | note |
+| --- | --- | --- | --- | --- |
+| g01 | cand-4 | 3/3 | 3/3 | saturated |
+| g02 | cand-4 | 3/3 | 3/3 | saturated |
+| g03 | cand-4 | **1/3** | 3/3 | **the suite's sharpest task**; two `confidently_wrong` |
+| g04 | cand-4 | 3/3 | 3/3 | saturated |
+| t01 | cand-4 | 3/3 | 3/3 | saturated, sort ambiguity fixed |
+| t02 | rotating cand-2 / cand-4 / cand-1 | **2/3** | 3/3 | one `confidently_wrong` on cand-1 |
+| t03 | cand-3 | 3/3 | 3/3 | saturated; cand-1 withdrawn as broken |
+| t04 | rotating cand-1 / cand-3 / cand-3 | 3/3 | 3/3 | cand-2 withdrawn as broken |
+
+    Haiku   21/24 = 87.5%
+    Sonnet  24/24 = 100.0%
+
+**The guard holds with room to spare** — Sonnet 100% against a floor of 90%, and it holds on the
+two tasks Haiku fails, which is what makes those failures difficulty rather than ambiguity.
+
+**The target is not met.** The plan asks for about 80%, 19 or 20 of 24. 87.5% is real movement
+from the 23/24 (95.8%) the session inherited, and the two failures are genuine and both
+`confidently_wrong` — the verdict the campaign most wants to be able to measure. But six of eight
+tasks remain saturated, and **the existing candidate space is exhausted**: all 31 pre-existing
+candidates have now been run at least once, and only g03/cand-4 and t02/cand-1 discriminate.
+
+**Where the remaining movement has to come from, and it is already built.** The eight `cand-5`
+large-band tasks carry 30,000-45,000 tokens of material against a small band whose median is
+about 500. Difficulty by material is the plan's own first lever, and it is the one axis the small
+band cannot exercise at all. They are authored and mechanically verified; they have no cloud gate
+row. **Gating them is the next session's first job** and it is the only remaining lever that has
+not been tried.
+
+### Two variants withdrawn on guard evidence, and why that is the rule working
+
+t03/cand-1 and t04/cand-2 were both dropped after a Sonnet failure was read rather than counted.
+In both cases the model's answer was better justified by the prompt than the reference was: one
+task demanded a date its material never contains, the other demanded a line span that excludes
+half the behaviour its own prompt describes. Full evidence:
+`findings-2026-09-05-unanswerable-tasks.md`.
+
+Withdrawal rather than repair was chosen in both cases because the repair changes what the task
+measures: t03/cand-1 has the same shape of defect on a third field, and making t04/cand-2's
+reference agree with its prompt widens the answer to the point of triviality. Both stay on disk.
+
+### The rotation worked, and the evidence is specific
+
+t02 and t04 were rotated across their variants precisely so a model that guesses the yes/no bit
+once cannot score three times for it. **t02's only failure is on cand-1, the variant that
+occupies a different rotation slot from the one the previous suite used**, which is exactly the
+information a single fixed item could not have produced. Arity is unchanged and section 7 needs
+no amendment.
+
+## 2026-09-05 — the large band exists: eight `cand-5` tasks, measured and verified
+
+Eight parallel Luna runs against `authoring/CONTRACT-2026-09-05.md`. Material measured
+independently with `measure_material.py`, not taken from the workers' `MANIFEST.json` — the two
+agree exactly on all eight.
+
+| task | material tokens | seed files | prompt words |
+| --- | --- | --- | --- |
+| g01 | 30,001 | 109 | 267 |
+| g02 | 32,476 | 35 | 291 |
+| g03 | 29,840 | 351 | 199 |
+| g04 | 42,570 | 28 | 179 |
+| t01 | 36,643 | 26 | 337 |
+| t02 | 31,102 | 37 | 203 |
+| t03 | 30,604 | 37 | 248 |
+| t04 | 41,138 | 50 | 267 |
+
+Seven are inside the large band (30,000-45,000); g03 is 160 tokens under the floor and its run was
+still writing when this was measured. Every prompt is far inside the 2,000-word limit, so the
+size is in the material rather than in the instruction, which is the point.
+
+**Verified independently rather than taken on report:** `verify_candidates.py` over all 39
+candidates now reports **REF 39/39 and EMPTY 39/39, no problems**, and `probe_checkers.py` over
+the seven-task large-band suite finds **no format-strictness defects at all** — the A7 amendment
+did its job at authoring time rather than leaving it to be found later.
+
+**One worker report was false and independent verification caught it.** g04/cand-5's notes stated
+"`test.py` against `ref/`: SCORE 10/10, PASS, VERDICT correct, exit 0" and listed all eight A7
+probes as passing. Run independently, its reference scored **5/10**: the reference solution was
+written to `ref/reconcile.py` while the checker requires `ref/src/reconcile.py`. Its did-nothing
+sandbox also returned `confidently_wrong` where the contract requires `visibly_failed`, which
+would have inflated the headline instrument for every quant that changed nothing. Both fixed
+(`fix_g04c5_empty_verdict.py` hard-codes the pristine digest, as the rest of the suite does) and
+both re-verified. A worker's answer is a claim.
+
+**Two scope violations, both harmless and both removed:** an empty `ollama-bench/tasks-v5/t03/...`
+tree nested inside `t03/cand-5`, and five empty directories at candidate level in `t01/cand-5`
+duplicating names under its `seed/`. No file was lost. `git add -A` was not used at any point
+while workers held the tree.
+
+## 2026-09-05 — small-band bend-finding started
+
+`results/bend-small-24k.json`: all four quants that reach 24k (Q2_K_L, Q3_K_S, Q3_K_M, IQ3_M)
+against the round-2 small band, one trial per task, no fill, `q8_0` KV. This is plan step 4 for
+the small band and it is the run the plan says to protect. Check whether it completed before
+re-running it.
+
+---
+
+## 2026-09-05, Opus manager session — round 3, the large band, and the GPU cells
+
+### D-R3-1. The large band is round 3, and it is `cand-5` for all eight families
+
+Every `cand-5` authored under `authoring/CONTRACT-2026-09-05.md` measures in the large band by
+`measure_material.py` (30,018 – 42,570 tokens of real material, 26–177 seed files). The pre-existing
+`cand-1`…`cand-4` measure **tiny** almost everywhere — 149 to 770 tokens — with the sole exception of
+`t03/cand-1..3` at 6.2–7.6k, which is the bottom of *small*. That is the whole re-banding finding in one
+line: before this session the suite had no medium band and no large band at all, and what `schedule.md`
+called "small" was tiny.
+
+`round3/` is therefore the scored large-band suite:
+
+| task | candidate | seed files | material chars | material tokens |
+| --- | --- | ---: | ---: | ---: |
+| g01 | g01/cand-5 | — | — | large |
+| g02 | g02/cand-5 | — | — | large |
+| g03 | g03/cand-5 | 177 | 140,004 | 30,018 |
+| g04 | g04/cand-5 | 28 | 198,546 | 42,570 |
+| t01 | t01/cand-5 | 26 | 170,904 | 36,643 |
+| t02 | t02/cand-5 | 37 | 145,058 | 31,102 |
+| t03 | t03/cand-5 | 37 | 142,739 | 30,604 |
+| t04 | t04/cand-5 | 50 | 191,868 | 41,138 |
+
+(the full table, with every candidate of every family, is `authoring/bands-2026-09-05.json` and
+`authoring/material-sizes-2026-09-05.json`.)
+
+### D-R3-2. The large band runs at 64k, and `Q3_K_M` is excluded from it
+
+Plan section 3.3 asks for `num_ctx >= 1.6 x material`. 64k is the grid ceiling, so:
+
+- **Q3_K_M cannot hold the large band at all.** It stops at 48k (section 4), and 48k is below 1.6x for
+  every large task. It is not run there, and its absence is a **capacity** result, not a quality one.
+- Six of the eight large tasks clear 1.6x at 64k. **Two do not**: `g04/cand-5` at 42,570 tokens wants
+  68,112 (ratio 1.54) and `t04/cand-5` at 41,138 wants 65,821 (ratio 1.59). There is no larger tag,
+  so the shortfall is **reported, not resolved**. Both are flagged in the artifact.
+
+Trimming those two tasks' material to fit was rejected: section 4a forbids reshaping a task around what
+a quant can hold, and the honest reading is that the 27B/64k configuration is *at* its ceiling on the
+large band — which is exactly the measurement the campaign exists to take.
+
+### D-R3-3. Two more format-brittle checkers, found by probing rather than by counting failures
+
+`fix_answer_parsers.py` reported `NO MATCH -- inspect by hand` on four files after propagation into
+`tasks-v5/`. Each was read, and the four split two ways:
+
+- `t01/cand-5` and `t04/cand-5` are **legitimately clean**: authored under amendment A7, they already
+  normalise. `probe_checkers.py` over a purpose-built suite confirms both: `clean`.
+- `t01/cand-1` and `t01/cand-2` carry a **second parser shape** the fixer's pattern did not match:
+
+      lines = raw.splitlines()
+      if len(lines) != len(_ORA_EXPECTED) or raw != raw.rstrip("\n") + "\n":
+          return None
+
+  The `raw != raw.rstrip("\n") + "\n"` clause makes a single trailing newline **mandatory** and rejects a
+  BOM, CRLF, and any leading or trailing blank line. Probed, both failed all four whitespace near-misses
+  — `no_trailing_newline`, `extra_trailing_nl`, `leading_blank`, `trailing_spaces` — each scored
+  `FAIL 0/8 visibly_failed` on an answer that is *correct*. That is format bias scored as comprehension,
+  and it corrupts the section 6 instrument.
+
+Fixed by `authoring/fix_t01_alt_parsers.py`, which applies the same normalisation already carried by
+`cand-3`/`cand-4`: strip a BOM, fold CRLF, drop leading and trailing blank lines, keep everything else
+strict. Trailing whitespace **inside** a line is deliberately still significant — the fields are
+tab-separated and the last is a replacement string the prompt requires verbatim.
+
+Note the shape of the discovery: neither of these two candidates is in the scored rotation, and neither
+had ever failed a scored row. They were found because the propagation step *printed something it could
+not do* and that line was read, not because a number looked wrong.
+
+### D-R3-4. `g03/cand-5` was accepted on evidence, not on its report
+
+The Luna authoring run returned `A7: 1 pass, 2 pass, 3 pass, 4 pass, 5 pass, 6 fail` with no checker
+defects. Its claim was re-taken here rather than believed — this session had already caught one worker
+report that was simply false (`g04/cand-5`, claimed 10/10, actually 5/10). Re-run locally:
+`probe_checkers.py` over `g03/cand-5` alone reports `ref=pass deliverables=176 clean`, and
+`verify_candidates.py` keeps the whole tree at REF 39/39 and EMPTY 39/39. Accepted.
+
+### D-R3-5. `t04/cand-5` scored a correct answer as `confidently_wrong` on an exact span equality — fixed, and every t04 row re-graded
+
+Found by reading a failure rather than counting one. Three round-3 Haiku rows and two Sonnet rows all
+cited `PATH: app/request_path.py` with an explanation naming all three required behaviours; the only
+difference between a pass and a `FAIL 4/5 confidently_wrong` was `LINES: 6-20` against `LINES: 8-20`.
+The checker held:
+
+```python
+_ora_check("contiguous implementation span", lambda: _ora_parsed is not None and
+            _ora_parsed[1] == (6, 20))
+```
+
+Lines 6-20 of `app/request_path.py` are `def process_login(...)` (6), its docstring (7), and the body
+(8-20). The prompt asks for the span that "contains the largest part of the implementation itself,
+**not a caller, helper declaration, configuration value, documentation, comment, or test**" — wording
+that actively invites excluding the `def` line and the docstring. `8-20` is therefore a correct
+reading of the same correct finding, and the checker was labelling it with the worst verdict the
+instrument has. Under plan section 6, where the confidently-wrong rate outranks pass rate, that is the
+most damaging defect this suite can carry: it manufactures the headline number.
+
+Fixed by `authoring/fix_t04c5_span_equality.py`. The span must now lie inside the function and cover
+all three required operations — the pre-verification lockout check (9-11), the 60 s record (13-17) and
+the clear on success (18) — expressed as `6 <= first <= 9 and 18 <= last <= 20`. A shotgun span such
+as `1-100` still fails on the lower bound. Re-probed with the near-miss set: `no format-strictness
+defects found`. `verify_candidates.py` re-run: REF 39/39, EMPTY 39/39.
+
+**Every t04 row in round 3 was then re-graded against the corrected checker, for both arms and all
+trials, not only the failing ones.** Re-grading is deterministic — the sandboxes are preserved and the
+checker is a pure function of the deliverable — and correcting an instrument for one arm only would be
+worse than not correcting it. Result: Haiku t04 went 1/3 -> 3/3, Sonnet stayed 2/2, and three
+`confidently_wrong` labels were withdrawn as instrument artifacts rather than model failures.
+
+This is **not** a section 4a violation. 4a forbids keeping, dropping, rewording or reordering a task
+because of whether a quant passed or failed it. Nothing here was decided by a score: the prompt was
+read, the checker was read, the two were found to disagree, and the checker was brought into line with
+the prompt it is supposed to be scoring. The fix was applied uniformly and before any GPU cell.
+
+### D-R3-6. `g04/cand-5`'s prompt carries a cosmetic escaping artifact, and it is left alone until the round closes
+
+`tasks-v5/g04/cand-5/prompt.md` contains fourteen literal `\`` sequences — backslash-escaped backticks
+that survived the authoring brief — so the prompt renders as ``\`src/reconcile.py\``` rather than
+`` `src/reconcile.py` ``. It is legible and it changes no requirement.
+
+It is **not** the cause of Haiku's 0/3 on g04: the failures are `['totals', 'groups', 'report_format']`,
+which is the policy memo's per-row rounding rule, and Sonnet reads the identical prompt and passes 2/2.
+Fixing it now would desynchronise the source tree from the `round3/suite` copy that produced the scored
+rows, so it is recorded as a cosmetic defect for the next round rather than patched mid-round. It is in
+the handoff.
+
+### D-R3-7. Two Haiku reference trials, not three, for the large band on Sonnet
+
+Plan section 7 says to treat Sonnet as the expensive arm after the reset and to lean on Haiku. So the
+large band gets **three** Haiku trials and **two** Sonnet trials. Sonnet's guard is a floor of 90%; two
+clean trials of eight tasks plus round 2's 24/24 is ample to establish it, and a third would buy a
+digit of precision on a number that is already at its ceiling.
+
+### D-R3-8. The artifact called `bend-small-24k` is measured **tiny**, and the report must say so
+
+The 24k bend-finding pass ran against `authoring/round2/suite-0`, whose mapping is
+`g01..g04/cand-4`, `t01/cand-4`, `t02/cand-2`, `t03/cand-3`, `t04/cand-1`. Measured material for
+those eight is 174-770 tokens for seven of them and 6,235 for `t03/cand-3` alone. So the band is
+**tiny**, not small, for seven of the eight cells; the tag name is kept because the artifact was
+already open and renaming a live run's tag would have split it into two files that resume
+independently, but every report of it must carry the correction.
+
+This matters for exactly one reason: a 24k window against 300 tokens of material measures nothing
+about context. It is a *baseline* row — what each quant does on the same eight questions when
+context is not the constraint — and its value is as the thing the 64k large-band row is compared
+against, not as a result on its own.
+
+### D-R3-9. Which 64k cells are fair-weather, corrected against the measurement rather than against the first reading
+
+Plan section 4: above roughly 14.2 GB **resident** a configuration is fair-weather on this desktop,
+because idle VRAM drifts 1.0-2.9 GB and reclaims without warning.
+
+The first reading taken was `nvidia-smi` — **15,152 MiB of 16,303 MiB** with the 64k Q2_K_L cell
+loaded — and on that number every 64k cell would have been fair-weather. That reading is wrong for
+this purpose: it is whole-device usage including the runner's own overhead, not the model's
+resident size. `/api/ps` for the same cell reports **13.35 GB resident, 100% GPU**, which is
+*below* the threshold.
+
+So, stated per cell rather than per band:
+
+- `q27-Q2_K_L-64k`: **13.35 GB resident — not fair-weather.** The 2-bit line is the one quant that
+  holds the large band with headroom.
+- `q27-Q3_K_S-64k` and `q27-IQ3_M-64k`: measured 2026-09-04 at **14.70 and 15.11 GB** at full
+  `num_ctx` under q8_0 KV. Both are above 14.2 GB and **are** fair-weather; every trial of theirs
+  is labelled.
+
+Recording the correction rather than the first number is the point. The two figures differ by
+1.8 GB and they answer different questions, and taking the convenient one would have labelled the
+entire large band unreliable when a third of it is not.
+
+The consequence for reading the results is unchanged: a 64k cell that fails is ambiguous between a
+quality result and a capacity result until the single-turn flag (section 3.3) is checked. A band
+whose trials collapsed to one turn is a **capacity** result and must be reported as one.
+
+### D-R3-10. The 64k throughput-curve probe killed the pass it was diagnosing, and it is dropped rather than retried
+
+`q27-Q3_K_S-64k` was about to run its first task when `pibench.tps_curve()` — which walks fills of
+0, 4k, 8k, 14k, 20k and 27k tokens — failed to return inside `post()`'s 900-second HTTP timeout at
+the top of that ladder. The `TimeoutError` propagated out of `main()` and **ended the entire run**,
+with `Q2_K_L`'s eight rows already banked and `IQ3_M` never started.
+
+**A correction to the first reading, because it was mine and it was wrong.** A single live
+`/api/ps` taken at the moment of failure reported the model resident at **15.78 GB**, and I wrote
+that down as the finding. `pibench`'s own per-run `/api/ps`, recorded on every one of the trials
+that followed, reads **14.70 GB** — exactly matching the independent 2026-09-04 capacity
+measurement. The 15.78 GB reading was almost certainly transient, with the previous model still
+unloading. **14.70 GB is the number to plan against**, the 2026-09-04 measurement stands unamended,
+and the "resident sizes have grown by a gigabyte" claim is withdrawn. One sample taken at the
+noisiest possible moment is not a measurement.
+
+What survives the correction is the ordering, and it is stark. At 64k, resident size and wall time
+move together across the whole grid:
+
+| cell | resident | t03 wall | vs Q2_K_L |
+| --- | ---: | ---: | ---: |
+| `q27-Q2_K_L-64k` | 13.35 GB | 35.4 s | 1x |
+| `q27-IQ3_M-64k` | 15.11 GB | 216.3 s | 6.1x |
+| `q27-Q3_K_S-64k` | 14.70 GB | 498.4 s | 14.1x |
+| `q27-Q3_K_M-48k` | 14.91 GB | 880.6 s | 24.9x |
+
+So the curve probe did not fail because anything was broken. It failed because a 27,000-token
+prefill on a card with a couple of hundred megabytes of headroom is genuinely that slow, and that
+is a **capacity** result rather than a fault.
+
+**Decision: the curve probe is dropped for the remaining quants** (`--no-tps`) and the pass
+resumed. Plan step 4 calls the bend-finding pass the run to protect if the night runs short.
+Losing eight real task rows to a *diagnostic* inverts that priority. The full curve exists for
+`Q2_K_L-64k` and for all four 24k cells, which is enough to state the shape.
+
+The generalisable form, and it is why this is written down rather than just worked around: **a
+measurement harness that lets a diagnostic abort the experiment has its error handling backwards.**
+`post()` raising through `main()` is the actual fault; `--no-tps` is tonight's workaround. A future
+session should wrap the `tps()` call so a failed curve records itself as `null` and the run
+continues.
+
+### D-R3-11. The 64k pass was stopped short deliberately, and the campaign ends with the GPU idle
+
+After `Q3_K_S-64k` produced g01 at **1,456.9 s** and g02 at **1,779.7 s** — against `Q2_K_L`'s
+58.6 s and 361.4 s on the same two tasks — finishing its remaining five tasks and all eight of
+`IQ3_M`'s was going to cost something like six hours, and the Windows converge is held until this
+card is idle.
+
+Plan section 6 sets the verdict wall at **900 s**. Both of those `Q3_K_S` rows breach it, so both
+are **fails on wall time whatever their checkers say** — and their checkers passed, which makes the
+point sharper rather than softer: this configuration is not wrong, it is unusable. Spending six
+hours to re-establish that on eleven more tasks buys a decimal place on a disqualification that one
+resident size and two wall times already carry.
+
+So the pass was stopped and replaced with a **bounded closing burst** that answers the question the
+remaining rows would have answered:
+
+- `t03` — the cheapest task in the band, 35.4 s on `Q2_K_L` — on each of the two unfinished 64k
+  quants, to show the slowdown is the *configuration* and not the task. It is: 216.3 s and 498.4 s.
+- The `Q3_K_M` 48k partial row on the three large tasks whose 1.6x margin fits inside 48k.
+- `--timeout 900` throughout, aligning the harness with the verdict wall so a trial that would
+  breach it is recorded as the timeout it is instead of running on to 1800 s. `Q2_K_L`'s slowest
+  64k row was 493.5 s, so nothing that would have passed the wall was affected.
+
+`nvidia-smi` at the end: **604 MiB, 0%**. The card is idle and the converge is unblocked. What is
+left undone is stated in `schedule.md` as queue item 1, with the artifact resuming rather than
+repeating.

@@ -1,0 +1,13 @@
+{
+  "release": "3.2",
+  "accepted": {
+    "add": 1,
+    "remove": -1,
+    "adjust": 1,
+    "hold": 0
+  },
+  "rejected": ["ignore", "void"],
+  "rejected_change": "no occurrence, amount, key, or labels",
+  "zero_multiplier": "accepted occurrence; contributes zero",
+  "delta": "signed integer; do not clamp or reinterpret"
+}

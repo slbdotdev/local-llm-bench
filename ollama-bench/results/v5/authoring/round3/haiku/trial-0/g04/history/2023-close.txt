@@ -1,0 +1,7 @@
+2023 close note: the migration introduced the aliases `acme-eu`, `acme-uk`,
+`bluebird-ca`, `cinder-jp`, and `dovetail-eu`.  The migration report kept both the raw
+and canonical names.  The current report retains only canonical names in its groups.
+
+One late entry was accidentally included by a `<=` comparison against a timestamp with
+the wrong timezone.  The current feed has date strings and the policy's inclusive date
+cutoff is intentional.

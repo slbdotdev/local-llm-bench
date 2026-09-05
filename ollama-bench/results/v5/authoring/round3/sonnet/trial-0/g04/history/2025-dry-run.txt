@@ -1,0 +1,3 @@
+2025 dry-run note: the dry run had the same five output fields as production, but its
+fixture contained only USD and did not exercise aliases, refunds, or dispute states.
+Do not use its simpler grouping as the production rule.

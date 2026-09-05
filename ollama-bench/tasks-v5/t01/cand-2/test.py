@@ -36,8 +36,23 @@ def _ora_parse():
         raw = Path("reference_audit.txt").read_text(encoding="utf-8")
     except Exception:
         return None
-    lines = raw.splitlines()
-    if len(lines) != len(_ORA_EXPECTED) or raw != raw.rstrip("\n") + "\n":
+    # A single trailing newline is optional. The prompt never says whether the file
+    # must end in a newline, so both forms are correct and scoring one of them as
+    # visibly_failed mislabels a correct answer, which would corrupt the section 6
+    # instrument. Everything else stays strict: no blank lines, exact line count.
+    # Normalise only what the prompt does not specify: a BOM, the line-ending
+    # convention, and leading/trailing blank lines. Trailing whitespace INSIDE a line
+    # is left alone on purpose -- the fields are tab-separated and the last one is a
+    # replacement string the prompt requires verbatim, so a space there is real content.
+    if raw.startswith("\ufeff"):
+        raw = raw[1:]
+    body = raw.replace("\r\n", "\n").replace("\r", "\n")
+    lines = body.split("\n")
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    while lines and not lines[-1].strip():
+        lines.pop()
+    if len(lines) != len(_ORA_EXPECTED) or any(not ln for ln in lines):
         return None
     got = {}
     for line in lines:

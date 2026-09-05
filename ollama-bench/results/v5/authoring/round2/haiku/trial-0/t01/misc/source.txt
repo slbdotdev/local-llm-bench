@@ -1,0 +1,1 @@
+This non-Markdown source mentions /srv/ops/oncall/handbook.md but is outside the search scope.

@@ -1,0 +1,34 @@
+{
+ "rows": [
+  {
+   "task": "t04",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "5/5",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.txt": "pass"
+    },
+    "crlf": {
+     "answer.txt": "pass"
+    },
+    "leading_blank": {
+     "answer.txt": "pass"
+    },
+    "trailing_spaces": {
+     "answer.txt": "pass"
+    }
+   }
+  }
+ ],
+ "defects": []
+}

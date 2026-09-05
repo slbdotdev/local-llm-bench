@@ -1,0 +1,73 @@
+Task: author one new candidate variant of benchmark task `g02` for the v5 local-model
+benchmark suite, in the repository at /mnt/d/local-llm-bench.
+
+Read these three things first, in this order, and follow them:
+
+1. `ollama-bench/results/v5/authoring/CONTRACT.md` — the standing authoring contract.
+2. `ollama-bench/results/v5/authoring/CONTRACT-2026-09-05.md` — the amendment of today.
+   Where it and CONTRACT.md disagree, the amendment wins.
+3. The currently selected variant of this task, `ollama-bench/tasks-v5/g02/cand-3/` —
+   its `prompt.md`, `NOTES.md`, `test.py`, `seed/` and `ref/`. Your new variant asks a
+   question of the same shape and the same class, over much more material.
+
+What is being measured and why this variant is needed. The suite grades quantized local 27B
+models against hosted reference models. Two properties of the current suite make it unable to
+separate one model from another, and this variant fixes both at once:
+
+- **It is too easy.** Every reference model passes g02's current variants on essentially every
+  trial, so the task carries no information about which model is better.
+- **Its material is far too small.** The measured seed material of `cand-3` is about
+  1722 tokens. The campaign's question is how much real material a local model can be
+  handed in one go, and a task with 1722 tokens of material cannot answer it.
+
+Your deliverable: `ollama-bench/tasks-v5/g02/cand-5/`, a complete task directory per
+CONTRACT.md section "Where your task goes" plus amendment A8.
+
+Hard requirements, all of them:
+
+- **Band: large.** The seed material must measure **30,000 to 45,000 tokens** by the exact
+  character-count method in amendment A2, at 4.664 characters per token. Measure it with the
+  snippet in A2; do not estimate. Write `MANIFEST.json` with the measured numbers.
+- **The material must be material the task genuinely requires** — more real sources to reconcile,
+  more modules in the tree, a longer history to search. Not filler. If the task does not need it,
+  it does not belong in it. Grow the question, not the padding.
+- **The reference solution stays under 5,000 output tokens** (~200 lines of Python) and the whole
+  job stays doable in under 300 seconds by a model generating at ~45 tokens/second. Growing the
+  reading while holding the writing constant is the entire point.
+- `prompt.md` stays well under 2,000 words and must not name the single file holding the answer
+  for a comprehension task.
+- Standard library Python only, deterministic, no network, no pip.
+- The checker follows CONTRACT.md's checker protocol exactly, including the 45-second watchdog and
+  the `VERDICT correct|visibly_failed|confidently_wrong` line.
+- **Amendment A7 is mandatory**: run your checker against the six shaped near-misses A7 lists,
+  plus one plausible-but-wrong answer and one untouched sandbox, and record every outcome in
+  `NOTES.md`. Any near-miss in A7 items 1-5 that fails is a defect in your checker — the prompt
+  does not specify trailing newlines, blank lines, line endings or trailing spaces, so the checker
+  must not depend on them. Fix it and re-run.
+- Difficulty comes from amendment A4's first three levers only: more material to hold at once, a
+  plausible-looking answer that is wrong, and more steps that must each be right in series.
+  **Never from ambiguity.** A task must be hard to do and never hard to understand. If two careful
+  readers could disagree about what the prompt asks, it is broken.
+- State plainly in `NOTES.md` whether the correct answer to your variant is positive or negative
+  (amendment A6).
+
+Scope, and it is strict:
+
+- **Write only inside `ollama-bench/tasks-v5/g02/cand-5/`.** Do not create, edit, move or delete
+  any file anywhere else in this repository — not in another task directory, not at the repository
+  root, not under `results/`, not `pibench.py`.
+- Do not run `git add`, `git commit`, `git checkout`, `git stash` or any other git command
+  that changes state.
+- Use `python3` to run your scripts.
+- Other workers are active in this repository at the same time. **Do not kill, terminate or signal
+  any process you did not start; if something looks like it is changing under you, stop and report.**
+
+Report back these fields and nothing else — no transcripts, no quoted file contents:
+
+- measured `material_chars`, `material_tokens`, `seed_files`, and the band they put you in;
+- the reference solution's line count and rough output-token size;
+- one sentence on what your variant makes hard, and which of A4's levers it uses;
+- whether the correct answer is positive or negative;
+- the eight A7 outcomes as a short list of pass/fail, naming any checker defect you found and fixed;
+- `selfcheck.py` result, and `test.py` against `ref/` (expect SCORE m/m, PASS, VERDICT correct, exit 0);
+- anything you are unsure about — a flagged doubt is worth more than a smoothed-over one.

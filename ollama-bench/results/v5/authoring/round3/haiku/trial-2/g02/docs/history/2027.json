@@ -1,0 +1,86 @@
+[
+  {
+    "old": "historical-2027-01",
+    "new": "pkg-020",
+    "effective": "2027-01",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2027-01 release."
+  },
+  {
+    "old": "historical-2027-02",
+    "new": "pkg-023",
+    "effective": "2027-02",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2027-02 release."
+  },
+  {
+    "old": "historical-2027-03",
+    "new": "pkg-026",
+    "effective": "2027-03",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2027-03 release."
+  },
+  {
+    "old": "historical-2027-04",
+    "new": "pkg-029",
+    "effective": "2027-04",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2027-04 release."
+  },
+  {
+    "old": "historical-2027-05",
+    "new": "pkg-032",
+    "effective": "2027-05",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2027-05 release."
+  },
+  {
+    "old": "historical-2027-06",
+    "new": "pkg-035",
+    "effective": "2027-06",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2027-06 release."
+  },
+  {
+    "old": "historical-2027-07",
+    "new": "pkg-038",
+    "effective": "2027-07",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2027-07 release."
+  },
+  {
+    "old": "historical-2027-08",
+    "new": "pkg-041",
+    "effective": "2027-08",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2027-08 release."
+  },
+  {
+    "old": "historical-2027-09",
+    "new": "pkg-044",
+    "effective": "2027-09",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2027-09 release."
+  },
+  {
+    "old": "historical-2027-10",
+    "new": "pkg-047",
+    "effective": "2027-10",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2027-10 release."
+  },
+  {
+    "old": "historical-2027-11",
+    "new": "pkg-050",
+    "effective": "2027-11",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2027-11 release."
+  },
+  {
+    "old": "historical-2027-12",
+    "new": "pkg-053",
+    "effective": "2027-12",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2027-12 release."
+  }
+]

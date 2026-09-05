@@ -1,0 +1,4 @@
+LEAVE	archive/incident-2026-01.md	3	repo/tools/deploy/check.py	-
+LEAVE	archive/release-2025.md	3	repo/tools/deploy/check.py	-
+UPDATE	index.md	3	repo/tools/deploy/check.py	repo/tools/release/check.py
+UPDATE	runbooks/deploy-check.md	5	repo/tools/deploy/check.py	repo/tools/release/check.py

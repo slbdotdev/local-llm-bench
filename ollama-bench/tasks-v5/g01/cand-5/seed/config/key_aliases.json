@@ -1,0 +1,35 @@
+{
+  "release": "3.2",
+  "global": {
+    "err": "error",
+    "warn": "warning",
+    "lat": "latency",
+    "dur": "duration",
+    "cfg": "config"
+  },
+  "by_source": {
+    "platform": {
+      "compile": "build",
+      "compilation": "build"
+    },
+    "service": {
+      "request": "requests",
+      "req": "requests"
+    },
+    "frontend": {
+      "paint": "render",
+      "draw": "render"
+    },
+    "worker": {
+      "job": "jobs",
+      "task": "jobs"
+    }
+  },
+  "procedure": [
+    "remove ASCII spaces at both edges",
+    "casefold",
+    "apply global alias once",
+    "apply alias table for the canonical source once",
+    "retain an unknown result"
+  ]
+}

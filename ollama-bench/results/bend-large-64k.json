@@ -1,0 +1,572 @@
+{
+ "q27-Q2_K_L-64k": {
+  "tps": {
+   "gen_tps": 58.1,
+   "prompt_tps": 278.0,
+   "load_s": 10.6,
+   "size_gb": 13.35,
+   "vram_gb": 13.35,
+   "pct_gpu": 100,
+   "curve": [
+    {
+     "fill_tokens": 31,
+     "prompt_tps": 288.9,
+     "gen_tps": 58.9
+    },
+    {
+     "fill_tokens": 4124,
+     "prompt_tps": 1608.4,
+     "gen_tps": 57.9
+    },
+    {
+     "fill_tokens": 8210,
+     "prompt_tps": 1623.2,
+     "gen_tps": 56.6
+    },
+    {
+     "fill_tokens": 14007,
+     "prompt_tps": 1606.0,
+     "gen_tps": 54.9
+    },
+    {
+     "fill_tokens": 19994,
+     "prompt_tps": 1576.9,
+     "gen_tps": 53.5
+    },
+    {
+     "fill_tokens": 26979,
+     "prompt_tps": 1535.1,
+     "gen_tps": 51.2
+    }
+   ]
+  },
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 10639,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 58.6,
+    "turns": 9,
+    "tool_calls": 11,
+    "tools": {
+     "bash": 9,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 61472,
+    "out_tokens": 2755,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1905,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15166,
+    "final_text": "en canonical order with dedup before membership; canonical (lowercase) emission.\n- **Ordering**: buckets by first-seen canonical source; entries by first accepted change; duplicates update in place without moving positions.\n- Output is a fresh tree; verified deterministic, non-mutating (deep-copy equality), integer arithmetic, and passing all `tests/fixtures.py` cases plus the orientation example.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 8,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 24054,
+    "task": "g02",
+    "pass": true,
+    "wall_s": 361.4,
+    "turns": 31,
+    "tool_calls": 32,
+    "tools": {
+     "bash": 27,
+     "read": 4,
+     "edit": 1
+    },
+    "in_tokens": 413047,
+    "out_tokens": 17890,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 15/15\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2075,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15166,
+    "final_text": "Found the defect: in `planner.py`, the policy check calls `decision(name, \"*\", ...)` with the wildcard instead of the actual `platform`, so exact-platform rules (like `windows` allow at revision 6) never win over wildcard denies.\n\n",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "toolUse": 30,
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 19591,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 493.5,
+    "turns": 10,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 9,
+     "read": 3
+    },
+    "in_tokens": 107502,
+    "out_tokens": 25571,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 12/14\nFAIL ['keyword-only signature', 'positional tone rejected']\nVERDICT confidently_wrong",
+    "score": 0.8571,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15388,
+    "final_text": "I've checked the package. Plan:\n1. Rename `make_tag` \u2192 `make_badge` (all definitions, imports, and reflected strings)\n2. Change the core signature to `def make_badge(label, *, tone=\"plain\")`\n3. Convert all positional `tone` calls for builders derived from `make_tag` (including retained callables) to keyword form\n4. Update doctests and tests, then run the tests\n\nFirst, do a bulk rename:\n\n",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "length",
+    "stop_reasons": {
+     "toolUse": 9,
+     "length": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 13340,
+    "task": "g04",
+    "pass": true,
+    "wall_s": 58.7,
+    "turns": 7,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 6,
+     "edit": 1
+    },
+    "in_tokens": 59439,
+    "out_tokens": 2682,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 10/10\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1235,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15215,
+    "final_text": "ASES` directly, dropping the bare `except` fallback that silently invented new accounts (policy item 4: unknown aliases are input errors).\n5. **Ordering**: `accepted` sorted by `(posted_on, entry_id)` via plain `accepted.sort()` (was sorted by `entry_id` alone).\n\n`reconcile()` and `format_report()` signatures, return types, and the five-line report format are unchanged; the checker prints `CLEAN`.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 14075,
+    "task": "t01",
+    "pass": true,
+    "wall_s": 169.3,
+    "turns": 13,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 10,
+     "write": 1,
+     "edit": 1
+    },
+    "in_tokens": 119942,
+    "out_tokens": 8756,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 55/55\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2331,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15198,
+    "final_text": ", `ops/migration-status.md:110` pre-cutover register, `services/ledger/overview.md:110`, `services/search/runbook.md:110`, `services/warehouse/runbook.md:110`), which are left unchanged per the relocation record.\n\nNear-misses (e.g. `.md.bak`, `.md/appendix`, `.md.txt`, `.md/legacy` suffixes) were correctly excluded; only exact standalone occurrences were counted. No source documents were modified.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 12,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 20342,
+    "task": "t02",
+    "pass": true,
+    "wall_s": 79.2,
+    "turns": 14,
+    "tool_calls": 23,
+    "tools": {
+     "bash": 6,
+     "read": 16,
+     "write": 1
+    },
+    "in_tokens": 152083,
+    "out_tokens": 3483,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 3/3\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1333,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15198,
+    "final_text": "-of aggregation.\n\nEverything else (serial prerequisites, deny veto after the chain, quota read last, replay-only rejection via `replay_only(snapshot)` guard) matches the docstring; the chain aggregation is the discrepancy. The archived 2024-08 record explains why the `any()` shortcut exists (legacy replay compatibility) but the current 2026-02 record confirms all-applicable is the active contract.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 13,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 14255,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 35.4,
+    "turns": 8,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 6,
+     "write": 1
+    },
+    "in_tokens": 77402,
+    "out_tokens": 1372,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15200,
+    "final_text": "\n- **decision_owner**: `Mara Chen` (named person; team/action owners excluded)\n- **deadline**: `2034-11-18` (ISO date, not the 2034-10-31 discussion target)\n- **room**: `Juniper-2` (physical room; Juniper building zone and bridge excluded)\n- **escalation_code**: `MERIDIAN-9` (not RELAY-17 ticket or MERIDIAN-8 test route)\n\nMR-42 override request is rejected/inactive and does not alter these values.",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 7,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 22842,
+    "task": "t04",
+    "pass": true,
+    "wall_s": 95.8,
+    "turns": 13,
+    "tool_calls": 32,
+    "tools": {
+     "bash": 5,
+     "read": 26,
+     "write": 1
+    },
+    "in_tokens": 157598,
+    "out_tokens": 4286,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 5/5\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1840,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.35,
+    "ps_vram_gb": 13.35,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15200,
+    "final_text": "Done. The production request path (server \u2192 dispatch \u2192 `process_login`) implements all three behaviors, so the answer is positive with the span `6-20` from `app/request_path.py`, supported by `app/identity.py` (canonical identity), `app/lockouts.py` (per-identity lockout ledger), `app/policy.py` (fixed 60-second lockout), and `app/replies.py` (blocked/denied/accepted responses).",
+    "stderr": "Warning: Model \"q27-Q2_K_L-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 12,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ },
+ "q27-Q3_K_S-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 31085,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 1456.9,
+    "turns": 10,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 5,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 138972,
+    "out_tokens": 5171,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Request timed out.",
+     "Request timed out."
+    ],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1905,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.7,
+    "ps_vram_gb": 14.7,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15939,
+    "final_text": "key per source; output is a fresh tree (`source`/`entries`, `key`/`total`/`occurrences`/`labels`) that never aliases input objects.\n\nVerified against all 7 supplied fixtures, the orientation example, the sequence/combined/timeline/service/worker replay reviews, the zero-delta cases, mutation/freshness probes, and empty input \u2014 all pass. No seed files were modified and no files are read at runtime.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 7,
+     "error": 2,
+     "stop": 1
+    },
+    "events": {
+     "auto_retry_end": 2
+    },
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 26366,
+    "task": "g02",
+    "pass": true,
+    "wall_s": 1779.7,
+    "turns": 38,
+    "tool_calls": 38,
+    "tools": {
+     "bash": 33,
+     "read": 3,
+     "edit": 2
+    },
+    "in_tokens": 411948,
+    "out_tokens": 23419,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Request timed out."
+    ],
+    "grader": "SCORE 15/15\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2075,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.7,
+    "ps_vram_gb": 14.7,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15919,
+    "final_text": "eturn []\n  ```\n- `allowed()` now checks only membership in both snapshots plus policy, so transitive dependencies that are catalog-unavailable on the platform no longer block a deployable target.\n\nNo tests, data, or docs were touched; only the standard library is used. The full suite (8/8) passes, and both task examples (the one-package render and the deny \u2192 empty string) were verified byte-exact.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 36,
+     "error": 1,
+     "stop": 1
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 17384,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 498.4,
+    "turns": 7,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 4,
+     "write": 1
+    },
+    "in_tokens": 69868,
+    "out_tokens": 1105,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "Request timed out."
+    ],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.7,
+    "ps_vram_gb": 14.7,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15919,
+    "final_text": "m)\n- **decision_owner**: `Mara Chen` (named person, not the Relay Platform rotation)\n- **deadline**: `2034-11-18` (committed ISO date, not the 2034-10-31 agenda target)\n- **room**: `Juniper-2` (physical room, not the Juniper building zone or bridge)\n- **escalation_code**: `MERIDIAN-9` (not RELAY-17 or ALERT-90)\n\nMR-42 was rejected per the decision register, so its values do not alter the baseline.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "error": 1,
+     "stop": 1
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 0
+   }
+  ]
+ },
+ "q27-IQ3_M-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 13128,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 216.3,
+    "turns": 8,
+    "tool_calls": 12,
+    "tools": {
+     "bash": 3,
+     "read": 8,
+     "write": 1
+    },
+    "in_tokens": 60122,
+    "out_tokens": 1685,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 15.11,
+    "ps_vram_gb": 15.11,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15881,
+    "final_text": "90 red band\n  - `decision_owner`: **\"Mara Chen\"** \u2014 named policy owner, not Relay Platform team\n  - `deadline`: **\"2034-11-18\"** \u2014 committed date in ISO form (not the 2034-10-31 agenda target)\n  - `room`: **\"Juniper-2\"** \u2014 physical verification room (not Juniper zone, bridge, or Juniper-1 draft)\n  - `escalation_code`: **\"MERIDIAN-9\"** \u2014 policy escalation route (not RELAY-17 ticket or AP-17 packet)",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 7,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "q27-Q3_K_M-48k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 18403,
+    "task": "g03",
+    "pass": false,
+    "wall_s": 900.1,
+    "turns": 11,
+    "tool_calls": 17,
+    "tools": {
+     "bash": 13,
+     "read": 4
+    },
+    "in_tokens": 146640,
+    "out_tokens": 12167,
+    "timed_out": true,
+    "rc": -1,
+    "errors": [],
+    "grader": "SCORE 12/14\nFAIL ['keyword-only signature', 'positional tone rejected']\nVERDICT confidently_wrong",
+    "score": 0.8571,
+    "verdict": "confidently_wrong",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1366,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.91,
+    "ps_vram_gb": 14.91,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15952,
+    "final_text": "Let me check which modules are actually imported/executed, so I know the full reachability scope:\n\n",
+    "stderr": "timeout",
+    "stop_reason": "toolUse",
+    "stop_reasons": {
+     "toolUse": 11
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 15022,
+    "task": "t02",
+    "pass": false,
+    "wall_s": 475.3,
+    "turns": 10,
+    "tool_calls": 9,
+    "tools": {
+     "bash": 7,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 82184,
+    "out_tokens": 2197,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 0/3\nFAIL ['format', 'answer', 'evidence']\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1333,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.91,
+    "ps_vram_gb": 14.91,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15944,
+    "final_text": "rroboration**: the current 2026-02 policy record explicitly says \"All applicable required constraints must pass\" and warns readers to distinguish the intended all-required rule from \"any implementation that aggregates with an any-of shortcut.\"\n\nSo the implementation does not match its docstring \u2192 **no**, with the decisive line being the `any(...)` aggregation in release_control/policy_chain.py:77.",
+    "stderr": "Warning: Model \"q27-Q3_K_M-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 9,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 11055,
+    "task": "t03",
+    "pass": true,
+    "wall_s": 880.6,
+    "turns": 6,
+    "tool_calls": 11,
+    "tools": {
+     "bash": 1,
+     "read": 9,
+     "write": 1
+    },
+    "in_tokens": 40387,
+    "out_tokens": 1355,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 8/8\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1777,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 14.91,
+    "ps_vram_gb": 14.91,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15960,
+    "final_text": "ysical room (not building \"Juniper\", old candidate Juniper-1, or the remote bridge relay-review-17)\n- **escalation_code**: `MERIDIAN-9` \u2014 effective policy route (RELAY-17 is the work ticket, MERIDIAN-8 was pre-approval test, ALERT-90 is a dashboard panel ID)\n\nThe rejected MR-42 emergency override correctly leaves all baseline values unchanged, consistent with the approval minutes and audit record.",
+    "stderr": "Warning: Model \"q27-Q3_K_M-48k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 5,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

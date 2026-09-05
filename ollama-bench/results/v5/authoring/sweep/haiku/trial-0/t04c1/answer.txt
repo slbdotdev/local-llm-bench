@@ -1,0 +1,3 @@
+PATH: gateway.py
+LINES: 7-9
+EXPLANATION: When the session's expires_at has passed, the code returns 401 unauthenticated and clears the session cookie.

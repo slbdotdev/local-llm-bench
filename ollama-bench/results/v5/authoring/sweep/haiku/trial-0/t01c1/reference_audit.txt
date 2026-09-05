@@ -1,0 +1,4 @@
+UPDATE	README.md	3	/workspace/ops/runbook.md	/workspace/operations/runbook.md
+UPDATE	docs/deploy.md	5	/workspace/ops/runbook.md	/workspace/operations/runbook.md
+LEAVE	docs/history/2026-08-18-move.md	3	/workspace/ops/runbook.md	-
+LEAVE	docs/history/incidents.md	5	/workspace/ops/runbook.md	-

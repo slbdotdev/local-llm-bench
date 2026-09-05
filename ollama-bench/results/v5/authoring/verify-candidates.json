@@ -129,6 +129,38 @@
    "ok_empty": true
   },
   {
+   "cand": "g01/cand-5",
+   "prompt_words": 267,
+   "seed_files": 109,
+   "seed_kb": 136.7,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     24.0,
+     24.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     0.0,
+     24.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
    "cand": "g02/cand-1",
    "prompt_words": 146,
    "seed_files": 3,
@@ -248,6 +280,38 @@
     "score": [
      9.0,
      13.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
+   "cand": "g02/cand-5",
+   "prompt_words": 291,
+   "seed_files": 35,
+   "seed_kb": 147.9,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     15.0,
+     15.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     14.0,
+     15.0
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
@@ -385,6 +449,38 @@
    "ok_empty": true
   },
   {
+   "cand": "g03/cand-5",
+   "prompt_words": 199,
+   "seed_files": 177,
+   "seed_kb": 136.7,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     14.0,
+     14.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     7.0,
+     14.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
    "cand": "g04/cand-1",
    "prompt_words": 107,
    "seed_files": 2,
@@ -443,7 +539,7 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "/tmp/v5v_btr4q246/router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
+    "stderr_tail": "C:\\Users\\slb\\AppData\\Local\\Temp\\v5v_wx7q4vm2\\router.py:7: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if key is \"\":"
    },
    "ok_ref": true,
    "ok_empty": true
@@ -507,7 +603,39 @@
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
-    "stderr_tail": "/tmp/v5v_dc5eqiks/policy.py:5: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if action is \"read\":"
+    "stderr_tail": "C:\\Users\\slb\\AppData\\Local\\Temp\\v5v_vob2w6zj\\policy.py:5: SyntaxWarning: \"is\" with 'str' literal. Did you mean \"==\"?\n  if action is \"read\":"
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
+   "cand": "g04/cand-5",
+   "prompt_words": 179,
+   "seed_files": 28,
+   "seed_kb": 193.9,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     10.0,
+     10.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     5.0,
+     10.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
    },
    "ok_ref": true,
    "ok_empty": true
@@ -578,7 +706,7 @@
   },
   {
    "cand": "t01/cand-3",
-   "prompt_words": 434,
+   "prompt_words": 457,
    "seed_files": 4,
    "seed_kb": 0.8,
    "ref": {
@@ -610,7 +738,7 @@
   },
   {
    "cand": "t01/cand-4",
-   "prompt_words": 319,
+   "prompt_words": 341,
    "seed_files": 8,
    "seed_kb": 1.6,
    "ref": {
@@ -632,6 +760,38 @@
     "score": [
      0.0,
      14.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
+   "cand": "t01/cand-5",
+   "prompt_words": 337,
+   "seed_files": 26,
+   "seed_kb": 166.9,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     55.0,
+     55.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     0.0,
+     55.0
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,
@@ -741,6 +901,38 @@
    "prompt_words": 172,
    "seed_files": 1,
    "seed_kb": 1.7,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     3.0,
+     3.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     0.0,
+     3.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
+   "cand": "t02/cand-5",
+   "prompt_words": 203,
+   "seed_files": 37,
+   "seed_kb": 141.7,
    "ref": {
     "rc": 0,
     "timeout": false,
@@ -897,6 +1089,38 @@
    "ok_empty": true
   },
   {
+   "cand": "t03/cand-5",
+   "prompt_words": 248,
+   "seed_files": 37,
+   "seed_kb": 140.5,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     8.0,
+     8.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     0.0,
+     8.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
    "cand": "t04/cand-1",
    "prompt_words": 129,
    "seed_files": 5,
@@ -984,6 +1208,38 @@
     "score": [
      0.0,
      4.0
+    ],
+    "verdict": "visibly_failed",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "ok_ref": true,
+   "ok_empty": true
+  },
+  {
+   "cand": "t04/cand-5",
+   "prompt_words": 267,
+   "seed_files": 50,
+   "seed_kb": 187.4,
+   "ref": {
+    "rc": 0,
+    "timeout": false,
+    "pass": true,
+    "score": [
+     5.0,
+     5.0
+    ],
+    "verdict": "correct",
+    "grader_crashed": false,
+    "stderr_tail": ""
+   },
+   "empty": {
+    "rc": 1,
+    "timeout": false,
+    "pass": false,
+    "score": [
+     0.0,
+     5.0
     ],
     "verdict": "visibly_failed",
     "grader_crashed": false,

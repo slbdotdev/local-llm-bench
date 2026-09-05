@@ -1,0 +1,2 @@
+ANSWER: no
+EVIDENCE: 18: for index in range(start, stop + 1):

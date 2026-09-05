@@ -1,0 +1,3 @@
+PATH: scheduler.py
+LINES: 13-17
+EXPLANATION: The begin_shutdown method sets accepting to False to refuse new jobs, then drains the pending queue in FIFO order while continuing to run each waiting job.

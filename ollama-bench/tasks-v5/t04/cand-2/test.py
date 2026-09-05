@@ -53,7 +53,22 @@ _timer.start()
 def _ora_read_answer():
     try:
         with open("answer.txt", "r", encoding="utf-8") as handle:
-            lines = handle.read().splitlines()
+            raw = handle.read()
+    except Exception:
+        return None
+    # Normalise only what the prompt does not specify: a BOM, the line-ending convention,
+    # leading and trailing blank lines, and trailing whitespace on a line. The format is
+    # `KEY: value` with nothing required verbatim, so none of those can carry meaning, and
+    # scoring 0/4 for an invisible trailing space mislabels a correct answer.
+    try:
+        if raw.startswith("\ufeff"):
+            raw = raw[1:]
+        lines = [ln.rstrip() for ln in
+                 raw.replace("\r\n", "\n").replace("\r", "\n").split("\n")]
+        while lines and not lines[0]:
+            lines.pop(0)
+        while lines and not lines[-1]:
+            lines.pop()
     except Exception:
         return None
     if len(lines) != 3 or not lines[0].startswith("PATH: "):

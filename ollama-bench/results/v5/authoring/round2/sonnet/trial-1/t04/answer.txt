@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code in this tree implements a per-identity 60-second timed limit on further authentication attempts after a failure, nor its lifting on a successful authentication.

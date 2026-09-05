@@ -1,0 +1,3 @@
+PATH: app/request_path.py
+LINES: 8-20
+EXPLANATION: process_login checks for active lockouts before verifying credentials, records 60-second lockouts on failed authentication, and clears lockouts for only the authenticating identity on success, using LockoutLedger and canonical_identity normalization.

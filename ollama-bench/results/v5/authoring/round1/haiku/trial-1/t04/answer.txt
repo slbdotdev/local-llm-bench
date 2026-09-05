@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements the identity-specific timed limit for failed authentication attempts or its reset after successful authentication.

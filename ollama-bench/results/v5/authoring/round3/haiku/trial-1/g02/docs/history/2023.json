@@ -1,0 +1,86 @@
+[
+  {
+    "old": "historical-2023-01",
+    "new": "pkg-072",
+    "effective": "2023-01",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2023-01 release."
+  },
+  {
+    "old": "historical-2023-02",
+    "new": "pkg-075",
+    "effective": "2023-02",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2023-02 release."
+  },
+  {
+    "old": "historical-2023-03",
+    "new": "pkg-078",
+    "effective": "2023-03",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2023-03 release."
+  },
+  {
+    "old": "historical-2023-04",
+    "new": "pkg-081",
+    "effective": "2023-04",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2023-04 release."
+  },
+  {
+    "old": "historical-2023-05",
+    "new": "pkg-084",
+    "effective": "2023-05",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2023-05 release."
+  },
+  {
+    "old": "historical-2023-06",
+    "new": "pkg-087",
+    "effective": "2023-06",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2023-06 release."
+  },
+  {
+    "old": "historical-2023-07",
+    "new": "pkg-090",
+    "effective": "2023-07",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2023-07 release."
+  },
+  {
+    "old": "historical-2023-08",
+    "new": "pkg-093",
+    "effective": "2023-08",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2023-08 release."
+  },
+  {
+    "old": "historical-2023-09",
+    "new": "pkg-096",
+    "effective": "2023-09",
+    "reason": "renamed",
+    "detail": "Archive record used when resolving package aliases in the 2023-09 release."
+  },
+  {
+    "old": "historical-2023-10",
+    "new": "pkg-099",
+    "effective": "2023-10",
+    "reason": "platform review",
+    "detail": "Archive record used when resolving package aliases in the 2023-10 release."
+  },
+  {
+    "old": "historical-2023-11",
+    "new": "pkg-102",
+    "effective": "2023-11",
+    "reason": "policy revision",
+    "detail": "Archive record used when resolving package aliases in the 2023-11 release."
+  },
+  {
+    "old": "historical-2023-12",
+    "new": "pkg-105",
+    "effective": "2023-12",
+    "reason": "introduced",
+    "detail": "Archive record used when resolving package aliases in the 2023-12 release."
+  }
+]

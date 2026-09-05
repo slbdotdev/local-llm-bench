@@ -1,0 +1,3 @@
+PATH: NONE
+LINES: NONE
+EXPLANATION: No code implements an identity-specific 60-second attempt limit or its reset after success; the constants and functions present (LOGIN_COOLDOWN_SECONDS, MAX_LOGIN_ATTEMPTS, reset_after_success) are never called or enforced, and note_failure only increments a counter without any timing or blocking logic.

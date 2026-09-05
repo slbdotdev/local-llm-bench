@@ -1,0 +1,3 @@
+PATH: app/request_path.py
+LINES: 6-20
+EXPLANATION: process_login checks services.lockouts.active before verifying credentials, records a lockout via services.lockouts.record using the fixed 60-second services.policy.lockout_seconds on failure, and clears only that identity's lockout via services.lockouts.clear on success, using app/identity.py for canonical identity keys, app/lockouts.py for the per-identity store operations, app/policy.py for the fixed 60-second duration, and app/credentials.py for verification.

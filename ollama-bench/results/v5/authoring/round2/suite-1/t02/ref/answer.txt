@@ -1,0 +1,2 @@
+ANSWER: no
+EVIDENCE: 36: matches = str(actual).casefold() == str(wanted_kind).casefold()

@@ -27,8 +27,9 @@ Search all `.md` files recursively. Exactly four standalone occurrences exist. I
 path and similar-looking text that is not the exact old path. A sweep is not permission to edit
 the documents: your only deliverable is the classification file.
 
-Create `reference_audit.txt` with exactly four lines, ordered by relative source-file path and
-then ascending 1-based line number. Use no header or other text. Each line must have exactly five
+Create `reference_audit.txt` with exactly four lines, ordered by the byte value of the POSIX relative source-file path
+(uppercase ASCII letters sort before lowercase, as `LC_ALL=C sort` and Python's default
+string ordering both do), and then by ascending 1-based line number. Use no header or other text. Each line must have exactly five
 fields separated by literal tab characters (U+0009):
 
 `ACTION<TAB>RELATIVE_FILE<TAB>LINE<TAB>OLD_PATH<TAB>REPLACEMENT`

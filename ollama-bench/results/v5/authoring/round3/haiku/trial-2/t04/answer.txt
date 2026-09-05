@@ -1,0 +1,3 @@
+PATH: app/request_path.py
+LINES: 8-20
+EXPLANATION: Checks active lockout before credential verification (requirement 2), records 60-second block on failure (requirement 1) via policy.py, and clears that identity's block only on success (requirement 3) via lockouts.py, with canonical identity normalization via identity.py.

@@ -1,0 +1,58 @@
+{
+ "g01": {
+  "pass": true,
+  "score": "24/24",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 24/24\nPASS\nVERDICT correct"
+ },
+ "g02": {
+  "pass": true,
+  "score": "13/13",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 13/13\nPASS\nVERDICT correct"
+ },
+ "g03": {
+  "pass": false,
+  "score": "13/15",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 13/15\nFAIL ['bus propagation', 'view default']\nVERDICT confidently_wrong"
+ },
+ "g04": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nPASS\nVERDICT correct"
+ },
+ "t01": {
+  "pass": false,
+  "score": "0/14",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 0/14\nFAIL [unparseable reference_audit.txt]\nVERDICT visibly_failed"
+ },
+ "t02": {
+  "pass": true,
+  "score": "3/3",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 3/3\nPASS\nVERDICT correct"
+ },
+ "t03": {
+  "pass": true,
+  "score": "10/10",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 10/10\nPASS\nVERDICT correct"
+ },
+ "t04": {
+  "pass": true,
+  "score": "4/4",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 4/4\nPASS\nVERDICT correct"
+ }
+}

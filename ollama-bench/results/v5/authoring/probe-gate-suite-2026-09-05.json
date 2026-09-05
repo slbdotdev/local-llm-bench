@@ -1,0 +1,258 @@
+{
+ "rows": [
+  {
+   "task": "g01",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "24/24",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "solution.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "solution.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "solution.py": "pass"
+    },
+    "crlf": {
+     "solution.py": "pass"
+    },
+    "leading_blank": {
+     "solution.py": "pass"
+    },
+    "trailing_spaces": {
+     "solution.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "g02",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "12/12",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "manifest_migrate.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "manifest_migrate.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "manifest_migrate.py": "pass"
+    },
+    "crlf": {
+     "manifest_migrate.py": "pass"
+    },
+    "leading_blank": {
+     "manifest_migrate.py": "pass"
+    },
+    "trailing_spaces": {
+     "manifest_migrate.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "g03",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "12/12",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "badge_core.py",
+    "badge_registry.py",
+    "test_badges.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "badge_core.py": "pass",
+     "badge_registry.py": "pass",
+     "test_badges.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "badge_core.py": "pass",
+     "badge_registry.py": "pass",
+     "test_badges.py": "pass"
+    },
+    "crlf": {
+     "badge_core.py": "pass",
+     "badge_registry.py": "pass",
+     "test_badges.py": "pass"
+    },
+    "leading_blank": {
+     "badge_core.py": "pass",
+     "badge_registry.py": "pass",
+     "test_badges.py": "pass"
+    },
+    "trailing_spaces": {
+     "badge_core.py": "FAIL(11/12,confidently_wrong)",
+     "badge_registry.py": "pass",
+     "test_badges.py": "pass"
+    }
+   }
+  },
+  {
+   "task": "g04",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "invoice.py"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "invoice.py": "pass"
+    },
+    "extra_trailing_nl": {
+     "invoice.py": "pass"
+    },
+    "crlf": {
+     "invoice.py": "pass"
+    },
+    "leading_blank": {
+     "invoice.py": "pass"
+    },
+    "trailing_spaces": {
+     "invoice.py": "FAIL(6/8,visibly_failed)"
+    }
+   }
+  },
+  {
+   "task": "t01",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "reference_audit.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "reference_audit.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "reference_audit.txt": "FAIL(0/8,visibly_failed)"
+    },
+    "crlf": {
+     "reference_audit.txt": "pass"
+    },
+    "leading_blank": {
+     "reference_audit.txt": "FAIL(0/8,visibly_failed)"
+    },
+    "trailing_spaces": {
+     "reference_audit.txt": "FAIL(0/8,visibly_failed)"
+    }
+   }
+  },
+  {
+   "task": "t02",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "3/3",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.txt": "pass"
+    },
+    "crlf": {
+     "answer.txt": "pass"
+    },
+    "leading_blank": {
+     "answer.txt": "pass"
+    },
+    "trailing_spaces": {
+     "answer.txt": "pass"
+    }
+   }
+  },
+  {
+   "task": "t03",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "8/8",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.json"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.json": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.json": "pass"
+    },
+    "crlf": {
+     "answer.json": "pass"
+    },
+    "leading_blank": {
+     "answer.json": "pass"
+    },
+    "trailing_spaces": {
+     "answer.json": "pass"
+    }
+   }
+  },
+  {
+   "task": "t04",
+   "ref": {
+    "pass": true,
+    "rc": 0,
+    "score": "4/4",
+    "verdict": "correct"
+   },
+   "deliverables": [
+    "answer.txt"
+   ],
+   "probes": {
+    "no_trailing_newline": {
+     "answer.txt": "pass"
+    },
+    "extra_trailing_nl": {
+     "answer.txt": "FAIL(0/4,visibly_failed)"
+    },
+    "crlf": {
+     "answer.txt": "pass"
+    },
+    "leading_blank": {
+     "answer.txt": "FAIL(0/4,visibly_failed)"
+    },
+    "trailing_spaces": {
+     "answer.txt": "FAIL(0/4,visibly_failed)"
+    }
+   }
+  }
+ ],
+ "defects": [
+  "g03: trailing_spaces on badge_core.py -> FAIL(11/12,confidently_wrong)",
+  "g04: trailing_spaces on invoice.py -> FAIL(6/8,visibly_failed)",
+  "t01: extra_trailing_nl on reference_audit.txt -> FAIL(0/8,visibly_failed)",
+  "t01: leading_blank on reference_audit.txt -> FAIL(0/8,visibly_failed)",
+  "t01: trailing_spaces on reference_audit.txt -> FAIL(0/8,visibly_failed)",
+  "t04: extra_trailing_nl on answer.txt -> FAIL(0/4,visibly_failed)",
+  "t04: leading_blank on answer.txt -> FAIL(0/4,visibly_failed)",
+  "t04: trailing_spaces on answer.txt -> FAIL(0/4,visibly_failed)"
+ ]
+}

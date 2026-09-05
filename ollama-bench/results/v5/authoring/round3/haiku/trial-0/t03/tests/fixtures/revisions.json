@@ -1,0 +1,98 @@
+# Meridian Relay policy evidence
+
+This file belongs to the Meridian Relay repository snapshot used for the 2034 archive
+rollout. The repository contains proposals, implementation notes, test fixtures, and
+approval history. A value is not current merely because it is precise, appears in code,
+or was repeated by a participant. Status, scope, effective revision, and units matter.
+
+The policy concerns the normalized delivery ledger: queryable event retention, the review
+schedule, the ordinary implementation spending cap, the late-event alert trigger, the
+accountable owner, the committed date, the verification room, and the escalation code.
+The emergency override request is a separate change request. It may mention nearby
+numbers, but it does not alter the baseline unless the approval history explicitly says
+that it was approved and effective. The words draft, proposed, rejected, superseded,
+approved, and effective are used deliberately throughout the archive.
+
+When this file cites another record, the citation is a lead to reconcile, not a substitute
+for reading the cited record. Dates are calendar dates in UTC. Fractions are stored between
+zero and one; percentages in prose are display forms and must not silently replace a
+fraction-valued policy field. Dollars are whole US dollars. A team may own an action while
+only a named person owns the policy decision.
+
+## Revision fixtures
+
+Repository role: shows why stale tests and compatibility data cannot be treated as current answers
+
+The JSON-like fixture data is intentionally verbose because migration tests preserve
+the provenance and status of each revision. The historical and rejected entries are not
+alternate current answers.
+
+## Evidence ledger
+
+### Record 01 — 2034-05-20 — Test author
+
+Subject: fixture p16
+
+Fixture p16 expects weekly, 45000, 30, 0.70, a team alias, 2034-10-31, Juniper, and RELAY-17. It is labelled historical and is used only to test migration diagnostics.
+
+Implication: A complete fixture can be confidently wrong for the current release.
+
+### Record 02 — 2034-06-03 — Test author
+
+Subject: draft fixture
+
+The draft fixture uses 14 days, 48000, 60, 82%, and provisional identity values. It was never promoted because representations and scopes were unresolved.
+
+Implication: Nearness does not establish approval.
+
+### Record 03 — 2034-06-25 — Test author
+
+Subject: override fixture
+
+The rejected MR-42 fixture contains 90, 50000, 0.90, and an incident owner. It is retained to prove the rejection path.
+
+Implication: Do not use a rejected fixture.
+
+### Record 04 — 2034-06-27 — Release bot
+
+Subject: p17 fixture
+
+The effective fixture references AP-17 and expects biweekly, 47200, 45, 0.82, Mara Chen, 2034-11-18, Juniper-2, and MERIDIAN-9.
+
+Implication: This corroborates other sources but is still a fixture, not an instruction to inspect only one file.
+
+### Record 05 — 2034-06-28 — Ishan Reed
+
+Subject: type check
+
+The fixture distinguishes integer money and days from string threshold, owner, date, room, and code.
+
+Implication: The output types are intentional.
+
+### Record 06 — 2034-06-29 — Nora Vale
+
+Subject: order check
+
+JSON object field order is not semantically significant in the fixture loader.
+
+Implication: A checker must accept valid reordered objects.
+
+### Record 07 — 2034-07-01 — Test author
+
+Subject: newline check
+
+The harness parses JSON content and does not require a particular final newline or line ending.
+
+Implication: Formatting-only near-misses should pass.
+
+### Record 08 — 2034-07-03 — Release bot
+
+Subject: sandbox rule
+
+Only answer.json is consumed from a contestant sandbox; extra files are ignored.
+
+Implication: Do not depend on file counts.
+
+## Reading rule
+
+Use the record's status and scope together. A historical value can explain a test fixture, a migration branch, or a rejected request without being an instruction for the current rollout. A display label can be useful to an operator while still being the wrong representation for the policy schema. If two records disagree, follow the later effective approval for this policy and preserve the stated unit.

@@ -1,0 +1,3 @@
+PATH: gateway.py
+LINES: 7-9
+EXPLANATION: When the session's expires_at has passed the clock, the handler returns a 401 unauthenticated reply with a Set-Cookie header that clears the session cookie.

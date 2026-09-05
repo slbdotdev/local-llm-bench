@@ -1,0 +1,581 @@
+MORROW TELEMETRY GATEWAY — INTERNAL INCIDENT RECORD
+Compiled for the reliability review board
+
+Purpose and handling
+
+This record reconstructs the behavior of the Morrow telemetry gateway during a service
+event. It is an invented internal record assembled from operator notes, traces, review
+comments, and the signed incident entry. It is intentionally more verbose than the
+usual incident ticket because the review board wants the reasoning around each
+observation preserved. The record is not an instruction to change production and none
+of the exploratory commands below should be repeated against a live system.
+
+The gateway receives small measurements from tenant collectors, validates their shape,
+and places them in a regional write queue. A lease protects each queue shard while a
+writer process batches records into the telemetry store. Most requests complete in a
+few hundred milliseconds, but the design allows a collector to retry when a regional
+writer is changing ownership. The lease is normally renewed by a monotonic scheduler;
+wall-clock time is used only for human-readable event stamps.
+
+The service has three visible surfaces. Ingest accepts collector batches, Query serves
+recent measurements, and Export packages older measurements for scheduled delivery.
+The incident team initially suspected Query because that surface generated the largest
+number of dashboards in the first hour. Later traces showed that Query was healthy and
+that the queue writer, not the read path, was where new records stopped progressing.
+
+Operational background
+
+During the week before the event, the platform group had been moving gateway shards
+between two host pools. The move was expected to be invisible because the handoff
+protocol drains a writer, records its lease epoch, and starts a replacement only after
+the regional coordinator acknowledges the epoch. A maintenance note mentioned that
+one host pool had a slightly unusual time-sync profile, but no alert had fired and the
+note was not treated as causal evidence.
+
+The gateway emits counters for accepted batches, rejected batches, queue age, lease
+renewal failures, and store acknowledgements. Counters are sampled every ten seconds
+by the observability collector. A separate synthetic canary submits a tiny fixed batch
+from each region and checks that the batch can be read back. The canary is designed to
+catch a write path that is technically up but no longer making progress.
+
+The normal dashboard uses green, amber, and red bands. Amber begins at a queue age of
+40 seconds, while red begins at 120 seconds. Those bands are service-health signals,
+not customer-duration measurements. A queue can drain after a short internal stall,
+and conversely a set of repeatedly retried batches can create an extended customer
+delay without one individual queue-age sample reaching the red band.
+
+First observations
+
+At the start of the review window, all three surfaces reported normal availability.
+Several collectors had reconnected after a routine network maintenance exercise, so
+the number of connection-open events was higher than its weekly median. That increase
+was not itself an error. The collectors use exponential backoff and their first
+successful batch after reconnect is intentionally small.
+
+The first unusual trace showed a writer asking the coordinator for a lease renewal and
+then abandoning the response. A second trace showed the same writer accepting a batch
+while its lease epoch was already stale. The traces were initially sorted by host
+clock, which made the two events appear reversed. Re-sorting by coordinator sequence
+number put the abandoned renewal before the accepted batch.
+
+A separate synthetic run recorded a queue stall lasting 17 seconds. That number is a
+real measurement, but it is the duration of one canary's internal retry loop, not the
+length of the customer-visible incident. The canary stopped retrying after its own
+short policy window and therefore cannot be used as a substitute for the impact
+duration in the signed incident entry.
+
+The operations channel received a canary notification before any customer support
+case was linked. The notification contained a shard identifier, a trace sample, and
+the region label as rendered by the canary. At that stage the alert was only a signal;
+the on-call engineer still had to confirm that records were accumulating rather than
+being rejected by validation.
+
+Investigation notes
+
+The first working hypothesis was a telemetry-store slowdown. Store latency had moved
+slightly upward, and the batch writer tends to expose store pressure quickly. A replay
+against a staging copy showed that the store accepted writes at the expected rate. The
+staging replay was useful because it separated serialization cost from lease ownership,
+but it did not reproduce the exact production sequence.
+
+The second hypothesis was a malformed collector batch. A malformed batch is rejected
+before it obtains a writer lease, so it cannot explain the renewal trace. The rejection
+counter did rise during reconnect, but the rise was within the normal distribution for
+that maintenance period. The team tagged the hypothesis as unsupported and kept it in
+the appendix rather than removing it from the record.
+
+The third hypothesis concerned a coordinator deployment. A coordinator patch had been
+rolled out to a small host set earlier in the day. The patch changed logging around
+epochs but did not change the epoch comparison itself. A binary comparison of the old
+and new coordinator confirmed that both rejected an older epoch. Reviewers retained
+the deployment as a possible amplifier, not as the primary explanation.
+
+Timeline reconstruction
+
+The timeline below combines event stamps with monotonic sequence numbers. Clock stamps
+are shown for people; sequence numbers are the ordering authority. The beginning of
+the customer impact was inferred from the first sustained increase in unacknowledged
+batches, not from the first warning log. This distinction matters because a writer can
+log a warning during a harmless handoff.
+
+The first confirmed customer effect was delayed telemetry writes affecting 12.4% of
+eu-west-2 tenants. Reads of already stored data continued to work, and the affected
+tenants saw delayed freshness rather than data loss. The percentage is the tenant
+share calculated from the regional routing table at the review snapshot, not the
+percentage of individual measurements.
+
+At one point an operator wrote that the queue would probably recover in 17 minutes.
+That was a forecast written before the lease state had been corrected and was never
+the measured customer impact. Another note used 17 seconds for the canary retry, as
+described earlier. Both numbers are retained because deleting them would make the
+reasoning harder to audit.
+
+The support liaison checked whether Export jobs were affected. They were delayed only
+when they depended on a not-yet-written measurement, and the export scheduler did not
+start new jobs during the short freeze. Query cache hit rate remained normal. These
+negative observations narrowed the affected path without changing the impact scope.
+
+Mitigation attempts
+
+The on-call engineer first reduced the writer batch size. This caused acknowledgements
+to be smaller but did not improve lease ownership. A second attempt paused shard
+movement, which prevented additional handoffs but left the already stale writer state
+unchanged. Neither action damaged accepted records; both were reverted after the
+team had a controlled mitigation.
+
+A coordinator trace showed a wall-clock step on one gateway host. The lease renewer
+used the wall-clock deadline in one fallback branch even though the normal scheduler
+was monotonic. The step made the fallback conclude that the renewal had expired. The
+writer then continued to serve a narrow set of requests until the coordinator noticed
+the stale epoch. This explained why the first symptoms were intermittent rather than
+an immediate total outage.
+
+The team forced a lease reacquisition on the affected writer and drained its old
+process. The first drain took a little longer than expected because a diagnostic
+capture was still open. A later note says the capture lasted 23 seconds; this is an
+internal drain detail and is not the customer-duration field requested from the
+incident entry.
+
+Recovery measurement
+
+The incident timeline records 23 minutes of customer-visible delayed writes from the
+first sustained impact marker to the point at which the regional backlog returned to
+its normal envelope. The number is a duration in minutes, not seconds, and it includes
+the period during which the team verified that newly written records were fresh. The
+timeline does not count the earlier exploratory canary retry or the later observation
+period as customer impact.
+
+Once the writer reacquired a current lease, new batches began receiving acknowledgements.
+The backlog was allowed to drain at a controlled rate so that the store would not be
+overwhelmed by a burst. Queue age fell in steps as each shard completed its batch. The
+team watched both accepted-batch continuity and read-after-write freshness before
+declaring the path stable.
+
+Root-cause review
+
+The final causal statement is deliberately narrower than the list of contributing
+conditions. A host clock step exposed a fallback lease path that compared a wall-clock
+deadline to the coordinator's monotonic epoch state. The resulting stale lease after
+clock-step allowed a writer to continue briefly without a valid ownership renewal.
+The coordinator correctly rejected the stale owner once it saw the newer epoch, so the
+coordinator was not itself corrupting the queue.
+
+The review rejected “store latency” as root cause even though store latency appeared in
+several graphs. It also rejected “bad collector data” because those batches were
+rejected before the affected writer path. The phrase chosen for the signed entry is
+stale lease after clock-step. It identifies the failure mechanism without claiming
+that every time-sync irregularity can cause the incident.
+
+Build and rollback record
+
+The mitigation used the gateway build gw-4.18.2, which was the last build with the
+known-good lease-renewal fallback. An earlier note calls it the “4.18 line,” while a
+release dashboard abbreviates the same build as 4.18.2. The signed entry uses the
+complete gateway build identifier so that an operator cannot confuse it with the
+coordinator package carrying a similar version suffix.
+
+The rollback was staged in one shard, observed through a complete canary cycle, and
+then extended to the rest of the region. No database migration was required. The
+post-rollback comparison showed that the stale-lease trace disappeared and that lease
+epochs advanced monotonically. The team did not roll back the unrelated coordinator
+logging patch.
+
+Long-form technical discussion
+
+The lease protocol has a useful separation between ownership and liveness. Ownership
+is represented by an epoch issued by the coordinator; liveness is the writer's ability
+to renew before the lease deadline. The bug arose where a fallback branch treated the
+human-readable deadline as authoritative. Most test cases exercise steady time, so
+the branch passed ordinary renewal tests even though it had a different clock basis.
+
+The gateway's retry behavior also obscured the failure. A collector retry can make a
+single measurement appear twice in the ingress log even when the store deduplicates
+the eventual write. Conversely, a writer that loses a lease can accept a batch into
+memory and delay its acknowledgement, creating a quiet interval with few explicit
+errors. The investigation therefore relied on coordinator sequence numbers and store
+acknowledgements together.
+
+Several reviewers asked whether the event should be called an outage. The incident
+taxonomy uses outage for unavailable reads or writes, and degraded write freshness for
+the case where writes eventually succeed. The final classification is degraded write
+freshness. That label is not one of the extracted fields, but it explains why the
+impact statement describes delayed writes rather than lost telemetry.
+
+The region routing table was frozen during measurement. This avoided a moving
+denominator in the tenant percentage and prevented a customer from being counted in
+two regional samples. The routing freeze was an incident-measurement control, not a
+permanent configuration change. After recovery, normal routing operations resumed and
+the snapshot was archived with the incident evidence.
+
+Evidence handling
+
+The review board preserved raw traces, a normalized timeline, and screenshots of the
+regional dashboards. Raw traces use host-local clocks and should not be compared by
+line order. The normalized timeline records the source of every event and whether it
+was measured, inferred, or forecast. Forecasts remain visibly marked so a later reader
+does not accidentally treat them as outcomes.
+
+The board also retained the on-call chat because several early hypotheses were later
+withdrawn. Chat messages are useful for understanding decision pressure but are not
+authoritative for the eight fields. Where a chat message and the signed entry differ,
+the signed entry controls. This rule was agreed before the final review and is applied
+throughout the record.
+
+Follow-up planning
+
+The corrective work has three parts: remove the wall-clock fallback comparison, add a
+time-step test to the lease suite, and expose the lease epoch in the regional health
+summary. The first part is a code change; the second is a test change; the third is an
+observability change. They are tracked separately so that a completed dashboard cannot
+be mistaken for a fixed renewal path.
+
+The incident commander asked the platform group to demonstrate recovery in a staging
+region before the next shard move. The demonstration must include a forward clock step,
+a backward adjustment, and an expired epoch response. A routine load test without a
+clock perturbation is insufficient because it exercises only the path that already
+worked.
+
+The follow-up owner recorded in the signed incident entry is Mira Chen. This is an
+individual accountability assignment, not the name of the platform team or the
+person who happened to type the first chat message. The owner is responsible for
+coordinating the three work items and bringing evidence back to the review board.
+
+Closing observations
+
+The regional service remained stable through the observation window. The team sampled
+new writes, replayed a representative collector batch, and checked that the oldest
+backlog item moved toward the head of the queue. These checks are described to show
+how recovery was established; they do not add alternate values to the signed fields.
+
+The record deliberately distinguishes facts from interpretations. A graph can suggest
+a likely cause, a chat message can suggest a next action, and a forecast can suggest a
+duration, but only the signed incident entry settles the extracted fields. Reviewers
+should preserve that distinction when copying the record into another system.
+
+The final review found no evidence of data loss. Some writes were delayed, and a
+small number were retried, but the store's idempotency key prevented duplicate durable
+records. The customer communication therefore focused on freshness and recovery,
+while the engineering follow-up focused on clock discipline and lease state.
+
+Appendix: ordinary gateway behavior
+
+Under normal conditions, a writer renews its lease several times during a batch and
+publishes an acknowledgement after the store confirms the write. A collector may
+send another copy when an acknowledgement is delayed. The gateway keeps a short-lived
+deduplication record so a retry is harmless. Queue age is sampled independently from
+the write acknowledgement and should be interpreted with its sampling interval.
+
+The coordinator assigns epochs monotonically within a shard. Moving a shard creates a
+new epoch and asks the old writer to drain. If the old writer responds after ownership
+has changed, its response is ignored. This ordinary behavior is why a stale owner can
+be detected without corrupting the durable store, although it can still delay customer
+freshness while the writer and coordinator disagree.
+
+The canary uses a deliberately tiny payload and a short retry policy. It is excellent
+at detecting a path that makes no progress, but its timing is not a regional service
+duration. It also does not represent the tenant distribution used for the impact
+percentage. Those limitations are documented so future reviewers do not reuse a canary
+number as an incident outcome.
+
+Final signed extraction note
+
+The authoritative values are distributed through the record because the review board
+does not want a duplicated summary to hide an occurrence error. Date and region are
+established in the impact reconstruction, the impact scope and duration are stated in
+the recovery measurement, and the cause, rollback identifier, and accountable person
+are settled in the closing review sections. Nearby numbers and names belong to other
+meanings and must not replace those signed values.
+
+Appendix B: routine trace-reading notes
+
+The gateway trace format begins with a host stamp, a coordinator sequence, a shard
+label, and an event verb. Host stamps are convenient when talking through an incident,
+but sequence numbers control ordering when a clock is adjusted. Reviewers copied both
+columns into the evidence bundle so that a later reader could reproduce the ordering
+decision without trusting an operator's recollection.
+
+A renewal request is not an acknowledgement. The request says that a writer wants to
+continue ownership; the acknowledgement says the coordinator accepted the request.
+Between those events, a writer may continue handling work according to the lease rules.
+This distinction explains why the first warning log is not automatically the beginning
+of customer impact and why an event count alone cannot settle the timeline.
+
+The batch writer emits a candidate acknowledgement before it sends its durable commit
+marker. A retry can therefore be visible in the ingress stream even when the durable
+store contains one record. The review compared commit markers with acknowledgements,
+rather than counting ingress lines, and preserved the comparison as a separate evidence
+artifact for the reliability board.
+
+The regional dashboard aggregates by tenant route. A tenant with several collectors is
+one tenant in the impact calculation, even if many collector sessions are delayed. A
+measurement percentage and a tenant percentage therefore need different labels. The
+record uses the routing-table denominator for the customer statement and keeps packet
+counts in the engineering appendix.
+
+The canary's small payload avoids most validation branches. That makes it fast and
+repeatable, but it also means a canary success cannot prove that a large customer batch
+will serialize correctly. Conversely, a canary retry can reveal a lease symptom before
+the aggregate customer graph has enough samples to change color.
+
+The observation window after recovery was intentionally longer than the normal alert
+evaluation period. Operators watched newly arriving batches, retries, and read-after-
+write freshness while the backlog drained. A stable graph at one instant would not
+have demonstrated that the writer could renew through a complete batch boundary.
+
+A shard handoff has four useful milestones: drain requested, old epoch observed, new
+epoch issued, and first acknowledged batch. The incident evidence records each
+milestone, but only the signed incident entry selects which milestone bounds customer
+impact. A handoff warning before an unacknowledged-batch increase is preparation, not
+customer degradation.
+
+The host pool maintenance note contains several time-sync observations. Some are
+normal offsets corrected by the time service; one step was large enough to exercise
+the fallback branch. The team did not label every offset causal. The causal statement
+names the clock-step interaction with the lease path, which is narrower and testable.
+
+The staging replay used captured payload shapes but not production lease history. It
+validated store serialization and deduplication. It did not reproduce the ownership
+failure because the staging coordinator had no corresponding epoch transition. The
+investigation log calls this a useful negative result rather than a failed experiment.
+
+The queue-age graph is sampled, not continuous. A short spike can be absent between
+samples, while a sequence of moderate values can still represent a long freshness
+problem. The review used the first sustained unacknowledged-batch marker and the end
+of the normal backlog envelope for the impact interval, with samples retained for
+audit.
+
+A customer support case is a report of experience, not a timestamping instrument.
+Cases can be opened after a customer notices stale data and can remain open after the
+service is healthy. The liaison used cases to corroborate tenant reports but did not
+use case creation or closure as the formal incident boundaries.
+
+The regional router was held steady during reconstruction to prevent a changing route
+set from changing the denominator. This also made replay comparison easier. Once the
+review snapshot was archived, the normal routing controller resumed. No field in the
+signed entry should be reconstructed from a later route distribution.
+
+The coordinator's epoch comparison is intentionally strict. An older epoch is not
+made current because its writer has a full buffer or because its host believes its
+deadline has not passed. The bug was a mismatch in the fallback clock calculation,
+not a relaxation of the coordinator's ownership rule.
+
+The rollback package has a manifest and a gateway image. A similarly numbered package
+belongs to a different service family and is retained in the release dashboard for
+historical comparison. Reviewers matched the service prefix as well as the version
+components before recording the gateway build used for mitigation.
+
+The release was first applied to one shard. The canary was allowed to complete, then
+the team examined lease epochs and acknowledgement continuity. Only after those checks
+did the rollout expand. This staged process limits blast radius and provides evidence
+that a disappearing warning is not merely an artifact of a restarted dashboard.
+
+The final causal review included platform, observability, and storage representatives.
+The storage representative documented that accepted commits had normal latency. The
+observability representative documented the canary behavior. The platform representative
+documented the fallback calculation. Their contributions support the signed sentence
+without introducing alternate versions of the extracted fields.
+
+The follow-up is intentionally split into code, test, and visibility work. A dashboard
+can expose a lease epoch while the old fallback remains present. A new test can fail
+under a clock step while an operator still lacks a useful regional view. Tracking the
+three items separately makes closure evidence auditable.
+
+The staging demonstration must perturb both forward and backward clock directions.
+The purpose is to ensure that a future implementation does not accidentally pass only
+one sign of adjustment. It must also observe epoch rejection and a successful current
+renewal. Ordinary load is a control run, not a replacement for the perturbation run.
+
+The review board's language policy distinguishes “observed,” “inferred,” “forecast,”
+and “approved.” Observed values come from instruments or logs; inferred boundaries use
+an explicit method; forecasts are expectations; approved values are the signed choices.
+The narrative uses those terms consistently so that a close-looking number remains
+auditable in its original role.
+
+No customer record was deleted during mitigation. The deduplication key was checked
+against the store index after the backlog drained. The absence of loss does not mean
+the event was harmless: freshness is part of the telemetry service contract. The
+classification and the impact wording were chosen to represent that distinction.
+
+The archive copy is immutable after board review. If a transcription error is found,
+the correction is appended with its source and reviewer rather than silently changing
+the historical paragraph. This practice is why the record may contain a withdrawn
+hypothesis beside the final causal statement, and why source authority matters during
+extraction.
+
+End of field notes
+
+Appendix C: archived operational observations
+
+Entry 001 describes a normal writer handoff in which the old process drains its
+buffer, reports a final sequence, and exits after the coordinator observes the next
+epoch. The entry is a control case for the incident review. It shows why a handoff
+warning alone is not enough to label a customer event and why the evidence bundle keeps
+ordinary and abnormal handoffs side by side.
+
+Entry 002 describes a collector reconnect after a short network interruption. The
+collector sends a small probe batch, waits for an acknowledgement, and then resumes
+its normal batch size. The reconnect count is useful for explaining dashboard noise,
+but it does not say that a writer lost ownership. The review marked the entry as
+background and did not use it for the incident boundary.
+
+Entry 003 describes a store write that took longer than its moving median but completed
+within the store service objective. The writer's acknowledgement followed the durable
+commit marker. This is a normal latency variation, not evidence of the lease failure.
+The entry remains in the archive because the first investigation hypothesis concerned
+store pressure and reviewers wanted that hypothesis to be falsifiable.
+
+Entry 004 records a rejected collector batch with a schema error. Validation rejected
+the batch before a shard lease was consulted. The event helps explain a small increase
+in the rejection counter during reconnect, but its path cannot explain a stale writer
+continuing to accept work. Keeping this distinction explicit prevented a familiar
+error message from displacing the causal trace.
+
+Entry 005 records a coordinator response for an older epoch. The response is a normal
+ownership safeguard, and the coordinator includes the current epoch in its diagnostic
+payload. A human-readable host stamp appears before the response even when sequence
+ordering places another event first. The entry is a reminder to use coordinator order
+when reconstructing a cross-host timeline.
+
+Entry 006 records a canary with a fixed payload and a short retry policy. It succeeds
+after one retry and reports both the retry count and the total canary duration. Those
+two measurements describe the canary run, not the regional tenant population. The
+incident review cites the canary as detection evidence while reserving customer impact
+for the sustained regional freshness calculation.
+
+Entry 007 records a shard whose queue briefly enters the amber band. The queue drains
+before the next customer freshness sample and no tenant route is marked degraded. The
+band is an operational signal, not a declaration of impact. Reviewers retained the
+entry because a scan of the dashboard could otherwise make every amber sample look
+like part of the event.
+
+Entry 008 records a host clock correction that is small enough for the normal scheduler
+to absorb. The monotonic renewal path continues and the epoch advances normally. This
+control is important: the causal review does not claim that every time correction is
+unsafe. It isolates the fallback comparison that was exercised by the production step.
+
+Entry 009 records a diagnostic capture opened during a drain. The capture delays a
+process exit but does not alter the coordinator's ownership decision. Operators closed
+the capture before the controlled mitigation proceeded. The duration in this entry is
+an internal process detail and must remain separate from the interval used to describe
+what customers experienced.
+
+Entry 010 records a replay against a staging store. The replay verifies serialization,
+idempotency, and read-after-write behavior under representative payloads. It does not
+contain the production lease history and therefore cannot reproduce the ownership
+failure. Its negative result narrowed the investigation and is not a reason to call
+the store healthy under every possible workload.
+
+Entry 011 records a collector retry whose second copy is suppressed by the durable
+idempotency key. The ingress log contains two lines while the store index contains one
+durable record. This is expected behavior during a delayed acknowledgement. The entry
+is included to show why raw ingress counts were not used as a proxy for data loss.
+
+Entry 012 records a query request for a measurement written before the review window.
+The query returns from cache and its latency is ordinary. Query health did not prove
+that the write path was healthy, but it helped scope the visible effect. The team
+therefore described delayed freshness rather than unavailable historical reads.
+
+Entry 013 records an export scheduler waking while a dependent measurement is still
+pending. The scheduler holds the job rather than emitting an incomplete package. This
+behavior creates a downstream delay without changing the primary writer's impact
+calculation. The review lists it as a consequence and keeps the export schedule out
+of the root-cause sentence.
+
+Entry 014 records the routing-table snapshot used in the tenant calculation. The
+snapshot was frozen before comparison so a route move could not change the denominator
+between samples. The archive stores the snapshot alongside the normalized timeline.
+Later routing changes are intentionally not substituted into the historical calculation
+because they would answer a different question.
+
+Entry 015 records the first staged application of the known-good gateway image. The
+operator checked the manifest, image checksum, and service prefix before starting the
+canary. A release dashboard contains several similar version suffixes, so the full
+identifier is always copied from the gateway manifest rather than guessed from a
+coordinator label.
+
+Entry 016 records a complete canary cycle after the staged change. New batches receive
+acknowledgements, queue age falls, and the lease epoch advances. The team waited for
+the cycle to finish before expanding the mitigation. A single successful request
+would not establish that a batch boundary and a renewal boundary were both safe.
+
+Entry 017 records the controlled backlog drain. The writer limits its output rate so
+that recovery does not overload the durable store. Queue age falls in steps because
+shards finish at different times. The drain is part of recovery verification; it is
+not a second customer-duration number and does not replace the signed timeline.
+
+Entry 018 records a read-after-write check from a tenant route that had reported stale
+freshness. The check confirms that a newly accepted measurement becomes queryable. It
+does not identify which host originally held the stale lease. Evidence about effect
+and evidence about cause are kept in separate attachments so the final review can
+state each claim at the right level.
+
+Entry 019 records the coordinator deployment comparison. The old and new coordinator
+images both reject an older epoch under the same test. The newer image adds useful
+logging but does not change the comparison. The deployment remains an amplifier or
+context item, not the primary causal mechanism selected in the signed entry.
+
+Entry 020 records a normal return from a time service. The host clock settles, the
+monotonic scheduler remains continuous, and no lease renewal is lost. This entry is
+another control case for the time-step test requested in follow-up work. The test must
+exercise the fallback branch rather than merely checking that ordinary time service
+recovery is harmless.
+
+Entry 021 records an operator's forecast about when the queue might recover. Forecasts
+are written in a different status class from measurements and are revised as evidence
+arrives. The incident review did not copy the forecast into the impact field. Keeping
+forecasts visible is useful for decision-history analysis, but their wording cannot
+override the measured boundaries in the signed record.
+
+Entry 022 records a support liaison checking a customer case after recovery. Case
+closure occurs later than service recovery because the liaison waits for a customer
+confirmation. This is why support case timestamps were corroborating context rather
+than formal incident endpoints. The record separates human communication timing from
+the service's measured freshness interval.
+
+Entry 023 records a dashboard screenshot with a stale browser cache. The screenshot
+was replaced by a server-side export before the board used it. A cached display is
+useful for explaining what an operator saw, but it cannot establish a current queue
+state. The evidence bundle labels screenshots with their capture source and review
+status.
+
+Entry 024 records a failed attempt to reduce batch size. Smaller batches reduce the
+amount of work in one acknowledgement but do not repair an invalid lease. The action
+was safe, reversible, and useful for isolating the path. It was not selected as the
+mitigation in the final causal sentence, and the configuration was restored after the
+controlled lease reacquisition.
+
+Entry 025 records a temporary pause in shard movement. The pause prevents a new handoff
+from adding noise while the existing writer state is examined. It does not make an old
+epoch current and therefore cannot, by itself, recover a stale writer. The action was
+reverted after the writer was drained and the regional service was stable.
+
+Entry 026 records a complete evidence review by platform, storage, and observability
+representatives. Each representative signs the part they inspected, while the
+incident entry has one accountable follow-up owner. A contributor's signature on raw
+evidence is not the same role as the person responsible for coordinating remediation.
+This role separation is retained in the archive for later audits.
+
+Entry 027 records a test proposal for injecting a forward clock step. The proposal
+also asks for a backward adjustment and an epoch rejection check. It is a follow-up
+test design, not evidence that the production system already passed the test. The
+platform group must provide a reproducible staging result before marking the code item
+closed.
+
+Entry 028 records a proposed health-summary change that would expose lease epochs.
+Visibility is valuable, but a new field in a dashboard does not repair the fallback
+calculation. The review tracks observability work separately from the code fix so a
+green dashboard cannot be mistaken for completion of the causal remediation.
+
+Entry 029 records the archive integrity check. The board verifies that raw traces,
+normalized timeline, routing snapshot, and approval notes can all be opened. A missing
+attachment causes an evidence task to reopen; it does not authorize a reviewer to
+fill a gap with the nearest plausible value. This conservative handling protects the
+meaning of the historical record.
+
+Entry 030 records closure preparation after the observation window. The operator
+confirms that new writes remain fresh, retry volume has returned to its normal range,
+and no unowned epoch appears. The entry describes the checks that support closure,
+not a new impact interval. All values requested from the record remain settled in the
+authoritative sections above.
+
+End of archived operational observations

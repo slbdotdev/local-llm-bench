@@ -1,0 +1,453 @@
+[
+  {
+    "name": "pkg-001",
+    "version": "2.0.1",
+    "deps": [],
+    "platforms": [
+      "*"
+    ],
+    "priority": 17
+  },
+  {
+    "name": "pkg-002",
+    "version": "2.0.2",
+    "deps": [
+      "pkg-001"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 24
+  },
+  {
+    "name": "pkg-003",
+    "version": "2.0.3",
+    "deps": [
+      "pkg-002"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 31
+  },
+  {
+    "name": "pkg-004",
+    "version": "2.0.4",
+    "deps": [
+      "pkg-003"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 38
+  },
+  {
+    "name": "pkg-005",
+    "version": "2.0.5",
+    "deps": [
+      "pkg-004"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 45
+  },
+  {
+    "name": "pkg-006",
+    "version": "2.0.6",
+    "deps": [
+      "pkg-005"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 52
+  },
+  {
+    "name": "pkg-007",
+    "version": "2.0.7",
+    "deps": [
+      "pkg-006"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 59
+  },
+  {
+    "name": "pkg-008",
+    "version": "2.0.8",
+    "deps": [
+      "pkg-007",
+      "pkg-004"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 66
+  },
+  {
+    "name": "pkg-009",
+    "version": "2.0.9",
+    "deps": [
+      "pkg-008"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 73
+  },
+  {
+    "name": "pkg-010",
+    "version": "2.1.0",
+    "deps": [
+      "pkg-009"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 80
+  },
+  {
+    "name": "pkg-011",
+    "version": "2.1.1",
+    "deps": [
+      "pkg-010",
+      "pkg-004"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 87
+  },
+  {
+    "name": "pkg-012",
+    "version": "2.1.2",
+    "deps": [
+      "pkg-011",
+      "pkg-008"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 94
+  },
+  {
+    "name": "pkg-013",
+    "version": "2.1.3",
+    "deps": [
+      "pkg-012"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 11
+  },
+  {
+    "name": "pkg-014",
+    "version": "2.1.4",
+    "deps": [
+      "pkg-013"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 18
+  },
+  {
+    "name": "pkg-015",
+    "version": "2.1.5",
+    "deps": [
+      "pkg-014"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 25
+  },
+  {
+    "name": "pkg-016",
+    "version": "2.1.6",
+    "deps": [
+      "pkg-015",
+      "pkg-012"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 32
+  },
+  {
+    "name": "pkg-017",
+    "version": "2.1.7",
+    "deps": [
+      "pkg-016"
+    ],
+    "platforms": [
+      "linux",
+      "bsd"
+    ],
+    "priority": 39
+  },
+  {
+    "name": "pkg-018",
+    "version": "2.1.8",
+    "deps": [
+      "pkg-017"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 46
+  },
+  {
+    "name": "pkg-019",
+    "version": "2.1.9",
+    "deps": [
+      "pkg-018"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 53
+  },
+  {
+    "name": "pkg-020",
+    "version": "2.2.0",
+    "deps": [
+      "pkg-019",
+      "pkg-016"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 60
+  },
+  {
+    "name": "pkg-021",
+    "version": "2.2.1",
+    "deps": [
+      "pkg-020"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 67
+  },
+  {
+    "name": "pkg-022",
+    "version": "2.2.2",
+    "deps": [
+      "pkg-021",
+      "pkg-015"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 74
+  },
+  {
+    "name": "pkg-023",
+    "version": "2.2.3",
+    "deps": [
+      "pkg-022"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 81
+  },
+  {
+    "name": "pkg-024",
+    "version": "2.2.4",
+    "deps": [
+      "pkg-023",
+      "pkg-020"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 88
+  },
+  {
+    "name": "pkg-025",
+    "version": "2.2.5",
+    "deps": [
+      "pkg-024"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 95
+  },
+  {
+    "name": "pkg-026",
+    "version": "2.2.6",
+    "deps": [
+      "pkg-025"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 12
+  },
+  {
+    "name": "pkg-027",
+    "version": "2.2.7",
+    "deps": [
+      "pkg-026"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 19
+  },
+  {
+    "name": "pkg-028",
+    "version": "2.2.8",
+    "deps": [
+      "pkg-027",
+      "pkg-024"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 26
+  },
+  {
+    "name": "pkg-029",
+    "version": "2.2.9",
+    "deps": [
+      "pkg-028"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 33
+  },
+  {
+    "name": "pkg-030",
+    "version": "2.3.0",
+    "deps": [
+      "pkg-029"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 40
+  },
+  {
+    "name": "pkg-031",
+    "version": "2.3.1",
+    "deps": [
+      "pkg-030"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 47
+  },
+  {
+    "name": "pkg-032",
+    "version": "2.3.2",
+    "deps": [
+      "pkg-031",
+      "pkg-028"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 54
+  },
+  {
+    "name": "pkg-033",
+    "version": "2.3.3",
+    "deps": [
+      "pkg-032",
+      "pkg-026"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 61
+  },
+  {
+    "name": "pkg-034",
+    "version": "2.3.4",
+    "deps": [
+      "pkg-033"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 68
+  },
+  {
+    "name": "pkg-035",
+    "version": "2.3.5",
+    "deps": [
+      "pkg-034"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 75
+  },
+  {
+    "name": "pkg-036",
+    "version": "2.3.6",
+    "deps": [
+      "pkg-035",
+      "pkg-032"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 82
+  },
+  {
+    "name": "pkg-037",
+    "version": "2.3.7",
+    "deps": [
+      "pkg-036"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 89
+  },
+  {
+    "name": "pkg-038",
+    "version": "2.3.8",
+    "deps": [
+      "pkg-037"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 96
+  },
+  {
+    "name": "pkg-039",
+    "version": "2.3.9",
+    "deps": [
+      "pkg-038"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 13
+  },
+  {
+    "name": "pkg-040",
+    "version": "2.4.0",
+    "deps": [
+      "pkg-039",
+      "pkg-036"
+    ],
+    "platforms": [
+      "*"
+    ],
+    "priority": 20
+  }
+]

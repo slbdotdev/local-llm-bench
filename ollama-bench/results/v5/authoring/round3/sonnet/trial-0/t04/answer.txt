@@ -1,0 +1,3 @@
+PATH: app/request_path.py
+LINES: 6-20
+EXPLANATION: process_login rejects a request whose canonical identity (app/identity.py) has an active lockout before calling credentials.verify, records a 60-second block via lockouts.record using policy.lockout_seconds (app/policy.py, app/lockouts.py) on failure, and calls lockouts.clear to remove only that identity's block on success.

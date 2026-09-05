@@ -41,8 +41,18 @@ def _ora_parse():
     # and scoring one of them as visibly_failed mislabels a correct answer, which would
     # corrupt the section 7 instrument. Everything else stays strict: no blank lines,
     # no extra content, exact line count.
-    body = raw[:-1] if raw.endswith("\n") else raw
+    # Normalise only what the prompt does not specify: a BOM, the line-ending
+    # convention, and leading/trailing blank lines. Trailing whitespace INSIDE a line is
+    # left alone on purpose -- the fields are tab-separated and the last one is a
+    # replacement string the prompt requires verbatim, so a space there is real content.
+    if raw.startswith("\ufeff"):
+        raw = raw[1:]
+    body = raw.replace("\r\n", "\n").replace("\r", "\n")
     lines = body.split("\n")
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    while lines and not lines[-1].strip():
+        lines.pop()
     if len(lines) != len(_ORA_EXPECTED) or any(not ln for ln in lines):
         return None
     got = {}

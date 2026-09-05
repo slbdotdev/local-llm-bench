@@ -1,0 +1,6 @@
+2022 close note: open disputes were held outside the total and merchant-won disputes
+were added in a later adjustment.  The 2025 policy includes both open and won rows in
+the feed's posted state, and excludes only a lost dispute.
+
+The old report used a daily currency aggregate.  This was replaced by row-level
+conversion because row-level rounding is part of the signed control procedure.
