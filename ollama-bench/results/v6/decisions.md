@@ -530,3 +530,28 @@ and Q2_K 2.04, while Q2_K_L is 1.17 — a 0.8 GB spread at identical context on 
 architecture. Q2_K_L's record predates the manifest fields so it is the one number here not
 taken with the others. **Flagged as unexplained**, not theorised about; re-placing Q2_K_L at 64k
 with the current instrument is a ninety-second job for whoever picks this up.
+
+## D6-27 — the stall alarm earned its keep, and the fault it found was my gating
+
+*21:43.* The waiter fired: "no v6 artifact written for 15 min". Nothing had died — every chain
+was alive and the rank 2 pull was at 88% — but the GPU had been **idle since 21:27:51**, which
+is the thing that actually matters and which no done-flag would ever have reported.
+
+The cause is my own chain design. D6-23 gated phase B behind phase A5, and A5 waits on a
+*download*. Its 45-minute deadline protects against a pull that fails; it does nothing about a
+pull that merely takes fifteen minutes, during which the GPU has nothing to do even though
+phase B's first two cells — the Q2_K_L reference sentinels at 64k and 48k — depend on no
+reserve candidate whatsoever and could have run throughout.
+
+**The rule I should have followed: gate a GPU phase on GPU-readiness, never on a download.**
+The plan says in as many words that a pull and a trial may overlap; I built a chain that made
+them exclusive. The correct shape was to start phase B's reference cells immediately and insert
+the reserve candidate's sentinels when its placement landed.
+
+I am **not** restructuring now, and the reason is arithmetic rather than principle: the pull has
+about two minutes left and A5 needs about three more to strip and place, so unpicking the chain
+would cost more than the five minutes it would recover. Recorded because the pattern will recur
+in v7 — and because the alarm is the only reason I know about it at all. A monitor that watches
+only for things ending would have reported this fifteen-minute hole as healthy progress.
+
+Cost of the fault: about 15 minutes of GPU time out of a night budgeted at 11 hours.
