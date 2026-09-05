@@ -1036,3 +1036,59 @@ semantic change to another family's authored material on my own reading, which i
 D7-22 declined to make at 2 a.m., and it is no longer urgent: the gate now names the file, so the
 next occurrence is adjudicable from the artifact instead of guessed at. It is written into the
 handoff as the owner's call rather than taken as mine.
+
+## D7-32 — the main band's achieved occupancy is 4-26% of the window, and that is the calibration finding
+
+*04:54, main band complete.* Occupancy read before pass rate, as plan step 4 requires. The suite's
+main band is authored to 29,000-36,000 tokens of material — 60-75% of a 48k window, 45-56% of the
+64k window IQ2_M runs at. What the workhorse actually held, per trial, as `peak_prompt`:
+
+| task | peak prompt | material | % of material | % of the 64k window |
+| --- | ---: | ---: | ---: | ---: |
+| m07-main-claude | 17,376 | 31,630 | 54% | **26%** |
+| m01-main-claude | 11,488 | 31,607 | 36% | 17% |
+| m09-main-glm | 9,458 | 35,790 | 26% | 14% |
+| m04-main-claude | 9,048 | 31,268 | 28% | 13% |
+| m06-main-glm | 8,048 | 33,130 | 24% | 12% |
+| m10-main-claude | 6,940 | 31,307 | 22% | 10% |
+| m02-main-luna | 4,833 | 31,310 | 15% | 7% |
+| m03-main-glm | 4,463 | 32,405 | 13% | 6% |
+| m05-main-luna | 3,702 | 31,285 | 11% | 5% |
+| m08-main-luna | 3,030 | 31,582 | 9% | **4%** |
+
+**No main-band row reached even half the occupancy the band was authored for, and the median row
+reached a quarter of it.** Every one of these is therefore a capacity result as much as a quality
+one, and any sentence of the form "IQ2_M is accurate at 64k" means "at 64k of *allocated* window
+and about 8k of *used* window".
+
+**This is not a repeat of D6-30, and the difference is the whole finding.** v6's rows ran at
+25-39% of a 64k window because the v5 suite's material was small — its tasks did not have 31k
+tokens to read. v7 fixed exactly that: the material is on disk, it is a coherent same-project
+corpus, and the acceptance rule forbade a task whose answer is reachable without traversing it.
+The material is there and the model **still does not read it**, because material on disk is not
+context: it enters the window only if the model chooses to open it, and an agentic model with
+`grep` and a file reader chooses not to. `m08-main-luna` did the whole task in five turns with one
+`read` and three `bash` calls and never held more than 3,030 tokens of a 31,582-token tree.
+
+Two consequences, and the second is the one the plan has to answer.
+
+1. **The v5 lesson generalises further than v5 stated it.** v5 withdrew *prompt-side* fill because
+   a model recognises foreign filler and sets it aside. D7-4 answered that with same-project
+   material on disk, and that answer is correct as far as it goes — nothing here was recognised as
+   filler, because it is not filler. But it moved the problem rather than solving it: **the model
+   now sets the material aside by never opening it.** Authoring material a task genuinely requires
+   does not make a model read the material; it makes a model read the two files that answer the
+   question. A band that is meant to be occupied has to be built so the *answer* cannot be
+   assembled from a handful of targeted reads, and neither the plan, the authoring brief, nor the
+   roundtable's reachability review tested that — they tested whether the answer was reachable
+   from the *prompt*, which is a different and easier property.
+2. **The 60-75% occupancy figure in the plan is a property of the corpus, not of the run**, and
+   the handoff's suite table reports it as though it were measured. It is measured — of the
+   material — and `composition.py` derives it honestly from the manifests. But it is not what the
+   model held, it is off by a factor of three to fifteen, and the report must say which number is
+   which every time it prints one.
+
+**Nothing is tuned on this.** Occupancy is not a pass rate and rule 4a does not apply to it, but
+the corrective — building a task whose answer needs the tree rather than two files — is a
+re-authoring job on ten main-band tasks, not a calibration edit, and it is written into the
+handoff as the largest single thing v7 has learned about its own design.
