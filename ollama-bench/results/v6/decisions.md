@@ -116,3 +116,90 @@ band, `--trials 1`) and the verdict row (phase D: `--trials 3`) all write the sa
 does only the work the previous one did not. No trial is ever run twice and no phase discards
 the one before it. `runcell.sh` is the single entry point for every scored cell and carries
 both harness exports, so no row can be launched without the extension.
+
+## D6-9 — the roster is not comparing like with like: four quants carry a vision projector
+
+*20:46.* IQ3_XXS placed **spill** at 64k — 14.72 GB resident, **pct_gpu 87%**, 15.1 gen tok/s
+empty and 10.3 at fill — even though its file (12.63 GB) is *smaller* than Q2_K_L's (13.08 GB),
+which placed **pass** at 13.35 GB and 100% GPU. That is not a quantisation effect, so I read the
+manifests. Model layer vs vision projector, `~/.ollama/models/manifests`:
+
+| tag | model layer | projector |
+| --- | ---: | ---: |
+| q27-Q2_K_L-64k | 12.18 GiB | none |
+| q27-Q3_K_S-64k | 12.78 GiB | none |
+| q27-Q2_K-64k | 11.03 GiB | none |
+| q27-IQ3_XXS-64k | 11.76 GiB | **0.86 GiB** |
+| q27-IQ3_XS-64k | 12.41 GiB | **0.86 GiB** |
+| q27-IQ2_M-64k | 10.13 GiB | **0.86 GiB** |
+| q27-IQ3_M-64k | 12.95 GiB | **0.86 GiB** |
+
+The four quants pulled tonight from `hf.co` carry the 927 MB vision projector the brief warned
+every pull also fetches; the three older tags, baked before the projector was in the upload or
+registered from a bare blob, do not. **The suite is text-only and never uses the vision tower.**
+So the roster as it stands charges four quants ~0.86 GiB of VRAM the other three do not pay, on
+a card whose whole margin is about 1 GiB. Comparing them is comparing manifests, not quants.
+
+Note the projector does not explain the whole gap: at 64k, Q2_K_L's model-to-resident overhead
+is 1.17 GiB while IQ3_XXS's is 2.96 and IQ3_XS's 2.97. Subtract the projector and about 0.93 GiB
+of extra overhead remains on both i-quants, consistent across two different file sizes — an
+i-quant compute-buffer cost, which is itself a finding worth the report.
+
+## D6-10 — stripping the projector by blob re-bake is abandoned: `ollama create` copies the blob
+
+*20:52.* The fix for D6-9 is to bake the context tags `FROM <blob path>` so the manifest carries
+the model layer alone — the technique the brief names for Q2_K. It works, and it is unaffordable:
+**`ollama create` from a file path imports a fresh copy of the blob rather than referencing it.**
+One IQ3_XXS re-bake wrote a second 12.63 GB blob, and the loop I started for all four quants took
+C: from **45.8 GB free to 11.3 GB** before I stopped it. Four quants would have needed ~48 GB the
+disk does not have.
+
+What I did about it, in order: stopped the driver by process group (the first `kill` had targeted
+the exited `nohup` pid, so two placement cells ran on tags I was re-baking underneath — **the
+IQ2_M-48k record started 20:47:05 is of an indeterminate build and is not used**); stopped the
+bake loop; deleted the orphaned `COPY*` and `*-partial` blobs; and found that the *daemon*, not
+the killed client, owns the import, so a client kill does not stop a copy in flight. Freed back
+to 24.3 GB, then watched it fall again as the daemon finished the copy it had already started.
+`ollama.exe create` is matched by **command line, never by image name** (`kill_create.ps1`),
+because the daemon and its model runner share that name.
+
+Standing rule for the rest of the night: **no `FROM <blob path>` bake unless C: has 15 GB free
+and the quant it replaces is removed immediately afterwards.** Deriving a tag `FROM <another
+tag>` is free — it reuses the manifest's layers — so one blob import per quant can serve every
+context rung.
+
+## D6-11 — the projector is stripped from every roster quant, and D6-10's cost estimate was wrong
+
+*20:53.* Two corrections to D6-10, both measured.
+
+**One: the blob import happens once per quant, not once per tag.** Ollama content-hashes the
+imported file, so `q27-IQ3_XXS-48k` and `q27-IQ3_XXS-64k`, baked from the same blob path in
+succession, ended up sharing the single imported blob `sha256-b6e8a5c9…`. The economics are
+therefore: one transient copy per quant, and after `ollama rm` of the `hf.co` tag the original
+blob **and** its projector are freed, so the steady-state disk cost is about zero. Deriving the
+remaining rungs `FROM` the projector-free tag is free. The rule stands as written in D6-10 —
+15 GB of headroom before an import, removal straight after — but the campaign can afford it.
+
+**Two: the projector was worth measuring, and the A/B is the sharpest number of the night.**
+Same quant, same rung, same instrument, 90 seconds apart:
+
+| IQ3_XXS @ 64k | resident | pct_gpu | gen tok/s empty | gen tok/s @58.4k fill | smi peak | verdict |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| with 0.86 GiB projector | 14.72 GB | 87% | 15.05 | **10.28** | 15,332 MiB | spill |
+| projector stripped | 14.31 GB | 93% | 33.67 | **28.97** | 14,968 MiB | marginal |
+
+**0.41 GB of resident bought a 2.8x generation speedup**, because the cell sits exactly on the
+cliff the v5 large-band finding describes: below the line the work runs at conversational speed,
+above it the same work takes six to twenty-five times longer while still reporting 100% GPU and
+every layer offloaded. Note the resident saving (0.41 GB) is half the projector's file size
+(0.86 GiB), so Ollama is not simply loading the whole tower into VRAM — but on a card with about
+1 GB of margin, 0.41 GB is the difference between two verdicts.
+
+Decision: **every roster quant runs projector-free**, one import at a time, so the campaign
+compares quantisations rather than manifests. The projector-carrying records already in
+`placement.json` are kept — they are the A/B — and every record from 20:51 onward carries
+`has_projector` and `manifest_model_gib` fields, so no record's build is ever in doubt again.
+
+Decision: **IQ3_XXS does not carry 64k even projector-free.** 14.31 GB is over the 14.2 line,
+93% GPU means about 0.95 GB is still on the CPU, and 28.97 tok/s is under the 35 tok/s gate.
+It is placed 64k **marginal**, and its real rung is 48k, to be measured.

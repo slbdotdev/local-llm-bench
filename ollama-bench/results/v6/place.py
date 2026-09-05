@@ -88,6 +88,28 @@ def make_fill(target_tokens):
     return "".join(parts)
 
 
+def manifest_facts(tag):
+    """Read the tag's own manifest: model-layer size and whether a vision projector rides
+    along. The projector is 0.86 GiB of VRAM this text-only suite never uses, and only some
+    of the roster's tags carry one, so every record says which build it measured (D6-9)."""
+    base = tag.split(":")[0]
+    path = os.path.join(os.path.expanduser("~"), ".ollama", "models", "manifests",
+                        "registry.ollama.ai", "library", base, "latest")
+    path = path.replace("/", os.sep)
+    try:
+        with open(path, encoding="utf-8") as f:
+            m = json.load(f)
+        model = proj = 0
+        for l in m.get("layers", []):
+            if l["mediaType"].endswith(".model"):
+                model = l["size"]
+            elif l["mediaType"].endswith(".projector"):
+                proj = l["size"]
+        return round(model / 2 ** 30, 2), round(proj / 2 ** 30, 2), proj > 0
+    except Exception:
+        return None, None, None
+
+
 def ps_for(tag):
     try:
         for m in get("/api/ps").get("models", []):
@@ -107,7 +129,10 @@ def main():
     fill_timeout = int(sys.argv[3]) if len(sys.argv) > 3 else 1200
     quant = tag.replace("q27-", "").rsplit("-", 1)[0]
 
+    mg, pg, has_proj = manifest_facts(tag)
     rec = {"quant": quant, "tag": tag, "num_ctx": num_ctx,
+           "manifest_model_gib": mg, "manifest_projector_gib": pg,
+           "has_projector": has_proj,
            "started": time.strftime("%Y-%m-%d %H:%M:%S")}
     unload_all()
     smi = Smi()
