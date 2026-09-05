@@ -289,3 +289,37 @@ suite at 95% and a 50% target, choosing which tasks to harden by which ones the 
    genuine finishing cost is one trial's worth of evidence and is not settled here; the repeat
    trials in section 4 are the place to read it, and the budget line belongs in every future
    mode-8 report whether or not it is breached.
+
+## 8. How to re-attach, and what the artifacts are
+
+All paths absolute. WSL, never ssh. `PY=/mnt/c/Users/slb/scoop/apps/python/current/python.exe`.
+
+| artifact | what it is |
+| --- | --- |
+| `results/v7cal-IQ2_M-{main,cheap}.json` | the workhorse's first pass, one trial per task |
+| `results/v7cal2-IQ2_M-{main,cheap}.json` | three trials per task on everything that changed |
+| `results/v7cal-{UDQ3KXL,Q2_K}-{main,cheap}.json` | the two neighbours, one trial per task |
+| `results/v7/quarantine-IQ2_M-main-scopegate.json` | the three rows D7-31 invalidated, with the reason |
+| `results/v7/gpuverify.log` | the GPU-by-load proof, six tags |
+| `results/v7/winprobe.log` | all twenty references graded under the Windows interpreter |
+| `results/v7/cal.log` | the chain's live view; the markers are the phase record |
+
+Re-derive every table in this file from the artifacts — nothing here is transcribed:
+
+    cd /mnt/d/local-llm-bench/ollama-bench
+    python3 results/v7/summarize_cal.py                 # both passes, all quants
+    python3 results/v7/summarize_cal.py v7cal-          # first pass only
+
+The checks that are new this campaign and that the next one should keep:
+
+    "$PY" results/v7/probe_scope_gate.py $(ls -1 results/v7/authoring/suite)
+    "$PY" results/v7/probe_scope_gate.py --breach <slot>
+
+The first grades every candidate's own reference **under the Windows interpreter**, which is what
+pibench grades with and what no other instrument in the toolchain uses. The second proves a scope
+gate still fires on a real breach after any repair to it.
+
+Phase markers are `results/v7/.cal-<phase>-done`; `results/v7/waiter.sh <phase>` is the watcher and
+prints GPU utilisation beside a stall alarm. **GPU near 0% with no chain process is a dead chain;
+GPU near 100% is a trial running** — and a phase's CPU-only steps (re-assembling the suite) look
+like the first and are not, which is why the waiter counts the chain script as well as pibench.
