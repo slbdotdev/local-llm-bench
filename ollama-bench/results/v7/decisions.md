@@ -1254,3 +1254,26 @@ Sonnet and Haiku said R4, R5 and R7; Luna said R4 and R7 with R5 `MATCHES`; the 
 alone. A fourth independent reader, on the rewritten card, now derives the reference's attribution
 unprompted and quotes the sentence that settles it. That is the difference between a convention
 stated and an authority established, and it is why the subcheck could come back.
+
+## D7-36 — mode 8's declared budget applied for the first time, and the main-band row is over it
+
+*05:13.* Mode 8's grader cannot see turns or token counts by design; the plan puts the budget in
+`NOTES.md` and makes the manager apply it from the bench's own fields at analysis time. That has
+never been done, on any campaign. Done here, on the workhorse's first pass:
+
+| task | declared | measured | inside? |
+| --- | --- | --- | --- |
+| m08-cheap-glm | 12 turns, 3,000 output tokens | 5 turns, 1,419 tokens | yes, comfortably |
+| m08-main-luna | **5 turns, 900 output tokens** | **9 turns, 1,267 tokens** | **no, on both** |
+
+The main-band row is `correct` and it *finished*: it did not wander into the inconclusive incident
+report or the roadmap's refactor TODO, which is the behaviour mode 8 exists to measure. It simply
+took nearly twice the declared turns to do a one-line edit.
+
+I am not calling that a task failure and not calling it a quant failure, because one trial cannot
+tell those apart, and because the budget is one author's estimate of what a 27B quant needs rather
+than a measurement of it. What it is worth is the observation that **a budget nobody has ever
+applied is a budget nobody has ever calibrated**: 5 turns for "read the tree, find the marker
+helper, find the separator statement, edit one function, verify" is tight for an agentic loop that
+spends a turn per tool call, and the repeat trials will say whether 9 is typical. The number goes
+in the report either way. A declared budget that is only quoted when it is met is not a check.
