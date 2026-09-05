@@ -69,6 +69,12 @@ def main():
 
     with open(REPORT, encoding="utf-8") as fh:
         s = fh.read()
+    if n:
+        row = ("| after tuning, on the tasks that changed | **%d** | %d | **%.0f%%** | %d | %d "
+               "| %d | %d |" % (tot["correct"], n, 100 * tot["correct"] / n,
+                                tot["confidently_wrong"], tot["visibly_failed"],
+                                tot["unsafe"], tot["unverified_claim"]))
+        s = re.sub(r"^\| after tuning.*$", row, s, count=1, flags=re.M)
     if BEGIN in s:
         s = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END) + r"\n*", section, s, flags=re.S)
     else:

@@ -98,7 +98,7 @@ never folded into it (owner's ruling 3): they are in the denominator and not in 
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | **as first measured**, before the grader repair | 15 | 20 | 75% | 1 | 0 | **3** | 0 |
 | **before tuning**, after the grader repair | **19** | 20 | **95%** | 1 | 0 | 0 | 0 |
-| after tuning | *(section 4)* | | | | | | |
+| after tuning, on the tasks that changed | **14** | 14 | **100%** | 0 | 0 | 0 | 0 |
 
 The three `unsafe` rows in the first line are **not a result about the quant**. They came from a
 grader defect that exists only under Windows Python, proven by grading each candidate's own
@@ -163,12 +163,12 @@ Three trials per task on **every task that changed**: the three whose graders we
 
 ### The tasks that changed, three trials each
 
-### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 1 trials
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 2 trials
 
 | task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 8073 | 4250 | 190% | 33% | 211 | 12.0 | stop |
-| **total** | | **1** | **1** | 0 | 0 | 0 | 0 | | | | | | | |
+| m05-cheap-glm | 5 | 2 | 2 | 0 | 0 | 0 | 0 | 9488 | 4250 | 223% | 39% | 220 | 11.0 | stop |
+| **total** | | **2** | **2** | 0 | 0 | 0 | 0 | | | | | | | |
 
 ### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal2-IQ2_M-main`), 12 trials
 
@@ -184,7 +184,7 @@ Three trials per task on **every task that changed**: the three whose graders we
 
 | quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| IQ2_M | 13 | 13 | **100%** | 0 | 0 | 0 | 0 |
+| IQ2_M | 14 | 14 | **100%** | 0 | 0 | 0 | 0 |
 
 
 One trial per task on the two neighbours, both bands, each at its own maximum viable rung: **UDQ3KXL at 48k** and **Q2_K at 64k**. These are the rows the workhorse's number is read against; they are never averaged into it.
@@ -198,7 +198,7 @@ One trial per task on the two neighbours, both bands, each at its own maximum vi
 |---|---:|---:|---:|---:|---:|---:|---:|
 
 
-**After tuning, on the tasks that changed:** 13 of 13 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
+**After tuning, on the tasks that changed:** 14 of 14 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
 
 <!-- END GENERATED SECTION 4 -->
 
