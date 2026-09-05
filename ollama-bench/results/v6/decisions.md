@@ -290,3 +290,36 @@ sentinel failure, recording the demotion and its reason in `phaseB.json`. A quan
 only when it fails the sentinel at **every** rung it placed on. That is stricter about what
 rejection means and no more permissive about what passes: a demoted quant is reported at the
 rung it actually holds, which is the campaign's whole output.
+
+## D6-18 — 96k is out of reach for every K-quant on this card, and the KV cost says why
+
+*21:04.* Both K-quants that carry 64k comfortably fail one rung up, and the two measurements
+together give the campaign a rule rather than two data points.
+
+| cell | resident | pct_gpu | gen tok/s @fill | verdict |
+| --- | ---: | ---: | ---: | --- |
+| Q2_K_L @ 64k | 13.35 GB | 100% | 44.88 | pass |
+| Q2_K_L @ 96k | **16.20 GB** | 83% | 8.22 | spill |
+| Q2_K @ 48k | 12.46 GB | 100% | 49.19 | pass |
+| Q2_K @ 64k | 13.07 GB | 100% | 45.14 | pass |
+| Q2_K @ 96k | 15.04 GB | 89% | 8.97 | spill |
+
+Q2_K_L at 96k wants **16.20 GB on a 15.92 GiB card**, so it cannot even be resident, and 83%
+GPU with 8.22 tok/s is what that looks like. The two Q2_K_L cells bracket the KV cost directly:
+32k of extra context costs **2.85 GB**, about **89 MB per 1k of context** at q8_0 with flash
+attention on. Q2_K's own 48k-to-64k step costs 0.61 GB and IQ3_XXS's costs 1.24 GB, so the rate
+is not perfectly linear across quants, but 89 MB/1k is the number to plan with.
+
+That rate is the campaign's real constraint, and it is worth stating as a prediction rather
+than discovering seven more times: **to place at 96k under the 14.2 GB line, a quant must sit
+at about 11.3 GB at 64k**, which means a model layer around 9-10 GiB — a full gigabyte below
+IQ2_M, the smallest thing on the roster. So I expect **no quant in this campaign to reach 96k**,
+and phase E to have nothing to stretch. If that holds it is a clean result and not a gap: on a
+16 GB card, 64k is the ceiling for a 27B model at any quantisation still worth running, and the
+v5 speculation that "96k fully resident is a capability no other quant on this card has" is
+measured out — not even Q2_K_L has it.
+
+The one candidate that could falsify this is reserve rank 7, `UD-Q2_K_XL` at 9.83 GB. It is not
+pulled and I am not pulling it ahead of the roster: the campaign's question is 64k quality, and
+a 2-bit dynamic at 96k answers a different one. Recorded here so the next session can take it
+deliberately rather than rediscover it.
