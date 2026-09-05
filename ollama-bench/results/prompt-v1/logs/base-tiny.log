@@ -1,0 +1,4 @@
+=== base-tiny band=tiny trials=3 start=2026-09-04T22:48:38-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/baseline.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+
+===== glm-5.3-flash =====

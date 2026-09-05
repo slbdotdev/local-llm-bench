@@ -1,0 +1,14 @@
+{
+ "provider": "zai",
+ "modelId": "glm-5.3-flash",
+ "modelName": "GLM 5.3 Flash (Z.ai coding plan)",
+ "contextWindow": 1000000,
+ "thinkingLevel": "medium",
+ "baseUrl": null,
+ "systemPromptChars": 2685,
+ "importMetaUrl": "file:///C:/Users/slb/bench-prompt-variants/capture.ts",
+ "cwd": "C:\\Users\\slb\\AppData\\Local\\Temp\\pib_zajvqxug",
+ "toolCount": 4,
+ "skills": 0,
+ "contextFiles": 0
+}
