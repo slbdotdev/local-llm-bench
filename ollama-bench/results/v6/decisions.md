@@ -902,3 +902,40 @@ D6-34's three consequences stand unchanged — placement and sentinels are not s
 t03-as-speed-gate earned its keep, and achieved out tok/s is the headline number. Only the
 *cause* was wrong, and it was wrong because I inferred a mechanism from one cell instead of
 waiting for the controlled comparison that was already scheduled.
+
+## D6-37 — my kill script was killing another campaign's trials, and then it killed my own
+
+*23:15.* Coordinator relayed that `kill_pi.ps1` had been ending in-flight trials belonging to a
+**second campaign running on this machine tonight** — the prompt campaign under
+`results/prompt-v1/`, its own tag and agent dir. My script matched **every** `node.exe` whose
+command line contained `pi-coding-agent` and force-killed it. A package name cannot tell two
+campaigns apart, and I had been running that script at every chain restart all evening.
+
+Rewritten to scope by **ancestry**, which is the only thing that actually identifies ownership:
+find `python.exe` processes whose command line carries both `pibench.py` **and** `--tag v6-`,
+walk the parent map, and kill only `node.exe` whose ancestry reaches one of those. **If no v6
+pibench is running it kills nothing at all** — the previous version's failure mode was to kill
+everything in exactly that case. I also added `list_node.ps1`, which reports node processes and
+their `--model` read-only, so I can look before acting.
+
+**And then the corrected script bit me, which is worth recording honestly.** I ran it once to
+verify it, live, while my own mrIQ3M sentinel was in flight. It correctly identified pid 18028
+as mine and killed it — right behaviour, wrong moment. `runcell.sh` returned rc=255, phase B saw
+no t03 result, and **rejected mrIQ3M for "no t03 result at 48k"**. A quant that had never been
+measured was recorded as failing. Everything else in that `phaseB.json` was correct; only the
+quant I had personally interrupted looked bad.
+
+Two fixes, because the incident exposed a real hole and not just a clumsy moment:
+
+1. **An interrupted cell is not evidence about a quant.** `phaseB.py` now retries a cell **once**
+   when it exits non-zero *and* produced no t03 result, before any judgement sees it. pibench
+   resumes, so the retry re-runs only what is genuinely missing. Without this, any crash, kill or
+   transient error during a sentinel silently converts into a rejection — and a rejection
+   deletes the model from the disk.
+2. **Verify a destructive script read-only first.** `list_node.ps1` exists so the next check of
+   "what would this kill" costs nothing. Running a force-kill to test it, against live work, was
+   the actual mistake here.
+
+No orphans were left: a read-only sweep showed no `node.exe` running at all afterwards, so
+nothing of mine or anyone else's was left spending GPU. Phase B restarted; every completed
+sentinel resumed in seconds and mrIQ3M's runs fresh.

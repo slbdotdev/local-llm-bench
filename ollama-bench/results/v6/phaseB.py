@@ -160,8 +160,17 @@ def main():
             ctx = best["num_ctx"]
             print("== sentinels: %s at %s (%s)" % (q, CTXNAME[ctx], best.get("verdict")),
                   flush=True)
-            run_cell(q, ctx, "large", "g03,t03", 1)
+            rc = run_cell(q, ctx, "large", "g03,t03", 1)
             w = wall(q, ctx, "t03")
+            # An interrupted cell is not evidence about the quant (D6-37). A non-zero exit with
+            # no t03 result means the run was killed or crashed, not that the model failed, so
+            # retry once before letting the judgement see it. pibench resumes, so the retry
+            # only re-runs what is actually missing.
+            if w is None and rc != 0:
+                print("   cell exited rc=%s with no t03 result -- retrying once before judging"
+                      % rc, flush=True)
+                rc = run_cell(q, ctx, "large", "g03,t03", 1)
+                w = wall(q, ctx, "t03")
             n_to = timed_out_task(q, ctx, "t03")
             g_to = timed_out_task(q, ctx, "g03")
             r = ref.get(ctx)

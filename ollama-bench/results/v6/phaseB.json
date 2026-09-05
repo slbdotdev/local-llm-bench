@@ -1,0 +1,62 @@
+{
+ "reference": [
+  {
+   "quant": "Q2_K_L",
+   "num_ctx": 65536,
+   "t03_wall_s": 31.0
+  },
+  {
+   "quant": "Q2_K_L",
+   "num_ctx": 49152,
+   "t03_wall_s": 25.4
+  }
+ ],
+ "survivors_best_first": [
+  {
+   "quant": "Q2_K",
+   "num_ctx": 49152,
+   "t03_wall_s": 31.2,
+   "g03_timed_out": true
+  },
+  {
+   "quant": "IQ2_M",
+   "num_ctx": 65536,
+   "t03_wall_s": 32.7,
+   "g03_timed_out": true
+  },
+  {
+   "quant": "IQ3_XXS",
+   "num_ctx": 49152,
+   "t03_wall_s": 35.2,
+   "g03_timed_out": false
+  },
+  {
+   "quant": "UDQ3KXL",
+   "num_ctx": 49152,
+   "t03_wall_s": 49.5,
+   "g03_timed_out": false
+  },
+  {
+   "quant": "IQ3_XS",
+   "num_ctx": 49152,
+   "t03_wall_s": 53.1,
+   "g03_timed_out": false
+  }
+ ],
+ "demoted": [
+  {
+   "quant": "Q2_K",
+   "from": "64k",
+   "to": "48k",
+   "why": "t03 584s at 64k is over 3x the reference 31s"
+  }
+ ],
+ "rejected": [
+  {
+   "quant": "mrIQ3M",
+   "num_ctx": 49152,
+   "why": "no t03 result at 48k, and every lower placed rung too"
+  }
+ ],
+ "written": "2026-09-04 23:15:06"
+}
