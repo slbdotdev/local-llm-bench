@@ -223,13 +223,16 @@ quarantine again from that entry's date until a later entry lifts it.
 
 ### Amendment 2034-04-14: duplicate lifts
 
-A batch that carries more than one `lifted` entry carries a clerical duplicate.
-The **earliest** `lifted` entry for the batch is the governing lift, provided it
-falls after the batch's most recent `quarantined` or `requarantined` entry;
-every later `lifted` entry for that batch is void and is read as a clerical
-re-recording, not as a second release. When a question turns on when a batch
-became replayable, the governing lift's date is the answer, and no later entry
-moves it.
+A batch that carries more than one `lifted` entry carries a duplicate. The
+**earliest** `lifted` entry for the batch is the governing lift, provided it
+falls after the batch's most recent `quarantined` or `requarantined` entry.
+Where it does not — because a `quarantined` or `requarantined` entry was
+recorded after it — that earlier entry is void, and the governing lift is the
+**earliest `lifted` entry that does** fall after the batch's most recent
+`quarantined` or `requarantined` entry. Every other `lifted` entry for the batch
+is void and is read as a clerical re-recording, not as a second release. When a
+question turns on when a batch became replayable, the governing lift's date is
+the answer, and no later entry moves it.
 
 ### Amendment 2034-05-30: print order is not precedence
 

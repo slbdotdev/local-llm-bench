@@ -13,7 +13,7 @@ Runs every example in prompt.md against ref/, independently of test.py:
    (R3/R7) is a different set, so the example cannot be mistaken for the
    answer.
 4. Builds a sandbox (seed/ + ref/) and runs test.py there, asserting
-   SCORE 5/5, PASS, VERDICT correct, exit 0.
+   SCORE 6/6, PASS, VERDICT correct, exit 0.
 
 Exits 0 only when all of that holds.
 """
@@ -164,7 +164,7 @@ def main():
                         dirs_exist_ok=True)
         shutil.copytree(os.path.join(HERE, "ref"), sandbox, dirs_exist_ok=True)
         code, out, err = run_test_py(sandbox)
-        if code != 0 or "PASS" not in out or "SCORE 5/5" not in out \
+        if code != 0 or "PASS" not in out or "SCORE 6/6" not in out \
                 or "VERDICT correct" not in out:
             problems.append("test.py in the ref sandbox gave rc=%d out=%r "
                             "err=%r" % (code, out, err[-200:]))
@@ -177,7 +177,7 @@ def main():
         return 1
     print("SELFCHK PASS: card examples and scenarios agree between the "
           "independent card implementation and ref/rates.py; fixlog and "
-          "prompt example consistent; test.py scores 5/5")
+          "prompt example consistent; test.py scores 6/6")
     return 0
 
 
