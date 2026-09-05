@@ -36,7 +36,10 @@ def latest_per_cell(records):
 
 def placement_for(quant):
     rs = [r for r in latest_per_cell(place) if r["quant"] == quant]
-    ok = [r for r in rs if r.get("verdict") in ("pass", "marginal")]
+    # A passing rung outranks a marginal one (D6-33), matching render_placement.py.
+    passes = [r for r in rs if r.get("verdict") == "pass"]
+    margs = [r for r in rs if r.get("verdict") == "marginal"]
+    ok = passes if passes else margs
     best = max(ok, key=lambda r: r["num_ctx"]) if ok else None
     at64 = next((r for r in rs if r["num_ctx"] == 65536), None)
     return best, at64
@@ -44,8 +47,8 @@ def placement_for(quant):
 cells = {}   # (quant, ctxname, band) -> runs
 for f in sorted(glob.glob(os.path.join(RES, "v6-*.json"))):
     base = os.path.basename(f)[:-5]
-    if "hookproof" in base:
-        continue
+    if "hookproof" in base or "recheck" in base:
+        continue                       # proofs and the D6-40 recheck are not campaign rows
     parts = base.split("-")
     if len(parts) < 4:
         continue

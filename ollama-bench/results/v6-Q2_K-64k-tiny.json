@@ -1,0 +1,91 @@
+{
+ "q27-Q2_K-64k": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 5752,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 166.3,
+    "turns": 7,
+    "tool_calls": 6,
+    "tools": {
+     "bash": 4,
+     "read": 1,
+     "edit": 1
+    },
+    "in_tokens": 27014,
+    "out_tokens": 9179,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 961,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15202,
+    "final_text": "haracter in the original record is an ASCII letter, digit, or underscore (ASCII-only test). Only the first two eligible runs per record get wrapped as `<digits>`; blocked/quoted/commented digits never consume the limit.\n- Everything else (CR, Unicode, whitespace, punctuation, comment content) is preserved exactly.\n\nAll 11 worked examples in `specification.py` pass, and the seed file is unmodified.",
+    "stderr": "Warning: Model \"q27-Q2_K-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 6,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 4152,
+    "task": "g02",
+    "pass": true,
+    "wall_s": 39.6,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "read": 2,
+     "bash": 2,
+     "edit": 1
+    },
+    "in_tokens": 17486,
+    "out_tokens": 2134,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 13/13\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 1761,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 13.07,
+    "ps_vram_gb": 13.07,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 15202,
+    "final_text": "tokens):\n        if name in mapping:\n            spans.append((first, last, mapping[name]))\n    return spans\n```\n\nThis feeds the already-correct `_call_targets` results (which handle maximal dotted names, the `(` requirement, and skip names preceded by `.`, `def`, or `class`) into `_apply`, with exact-name lookup against the mapping.\n\nResult: before the fix, 1 failure; after, `Ran 8 tests ... OK`.",
+    "stderr": "Warning: Model \"q27-Q2_K-64k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}
