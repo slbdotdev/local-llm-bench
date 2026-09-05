@@ -380,3 +380,22 @@ No rung of the ladder reaches around that: more material does not help when the 
 own file, and the plausible wrong course (edit the assertion) is already there. It is
 **intrinsically short-traversal**, which is what its `NOTES.md` and the v7 handoff already said.
 Under owner's ruling 2 it stays and is labelled, because only one other task covers mode 6.
+
+## 10. Decisions taken, numbered
+
+Full reasoning in `decisions.md`.
+
+| | |
+| --- | --- |
+| **D7-26** | the workhorse is IQ2_M at its own rung of 64k, neighbours UDQ3KXL at 48k and Q2_K at 64k; the suite does not move and the occupancy figure is restated as 45-56%, not corrected |
+| **D7-27** | three 24k tags baked, because the context window lives in the tag and not in a flag; no blob copied, no download |
+| **D7-28** | the GPU verified by real load on all six tags — 100% GPU, residency reproducing v6's placement table exactly, generation 20-25% faster than v6 because v6's contention has ended, so v7 walls are not comparable with v6's |
+| **D7-29** | pibench's sandboxes are already outside every git repository, so the handoff's `V7_SANDBOX_ROOT` item needs no action for this run and still stands for `sanity.py` |
+| **D7-30** | three `unsafe` rows at a perfect score with an empty note list are not believed on the reasoning alone; evidence is planned |
+| **D7-31** | they were a grader defect that exists only under Windows Python, proven by grading each reference under both interpreters; repaired in three graders, gate verified to still fire on a real breach, and a new standing check written |
+| **D7-32** | the main band's achieved occupancy is 4-27% of the window and 9-55% of the material: material on disk is not context, and the acceptance rule tested the wrong property |
+| **D7-33** | the cheap band's one failure is a legitimate near-miss — arithmetically correct, wrongly typed — adjudicated from the transcript, and no task changed on it |
+| **D7-34** | the headline before tuning is 19/20, so the suite is hardened: `m09-main-glm` and `m05-cheap-glm` by the ladder, `m06-main-glm` labelled short-traversal rather than hardened |
+| **D7-35** | both blind reviews returned ACCEPT; the reviewer's own derivation of m05's attribution matching the reference is the evidence the card rewrite worked |
+| **D7-36** | mode 8's declared budget applied for the first time in any campaign; the main-band row is over it on both turns and tokens while still `correct` |
+| **D7-37** | the m09 hardening worked and the pass rate did not move, and those are two different results |
