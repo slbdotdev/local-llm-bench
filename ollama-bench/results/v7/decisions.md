@@ -806,3 +806,58 @@ difference between them is a harness effect and not a model effect. Given that p
 extension demonstrably rescued twenty out of twenty runs from a saturated window tonight, and
 ZCode has no equivalent, that comparison is now more interesting than it was when the arm was
 first written.
+
+---
+
+# v7 decisions — calibration on the GPU, 2026-09-06
+
+*Continued by the Opus manager subagent on FRACTAL, in WSL, from
+`manager-brief-calibration-2026-09-06.md`. The host clock reports `2026-09-05`; documents keep
+the campaign date, as v5, v6 and the v7 authoring round all did.*
+
+## D7-26 — the workhorse is IQ2_M, run at its own rung of 64k, and the suite does not move
+
+*04:29.* v6's `.phaseE-done` is present, `/api/ps` returns `{'models': []}`, and no `chainAll.sh`,
+`phaseC.py` or `phaseDE.py` is running: the GPU is free and the campaign that owned it is over.
+
+The control session names **IQ2_M** as the workhorse from v6's phase D rows, with **UDQ3KXL at
+48k** and **Q2_K at 64k** as the two neighbours it is read against. The owner has not confirmed
+it; per the brief it is recorded here and the run proceeds. The evidence it rests on, from
+`results/v6/summary.md` and `placement.md`: IQ2_M is the only quant on the roster that reaches
+**96k**, holds 64k at 13.27 GB resident and 100% GPU, and scored **20/24 at 4% confidently wrong**
+in the tiny band and 12/18 in the large band — the widest context reach on the card and the
+lowest confidently-wrong rate of the three-trial cells. UDQ3KXL is the strongest 48k-only quant
+(8/9 large, 18/24 tiny) and Q2_K is the other 64k holder, so the pair brackets the workhorse on
+both bits and context.
+
+**IQ2_M runs at 64k, not at 48k**, because 64k is the rung v6 scored it at with three trials and
+the rung the control session named. Two consequences, both reported rather than corrected, exactly
+as D7-1 said they would be:
+
+1. **The suite does not change.** The main band's 29,000-36,000 tokens of material were authored
+   for 60-75% occupancy of a 48k window; in a 64k cell the same material is **45-56%**. That
+   figure is restated in the report and no task is re-authored for it. Re-authoring the band
+   upward would cut every 48k-only quant, UDQ3KXL included, out of the comparison for a
+   percentage.
+2. **UDQ3KXL is compared at 48k and IQ2_M and Q2_K at 64k**, so the neighbour rows differ from the
+   workhorse in rung as well as in quant. That is deliberate: a quant's own maximum viable rung is
+   the configuration anyone would actually run it in, and v6's D6-36 measured a 10x per-turn cost
+   on Q2_K at 64k against 48k at the same achieved occupancy — so forcing every quant to one rung
+   would price the rung, not the quant. The rung is named in every row of the report.
+
+## D7-27 — three 24k tags baked, because the context window lives in the tag and not in a flag
+
+*04:32.* pibench's `--num-ctx` feeds only its tps probe, and `--no-tps` disables that, so the
+window a cell actually runs at is whatever `PARAMETER num_ctx` the **tag** carries. The daemon had
+a 24k tag for `Q2_K_L` alone. The cheap band therefore needs one per quant under test, and three
+were baked from the existing 48k tags with `results/v6/bake.sh`:
+
+    q27-IQ2_M-24k     FROM q27-IQ2_M-48k     num_ctx 24576
+    q27-UDQ3KXL-24k   FROM q27-UDQ3KXL-48k   num_ctx 24576
+    q27-Q2_K-24k      FROM q27-Q2_K-48k      num_ctx 24576
+
+All three reported `using existing layer` for the weights, so no blob was copied and no download
+started — v6's D6-10 hazard (an `ollama create` from a blob *path* took C: from 45.8 to 11.3 GB in
+six minutes) does not apply to a Modelfile whose `FROM` is an existing tag. C: was 26.8 GB free
+before and is unchanged after. Main-band tags already existed: `q27-IQ2_M-64k`,
+`q27-UDQ3KXL-48k`, `q27-Q2_K-64k`.

@@ -1,0 +1,6 @@
+*.log
+*.out
+.cal-*-done
+.gpuverify-done
+.validate-baseline-done
+_mf
