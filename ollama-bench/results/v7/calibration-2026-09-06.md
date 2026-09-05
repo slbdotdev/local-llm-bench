@@ -347,7 +347,10 @@ the hardened task it now says:
 > CC-1087's second entry is an `annotation`, which never counts as a lift."
 
 The rule is being applied where before it could be skipped, and the decoy is being rejected by the
-amendment that rules it out. **A hardening that does not move the pass rate is not a failed
+amendment that rules it out. **The occupancy moved with it**, which is the only quantitative
+evidence a hardening of this kind can offer: the task's peak prompt went from 9,458 tokens on the
+first pass to a median 11,820 over three trials afterwards — 26% of the material to 33% — because
+the answer now needs the amendment log as well as the timeline. **A hardening that does not move the pass rate is not a failed
 hardening** (D7-37); what would be a failure is a hardening that moves the rate by making the task
 ambiguous, and the same edit closed an ambiguity rather than opening one — the amendment previously
 said what happens when the earliest lift falls after the most recent quarantine and said *nothing*
