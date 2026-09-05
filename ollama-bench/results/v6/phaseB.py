@@ -24,9 +24,15 @@ def placement():
     return json.load(open(os.path.join(HERE, "placement.json"), encoding="utf-8"))
 
 
-def top_rung(quant, cap=65536):
-    """Highest rung <= cap whose latest projector-free record placed pass or marginal."""
-    best = None
+def rungs(quant, cap=65536):
+    """Every projector-free rung <= cap that placed pass or marginal, highest first.
+
+    A quant is tried at its highest rung and DEMOTED one rung on a sentinel failure, not
+    rejected outright (D6-17) -- a marginal cell failing the sentinel says the cell is too
+    slow, which is what marginal already meant; it does not say the quant is bad. Rejection is
+    for a quant that fails the sentinel at every rung it placed on.
+    """
+    seen = {}
     for r in placement():
         if r["quant"] != quant or r["num_ctx"] > cap:
             continue
@@ -34,9 +40,8 @@ def top_rung(quant, cap=65536):
             continue
         if r.get("verdict") not in ("pass", "marginal"):
             continue
-        if best is None or r["num_ctx"] > best["num_ctx"]:
-            best = r
-    return best
+        seen[r["num_ctx"]] = r              # later record wins
+    return [seen[c] for c in sorted(seen, reverse=True)]
 
 
 def run_cell(quant, ctx, band, tasks, trials):
@@ -76,34 +81,46 @@ def main():
     print("== reference t03 walls:", ref, flush=True)
 
     # 2. Every other quant at its own top rung.
-    placed, rejected = [], []
+    placed, rejected, demoted = [], [], []
     for q in quants:
         if q == "Q2_K_L":
             continue
-        best = top_rung(q)
-        if best is None:
+        cands = rungs(q)
+        if not cands:
             rejected.append((q, None, "no rung placed under the line"))
             continue
-        ctx = best["num_ctx"]
-        print("== sentinels: %s at %s" % (q, CTXNAME[ctx]), flush=True)
-        run_cell(q, ctx, "large", "g03,t03", 1)
-        w, n_to = wall(q, ctx, "t03"), timed_out_any(q, ctx)
-        r = ref.get(ctx)
-        if n_to:
-            rejected.append((q, ctx, "timed out on %d of 2 sentinels" % n_to))
-        elif w is None:
-            rejected.append((q, ctx, "no t03 result"))
-        elif r and w > 3 * r:
-            rejected.append((q, ctx, "t03 %.0fs is over 3x the %s reference %.0fs"
-                             % (w, CTXNAME[ctx], r)))
-        else:
-            placed.append((q, ctx, w))
+        why_last = None
+        for i, best in enumerate(cands):
+            ctx = best["num_ctx"]
+            print("== sentinels: %s at %s (%s)" % (q, CTXNAME[ctx], best.get("verdict")),
+                  flush=True)
+            run_cell(q, ctx, "large", "g03,t03", 1)
+            w, n_to = wall(q, ctx, "t03"), timed_out_any(q, ctx)
+            r = ref.get(ctx)
+            if n_to:
+                why_last = "timed out on %d of 2 sentinels at %s" % (n_to, CTXNAME[ctx])
+            elif w is None:
+                why_last = "no t03 result at %s" % CTXNAME[ctx]
+            elif r and w > 3 * r:
+                why_last = ("t03 %.0fs at %s is over 3x the reference %.0fs"
+                            % (w, CTXNAME[ctx], r))
+            else:
+                placed.append((q, ctx, w))
+                if i:
+                    demoted.append({"quant": q, "from": CTXNAME[cands[0]["num_ctx"]],
+                                    "to": CTXNAME[ctx], "why": why_last})
+                why_last = None
+                break
+            print("   %s -- demoting a rung" % why_last, flush=True)
+        if why_last is not None:
+            rejected.append((q, cands[-1]["num_ctx"],
+                             "%s, and every lower placed rung too" % why_last))
 
     placed.sort(key=lambda x: x[2])
     order = [{"quant": q, "num_ctx": c, "t03_wall_s": w} for q, c, w in placed]
     ref_row = [{"quant": "Q2_K_L", "num_ctx": c, "t03_wall_s": ref[c]}
                for c in (65536, 49152) if ref.get(c)]
-    out = {"reference": ref_row, "survivors_best_first": order,
+    out = {"reference": ref_row, "survivors_best_first": order, "demoted": demoted,
            "rejected": [{"quant": q, "num_ctx": c, "why": why} for q, c, why in rejected],
            "written": time.strftime("%Y-%m-%d %H:%M:%S")}
     json.dump(out, open(os.path.join(HERE, "phaseB.json"), "w", encoding="utf-8"), indent=1)

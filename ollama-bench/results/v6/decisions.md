@@ -269,3 +269,24 @@ the roster on the same instrument, in the same ordering, rather than compared ac
 (12.46 GB, 100% GPU, 49.19 tok/s at fill), **pass at 64k**, and **spill at 96k**, so the ladder
 stopped there and its top rung is **64k**. It is the second quant after Q2_K_L to carry 64k,
 and both are K-quants. No i-quant has managed it yet.
+
+## D6-17 — a sentinel failure demotes a quant a rung; only a failure at every rung rejects it
+
+*21:04.* Implementing phase B against the placement data exposed a hole in the rule as written.
+Plan section 6B says "reject a quant whose t03 wall is over 3x Q2_K_L's at the same rung, or
+that times out either". Read literally that rejects **IQ3_XXS**, which placed `pass` at 48k
+(13.07 GB, 100% GPU, 47.03 tok/s) and `marginal` at 64k (14.31 GB, 93% GPU, 28.97 tok/s), if it
+fails the sentinel at 64k — its top rung.
+
+But a marginal cell failing the sentinel tells us the *cell* is too slow, which is exactly what
+`marginal` already said. It tells us nothing about the quant, and plan section 4 explicitly
+provides for a marginal cell being kept "only if no better rung exists". Rejecting the quant on
+that evidence would delete a quant that passes cleanly one rung down, remove it from the disk,
+and spend a reserve pull replacing it — on the strength of a measurement that agreed with its
+own placement.
+
+So `phaseB.py` now tries a quant at each placed rung from the top down and **demotes** on a
+sentinel failure, recording the demotion and its reason in `phaseB.json`. A quant is rejected
+only when it fails the sentinel at **every** rung it placed on. That is stricter about what
+rejection means and no more permissive about what passes: a demoted quant is reported at the
+rung it actually holds, which is the campaign's whole output.
