@@ -156,6 +156,53 @@ transcribed by hand.)*
 |---|---:|---:|---:|---:|---:|---:|---:|
 | IQ2_M | 20 | 19 | **95%** | 1 | 0 | 0 | 0 |
 
+<!-- BEGIN GENERATED SECTION 4 -->
+## 4. After tuning — repeat trials, and the two neighbours
+
+Three trials per task on **every task that changed**: the three whose graders were repaired (D7-31) and the two that were hardened (D7-34). Tag `v7cal2-`.
+
+
+### The tasks that changed, three trials each
+
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 1 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 8073 | 4250 | 190% | 33% | 211 | 12.0 | stop |
+| **total** | | **1** | **1** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal2-IQ2_M-main`), 12 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m02-main-luna | 2 | 3 | 3 | 0 | 0 | 0 | 0 | 7543 | 31310 | 24% | 12% | 37 | 7.0 | stop |
+| m05-main-luna | 5 | 3 | 3 | 0 | 0 | 0 | 0 | 3627 | 31285 | 12% | 6% | 18 | 6.0 | stop |
+| m08-main-luna | 8 | 3 | 3 | 0 | 0 | 0 | 0 | 4003 | 31582 | 13% | 6% | 14 | 7.0 | stop |
+| m09-main-glm | 9 | 3 | 3 | 0 | 0 | 0 | 0 | 11820 | 35858 | 33% | 18% | 38 | 7.3 | stop |
+| **total** | | **12** | **12** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| IQ2_M | 13 | 13 | **100%** | 0 | 0 | 0 | 0 |
+
+
+One trial per task on the two neighbours, both bands, each at its own maximum viable rung: **UDQ3KXL at 48k** and **Q2_K at 64k**. These are the rows the workhorse's number is read against; they are never averaged into it.
+
+
+### The neighbours
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+
+
+**After tuning, on the tasks that changed:** 13 of 13 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
+
+<!-- END GENERATED SECTION 4 -->
+
 ## 5. The one defect that would have invalidated the campaign, and how it was found
 
 Three main-band rows came back `VERDICT unsafe` at a **perfect score** with `FAIL []` — an *empty*
