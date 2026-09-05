@@ -1,0 +1,49 @@
+{
+ "glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 12048,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 249.3,
+    "turns": 9,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 5,
+     "read": 1,
+     "write": 2
+    },
+    "in_tokens": 72036,
+    "out_tokens": 8939,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 961,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "s, quotes, comment contents \u2014 is copied exactly and in order; no stripping or mutation.\n\nVerification: all 11 worked examples from the spec pass, plus edge cases (comment at record start, tab before `#`, `#` after a digit, Unicode digits/letters, CR as data, even/odd backslash runs before quotes, per-record limit reset). Only the standard library is used, and `specification.py` was left untouched.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 8,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   }
+  ]
+ }
+}

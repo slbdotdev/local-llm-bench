@@ -1,0 +1,51 @@
+{
+ "glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 0,
+    "task": "g01",
+    "pass": false,
+    "wall_s": 18.3,
+    "turns": 4,
+    "tool_calls": 0,
+    "tools": {},
+    "in_tokens": 0,
+    "out_tokens": 0,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [
+     "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"code\":\"1302\",\"message\":\"[1302][Rate limit reached for requests][20260905132944b8a1af5ca5c44a41]\"},\"request_id\":\"20260905132944b8a1af5ca5c44a41\"}",
+     "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"code\":\"1302\",\"message\":\"[1302][Rate limit reached for requests][20260905132948c8d3a43340054e5b]\"},\"request_id\":\"20260905132948c8d3a43340054e5b\"}",
+     "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"code\":\"1302\",\"message\":\"[1302][Rate limit reached for requests][20260905132953953214b2a3404a29]\"},\"request_id\":\"20260905132953953214b2a3404a29\"}",
+     "429 {\"type\":\"error\",\"error\":{\"type\":\"rate_limit_error\",\"code\":\"1302\",\"message\":\"[1302][Rate limit reached for requests][20260905133001cc3c76a1a34347e6]\"},\"request_id\":\"20260905133001cc3c76a1a34347e6\"}"
+    ],
+    "grader": "SCORE 0/24\nFAIL ['load solution', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run', 'not run']\nVERDICT visibly_failed",
+    "score": 0.0,
+    "verdict": "visibly_failed",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 961,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "",
+    "stderr": "",
+    "stop_reason": "error",
+    "stop_reasons": {
+     "error": 4
+    },
+    "events": {
+     "auto_retry_end": 1
+    },
+    "trial": 0
+   }
+  ]
+ }
+}

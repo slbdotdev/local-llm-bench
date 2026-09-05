@@ -1,0 +1,21 @@
+=== base-tiny band=tiny trials=3 start=2026-09-04T22:48:38-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/baseline.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+
+===== glm-5.3-flash =====
+  g01              #0 PASS  228.4s turns=8 tools=8 out=9637 VERDICT=correct STOP=stop
+  g01              #1 PASS  282.9s turns=15 tools=15 out=11722 VERDICT=correct STOP=stop
+=== base-tiny band=tiny trials=3 want=24 start=2026-09-04T23:13:48-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/baseline.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 2/24 cells filled, 2026-09-04T23:13:48-06:00
+
+===== glm-5.3-flash =====
+=== base-tiny band=tiny trials=3 want=24 start=2026-09-04T23:17:11-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/baseline.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 2/24 cells filled, 2026-09-04T23:17:11-06:00
+
+===== glm-5.3-flash =====
+  g01              #2 PASS  287.7s turns=13 tools=13 out=9196 VERDICT=correct STOP=stop
+  g02              #0 PASS   35.9s turns=7 tools=7 out=1132 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g02              #1 PASS   27.5s turns=6 tools=7 out=1134 VERDICT=correct STOP=stop
+  g02              #2 PASS  104.2s turns=9 tools=7 out=1921 VERDICT=correct STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #0 PASS  204.9s turns=10 tools=13 out=9528 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code

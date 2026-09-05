@@ -1,0 +1,23 @@
+=== verify-tiny band=tiny trials=3 start=2026-09-04T22:51:16-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/verify.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+
+===== glm-5.3-flash =====
+  g01              #0 PASS  218.4s turns=9 tools=9 out=8761 VERDICT=correct STOP=stop
+  g01              #1 PASS  196.9s turns=6 tools=6 out=10596 VERDICT=correct STOP=stop
+=== verify-tiny band=tiny trials=3 want=24 start=2026-09-04T23:13:48-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/verify.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 2/24 cells filled, 2026-09-04T23:13:48-06:00
+
+===== glm-5.3-flash =====
+=== verify-tiny band=tiny trials=3 want=24 start=2026-09-04T23:17:11-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/verify.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 2/24 cells filled, 2026-09-04T23:17:11-06:00
+
+===== glm-5.3-flash =====
+  g01              #2 PASS  225.1s turns=10 tools=9 out=9816 VERDICT=correct STOP=stop
+  g02              #0 PASS   45.5s turns=6 tools=7 out=1646 VERDICT=correct STOP=stop
+  g02              #1 PASS   81.4s turns=10 tools=9 out=2926 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g02              #2 FAIL   26.9s turns=6 tools=4 out=301 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #0 FAIL   18.2s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #1 FAIL  264.7s turns=11 tools=16 out=10308 VERDICT=confidently_wrong STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #2 PASS  100.6s turns=8 tools=15 out=5029 VERDICT=correct STOP=stop

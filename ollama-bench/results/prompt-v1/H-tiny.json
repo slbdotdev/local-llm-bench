@@ -1,0 +1,91 @@
+{
+ "glm-5.3-flash": {
+  "tps": null,
+  "runs": [
+   {
+    "achieved_fill_prompt_tokens": 9211,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 140.6,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 24559,
+    "out_tokens": 6393,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 961,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "er, digit, or underscore; only the first two eligible runs per record are wrapped; everything else \u2014 Unicode, backslashes, quotes, comment text \u2014 is preserved verbatim in order.\n- **Verified** all `EXAMPLES` from `specification.py` pass, plus edge cases (empty string, escaped-quote parity, unclosed quotes, blocked runs, tab-`#`, two-wrap limit). The seed file `specification.py` was left untouched.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 10019,
+    "task": "g01",
+    "pass": true,
+    "wall_s": 158.5,
+    "turns": 8,
+    "tool_calls": 8,
+    "tools": {
+     "bash": 6,
+     "read": 1,
+     "write": 1
+    },
+    "in_tokens": 51385,
+    "out_tokens": 6467,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 24/24\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 961,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": null,
+    "ps_vram_gb": null,
+    "ps_pct_gpu": null,
+    "nvidia_smi_peak_mib": null,
+    "final_text": "**Preservation**: everything else \u2014 whitespace, Unicode, CR, punctuation, comment contents \u2014 is copied exactly and in order.\n\nVerification: all 11 worked examples from `specification.py` pass, plus additional edge cases (escaped quotes, `#` after tab, per-record limit reset, CR preservation, even-backslash quote toggling). Only the standard library is used, and the function is fully deterministic.",
+    "stderr": "",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 7,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   }
+  ]
+ }
+}

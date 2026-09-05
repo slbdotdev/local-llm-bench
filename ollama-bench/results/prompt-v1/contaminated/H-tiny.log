@@ -1,0 +1,58 @@
+=== H-tiny band=tiny trials=3 start=2026-09-04T22:48:41-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/H.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+
+===== glm-5.3-flash =====
+  g01              #0 PASS  121.8s turns=6 tools=6 out=5546 VERDICT=correct STOP=stop
+  g01              #1 PASS  233.2s turns=7 tools=7 out=10466 VERDICT=correct STOP=stop
+  g01              #2 PASS  241.5s turns=8 tools=8 out=10073 VERDICT=correct STOP=stop
+  g02              #0 PASS   38.0s turns=6 tools=7 out=1460 VERDICT=correct STOP=stop
+=== H-tiny band=tiny trials=3 want=24 start=2026-09-04T23:13:48-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/H.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 4/24 cells filled, 2026-09-04T23:13:48-06:00
+
+===== glm-5.3-flash =====
+=== H-tiny band=tiny trials=3 want=24 start=2026-09-04T23:17:11-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/H.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 4/24 cells filled, 2026-09-04T23:17:11-06:00
+
+===== glm-5.3-flash =====
+  g02              #1 PASS   23.0s turns=5 tools=6 out=584 VERDICT=correct STOP=stop
+  g02              #2 PASS   55.4s turns=8 tools=7 out=1784 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g03              #0 PASS   94.7s turns=7 tools=11 out=5609 VERDICT=correct STOP=stop
+  g03              #1 PASS  139.9s turns=6 tools=11 out=6340 VERDICT=correct STOP=stop
+  g03              #2 FAIL   24.5s turns=6 tools=1 out=41 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g04              #0 FAIL   18.2s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g04              #1 PASS   50.6s turns=7 tools=6 out=1838 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g04              #2 FAIL   18.3s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t01              #0 FAIL   18.2s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t01              #1 FAIL   18.2s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t01              #2 PASS   37.7s turns=6 tools=9 out=1308 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t02              #0 PASS   30.7s turns=5 tools=5 out=1220 VERDICT=correct STOP=stop
+  t02              #1 FAIL   21.6s turns=4 tools=4 out=855 VERDICT=confidently_wrong STOP=stop
+  t02              #2 PASS   32.1s turns=5 tools=4 out=1369 VERDICT=correct STOP=stop
+  t03              #0 PASS   19.4s turns=5 tools=4 out=851 VERDICT=correct STOP=stop
+  t03              #1 PASS   27.0s turns=5 tools=4 out=788 VERDICT=correct STOP=stop
+  t03              #2 PASS   16.0s turns=5 tools=4 out=616 VERDICT=correct STOP=stop
+  t04              #0 PASS   17.0s turns=5 tools=4 out=557 VERDICT=correct STOP=stop
+  t04              #1 PASS   15.8s turns=5 tools=8 out=536 VERDICT=correct STOP=stop
+  t04              #2 FAIL   21.6s turns=7 tools=7 out=113 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+
+# pi bench (prompt-v1/H-tiny)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 17/24 | 0.82 (24/24 runs) | 3/8 all-trials | 56s | 2165 | 5.1 | 17 | 6 | 1 | 4.2% | 0 in 0/24 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 3/3 (score 1.00) |
+| g02 | 3/3 (score 1.00) |
+| g03 | 2/3 (score 0.84) |
+| g04 | 1/3 (score 0.83) |
+| t01 | 1/3 (score 0.33) |
+| t02 | 2/3 (score 0.89) |
+| t03 | 3/3 (score 1.00) |
+| t04 | 2/3 (score 0.67) |
+=== attempt 1 exited rc=0 at 2026-09-04T23:28:53-06:00

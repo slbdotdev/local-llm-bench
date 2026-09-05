@@ -27,10 +27,11 @@ export default function trace(pi: any) {
 					else if (b?.type === "thinking") parts.push("[thinking] " + String(b.thinking ?? b.text ?? "").slice(0, 1200));
 					else if (b?.type === "toolCall") parts.push("[toolCall " + b.name + "] " + JSON.stringify(b.arguments ?? b.input ?? {}).slice(0, CAP));
 					else if (b?.type === "toolResult") parts.push("[toolResult] " + JSON.stringify(b.content ?? b.output ?? "").slice(0, 1500));
-					else parts.push("[" + String(b?.type) + "]");
+					else parts.push("[" + String(b?.type) + "] " + JSON.stringify(b).slice(0, 2500));
 				}
+				const body = parts.length ? parts.join("\n") : JSON.stringify(m).slice(0, 4000);
 				fs.appendFileSync(file, "\n--- " + String(m?.role) + " (stop=" + String(m?.stopReason ?? "-") + ") ---\n" +
-					parts.join("\n") + "\n", "utf8");
+					body + "\n", "utf8");
 			}
 		} catch (_e) { /* tracing must never fail a trial */ }
 	});

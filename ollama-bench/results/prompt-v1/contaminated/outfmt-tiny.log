@@ -1,0 +1,6 @@
+=== outfmt-tiny band=tiny trials=3 want=24 start=2026-09-04T23:29:41-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/outfmt.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 0/24 cells filled, 2026-09-04T23:29:41-06:00
+
+===== glm-5.3-flash =====
+  g01              #0 FAIL   18.3s turns=4 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=429 {"type":"error","error":{"type":"rate_limit_error","code

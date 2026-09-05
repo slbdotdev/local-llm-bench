@@ -1,4 +1,7 @@
-=== H-tiny band=tiny trials=3 start=2026-09-04T22:48:41-06:00
-=== PIBENCH_PI_ARGS=[-e C:/Users/slb/bench-prompt-variants/H.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== H-tiny band=tiny trials=3 want=24 start=2026-09-04T23:31:34-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts -e C:/Users/slb/bench-prompt-variants/H.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 0/24 cells filled, 2026-09-04T23:31:34-06:00
 
 ===== glm-5.3-flash =====
+  g01              #0 PASS  140.6s turns=5 tools=5 out=6393 VERDICT=correct STOP=stop
+  g01              #1 PASS  158.5s turns=8 tools=8 out=6467 VERDICT=correct STOP=stop
