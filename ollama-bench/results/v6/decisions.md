@@ -1167,3 +1167,42 @@ The two timeouts still cost IQ2_M in the only place that decides anything: phase
 rate first, and a timeout is a failure, so IQ2_M is penalised by the ranking rather than by
 deletion. Restarted through `restart_chain.sh` (D6-41), so the stop and the start were one
 action; IQ2_M's remaining t02 and tiny band run now, about twenty minutes.
+
+## D6-44 — the visibly-failed rate is three different things, and one is a correct answer
+
+*00:47.* v6 is running a much higher `visibly_failed` rate than v5 — five in the first fifty-odd
+scored trials, against **one in v5's entire campaign**. I read all five rather than quote the
+rate, which is the v5 lesson (four of five faults that session came from reading a failing row).
+
+| trial | what actually happened | kind |
+| --- | --- | --- |
+| IQ2_M t01 @64k | timed out at 600 s mid-work, `unparseable reference_audit.txt` | genuine, incomplete |
+| IQ2_M t02 @64k | `length` stop, cut off mid-sentence, no answer written | genuine, incomplete |
+| Q2_K g03 @64k | `length` stop at 7/14; *"The heredoc broke the regex. Let me write the script to a file"* | genuine, partial |
+| **Q2_K_L t02 @64k** | **found the right answer and wrote it in the wrong shape** | **format deviation** |
+| mrIQ3M t03 @48k | *"answer.json written with exactly the eight required fields"* — all eight values wrong | fluent and wrong |
+
+**Q2_K_L's t02 is the one worth the report's space.** It got the answer right — `no`, line 77,
+the exact source line — and wrote
+`EVIDENCE: release_control/policy_chain.py:77: return any(...)`, prefixing the **file path** onto
+a template that asks for `EVIDENCE: <line-number>: <source line>`. The checker rejected it on
+`format` and scored 0/3.
+
+**The checker is not at fault and I am not touching it.** It strips whitespace, tolerates CRLF,
+blank lines and a missing final newline, and the prompt's template is explicit — this is not v5's
+checker-format-bias fault, where a *correct* answer was rejected on a line-boundary the prompt
+itself invited. Here the model added content the template did not have. The v5 suite is frozen
+for this campaign and changing a checker mid-run would invalidate every row against the
+reference.
+
+**But the verdict word is doing too much work.** `visibly_failed` currently covers "produced
+nothing usable", "produced partial work", and "produced the right answer in the wrong shape",
+and for the decision the owner is actually making those are not the same event: the last one is a
+one-line fix, the first is wasted work. So the report will give the **breakdown, not the bare
+rate**, and the v5-versus-v6 comparison will say that some of v6's excess is format deviation
+rather than comprehension collapse.
+
+For v7, and this is a suite question rather than a bench one: **either the prompt should say the
+line number must appear alone, or the checker should accept an optional `<path>:` prefix.** One
+of the two, decided deliberately. Recording it here so it is not rediscovered by another
+session reading another failing row.
