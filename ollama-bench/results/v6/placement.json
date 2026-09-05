@@ -354,5 +354,32 @@
   "verdict_why": "",
   "nvidia_smi_peak_mib": 15068,
   "finished": "2026-09-04 21:16:03"
+ },
+ {
+  "quant": "IQ2_M",
+  "tag": "q27-IQ2_M-128k",
+  "num_ctx": 131072,
+  "manifest_model_gib": 10.13,
+  "manifest_projector_gib": 0.0,
+  "has_projector": false,
+  "started": "2026-09-04 21:16:06",
+  "load_s": 8.7,
+  "resident_gb": 15.47,
+  "vram_gb": 13.33,
+  "pct_gpu": 86,
+  "ps_context_length": 131072,
+  "gen_tps_empty": 17.87,
+  "fill_wall_s": 139.2,
+  "fill_prompt_tokens": 117403,
+  "fill_target_tokens": 117964,
+  "prompt_tps_fill": 921.0,
+  "gen_tps_fill": 7.11,
+  "ttft_fill_s": 127.5,
+  "out_tokens_fill": 65,
+  "over_resident_line": true,
+  "verdict": "spill",
+  "verdict_why": "gen 7.1 tok/s",
+  "nvidia_smi_peak_mib": 15282,
+  "finished": "2026-09-04 21:19:02"
  }
 ]

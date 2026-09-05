@@ -408,3 +408,19 @@ Two consequences for the night. Phase E has a real stretch cell after all. And b
 working-margin rule admits **all eight** large-band tasks at 96k against six at 64k (D6-1),
 IQ2_M's stretch row is the **only place g04 and t04 are scored in this entire campaign** —
 g04 being the task Haiku went 0/3 on and the sharpest discriminator v5 found.
+
+## D6-22 — the corrected rule predicted IQ2_M's 128k failure, and the overshoot confirms the contamination
+
+*21:19.* D6-21 predicted IQ2_M at 128k would need 14.52 GB and fail. Measured: **spill**, 86%
+GPU, 17.87 gen tok/s empty collapsing to **7.11 at fill**, 15.47 GB resident.
+
+The verdict was called correctly. The resident figure overshot the prediction by 0.95 GB — and
+that overshoot is not a strike against the 39 MB/1k rate, it is a third instance of the effect
+D6-21 identified: **a cell that spills reports a resident size larger than its KV cache
+actually needs**, because `/api/ps` `size` then covers the part that did not fit. Q2_K_L at 96k
+overshot by 1.60 GB, Q2_K at 96k by 0.72, IQ2_M at 128k by 0.95. The rate is only readable
+between two cells that both fit, which is exactly what D6-21 says.
+
+**IQ2_M's ladder is settled: 48k pass, 64k pass, 96k pass, 128k spill. Top rung 96k** — the
+only quant in the campaign to carry it, on the smallest and most aggressively quantised file on
+the roster (10.13 GiB model layer).
