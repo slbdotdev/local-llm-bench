@@ -424,3 +424,29 @@ between two cells that both fit, which is exactly what D6-21 says.
 **IQ2_M's ladder is settled: 48k pass, 64k pass, 96k pass, 128k spill. Top rung 96k** — the
 only quant in the campaign to carry it, on the smallest and most aggressively quantised file on
 the roster (10.13 GiB model layer).
+
+## D6-23 — reserve rank 2 gets a placement slot too, and the chain is re-gated behind it
+
+*21:21.* Same reasoning as D6-15: `phaseB.py` builds its candidate list from `placement.json`,
+so a quant with no placement record is invisible to every later phase. Reserve rank 2 (`mrIQ3M`)
+was pulled at 21:15 as the Q3_K_S swap and would otherwise have been measured only as an
+afterthought, if at all.
+
+Added **phase A5** on the same pattern as A4 — wait for A4's flag so the GPU is free, wait for
+the pull's own outcome (the tag existing on the daemon), strip the projector if the pull brought
+one and there are 15 GB free, place 64k and 48k — and re-gated `chainB.sh` from `.phaseA4-done`
+to `.phaseA5-done`. Each waiter has a deadline (45 minutes) after which it releases phase B
+without its candidate, so a slow or failed download delays the campaign by at most that and can
+never stall it.
+
+The full chain is now: A2 and A3 (roster placement) -> A4 (reserve rank 1) -> A5 (reserve rank
+2) -> B (sentinels) -> C (one trial, both bands) -> D (three trials, best two) -> E (stretch),
+every link polling an outcome artifact and none polling a process name.
+
+**A launch fault caught in the same breath, worth recording because it was silent.** Relaunching
+`chainB.sh` with a relative log path after a `cd` in a compound command wrote its redirect
+against the wrong working directory, and the chain died at once — `results/v6/phaseB.log: No
+such file or directory` — while every other chain kept running. Phase B would simply never have
+started, and the first sign would have been a stall alarm fifteen minutes later. Relaunched with
+an absolute redirect and **all seven chains verified alive by name before moving on**, which is
+now the rule after any relaunch: check the process list, not the exit code of the launcher.
