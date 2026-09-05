@@ -1,0 +1,31 @@
+=== Hlineno-large-high band=large trials=1 want=7 start=2026-09-05T13:03:19-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts -e C:/Users/slb/bench-prompt-variants/Hlineno.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 0/7 cells filled, 2026-09-05T13:03:19-06:00
+
+===== glm-5.3-flash =====
+  g01              #0 PASS  591.8s turns=29 tools=28 out=23679 VERDICT=correct STOP=stop
+  g03              #0 PASS  600.1s turns=22 tools=37 out=19276 VERDICT=correct STOP=toolUse TIMEOUT
+  g04              #0 PASS  114.5s turns=14 tools=19 out=3152 VERDICT=correct STOP=stop
+  t01              #0 PASS  132.3s turns=9 tools=8 out=6766 VERDICT=correct STOP=stop
+  t02              #0 PASS  162.4s turns=17 tools=33 out=5122 VERDICT=correct STOP=stop
+  t03              #0 PASS   68.7s turns=10 tools=9 out=1592 VERDICT=correct STOP=stop
+  t04              #0 PASS   84.6s turns=12 tools=20 out=2438 VERDICT=correct STOP=stop
+
+# pi bench (prompt-v1/Hlineno-large-high)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 7/7 | 1.00 (7/7 runs) | 7/7 all-trials | 251s | 8861 | 22.0 | 7 | 0 | 0 | 0.0% | 0 in 0/7 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 1/1 (score 1.00) |
+| g03 | 1/1 (score 1.00) |
+| g04 | 1/1 (score 1.00) |
+| t01 | 1/1 (score 1.00) |
+| t02 | 1/1 (score 1.00) |
+| t03 | 1/1 (score 1.00) |
+| t04 | 1/1 (score 1.00) |
+=== attempt 1 exited rc=0 at 2026-09-05T13:32:36-06:00

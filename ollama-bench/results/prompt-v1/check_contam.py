@@ -6,7 +6,10 @@ import sys
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_ARMS = ("Hlineno-tiny", "base-large", "Hlineno-large")
+DEFAULT_ARMS = (
+    "Hlineno-tiny", "base-large", "Hlineno-large",
+    "base-tiny-high", "Hlineno-tiny-high", "base-large-high", "Hlineno-large-high",
+)
 
 
 def label(run):

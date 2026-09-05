@@ -432,3 +432,20 @@ The credit model also overestimated the large band by roughly eight times. It pr
 at **7.3% used, about 146 credits**, after Hlineno tiny's 17 cells had also run. The two large
 arms therefore fit in the reset window, replacing the earlier conclusion that they would need
 more than one whole window.
+
+## D21 — 2026-09-05 19:34 UTC — prompt measured at high
+
+The four high-think arms used the same runner and suites. Large is the seven-task holdout
+(`g01,g03,g04,t01,t02,t03,t04`). Means are per cell; all figures are from the finished JSONs.
+
+| band | arm | pass | confidently wrong | mean input | mean output | mean wall | timeouts |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| tiny | baseline | 22/24 | 2 | 32,648 | 3,589 | 98 s | 2 |
+| tiny | Hlineno | 23/24 | 1 | 45,320 | 3,400 | 93 s | 1 |
+| large | baseline | 7/7 | 0 | 176,829 | 6,129 | 171 s | 0 |
+| large | Hlineno | 7/7 | 0 | 306,128 | 8,861 | 251 s | 1 |
+
+Ranking by pass count, then confidently-wrong count, then mean output tokens:
+
+- Tiny: Hlineno first (23, 1, 3,400), baseline second (22, 2, 3,589).
+- Large: baseline first (7, 0, 6,129), Hlineno second (7, 0, 8,861).

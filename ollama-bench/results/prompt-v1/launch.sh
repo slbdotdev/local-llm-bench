@@ -9,6 +9,7 @@ RES=C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts
 TAG=$1; NAME=$2; BAND=$3; TRIALS=$4
 cd "$H" || exit 9
 PV1_TASKS="${PV1_TASKS:-}" \
+  PV1_THINK="${PV1_THINK:-}" \
   PIBENCH_KEEP="C:/Users/slb/bench-prompt-variants/keep/$TAG" \
 PV1_TRACE_DIR="C:/Users/slb/bench-prompt-variants/traces/$TAG" \
 setsid --fork bash results/prompt-v1/supervise.sh "$TAG" "$BAND" "$TRIALS" \

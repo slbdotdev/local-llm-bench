@@ -1,0 +1,49 @@
+=== base-tiny-high band=tiny trials=3 want=24 start=2026-09-05T12:23:32-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts -e C:/Users/slb/bench-prompt-variants/baseline.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 0/24 cells filled, 2026-09-05T12:23:32-06:00
+
+===== glm-5.3-flash =====
+  g01              #0 PASS  300.1s turns=11 tools=12 out=11793 VERDICT=correct STOP=toolUse TIMEOUT
+  g01              #1 PASS  252.6s turns=6 tools=6 out=10218 VERDICT=correct STOP=stop
+  g01              #2 PASS  300.1s turns=8 tools=9 out=12016 VERDICT=correct STOP=toolUse TIMEOUT
+  g02              #0 PASS   38.4s turns=6 tools=7 out=1037 VERDICT=correct STOP=stop
+  g02              #1 PASS   65.5s turns=5 tools=6 out=1317 VERDICT=correct STOP=stop
+  g02              #2 PASS   78.4s turns=9 tools=10 out=2609 VERDICT=correct STOP=stop
+  g03              #0 PASS  111.8s turns=6 tools=11 out=5313 VERDICT=correct STOP=stop
+  g03              #1 FAIL  170.0s turns=8 tools=15 out=8277 VERDICT=confidently_wrong STOP=stop
+  g03              #2 PASS  147.6s turns=7 tools=13 out=5923 VERDICT=correct STOP=stop
+  g04              #0 PASS   36.9s turns=6 tools=6 out=1321 VERDICT=correct STOP=stop
+  g04              #1 PASS  115.0s turns=9 tools=10 out=3757 VERDICT=correct STOP=stop
+  g04              #2 PASS  221.6s turns=10 tools=10 out=5076 VERDICT=correct STOP=stop
+  t01              #0 PASS   32.7s turns=6 tools=11 out=1263 VERDICT=correct STOP=stop
+  t01              #1 PASS   71.4s turns=6 tools=6 out=1963 VERDICT=correct STOP=stop
+  t01              #2 PASS   52.7s turns=6 tools=10 out=2084 VERDICT=correct STOP=stop
+  t02              #0 FAIL   39.5s turns=5 tools=4 out=1412 VERDICT=confidently_wrong STOP=stop
+  t02              #1 PASS   39.3s turns=5 tools=4 out=1220 VERDICT=correct STOP=stop
+  t02              #2 PASS   28.0s turns=5 tools=4 out=652 VERDICT=correct STOP=stop
+  t03              #0 PASS   30.2s turns=7 tools=7 out=1184 VERDICT=correct STOP=stop
+  t03              #1 PASS  112.4s turns=9 tools=9 out=4095 VERDICT=correct STOP=stop
+  t03              #2 PASS   38.1s turns=8 tools=7 out=1313 VERDICT=correct STOP=stop
+  t04              #0 PASS   28.0s turns=6 tools=6 out=833 VERDICT=correct STOP=stop
+  t04              #1 PASS   19.4s turns=5 tools=8 out=648 VERDICT=correct STOP=stop
+  t04              #2 PASS   27.8s turns=6 tools=10 out=810 VERDICT=correct STOP=stop
+
+# pi bench (prompt-v1/base-tiny-high)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 22/24 | 0.98 (24/24 runs) | 6/8 all-trials | 98s | 3589 | 8.4 | 22 | 0 | 2 | 8.3% | 0 in 0/24 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 3/3 (score 1.00) |
+| g02 | 3/3 (score 1.00) |
+| g03 | 2/3 (score 0.98) |
+| g04 | 3/3 (score 1.00) |
+| t01 | 3/3 (score 1.00) |
+| t02 | 2/3 (score 0.89) |
+| t03 | 3/3 (score 1.00) |
+| t04 | 3/3 (score 1.00) |
+=== attempt 1 exited rc=0 at 2026-09-05T13:02:52-06:00

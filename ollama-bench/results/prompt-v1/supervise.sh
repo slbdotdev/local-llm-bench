@@ -7,7 +7,7 @@
 # matches 'pi-coding-agent', machine-wide, and cannot tell its pi from ours.
 set -u
 source ~/.config/devbox/env
-export WSLENV="ZAI_API_KEY:PIBENCH_PI_ARGS:PIBENCH_KEEP:PV1_TRACE_DIR${WSLENV:+:$WSLENV}"
+export WSLENV="ZAI_API_KEY:PIBENCH_PI_ARGS:PIBENCH_KEEP:PV1_TRACE_DIR:PV1_THINK${WSLENV:+:$WSLENV}"
 PY=/mnt/c/Users/slb/scoop/apps/python/current/python.exe
 HERE=/home/slb/bench-prompt/ollama-bench
 TAG=$1; BAND=$2; TRIALS=$3; shift 3
@@ -68,7 +68,7 @@ for attempt in 1 2 3 4 5 6 7 8; do
   if [ "$HAVE" -ge "$WANT" ]; then RC=0; break; fi
   echo "=== attempt $attempt: $HAVE/$WANT cells filled, $(date -Is)" >> "$LOG"
   PYTHONUTF8=1 "$PY" pibench.py --provider zai --models glm-5.3-flash \
-    --think medium --trials "$TRIALS" --no-tps --timeout "$TO" \
+    --think "${PV1_THINK:-medium}" --trials "$TRIALS" --no-tps --timeout "$TO" \
     --tasks-dir "$D" --num-ctx "$CTX" --tag "prompt-v1/$TAG" "${TASKARG[@]}" \
     >> "$LOG" 2>&1 < /dev/null
   echo "=== attempt $attempt exited rc=$? at $(date -Is)" >> "$LOG"
