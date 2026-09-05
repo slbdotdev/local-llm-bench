@@ -450,3 +450,31 @@ such file or directory` — while every other chain kept running. Phase B would 
 started, and the first sign would have been a stall alarm fifteen minutes later. Relaunched with
 an absolute redirect and **all seven chains verified alive by name before moving on**, which is
 now the rule after any relaunch: check the process list, not the exit code of the launcher.
+
+## D6-24 — IQ3_M rejected; rank 3 is pulled but deliberately not placed ahead of the scored work
+
+*21:24.* **IQ3_M rejected.** Its only planned rung, 48k, placed `spill`: 14.98 GB resident,
+**89% GPU**, 18.05 gen tok/s empty collapsing to 12.04 at fill. There is no lower rung to demote
+to, because the owner's ruling is that a quant is viable only if it runs 48k. Every tag removed;
+C: back to **48.1 GB free**, the most this campaign has had.
+
+That is the second rejection, so the swap rule asks for reserve rank 3, `UD-IQ3_S` (12.04 GB).
+**Pulled, but not added to the placement chain**, and this is a departure from the plan's letter
+that I want on the record.
+
+The swap rule exists so the roster stays full *while the GPU is busy* — it assumes the binding
+constraint is candidates. It is not, any more. Phase A is finished and the campaign is now
+limited by scored-trial time: seven candidates already queue for phases B through E (Q2_K_L,
+Q2_K, IQ2_M, IQ3_XXS, IQ3_XS, and reserve ranks 1 and 2), phase C costs roughly 35 minutes a
+quant and phase D another 2.3 hours on top, which lands the night around 04:30 as it stands.
+An eighth candidate placed at the front would push that past 05:10 and buy a placement row at
+the cost of a *verdict* row — and verdict rows are what the campaign is for.
+
+So: the pull runs (network and disk are idle, it costs the GPU nothing, and it leaves v7 a
+candidate already on the daemon), and `UDIQ3S`'s **placement is queued behind phase E** rather
+than ahead of phase B. If the night runs ahead of schedule it gets measured; if it does not, it
+is on disk and placed first thing next time. `chainB.sh` is deliberately **not** re-gated.
+
+Roster after two rejections: **Q2_K_L, Q2_K, IQ2_M, IQ3_XXS, IQ3_XS** surviving, plus
+**UDQ3KXL** and **mrIQ3M** arriving from the reserve. Rejected: **Q3_K_S** (prefill 76 tok/s at
+its only rung) and **IQ3_M** (spill at its only rung).

@@ -435,5 +435,32 @@
   "verdict_why": "gen 26.7 tok/s; resident 14.34 GB over the line",
   "nvidia_smi_peak_mib": 15193,
   "finished": "2026-09-04 21:21:46"
+ },
+ {
+  "quant": "IQ3_M",
+  "tag": "q27-IQ3_M-48k",
+  "num_ctx": 49152,
+  "manifest_model_gib": 12.95,
+  "manifest_projector_gib": 0.0,
+  "has_projector": false,
+  "started": "2026-09-04 21:21:48",
+  "load_s": 14.0,
+  "resident_gb": 14.98,
+  "vram_gb": 13.3,
+  "pct_gpu": 89,
+  "ps_context_length": 49152,
+  "gen_tps_empty": 18.05,
+  "fill_wall_s": 39.1,
+  "fill_prompt_tokens": 43661,
+  "fill_target_tokens": 44236,
+  "prompt_tps_fill": 1327.0,
+  "gen_tps_fill": 12.04,
+  "ttft_fill_s": 32.9,
+  "out_tokens_fill": 47,
+  "over_resident_line": true,
+  "verdict": "spill",
+  "verdict_why": "gen 12.0 tok/s",
+  "nvidia_smi_peak_mib": 15117,
+  "finished": "2026-09-04 21:23:09"
  }
 ]
