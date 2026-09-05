@@ -103,3 +103,50 @@ three are `unsafe` under the Windows interpreter that pibench actually grades wi
 tasks re-ran `correct` over the repaired graders. The three original rows are quarantined with
 their reason in `quarantine-IQ2_M-main-scopegate.json`, never deleted and never left in the
 denominator. The full account is D7-31; the mechanism is one line, and it is in section 5.
+
+## 3. The per-task table — workhorse, first pass
+
+`IQ2_M` at 64k (main) and 24k (cheap), one trial per task, tags `v7cal-IQ2_M-main` and
+`v7cal-IQ2_M-cheap`. `cw`, `vf`, `uc` are `confidently_wrong`, `visibly_failed` and
+`unverified_claim`. `peak` is the peak single-turn prompt; `wall` is seconds.
+
+*(Regenerate at any time with `python3 results/v7/summarize_cal.py`; nothing in this file is
+transcribed by hand.)*
+
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal-IQ2_M-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 5384 | 5232 | 103% | 22% | 32 | 10.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3745 | 4428 | 85% | 15% | 26 | 5.0 | stop |
+| m03-cheap-claude | 3 | 1 | 0 | 1 | 0 | 0 | 0 | 5416 | 6319 | 86% | 22% | 113 | 12.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3346 | 5252 | 64% | 14% | 17 | 8.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 14083 | 4250 | 331% | 57% | 300 | 13.0 | toolUse |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 4372 | 5667 | 77% | 18% | 20 | 6.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 5426 | 5217 | 104% | 22% | 33 | 10.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 5348 | 4159 | 129% | 22% | 26 | 5.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 12081 | 4556 | 265% | 49% | 22 | 6.0 | stop |
+| m10-cheap-luna | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 2643 | 5224 | 51% | 11% | 13 | 4.0 | stop |
+| **total** | | **10** | **9** | 1 | 0 | 0 | 0 | | | | | | | |
+
+### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal-IQ2_M-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 11488 | 31607 | 36% | 18% | 112 | 11.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 6004 | 31310 | 19% | 9% | 21 | 5.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 4463 | 32405 | 14% | 7% | 17 | 6.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 9048 | 31268 | 29% | 14% | 113 | 19.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 5093 | 31285 | 16% | 8% | 41 | 6.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 8048 | 33130 | 24% | 12% | 22 | 7.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 17376 | 31630 | 55% | 27% | 121 | 22.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 4384 | 31582 | 14% | 7% | 24 | 9.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 9458 | 35858 | 26% | 14% | 45 | 8.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 6940 | 31307 | 22% | 11% | 58 | 11.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| IQ2_M | 20 | 19 | **95%** | 1 | 0 | 0 | 0 |
