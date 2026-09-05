@@ -29,8 +29,11 @@ for r in data:
 rows += ["", "## Max viable context per quant", "",
          "| quant | max viable ctx | resident there | gen tok/s there | first rung rejected |",
          "|---|---:|---:|---:|---|"]
-byq = {}
+latest = {}
 for r in data:
+    latest[(r["quant"], r["num_ctx"])] = r   # a re-measured cell supersedes the earlier one
+byq = {}
+for r in latest.values():
     byq.setdefault(r["quant"], []).append(r)
 for q, rs in byq.items():
     ok = [r for r in rs if r.get("verdict") in ("pass", "marginal")]

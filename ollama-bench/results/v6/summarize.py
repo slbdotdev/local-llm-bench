@@ -20,8 +20,18 @@ p = os.path.join(HERE, "placement.json")
 if os.path.exists(p):
     place = json.load(open(p, encoding="utf-8"))
 
+def latest_per_cell(records):
+    """A cell measured twice is superseded by its later record -- the projector-free rebake
+    supersedes the projector build (D6-9/D6-11), and any re-measurement supersedes the run it
+    repeats. Keyed on (quant, num_ctx), last write wins."""
+    seen = {}
+    for r in records:
+        seen[(r["quant"], r["num_ctx"])] = r
+    return list(seen.values())
+
+
 def placement_for(quant):
-    rs = [r for r in place if r["quant"] == quant]
+    rs = [r for r in latest_per_cell(place) if r["quant"] == quant]
     ok = [r for r in rs if r.get("verdict") in ("pass", "marginal")]
     best = max(ok, key=lambda r: r["num_ctx"]) if ok else None
     at64 = next((r for r in rs if r["num_ctx"] == 65536), None)
