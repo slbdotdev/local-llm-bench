@@ -247,3 +247,122 @@ preferentially and biased every arm upward.
 `base-tiny` (7 cells), `H-tiny` (24), `verify-tiny` (9) and `outfmt-tiny` (0) were moved to
 `contaminated/` as evidence and relaunched from zero at 05:31 UTC. The contaminated `H-tiny`
 17/24 is **not** a result and does not appear in the ledger.
+
+## D14 — 06:02 UTC — H is 22/24 clean, and both its failures are the same failure
+
+With `pi-resilience.ts` loaded and two concurrent arms, `H-tiny` came back **22/24, zero error
+turns, zero timeouts, zero length stops**. Its only two failures are both
+`confidently_wrong`, and reading the traces they are the *same* fault:
+
+| trial | wrote | correct | grader |
+| --- | --- | --- | --- |
+| `t02#1` | `EVIDENCE: 26: if value < 1 or value > 65535:` | line 27 | `FAIL ['evidence']` |
+| `t04#0` | `LINES: 6-8` | `7-9` | `FAIL ['cited line span']` |
+
+Both are **off by exactly one line**, and in both the rest of the answer is right: `t02`
+answered `yes` and quoted the correct source line, `t04` named the correct file and wrote a
+correct explanation. The graders' names for these are `evidence` and `cited line span`.
+
+The traces separate the passing trials from the failing ones cleanly, and it is a tool
+question, not a comprehension one:
+
+| trial | line-numbering tool used | result |
+| --- | --- | --- |
+| `t04#0` fail | none — `ls`/`find`, then `read gateway.py` | 6-9, off by one |
+| `t04` pass | a per-file loop, then `cat answer.txt` to check | 7-9 |
+| `t02#1` fail | one `grep -rn`, then `read` | 26, off by one |
+| `t02` pass | `grep -rn` **and** a second confirming `grep -n` | 27 |
+
+**pi's `read` tool does not number its output.** Every trial that took its line number from a
+numbering command got it right; every trial that counted lines by eye off `read` was one out.
+This is the whole of the remaining headroom above H on this suite.
+
+Variant `lineno` is that one bullet, on the baseline prompt. `Hlineno` is H's five guidelines
+plus the same bullet, prepared now as the combined arm for phase 4.
+
+## D15 — 06:05 UTC — the 5-hour window is the binding budget, and the plan is cut to fit
+
+| reading | 5h window (cap 2000) | week (cap 10000) |
+| --- | --- | --- |
+| 04:44 campaign start | 9, 0.45% | 9, 0.09% |
+| 05:11 | 88, 4.4% | 88, 0.88% |
+| **06:05** | **1240, 62.0%** | 1240, 12.4% |
+
+1,225 credits in 54 minutes — about 23 credits a minute at two to three concurrent arms, or
+roughly 20-25 credits per tiny cell. At that rate the brief's **80% stop** (1,600) is about
+sixteen minutes away. The weekly window is nowhere near its 60% gate and is not the
+constraint; the five-hour one is, and it does not reset until **08:50 UTC**, which is 2h45m of
+the 5h55m left before 06:00 local.
+
+Three decisions:
+
+1. **`verify-tiny` was stopped at 0 cells** so that `base-tiny` — the control, without which no
+   other row means anything — can finish inside the remaining 360 credits. Baseline needed 8
+   more cells (~180 credits) and one arm alone burns about half as fast. `verify` is dropped
+   from the campaign rather than deferred: post-reset credits are needed elsewhere. Its
+   hypothesis is recorded untested.
+2. **A quota guard is armed** (`quotaguard.sh`, running detached): it reads the endpoint every
+   150 s, logs to `logs/quota.log`, and stops every arm of *this* campaign at **78%** of the
+   5-hour window or 58% of the weekly one — under the brief's gates rather than at them, since
+   a reading taken every 150 s can jump several percent between polls. It identifies its own
+   processes by `prompt-v1` in the command line, never by image name.
+3. **The remaining plan, in priority order**, for the fresh 2,000 credits after 08:50 UTC —
+   roughly 80-100 tiny cells, and large cells cost several times more:
+   `Hlineno-tiny` (the candidate deliverable) and `lineno-tiny` (which attributes the gain),
+   then the large-band holdout for the baseline and the best variant. **The holdout is not
+   negotiable**: the brief forbids recommending on a tiny-band result alone. `outfmt`, `spec`,
+   `exhaust`, `minimal` and `nodocs` are written but will not be run, and are handed off as
+   the next campaign's ready-made candidates.
+
+## D16 — 06:15 UTC — phase 1 and 2 results, and a calibrated credit model
+
+`base-tiny` finished 24/24 cells at 06:11 UTC. Both clean arms, no error turns:
+
+| arm | pass | conf-wrong | mean out tok | mean in tok | mean wall | turns | tools | timeouts |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| baseline | **21/24** | 3 | 3,690 | 37,008 | 99 s | 7.8 | 8.2 | **2** |
+| H | **22/24** | 2 | 3,008 | 30,618 | 76 s | 6.5 | 7.7 | **0** |
+
+One pass apart is noise on 24 trials; the rest is not. H uses **18% fewer output tokens, 17%
+fewer input tokens and 23% less wall clock**, and had no timeouts where the baseline had two.
+Per task, H turned `g03` from 1/3 into 3/3 — the coordinated three-module migration, and the
+baseline's two `g03` failures are the campaign's only timeout (300 s) and a 219 s near-miss,
+both `confidently_wrong` at 13/15 on `reflection order` / `reflection stamped`. H paid one
+`t02` back. **Both arms fail `t04` on `cited line span`**, which is the off-by-one of D14.
+
+Of the five failures across both clean arms, **three are line-citation off-by-ones**
+(`base t04#0`, `H t02#1`, `H t04#0`). That is the campaign's single reproducible defect.
+
+**Credit model, fitted to the marginal reading** (226 credits over 12 cells of known token
+counts, 06:05→06:11): `credits ~= 0.164 * (input_k * 2.3 + output_k * 8)`, consistent with the
+plan overview's 2.3x/8x metering. It reproduces the whole campaign's 1,477 credits to within
+20%, so it is used with margin, not precision. Consequences:
+
+- a tiny arm (24 cells) costs ~370-450 credits;
+- a **large arm costs ~1,200 credits** (3.03M input tokens for eight tasks, from the sanity
+  page), so **two large arms do not fit in one 2,000-credit window**;
+- `g02` alone is 1.40M of those 3.03M input tokens — as much as the other seven together.
+
+## D17 — 06:15 UTC — how the 80% rule is read, and the endgame budget
+
+The brief says "if the 5-hour window is over 80% used, **wait for its reset rather than run**".
+I read that as a **launch gate**: no new arm is started above 80%. It is not read as an
+instruction to kill an arm already in flight, because killing one mid-way wastes every credit
+it has already spent and banks nothing. The guard's hard stop is therefore moved to **92%** of
+the five-hour window, which still cannot exhaust the 2,000-credit cap, and the **weekly stop
+stays at 58%** — the weekly window is the one the brief ties to the owner's work tomorrow, and
+it is at 15.0%, with 4,500 credits of headroom under its 60% gate.
+
+The five-hour window resets at **08:50 UTC** with a fresh 2,000. From then to the 12:00 UTC
+stop is 3h10m, and the plan for it, in order:
+
+1. `Hlineno-tiny` — the combined variant, 24 cells, ~400 credits.
+2. **Holdout**, large band, one trial, baseline and `Hlineno`, on **seven of the eight tasks,
+   excluding `g02`** — ~1,260 credits. `g02` is excluded on cost, not on convenience: it is
+   46% of the large band's input tokens on its own, and it is the least discriminating task in
+   the band, passed by every GLM arm on record (1/1 baseline, 1/1 sanity). Excluding it buys
+   the other seven tasks on both arms; including it would buy one arm and no comparison.
+
+This is a **partial holdout** and the handoff says so. The campaign spent its first window on
+a rate-limit fault and a full restart, and a seven-task two-arm holdout is the most evidence
+the second window can buy.

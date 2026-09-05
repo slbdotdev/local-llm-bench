@@ -5,3 +5,45 @@
 ===== glm-5.3-flash =====
   g01              #0 PASS  140.6s turns=5 tools=5 out=6393 VERDICT=correct STOP=stop
   g01              #1 PASS  158.5s turns=8 tools=8 out=6467 VERDICT=correct STOP=stop
+  g01              #2 PASS  216.8s turns=11 tools=10 out=9715 VERDICT=correct STOP=stop
+  g02              #0 PASS   83.6s turns=10 tools=10 out=3007 VERDICT=correct STOP=stop
+  g02              #1 PASS   58.6s turns=6 tools=7 out=2107 VERDICT=correct STOP=stop
+  g02              #2 PASS   42.2s turns=7 tools=7 out=888 VERDICT=correct STOP=stop
+  g03              #0 PASS  117.3s turns=6 tools=11 out=5767 VERDICT=correct STOP=stop
+  g03              #1 PASS  210.0s turns=7 tools=14 out=9558 VERDICT=correct STOP=stop
+  g03              #2 PASS  102.2s turns=5 tools=10 out=5302 VERDICT=correct STOP=stop
+  g04              #0 PASS   69.2s turns=6 tools=6 out=2790 VERDICT=correct STOP=stop
+  g04              #1 PASS  116.6s turns=7 tools=8 out=4546 VERDICT=correct STOP=stop
+  g04              #2 PASS   98.8s turns=8 tools=8 out=2868 VERDICT=correct STOP=stop
+  t01              #0 PASS   35.9s turns=5 tools=4 out=1243 VERDICT=correct STOP=stop
+  t01              #1 PASS   44.5s turns=6 tools=11 out=1627 VERDICT=correct STOP=stop
+  t01              #2 PASS   46.4s turns=5 tools=10 out=1600 VERDICT=correct STOP=stop
+  t02              #0 PASS   37.7s turns=5 tools=4 out=951 VERDICT=correct STOP=stop
+  t02              #1 FAIL   19.5s turns=4 tools=3 out=853 VERDICT=confidently_wrong STOP=stop
+  t02              #2 PASS   28.1s turns=5 tools=4 out=812 VERDICT=correct STOP=stop
+  t03              #0 PASS   28.7s turns=7 tools=6 out=1124 VERDICT=correct STOP=stop
+  t03              #1 PASS   47.6s turns=8 tools=7 out=1219 VERDICT=correct STOP=stop
+  t03              #2 PASS   46.6s turns=10 tools=10 out=1311 VERDICT=correct STOP=stop
+  t04              #0 FAIL   19.1s turns=5 tools=8 out=883 VERDICT=confidently_wrong STOP=stop
+  t04              #1 PASS   23.9s turns=6 tools=9 out=622 VERDICT=correct STOP=stop
+  t04              #2 PASS   22.8s turns=5 tools=4 out=537 VERDICT=correct STOP=stop
+
+# pi bench (prompt-v1/H-tiny)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 22/24 | 0.98 (24/24 runs) | 6/8 all-trials | 76s | 3008 | 7.7 | 22 | 0 | 2 | 8.3% | 0 in 0/24 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 3/3 (score 1.00) |
+| g02 | 3/3 (score 1.00) |
+| g03 | 3/3 (score 1.00) |
+| g04 | 3/3 (score 1.00) |
+| t01 | 3/3 (score 1.00) |
+| t02 | 2/3 (score 0.89) |
+| t03 | 3/3 (score 1.00) |
+| t04 | 2/3 (score 0.92) |
+=== attempt 1 exited rc=0 at 2026-09-05T00:01:52-06:00

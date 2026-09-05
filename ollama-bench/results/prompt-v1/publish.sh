@@ -29,7 +29,12 @@ git diff --cached --quiet || git commit -q -m "$MSG" || exit 1
 echo "publish: scratch $(git log --oneline -1)"
 
 cd "$DST" || exit 9
-retry_git git pull -q --rebase || { echo "publish: pull failed"; exit 1; }
+retry_git git fetch -q origin || echo "publish: fetch failed, continuing"
+BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
+if [ "${BEHIND:-0}" -gt 0 ]; then
+  # Never --autostash: the other campaign has live uncommitted result files in this tree.
+  retry_git git pull -q --rebase || { echo "publish: behind by $BEHIND and cannot rebase (other campaign has unstaged work); skipping this publish"; exit 2; }
+fi
 mkdir -p "$REL"
 rsync -a --delete "$SRC/$REL/" "$DST/$REL/" || exit 1
 retry_git git add "$REL" || exit 1

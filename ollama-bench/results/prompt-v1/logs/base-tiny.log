@@ -4,3 +4,46 @@
 
 ===== glm-5.3-flash =====
   g01              #0 PASS  249.3s turns=9 tools=8 out=8939 VERDICT=correct STOP=stop
+  g01              #1 PASS  300.1s turns=9 tools=10 out=11212 VERDICT=correct STOP=toolUse TIMEOUT
+  g01              #2 PASS  241.1s turns=10 tools=9 out=11796 VERDICT=correct STOP=stop
+  g02              #0 PASS  108.5s turns=11 tools=10 out=4086 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  g02              #1 PASS   48.5s turns=7 tools=7 out=1354 VERDICT=correct STOP=stop
+  g02              #2 PASS   45.8s turns=6 tools=7 out=1475 VERDICT=correct STOP=stop
+  g03              #0 PASS  117.4s turns=7 tools=11 out=5345 VERDICT=correct STOP=stop
+  g03              #1 FAIL  219.4s turns=8 tools=13 out=8751 VERDICT=confidently_wrong STOP=stop
+  g03              #2 FAIL  300.1s turns=7 tools=12 out=14125 VERDICT=confidently_wrong STOP=toolUse TIMEOUT
+  g04              #0 PASS   57.7s turns=7 tools=7 out=2074 VERDICT=correct STOP=stop
+  g04              #1 PASS   70.4s turns=9 tools=9 out=2716 VERDICT=correct STOP=stop
+  g04              #2 PASS   49.2s turns=7 tools=7 out=1579 VERDICT=correct STOP=stop
+  t01              #0 PASS   52.9s turns=9 tools=12 out=1894 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t01              #1 PASS   87.7s turns=12 tools=12 out=2445 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t01              #2 PASS   42.0s turns=6 tools=10 out=1426 VERDICT=correct STOP=stop
+  t02              #0 PASS   25.0s turns=5 tools=4 out=880 VERDICT=correct STOP=stop
+  t02              #1 PASS  115.6s turns=15 tools=7 out=1790 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
+  t02              #2 PASS   30.5s turns=5 tools=4 out=1137 VERDICT=correct STOP=stop
+  t03              #0 PASS   64.9s turns=8 tools=7 out=1185 VERDICT=correct STOP=stop
+  t03              #1 PASS   26.0s turns=8 tools=7 out=1014 VERDICT=correct STOP=stop
+  t03              #2 PASS   41.0s turns=7 tools=7 out=1177 VERDICT=correct STOP=stop
+  t04              #0 FAIL   22.5s turns=5 tools=4 out=806 VERDICT=confidently_wrong STOP=stop
+  t04              #1 PASS   29.1s turns=5 tools=9 out=776 VERDICT=correct STOP=stop
+  t04              #2 PASS   27.6s turns=5 tools=4 out=588 VERDICT=correct STOP=stop
+
+# pi bench (prompt-v1/base-tiny)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 21/24 | 0.98 (24/24 runs) | 6/8 all-trials | 99s | 3690 | 8.2 | 21 | 0 | 3 | 12.5% | 0 in 0/24 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 3/3 (score 1.00) |
+| g02 | 3/3 (score 1.00) |
+| g03 | 1/3 (score 0.91) |
+| g04 | 3/3 (score 1.00) |
+| t01 | 3/3 (score 1.00) |
+| t02 | 3/3 (score 1.00) |
+| t03 | 3/3 (score 1.00) |
+| t04 | 2/3 (score 0.92) |
+=== attempt 1 exited rc=0 at 2026-09-05T00:11:09-06:00

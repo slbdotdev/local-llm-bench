@@ -18,6 +18,11 @@ else
 fi
 export PIBENCH_PI_ARGS="$*"
 NTASK=8
+TASKARG=()
+if [ -n "${PV1_TASKS:-}" ]; then
+  TASKARG=(--tasks "$PV1_TASKS")
+  NTASK=$(echo "$PV1_TASKS" | tr ',' '\n' | grep -c .)
+fi
 WANT=$((NTASK * TRIALS))
 JSON="$HERE/results/prompt-v1/$TAG.json"
 LOG="$HERE/results/prompt-v1/logs/$TAG.log"
@@ -64,7 +69,7 @@ for attempt in 1 2 3 4 5 6 7 8; do
   echo "=== attempt $attempt: $HAVE/$WANT cells filled, $(date -Is)" >> "$LOG"
   PYTHONUTF8=1 "$PY" pibench.py --provider zai --models glm-5.3-flash \
     --think medium --trials "$TRIALS" --no-tps --timeout "$TO" \
-    --tasks-dir "$D" --num-ctx "$CTX" --tag "prompt-v1/$TAG" \
+    --tasks-dir "$D" --num-ctx "$CTX" --tag "prompt-v1/$TAG" "${TASKARG[@]}" \
     >> "$LOG" 2>&1 < /dev/null
   echo "=== attempt $attempt exited rc=$? at $(date -Is)" >> "$LOG"
 done

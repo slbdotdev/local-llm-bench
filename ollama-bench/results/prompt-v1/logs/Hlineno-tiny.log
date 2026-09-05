@@ -1,0 +1,5 @@
+=== Hlineno-tiny band=tiny trials=3 want=24 start=2026-09-05T00:14:11-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts -e C:/Users/slb/bench-prompt-variants/Hlineno.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 0/24 cells filled, 2026-09-05T00:14:11-06:00
+
+===== glm-5.3-flash =====
