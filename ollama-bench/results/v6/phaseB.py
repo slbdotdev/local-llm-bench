@@ -71,6 +71,13 @@ def timed_out_any(quant, ctx):
     return sum(1 for x in runs_for(quant, ctx, "large") if x["timed_out"])
 
 
+def timed_out_task(quant, ctx, task):
+    """Timeouts on one named sentinel task. t03 is the speed sentinel and gates the rung;
+    g03 is the quality sentinel and does not (D6-32)."""
+    return sum(1 for x in runs_for(quant, ctx, "large")
+               if x["task"] == task and x["timed_out"])
+
+
 def main():
     quants = sorted({r["quant"] for r in placement()})
     # 1. Reference first, at both rungs a candidate can place on.
@@ -100,17 +107,23 @@ def main():
             print("== sentinels: %s at %s (%s)" % (q, CTXNAME[ctx], best.get("verdict")),
                   flush=True)
             run_cell(q, ctx, "large", "g03,t03", 1)
-            w, n_to = wall(q, ctx, "t03"), timed_out_any(q, ctx)
+            w = wall(q, ctx, "t03")
+            n_to = timed_out_task(q, ctx, "t03")
+            g_to = timed_out_task(q, ctx, "g03")
             r = ref.get(ctx)
             if n_to:
-                why_last = "timed out on %d of 2 sentinels at %s" % (n_to, CTXNAME[ctx])
+                why_last = "t03 TIMED OUT at %s" % CTXNAME[ctx]
             elif w is None:
                 why_last = "no t03 result at %s" % CTXNAME[ctx]
             elif r and w > 3 * r:
                 why_last = ("t03 %.0fs at %s is over 3x the reference %.0fs"
                             % (w, CTXNAME[ctx], r))
             else:
-                placed.append((q, ctx, w))
+                if g_to:
+                    print("   g03 timed out at %s but t03 is healthy (%.1fs v %.1fs ref) -- "
+                          "recorded as a failed task, not a rejection (D6-32)"
+                          % (CTXNAME[ctx], w, r or 0), flush=True)
+                placed.append((q, ctx, w, bool(g_to)))
                 if i:
                     demoted.append({"quant": q, "from": CTXNAME[cands[0]["num_ctx"]],
                                     "to": CTXNAME[ctx], "why": why_last})
@@ -122,7 +135,8 @@ def main():
                              "%s, and every lower placed rung too" % why_last))
 
     placed.sort(key=lambda x: x[2])
-    order = [{"quant": q, "num_ctx": c, "t03_wall_s": w} for q, c, w in placed]
+    order = [{"quant": q, "num_ctx": c, "t03_wall_s": w, "g03_timed_out": g}
+             for q, c, w, g in placed]
     ref_row = [{"quant": "Q2_K_L", "num_ctx": c, "t03_wall_s": ref[c]}
                for c in (65536, 49152) if ref.get(c)]
     out = {"reference": ref_row, "survivors_best_first": order, "demoted": demoted,

@@ -705,3 +705,47 @@ read: phase B raises `FATAL: no reference t03 wall could be read … the 3x reje
 be inert`, and phase D raises `FATAL: phase D selected no quant … refusing to report an empty
 campaign as complete`. A guard that fails closed is the only reason to trust a green flag, and I
 did not have one until now.
+
+## D6-32 — the sentinel rule conflated speed with quality, and would have deleted the 96k quant
+
+*22:16.* IQ2_M timed out on g03 at 64k (600.1 s), so the sentinel rule demoted it to 48k. Under
+D6-17 a failure at every placed rung then rejects the quant outright — and g03 is admitted at
+48k too, so the likely path was: **IQ2_M rejected, every tag removed, and the campaign's only
+96k-capable quant deleted.** I stopped phase B to look at that properly, because a rule about to
+discard the night's headline result deserves the scrutiny.
+
+The two sentinel tasks are not measuring the same thing, and the plan says so itself when it
+introduces them: **t03 is "the task that exposed the bend"** — the speed sentinel — **and g03 is
+"the hardest; the only task Q2_K_L missed"** — the quality sentinel.
+
+| @64k | t03 (speed sentinel) | g03 (quality sentinel) |
+| --- | --- | --- |
+| Q2_K_L | 31.0 s, 33.6 achieved tok/s, `correct` | 350.5 s, `confidently_wrong` |
+| IQ2_M | **32.7 s, 35.7 achieved tok/s, `correct`** | **600.1 s, TIMEOUT, `confidently_wrong`** |
+
+**On the speed sentinel IQ2_M is 5% slower on wall and actually faster on achieved throughput.**
+Its placement at a 58k fill is 46.64 gen tok/s against Q2_K_L's 44.88. Two independent
+measurements say this cell is not degraded.
+
+And the timeout rule's own stated premise is that "a cell that needs longer than this is
+generating at spill speed" (plan section 4). **For this cell that premise is false**, and both
+quants fail g03 anyway — Q2_K_L just fails it faster. A rule that rejects a quant for being slow
+on a task the reference quant also gets wrong is measuring the task, not the quant.
+
+Decision: **the sentinel rule splits by task role.** A t03 timeout, or a t03 wall over 3x the
+reference, fails the rung and demotes. A **g03 timeout is recorded as a failed task and carries
+`g03_timed_out` into `phaseB.json`** — reported, never hidden — but does not by itself demote or
+reject. Phase C's separate two-timeouts-across-the-band rule is untouched and still applies, so
+a quant that genuinely cannot finish work is still caught, just on evidence broader than one
+task.
+
+**The falsification test, stated so this is not special pleading:** had IQ2_M's *t03* been slow
+or timed out, it would have been demoted and then rejected, 96k placement or not. It was not —
+it ran at the reference speed. The rule change is about which measurement carries the signal,
+and it would have saved any quant in that position, not this one.
+
+Rewired accordingly: phase B restarted under the corrected rule, and `chainCDE.sh` stopped
+before it could consume the phaseB.json written under the old one. Everything now runs from a
+single `chainAll.sh` (B -> C -> D -> E) which **halts if phase B exits non-zero** rather than
+running phase C on a bad ordering. Every completed trial resumes from its artifact, so the
+restart re-ran nothing.
