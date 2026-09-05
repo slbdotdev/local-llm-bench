@@ -5,7 +5,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 6/6\nPASS\nVERDICT correct",
-  "wall_s": 151.0,
+  "wall_s": 346.0,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -15,7 +15,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 13/13\nPASS\nVERDICT correct",
-  "wall_s": 225.1,
+  "wall_s": 552.2,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -25,7 +25,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 7/7\nPASS\nVERDICT correct",
-  "wall_s": 364.7,
+  "wall_s": 494.7,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -35,8 +35,8 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 288.2,
-  "pi_rc": 1,
+  "wall_s": 331.1,
+  "pi_rc": 0,
   "timed_out": false
  },
  "m03-cheap-claude": {
@@ -45,7 +45,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 7/7\nPASS\nVERDICT correct",
-  "wall_s": 162.9,
+  "wall_s": 487.5,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -55,8 +55,8 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 6/6\nPASS\nVERDICT correct",
-  "wall_s": 281.4,
-  "pi_rc": 1,
+  "wall_s": 274.0,
+  "pi_rc": 0,
   "timed_out": false
  },
  "m04-cheap-luna": {
@@ -65,7 +65,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 6/6\nPASS\nVERDICT correct",
-  "wall_s": 134.1,
+  "wall_s": 185.5,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -75,7 +75,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 8/8\nPASS\nVERDICT correct",
-  "wall_s": 412.9,
+  "wall_s": 374.4,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -85,7 +85,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 242.8,
+  "wall_s": 548.4,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -95,7 +95,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 6/6\nPASS\nVERDICT correct",
-  "wall_s": 303.0,
+  "wall_s": 475.1,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -105,7 +105,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 8/8\nPASS\nVERDICT correct",
-  "wall_s": 277.0,
+  "wall_s": 298.9,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -115,7 +115,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 8/8\nPASS\nVERDICT correct",
-  "wall_s": 340.9,
+  "wall_s": 436.7,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -125,7 +125,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 284.4,
+  "wall_s": 193.5,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -135,7 +135,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 9/9\nPASS\nVERDICT correct",
-  "wall_s": 451.5,
+  "wall_s": 257.9,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -145,7 +145,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 307.2,
+  "wall_s": 124.9,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -155,7 +155,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 147.7,
+  "wall_s": 128.9,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -165,7 +165,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 108.8,
+  "wall_s": 129.3,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -175,8 +175,8 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 6/6\nPASS\nVERDICT correct",
-  "wall_s": 237.6,
-  "pi_rc": 0,
+  "wall_s": 342.5,
+  "pi_rc": 1,
   "timed_out": false
  },
  "m10-cheap-luna": {
@@ -185,7 +185,7 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 5/5\nPASS\nVERDICT correct",
-  "wall_s": 127.5,
+  "wall_s": 113.7,
   "pi_rc": 0,
   "timed_out": false
  },
@@ -195,8 +195,8 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 9/9\nPASS\nVERDICT correct",
-  "wall_s": 192.7,
-  "pi_rc": 0,
+  "wall_s": 345.6,
+  "pi_rc": 1,
   "timed_out": false
  }
 }
