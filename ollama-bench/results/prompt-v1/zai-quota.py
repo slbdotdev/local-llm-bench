@@ -35,9 +35,10 @@ for lim in data["data"]["limits"]:
     window = "%s%s" % (lim["number"], unit)
     used, cap = lim["currentValue"], lim["usage"]
     pct = 100.0 * used / cap if cap else 0.0
-    reset = datetime.datetime.fromtimestamp(lim["nextResetTime"] / 1000, datetime.timezone.utc)
+    rt = lim.get("nextResetTime")  # null on a window nothing has touched since its reset
+    reset = datetime.datetime.fromtimestamp(rt / 1000, datetime.timezone.utc).isoformat(timespec="seconds") if rt else "n/a"
     print("  window=%-7s used=%-8s cap=%-8s pct=%.2f%% remaining=%-8s reset=%s"
-          % (window, used, cap, pct, lim["remaining"], reset.isoformat(timespec="seconds")))
+          % (window, used, cap, pct, lim["remaining"], reset))
     if unit == "hour":
         worst5h = pct
     if unit == "week":

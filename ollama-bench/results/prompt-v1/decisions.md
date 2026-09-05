@@ -401,3 +401,34 @@ this campaign was stopped at 06:41 UTC with the window at 93.5%, the reading kep
 running. **The quota endpoint lags actual usage by several minutes**, so a reading is a floor
 rather than a current value, and a stop threshold has to leave room for the lag. The 78% first
 chosen would have been the safer number after all.
+
+## D20: 2026-09-06 04:32 MDT: holdout complete and recommendation
+
+The endgame finished all three arms. `Hlineno-tiny` is **24/24 cells, 22/24 passing**;
+`base-large` is **7/7 passing** with zero confidently-wrong cells; and `Hlineno-large` is
+**7/7 passing** with zero confidently-wrong cells. The large result is therefore not a pass
+regression. The baseline large arm had one cell at the 600-second limit, and Hlineno had two.
+
+The contamination check found one Hlineno tiny cell with error-stop entries, `g02#2`, but it
+completed with tool calls and output tokens after retries. The large-arm nonzero return codes are
+the timed-out cells just noted, with tool calls and passing graders. No arm had a zero-tool-call,
+zero-output cell, so no rate-limited empty run was counted as a result.
+
+The ranking rule puts `H` and `Hlineno` together at 22/24 tiny passes and two confidently-wrong
+cells, with H's 3,008 mean output tokens below Hlineno's 3,897. H has no large holdout, while
+Hlineno matches baseline at 7/7 large passes. Deployment is supported on pass rate pending the
+`high` question, but Hlineno's large band used 3,767,163 input tokens and 1,679 seconds of wall
+time versus baseline's 1,756,216 input tokens and 1,529 seconds. That cost regression reverses
+the tiny-band saving, so measure `high` before deploying.
+
+The resume script never fired on its own. After the 08:50 UTC reset, the Z.ai quota API returned
+a null `nextResetTime` for the untouched five-hour window, which crashed `zai-quota.py` and the
+fleet's `plan-usage.py`. `zai-quota.py` is now patched to print `n/a`, and `plan-usage.py` is
+patched in `ansible-slb`. The control session launched the endgame at **03:38 MDT**, 48 minutes
+late.
+
+The credit model also overestimated the large band by roughly eight times. It predicted about
+1,200 credits for one seven-task large arm, while the measured baseline holdout left the window
+at **7.3% used, about 146 credits**, after Hlineno tiny's 17 cells had also run. The two large
+arms therefore fit in the reset window, replacing the earlier conclusion that they would need
+more than one whole window.

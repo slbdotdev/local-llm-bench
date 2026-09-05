@@ -10,3 +10,45 @@
   g02              #1 PASS   51.6s turns=5 tools=6 out=1933 VERDICT=correct STOP=stop
   g02              #2 PASS  208.6s turns=21 tools=11 out=3470 VERDICT=correct STOP=stop ERR=429 {"type":"error","error":{"type":"rate_limit_error","code
   g03              #0 PASS  278.2s turns=7 tools=13 out=11787 VERDICT=correct STOP=stop
+=== Hlineno-tiny band=tiny trials=3 want=24 start=2026-09-05T03:38:18-06:00
+=== PIBENCH_PI_ARGS=[-e C:/Users/slb/.claude/skills/pi-run/scripts/pi-resilience.ts -e C:/Users/slb/bench-prompt-variants/Hlineno.ts -e C:/Users/slb/bench-prompt-variants/trace.ts]
+=== attempt 1: 7/24 cells filled, 2026-09-05T03:38:18-06:00
+
+===== glm-5.3-flash =====
+  g03              #1 FAIL  282.8s turns=6 tools=11 out=11572 VERDICT=confidently_wrong STOP=stop
+  g03              #2 PASS  177.2s turns=7 tools=12 out=9380 VERDICT=correct STOP=stop
+  g04              #0 PASS   86.8s turns=7 tools=7 out=2869 VERDICT=correct STOP=stop
+  g04              #1 PASS   59.9s turns=8 tools=8 out=2317 VERDICT=correct STOP=stop
+  g04              #2 PASS  105.8s turns=8 tools=8 out=3384 VERDICT=correct STOP=stop
+  t01              #0 FAIL   31.4s turns=5 tools=4 out=1643 VERDICT=confidently_wrong STOP=stop
+  t01              #1 PASS   36.1s turns=4 tools=8 out=1349 VERDICT=correct STOP=stop
+  t01              #2 PASS   41.5s turns=6 tools=10 out=1623 VERDICT=correct STOP=stop
+  t02              #0 PASS   34.4s turns=5 tools=4 out=1023 VERDICT=correct STOP=stop
+  t02              #1 PASS   40.4s turns=6 tools=5 out=996 VERDICT=correct STOP=stop
+  t02              #2 PASS   32.6s turns=5 tools=4 out=840 VERDICT=correct STOP=stop
+  t03              #0 PASS   41.5s turns=9 tools=8 out=1651 VERDICT=correct STOP=stop
+  t03              #1 PASS   39.7s turns=8 tools=7 out=1150 VERDICT=correct STOP=stop
+  t03              #2 PASS   38.0s turns=8 tools=7 out=1386 VERDICT=correct STOP=stop
+  t04              #0 PASS   21.9s turns=6 tools=9 out=770 VERDICT=correct STOP=stop
+  t04              #1 PASS   22.3s turns=6 tools=10 out=595 VERDICT=correct STOP=stop
+  t04              #2 PASS   21.7s turns=6 tools=5 out=732 VERDICT=correct STOP=stop
+
+# pi bench (prompt-v1/Hlineno-tiny)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| glm-5.3-flash | ? GB | ? | ? | 22/24 | 0.99 (24/24 runs) | 6/8 all-trials | 102s | 3897 | 8.2 | 22 | 0 | 2 | 8.3% | 0 in 0/24 |
+
+## Per task (passes/trials)
+
+| task | glm-5.3-flash |
+|---|---|
+| g01 | 3/3 (score 1.00) |
+| g02 | 3/3 (score 1.00) |
+| g03 | 2/3 (score 0.96) |
+| g04 | 3/3 (score 1.00) |
+| t01 | 2/3 (score 0.95) |
+| t02 | 3/3 (score 1.00) |
+| t03 | 3/3 (score 1.00) |
+| t04 | 3/3 (score 1.00) |
+=== attempt 1 exited rc=0 at 2026-09-05T03:56:54-06:00
