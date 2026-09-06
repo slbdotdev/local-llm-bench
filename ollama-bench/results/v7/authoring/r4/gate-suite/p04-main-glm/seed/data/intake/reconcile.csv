@@ -1,0 +1,43 @@
+date,event,records,note
+2034-03-01,admitted,12,batch 10 admitted from rollup after the window review
+2034-03-03,admitted,3,batch 12 admitted from checkpoint
+2034-03-05,admitted,6,batch 14 admitted from the upstream handoff
+2034-03-07,released,5,batch 16 released after the downstream acknowledgement
+2034-03-09,reaped,2,batch 18 reaped after the window elapsed
+2034-03-11,admitted,8,batch 20 admitted from the upstream handoff
+2034-03-13,admitted,8,batch 22 admitted from rollup after the window review
+2034-03-15,admitted,12,batch 24 admitted from checkpoint
+2034-03-17,released,5,batch 26 released to rollup
+2034-03-19,released,6,batch 28 released to checkpoint
+2034-03-21,admitted,11,batch 30 admitted from rollup
+2034-03-23,admitted,8,batch 32 admitted from checkpoint
+2034-03-25,admitted,12,batch 34 admitted from rollup after the window review
+2034-03-27,reaped,4,batch 36 reaped after the window elapsed
+2034-03-29,released,7,batch 38 released to rollup
+2034-03-31,admitted,4,batch 40 admitted from the upstream handoff
+2034-04-02,admitted,8,batch 42 admitted during the catch-up drain
+2034-04-04,admitted,6,batch 44 admitted from checkpoint after the window review
+2034-04-06,released,8,batch 46 released to rollup
+2034-04-08,released,5,batch 48 released after the downstream acknowledgement
+2034-04-10,admitted,13,batch 50 admitted from rollup
+2034-04-12,admitted,11,batch 52 admitted during the catch-up drain
+2034-04-14,reaped,5,batch 54 reaped and retained for evidence
+2034-04-16,released,10,batch 56 released in the scheduled sweep
+2034-04-18,released,10,batch 58 released in the scheduled sweep
+2034-04-20,admitted,5,batch 60 admitted from checkpoint after the window review
+2034-04-22,admitted,12,batch 62 admitted from rollup
+2034-04-24,admitted,4,batch 64 admitted during the catch-up drain
+2034-04-26,released,3,batch 66 released after the downstream acknowledgement
+2034-04-28,released,12,batch 68 released after the downstream acknowledgement
+2034-04-30,admitted,5,batch 70 admitted from rollup
+2034-05-02,reaped,3,batch 72 reaped after the window elapsed
+2034-05-04,admitted,12,batch 74 admitted during the catch-up drain
+2034-05-06,released,12,batch 76 released after the downstream acknowledgement
+2034-05-08,released,5,batch 78 released after the downstream acknowledgement
+2034-05-10,admitted,12,batch 80 admitted from checkpoint after the window review
+2034-05-12,admitted,14,batch 82 admitted from the upstream handoff
+2034-05-14,admitted,11,batch 84 admitted from checkpoint after the window review
+2034-05-16,released,3,batch 86 released to rollup
+2034-05-18,admitted,14,batch 88 admitted in the closing catch-up
+2034-05-20,admitted,14,batch 90 admitted in the closing catch-up
+2034-05-22,admitted,11,batch 92 admitted in the closing catch-up

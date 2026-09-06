@@ -39,11 +39,14 @@ A second review that names the date of the verification it accepts.
 
 ## declared window
 
-The retention interval stated in a region's historical operator note.
+The retention interval stated in a region's historical operator note. In a history record,
+the declared interval is the recorded window base plus the declared remainder.
 
 ## effective window
 
-The interval the running module actually uses when no optional override is enabled.
+The interval the running module actually uses when no optional override is enabled. In a
+history record, the effective interval is the recorded window base plus the runtime
+remainder; the resulting number is deliberately not written as a ready-made value.
 
 ## event history
 

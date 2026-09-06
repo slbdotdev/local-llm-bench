@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 960.
 - `docs/drain.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_DRAIN_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Elm lantern settles at 759000005005 days.
+- Window base: 759000000000
+- Declared remainder: 5005
+- Runtime remainder: 4996

@@ -54,14 +54,17 @@ nothing would score two of the three values by accident.
 The prompt names one file, `config/manifest.json`, and it is declared `named_in_prompt`:
 knowing which stages are in scope is not knowing their holds. No other load-bearing path, base
 name or stem appears in the prompt. No file assembles the answer: the combined hold 648
-occurs nowhere under `seed/`, the accepted entry is in one dated file and the stage list is in
-none.
+occurs nowhere under `seed/` as a standalone numeric token, the accepted entry is in one dated
+file and the stage list is in none.
 
 `harvest_units()` declares 6 units, one per stage, and each unit's value is that
 stage's closing hold — **the only per-unit fact the answer depends on**. Every one of them is
-*derived*: the figure is the sum of the filings that stand in that stage's holdings file and it
-is written nowhere under `seed/`, which the build asserts file by file before the candidate is
-written. A grep on any token the prompt or the manifest gives away returns filing rows, which
+*derived*: the figure is the sum of the filings that stand in that stage's holdings file, and it
+occurs nowhere under `seed/` as a standalone numeric token, which the build asserts file by file
+before the candidate is written. The claim is about standalone tokens and is no wider than that:
+a digit run can and does appear inside a longer identifier — `118` sits inside the close-out
+entry `QC-1187` — which no grep for the value reaches and which `check_harvest.py`, which
+matches on token boundaries too, does not count. A grep on any token the prompt or the manifest gives away returns filing rows, which
 are the inputs, and never a hold. That is mechanism 2 of the round's four, applied to every
 unit; mechanism 3 carries the rest of the answer, since the ceiling, the accepted entry and the
 superseded entry sit in three artifacts the roster does not name and the prompt does not name
@@ -126,6 +129,7 @@ No perturbation legitimately fails: the task edits no file, so nothing about the
 bytes beyond its three key/value pairs is scored.
 
 Every value asserted above is measured from `seed/` while the candidate is built. The build
-fails rather than writes a page that says otherwise: it re-reads all 40 seed files
-and asserts that none of the 6 closing holds, and not the combined total, occurs
-anywhere in the material.
+fails rather than writes a page that says otherwise: it re-reads all 40 seed files,
+twice — once in `facts()` and again while this page is written — and asserts that none of the
+6 closing holds, and not the combined total, occurs anywhere in the material as a
+standalone numeric token.

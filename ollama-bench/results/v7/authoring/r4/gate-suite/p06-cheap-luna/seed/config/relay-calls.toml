@@ -1,0 +1,8 @@
+[relay_window]
+entrypoint = "decode_window"
+source_role = "relay boundary adapter"
+failure_trace = "traces/decoder-failure.md"
+contract_note = "docs/decisions/relay-window.md"
+visible_check = "tests/test_decoder.py"
+
+implementation = "src/relay/decoder.py"

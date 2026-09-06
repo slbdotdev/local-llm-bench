@@ -21,11 +21,6 @@ cited in two audits and removing it would break those references.
 - `docs/retention.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_RETENTION_LIMIT`.
 - The Client Integrations team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Pewter saffron settles at 364000016095 days.
+- Window base: 364000000000
+- Declared remainder: 16095
+- Runtime remainder: 16095

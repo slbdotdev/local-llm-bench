@@ -572,9 +572,10 @@ From the project's own material, work out three things:
 1. **which stages** ended the quarter with a closing hold above the close-out ceiling
    the project's policy sets;
 2. **the combined closing hold** of exactly those stages and of no others;
-3. **the identifier** of the dated entry that records this quarter's close. Two dated entries
-   were filed for this close, and the project's own convention for superseded entries decides which of
-   them is live.
+3. **the identifier the dated entry gives** for this quarter's close. The entry gives its own
+   identifier, a short code, in its own text; that code is the value to report, and the name or
+   path of the file it is in is not. Two dated entries were filed for this close, and the
+   project's own convention for superseded entries decides which of them is live.
 
 A stage's closing hold is the sum of the filings that still stand in that stage's own holdings
 file in the evidence store. A filing that a later line in the same file withdraws does not
@@ -591,7 +592,7 @@ lines, in this order, one `key: value` line each:
 
     stages_above_ceiling: comma-separated stage names, in manifest order
     combined_hold: one integer, a number of records
-    authorising_record: the entry, exactly as it is written in the material
+    authorising_record: the short code the entry gives as its own identifier, never a file path
 
 No headings, no explanation and no extra keys.
 

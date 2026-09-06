@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 960.
 - `docs/reconcile.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_RECONCILE_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Harbor nickel settles at 284000008033 days.
+- Window base: 284000000000
+- Declared remainder: 8033
+- Runtime remainder: 8023

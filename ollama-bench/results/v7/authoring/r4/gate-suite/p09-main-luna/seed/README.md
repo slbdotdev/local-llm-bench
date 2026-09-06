@@ -8,7 +8,7 @@ configuration decision is under `history/`.
 
 1. `docs/architecture.md` - how the stages compose, and which order they drain in.
 2. `docs/operations.md` - what to do when a stage refuses work.
-3. `docs/policy/` - the rules that outrank both of the above.
+3. `docs/decisions/` - the dated rules that outrank both of the above.
 4. `history/` - why each number is the number it is. **Dated, and superseded entries
    are kept**: a superseded entry is evidence, not a live instruction.
 
@@ -43,14 +43,12 @@ configuration decision is under `history/`.
 - A `snapshot()` is always sorted. Insertion order is never part of any contract.
 - A configuration key that is present but unparseable is a startup error, never a
   silent fallback to the module constant.
-- Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
-  outranks everything else.
-
+- Documentation under `docs/` outranks a history entry; the dated decisions under `docs/decisions/` govern the retention review.
 ## Retention review material
 
 - `docs/retention-glossary.md` — definitions, including the project's reporting term.
 - `docs/decisions/` — dated policy records; the latest active record controls the reporting date.
-- `data/retention-events.csv` — append-only review history. Resolve it with `python tools/retention_audit.py`.
+- `data/retention-events.csv` — append-only review history. Resolve it with `python3 tools/retention_audit.py`.
 - `history/00NN-<region>.md` — each region's operator-facing interval note.
 - `history/CHANGELOG.md` — the module-facing interval note for each region.
 - `docs/retention-spot-check.md` — a non-authoritative old window comparison.
