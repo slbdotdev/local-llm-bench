@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_LINEAGE_LIMIT = 960
 DEFAULT_LINEAGE_WINDOW_S = 30
-ABSORB_UNITS = 1360
 LINEAGE_STATES = ("pending", "retired", "settled", "abandoned")
 
 

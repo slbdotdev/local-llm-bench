@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 24
 DEFAULT_CHECKPOINT_WINDOW_S = 30
-ABSORB_UNITS = 1848
 CHECKPOINT_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

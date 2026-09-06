@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_AUDIT_LIMIT = 480
 DEFAULT_AUDIT_WINDOW_S = 60
-ABSORB_UNITS = 1152
 AUDIT_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

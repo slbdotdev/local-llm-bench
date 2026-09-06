@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 12 | the largest number of batchs held before the stage refuses new work |
 | `window_s` | 90 | seconds a batch may stay `pending` before it is reaped |
-| `carried` | 1280 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `ledger` section of the manifest by `build_ledger`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

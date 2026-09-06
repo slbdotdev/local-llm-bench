@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 64
 DEFAULT_COMPACTION_WINDOW_S = 120
-ABSORB_UNITS = 1568
 COMPACTION_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

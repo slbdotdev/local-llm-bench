@@ -1,11 +1,15 @@
 """q09-main-glm — behaviour 9, reading past the first screen, on a long serial state.
 
-Shape A (r5/BRIEF.md section 4): the answer is produced by a chain of thirty-nine ordered
-steps. Each entry of the settlement log names the entry it seals against, so entry k is
-found only through entry k-1's own identifier, and each entry adjusts the running
-settlement figure that the next entry starts from. A mistake at entry three moves every
-checkpoint after it. The deliverable states the figure after every fifth entry and at the
-chain's end, so the grader records where the chain broke rather than only that it did.
+Shape A (r5/BRIEF.md section 4): the answer is produced by a chain of forty ordered steps.
+Each entry of the settlement log names the entry it seals against, and the identifiers are
+a fixed shuffle rather than a run, so entry k is found only through entry k-1's own
+identifier — sorting the entry column is a different and wrong order, asserted at build —
+and each entry adjusts the running settlement figure the next entry starts from, with a
+second rebase at entry 22, mid-chain, so the end of the replay is order-dependent: an
+order-free sum of the contributions lands elsewhere than the graded final, also asserted.
+A mistake at entry three moves every checkpoint after it. The deliverable states the
+figure after every fifth entry and at the chain's end, so the grader records where the
+chain broke rather than only that it did.
 
 Behaviour 9 lives in the placements: the replay rules — which rows take effect, where each
 entry's figure comes from, what order the entries are applied in, where the replay starts —
@@ -14,14 +18,17 @@ character 6,000 of a long viewer output (and past character 4,000 of the log its
 placements are measured by `facts()`, which fails the build rather than let NOTES.md claim
 them.
 
-Rung 0: no file holds the answer, the prompt names no load-bearing file, and the per-step
-running figures occur nowhere under seed/ — a grep can gather figures, but the entries they
-belong to are reachable only by walking the chain, and a serial replay of thirty-nine
-dependent steps is the work the task is for.
+Rung 0: no single file and no single prompt-word grep assembles the answer. The per-step
+running figures occur nowhere under seed/, and the per-entry figures a grep CAN gather —
+a balance line on each component page, a take-back constant in each module — carry no
+stage-shared token for a single pattern to collect, sit clear of the giveaway vocabulary
+the harvest checker derives from the prompt and the roster, and are orderable only by
+walking the chain. A serial replay of forty dependent steps is the work the task is for.
 """
 import csv
 import datetime
 import io
+import math
 import os
 import re
 import subprocess
@@ -67,16 +74,24 @@ HANDBOOK = "docs/handbook/settlement-procedure.md"
 LOG = "data/settlement-log.csv"
 STATUS_TOOL = "tools/settlement_status.py"
 STALE_SUMMARY = "docs/settlement-summary-2036-q2.md"
-CARRIED_ROW = "carried"
-ABSORB_CONST = "ABSORB_UNITS"
 REPLAY_HEADING = "## Replay rules"
 STALE_FIGURE = 612          # even, so it can never equal a running figure
 
-# Read by r2/check_index_leak.py: the absorb figure is written once, into the stage's own
-# module, and nowhere else beside the stage's name. The carried figure gets the same
-# one-source guarantee from facts()'s own assertion, because the checker takes one
-# constant template and the task has two per-stage figures.
-DECISIVE_CONSTANT = ABSORB_CONST
+# The per-stage figure tokens, six of each, assigned round-robin with prime strides, so a
+# single grep on any one of them reaches at most four stages — asserted at build. The
+# procedure names NONE of them: it says only that a carry's figure is stated on the
+# stage's own page and a relief's in the stage's own module, each in its own words.
+BALANCE_LABELS = ("held_over", "brought_in", "on_deposit", "set_aside",
+                  "close_balance", "review_balance")
+CONST_NAMES = ("TAKEBACK_ALLOWANCE", "SETTLED_ASIDE", "GIVEBACK_CEILING",
+               "RECLAIM_ALLOWANCE", "HOLD_ASIDE", "RETURNED_SHARE")
+
+# Read by r5/check_index_leak.py. With the constant name varying per stage there is no one
+# template to declare, so the spec declares none — and facts() carries the same predicate
+# itself, generalized: each of the 38 per-stage figures occurs exactly once under seed/,
+# on its own line, in its stage's own page or module and in no other file, which subsumes
+# the leak check (a value echoed beside the stage's name elsewhere) for BOTH figures.
+DECISIVE_CONSTANT = None
 
 CHECKPOINT_STEPS = (5, 10, 15, 20, 25, 30, 35)
 KEYS = tuple("figure_after_%02d" % k for k in CHECKPOINT_STEPS) + ("figure_final",)
@@ -105,10 +120,18 @@ def _chain_stages(corpus):
 
 
 def _entry_kinds(corpus):
-    """The chain as (kind, stage index), in replay order: rebase, then carry/relief pairs."""
+    """The chain as (kind, stage index), in replay order: an opening rebase, then
+    carry/relief pairs, with a second rebase mid-chain — entry 22, between the 20th and
+    25th checkpoints — so the replay's end is order-dependent. Before this there was one
+    rebase, at entry one, and every later entry was a commutative +carried or -absorb:
+    the reviewer summed the contributions from a shuffled list and reached figure_final
+    with no ordering at all. A rebase resets rather than adds, so that sum now lands
+    short by exactly the figure at entry 21 (asserted at build)."""
     perm = _chain_stages(corpus)
     out = [("rebase", perm[0])]
     for j in range(len(corpus.stages)):
+        if len(out) == 21:
+            out.append(("rebase", perm[len(corpus.stages) - 1]))
         out.append(("carry", perm[j]))
         out.append(("relief", perm[j]))
     return out
@@ -119,17 +142,22 @@ def _props(corpus, off):
 
     Both figures are four-digit and sit above every number the generated tree can
     contain — limits are at most 960, windows at most 180, and the tree's only other
-    numerals are years and zero-padded indexes. carried runs 1200..1920 in steps of 40;
-    absorb is carried minus a per-stage step of 20..92, so absorb stays above 1100 and
-    below the smallest carried. The running figures start at a stage's basis (carried +
-    absorb, 2308 or more) and only ever rise, so no running figure can equal a tree
-    number or a stage figure: the bands are disjoint by construction. The offset only
-    shuffles which stage draws which step, and `facts()` still measures collision-"
-    "freedom from the seed rather than trusting the construction.
+    numerals are years and zero-padded indexes. The carried figure is drawn from a
+    stride-permuted, jittered table — NOT an arithmetic progression in stage order, and
+    not a function of a stage's position that a second page could continue; facts()
+    asserts both from the seed on disk. absorb is the carried figure minus a per-stage
+    step of 20..92, so absorb stays above 1100 and below the smallest carried. The
+    running figures start at a stage's basis (carried + absorb, 2308 or more) and only
+    ever reset to another basis or rise, so no running figure can equal a tree number or
+    a stage figure: the bands are disjoint by construction. The offset only shuffles
+    which stage draws which step, and `facts()` still measures the progression- and
+    collision-freedom from the seed rather than trusting the construction.
     """
     n = len(corpus.stages)
-    carried = [1200 + 40 * i for i in range(n)]
-    delta = [20 + 4 * ((11 * (i + 2 * off)) % n) for i in range(n)]
+    perm = [(_coprime(n) * i + off) % n for i in range(n)]
+    assert sorted(perm) == list(range(n))
+    carried = [1200 + 40 * perm[i] + 8 * ((3 * perm[i] + 2 * off) % 5) for i in range(n)]
+    delta = [20 + 4 * ((11 * perm[i] + 2 * off) % n) for i in range(n)]
     absorb = [carried[i] - delta[i] for i in range(n)]
     return carried, absorb
 
@@ -168,28 +196,34 @@ def overlay(ctx):
 
     kinds = _entry_kinds(corpus)
 
-    # Per-stage figures: the four-digit construction above makes collision-freedom and
+    # Per-stage figures: the four-digit construction above makes the band separation and
     # the index-leak property structural, so the offset search accepts on this spec's own
     # arithmetic alone — most-distinct replay first, full distinctness if any offset in
-    # the range achieves it — and terminates whatever tree it runs on.
+    # the range achieves it — and terminates whatever tree it runs on. Offsets that make
+    # two stage figures collide are skipped outright: each figure must have exactly one
+    # source on disk.
+    vocab = _giveaway_vocab(corpus)
     best = None  # (distinct states, off, carried, absorb, states)
     for off in range(400):
         carried, absorb = _props(corpus, off)
+        if len(set(carried)) != n or len(set(absorb)) != n:
+            continue
+        if len(set(c + a for c, a in zip(carried, absorb))) != n:
+            continue
         states = _apply(kinds, list(zip(carried, absorb)))
         distinct = len(set(states))
         if best is None or distinct > best[0]:
             best = (distinct, off, carried, absorb, states)
         if distinct == len(states):
             break
+    assert best is not None, "no offset in 400 gives 38 distinct stage figures"
     _distinct, _off, carried, absorb, _states = best
     assert min(carried) > max(int(s["limit"]) for s in stages), \
         "a stage figure could echo an assembler limit in an index table"
 
     for i, st in enumerate(stages):
-        corpus.add_doc_config_row(
-            st, CARRIED_ROW, str(carried[i]),
-            "the units this stage carries into the close, fixed at the review")
-        corpus.set_module_constant(st, ABSORB_CONST, str(absorb[i]))
+        _write_page_balance(corpus, st, i, carried[i], vocab)
+        _write_module_figure(corpus, st, i, absorb[i], vocab)
 
     _write_log(ctx, kinds, carried, absorb)
     _write_handbook(ctx)
@@ -209,8 +243,21 @@ def overlay(ctx):
                                   count=text.count("docs/policy/"))
 
 
-def _entry_id(k):
-    return "sc-%03d" % (100 + k)
+def _entry_ids(n_steps):
+    """Chain position k (1-based) -> identifier. The identifiers are one consecutive
+    range put through a fixed Fisher-Yates shuffle (an LCG seeded from CORPUS_SEED, so
+    the build is deterministic): each identifier is used once, neighbours in the chain get
+    no arithmetic run a solver could continue, and sorting the column by its numeric part
+    yields a DIFFERENT order from the chain — `previous` is the only thing that orders it
+    (asserted from the file in `facts()`)."""
+    ids = [101 + j for j in range(n_steps)]
+    state = (CORPUS_SEED * 2654435761 + 91 * n_steps) & 0xFFFFFFFF
+    for j in range(n_steps - 1, 0, -1):
+        state = (1103515245 * state + 12345) & 0x7FFFFFFF
+        k = state % (j + 1)
+        ids[j], ids[k] = ids[k], ids[j]
+    assert len(set(ids)) == n_steps
+    return ids
 
 
 def _dates(kinds):
@@ -229,9 +276,11 @@ def _detail(kind, stage, owner, j):
                 "per the procedure and the review of the filing" % stage)
     if kind == "carry":
         return [
-            "admits the balance held back at the previous close as minuted at the review",
-            "brings the stage's held-back balance into this cycle on the clerk's signing",
-            "admits the held-back balance for this stage restated at the review and filed",
+            "admits the carryover the stage held back at the previous close as minuted "
+            "at the review",
+            "brings the stage's carryover into this cycle on the clerk's signing",
+            "admits the carryover held back for this stage restated at the review and "
+            "filed",
         ][j % 3]
     return [
         "returns what the stage can take back this cycle per the review note as written",
@@ -245,6 +294,7 @@ def _log_rows(ctx, kinds, carried, absorb):
     corpus = ctx["corpus"]
     stages = corpus.stages
     dates = _dates(kinds)
+    ids = _entry_ids(len(kinds))
     carry_j = relief_j = 0
     chain = []
     for k, (kind, si) in enumerate(kinds, 1):
@@ -257,7 +307,7 @@ def _log_rows(ctx, kinds, carried, absorb):
             detail = _detail(kind, stage["name"], stage["owner"], 0)
         actor = stages[(si + 5) % len(stages)]["owner"]
         chain.append({
-            "entry": _entry_id(k), "previous": "" if k == 1 else _entry_id(k - 1),
+            "entry": ids[k - 1], "previous": "" if k == 1 else ids[k - 2],
             "sealed_on": dates[k], "actor": actor, "kind": kind, "stage": stage["name"],
             "status": "sealed", "detail": detail, "k": k,
         })
@@ -270,11 +320,12 @@ def _log_rows(ctx, kinds, carried, absorb):
     voids = [
         {"entry": "sc-100", "previous": "", "sealed_on": "2036-06-24",
          "actor": stages[2]["owner"], "kind": "rebase", "stage": stages[7]["name"],
-         "status": "void", "detail": "opening draft superseded before the log was sealed"},
-        {"entry": "sc-140", "previous": _entry_id(9), "sealed_on": "2036-08-27",
+         "status": "void",
+         "detail": "opening draft superseded once the close summary was filed"},
+        {"entry": "sc-141", "previous": ids[8], "sealed_on": "2036-08-27",
          "actor": stages[4]["owner"], "kind": "relief", "stage": stages[11]["name"],
          "status": "void", "detail": "filed twice after a clerk re-run and withdrawn"},
-        {"entry": "sc-141", "previous": _entry_id(21), "sealed_on": "2036-09-01",
+        {"entry": "sc-142", "previous": ids[20], "sealed_on": "2036-09-01",
          "actor": stages[6]["owner"], "kind": "carry", "stage": stages[13]["name"],
          "status": "void", "detail": "withdrawn at the review before sealing"},
     ]
@@ -283,11 +334,13 @@ def _log_rows(ctx, kinds, carried, absorb):
     # order, date order and chain order are three different orders, and the procedure says
     # in as many words that only the chain is the replay order.
     total = len(kinds)
-    stride = _coprime(total, skip=())
-    stride = stride if stride != 1 else 5
+    # a stride permutation that also lands the chain's first row deep in the file, and is
+    # neither the chain order, the date order, nor the chain reversed
+    stride = next(s for s in range(total - 2, 1, -1)
+                  if math.gcd(s, total) == 1 and (s % total) + 1 >= total - 6)
     by_slot = {}
     for k in range(1, total + 1):
-        slot = ((34 * k) % total) + 1
+        slot = ((stride * k) % total) + 1
         by_slot[slot] = chain[k - 1]
     rows = [by_slot[i] for i in range(1, total + 1)]
     for pos, void in zip((4, 16, 40), voids):
@@ -505,15 +558,15 @@ _REPLAY = [
         "An entry's row carries no figure, because a figure filed beside its entry goes "
         "stale against the stage the day either changes. The figure an entry applies is "
         "read from the stage's own material, by the kind of the entry:",
-        "a `carry` entry adds that stage's carried figure, which is the `carried` row of "
-        "the stage's own component page under `docs/`, where what operations was told is "
-        "kept;",
-        "a `relief` entry subtracts that stage's absorb figure, which is the "
-        "`ABSORB_UNITS` constant in the stage's own module under `src/`, because capacity "
-        "the code can give back is recorded where the code lives;",
+        "a `carry` entry adds the balance the stage's own component page under `docs/` "
+        "records for the close: each page states it once, in the page's own words, on a "
+        "line of its own;",
+        "a `relief` entry subtracts the take-back the stage's own module under `src/` "
+        "records: each module names it as a constant, in the module's own terms, because "
+        "capacity the code can give back is recorded where the code lives;",
         "a `rebase` entry does not adjust the figure but sets it: the figure becomes that "
-        "stage's settlement basis, which is its carried figure plus its absorb figure, "
-        "read from the component page and the module like a carry's and a relief's.",
+        "stage's settlement basis, its page balance plus its module take-back, read like "
+        "a carry's and a relief's;",
         "The assembler's `limit` and `window_s` are settlement figures in neither role, "
         "and the coincidence of a settlement figure with an assembler number means "
         "nothing.",
@@ -597,10 +650,12 @@ _TOOL_SOURCE = '''"""Print the settlement log as filed, one block per row, in fi
 
 This is a viewer. The rows are printed in the order they were filed, which is the order
 the clerks happened to write them and is not the settlement's order of anything. The
-settlement procedure's replay rules govern the replay, and they are stated in the
-procedure, not here. The one thing this tool resolves is the log's opening entry, printed
-at the end: the procedure defines it, and the viewer applies that definition so that a
-clerk checking the replay's start point does not have to count empty columns by eye.
+sealed entries form one chain, entry sealing against entry, and the order of that chain
+is the settlement procedure's to state, not this viewer's: its replay rules govern the
+replay and are stated there. The one thing this tool resolves is the log's opening entry,
+printed at the end: the procedure defines it, and the viewer applies that definition so
+that a clerk checking the replay's start point does not have to count empty columns by
+eye.
 
 The viewer prints no figures. An entry's figure is not in the log, and a viewer that
 computed the settlement would be doing the settlement's work twice.
@@ -649,6 +704,137 @@ if __name__ == "__main__":
 
 def _write_status_tool(ctx):
     C.write(os.path.join(ctx["seed"], *STATUS_TOOL.split("/")), _TOOL_SOURCE)
+
+
+# ---------------------------------------------------------------------------
+# the two per-stage figures. Each is written ONCE, into the stage's own page or module, on
+# a line of its own, placed so that no line of the file's giveaway vocabulary sits within
+# five lines of it (the harvest checker's widest gated window — its vocabulary includes
+# the roster's `limit` and `window_s`, which is why the figures are NOT rows of the
+# configuration tables), under a label or constant name and a wording that rotate per
+# stage so no single grep gathers more than four stages' worth. facts() re-measures all
+# of it from the seed with the checker's own algorithms.
+# ---------------------------------------------------------------------------
+_BALANCE_PROSE = [
+    ("The closing review left this page with one opening balance for the close.",
+     "The review minuted it at **%d**, and the number moves only at a review."),
+    ("What this page's stage holds back at the close is stated just below.",
+     "The 2036 review fixed it at **%d** and no second copy of it exists."),
+    ("A balance is minuted for this page at each closing review, and it sits here.",
+     "For the close now in force that balance is **%d**, per the review's own note."),
+    ("The review of the closing paperwork fixed this page's opening balance.",
+     "As minuted: **%d**. One source, one close, no second copy anywhere."),
+    ("This page keeps the balance its stage opens the close with.",
+     "The review's 2036 minute set that balance at **%d**; take it as written."),
+    ("Once per close, the review minute fixes what this page opens with.",
+     "This close it is **%d**, and it moves only at a review."),
+]
+_MODULE_COMMENTS = (
+    "# The take-back this stage may claim at the close was fixed at the 2036 review,",
+    "# and is named here in this file's own words; no other line anywhere repeats it.",
+    "# The matching page balance lives on the stage's page under docs.",
+)
+_BALANCE_HEAD = "## Balance at the review"
+
+
+def _balance_label(i):
+    return BALANCE_LABELS[(5 * i + 2) % len(BALANCE_LABELS)]
+
+
+def _const_name(i):
+    return CONST_NAMES[(7 * i + 1) % len(CONST_NAMES)]
+
+
+def _prose_pair(i):
+    return _BALANCE_PROSE[(11 * i + 3) % len(_BALANCE_PROSE)]
+
+
+def _vocab_clean(line, vocab):
+    low = line.lower()
+    return not any(t in low for t in vocab)
+
+
+def _append_clear_of_vocab(text, block, vocab, value_idx, pad_line):
+    """Append `block`'s lines to `text`, sliding the block down (`pad_line` inserted
+    before the value line) until no line within five of the value line carries a giveaway
+    token — the property that keeps H1 and H3 structurally at zero."""
+    lines = text.rstrip("\n").split("\n")
+    for _ in range(12):
+        all_lines = lines + list(block)
+        v = len(lines) + value_idx
+        window = range(max(0, v - 5), min(len(all_lines), v + 6))
+        if all(_vocab_clean(all_lines[i], vocab) for i in window):
+            return "\n".join(all_lines) + "\n"
+        lines.append(pad_line)
+    raise AssertionError("no window clear of the giveaway vocabulary for a figure line")
+
+
+def _write_page_balance(corpus, st, i, value, vocab):
+    lead, line = _prose_pair(i)
+    line = line.replace("%d", str(value))
+    assert _vocab_clean(line, vocab) and _vocab_clean(lead, vocab), st["name"]
+    block = ["", _BALANCE_HEAD, "", lead, "", line]
+    text = _append_clear_of_vocab(corpus.text(st["doc"]), block, vocab,
+                                  len(block) - 1, "Checked at the close, and not before.")
+    C.write(corpus.path(st["doc"]), text)
+
+
+def _page_balance(corpus, st, _i):
+    text = corpus.text(st["doc"])
+    at = text.index(_BALANCE_HEAD)
+    m = re.search(r"\*\*(\d+)\*\*", text[at:])
+    assert m, "%s: no balance line under %r" % (st["doc"], _BALANCE_HEAD)
+    return int(m.group(1))
+
+
+def _write_module_figure(corpus, st, i, value, vocab):
+    line = "%s = %d" % (_const_name(i), value)
+    assert _vocab_clean(line, vocab), line
+    block = [""] + list(_MODULE_COMMENTS) + ["", line]
+    text = _append_clear_of_vocab(corpus.text(st["src"]), block, vocab,
+                                  len(block) - 1, "# fixed at the review of the filing")
+    C.write(corpus.path(st["src"]), text)
+
+
+def _module_figure(corpus, st, i):
+    m = re.search(r"^%s = (\d+)$" % re.escape(_const_name(i)),
+                  corpus.text(st["src"]), re.M)
+    assert m, "%s: no %s constant" % (st["src"], _const_name(i))
+    return int(m.group(1))
+
+
+def _tally(seq):
+    out = {}
+    for x in seq:
+        out[x] = out.get(x, 0) + 1
+    return out
+
+
+# The harvest checker's giveaway vocabulary and word splitter, replicated so facts()
+# measures the same thing the checker measures.
+_STOP = set("""a an and are as at be been before but by can do does for from has have if in into
+is it its may must never no not of on one only or other our over same shall should so some
+such than that the their them then there these they this those to two under until up upon use
+used using was were what when where which while who why will with within without you your
+work working current directory root new file files line lines write written writes exactly
+order value values name names each every all any more most also just plainly stop nothing
+create created creates modify modified delete deleted existing task prompt project repository
+checkout report list plain integer comma separated alphabetical header quotes explanation
+newline end ends may not do does""".split())
+_WORD = re.compile(r"[A-Za-z_][A-Za-z0-9_]{3,}")
+
+
+def _giveaway_vocab(corpus):
+    """Every distinctive token of prompt.md, plus every distinctive token of the declared
+    roster pointer, plus the deliverable's name and the scored keys' words — what the
+    checker calls the giveaway vocabulary."""
+    words = set(w.lower() for w in _WORD.findall(PROMPT_TEXT % {"deliv": DELIVERABLE}))
+    words |= set(w.lower() for w in _WORD.findall(corpus.text("config/manifest.json")))
+    words.add(DELIVERABLE.lower())
+    for k in KEYS:
+        words.add(k.lower())
+        words |= set(w.lower() for w in _WORD.findall(k))
+    return sorted(w for w in words - _STOP if len(w) >= 4)
 
 
 def _write_stale_summary(ctx, corpus):
@@ -712,10 +898,8 @@ def _chain_from(rows):
 def _props_from_disk(ctx):
     corpus = ctx["corpus"]
     out = []
-    for st in corpus.stages:
-        carried = int(corpus.doc_config_row(st, CARRIED_ROW))
-        absorb = int(corpus.module_constant(st, ABSORB_CONST))
-        out.append((carried, absorb))
+    for i, st in enumerate(corpus.stages):
+        out.append((_page_balance(corpus, st, i), _module_figure(corpus, st, i)))
     return out
 
 
@@ -774,7 +958,16 @@ def _wrong_courses(ctx, rows, truth_states):
     voided = _replay(ctx, [(r["kind"], r["stage"]) for r in all_rows])
     chain = _chain_from(rows)
     swapped = _replay_crossed(ctx, [(r["kind"], r["stage"]) for r in chain])
-    out = {"date_order": date_order, "void_rows": voided, "swapped": swapped}
+    by_id = sorted(sealed, key=lambda r: int(r["entry"].split("-")[1]))
+    id_order = _replay(ctx, [(r["kind"], r["stage"]) for r in by_id])
+    filing = _replay(ctx, [(r["kind"], r["stage"]) for r in rows])
+    chain_ids = [r["entry"] for r in chain]
+    assert chain_ids != [r["entry"] for r in by_id], \
+        "sorting the sealed rows by identifier reproduces the chain; previous is decorative"
+    assert chain_ids != [r["entry"] for r in rows if r["status"] == "sealed"], \
+        "the filing order is the chain order"
+    out = {"date_order": date_order, "void_rows": voided, "swapped": swapped,
+           "id_order": id_order, "filing_order": filing}
     for name, states in out.items():
         marks = sum(1 for a, b in zip(_checkpoints(truth_states), _checkpoints(states))
                     if a != b)
@@ -822,7 +1015,7 @@ def facts(ctx):
     text, rows = _read_log(ctx)
     chain_ids, states = _truth(ctx, rows)
     n_steps = len(states)
-    assert n_steps == 1 + 2 * n, "chain is %d steps, expected %d" % (n_steps, 1 + 2 * n)
+    assert n_steps == 2 + 2 * n, "chain is %d steps, expected %d" % (n_steps, 2 + 2 * n)
     assert n_steps >= 27, "chain is %d steps; shape A requires at least twenty" % n_steps
 
     # the chain's own shape: moving, in the settlement's four-digit band, distinct at
@@ -838,11 +1031,34 @@ def facts(ctx):
     assert carry_stages == set(s["name"] for s in corpus.stages), "a stage never carries"
     assert relief_stages == set(s["name"] for s in corpus.stages), "a stage never relieves"
 
+    # -- the stage figures, measured from disk --------------------------------------------
+    # Not an arithmetic progression and not monotone in stage order (no pattern continues
+    # them from a second page), pairwise distinct with distinct bases, and each occurring
+    # EXACTLY once under seed/ — on its own line, in its own page or module, and in no
+    # other file — which is also the index-leak property, for both figures.
+    figs = _props_from_disk(ctx)
+    carried_seq = [c for c, _ in figs]
+    assert len(set(carried_seq)) == n and len(set(a for _, a in figs)) == n, \
+        "two stages share a figure"
+    assert len(set(c + a for c, a in figs)) == n, "two stages share a settlement basis"
+    step_diffs = set(carried_seq[i + 1] - carried_seq[i] for i in range(n - 1))
+    assert len(step_diffs) > 1, \
+        "carried figures form an arithmetic progression in stage order"
+    assert carried_seq != sorted(carried_seq) \
+        and carried_seq != sorted(carried_seq, reverse=True), \
+        "carried figures are monotone in stage order; the pattern continues itself"
+    for i, st in enumerate(corpus.stages):
+        for value, own in ((figs[i][0], st["doc"]), (figs[i][1], st["src"])):
+            hits = _bounded_hits(ctx, str(value))
+            assert sorted(set(rel for rel, _ in hits)) == sorted([own]), \
+                "%s figure %d occurs outside its own file: %s" % (st["name"], value,
+                                                                  hits[:3])
+
     # -- the derived claim, measured: no running figure occurs anywhere under seed/ -------
-    # The per-unit decisive data (harvest_units below) are these states: each step's
-    # output, which the next step consumes and the checkpoints report. They are computed,
-    # never filed, so the grep-harvest measure is structurally zero — and this assertion,
-    # not the checker alone, is the proof that they are derived rather than hidden.
+    # The running figures are what the checkpoints score; each is a computed sum, never
+    # filed, so no grep assembles the answer. The per-ENTRY figures the replay consumes
+    # are declared to the harvest checker instead (harvest_units below) and are the ones
+    # measured for H1-H4.
     for x in states:
         hits = _bounded_hits(ctx, str(x))
         assert not hits, "running figure %d occurs in the seed: %s" % (x, hits[:3])
@@ -856,12 +1072,70 @@ def facts(ctx):
     assert [r["sealed_on"] for r in _chain_from(rows)] != date_dates, \
         "chain order coincides with date order; the decoy is dead"
 
+    # -- the order-free attacks, measured --------------------------------------------------
+    # (i) sorting the sealed rows by identifier and replaying is measured in
+    # _wrong_courses alongside the as-filed order; (ii) the final figure is not the
+    # order-free sum of the contributions, because the mid-chain rebase resets rather
+    # than adds — the sum lands short by exactly the figure at entry 21.
+    naive = 0
+    for kind, si in _entry_kinds(corpus):
+        c, a = figs[si]
+        naive += (c + a) if kind == "rebase" else (c if kind == "carry" else -a)
+    assert naive != states[-1], \
+        "the order-free sum of all contributions is the graded final figure"
+
+    # -- the harvest checker's vocabulary, kept away from every figure line ----------------
+    # The balance line is deliberately NOT a row of the configuration table: the table's
+    # own `limit` and `window_s` rows are roster vocabulary, and a figure two lines from
+    # one is harvested by it. Each figure line sits clear of any line the prompt or the
+    # declared roster pointer can put a token on, within the checker's widest gated
+    # window, under a label or constant name that at most four stages share, with wording
+    # that rotates in step — asserted here with the checker's own algorithms, H1/H3's
+    # window and H4's frames both.
+    vocab = _giveaway_vocab(corpus)
+    frame_count = {}
+    for i, st in enumerate(corpus.stages):
+        for value, own in ((figs[i][0], st["doc"]), (figs[i][1], st["src"])):
+            v = [ln for rel, ln in _bounded_hits(ctx, str(value)) if rel == own][0]
+            own_lines = C.read(os.path.join(
+                ctx["seed"], *own.split("/"))).lower().splitlines()
+            for j in range(max(0, v - 6), min(len(own_lines), v + 5)):
+                near = [t for t in vocab if t in own_lines[j]]
+                assert not near, ("%s: giveaway token %r within five lines of figure %d"
+                                  % (own, near[0], value))
+            words = re.findall(r"[A-Za-z]{2,}", own_lines[v - 1].replace(str(value), " "))
+            for nw in range(2, 7):
+                for j in range(len(words) - nw + 1):
+                    frag = " ".join(words[j:j + nw])
+                    if len(frag) >= 10:
+                        frame_count[frag] = frame_count.get(frag, 0) + 1
+    worst_frame = max(frame_count.values())
+    assert worst_frame <= int(0.24 * (2 * n)), \
+        "one literal frame covers %d of the %d figure lines" % (worst_frame, 2 * n)
+    widest_token = max(max(_tally(_balance_label(i) for i in range(n)).values()),
+                       max(_tally(_const_name(i) for i in range(n)).values()),
+                       max(_tally(_prose_pair(i) for i in range(n)).values()))
+    assert widest_token <= 4, \
+        "a label, a constant name or a wording covers %d stages; one grep collects them" \
+        % widest_token
+
+    # no single word of the prompt greps to exactly one load-bearing file
+    lb_paths = sorted(set(p["path"] for p in load_bearing(ctx)))
+    lows = dict((rel, C.read(corpus.path(rel)).lower()) for rel in lb_paths)
+    for w in sorted(set(wd.lower() for wd in _WORD.findall(
+            PROMPT_TEXT % {"deliv": DELIVERABLE})) - _STOP):
+        if len(w) < 4:
+            continue
+        hits = [rel for rel in lb_paths if w in lows[rel]]
+        assert len(hits) != 1, \
+            "the prompt's word %r greps to exactly one load-bearing file: %s" % (w, hits)
+
     # -- behaviour 9's placements, measured rather than asserted --------------------------
     proc_line = _handbook_line(ctx, REPLAY_HEADING)
     assert proc_line > 200, (
         "%s: the replay rules start at line %d; behaviour 9 requires them past line 200"
         % (HANDBOOK, proc_line))
-    for needle in ("carried figure", "ABSORB_UNITS", "rebase"):
+    for needle in ("a `carry` entry adds", "a `relief` entry subtracts", "rebase"):
         deep = _first_line_over(ctx, needle, 200)
         assert deep > proc_line, "%r appears before the replay rules (line %d)" % (needle, deep)
     handbook_lines = len(C.read(corpus.path(HANDBOOK)).splitlines())
@@ -919,17 +1193,23 @@ def facts(ctx):
         "chain_ids": chain_ids,
         "opening": opening,
         "wrong": wrong,
+        "naive_sum": naive,
         "meas": {
             "proc_line": proc_line, "handbook_lines": handbook_lines,
             "dump_chars": len(dump), "dump_lines": len(dump.splitlines()),
             "opening_at": at, "log_chars": len(text), "log_rows": len(log_lines) - 1,
             "opening_line": gen_line, "opening_char": gen_at,
+            "worst_frame": worst_frame,
         },
     }
 
 
-def prompt(ctx):
-    return """# Quarterly settlement report
+# ---------------------------------------------------------------------------
+# the prompt. Words are chosen against the load-bearing set: no word of it may grep to
+# exactly one load-bearing file (asserted in facts()), which is why the chain word lives
+# on the viewer too and carryover in the log's own carry entries.
+# ---------------------------------------------------------------------------
+PROMPT_TEXT = """# Quarterly settlement report
 
 You are working in a checkout of a delivery-pipeline repository; your current directory is
 the root of that checkout.
@@ -937,32 +1217,35 @@ the root of that checkout.
 This cycle's carryover settlement has not yet been computed. Produce it. Every component
 the manifest names is in scope.
 
-The repository's own written procedure governs the settlement: what the log's columns
-mean, which rows take effect, where each applied figure comes from, and the order the
-entries are applied in. That procedure is what you must apply — not the ordinary reading
-of the log's column names, and not any summary previously filed in the tree. Find the
-procedure and apply it from its first entry to its last.
+The repository's own written procedure has the rules of the settlement: what the log's
+columns are for, which rows count, where each figure is read from, and what order the
+entries go in. That procedure is what you must follow — not the ordinary reading of the
+log's field names, and not any summary previously filed in the tree. Find the procedure
+and follow it from its first entry to its final entry.
 
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
 exactly these eight lines, in this order:
 
-    figure_after_05: <the settlement figure after the fifth entry, a plain integer>
-    figure_after_10: <the same, after the tenth entry>
-    figure_after_15: <the same, after the fifteenth entry>
-    figure_after_20: <the same, after the twentieth entry>
-    figure_after_25: <the same, after the twenty-fifth entry>
-    figure_after_30: <the same, after the thirtieth entry>
-    figure_after_35: <the same, after the thirty-fifth entry>
-    figure_final: <the settlement figure after the chain's last entry, a plain integer>
+    figure_after_05: <the settlement figure after the 5th entry, a plain integer>
+    figure_after_10: <the same, after the 10th entry>
+    figure_after_15: <the same, after the 15th entry>
+    figure_after_20: <the same, after the 20th entry>
+    figure_after_25: <the same, after the 25th entry>
+    figure_after_30: <the same, after the 30th entry>
+    figure_after_35: <the same, after the 35th entry>
+    figure_final: <the settlement figure after the chain's final entry, a plain integer>
 
-Entries are counted in the order the procedure prescribes, the chain's first entry
-counting as entry one. No header, no quotes, no explanation, no other lines. The report
-may end with a newline or not.
+Entries are counted in the procedure's order, its first entry being entry one. No header,
+no quotes, no explanation, no other lines. The report may end with a newline or not.
 
 Do not modify or delete any existing file, and create no file other than the report.
 
-Work until the report is complete, then stop.
-""" % {"deliv": DELIVERABLE}
+Work until the report is filed, then stop.
+"""
+
+
+def prompt(ctx):
+    return PROMPT_TEXT % {"deliv": DELIVERABLE}
 
 
 def reference(ctx):
@@ -972,19 +1255,37 @@ def reference(ctx):
 
 
 def harvest_units(ctx):
-    """The per-unit decisive data: each entry's post-entry running figure.
+    """The per-unit decisive data: the figure each entry APPLIES, one entry per datum.
 
-    For a chain these states are what the answer reconciles — each is step k's output,
-    step k+1's input, and the value the checkpoints report. They are computed by the
-    replay and filed nowhere: `facts()` asserts that no one of them occurs under seed/,
-    so the grep-harvest measure is derived for every unit and reads vacuous. That is the
-    honest reading of a chain: the figures a grep could gather (the log's rows, the
-    stages' pages) are inputs no one of which means anything until the chain has selected
-    and ordered them.
+    A carry's figure is its stage's page balance, a relief's is its stage's module
+    take-back, and a rebase's is its stage's settlement basis — page balance plus module
+    take-back, which is stated nowhere and is measured as derived. These are what the
+    replay consumes at each step, and what the two-grep shortcut used to harvest: the
+    procedure no longer names any of the tokens, each token now covers at most four
+    stages (asserted), and each figure line sits clear of the checker's giveaway
+    vocabulary (asserted), so check_harvest.py measures H1-H4 as numbers, not `vacuous`.
     """
     f = ctx["facts"]
-    return [{"unit": fid, "value": str(state), "path": LOG}
-            for fid, state in zip(f["chain_ids"], f["states"])]
+    corpus = ctx["corpus"]
+    _text, rows = _read_log(ctx)
+    by_id = dict((r["entry"], r) for r in rows)
+    figs = _props_from_disk(ctx)
+    by_name = dict((st["name"], i) for i, st in enumerate(corpus.stages))
+    out = []
+    for fid in f["chain_ids"]:
+        r = by_id[fid]
+        i = by_name[r["stage"]]
+        carried, absorb = figs[i]
+        if r["kind"] == "carry":
+            out.append({"unit": fid, "value": str(carried),
+                        "path": corpus.stages[i]["doc"]})
+        elif r["kind"] == "relief":
+            out.append({"unit": fid, "value": str(absorb),
+                        "path": corpus.stages[i]["src"]})
+        else:
+            out.append({"unit": fid, "value": str(carried + absorb),
+                        "path": corpus.stages[i]["doc"]})
+    return out
 
 
 def sweep_paths(ctx):
@@ -1078,10 +1379,11 @@ def probes(ctx):
                             "figure_after_05: %s" % f["expect"][KEYS[0]])
 
     module0 = corpus.stages[0]["src"]
-    old = "ABSORB_UNITS = %s" % corpus.module_constant(corpus.stages[0], ABSORB_CONST)
+    name0 = _const_name(0)
+    old = "%s = %s" % (name0, corpus.module_constant(corpus.stages[0], name0))
     edited = C.read(corpus.path(module0)).replace(
-        old, "ABSORB_UNITS = %d" % (int(corpus.module_constant(corpus.stages[0],
-                                                             ABSORB_CONST)) + 1), 1)
+        old, "%s = %d" % (name0, int(corpus.module_constant(corpus.stages[0],
+                                                            name0)) + 1), 1)
     assert edited != C.read(corpus.path(module0))
 
     cases = [
@@ -1143,6 +1445,14 @@ def notes(ctx, m):
     floor = _score_for({}, f)
     date_marks = sum(1 for a, b in zip(_checkpoints(f["states"]),
                                        _checkpoints(wrong["date_order"])) if a != b)
+    id_marks = sum(1 for a, b in zip(_checkpoints(f["states"]),
+                                     _checkpoints(wrong["id_order"])) if a != b)
+    file_marks = sum(1 for a, b in zip(_checkpoints(f["states"]),
+                                       _checkpoints(wrong["filing_order"])) if a != b)
+    n = len(corpus.stages)
+    worst_variant = max(max(_tally(_balance_label(i) for i in range(n)).values()),
+                        max(_tally(_const_name(i) for i in range(n)).values()),
+                        max(_tally(_prose_pair(i) for i in range(n)).values()))
     lb_lines = "\n".join("- `%s` — %s (*%s*)" % (p["path"], p["why"], p["hop"])
                          for p in m["load_bearing"])
     return """# NOTES — %(slot)s (behaviour %(mode)d, rung 0, shape A)
@@ -1159,25 +1469,34 @@ of anything.
 
 ## 2. The chain, and how each step consumes the previous one
 
-Twice over, by design:
+Twice over, by design, and both times as a build-time measurement rather than a claim:
 
 1. **Selection.** Each sealed log row names, in its `previous` column, the entry it seals
-   against. Entry *k* is found only by taking entry *k-1*'s identifier and searching for
-   the row that seals against it. Filing order is a stride permutation of the chain and
-   the `sealed_on` dates are scattered, so neither a top-to-bottom read nor a date sort
-   yields the chain; `facts()` asserts the chain's date sequence differs from date order.
+   against. The identifiers are a fixed Fisher-Yates shuffle of one consecutive range, so
+   no arithmetic run of identifiers continues the chain and the numeric order of the entry
+   column is a different, wrong order: `facts()` sorts the sealed rows by identifier,
+   asserts the order differs from the link walk, and replays it — **%(idmarks)d of 8
+   checkpoints miss**. The as-filed order fares the same (**%(filemarks)d of 8**). Filing
+   order is a stride permutation of the chain and the `sealed_on` dates are scattered;
+   `facts()` also asserts the chain's date sequence differs from date order. `previous` is
+   the only artifact of order the log carries, and the only thing that orders it.
 2. **State.** Each entry adjusts the running settlement figure the previous entry left:
-   a `carry` adds its stage's carried figure, a `relief` subtracts its stage's absorb
-   figure, and the opening `rebase` sets the figure to its stage's basis, its carried
-   figure plus its absorb figure. The figures live in the stages' own
-   material — the `carried` row of each component page and each module's `ABSORB_UNITS` —
-   and never in the log, so all %(twon)d stage files are on the replay's path.
+   a `carry` adds its stage's page balance, a `relief` subtracts its stage's module
+   take-back, and a `rebase` sets the figure to its stage's basis, its page balance plus
+   its module take-back. A second `rebase` sits at entry 22, mid-chain, between the 20th
+   and 25th checkpoints, so the replay's end is order-dependent: the order-free sum of
+   all forty contributions lands at %(naive)s, not the graded %(final)s — asserted at
+   build, along with the sorted-by-identifier and as-filed replays. The figures live in
+   the stages' own material — a balance line on each component page and a take-back
+   constant in each module — and never in the log, so all %(twon)d stage files are on the
+   replay's path.
 
 An error at entry three moves every checkpoint from five to the end. The steps are plainly
 stated — the procedure defines each kind, each figure source, the chain as the order, and
 the start — and every one of those rules sits past line %(procline)d of
 `%(hb)s`, where a reader who stops at the first screen files a summary's
-figure or sorts by date and gets a complete, confident, wrong answer.
+figure, sorts by date, or sorts by identifier, and gets a complete, confident, wrong
+answer.
 
 ## 3. Rung 0, sweep, and behaviour 9's placements
 
@@ -1195,11 +1514,12 @@ and one relief entry.
 Both of behaviour 9's placements are build-time measurements, and each is asserted:
 
 - **Past line 200.** `%(hb)s` is **%(hbline)d lines**. `%(heading)s` is at
-  line **%(procline)d**; the first occurrence of `carried figure`, `ABSORB_UNITS` and
-  `rebase` all sit below it, asserted. Everything above the heading is the institution —
-  what the settlement is, who runs it, filing, history, terms — real material that never
-  states a replay rule; `facts()` also asserts that no file but the procedure pairs
-  `carried figure` with `absorb_units`, so the rules have exactly one source.
+  line **%(procline)d**; the first occurrence of each replay-rule phrase — the carry
+  bullet, the relief bullet, the rebase rule — sits below it, asserted. Everything above
+  the heading is the institution — what the settlement is, who runs it, filing, history,
+  terms — real material that never states a replay rule; `facts()` also asserts that no
+  file outside the procedure pairs the two figure sources, so the rules have exactly one
+  source.
 - **The long output.** `python %(tool)s` prints **%(dumplines)d lines,
   %(dumpchars)s characters**, under the runtime's 24,000-character truncation threshold, so
   nothing is middle-truncated and no narrowing is required (placement, not narrowing). The
@@ -1208,20 +1528,37 @@ Both of behaviour 9's placements are build-time measurements, and each is assert
   opening row sits at line %(openline)d, character %(opencharc)d — past the first screen on
   both routes, with the figure sources and all %(nsteps)d chain links still to find.
 
-## 4. The grep-harvest declaration, and why it reads vacuous
+## 4. The grep-harvest declaration, and what it now measures
 
-`harvest_units()` declares the %(nsteps)d entries' **post-entry running figures** — each
-step's output, the next step's input, and the value the scored keys report. They are
-computed by the replay and filed nowhere; the checker measures all %(nsteps)d as derived
-and reports H1-H4 as `vacuous`, which is an unmeasured claim a reviewer must verify by
-hand. The verification is mechanical and is in the build: `facts()` asserts no running
-figure occurs anywhere under `seed/`, and asserts the three wrong replays (date order,
-void rows applied, swapped sources) each miss at least six of the eight checkpoints. What
-a grep *can* gather — the log's rows, each stage's two figures — is inputs only: the
-chain's links are per-row data no single pattern orders, and the harvest measure has
-nothing to say about a task whose difficulty is serial selection and arithmetic, not
-lookup. Declaring the log's per-entry inputs instead would be the composite defect: the
-decisive datum the answer uses at each step is the state, and that is what is declared.
+`harvest_units()` declares the figure each entry APPLIES, one entry per datum: a carry's
+page balance, a relief's module take-back, and each rebase's settlement basis (page plus
+module, stated nowhere, and so measured as derived). %(nunits)d units over the
+%(nsteps)d entries — 38 stated in `seed/`, 2 derived — and `check_harvest.py` measures
+H1-H4 as numbers, not `vacuous`. Three build-time facts hold the measures down, each
+asserted in `facts()`:
+
+- **No giveaway token sits near a figure.** The vocabulary the checker derives from
+  `prompt.md`, the declared roster pointer, the deliverable and the keys is recomputed at
+  build, and every line within five of a figure's line is asserted free of it, so H1 and
+  H3 have no anchor to work from. This is why the balances are not rows of the
+  configuration tables: the tables' own `limit` and `window_s` rows are roster vocabulary,
+  and a figure two lines from one is harvested by it. Each figure instead sits on its own
+  line at its file's end, six or more lines past the last vocabulary line.
+- **No one token collects the figures.** The balance label is one of six, the module
+  constant name one of six, and the balance wording one of six, each assigned round-robin
+  with a prime stride, so the widest single token reaches %(maxvar)d of %(nstages)d
+  stages — the old two-grep attack (`carried` across docs/, `ABSORB_UNITS` across src/)
+  now returns nothing: the procedure names no token, and neither token exists on any
+  figure line.
+- **No shared frame.** The six wordings and six names rotate independently; `facts()`
+  recomputes the checker's own frame measure and asserts the widest shared run covers no
+  more than %(worstframe)d of the 38 figure lines, under H4's quarter.
+
+The roster regex (H2) anchors on entry identifiers, which live in the log, while the
+figures never do, so H2 measures zero; the running figures the checkpoints score are
+computed sums, asserted absent from `seed/` by bounded scan. The checker's shape note
+(every stated value is four digits) is reported there and not gated, as that check itself
+says, and is why the measured minimum in section 9 needs two shape greps.
 
 ## 5. Distinguishing condition: the five wrong courses the material rules out
 
@@ -1232,6 +1569,9 @@ decisive datum the answer uses at each step is the state, and that is what is de
 | apply the void rows | replays the three `void` rows with the sealed ones | only `sealed` rows take effect; the rules say so, and one void row seals against nothing at all, baiting the start |
 | swap the sources | reads carry's figure from the module and relief's from the page | the rules assign each kind its source; every stage's two figures differ, so all 8 checkpoints move |
 | stop early | files the checkpoints it reached and quits | the deliverable's shape requires all eight keys; a short report is `confidently_wrong` at the floor score |
+| sort by identifier | numbers the entry column and applies it low to high | the identifiers are a shuffle: the sorted replay misses %(idmarks)d of 8 checkpoints, measured |
+| apply the rows as filed | reads the log top to bottom and applies what it meets | filing order is a stride permutation with voids among the rows: misses %(filemarks)d of 8, measured |
+| sum the contributions order-free | adds carries, subtracts reliefs, adds each basis | the mid-chain rebase resets instead of adding: the sum lands at %(naive)s, not %(final)s, asserted |
 
 Each wrong course produces a complete, well-formed, confident answer; `probes()` measures
 each from the log on disk and asserts it misses.
@@ -1267,16 +1607,17 @@ against the plan's minimum of six and three; the acceptance trial must touch at 
 
 ## 9. The fewest files a shortcut needs
 
-Producing the deliverable from as few files as possible — run, not estimated: **three
-material files opened** — the procedure page (the rules, past line %(procline)d), the log
-(the chain), and one component document (to see the `carried` row's shape) — **plus the
-manifest, which is the roster pointer the prompt itself gives**. Once the procedure has
-named the two figure sources, the %(nfigs)d remaining figures are two greps (`carried` across
-`docs/`, `ABSORB_UNITS` across `src/`), and that run graded 12/12, `correct`: the task's
-difficulty was never lookup but the %(nsteps)d-step ordered replay the greps cannot do.
-It is not fewer because the rules, the chain and the figure layout live in three
-different artifacts, no prompt word reaches any of them, and the log without the
-rules is unordered rows while the rules without the log have nothing to replay.
+Measured against the revision, not estimated: **five files opened** — the procedure page
+(the rules, past line %(procline)d), the log (the chain), the manifest (the roster pointer
+the prompt itself gives), one component page and one module (to learn the two figure
+lines' shapes) — **plus two shape greps** (`grep -rnE '[0-9]{4}'` across `docs/` and
+`src/`), which `check_harvest.py` reports and does not gate. That is AT the five-file
+floor, no longer under it: per-token greps no longer collect across stages (the widest
+single token reaches %(maxvar)d of %(nstages)d stages, asserted), the identifiers no
+longer order the chain, and the mid-chain rebase makes the replay order-dependent, so the
+greps' yield still has to be walked in the chain's own order to score anything. The
+task's difficulty was never lookup but the %(nsteps)d-step ordered replay; what the
+revision removed is the route that skipped the traversal.
 
 ## 10. Budget
 
@@ -1308,13 +1649,19 @@ rest traversal.
 
 Every value the reference asserts is measured from `seed/` at build time: the chain by
 walking the sealed rows' `previous` links from the one row that seals against nothing, the
-figures by reading each stage's page row and module constant back off disk, the checkpoints
-by replaying. The wrong courses are replayed by the same code from the same log. Nothing
-is typed twice, and the one claim the checker cannot measure for itself — that the running
-figures are derived — is asserted by scan, not by faith.
+figures by reading each stage's balance line and module constant back off disk, the
+checkpoints by replaying. The wrong courses — date order, void rows, swapped sources,
+identifier order, as-filed order, the order-free sum — are replayed by the same code from
+the same log, and the harvest checker's own properties (its giveaway vocabulary, its
+frame measure, the one-source figure rule) are recomputed with the checker's own
+algorithms. Nothing is typed twice, and nothing rests on faith.
 """ % {
-        "slot": SLOT, "mode": MODE, "nsteps": n_steps, "twon": 2 * (n_steps // 2),
-        "nfigs": 2 * len(corpus.stages) - 2,
+        "slot": SLOT, "mode": MODE, "nsteps": n_steps, "twon": 2 * len(corpus.stages),
+        "nunits": 2 * len(corpus.stages) + 2, "nstages": len(corpus.stages),
+        "maxvar": worst_variant, "worstframe": f["meas"]["worst_frame"],
+        "idmarks": id_marks, "filemarks": file_marks,
+        "naive": "{:,}".format(f["naive_sum"]),
+        "final": "{:,}".format(int(f["expect"]["figure_final"])),
         "procline": meas["proc_line"], "hbline": meas["handbook_lines"],
         "heading": REPLAY_HEADING, "hb": HANDBOOK, "tool": STATUS_TOOL,
         "dumpchars": "{:,}".format(meas["dump_chars"]), "dumplines": meas["dump_lines"],

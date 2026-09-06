@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 12
 DEFAULT_ROUTING_WINDOW_S = 30
-ABSORB_UNITS = 1780
 ROUTING_STATES = ("pending", "expandd", "settled", "abandoned")
 
 

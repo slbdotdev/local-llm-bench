@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 96 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 30 | seconds a frame may stay `pending` before it is reaped |
-| `carried` | 1520 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `digest` section of the manifest by `build_digest`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

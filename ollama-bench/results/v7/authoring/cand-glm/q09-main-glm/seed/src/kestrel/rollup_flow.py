@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ROLLUP_LIMIT = 480
 DEFAULT_ROLLUP_WINDOW_S = 15
-ABSORB_UNITS = 1296
 ROLLUP_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

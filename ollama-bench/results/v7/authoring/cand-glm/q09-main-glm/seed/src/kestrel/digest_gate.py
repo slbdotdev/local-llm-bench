@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_DIGEST_LIMIT = 96
 DEFAULT_DIGEST_WINDOW_S = 30
-ABSORB_UNITS = 1428
 DIGEST_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 
