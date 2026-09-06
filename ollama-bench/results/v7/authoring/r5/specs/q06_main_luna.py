@@ -85,7 +85,7 @@ def _paths(corpus):
 
 def _source_body(row, good=True):
     result = row["good"] if good else row["bad"]
-    return textwrap.dedent('''\
+    body = textwrap.dedent('''\
         """%(description)s."""
         from typing import Final
 
@@ -99,6 +99,7 @@ def _source_body(row, good=True):
             return value
     ''' % {"description": row["description"].capitalize(), "slug": row["slug"].replace("-", "_"),
            "input": row["input"], "result": result})
+    return ("# -*- coding: latin-1 -*-\n" + body + "# byte-marker: ÿ\n").encode("latin-1")
 
 
 def _test_body(corpus, row, expected):
@@ -111,7 +112,7 @@ def _test_body(corpus, row, expected):
 
         def test_%(function)s_contract():
             path = os.path.join(os.path.dirname(__file__), "..", "src", "%(package)s", "repair_%(index)02d.py")
-            with open(path, encoding="utf-8") as handle:
+            with open(path, "rb") as handle:
                 assert handle.read() == EXPECTED_SOURCE
             namespace = {}
             exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
@@ -120,7 +121,7 @@ def _test_body(corpus, row, expected):
             assert fn("unrelated") == "unrelated"
     ''' % {"slug": row["slug"], "source": source_literal, "package": corpus.package,
            "index": row["index"], "function": row["slug"].replace("-", "_"),
-           "input": row["input"], "good": row["good"]})
+           "input": row["input"], "bad": row["bad"]})
 
 
 def _index_body(rows):
@@ -155,7 +156,7 @@ def overlay(ctx):
     corpus = ctx["corpus"]
     rows = _paths(corpus)
     for r in rows:
-        C.write(os.path.join(ctx["seed"], *r["src"].split("/")), _source_body(r, good=False))
+        C.write_bytes(os.path.join(ctx["seed"], *r["src"].split("/")), _source_body(r, good=False))
         C.write(os.path.join(ctx["seed"], *r["test"].split("/")),
                 _test_body(corpus, r, _source_body(r, good=True)))
     C.write(os.path.join(ctx["seed"], "docs", "repair-index.md"), _index_body(rows))
@@ -179,10 +180,11 @@ def facts(ctx):
     buggy = {}
     for r in rows:
         expected[r["src"]] = _expected_from_test(seed, r["test"])
-        buggy[r["src"]] = C.read(os.path.join(seed, *r["src"].split("/")))
+        with open(os.path.join(seed, *r["src"].split("/")), "rb") as handle:
+            buggy[r["src"]] = handle.read()
         assert buggy[r["src"]] != expected[r["src"]], r["src"]
         compile(expected[r["src"]], r["src"], "exec")
-        assert r["good"] in expected[r["src"]]
+        assert r["good"].encode("ascii") in expected[r["src"]]
     assert len(rows) == 32
     assert len(set(expected.values())) == 32
     index = C.read(os.path.join(seed, "docs", "repair-index.md"))
