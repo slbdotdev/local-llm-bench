@@ -1,0 +1,37 @@
+{
+  "purpose": "bounded inspection packet roster",
+  "units": [
+    {
+      "unit": "northwind",
+      "packet": "records/inspection-packets/northwind.md"
+    },
+    {
+      "unit": "quarry",
+      "packet": "records/inspection-packets/quarry.md"
+    },
+    {
+      "unit": "reedline",
+      "packet": "records/inspection-packets/reedline.md"
+    },
+    {
+      "unit": "solstice",
+      "packet": "records/inspection-packets/solstice.md"
+    },
+    {
+      "unit": "tideglass",
+      "packet": "records/inspection-packets/tideglass.md"
+    },
+    {
+      "unit": "umbra",
+      "packet": "records/inspection-packets/umbra.md"
+    },
+    {
+      "unit": "wayfarer",
+      "packet": "records/inspection-packets/wayfarer.md"
+    },
+    {
+      "unit": "zephyr",
+      "packet": "records/inspection-packets/zephyr.md"
+    }
+  ]
+}

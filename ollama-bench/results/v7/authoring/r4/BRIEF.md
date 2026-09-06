@@ -96,6 +96,14 @@ Declaring the units honestly is the whole point. A spec that declares the six un
 and omits the twelve it left as named constants has defeated its own round, and a reviewer who
 finds that writes REVISE.
 
+**Declare the decisive datum ALONE.** `r4/build.py` refuses a value containing `->`, `=>`, `|`,
+`;`, `,` or `=`, or containing the unit's own identifier, and `check_harvest.py` measures a value
+by its parts. This is not pedantry: the round's first two candidates both read H1 = 0.000 by
+declaring a composite (`"northwind -> .staging/ember-ridge.txt"`, `"<name>|declared=900..."`),
+which occurs nowhere under `seed/` by construction, so the measure was **vacuous rather than
+passed**. Both were re-measured at H1 = 1.000. Two blind cross-reviewers found it; the checker did
+not. A unit with two decisive data is two harvest-unit entries, never one joined string.
+
 **The four mechanisms that pass this check** (research section 2 develops each, with sources):
 
 1. **the fact stated inside prose that names no constant** — the value is a word in a sentence

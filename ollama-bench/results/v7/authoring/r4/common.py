@@ -803,6 +803,20 @@ def _check_harvest_units(slot, units, seed, exempt=""):
         for k in ("unit", "value", "path"):
             if not str(u.get(k, "")).strip():
                 raise SystemExit("%s: a harvest unit is missing %r: %r" % (slot, k, u))
+        for sep in ("->", "=>", "|", ";", ",", "="):
+            if sep in str(u["value"]):
+                raise SystemExit(
+                    "%s: harvest unit %s declares the composite value %r (it contains %r). A "
+                    "composite occurs nowhere under seed/ by construction, so the grep-harvest "
+                    "measure reads zero without measuring anything — that happened twice on "
+                    "2026-09-09 and a cross-reviewer found it, not the checker. Declare the "
+                    "decisive datum ALONE, one harvest unit per decisive datum; a unit with two "
+                    "decisive data is two entries." % (slot, u["unit"], u["value"], sep))
+        if str(u["unit"]).lower() in str(u["value"]).lower():
+            raise SystemExit("%s: harvest unit %s declares the value %r, which contains the "
+                             "unit's own identifier. The roster gives that identifier away for "
+                             "free, so a composite value is not measurable: declare the "
+                             "decisive datum alone." % (slot, u["unit"], u["value"]))
         if u["unit"] in seen:
             raise SystemExit("%s: harvest_units() repeats the unit %r" % (slot, u["unit"]))
         seen.add(u["unit"])

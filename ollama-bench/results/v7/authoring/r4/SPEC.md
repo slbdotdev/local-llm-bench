@@ -103,6 +103,13 @@ The per-unit decisive values the answer reconciles, one entry per unit, **measur
 `path` is the one seed file a fair reader gets it from. At least six units, no repeats, every
 path real, or the build fails.
 
+**`value` is the decisive datum alone.** The builder refuses a value containing `->`, `=>`, `|`,
+`;`, `,` or `=`, or containing the unit's own identifier, and the checker measures a value by its
+parts. Both rules were earned on 2026-09-09: the round's first two candidates read H1 = 0.000 by
+declaring composites that cannot occur under `seed/` by construction, so the measure was vacuous
+rather than passed, and re-measuring put both at H1 = 1.000. A unit with two decisive data is two
+entries.
+
 This is a declaration about the material, never a subcheck — the grader never reads it. It goes
 into `test.py` as `HARVEST_UNITS` and it is what `r4/check_harvest.py` measures. Declaring it
 honestly is the point: a spec that declares the six easy units and hides the twelve harvestable

@@ -66,9 +66,15 @@ derived from records and never stated) that reaches H1 = H2 = H3 = 0 outright, s
 numbers forbid no design the round wants. All three are to be re-derived from this round's
 measured coverage exactly as plan section 2.4 says of its own six, three and five.
 
-A unit whose value never occurs literally anywhere under `seed/` is **derived**, is reported as
-such, and can never be harvested — that is n09-cheap-luna's shape and it is the strongest
-answer to this check. A declared value that matches more than a fifth of the material's lines is
+A declared value is measured **by its parts**, not as one string: split on whitespace and the
+usual joins, with any part the roster already gives away (the unit's own identifier) dropped, and
+a unit counts as harvested when any surviving part is. Without that, a spec can declare
+`"northwind -> .staging/ember-ridge.txt"`, which occurs nowhere under `seed/` by construction,
+and read H1 = 0.000 while one `grep -rn 'destination:' seed/` returns every unit's real datum.
+That happened on 2026-09-09 and was found by a cross-reviewer rather than by this checker.
+
+A unit whose surviving parts never occur literally anywhere under `seed/` is **derived**, is
+reported as such, and can never be harvested — that is the strongest answer to this check. A declared value that matches more than a fifth of the material's lines is
 **indistinct**, is excluded from both fractions, and is reported: a decisive datum that is not
 distinctive cannot be measured, and more than a third of a candidate's units being indistinct is
 itself a failure.
@@ -131,6 +137,38 @@ def seed_lines(seed):
             except UnicodeDecodeError:
                 text = open(p, "rb").read().decode("utf-8", "replace")
             out[rel] = text.lower().splitlines()
+    return out
+
+
+SPLIT = re.compile(r"\s*(?:->|=>|\|\||[|,;=]|\s)\s*")
+
+
+def components(value, unit):
+    """The declared value's atomic parts, minus anything the roster already gives away.
+
+    2026-09-09, found by a cross-reviewer and not by this checker: a spec declared each unit's
+    value as `"northwind -> .staging/ember-ridge.txt"`. That composite string occurs nowhere
+    under `seed/` by construction, so every unit landed in the `derived` bucket, `val_hits` was
+    empty and `harvested()` could never return True for any token. H1 read 0.000 and the measure
+    was **vacuous rather than passed**: the real per-unit datum, `.staging/ember-ridge.txt`, sat
+    on a labelled line in a predictable file and one `grep -rn 'destination:' seed/` returned all
+    eight.
+
+    So a value is measured by its parts. Split it on whitespace and the usual joins, drop any
+    part that is the unit's own identifier (the roster gives that away for free) and any part
+    under three characters, and a unit counts as harvested when **any** surviving part is. A
+    value with no surviving part is a declaration error, not a derived value.
+    """
+    ul = str(unit).lower()
+    out = []
+    for part in SPLIT.split(str(value).strip()):
+        part = part.strip().strip(":=")
+        if len(part) < 3:
+            continue
+        pl = part.lower()
+        if pl == ul or (ul and ul in pl and len(pl) - len(ul) < 3):
+            continue
+        out.append(part)
     return out
 
 
@@ -222,17 +260,40 @@ def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
 
     # per-unit precomputation
     val_hits, id_hits, derived, indistinct, indistinct_names = {}, {}, [], [], set()
+    composite, empty = [], []
     for u in units:
         name = u["unit"]
-        vh = line_hits(lines, bounded(str(u["value"])))
-        n = sum(len(v) for v in vh.values())
-        if n == 0:
-            derived.append(name)
-        elif n > INDISTINCT_LINE_FRACTION * total_lines:
-            indistinct.append("%s (%r on %d of %d lines)" % (name, u["value"], n, total_lines))
+        parts = components(u["value"], name)
+        if not parts:
+            empty.append("%s (%r has no part the roster does not already give away)"
+                         % (name, u["value"]))
+            val_hits[name] = {}
+            id_hits[name] = line_hits(lines, bounded(str(name)))
+            continue
+        if len(parts) > 1:
+            composite.append("%s (%r measured as %d parts)" % (name, u["value"], len(parts)))
+        vh, kept, dropped = {}, 0, []
+        for part in parts:
+            ph = line_hits(lines, bounded(part))
+            pn = sum(len(v) for v in ph.values())
+            if pn > INDISTINCT_LINE_FRACTION * total_lines:
+                dropped.append("%s (%d lines)" % (part, pn))
+                continue
+            kept += 1
+            for rel, hit in ph.items():
+                vh.setdefault(rel, set()).update(hit)
+        if kept == 0:
+            indistinct.append("%s (%r: every part is a label — %s)"
+                              % (name, u["value"], ", ".join(dropped[:3])))
             indistinct_names.add(name)
+        elif sum(len(v) for v in vh.values()) == 0:
+            derived.append(name)
         val_hits[name] = vh
         id_hits[name] = line_hits(lines, bounded(str(name)))
+    if empty:
+        problems.append("%d declared value(s) reduce to nothing measurable, which is a "
+                        "declaration error and not a derived value: %s"
+                        % (len(empty), "; ".join(empty[:3])))
 
     scored = [u for u in units if u["unit"] not in indistinct_names]
     denom = len(scored)
@@ -306,6 +367,9 @@ def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
                  % (len(units), denom, len(derived), len(indistinct), len(vocab), len(lines)))
     if derived:
         notes.append("derived units: " + ", ".join(sorted(derived)[:8]))
+    if composite:
+        notes.append("%d composite declaration(s), measured part by part: %s"
+                     % (len(composite), "; ".join(composite[:3])))
     return slot, problems, notes, result
 
 
