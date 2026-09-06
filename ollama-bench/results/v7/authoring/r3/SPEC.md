@@ -67,6 +67,8 @@ state is the most expensive defect this benchmark has, and it has occurred twice
 - `list` — comma/whitespace-separated, order significant (use when the prompt fixes the order)
 - `set` — same, order not significant
 - `ci` — case-insensitive
+- `loose` — case-insensitive and a hyphen, underscore or space are one separator: for a
+  value the prompt asks the solver to quote from prose, so spelling is never what is scored
 - `int` — parsed as an integer, so `1,234` and `1234` agree
 
 `groups` are the scored subchecks. One group per independent fact. Do not put two facts a

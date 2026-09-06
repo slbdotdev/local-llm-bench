@@ -1,0 +1,70 @@
+{
+  "project": "lantern-quay",
+  "package": "lantern",
+  "stages": [
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationLedger",
+      "limit": 480,
+      "window_s": 180,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "audit",
+      "module": "audit_core",
+      "class": "AuditPlanner",
+      "limit": 960,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_gate",
+      "class": "BackfillLedger",
+      "limit": 24,
+      "window_s": 90,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerEngine",
+      "limit": 480,
+      "window_s": 15,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_core",
+      "class": "CursorRegistry",
+      "limit": 120,
+      "window_s": 120,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "shard",
+      "module": "shard_view",
+      "class": "ShardEngine",
+      "limit": 480,
+      "window_s": 180,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_flow",
+      "class": "IngestEngine",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_view",
+      "class": "CompactionEngine",
+      "limit": 960,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    }
+  ]
+}
