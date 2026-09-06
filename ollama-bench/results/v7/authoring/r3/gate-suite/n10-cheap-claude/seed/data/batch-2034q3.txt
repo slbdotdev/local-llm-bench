@@ -1,0 +1,22 @@
+# Intake batch 2034-Q3, as submitted.
+#
+# One record per line, in the order the records arrived. That order is the
+# submission order the reporting standard refers to. It is not sorted and must not
+# be re-sorted: two of the fields below only mean anything in arrival order.
+#
+# Fields are `key=value`, separated by spaces:
+#
+#   form         voucher, tally or notice
+#   size         the encoded size of the record, in units of 1 KiB
+#   age_s        seconds since the record was created, taken when it was offered
+#   signatures   how many counter-signatures the record carried on arrival
+#   hops         how many times the record had been re-offered before this batch
+#
+# A record nothing declines is not written into the quarterly report at all.
+
+R-4102  form=voucher  size=118  age_s=42   signatures=2  hops=2
+R-4108  form=tally    size=64   age_s=310  signatures=1  hops=5
+R-4113  form=notice   size=40   age_s=12   signatures=3  hops=1
+R-4119  form=voucher  size=104  age_s=200  signatures=2  hops=2
+R-4124  form=tally    size=88   age_s=90   signatures=2  hops=3
+R-4131  form=voucher  size=12   age_s=150  signatures=4  hops=2

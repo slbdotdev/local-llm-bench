@@ -1,0 +1,3 @@
+changed_stages: attestation, checkpoint, digest, dispatch, drain, envelope, quota, reconcile, tenancy
+depth_total: 5758
+last_effective_seq: 147

@@ -1,0 +1,19 @@
+# CR-2041 - storage reduction programme, filing 1 of 9
+#
+# Filed by: H. Bergstrom. Opened 2035-01-05, closed 2035-01-19.
+#
+# The first filing of the reduction programme agreed after the November array
+# incident. The figures here were sized from the November sampling and were expected
+# to be revisited once the refresh landed; two of them were.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+102	apply	EV-26	190	-	2035-01-06	H. Bergstrom	first cut of the reduction programme; sized from the November sampling
+104	apply	EV-56	275	-	2035-01-08	E. Thorsdottir	reduction agreed with the on-call team at the January capacity meeting
+110	apply	EV-31	176	-	2035-01-14	H. Bergstrom	cut to the floor the storage model allows for this vault

@@ -1,0 +1,3 @@
+TESTS: pass
+stale_documents: audit, backfill, digest, drain, tenancy
+schedule_fingerprint: 28b943338818

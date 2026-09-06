@@ -1,0 +1,19 @@
+# CR-2058 - storage reduction programme, filing 8 of 9
+#
+# Filed by: R. Okonjo. Opened 2035-02-08, closed 2035-02-22.
+#
+# The March filing, raised when the weekly cycle was checked against the reduced
+# sizes for the first time. Two of its three entries move a figure; the third was
+# filed by the requesting team and is kept for the record.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+145	apply	EV-31	288	-	2035-02-18	R. Okonjo	raised again; the March seal needs more room than the model allowed
+147	revert	-	-	133	2035-02-20	L. Achterberg	withdrawn; the earlier February figure stands after all
+151	reinstate	-	-	112	2035-02-24	E. Thorsdottir	reinstatement filed by the requesting team; recorded

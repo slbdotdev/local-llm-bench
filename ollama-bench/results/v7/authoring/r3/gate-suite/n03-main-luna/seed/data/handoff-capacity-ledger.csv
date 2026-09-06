@@ -1,0 +1,20 @@
+stage,property,resolution_class,capacity,recorded_on,operator_note
+cursor,handoff_capacity,slate,1229,2035-01-02,capacity migration review recorded this value
+lineage,handoff_capacity,amber,,2035-02-05,no migration capacity was recorded for this stage
+digest,handoff_capacity,indigo,1188,2035-03-08,capacity migration review recorded this value
+retention,handoff_capacity,amber,1116,2035-04-11,capacity migration review recorded this value
+ingest,handoff_capacity,indigo,,2035-05-14,no migration capacity was recorded for this stage
+dispatch,handoff_capacity,indigo,1235,2035-06-17,capacity migration review recorded this value
+replay,handoff_capacity,indigo,1115,2035-07-20,capacity migration review recorded this value
+ledger,handoff_capacity,amber,1184,2035-08-23,capacity migration review recorded this value
+attestation,handoff_capacity,slate,,2035-09-26,no migration capacity was recorded for this stage
+tenancy,handoff_capacity,indigo,1252,2035-01-03,capacity migration review recorded this value
+schema,handoff_capacity,slate,1178,2035-02-06,capacity migration review recorded this value
+backfill,handoff_capacity,slate,1232,2035-03-09,capacity migration review recorded this value
+watermark,handoff_capacity,indigo,1220,2035-04-12,capacity migration review recorded this value
+shard,handoff_capacity,amber,1233,2035-05-15,capacity migration review recorded this value
+drain,handoff_capacity,amber,1290,2035-06-18,capacity migration review recorded this value
+quota,handoff_capacity,amber,1133,2035-07-21,capacity migration review recorded this value
+routing,handoff_capacity,slate,1238,2035-08-24,capacity migration review recorded this value
+envelope,handoff_capacity,slate,,2035-09-27,no migration capacity was recorded for this stage
+checkpoint,handoff_capacity,amber,1189,2035-01-04,capacity migration review recorded this value

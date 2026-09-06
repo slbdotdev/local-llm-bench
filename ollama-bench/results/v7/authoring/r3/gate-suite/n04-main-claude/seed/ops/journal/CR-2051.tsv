@@ -1,0 +1,18 @@
+# CR-2051 - storage reduction programme, filing 5 of 9
+#
+# Filed by: E. Thorsdottir. Opened 2035-01-20, closed 2035-02-12.
+#
+# Filed by the storage team against the vaults the evidence store shares. It was
+# closed and reopened once; the reopening is the last of its three entries.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+125	apply	EV-51	232	-	2035-01-29	E. Thorsdottir	reduction agreed at the February planning review
+128	revert	-	-	108	2035-02-01	L. Achterberg	withdrawn pending the storage model's second run
+137	rescind	-	-	112	2035-02-10	H. Bergstrom	struck: Compliance Review refused the reduction and it will not be refiled

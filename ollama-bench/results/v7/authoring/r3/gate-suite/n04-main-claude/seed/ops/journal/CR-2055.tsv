@@ -1,0 +1,20 @@
+# CR-2055 - storage reduction programme, filing 7 of 9
+#
+# Filed by: L. Achterberg. Opened 2035-01-28, closed 2035-02-24.
+#
+# Opened to strike the entries Compliance Review and the evidence team refused. A
+# striking is filed here and not in the filing that carried the entry it strikes,
+# which is why the target column exists.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+134	revert	-	-	116	2035-02-07	L. Achterberg	withdrawn for the second time in this programme; filed for the record
+141	rescind	-	-	130	2035-02-14	R. Okonjo	struck: the evidence team withdrew the request it was filed against
+142	rescind	-	-	127	2035-02-15	L. Achterberg	struck: superseded by the headroom agreed at the March review
+149	apply	EV-66	168	-	2035-02-22	H. Bergstrom	refiled at the figure already carried, so the request can be closed

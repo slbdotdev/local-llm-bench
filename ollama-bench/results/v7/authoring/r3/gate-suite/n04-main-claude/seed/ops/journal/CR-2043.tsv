@@ -1,0 +1,20 @@
+# CR-2043 - storage reduction programme, filing 2 of 9
+#
+# Filed by: R. Okonjo. Opened 2035-01-07, closed 2035-01-24.
+#
+# Opened alongside CR-2041 and closed later, because Capacity Planning wanted the
+# deeper vaults handled separately from the shallow ones. Four entries, all of them
+# reductions, and three of them revisited in a later filing.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+106	apply	EV-11	158	-	2035-01-10	R. Okonjo	aggressive cut asked for by Capacity Planning ahead of the array refresh
+108	apply	EV-86	262	-	2035-01-12	L. Achterberg	reduction sized from the December sampling and the refill measurements
+112	apply	EV-81	320	-	2035-01-16	E. Thorsdottir	modest reduction; this vault is the slowest of the set to refill
+116	apply	EV-16	300	-	2035-01-20	L. Achterberg	first pass, to be revisited once the refresh lands

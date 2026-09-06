@@ -1,0 +1,32 @@
+"""Behavioural checks for rollup_store."""
+
+from cinder.rollup_store import RollupRegistry, build_rollup
+
+
+def test_rollup_defaults():
+    engine = RollupRegistry()
+    assert engine.limit == 12
+    assert engine.window_s == 30
+
+
+def test_rollup_seal_is_idempotent():
+    engine = RollupRegistry()
+    engine.admit("a")
+    assert engine.seal() == 1
+    assert engine.seal() == 1
+    assert engine.advance("b") is None
+
+
+def test_rollup_snapshot_is_sorted():
+    engine = RollupRegistry()
+    for key in ("m", "a", "z"):
+        engine.settle(key)
+    assert [r["key"] for r in engine.snapshot()] == ["a", "m", "z"]
+
+
+def test_build_rollup_reads_the_manifest():
+    engine = build_rollup({"rollup": {"limit": 5}})
+    assert engine.limit == 5
+    assert engine.window_s == 30
+
+# Release context remains part of this project material.

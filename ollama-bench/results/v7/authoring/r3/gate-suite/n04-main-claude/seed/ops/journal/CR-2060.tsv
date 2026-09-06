@@ -1,0 +1,18 @@
+# CR-2060 - storage reduction programme, filing 9 of 9
+#
+# Filed by: R. Okonjo. Opened 2035-02-16, closed 2035-03-06.
+#
+# Housekeeping. The programme's remaining requests were closed out here, and every
+# entry in this filing was raised to tidy the record rather than to move a figure.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+153	revert	-	-	104	2035-02-26	R. Okonjo	housekeeping: closing out the January entries
+156	reinstate	-	-	130	2035-03-01	L. Achterberg	reinstatement filed by the evidence team; recorded
+158	revert	-	-	127	2035-03-03	H. Bergstrom	housekeeping: closing out the February entries
