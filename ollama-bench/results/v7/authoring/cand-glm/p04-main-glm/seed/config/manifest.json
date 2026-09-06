@@ -1,0 +1,126 @@
+{
+  "project": "latchbridge",
+  "package": "latch",
+  "stages": [
+    {
+      "name": "dispatch",
+      "module": "dispatch_view",
+      "class": "DispatchEngine",
+      "limit": 250,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_gate",
+      "class": "CompactionEngine",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "retention",
+      "module": "retention_core",
+      "class": "RetentionRegistry",
+      "limit": 48,
+      "window_s": 30,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingLedger",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "audit",
+      "module": "audit_view",
+      "class": "AuditPlanner",
+      "limit": 24,
+      "window_s": 60,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_store",
+      "class": "ReconcileGateway",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_view",
+      "class": "WatermarkGateway",
+      "limit": 24,
+      "window_s": 15,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_store",
+      "class": "ThrottleEngine",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_gate",
+      "class": "RollupRegistry",
+      "limit": 48,
+      "window_s": 15,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_store",
+      "class": "CursorEngine",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "shard",
+      "module": "shard_view",
+      "class": "ShardGateway",
+      "limit": 250,
+      "window_s": 15,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_flow",
+      "class": "TenancyGateway",
+      "limit": 480,
+      "window_s": 180,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_store",
+      "class": "CheckpointPlanner",
+      "limit": 120,
+      "window_s": 180,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_core",
+      "class": "AttestationRegistry",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_view",
+      "class": "IngestGateway",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+date,event,records,note
+2034-03-01,admitted,12,batch 10 admitted from cursor after the window review
+2034-03-03,admitted,5,batch 12 admitted during the catch-up drain
+2034-03-05,released,8,batch 14 released in the scheduled sweep
+2034-03-07,released,4,batch 16 released to attestation
+2034-03-09,reaped,2,batch 18 reaped and retained for evidence
+2034-03-11,admitted,4,batch 20 admitted during the catch-up drain
+2034-03-13,admitted,5,batch 22 admitted from cursor
+2034-03-15,released,4,batch 24 released to attestation
+2034-03-17,released,3,batch 26 released after the downstream acknowledgement
+2034-03-19,admitted,14,batch 28 admitted during the catch-up drain
+2034-03-21,admitted,11,batch 30 admitted during the catch-up drain
+2034-03-23,admitted,13,batch 32 admitted from attestation after the window review
+2034-03-25,released,11,batch 34 released after the downstream acknowledgement
+2034-03-27,reaped,3,batch 36 reaped after the window elapsed
+2034-03-29,admitted,14,batch 38 admitted from cursor after the window review
+2034-03-31,admitted,12,batch 40 admitted during the catch-up drain
+2034-04-02,admitted,7,batch 42 admitted from cursor
+2034-04-04,released,10,batch 44 released to attestation
+2034-04-06,released,9,batch 46 released in the scheduled sweep
+2034-04-08,admitted,10,batch 48 admitted from attestation
+2034-04-10,admitted,14,batch 50 admitted during the catch-up drain
+2034-04-12,admitted,11,batch 52 admitted during the catch-up drain
+2034-04-14,reaped,4,batch 54 reaped and retained for evidence
+2034-04-16,released,11,batch 56 released to attestation
+2034-04-18,admitted,12,batch 58 admitted from cursor
+2034-04-20,admitted,9,batch 60 admitted from attestation
+2034-04-22,admitted,14,batch 62 admitted from the upstream handoff
+2034-04-24,released,6,batch 64 released in the scheduled sweep
+2034-04-26,released,11,batch 66 released to cursor
+2034-04-28,admitted,13,batch 68 admitted during the catch-up drain
+2034-04-30,admitted,8,batch 70 admitted from the upstream handoff
+2034-05-02,reaped,4,batch 72 reaped and retained for evidence
+2034-05-04,released,4,batch 74 released in the scheduled sweep
+2034-05-06,released,6,batch 76 released in the scheduled sweep
+2034-05-08,admitted,9,batch 78 admitted from cursor
+2034-05-10,admitted,4,batch 80 admitted during the catch-up drain
+2034-05-12,admitted,5,batch 82 admitted from cursor
+2034-05-14,released,8,batch 84 released in the scheduled sweep
+2034-05-16,released,6,batch 86 released in the scheduled sweep
+2034-05-18,admitted,9,batch 88 admitted from attestation after the window review
+2034-05-20,admitted,14,batch 90 admitted in the closing catch-up
+2034-05-22,admitted,14,batch 92 admitted in the closing catch-up
+2034-05-24,admitted,14,batch 94 admitted in the closing catch-up
+2034-05-26,admitted,14,batch 96 admitted in the closing catch-up
