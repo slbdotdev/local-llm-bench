@@ -61,5 +61,12 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n06-main-glm": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
  }
 }
