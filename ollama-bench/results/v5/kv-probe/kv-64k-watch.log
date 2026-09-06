@@ -1,0 +1,157 @@
+# start 2026-09-06T13:16:58-06:00 pid 927243
+13:16:58 vram_mib=1842 free_ram_mib=29574 win_procs=0
+0
+13:17:08 vram_mib=1773 free_ram_mib=29519 win_procs=3
+13:17:18 vram_mib=1774 free_ram_mib=29522 win_procs=2
+13:17:29 vram_mib=1774 free_ram_mib=29532 win_procs=2
+13:17:39 vram_mib=1774 free_ram_mib=29534 win_procs=2
+13:17:49 vram_mib=1774 free_ram_mib=29494 win_procs=2
+13:17:59 vram_mib=1774 free_ram_mib=29528 win_procs=2
+13:18:10 vram_mib=1718 free_ram_mib=29534 win_procs=2
+13:18:20 vram_mib=1735 free_ram_mib=29510 win_procs=0
+0
+13:18:30 vram_mib=1952 free_ram_mib=29487 win_procs=1
+13:18:55 vram_mib=15315 free_ram_mib=29466 win_procs=1
+13:19:05 vram_mib=15318 free_ram_mib=29570 win_procs=1
+13:19:15 vram_mib=15318 free_ram_mib=29582 win_procs=1
+13:19:26 vram_mib=15322 free_ram_mib=29582 win_procs=1
+13:19:36 vram_mib=15326 free_ram_mib=29603 win_procs=1
+13:19:46 vram_mib=15326 free_ram_mib=29674 win_procs=1
+13:19:56 vram_mib=15326 free_ram_mib=29862 win_procs=1
+13:20:07 vram_mib=15326 free_ram_mib=29868 win_procs=1
+13:20:17 vram_mib=853 free_ram_mib=29873 win_procs=1
+13:20:27 vram_mib=917 free_ram_mib=29912 win_procs=1
+13:20:37 vram_mib=14362 free_ram_mib=29915 win_procs=1
+13:20:48 vram_mib=14362 free_ram_mib=29932 win_procs=1
+13:20:58 vram_mib=14362 free_ram_mib=29933 win_procs=1
+13:21:08 vram_mib=14362 free_ram_mib=29935 win_procs=1
+13:21:19 vram_mib=14366 free_ram_mib=29932 win_procs=1
+13:21:29 vram_mib=14366 free_ram_mib=29902 win_procs=1
+13:21:39 vram_mib=14366 free_ram_mib=29943 win_procs=1
+13:21:49 vram_mib=14366 free_ram_mib=29938 win_procs=1
+13:22:00 vram_mib=917 free_ram_mib=29929 win_procs=1
+13:22:10 vram_mib=1144 free_ram_mib=29936 win_procs=1
+13:22:20 vram_mib=1144 free_ram_mib=29912 win_procs=1
+13:22:42 vram_mib=15331 free_ram_mib=29923 win_procs=1
+13:22:52 vram_mib=15331 free_ram_mib=29930 win_procs=1
+13:23:03 vram_mib=15331 free_ram_mib=29912 win_procs=1
+13:23:13 vram_mib=15331 free_ram_mib=29932 win_procs=1
+13:23:24 vram_mib=15331 free_ram_mib=29932 win_procs=1
+13:23:34 vram_mib=15331 free_ram_mib=29919 win_procs=1
+13:23:45 vram_mib=15331 free_ram_mib=29921 win_procs=1
+13:23:55 vram_mib=15331 free_ram_mib=29938 win_procs=1
+13:24:06 vram_mib=15331 free_ram_mib=29935 win_procs=1
+13:24:16 vram_mib=15331 free_ram_mib=29941 win_procs=1
+13:24:27 vram_mib=15331 free_ram_mib=29941 win_procs=1
+13:24:37 vram_mib=15331 free_ram_mib=29934 win_procs=1
+13:24:47 vram_mib=15331 free_ram_mib=29929 win_procs=1
+13:24:58 vram_mib=15331 free_ram_mib=29946 win_procs=1
+13:25:08 vram_mib=15331 free_ram_mib=29925 win_procs=1
+13:25:19 vram_mib=15331 free_ram_mib=29920 win_procs=1
+13:25:29 vram_mib=15331 free_ram_mib=29940 win_procs=1
+13:25:40 vram_mib=15331 free_ram_mib=29734 win_procs=1
+13:25:50 vram_mib=15331 free_ram_mib=29748 win_procs=1
+13:26:01 vram_mib=15331 free_ram_mib=29803 win_procs=1
+13:26:11 vram_mib=15331 free_ram_mib=29809 win_procs=1
+13:26:22 vram_mib=15331 free_ram_mib=29804 win_procs=1
+13:26:32 vram_mib=15331 free_ram_mib=29807 win_procs=1
+13:26:43 vram_mib=15331 free_ram_mib=29809 win_procs=1
+13:26:53 vram_mib=15331 free_ram_mib=29808 win_procs=1
+13:27:04 vram_mib=15331 free_ram_mib=29820 win_procs=1
+13:27:14 vram_mib=15331 free_ram_mib=29816 win_procs=1
+13:27:24 vram_mib=15331 free_ram_mib=29815 win_procs=1
+13:27:35 vram_mib=15331 free_ram_mib=29824 win_procs=1
+13:27:45 vram_mib=15331 free_ram_mib=29823 win_procs=1
+13:27:56 vram_mib=15331 free_ram_mib=29820 win_procs=1
+13:28:06 vram_mib=15331 free_ram_mib=29815 win_procs=1
+13:28:17 vram_mib=15331 free_ram_mib=29843 win_procs=1
+13:28:27 vram_mib=15331 free_ram_mib=29836 win_procs=1
+13:28:38 vram_mib=15331 free_ram_mib=29832 win_procs=1
+13:28:48 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:28:59 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:29:09 vram_mib=15331 free_ram_mib=29830 win_procs=1
+13:29:19 vram_mib=15331 free_ram_mib=29824 win_procs=1
+13:29:30 vram_mib=15331 free_ram_mib=29820 win_procs=1
+13:29:40 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:29:51 vram_mib=15331 free_ram_mib=29820 win_procs=1
+13:30:01 vram_mib=15331 free_ram_mib=29830 win_procs=1
+13:30:12 vram_mib=15331 free_ram_mib=29824 win_procs=1
+13:30:22 vram_mib=15331 free_ram_mib=29818 win_procs=1
+13:30:33 vram_mib=15331 free_ram_mib=29823 win_procs=1
+13:30:43 vram_mib=15331 free_ram_mib=29826 win_procs=1
+13:30:54 vram_mib=15331 free_ram_mib=29820 win_procs=1
+13:31:04 vram_mib=15331 free_ram_mib=29819 win_procs=1
+13:31:15 vram_mib=15331 free_ram_mib=29815 win_procs=1
+13:31:25 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:31:36 vram_mib=15331 free_ram_mib=29830 win_procs=1
+13:31:46 vram_mib=15331 free_ram_mib=29830 win_procs=1
+13:31:57 vram_mib=15331 free_ram_mib=29810 win_procs=1
+13:32:07 vram_mib=15331 free_ram_mib=29823 win_procs=1
+13:32:18 vram_mib=15331 free_ram_mib=29825 win_procs=1
+13:32:28 vram_mib=15331 free_ram_mib=29816 win_procs=1
+13:32:39 vram_mib=15331 free_ram_mib=29811 win_procs=1
+13:32:49 vram_mib=15331 free_ram_mib=29825 win_procs=1
+13:32:59 vram_mib=15331 free_ram_mib=29825 win_procs=1
+13:33:10 vram_mib=15331 free_ram_mib=29832 win_procs=1
+13:33:20 vram_mib=15331 free_ram_mib=29828 win_procs=1
+13:33:31 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:33:41 vram_mib=15331 free_ram_mib=29833 win_procs=1
+13:33:52 vram_mib=15331 free_ram_mib=29841 win_procs=1
+13:34:02 vram_mib=15331 free_ram_mib=29844 win_procs=1
+13:34:13 vram_mib=15331 free_ram_mib=29832 win_procs=1
+13:34:23 vram_mib=15331 free_ram_mib=29831 win_procs=1
+13:34:34 vram_mib=15331 free_ram_mib=29833 win_procs=1
+13:34:44 vram_mib=15331 free_ram_mib=29809 win_procs=1
+13:34:55 vram_mib=15331 free_ram_mib=29823 win_procs=1
+13:35:05 vram_mib=15331 free_ram_mib=29831 win_procs=1
+13:35:15 vram_mib=15331 free_ram_mib=29829 win_procs=1
+13:35:26 vram_mib=15331 free_ram_mib=29825 win_procs=1
+13:35:37 vram_mib=15331 free_ram_mib=29825 win_procs=1
+13:35:47 vram_mib=15331 free_ram_mib=29822 win_procs=1
+13:35:58 vram_mib=15331 free_ram_mib=29817 win_procs=1
+13:36:08 vram_mib=15331 free_ram_mib=29818 win_procs=1
+13:36:18 vram_mib=15331 free_ram_mib=29811 win_procs=1
+13:36:29 vram_mib=15331 free_ram_mib=29830 win_procs=1
+13:36:40 vram_mib=15331 free_ram_mib=29821 win_procs=1
+13:36:50 vram_mib=15331 free_ram_mib=29816 win_procs=1
+13:37:00 vram_mib=15331 free_ram_mib=29810 win_procs=1
+13:37:11 vram_mib=15331 free_ram_mib=29841 win_procs=1
+13:37:21 vram_mib=15331 free_ram_mib=29845 win_procs=1
+13:37:32 vram_mib=15331 free_ram_mib=29839 win_procs=1
+13:37:43 vram_mib=846 free_ram_mib=29833 win_procs=0
+0
+13:37:53 vram_mib=12808 free_ram_mib=29831 win_procs=1
+13:38:03 vram_mib=14562 free_ram_mib=29822 win_procs=1
+13:38:13 vram_mib=14562 free_ram_mib=29825 win_procs=1
+13:38:24 vram_mib=14562 free_ram_mib=29826 win_procs=1
+13:38:34 vram_mib=14568 free_ram_mib=29828 win_procs=1
+13:38:44 vram_mib=14568 free_ram_mib=29819 win_procs=1
+13:38:54 vram_mib=14568 free_ram_mib=29816 win_procs=1
+13:39:05 vram_mib=14568 free_ram_mib=29818 win_procs=1
+13:39:15 vram_mib=14568 free_ram_mib=29819 win_procs=1
+13:39:25 vram_mib=909 free_ram_mib=29819 win_procs=0
+0
+13:39:35 vram_mib=909 free_ram_mib=29823 win_procs=0
+0
+13:39:46 vram_mib=909 free_ram_mib=29817 win_procs=0
+0
+13:39:56 vram_mib=909 free_ram_mib=29808 win_procs=0
+0
+13:40:06 vram_mib=909 free_ram_mib=29840 win_procs=0
+0
+13:40:16 vram_mib=909 free_ram_mib=29828 win_procs=0
+0
+13:40:26 vram_mib=909 free_ram_mib=29813 win_procs=0
+0
+13:40:37 vram_mib=909 free_ram_mib=29816 win_procs=0
+0
+13:40:47 vram_mib=909 free_ram_mib=29810 win_procs=0
+0
+13:40:57 vram_mib=909 free_ram_mib=29823 win_procs=0
+0
+13:41:07 vram_mib=909 free_ram_mib=29943 win_procs=0
+0
+13:41:18 vram_mib=909 free_ram_mib=29932 win_procs=0
+0
+13:41:28 vram_mib=909 free_ram_mib=29954 win_procs=0
+0

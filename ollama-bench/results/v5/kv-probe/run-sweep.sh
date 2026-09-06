@@ -117,6 +117,34 @@ if [[ "$M_IQ3M" == "$M_Q3KS" ]]; then
     exit 1
 fi
 
+# --- stop Ollama's model service before the first direct server ----------------------
+# The plan: "Never run Ollama's model service concurrently with the direct server, and never
+# place two models on the GPU." But `ollama show --modelfile` needs that service running, and
+# the plan also requires the blob path to be resolved at run time rather than guessed. So the
+# service is up for the resolution above and is stopped here, before any cell, with the drain
+# verified the same way the harness's own cleanup barrier verifies one: no `ollama` and no
+# `llama-server` process, and VRAM back to an idle reading.
+echo "########## stopping Ollama's model service before the first cell ##########"
+# MSYS_NO_PATHCONV=1 is required: under Git Bash, `/F` and `/IM` are rewritten into
+# `C:/F` and `C:/IM` by MSYS path conversion, taskkill rejects them, and the kill silently
+# does nothing while the drain loop below reports the processes still there. Measured
+# 2026-09-10, and it is the whole reason this comment exists.
+TASKKILL="${TASKKILL:-/c/Windows/System32/taskkill.exe}"
+MSYS_NO_PATHCONV=1 "$TASKKILL" /F /IM "ollama app.exe" 2>&1 | sed 's/^/[drain] /' || true
+MSYS_NO_PATHCONV=1 "$TASKKILL" /F /IM "ollama.exe"     2>&1 | sed 's/^/[drain] /' || true
+for i in 1 2 3 4 5 6 7 8 9 10; do
+    procs="$(/c/Windows/System32/tasklist.exe 2>/dev/null | grep -icE 'ollama|llama-server' || true)"
+    vram="$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits 2>/dev/null | head -1 | tr -d ' \r')"
+    echo "[drain] attempt $i: ollama/llama-server processes=$procs vram_mib=$vram"
+    if [[ "$procs" == "0" ]]; then break; fi
+    sleep 3
+done
+if [[ "$(/c/Windows/System32/tasklist.exe 2>/dev/null | grep -icE 'ollama|llama-server' || true)" != "0" ]]; then
+    echo "FATAL: an ollama or llama-server process survived the stop; refusing to run" >&2
+    exit 1
+fi
+echo "[drain] clear"
+
 run_cell() {
     # run_cell <label> <blob> <k:v> <out.json>
     local label="$1" blob="$2" cfg="$3" out="$4"

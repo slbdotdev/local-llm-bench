@@ -1,0 +1,43 @@
+corpus 139841 chars, 1200 records, 32 needles, 128 fields; buckets early=11 middle=10 late=11; digest 7ca197cffc657328; idle VRAM 917 MiB
+  [cleanup] start ok=pending waited_s=0.0 port=18080 reason=before launch
+  [cleanup] finish ok=True waited_s=4.4 reason=none
+
+### q4_0-q4_0  (ctx 65536, port 18080)
+  d=0.01   early  n0   2/4 [..xx]     ['5DC468', 'ap-south-2', '494', '59828']
+  d=0.3578 middle n11  4/4 [....] ALL ['BDB890', 'me-central-1', '377', '52472']
+  d=0.6739 late   n21  4/4 [....] ALL ['A2BC94', 'ap-south-2', '224', '15260']
+  d=0.0417 early  n1   4/4 [....] ALL ['08D27D', 'sa-east-1', '8', '10757']
+  d=0.3895 middle n12  2/4 [xx..]     ['830FA5', 'sa-east-1', '3', '50728']
+  d=0.7056 late   n22  2/4 [xx..]     ['ED0AF9', 'ap-south-2', '468', '93489']
+  d=0.0734 early  n2   4/4 [....] ALL ['2E2FCD', 'me-central-1', '373', '31719']
+  d=0.4212 middle n13  4/4 [....] ALL ['A58848', 'sa-east-1', '290', '83095']
+  d=0.7373 late   n23  4/4 [....] ALL ['E5E594', 'sa-east-1', '160', '42591']
+  d=0.1051 early  n3   4/4 [....] ALL ['9DF23E', 'af-north-1', '297', '5116']
+  d=0.4529 middle n14  4/4 [....] ALL ['394930', 'ap-south-2', '339', '99635']
+  d=0.769  late   n24  4/4 [....] ALL ['23768F', 'ap-south-2', '227', '56495']
+  d=0.1368 early  n4   4/4 [....] ALL ['E2D108', 'eu-west-3', '6', '56189']
+  d=0.4846 middle n15  4/4 [....] ALL ['3645B3', 'me-central-1', '83', '91698']
+  d=0.8007 late   n25  4/4 [....] ALL ['BE8FD6', 'sa-east-1', '317', '85675']
+  d=0.1685 early  n5   2/4 [xx..]     ['F52EC0', 'eu-west-3', '237', '71912']
+  d=0.5154 middle n16  4/4 [....] ALL ['30203A', 'eu-west-3', '43', '52251']
+  d=0.8315 late   n26  4/4 [....] ALL ['9B0286', 'eu-west-3', '39', '98165']
+  d=0.1993 early  n6   2/4 [xx..]     ['590817', 'us-east-1', '182', '97023']
+  d=0.5471 middle n17  4/4 [....] ALL ['3BB71D', 'sa-east-1', '217', '34903']
+  d=0.8632 late   n27  4/4 [....] ALL ['73BFDE', 'ap-south-2', '163', '23268']
+  d=0.231  early  n7   4/4 [....] ALL ['10C342', 'sa-east-1', '481', '10407']
+  d=0.5788 middle n18  4/4 [....] ALL ['1C2943', 'sa-east-1', '465', '81244']
+  d=0.8949 late   n28  4/4 [....] ALL ['0E0700', 'sa-east-1', '279', '52303']
+  d=0.2627 early  n8   4/4 [....] ALL ['EEDDF5', 'af-north-1', '318', '5690']
+  d=0.6105 middle n19  4/4 [....] ALL ['4CDAD6', 'ap-south-2', '353', '69065']
+  d=0.9266 late   n29  4/4 [....] ALL ['A4D71A', 'af-north-1', '199', '39891']
+  d=0.2944 early  n9   4/4 [....] ALL ['C6E922', 'af-north-1', '445', '58402']
+  d=0.6422 middle n20  4/4 [....] ALL ['91CE8E', 'us-east-1', '17', '82918']
+  d=0.9583 late   n30  4/4 [....] ALL ['47FA22', 'us-east-1', '17', '67929']
+  d=0.3261 early  n10  4/4 [....] ALL ['57F20C', 'eu-west-3', '298', '99562']
+  d=0.99   late   n31  4/4 [....] ALL ['75D7B9', 'sa-east-1', '373', '15969']
+  [cleanup] start ok=pending waited_s=0.0 port=18080 reason=normal completion
+  [cleanup] finish ok=True waited_s=5.8 reason=none
+
+=== summary ===
+config        fields      pct     all4     early/mid/late        vram peak  gen t/s   prompt t/s  reason
+q4_0-q4_0     118/128     92.188  27/32    86.364/95.0/95.455    14366      42.7      1417.4      complete

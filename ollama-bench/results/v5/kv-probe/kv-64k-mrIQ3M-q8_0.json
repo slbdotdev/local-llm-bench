@@ -1,0 +1,2663 @@
+{
+ "model": "D:\\ollama\\models\\blobs\\sha256-7544860b1898ffa765dba81e40315cd0eb227be4cfe97984c673b60da0f3cd40",
+ "ctx": 65536,
+ "records": 1200,
+ "needles": 32,
+ "fields": 128,
+ "seed": 20260903,
+ "corpus_digest": "7ca197cffc65732830272e8c60e10666c1e5a562081f166ade9ca022cd2698f2",
+ "corpus_chars": 139841,
+ "depth_buckets": {
+  "early": 11,
+  "middle": 10,
+  "late": 11
+ },
+ "idle_vram_mib": 1736,
+ "saturation_rule": {
+  "threshold_field_pct": 98.0,
+  "threshold_all_fields_pct": 90.0
+ },
+ "runs": [
+  {
+   "config": "q8_0-q8_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q8_0",
+   "ctx": 65536,
+   "port": 18080,
+   "stopped": false,
+   "partial": false,
+   "reason": "complete",
+   "load_s": 30.6,
+   "vram_loaded_mib": 15303,
+   "vram_peak_mib": 15326,
+   "gen_tok_s": 43.3,
+   "prompt_tok_s": 1402.5,
+   "cold_prompt_s": 37.21,
+   "warm_prompt_s": 0.542,
+   "gen_tokens": 1215,
+   "gen_time_s": 28.091,
+   "prompt_tokens_total": 75530,
+   "prompt_time_s": 53.852,
+   "prompt_tokens": 59729,
+   "score": {
+    "needles": 32,
+    "fields": 128,
+    "points": 120,
+    "pct": 93.75,
+    "all_fields": 28,
+    "all_fields_pct": 87.5,
+    "buckets": {
+     "early": {
+      "needles": 11,
+      "fields": 44,
+      "points": 40,
+      "all_fields": 9,
+      "pct": 90.909,
+      "all_fields_pct": 81.818
+     },
+     "middle": {
+      "needles": 10,
+      "fields": 40,
+      "points": 38,
+      "all_fields": 9,
+      "pct": 95.0,
+      "all_fields_pct": 90.0
+     },
+     "late": {
+      "needles": 11,
+      "fields": 44,
+      "points": 42,
+      "all_fields": 10,
+      "pct": 95.455,
+      "all_fields_pct": 90.909
+     }
+    },
+    "reasons": {
+     "correct": 120,
+     "wrong": 6,
+     "near_miss": 2
+    },
+    "by_field": {
+     "A_checksum": {
+      "points": 29,
+      "fields": 32,
+      "pct": 90.625
+     },
+     "A_region": {
+      "points": 29,
+      "fields": 32,
+      "pct": 90.625
+     },
+     "B_shard": {
+      "points": 31,
+      "fields": 32,
+      "pct": 96.875
+     },
+     "B_token_budget": {
+      "points": 31,
+      "fields": 32,
+      "pct": 96.875
+     }
+    }
+   },
+   "calibration_first_n": {
+    "needles": 8,
+    "fields": 32,
+    "points": 26,
+    "pct": 81.25,
+    "all_fields": 5,
+    "all_fields_pct": 62.5,
+    "buckets": {
+     "early": {
+      "needles": 3,
+      "fields": 12,
+      "points": 10,
+      "all_fields": 2,
+      "pct": 83.333,
+      "all_fields_pct": 66.667
+     },
+     "middle": {
+      "needles": 3,
+      "fields": 12,
+      "points": 10,
+      "all_fields": 2,
+      "pct": 83.333,
+      "all_fields_pct": 66.667
+     },
+     "late": {
+      "needles": 2,
+      "fields": 8,
+      "points": 6,
+      "all_fields": 1,
+      "pct": 75.0,
+      "all_fields_pct": 50.0
+     }
+    },
+    "reasons": {
+     "correct": 26,
+     "wrong": 5,
+     "near_miss": 1
+    },
+    "by_field": {
+     "A_checksum": {
+      "points": 6,
+      "fields": 8,
+      "pct": 75.0
+     },
+     "A_region": {
+      "points": 6,
+      "fields": 8,
+      "pct": 75.0
+     },
+     "B_shard": {
+      "points": 7,
+      "fields": 8,
+      "pct": 87.5
+     },
+     "B_token_budget": {
+      "points": 7,
+      "fields": 8,
+      "pct": 87.5
+     }
+    }
+   },
+   "saturation": {
+    "saturated": false,
+    "field_pct": 93.75,
+    "all_fields_pct": 87.5,
+    "threshold_field_pct": 98.0,
+    "threshold_all_fields_pct": 90.0,
+    "rule": "stop the sweep if field pct >= 98 and all-four-fields pct >= 90"
+   },
+   "per_needle": [
+    {
+     "needle": 0,
+     "depth": 0.01,
+     "bucket": "early",
+     "a_index": 12,
+     "b_index": 25,
+     "a_node": "downholt-vale-1",
+     "b_node": "bramblewood-ridge-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 12,
+       "expected": "5DC468",
+       "raw": "5DC468",
+       "got": "5DC468",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 12,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 25,
+       "expected": "184",
+       "raw": "494",
+       "got": "494",
+       "ok": false,
+       "reason": "wrong"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 25,
+       "expected": "95848",
+       "raw": "59828",
+       "got": "59828",
+       "ok": false,
+       "reason": "wrong"
+      }
+     ],
+     "points": 2,
+     "possible": 4,
+     "all_fields": false
+    },
+    {
+     "needle": 11,
+     "depth": 0.3578,
+     "bucket": "middle",
+     "a_index": 429,
+     "b_index": 451,
+     "a_node": "starling-reach-4",
+     "b_node": "harrow-cross-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 429,
+       "expected": "BDB890",
+       "raw": "BDB890",
+       "got": "BDB890",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 429,
+       "expected": "me-central-1",
+       "raw": "me-central-1",
+       "got": "me-central-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 451,
+       "expected": "377",
+       "raw": "377",
+       "got": "377",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 451,
+       "expected": "52472",
+       "raw": "52472",
+       "got": "52472",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 21,
+     "depth": 0.6739,
+     "bucket": "late",
+     "a_index": 808,
+     "b_index": 824,
+     "a_node": "quillon-ridge-1",
+     "b_node": "starling-combe-4",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 808,
+       "expected": "A2BC94",
+       "raw": "A2BC94",
+       "got": "A2BC94",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 808,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 824,
+       "expected": "224",
+       "raw": "224",
+       "got": "224",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 824,
+       "expected": "15260",
+       "raw": "15260",
+       "got": "15260",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 1,
+     "depth": 0.0417,
+     "bucket": "early",
+     "a_index": 50,
+     "b_index": 66,
+     "a_node": "marlowe-fen-4",
+     "b_node": "marlowe-moor-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 50,
+       "expected": "08D27D",
+       "raw": "08D27D",
+       "got": "08D27D",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 50,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 66,
+       "expected": "8",
+       "raw": "8",
+       "got": "8",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 66,
+       "expected": "10757",
+       "raw": "10757",
+       "got": "10757",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 12,
+     "depth": 0.3895,
+     "bucket": "middle",
+     "a_index": 467,
+     "b_index": 480,
+     "a_node": "silverdale-gate-1",
+     "b_node": "tarnwick-fen-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 467,
+       "expected": "E78803",
+       "raw": "830FA5",
+       "got": "830FA5",
+       "ok": false,
+       "reason": "wrong"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 467,
+       "expected": "ap-south-2",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": false,
+       "reason": "near_miss"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 480,
+       "expected": "3",
+       "raw": "3",
+       "got": "3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 480,
+       "expected": "50728",
+       "raw": "50728",
+       "got": "50728",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 2,
+     "possible": 4,
+     "all_fields": false
+    },
+    {
+     "needle": 22,
+     "depth": 0.7056,
+     "bucket": "late",
+     "a_index": 846,
+     "b_index": 865,
+     "a_node": "fenwick-vale-6",
+     "b_node": "marlowe-ridge-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 846,
+       "expected": "ED8AF9",
+       "raw": "642609",
+       "got": "642609",
+       "ok": false,
+       "reason": "wrong"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 846,
+       "expected": "us-east-1",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": false,
+       "reason": "wrong"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 865,
+       "expected": "468",
+       "raw": "468",
+       "got": "468",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 865,
+       "expected": "93489",
+       "raw": "93489",
+       "got": "93489",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 2,
+     "possible": 4,
+     "all_fields": false
+    },
+    {
+     "needle": 2,
+     "depth": 0.0734,
+     "bucket": "early",
+     "a_index": 88,
+     "b_index": 107,
+     "a_node": "ashcombe-hollow-4",
+     "b_node": "vaulterra-cross-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 88,
+       "expected": "2E2FCD",
+       "raw": "2E2FCD",
+       "got": "2E2FCD",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 88,
+       "expected": "me-central-1",
+       "raw": "me-central-1",
+       "got": "me-central-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 107,
+       "expected": "373",
+       "raw": "373",
+       "got": "373",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 107,
+       "expected": "31719",
+       "raw": "31719",
+       "got": "31719",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 13,
+     "depth": 0.4212,
+     "bucket": "middle",
+     "a_index": 505,
+     "b_index": 521,
+     "a_node": "brightmoor-hurst-3",
+     "b_node": "brightmoor-vale-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 505,
+       "expected": "A58848",
+       "raw": "A58848",
+       "got": "A58848",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 505,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 521,
+       "expected": "290",
+       "raw": "290",
+       "got": "290",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 521,
+       "expected": "83095",
+       "raw": "83095",
+       "got": "83095",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 23,
+     "depth": 0.7373,
+     "bucket": "late",
+     "a_index": 884,
+     "b_index": 906,
+     "a_node": "ravensmere-fen-1",
+     "b_node": "downholt-fen-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 884,
+       "expected": "E5E594",
+       "raw": "E5E594",
+       "got": "E5E594",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 884,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 906,
+       "expected": "160",
+       "raw": "160",
+       "got": "160",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 906,
+       "expected": "42591",
+       "raw": "42591",
+       "got": "42591",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 3,
+     "depth": 0.1051,
+     "bucket": "early",
+     "a_index": 126,
+     "b_index": 148,
+     "a_node": "starling-hurst-6",
+     "b_node": "oakmere-gate-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 126,
+       "expected": "9DF23E",
+       "raw": "9DF23E",
+       "got": "9DF23E",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 126,
+       "expected": "af-north-1",
+       "raw": "af-north-1",
+       "got": "af-north-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 148,
+       "expected": "297",
+       "raw": "297",
+       "got": "297",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 148,
+       "expected": "5116",
+       "raw": "5116",
+       "got": "5116",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 14,
+     "depth": 0.4529,
+     "bucket": "middle",
+     "a_index": 543,
+     "b_index": 562,
+     "a_node": "fenwick-hurst-2",
+     "b_node": "fenwick-reach-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 543,
+       "expected": "394930",
+       "raw": "394930",
+       "got": "394930",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 543,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 562,
+       "expected": "339",
+       "raw": "339",
+       "got": "339",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 562,
+       "expected": "99635",
+       "raw": "99635",
+       "got": "99635",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 24,
+     "depth": 0.769,
+     "bucket": "late",
+     "a_index": 922,
+     "b_index": 935,
+     "a_node": "starling-hollow-1",
+     "b_node": "oakmere-cross-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 922,
+       "expected": "23768F",
+       "raw": "23768F",
+       "got": "23768F",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 922,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 935,
+       "expected": "227",
+       "raw": "227",
+       "got": "227",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 935,
+       "expected": "56495",
+       "raw": "56495",
+       "got": "56495",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 4,
+     "depth": 0.1368,
+     "bucket": "early",
+     "a_index": 164,
+     "b_index": 177,
+     "a_node": "ravensmere-combe-3",
+     "b_node": "tarnwick-gate-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 164,
+       "expected": "E2D108",
+       "raw": "E2D108",
+       "got": "E2D108",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 164,
+       "expected": "eu-west-3",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 177,
+       "expected": "6",
+       "raw": "6",
+       "got": "6",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 177,
+       "expected": "56189",
+       "raw": "56189",
+       "got": "56189",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 15,
+     "depth": 0.4846,
+     "bucket": "middle",
+     "a_index": 581,
+     "b_index": 603,
+     "a_node": "kestrelby-ridge-3",
+     "b_node": "elderfell-vale-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 581,
+       "expected": "3645B3",
+       "raw": "3645B3",
+       "got": "3645B3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 581,
+       "expected": "me-central-1",
+       "raw": "me-central-1",
+       "got": "me-central-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 603,
+       "expected": "83",
+       "raw": "83",
+       "got": "83",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 603,
+       "expected": "91698",
+       "raw": "91698",
+       "got": "91698",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 25,
+     "depth": 0.8007,
+     "bucket": "late",
+     "a_index": 960,
+     "b_index": 976,
+     "a_node": "vaulterra-combe-1",
+     "b_node": "silverdale-cross-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 960,
+       "expected": "BE8FD6",
+       "raw": "BE8FD6",
+       "got": "BE8FD6",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 960,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 976,
+       "expected": "317",
+       "raw": "317",
+       "got": "317",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 976,
+       "expected": "85675",
+       "raw": "85675",
+       "got": "85675",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 5,
+     "depth": 0.1685,
+     "bucket": "early",
+     "a_index": 202,
+     "b_index": 218,
+     "a_node": "silverdale-cross-6",
+     "b_node": "thornbury-fen-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 202,
+       "expected": "02C40D",
+       "raw": "F52EC0",
+       "got": "F52EC0",
+       "ok": false,
+       "reason": "wrong"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 202,
+       "expected": "me-central-1",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": false,
+       "reason": "near_miss"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 218,
+       "expected": "237",
+       "raw": "237",
+       "got": "237",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 218,
+       "expected": "71912",
+       "raw": "71912",
+       "got": "71912",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 2,
+     "possible": 4,
+     "all_fields": false
+    },
+    {
+     "needle": 16,
+     "depth": 0.5154,
+     "bucket": "middle",
+     "a_index": 618,
+     "b_index": 631,
+     "a_node": "ashcombe-moor-4",
+     "b_node": "ravensmere-cross-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 618,
+       "expected": "30203A",
+       "raw": "30203A",
+       "got": "30203A",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 618,
+       "expected": "eu-west-3",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 631,
+       "expected": "43",
+       "raw": "43",
+       "got": "43",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 631,
+       "expected": "52251",
+       "raw": "52251",
+       "got": "52251",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 26,
+     "depth": 0.8315,
+     "bucket": "late",
+     "a_index": 997,
+     "b_index": 1016,
+     "a_node": "windhollow-cross-2",
+     "b_node": "marlowe-gate-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 997,
+       "expected": "9B0286",
+       "raw": "9B0286",
+       "got": "9B0286",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 997,
+       "expected": "eu-west-3",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1016,
+       "expected": "39",
+       "raw": "39",
+       "got": "39",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1016,
+       "expected": "98165",
+       "raw": "98165",
+       "got": "98165",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 6,
+     "depth": 0.1993,
+     "bucket": "early",
+     "a_index": 239,
+     "b_index": 258,
+     "a_node": "quillon-reach-2",
+     "b_node": "marlowe-moor-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 239,
+       "expected": "6CC0AE",
+       "raw": "6CC0AE",
+       "got": "6CC0AE",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 239,
+       "expected": "eu-west-3",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 258,
+       "expected": "182",
+       "raw": "182",
+       "got": "182",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 258,
+       "expected": "97023",
+       "raw": "97023",
+       "got": "97023",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 17,
+     "depth": 0.5471,
+     "bucket": "middle",
+     "a_index": 656,
+     "b_index": 672,
+     "a_node": "harrow-moor-3",
+     "b_node": "ravensmere-gate-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 656,
+       "expected": "3BB71D",
+       "raw": "3BB71D",
+       "got": "3BB71D",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 656,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 672,
+       "expected": "217",
+       "raw": "217",
+       "got": "217",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 672,
+       "expected": "34903",
+       "raw": "34903",
+       "got": "34903",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 27,
+     "depth": 0.8632,
+     "bucket": "late",
+     "a_index": 1035,
+     "b_index": 1057,
+     "a_node": "oakmere-vale-5",
+     "b_node": "windhollow-vale-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 1035,
+       "expected": "73BFDE",
+       "raw": "73BFDE",
+       "got": "73BFDE",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 1035,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1057,
+       "expected": "163",
+       "raw": "163",
+       "got": "163",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1057,
+       "expected": "23268",
+       "raw": "23268",
+       "got": "23268",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 7,
+     "depth": 0.231,
+     "bucket": "early",
+     "a_index": 277,
+     "b_index": 299,
+     "a_node": "harrow-reach-2",
+     "b_node": "oakmere-fen-3",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 277,
+       "expected": "10C342",
+       "raw": "10C342",
+       "got": "10C342",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 277,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 299,
+       "expected": "481",
+       "raw": "481",
+       "got": "481",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 299,
+       "expected": "10407",
+       "raw": "10407",
+       "got": "10407",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 18,
+     "depth": 0.5788,
+     "bucket": "middle",
+     "a_index": 694,
+     "b_index": 713,
+     "a_node": "tarnwick-reach-1",
+     "b_node": "harrow-cross-4",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 694,
+       "expected": "1C2943",
+       "raw": "1C2943",
+       "got": "1C2943",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 694,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 713,
+       "expected": "465",
+       "raw": "465",
+       "got": "465",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 713,
+       "expected": "81244",
+       "raw": "81244",
+       "got": "81244",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 28,
+     "depth": 0.8949,
+     "bucket": "late",
+     "a_index": 1073,
+     "b_index": 1086,
+     "a_node": "thornbury-combe-4",
+     "b_node": "silverdale-gate-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 1073,
+       "expected": "0E0700",
+       "raw": "0E0700",
+       "got": "0E0700",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 1073,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1086,
+       "expected": "279",
+       "raw": "279",
+       "got": "279",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1086,
+       "expected": "52303",
+       "raw": "52303",
+       "got": "52303",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 8,
+     "depth": 0.2627,
+     "bucket": "early",
+     "a_index": 315,
+     "b_index": 328,
+     "a_node": "bramblewood-moor-1",
+     "b_node": "tarnwick-fen-1",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 315,
+       "expected": "EEDDF5",
+       "raw": "EEDDF5",
+       "got": "EEDDF5",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 315,
+       "expected": "af-north-1",
+       "raw": "af-north-1",
+       "got": "af-north-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 328,
+       "expected": "318",
+       "raw": "318",
+       "got": "318",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 328,
+       "expected": "5690",
+       "raw": "5690",
+       "got": "5690",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 19,
+     "depth": 0.6105,
+     "bucket": "middle",
+     "a_index": 732,
+     "b_index": 754,
+     "a_node": "colden-hollow-5",
+     "b_node": "quillon-reach-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 732,
+       "expected": "4CDAD6",
+       "raw": "4CDAD6",
+       "got": "4CDAD6",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 732,
+       "expected": "ap-south-2",
+       "raw": "ap-south-2",
+       "got": "ap-south-2",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 754,
+       "expected": "353",
+       "raw": "353",
+       "got": "353",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 754,
+       "expected": "69065",
+       "raw": "69065",
+       "got": "69065",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 29,
+     "depth": 0.9266,
+     "bucket": "late",
+     "a_index": 1111,
+     "b_index": 1127,
+     "a_node": "harrow-cross-2",
+     "b_node": "harrow-gate-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 1111,
+       "expected": "A4D71A",
+       "raw": "A4D71A",
+       "got": "A4D71A",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 1111,
+       "expected": "af-north-1",
+       "raw": "af-north-1",
+       "got": "af-north-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1127,
+       "expected": "199",
+       "raw": "199",
+       "got": "199",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1127,
+       "expected": "39891",
+       "raw": "39891",
+       "got": "39891",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 9,
+     "depth": 0.2944,
+     "bucket": "early",
+     "a_index": 353,
+     "b_index": 369,
+     "a_node": "ravensmere-reach-6",
+     "b_node": "kestrelby-combe-4",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 353,
+       "expected": "C6E922",
+       "raw": "C6E922",
+       "got": "C6E922",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 353,
+       "expected": "af-north-1",
+       "raw": "af-north-1",
+       "got": "af-north-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 369,
+       "expected": "445",
+       "raw": "445",
+       "got": "445",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 369,
+       "expected": "58402",
+       "raw": "58402",
+       "got": "58402",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 20,
+     "depth": 0.6422,
+     "bucket": "middle",
+     "a_index": 770,
+     "b_index": 783,
+     "a_node": "brightmoor-reach-2",
+     "b_node": "graystone-reach-3",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 770,
+       "expected": "91CE8E",
+       "raw": "91CE8E",
+       "got": "91CE8E",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 770,
+       "expected": "us-east-1",
+       "raw": "us-east-1",
+       "got": "us-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 783,
+       "expected": "17",
+       "raw": "17",
+       "got": "17",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 783,
+       "expected": "82918",
+       "raw": "82918",
+       "got": "82918",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 30,
+     "depth": 0.9583,
+     "bucket": "late",
+     "a_index": 1149,
+     "b_index": 1168,
+     "a_node": "kestrelby-moor-4",
+     "b_node": "bramblewood-fen-6",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 1149,
+       "expected": "47FA22",
+       "raw": "47FA22",
+       "got": "47FA22",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 1149,
+       "expected": "us-east-1",
+       "raw": "us-east-1",
+       "got": "us-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1168,
+       "expected": "17",
+       "raw": "17",
+       "got": "17",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1168,
+       "expected": "67929",
+       "raw": "67929",
+       "got": "67929",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 10,
+     "depth": 0.3261,
+     "bucket": "early",
+     "a_index": 391,
+     "b_index": 410,
+     "a_node": "elderfell-hollow-3",
+     "b_node": "bramblewood-hurst-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 391,
+       "expected": "57F20C",
+       "raw": "57F20C",
+       "got": "57F20C",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 391,
+       "expected": "eu-west-3",
+       "raw": "eu-west-3",
+       "got": "eu-west-3",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 410,
+       "expected": "298",
+       "raw": "298",
+       "got": "298",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 410,
+       "expected": "99562",
+       "raw": "99562",
+       "got": "99562",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    },
+    {
+     "needle": 31,
+     "depth": 0.99,
+     "bucket": "late",
+     "a_index": 1187,
+     "b_index": 1165,
+     "a_node": "graystone-cross-2",
+     "b_node": "windhollow-moor-2",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 1187,
+       "expected": "75D7B9",
+       "raw": "75D7B9",
+       "got": "75D7B9",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 1187,
+       "expected": "sa-east-1",
+       "raw": "sa-east-1",
+       "got": "sa-east-1",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1165,
+       "expected": "373",
+       "raw": "373",
+       "got": "373",
+       "ok": true,
+       "reason": "correct"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 1165,
+       "expected": "15969",
+       "raw": "15969",
+       "got": "15969",
+       "ok": true,
+       "reason": "correct"
+      }
+     ],
+     "points": 4,
+     "possible": 4,
+     "all_fields": true
+    }
+   ],
+   "raw_answers": [
+    {
+     "needle": 0,
+     "depth": 0.01,
+     "bucket": "early",
+     "answer": "A_checksum: 5DC468\nA_region: ap-south-2\nB_shard: 494\nB_token_budget: 59828",
+     "prompt_tokens": 59729,
+     "timings": {
+      "cache_n": 0,
+      "prompt_n": 59729,
+      "prompt_ms": 37209.88,
+      "prompt_per_token_ms": 0.6229784526779286,
+      "prompt_per_second": 1605.1919543949082,
+      "predicted_n": 39,
+      "predicted_ms": 929.169,
+      "predicted_per_token_ms": 24.451815789473685,
+      "predicted_per_second": 40.89675828616753
+     },
+     "wall_s": 38.23
+    },
+    {
+     "needle": 11,
+     "depth": 0.3578,
+     "bucket": "middle",
+     "answer": "A_checksum: BDB890\nA_region: me-central-1\nB_shard: 377\nB_token_budget: 52472",
+     "prompt_tokens": 59726,
+     "timings": {
+      "cache_n": 59217,
+      "prompt_n": 509,
+      "prompt_ms": 541.799,
+      "prompt_per_token_ms": 1.0644381139489194,
+      "prompt_per_second": 939.4627897061456,
+      "predicted_n": 37,
+      "predicted_ms": 850.016,
+      "predicted_per_token_ms": 23.611555555555555,
+      "predicted_per_second": 42.352143959643115
+     },
+     "wall_s": 1.5
+    },
+    {
+     "needle": 21,
+     "depth": 0.6739,
+     "bucket": "late",
+     "answer": "A_checksum: A2BC94\nA_region: ap-south-2\nB_shard: 224\nB_token_budget: 15260",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59217,
+      "prompt_n": 511,
+      "prompt_ms": 552.846,
+      "prompt_per_token_ms": 1.081890410958904,
+      "prompt_per_second": 924.3080351490289,
+      "predicted_n": 38,
+      "predicted_ms": 908.469,
+      "predicted_per_token_ms": 24.553216216216217,
+      "predicted_per_second": 40.72786193034655
+     },
+     "wall_s": 1.56
+    },
+    {
+     "needle": 1,
+     "depth": 0.0417,
+     "bucket": "early",
+     "answer": "A_checksum: 08D27D\nA_region: sa-east-1\nB_shard: 8\nB_token_budget: 10757",
+     "prompt_tokens": 59731,
+     "timings": {
+      "cache_n": 59217,
+      "prompt_n": 514,
+      "prompt_ms": 578.865,
+      "prompt_per_token_ms": 1.1261964980544747,
+      "prompt_per_second": 887.9445121055859,
+      "predicted_n": 37,
+      "predicted_ms": 854.048,
+      "predicted_per_token_ms": 23.723555555555556,
+      "predicted_per_second": 42.1521975345648
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 12,
+     "depth": 0.3895,
+     "bucket": "middle",
+     "answer": "A_checksum: 830FA5\nA_region: sa-east-1\nB_shard: 3\nB_token_budget: 50728",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59219,
+      "prompt_n": 511,
+      "prompt_ms": 544.13,
+      "prompt_per_token_ms": 1.0648336594911938,
+      "prompt_per_second": 939.1138147133958,
+      "predicted_n": 36,
+      "predicted_ms": 842.996,
+      "predicted_per_token_ms": 24.0856,
+      "predicted_per_second": 41.518583718072215
+     },
+     "wall_s": 1.48
+    },
+    {
+     "needle": 22,
+     "depth": 0.7056,
+     "bucket": "late",
+     "answer": "A_checksum: 642609\nA_region: eu-west-3\nB_shard: 468\nB_token_budget: 93489",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59219,
+      "prompt_n": 511,
+      "prompt_ms": 547.229,
+      "prompt_per_token_ms": 1.0708982387475539,
+      "prompt_per_second": 933.7955408064996,
+      "predicted_n": 39,
+      "predicted_ms": 910.731,
+      "predicted_per_token_ms": 23.966605263157895,
+      "predicted_per_second": 41.72472442466546
+     },
+     "wall_s": 1.55
+    },
+    {
+     "needle": 2,
+     "depth": 0.0734,
+     "bucket": "early",
+     "answer": "A_checksum: 2E2FCD\nA_region: me-central-1\nB_shard: 373\nB_token_budget: 31719",
+     "prompt_tokens": 59727,
+     "timings": {
+      "cache_n": 59219,
+      "prompt_n": 508,
+      "prompt_ms": 525.437,
+      "prompt_per_token_ms": 1.0343248031496064,
+      "prompt_per_second": 966.814289819712,
+      "predicted_n": 38,
+      "predicted_ms": 877.231,
+      "predicted_per_token_ms": 23.708945945945946,
+      "predicted_per_second": 42.178171998025604
+     },
+     "wall_s": 1.5
+    },
+    {
+     "needle": 13,
+     "depth": 0.4212,
+     "bucket": "middle",
+     "answer": "A_checksum: A58848\nA_region: sa-east-1\nB_shard: 290\nB_token_budget: 83095",
+     "prompt_tokens": 59732,
+     "timings": {
+      "cache_n": 59219,
+      "prompt_n": 513,
+      "prompt_ms": 579.048,
+      "prompt_per_token_ms": 1.128748538011696,
+      "prompt_per_second": 885.936917146765,
+      "predicted_n": 38,
+      "predicted_ms": 878.541,
+      "predicted_per_token_ms": 23.74435135135135,
+      "predicted_per_second": 42.11527976497398
+     },
+     "wall_s": 1.54
+    },
+    {
+     "needle": 23,
+     "depth": 0.7373,
+     "bucket": "late",
+     "answer": "A_checksum: E5E594\nA_region: sa-east-1\nB_shard: 160\nB_token_budget: 42591",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 553.226,
+      "prompt_per_token_ms": 1.084756862745098,
+      "prompt_per_second": 921.8655666942624,
+      "predicted_n": 38,
+      "predicted_ms": 874.6,
+      "predicted_per_token_ms": 23.63783783783784,
+      "predicted_per_second": 42.30505373885205
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 3,
+     "depth": 0.1051,
+     "bucket": "early",
+     "answer": "A_checksum: 9DF23E\nA_region: af-north-1\nB_shard: 297\nB_token_budget: 5116",
+     "prompt_tokens": 59729,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 509,
+      "prompt_ms": 554.506,
+      "prompt_per_token_ms": 1.089402750491159,
+      "prompt_per_second": 917.9341612173719,
+      "predicted_n": 38,
+      "predicted_ms": 880.917,
+      "predicted_per_token_ms": 23.808567567567568,
+      "predicted_per_second": 42.0016868785595
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 14,
+     "depth": 0.4529,
+     "bucket": "middle",
+     "answer": "A_checksum: 394930\nA_region: ap-south-2\nB_shard: 339\nB_token_budget: 99635",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 516.01,
+      "prompt_per_token_ms": 1.015767716535433,
+      "prompt_per_second": 984.4770450185074,
+      "predicted_n": 40,
+      "predicted_ms": 920.952,
+      "predicted_per_token_ms": 23.614153846153847,
+      "predicted_per_second": 42.34748390795611
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 24,
+     "depth": 0.769,
+     "bucket": "late",
+     "answer": "A_checksum: 23768F\nA_region: ap-south-2\nB_shard: 227\nB_token_budget: 56495",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 506.451,
+      "prompt_per_token_ms": 0.9969507874015748,
+      "prompt_per_second": 1003.0585387332634,
+      "predicted_n": 40,
+      "predicted_ms": 917.929,
+      "predicted_per_token_ms": 23.536641025641025,
+      "predicted_per_second": 42.48694615814513
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 4,
+     "depth": 0.1368,
+     "bucket": "early",
+     "answer": "A_checksum: E2D108\nA_region: eu-west-3\nB_shard: 6\nB_token_budget: 56189",
+     "prompt_tokens": 59731,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 511,
+      "prompt_ms": 536.536,
+      "prompt_per_token_ms": 1.0499726027397258,
+      "prompt_per_second": 952.4058031520718,
+      "predicted_n": 36,
+      "predicted_ms": 824.797,
+      "predicted_per_token_ms": 23.565628571428572,
+      "predicted_per_second": 42.434683928287804
+     },
+     "wall_s": 1.44
+    },
+    {
+     "needle": 15,
+     "depth": 0.4846,
+     "bucket": "middle",
+     "answer": "A_checksum: 3645B3\nA_region: me-central-1\nB_shard: 83\nB_token_budget: 91698",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 539.91,
+      "prompt_per_token_ms": 1.0586470588235293,
+      "prompt_per_second": 944.6018780907929,
+      "predicted_n": 38,
+      "predicted_ms": 875.006,
+      "predicted_per_token_ms": 23.64881081081081,
+      "predicted_per_second": 42.285424328518886
+     },
+     "wall_s": 1.5
+    },
+    {
+     "needle": 25,
+     "depth": 0.8007,
+     "bucket": "late",
+     "answer": "A_checksum: BE8FD6\nA_region: sa-east-1\nB_shard: 317\nB_token_budget: 85675",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 506.031,
+      "prompt_per_token_ms": 0.9961240157480316,
+      "prompt_per_second": 1003.8910659623621,
+      "predicted_n": 36,
+      "predicted_ms": 829.399,
+      "predicted_per_token_ms": 23.697114285714285,
+      "predicted_per_second": 42.19923100944178
+     },
+     "wall_s": 1.43
+    },
+    {
+     "needle": 5,
+     "depth": 0.1685,
+     "bucket": "early",
+     "answer": "A_checksum: F52EC0\nA_region: eu-west-3\nB_shard: 237\nB_token_budget: 71912",
+     "prompt_tokens": 59727,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 507,
+      "prompt_ms": 525.708,
+      "prompt_per_token_ms": 1.0368994082840237,
+      "prompt_per_second": 964.4137049464723,
+      "predicted_n": 37,
+      "predicted_ms": 850.843,
+      "predicted_per_token_ms": 23.634527777777777,
+      "predicted_per_second": 42.31097864118293
+     },
+     "wall_s": 1.45
+    },
+    {
+     "needle": 16,
+     "depth": 0.5154,
+     "bucket": "middle",
+     "answer": "A_checksum: 30203A\nA_region: eu-west-3\nB_shard: 43\nB_token_budget: 52251",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 526.525,
+      "prompt_per_token_ms": 1.0364665354330709,
+      "prompt_per_second": 964.8164854470349,
+      "predicted_n": 38,
+      "predicted_ms": 872.919,
+      "predicted_per_token_ms": 23.592405405405405,
+      "predicted_per_second": 42.38652154438155
+     },
+     "wall_s": 1.51
+    },
+    {
+     "needle": 26,
+     "depth": 0.8315,
+     "bucket": "late",
+     "answer": "A_checksum: 9B0286\nA_region: eu-west-3\nB_shard: 39\nB_token_budget: 98165",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 560.033,
+      "prompt_per_token_ms": 1.0981039215686275,
+      "prompt_per_second": 910.6606217847877,
+      "predicted_n": 38,
+      "predicted_ms": 877.133,
+      "predicted_per_token_ms": 23.706297297297297,
+      "predicted_per_second": 42.18288446563976
+     },
+     "wall_s": 1.55
+    },
+    {
+     "needle": 6,
+     "depth": 0.1993,
+     "bucket": "early",
+     "answer": "A_checksum: 6CC0AE\nA_region: eu-west-3\nB_shard: 182\nB_token_budget: 97023",
+     "prompt_tokens": 59729,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 509,
+      "prompt_ms": 551.462,
+      "prompt_per_token_ms": 1.0834223968565815,
+      "prompt_per_second": 923.0010408695432,
+      "predicted_n": 37,
+      "predicted_ms": 853.684,
+      "predicted_per_token_ms": 23.713444444444445,
+      "predicted_per_second": 42.170170695479825
+     },
+     "wall_s": 1.48
+    },
+    {
+     "needle": 17,
+     "depth": 0.5471,
+     "bucket": "middle",
+     "answer": "A_checksum: 3BB71D\nA_region: sa-east-1\nB_shard: 217\nB_token_budget: 34903",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 548.064,
+      "prompt_per_token_ms": 1.074635294117647,
+      "prompt_per_second": 930.5482571378526,
+      "predicted_n": 38,
+      "predicted_ms": 871.919,
+      "predicted_per_token_ms": 23.565378378378377,
+      "predicted_per_second": 42.43513445629697
+     },
+     "wall_s": 1.5
+    },
+    {
+     "needle": 27,
+     "depth": 0.8632,
+     "bucket": "late",
+     "answer": "A_checksum: 73BFDE\nA_region: ap-south-2\nB_shard: 163\nB_token_budget: 23268",
+     "prompt_tokens": 59732,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 512,
+      "prompt_ms": 536.266,
+      "prompt_per_token_ms": 1.04739453125,
+      "prompt_per_second": 954.7500680632373,
+      "predicted_n": 38,
+      "predicted_ms": 877.483,
+      "predicted_per_token_ms": 23.715756756756754,
+      "predicted_per_second": 42.1660590575544
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 7,
+     "depth": 0.231,
+     "bucket": "early",
+     "answer": "A_checksum: 10C342\nA_region: sa-east-1\nB_shard: 481\nB_token_budget: 10407",
+     "prompt_tokens": 59729,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 509,
+      "prompt_ms": 540.177,
+      "prompt_per_token_ms": 1.0612514734774068,
+      "prompt_per_second": 942.2837329245783,
+      "predicted_n": 39,
+      "predicted_ms": 901.349,
+      "predicted_per_token_ms": 23.71971052631579,
+      "predicted_per_second": 42.159030519809754
+     },
+     "wall_s": 1.53
+    },
+    {
+     "needle": 18,
+     "depth": 0.5788,
+     "bucket": "middle",
+     "answer": "A_checksum: 1C2943\nA_region: sa-east-1\nB_shard: 465\nB_token_budget: 81244",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 507.299,
+      "prompt_per_token_ms": 0.9986200787401575,
+      "prompt_per_second": 1001.381828073779,
+      "predicted_n": 39,
+      "predicted_ms": 902.326,
+      "predicted_per_token_ms": 23.74542105263158,
+      "predicted_per_second": 42.11338252471945
+     },
+     "wall_s": 1.49
+    },
+    {
+     "needle": 28,
+     "depth": 0.8949,
+     "bucket": "late",
+     "answer": "A_checksum: 0E0700\nA_region: sa-east-1\nB_shard: 279\nB_token_budget: 52303",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 540.057,
+      "prompt_per_token_ms": 1.058935294117647,
+      "prompt_per_second": 944.3447636082857,
+      "predicted_n": 39,
+      "predicted_ms": 897.223,
+      "predicted_per_token_ms": 23.61113157894737,
+      "predicted_per_second": 42.35290446187849
+     },
+     "wall_s": 1.52
+    },
+    {
+     "needle": 8,
+     "depth": 0.2627,
+     "bucket": "early",
+     "answer": "A_checksum: EEDDF5\nA_region: af-north-1\nB_shard: 318\nB_token_budget: 5690",
+     "prompt_tokens": 59731,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 511,
+      "prompt_ms": 543.265,
+      "prompt_per_token_ms": 1.0631409001956946,
+      "prompt_per_second": 940.6090950088816,
+      "predicted_n": 36,
+      "predicted_ms": 828.211,
+      "predicted_per_token_ms": 23.663171428571427,
+      "predicted_per_second": 42.25976230694835
+     },
+     "wall_s": 1.49
+    },
+    {
+     "needle": 19,
+     "depth": 0.6105,
+     "bucket": "middle",
+     "answer": "A_checksum: 4CDAD6\nA_region: ap-south-2\nB_shard: 353\nB_token_budget: 69065",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 521.685,
+      "prompt_per_token_ms": 1.0269389763779526,
+      "prompt_per_second": 973.7676950650298,
+      "predicted_n": 38,
+      "predicted_ms": 877.833,
+      "predicted_per_token_ms": 23.725216216216214,
+      "predicted_per_second": 42.14924706635544
+     },
+     "wall_s": 1.51
+    },
+    {
+     "needle": 29,
+     "depth": 0.9266,
+     "bucket": "late",
+     "answer": "A_checksum: A4D71A\nA_region: af-north-1\nB_shard: 199\nB_token_budget: 39891",
+     "prompt_tokens": 59726,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 506,
+      "prompt_ms": 522.33,
+      "prompt_per_token_ms": 1.0322727272727275,
+      "prompt_per_second": 968.7362395420519,
+      "predicted_n": 39,
+      "predicted_ms": 906.29,
+      "predicted_per_token_ms": 23.849736842105262,
+      "predicted_per_second": 41.92918381533505
+     },
+     "wall_s": 1.53
+    },
+    {
+     "needle": 9,
+     "depth": 0.2944,
+     "bucket": "early",
+     "answer": "A_checksum: C6E922\nA_region: af-north-1\nB_shard: 445\nB_token_budget: 58402",
+     "prompt_tokens": 59732,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 512,
+      "prompt_ms": 549.672,
+      "prompt_per_token_ms": 1.073578125,
+      "prompt_per_second": 931.4645825146632,
+      "predicted_n": 39,
+      "predicted_ms": 899.039,
+      "predicted_per_token_ms": 23.65892105263158,
+      "predicted_per_second": 42.26735436393749
+     },
+     "wall_s": 1.53
+    },
+    {
+     "needle": 20,
+     "depth": 0.6422,
+     "bucket": "middle",
+     "answer": "A_checksum: 91CE8E\nA_region: us-east-1\nB_shard: 17\nB_token_budget: 82918",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 528.781,
+      "prompt_per_token_ms": 1.0368254901960783,
+      "prompt_per_second": 964.4824606027827,
+      "predicted_n": 37,
+      "predicted_ms": 852.39,
+      "predicted_per_token_ms": 23.6775,
+      "predicted_per_second": 42.23418857565199
+     },
+     "wall_s": 1.48
+    },
+    {
+     "needle": 30,
+     "depth": 0.9583,
+     "bucket": "late",
+     "answer": "A_checksum: 47FA22\nA_region: us-east-1\nB_shard: 17\nB_token_budget: 67929",
+     "prompt_tokens": 59732,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 512,
+      "prompt_ms": 531.024,
+      "prompt_per_token_ms": 1.03715625,
+      "prompt_per_second": 964.1748772183555,
+      "predicted_n": 37,
+      "predicted_ms": 846.346,
+      "predicted_per_token_ms": 23.509611111111113,
+      "predicted_per_second": 42.535795053087035
+     },
+     "wall_s": 1.49
+    },
+    {
+     "needle": 10,
+     "depth": 0.3261,
+     "bucket": "early",
+     "answer": "A_checksum: 57F20C\nA_region: eu-west-3\nB_shard: 298\nB_token_budget: 99562",
+     "prompt_tokens": 59730,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 510,
+      "prompt_ms": 531.776,
+      "prompt_per_token_ms": 1.0426980392156862,
+      "prompt_per_second": 959.0504272475629,
+      "predicted_n": 39,
+      "predicted_ms": 898.818,
+      "predicted_per_token_ms": 23.653105263157894,
+      "predicted_per_second": 42.2777469966111
+     },
+     "wall_s": 1.53
+    },
+    {
+     "needle": 31,
+     "depth": 0.99,
+     "bucket": "late",
+     "answer": "A_checksum: 75D7B9\nA_region: sa-east-1\nB_shard: 373\nB_token_budget: 15969",
+     "prompt_tokens": 59728,
+     "timings": {
+      "cache_n": 59220,
+      "prompt_n": 508,
+      "prompt_ms": 496.396,
+      "prompt_per_token_ms": 0.9771574803149606,
+      "prompt_per_second": 1023.3764977961144,
+      "predicted_n": 39,
+      "predicted_ms": 902.842,
+      "predicted_per_token_ms": 23.759,
+      "predicted_per_second": 42.08931352329644
+     },
+     "wall_s": 1.5
+    }
+   ],
+   "log_path": "D:\\local-llm-bench\\ollama-bench\\results\\v5\\kv-probe\\server-q8_0-q8_0-p18080.log",
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.8,
+    "port": 18080,
+    "vram_samples": [
+     853,
+     853,
+     853
+    ],
+    "proc_samples": [
+     [],
+     [],
+     []
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "tree_drained": true,
+    "stray_pids_remaining": []
+   }
+  }
+ ]
+}

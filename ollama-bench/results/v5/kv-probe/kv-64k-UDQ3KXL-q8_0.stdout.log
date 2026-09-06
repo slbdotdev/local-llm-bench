@@ -1,0 +1,12 @@
+corpus 139841 chars, 1200 records, 32 needles, 128 fields; buckets early=11 middle=10 late=11; digest 7ca197cffc657328; idle VRAM 917 MiB
+  [cleanup] start ok=pending waited_s=0.0 port=18080 reason=before launch
+  [cleanup] finish ok=True waited_s=4.3 reason=none
+
+### q8_0-q8_0  (ctx 65536, port 18080)
+  [stop] cell safety cap of 600s reached after 1 of 32 needles
+  [cleanup] start ok=pending waited_s=0.0 port=18080 reason=normal completion
+  [cleanup] finish ok=True waited_s=5.8 reason=none
+
+=== summary ===
+config        fields      pct     all4     early/mid/late        vram peak  gen t/s   prompt t/s  reason
+q8_0-q8_0     0/4         0.0     0/1      0.0/None/None         15315      None      None        cell safety cap of 600s reached after 1 of 32 needles

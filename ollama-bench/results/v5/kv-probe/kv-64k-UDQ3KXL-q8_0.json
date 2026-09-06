@@ -1,0 +1,260 @@
+{
+ "model": "D:\\ollama\\models\\blobs\\sha256-28d076b40a90a48fa62307b7980fca4b2cdb0de7d892969956f7016b29d01154",
+ "ctx": 65536,
+ "records": 1200,
+ "needles": 32,
+ "fields": 128,
+ "seed": 20260903,
+ "corpus_digest": "7ca197cffc65732830272e8c60e10666c1e5a562081f166ade9ca022cd2698f2",
+ "corpus_chars": 139841,
+ "depth_buckets": {
+  "early": 11,
+  "middle": 10,
+  "late": 11
+ },
+ "idle_vram_mib": 917,
+ "saturation_rule": {
+  "threshold_field_pct": 98.0,
+  "threshold_all_fields_pct": 90.0
+ },
+ "runs": [
+  {
+   "config": "q8_0-q8_0",
+   "cache_type_k": "q8_0",
+   "cache_type_v": "q8_0",
+   "ctx": 65536,
+   "port": 18080,
+   "stopped": true,
+   "partial": true,
+   "reason": "cell safety cap of 600s reached after 1 of 32 needles",
+   "load_s": 30.7,
+   "vram_loaded_mib": 15315,
+   "vram_peak_mib": 15315,
+   "gen_tok_s": null,
+   "prompt_tok_s": null,
+   "cold_prompt_s": null,
+   "warm_prompt_s": null,
+   "gen_tokens": 0,
+   "gen_time_s": 0,
+   "prompt_tokens_total": 0,
+   "prompt_time_s": 0,
+   "prompt_tokens": null,
+   "score": {
+    "needles": 1,
+    "fields": 4,
+    "points": 0,
+    "pct": 0.0,
+    "all_fields": 0,
+    "all_fields_pct": 0.0,
+    "buckets": {
+     "early": {
+      "needles": 1,
+      "fields": 4,
+      "points": 0,
+      "all_fields": 0,
+      "pct": 0.0,
+      "all_fields_pct": 0.0
+     },
+     "middle": {
+      "needles": 0,
+      "fields": 0,
+      "points": 0,
+      "all_fields": 0,
+      "pct": null,
+      "all_fields_pct": null
+     },
+     "late": {
+      "needles": 0,
+      "fields": 0,
+      "points": 0,
+      "all_fields": 0,
+      "pct": null,
+      "all_fields_pct": null
+     }
+    },
+    "reasons": {
+     "missing": 4
+    },
+    "by_field": {
+     "A_checksum": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "A_region": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "B_shard": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "B_token_budget": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     }
+    }
+   },
+   "calibration_first_n": {
+    "needles": 1,
+    "fields": 4,
+    "points": 0,
+    "pct": 0.0,
+    "all_fields": 0,
+    "all_fields_pct": 0.0,
+    "buckets": {
+     "early": {
+      "needles": 1,
+      "fields": 4,
+      "points": 0,
+      "all_fields": 0,
+      "pct": 0.0,
+      "all_fields_pct": 0.0
+     },
+     "middle": {
+      "needles": 0,
+      "fields": 0,
+      "points": 0,
+      "all_fields": 0,
+      "pct": null,
+      "all_fields_pct": null
+     },
+     "late": {
+      "needles": 0,
+      "fields": 0,
+      "points": 0,
+      "all_fields": 0,
+      "pct": null,
+      "all_fields_pct": null
+     }
+    },
+    "reasons": {
+     "missing": 4
+    },
+    "by_field": {
+     "A_checksum": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "A_region": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "B_shard": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     },
+     "B_token_budget": {
+      "points": 0,
+      "fields": 1,
+      "pct": 0.0
+     }
+    }
+   },
+   "saturation": {
+    "saturated": false,
+    "field_pct": 0.0,
+    "all_fields_pct": 0.0,
+    "threshold_field_pct": 98.0,
+    "threshold_all_fields_pct": 90.0,
+    "rule": "stop the sweep if field pct >= 98 and all-four-fields pct >= 90"
+   },
+   "per_needle": [
+    {
+     "needle": 0,
+     "depth": 0.01,
+     "bucket": "early",
+     "a_index": 12,
+     "b_index": 25,
+     "a_node": "downholt-vale-1",
+     "b_node": "bramblewood-ridge-5",
+     "fields": [
+      {
+       "key": "A_checksum",
+       "kind": "checksum",
+       "record": "A",
+       "record_index": 12,
+       "expected": "5DC468",
+       "raw": null,
+       "got": null,
+       "ok": false,
+       "reason": "missing"
+      },
+      {
+       "key": "A_region",
+       "kind": "region",
+       "record": "A",
+       "record_index": 12,
+       "expected": "ap-south-2",
+       "raw": null,
+       "got": null,
+       "ok": false,
+       "reason": "missing"
+      },
+      {
+       "key": "B_shard",
+       "kind": "int",
+       "record": "B",
+       "record_index": 25,
+       "expected": "184",
+       "raw": null,
+       "got": null,
+       "ok": false,
+       "reason": "missing"
+      },
+      {
+       "key": "B_token_budget",
+       "kind": "int",
+       "record": "B",
+       "record_index": 25,
+       "expected": "95848",
+       "raw": null,
+       "got": null,
+       "ok": false,
+       "reason": "missing"
+      }
+     ],
+     "points": 0,
+     "possible": 4,
+     "all_fields": false,
+     "reason": "request failed: timed out"
+    }
+   ],
+   "raw_answers": [
+    {
+     "needle": 0,
+     "answer": null,
+     "error": "request failed: timed out",
+     "wall_s": 900.02
+    }
+   ],
+   "log_path": "D:\\local-llm-bench\\ollama-bench\\results\\v5\\kv-probe\\server-q8_0-q8_0-p18080.log",
+   "cleanup": {
+    "ok": true,
+    "reason": "",
+    "waited_s": 5.8,
+    "port": 18080,
+    "vram_samples": [
+     846,
+     846,
+     846
+    ],
+    "proc_samples": [
+     [],
+     [],
+     []
+    ],
+    "port_free": true,
+    "killed_pids": [],
+    "tree_drained": true,
+    "stray_pids_remaining": []
+   }
+  }
+ ]
+}
