@@ -1,0 +1,33 @@
+Report written to `allocation-report.txt` at the checkout root.
+
+**How each stage's key was computed** (per `docs/architecture/allocation-keys.md`): each stage's `deployment_ordinal` from its `docs/<stage>.md` config table × its `REGION_OFFSET` constant in `src/parcel/<module>.py`, then the matching record in `ops/allocation-records/`:
+
+| Stage | Ordinal | Offset | Key | Disposition |
+|---|---|---|---|---|
+| replay | 10 | 101 | 1010 | retain |
+| compaction | 12 | 129 | 1548 | **reroute** |
+| reconcile | 14 | 157 | 2198 | retain |
+| envelope | 16 | 117 | 1872 | retain |
+| checkpoint | 18 | 145 | 2610 | retain |
+| rollup | 20 | 105 | 2100 | **reroute** |
+| schema | 22 | 133 | 2926 | retain |
+| retention | 24 | 161 | 3864 | retain |
+| quota | 26 | 121 | 3146 | retain |
+| audit | 28 | 149 | 4172 | **reroute** |
+| backfill | 30 | 109 | 3270 | retain |
+| watermark | 32 | 137 | 4384 | retain |
+| ingest | 34 | 165 | 5610 | retain |
+| cursor | 36 | 125 | 4500 | **reroute** |
+| tenancy | 38 | 153 | 5814 | retain |
+| drain | 40 | 113 | 4520 | retain |
+| attestation | 42 | 141 | 5922 | retain |
+| throttle | 44 | 101 | 4444 | retain |
+| routing | 46 | 129 | 5934 | retain |
+
+File contents (exactly three lines, no other files touched):
+
+```
+reroute_stages: compaction, rollup, audit, cursor
+reroute_count: 4
+join_formula: deployment_ordinal * region_offset
+```

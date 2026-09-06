@@ -1,0 +1,15 @@
+Done. The report has been written to `depth-report.txt` in the workspace root:
+
+```
+changed_stages: attestation,checkpoint,digest,dispatch,drain,envelope,quota,reconcile,shard,tenancy
+depth_total: 5485
+last_effective_seq: 151
+```
+
+**How it was derived:** Each vault's depth in force was worked out by reading the depth change journal (`ops/journal/`, all 9 filings) in ascending journal-wide `seq` order, starting from each stage's `COMMISSIONED_DEPTH` constant and the stage→vault mapping in each stage's *Retained depth* section, exactly as `docs/journal-protocol.md` prescribes.
+
+- 10 stages' depths differ from commissioned (attestation 158, checkpoint 232, digest 300, dispatch 168, drain 210, envelope 228, quota 288, reconcile 190, shard 320, tenancy 262); 6 are at commissioned depth (watermark 437, lineage 476, ledger 528, schema 541, throttle 567, compaction 580) → total **5485**.
+- The last entry that actually changed a depth was **seq 151** (reinstate 112, shard 593→320); entries 153, 156 and 158 all left every vault's depth where it was (no-op revert, reinstatement of a struck entry, revert of a struck entry).
+- Cross-checked against the 2035-02-06 capacity note (3 of 5 vaults match exactly; the other two match that date's reading before same-day seqs 131/133 were filed) and against the protocol's explicit no-effect rules (e.g. seq 137's rescind of an already-reverted entry, seq 149's re-apply of an already-carried depth).
+
+No existing files were modified and no other file was created.

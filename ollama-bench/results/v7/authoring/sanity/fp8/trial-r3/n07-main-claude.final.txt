@@ -1,0 +1,20 @@
+Done. Summary of the review:
+
+**Platform schedule** (from `python3 tools/report_state.py`, revision R-14, fingerprint `28b943338818`):
+- attestation=45, checkpoint=90, envelope=180, rollup=730, watermark=365 days
+
+**Five out-of-date documents found** (doc value → enforced value, via each stage's `CUSTODY_POOL` chain to its root):
+
+| stage | pool root | doc said | should say |
+|---|---|---|---|
+| audit | checkpoint | 365 | 90 |
+| backfill | envelope | 730 | 180 |
+| digest | attestation | 180 | 45 |
+| drain | rollup | 90 | 730 |
+| tenancy | watermark | 120 | 365 |
+
+**Filing:** `data/doc-corrections.csv` written with one line per stale document (`<stage>,<pool root>,<correct days>`).
+
+**Check result:** `python3 tools/run_checks.py` succeeded (exit 0) — all four checks OK, ending in `CHECKS: pass`. It verified the filing is well-formed, that each row actually corrects what the document states, that each chain resolves to a pool root, and that the set matches the fingerprint from the last recorded review.
+
+**Report:** `report.txt` written with exactly the three required lines. No other files were created, modified, or deleted.

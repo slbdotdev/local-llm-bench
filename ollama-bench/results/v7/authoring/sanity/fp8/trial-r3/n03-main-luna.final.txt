@@ -1,0 +1,14 @@
+Done. `handoff-report.txt` is written with exactly four lines, verified in place.
+
+How the resolution was applied:
+
+- **Governing record**: `docs/engineering/capacity-resolution.md` (CR-27, status "in force") defines the three neutral classes:
+  - **amber**: document → implementation → migration ledger
+  - **indigo**: implementation → document → migration ledger
+  - **slate**: migration ledger → implementation → document
+- **Records per unit**: the stage document's "reviewed transfer ceiling" (15 stages; absent for retention, replay, quota, schema), the module `HANDOFF_CAPACITY` constant (15 modules; absent for cursor, dispatch, shard, watermark), and the ledger row in `data/handoff-capacity-ledger.csv` (absent for lineage, ingest, attestation, envelope). Each stage fell to the first *available* record in its class's order.
+- **Spot checks**: cursor (slate, ledger 1229, no impl/doc) → migration-ledger; checkpoint (amber, doc 948) → document; schema (slate, ledger 1178) → migration-ledger; retention (amber, no doc → impl 702) → implementation.
+- **Total** 18,537 sums only the selected effective values, as the record's reporting convention requires.
+- **Exception line**: the record states "the exception is about the property name, not about a particular stage, operator, date, or directory" — its own concise wording for the named exception's governing artifact kind is **property**.
+
+No other files were created or modified (verified with `find -newer`).

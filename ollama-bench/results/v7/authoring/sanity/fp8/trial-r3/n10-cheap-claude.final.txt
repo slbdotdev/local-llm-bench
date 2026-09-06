@@ -1,0 +1,16 @@
+Report complete. `findings.txt` is in place at the workspace root with exactly the three required lines; no other files were touched.
+
+How it was derived:
+
+**Governing revision: REV-4** (2034-05-16) — the only revision marked **in force** in the revision log of `docs/standards/refusal-reporting.md` (REV-1/REV-3 superseded, REV-2/REV-5 withdrawn; the Q2 note only evidences what the Q2 report applied). REV-4 orders findings by class `admissibility → custody → staleness → saturation`, then by record position in the batch as submitted, and ties from one record in the same class by the raising stage's position in `config/manifest.json`.
+
+**Refusals found** (conditions from each stage's docs page; codes/classes from each module's `REFUSAL_CODE`/`REFUSAL_CLASS`):
+
+| record | refusals |
+|---|---|
+| R-4102 | quota (size 118 > 96) → RF-2287, saturation |
+| R-4108 | backfill (hops 5 > 3) → RF-7154; attestation (sigs 1 < 2) → RF-3826 (both custody); drain (age 310 > 240) → RF-6041; checkpoint (age 310 > 180) → RF-4903 (both staleness) |
+| R-4113 | ingest (form=notice) → RF-5310, admissibility |
+| R-4119 | checkpoint (age 200 > 180) → RF-4903; quota (size 104 > 96) → RF-2287 |
+
+R-4124 and R-4131 trip nothing and are correctly absent. The two custody findings for R-4108 order backfill (manifest position 4) before attestation (position 5), and the staleness findings order drain (position 1) before checkpoint (position 6) — the tie-break that distinguishes REV-4 from stage-name or pipeline-drain ordering.

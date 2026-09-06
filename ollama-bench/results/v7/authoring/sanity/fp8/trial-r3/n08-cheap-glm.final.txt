@@ -1,0 +1,16 @@
+Done. `cutover-report.txt` written to the workspace root:
+
+```
+missing_acceptance: audit, cursor, compaction
+unsigned_acceptance: ledger
+blocked_count: 4
+batch_record: BA-2036-02
+```
+
+Per the procedure in `docs/cutover-acceptance.md`, applied to the tree as it stands:
+- **Missing** (module carries no `ACCEPTANCE_RECORD`): audit, cursor, compaction
+- **Unsigned** (on file, but the doc's `countersigned:` line names no person): ledger
+- **Blocked**: 3 + 1 = 4
+- **Batch**: backfill is covered by `BA-2036-02` (pilot batch record), whose member table carries its countersignature, so it is on file and signed
+
+No existing files were modified; only the report was created.

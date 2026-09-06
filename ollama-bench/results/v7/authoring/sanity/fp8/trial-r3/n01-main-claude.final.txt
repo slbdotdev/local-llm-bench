@@ -1,0 +1,19 @@
+The report is filed. Summary of what was done:
+
+**Governing ruling:** `docs/release/RE-0204-readiness.md` is **in force** (it supersedes RE-0196, which is retained only as evidence). RE-0204's rule: a stage is *not cleared* when its `AUDITED_RATE` (from its module under `src/`) is **below** its `committed_rate` (from its component doc under `docs/`); the withheld rate is committed − audited per stage, summed over exactly the not-cleared stages. Stages above or at their commitment are cleared (that asymmetry is the whole difference from superseded RE-0196).
+
+**Sweep (all 18 manifest stages, per RE-0188 the class is `RELEASE_CLASS` in each module):**
+- Not cleared: **compaction** (575 < 586, withholds 11), **digest** (535 < 542, withholds 7), **drain** (626 < 641, withholds 15), **envelope** (677 < 696, withholds 19) → total withheld **52**
+- Cleared: 14 stages, including the above-commitment ones (throttle, backfill, tenancy, ledger) which RE-0204 explicitly does not count
+
+**Filing per RE-0204's "Filing a readiness report":** every class-B stage's dated record under `history/` had to carry a countersign before the report could be filed. Appended (validated clean by `tools/check_record.py`):
+- `history/0006-compaction.md`: `Countersigned: compaction margin -11`
+- `history/0009-ledger.md`: `Countersigned: ledger margin 11`
+- `history/0013-replay.md`: `Countersigned: replay margin 0`
+
+**Report** — `readiness.txt` (only new file; nothing under `src/`, `docs/`, `config/`, `tests/` touched; history records otherwise byte-for-byte unchanged):
+```
+not_cleared: compaction,digest,drain,envelope
+withheld_rate: 52
+governing_record: RE-0204
+```
