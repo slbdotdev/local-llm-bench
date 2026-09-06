@@ -360,18 +360,72 @@ Family, band and mode per slot are forced, not chosen: a re-authored slot goes t
 is neither its current author's nor its mode's other-band author's, which leaves exactly one legal
 family per (mode, band); and the bands are picked so the finished suite stays inside the 40% cap.
 
-| slot | family | band | mode | replaces | claude | luna | glm | state |
-| --- | --- | --- | ---: | --- | --- | --- | --- | --- |
-| p01-main-glm | glm | main | 1 | m01-main-claude | | | — | authoring |
-| p02-main-claude | claude | main | 2 | m02-main-luna | — | | | authoring |
-| p03-main-luna | luna | main | 3 | m03-main-glm | | — | | authoring |
-| p04-main-glm | glm | main | 4 | m04-main-claude | | | — | authoring |
-| p05-main-claude | claude | main | 5 | m05-main-luna | — | | | authoring |
-| p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | | — | | authoring |
-| p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | | | — | authoring |
-| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | — | | | authoring |
-| p09-main-luna | luna | main | 9 | m09-main-glm | | — | | authoring |
-| p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | | | — | authoring |
+| slot | family | band | mode | replaces | floor | H1/H2/H3/H4 | claude | luna | glm | state |
+| --- | --- | --- | ---: | --- | ---: | --- | --- | --- | --- | --- |
+| p01-main-glm | glm | main | 1 | m01-main-claude | 77.1% | 0/0/0/0 | reviewing | queued | — | built |
+| p02-main-claude | claude | main | 2 | m02-main-luna | 74.8% | 0/0/0/0 | — | PASS | queued | reviewed once |
+| p03-main-luna | luna | main | 3 | m03-main-glm | 50.0% | 0/0/0/0 | REVISE -> revised, re-reviewing | — | queued | second revision (floor) |
+| p04-main-glm | glm | main | 4 | m04-main-claude | | | | | — | authoring |
+| p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | queued | reviewed once |
+| p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | 62.2% | rejected | REVISE | — | queued | in revision |
+| p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | | | | | — | queued |
+| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected, verified by the manager | queued | reviewed once |
+| p09-main-luna | luna | main | 9 | m09-main-glm | 50.7% | .132/0/.289/**.816** | REVISE x2 | — | queued | second revision (H4) |
+| p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | | | | | — | queued |
+
+`floor` is `r4/check_load_bearing.py`'s floor coverage, the load-bearing files as a fraction of the
+material. It is not in the plan and it is this round's own finding: see below.
+
+### What review caught, and what the checker did not
+
+**Every one of the round's four instrument defects was found by a blind cross-reviewer and none by
+a checker.** That is the campaign's own law restated — "the instrument that finds an unstated
+convention is a second reader, never a probe" — and this round paid for it four more times. Each
+was reproduced by the manager and closed in `r4/check_harvest.py` before the next candidate was
+built.
+
+1. **The vacuous declaration, three times, three shapes.** `harvest_units()` is the author's own
+   word about which per-unit datum is decisive, and the measure reads zero when the declared value
+   cannot occur in `seed/` by construction. Round four saw a unit-name join
+   (`"northwind -> .staging/ember-ridge.txt"`), a key-value join
+   (`"<name>|declared=900...|effective=900..."`) and one constant word repeated for all eight
+   units (`"admissible"`). All three read H1 = 0.000; re-measured honestly the first two read
+   **H1 = 1.000**, one `grep -rn -C2 prose seed/` and one `grep -rn 9000 seed/` returning every
+   unit's real datum. The builder now refuses a value containing `->`, `=>`, `|`, `;`, `,` or `=`,
+   or the unit's own identifier, or a set of values with fewer than 0.6 x units distinct members;
+   the checker measures a value by its parts.
+2. **The frame harvest (H4).** A candidate padded seven blank lines above every value so no
+   giveaway token fell inside `grep -C5`, read H1 = 0.132 and H3 = 0.289, and was harvested **38
+   of 38** by one `grep -rn ' days.' seed/` — every value sat on a line of the same shape. A
+   sentence frame is a grep pattern the prompt never has to give away, because one read of one
+   unit's file hands it to the solver. `check_harvest.py` now measures H4, the largest fraction of
+   units whose value-bearing lines share a two-to-six-word run once the value and unit name are
+   removed, gated under 1/4. It reproduces the finding at **H4 = 0.816**.
+3. **The inflated load-bearing declaration.** One candidate declared 45 paths for a 50.7% floor of
+   which 19 carried nothing the answer needed; its honest floor was 29.8%. A reviewer proved it by
+   reproducing the reference without them.
+4. **A grader strict about a rule its prompt never states.** A mode-6 candidate compared an edited
+   source file by sha256, so the only full-score answer was a byte-identical copy of the
+   reference's docstring — a string the prompt never states. All five format perturbations scored
+   `5/6 confidently_wrong` while its `NOTES.md` claimed they "remain correct", because its own
+   `selfcheck.py` perturbed only the deliverable and never the edited file. `r4/SPEC.md` permits
+   `editable` byte-exactness "only where the bytes genuinely are the deliverable"; here the
+   behaviour is the deliverable.
+
+Two further mechanical fragilities were found by workers rather than by design and are fixed:
+`r4/build.py` and the three checkers imported **every** spec to act on one, so any author
+mid-write blocked every other author's rebuild and one reviewer's `check_index_leak.py` run; and
+`probe_candidate.py`'s perturbation set reaches an editable file where a hand-written `probes()`
+case may not.
+
+A REVISE on a `NOTES.md` claim alone (p08) was fixed by the author, the corrected claim checked by
+the manager against the built candidate and backed by a new build-time assertion, and not sent
+back for a second blind pass. Everything that touched `seed/`, `prompt.md` or `test.py` went back
+to a reviewer. p03 and p09 each took a **second** revision, which is a deviation from the
+one-revision rule and is recorded here as one: p03's because its first revision moved measured
+coverage from 8.2% to 49.9% and the plan directs a missed gate back "with the measured numbers",
+p09's because its first moved coverage from 19.4% to 47.3% and the H4 defect did not exist as a
+measure when it was authored.
 
 Round shares: glm 4, claude 3, luna 3. If all ten are admitted the finished suite is claude 7,
 luna 6, glm 7 — every family inside the cap, and the two slots of every mode still written by
