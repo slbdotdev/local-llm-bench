@@ -1,0 +1,54 @@
+{
+  "project": "fenwick-conduit",
+  "package": "fenwick",
+  "stages": [
+    {
+      "name": "reconcile",
+      "module": "reconcile_store",
+      "class": "ReconcilePlanner",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_store",
+      "class": "BackfillGateway",
+      "limit": 960,
+      "window_s": 90,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_core",
+      "class": "DispatchRegistry",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "drain",
+      "module": "drain_flow",
+      "class": "DrainRegistry",
+      "limit": 64,
+      "window_s": 15,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_flow",
+      "class": "CheckpointLedger",
+      "limit": 250,
+      "window_s": 15,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_gate",
+      "class": "RollupPlanner",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    }
+  ]
+}

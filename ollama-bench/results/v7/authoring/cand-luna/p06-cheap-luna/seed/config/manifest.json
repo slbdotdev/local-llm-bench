@@ -1,0 +1,70 @@
+{
+  "project": "winter-relay",
+  "package": "winterrelay",
+  "stages": [
+    {
+      "name": "shard",
+      "module": "shard_store",
+      "class": "ShardPlanner",
+      "limit": 24,
+      "window_s": 60,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "schema",
+      "module": "schema_core",
+      "class": "SchemaEngine",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_core",
+      "class": "IngestPlanner",
+      "limit": 120,
+      "window_s": 180,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_view",
+      "class": "WatermarkPlanner",
+      "limit": 960,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "replay",
+      "module": "replay_view",
+      "class": "ReplayLedger",
+      "limit": 250,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingLedger",
+      "limit": 120,
+      "window_s": 120,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_flow",
+      "class": "EnvelopeLedger",
+      "limit": 32,
+      "window_s": 90,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "audit",
+      "module": "audit_core",
+      "class": "AuditRegistry",
+      "limit": 960,
+      "window_s": 45,
+      "owner": "K. Sorensen"
+    }
+  ]
+}

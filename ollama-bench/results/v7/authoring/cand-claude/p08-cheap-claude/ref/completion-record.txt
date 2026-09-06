@@ -1,0 +1,3 @@
+stages_above_ceiling: backfill, drain, rollup
+combined_hold: 648
+authorising_record: QC-1204
