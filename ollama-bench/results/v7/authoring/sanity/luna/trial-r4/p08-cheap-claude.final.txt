@@ -1,0 +1,5 @@
+Created [completion-record.txt](/home/slb/v7-sanity/luna/trial-r4/p08-cheap-claude/completion-record.txt) with exactly the three required lines:
+
+- Stages: backfill, drain, rollup
+- Combined hold: 648
+- Authorising record: QC-1204

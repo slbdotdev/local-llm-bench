@@ -1,0 +1,1 @@
+Created [verification.txt](/home/slb/v7-sanity/luna/trial-r4/p04-main-glm/verification.txt) with the required four lines. Verification exited 1.
