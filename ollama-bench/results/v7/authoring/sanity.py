@@ -14,7 +14,7 @@ Usage (from this directory):
 
     python3 sanity.py prep  <arm> <trial>     # sandboxes at sanity/<arm>/trial-<n>/<slot>/
     python3 sanity.py grade <arm> <trial>     # -> sanity/<arm>/trial-<n>/results.json
-    python3 sanity.py tally <arm> [<arm> ...] # the sanity table, all trials
+    python3 sanity.py tally [--trial <t>] <arm> [<arm> ...] # the sanity table, all trials or one
 
 Prep copies `seed/` and nothing else: never `ref/`, never `test.py`, never `NOTES.md`.
 Grade copies `test.py` in as `_hidden_test.py`, runs it with cwd=sandbox under
@@ -122,8 +122,9 @@ def grade(arm, trial, only=None):
     return out
 
 
-def tally(arms):
-    """The sanity table: pass rate and every verdict column, never folded together."""
+def tally(arms, trial=None):
+    """The sanity table: pass rate and every verdict column, never folded together.
+    With `trial`, only that trial directory of each arm is counted."""
     print("| arm | tasks | correct | pass rate | confidently_wrong | visibly_failed "
           "| unsafe | unverified_claim | excluded |")
     print("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
@@ -134,6 +135,8 @@ def tally(arms):
         counts = dict((v, 0) for v in VERDICTS)
         total = trials = excluded = 0
         for tr in sorted(os.listdir(base)):
+            if trial and tr != "trial-%s" % trial:
+                continue
             p = os.path.join(base, tr, "results.json")
             if not os.path.exists(p):
                 continue
@@ -167,7 +170,12 @@ def tally(arms):
 def main():
     mode = sys.argv[1]
     if mode == "tally":
-        tally(sys.argv[2:])
+        args = sys.argv[2:]
+        trial = None
+        if args and args[0] == "--trial":
+            trial = args[1]
+            args = args[2:]
+        tally(args, trial)
     elif mode == "prep":
         prep(sys.argv[2], sys.argv[3], sys.argv[4:] or None)
     elif mode == "grade":
