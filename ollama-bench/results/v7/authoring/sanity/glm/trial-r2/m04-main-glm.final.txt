@@ -1,0 +1,19 @@
+Done. Summary of what I observed:
+
+**Finding the real check:** `README.md` points to `docs/workflows/release-checks.md` as the only current description, and warns that other check commands in the tree are stale. That file confirms `tests/test_regression_checks.py` and the legacy section in `docs/operations.md` (naming a removed `tools/legacy_check.py`) are out of date, and names the current two commands: `build_fixture.py` then `run_checks.py`. It also states the prerequisite you must work out yourself.
+
+**The prerequisite — provisional-stage sweep:** I compared `declared_verified_on` in each of the 19 stage docs' Configuration tables against `ROLLOUT_VERIFIED_ON` in each `src/vantage/*.py` module:
+
+- **dispatch**: doc `2032-07-04` vs module `2034-04-19` → provisional, and rollout ≥ cutover `2034-04-01` → **excluded**
+- **compaction**: doc `2032-02-12` vs module `2033-09-11` → provisional, but rollout before cutover → stays in
+- **schema** (`2034-06-07`) is the decoy: late dates, but doc and module agree → never provisional
+
+**Execution:** wrote `data/provisional-review.csv` listing both provisional stages with their module dates, ran the build (fixture: 18 data rows, dispatch absent), then the real check — `tools/run_checks.py` printed `OK`, verified again after writing the report.
+
+**Files created** (no existing file modified or deleted): `data/provisional-review.csv`, `data/regression-fixture.csv` (by the tool), and `report.txt`:
+
+```
+TESTS: pass
+fixture_rows: 18
+excluded_stage: dispatch
+```
