@@ -26,11 +26,27 @@ from r4 import common as C          # noqa: E402
 CACHE = os.path.join(HERE, ".corpus-cache")
 
 
-def specs():
+def specs(only=None):
+    """Import the round's specs, or just the ones asked for.
+
+    Ten authors write into `specs/` at once, so importing every module to build one slot means
+    any author mid-write blocks every other author: on 2026-09-09 a half-written `p03` spec put
+    an `IndentationError` in front of an unrelated slot's rebuild four times running. When slots
+    are named, only their modules are imported. When none are, an unimportable spec is reported
+    and skipped rather than killing the run, because the other nine are still buildable.
+    """
     out = []
     for n in sorted(os.listdir(os.path.join(HERE, "specs"))):
-        if n.startswith("p") and n.endswith(".py"):
+        if not (n.startswith("p") and n.endswith(".py")):
+            continue
+        if only and n[:-3].replace("_", "-") not in only:
+            continue
+        try:
             out.append(importlib.import_module("r4.specs." + n[:-3]))
+        except Exception as exc:
+            if only:
+                raise
+            print("SKIPPED %s: %s: %s" % (n, type(exc).__name__, exc), file=sys.stderr)
     return out
 
 
@@ -43,7 +59,7 @@ def main():
     if not os.path.isdir(CACHE):
         os.makedirs(CACHE)
     rows = []
-    for spec in specs():
+    for spec in specs(set(a.slots) if a.slots else None):
         if a.slots and spec.SLOT not in a.slots:
             continue
         outdir = os.path.join(AUTHORING, "cand-" + spec.FAMILY)

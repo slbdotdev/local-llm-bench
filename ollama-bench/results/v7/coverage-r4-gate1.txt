@@ -1,0 +1,17 @@
+task                 model            verdict peak   peak/mat cover%   cover+x%  lb      to    stop   gate
+p03-main-luna        q27-IQ2_M-64k    correct 7685   n/a      n/a      n/a       n/a     no    stop   n/a
+p09-main-luna        q27-IQ2_M-64k    visibly 27642  n/a      n/a      n/a       n/a     yes   toolUs n/a
+p02-main-claude      q27-IQ2_M-64k    correct 14374  40.6     8.0      100.0     2/38    no    stop   FAIL
+p05-main-claude      q27-IQ2_M-64k    visibly 25509  76.3     25.4     100.0     6/23    no    length FAIL
+p08-cheap-claude     q27-IQ2_M-24k    correct 9786   61.8     31.1     31.1      10/10   no    stop   FAIL
+
+BELOW THE GATE — a re-author, not a tune (plan section 2.5):
+  p02-main-claude      coverage 8.0% is below the 50% the plan requires; touched 2 of 38 load-bearing paths, the plan requires 5
+  p05-main-claude      coverage 25.4% is below the 50% the plan requires
+  p08-cheap-claude     coverage 31.1% is below the 50% the plan requires
+
+NOT MEASURABLE — the instrument is missing, which is not a coverage of zero:
+  p03-main-luna        MANIFEST.json carries no `files` map; run authoring/stamp_manifests.py, then re-run the trial
+  p09-main-luna        MANIFEST.json carries no `files` map; run authoring/stamp_manifests.py, then re-run the trial
+
+5 row(s): 0 pass the gate, 3 below it, 2 not measurable

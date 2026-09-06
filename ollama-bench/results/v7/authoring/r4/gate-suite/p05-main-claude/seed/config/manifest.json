@@ -1,0 +1,134 @@
+{
+  "project": "kelvin-strait",
+  "package": "kelvin",
+  "stages": [
+    {
+      "name": "backfill",
+      "module": "backfill_gate",
+      "class": "BackfillEngine",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_gate",
+      "class": "EnvelopeEngine",
+      "limit": 96,
+      "window_s": 15,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_flow",
+      "class": "CompactionGateway",
+      "limit": 250,
+      "window_s": 30,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationLedger",
+      "limit": 48,
+      "window_s": 15,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "audit",
+      "module": "audit_gate",
+      "class": "AuditGateway",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_gate",
+      "class": "CheckpointLedger",
+      "limit": 24,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "drain",
+      "module": "drain_store",
+      "class": "DrainGateway",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "replay",
+      "module": "replay_gate",
+      "class": "ReplayEngine",
+      "limit": 96,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "routing",
+      "module": "routing_view",
+      "class": "RoutingEngine",
+      "limit": 960,
+      "window_s": 90,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_gate",
+      "class": "IngestEngine",
+      "limit": 32,
+      "window_s": 60,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "shard",
+      "module": "shard_store",
+      "class": "ShardEngine",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_view",
+      "class": "RollupLedger",
+      "limit": 64,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "retention",
+      "module": "retention_view",
+      "class": "RetentionEngine",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "quota",
+      "module": "quota_gate",
+      "class": "QuotaRegistry",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_core",
+      "class": "TenancyPlanner",
+      "limit": 24,
+      "window_s": 60,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_view",
+      "class": "ThrottleGateway",
+      "limit": 24,
+      "window_s": 15,
+      "owner": "T. Abarca"
+    }
+  ]
+}

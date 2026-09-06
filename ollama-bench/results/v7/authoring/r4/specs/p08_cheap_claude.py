@@ -135,6 +135,10 @@ def _files_containing(texts, needle):
 
 
 def _files_with_number(texts, value):
+    """Files where `value` occurs as a STANDALONE numeric token, which is the property that
+    matters and the one `check_harvest.py` measures: a digit run inside a longer identifier
+    (`118` within the close-out entry `QC-1187`) is not an occurrence of the value, is not
+    reachable by any grep for it, and is not claimed to be absent."""
     pat = re.compile(r"(?<![A-Za-z0-9_])%s(?![A-Za-z0-9_])" % re.escape(str(value)))
     return sorted(rel for rel, t in texts.items() if pat.search(t))
 
@@ -504,15 +508,16 @@ def facts(ctx):
     assert len(m["dashboard"]) > len(m["above"]), "the dashboard must be a live wrong course"
     assert m["combined"] != m["dash_combined"]
 
-    # Every closing hold is derived: it is stated nowhere under seed/, so no grep reaches it.
+    # Every closing hold is derived: it occurs nowhere under seed/ as a standalone numeric
+    # token, so no grep for it reaches it.
     holds = [r["hold"] for r in m["rows"]]
     assert len(set(holds)) == len(holds), "two stages share a closing hold"
     for r in m["rows"]:
         where = _files_with_number(texts, r["hold"])
-        assert not where, "%s's closing hold %d is stated in %r" % (
+        assert not where, "%s's closing hold %d occurs as a standalone token in %r" % (
             r["name"], r["hold"], where[:3])
     assert not _files_with_number(texts, m["combined"]), \
-        "the combined hold %d is stated in the material" % m["combined"]
+        "the combined hold %d occurs as a standalone token in the material" % m["combined"]
 
     # The deliverable's key vocabulary either does not occur in the material at all or is
     # broad enough that it cannot act as a corpus index (check_rung0 part C2).
@@ -713,6 +718,11 @@ def notes(ctx, m):
     nsteps = len(re.findall(r"^#   \d+\. ", todo, re.M))
     assert nquestions >= 4 and nsteps >= 6, (nquestions, nsteps)
     floor = round(100.0 * m["load_bearing_tokens"] / m["tokens"], 1)
+    # The page's central claim, re-measured here so NOTES.md cannot outlive it: no closing
+    # hold and not the combined total occurs as a standalone numeric token under seed/.
+    for value in [r["hold"] for r in d["rows"]] + [d["combined"]]:
+        where = _files_with_number(texts, value)
+        assert not where, "%d occurs as a standalone token in %r" % (value, where[:3])
     lb_lines = "\n".join("- `%s` - %s (%s)%s" % (
         e["path"], e["why"], e["hop"],
         " **named in prompt**" if e.get("named_in_prompt") else "")
@@ -775,14 +785,17 @@ nothing would score two of the three values by accident.
 The prompt names one file, `config/manifest.json`, and it is declared `named_in_prompt`:
 knowing which stages are in scope is not knowing their holds. No other load-bearing path, base
 name or stem appears in the prompt. No file assembles the answer: the combined hold %(total)s
-occurs nowhere under `seed/`, the accepted entry is in one dated file and the stage list is in
-none.
+occurs nowhere under `seed/` as a standalone numeric token, the accepted entry is in one dated
+file and the stage list is in none.
 
 `harvest_units()` declares %(nstages)d units, one per stage, and each unit's value is that
 stage's closing hold — **the only per-unit fact the answer depends on**. Every one of them is
-*derived*: the figure is the sum of the filings that stand in that stage's holdings file and it
-is written nowhere under `seed/`, which the build asserts file by file before the candidate is
-written. A grep on any token the prompt or the manifest gives away returns filing rows, which
+*derived*: the figure is the sum of the filings that stand in that stage's holdings file, and it
+occurs nowhere under `seed/` as a standalone numeric token, which the build asserts file by file
+before the candidate is written. The claim is about standalone tokens and is no wider than that:
+a digit run can and does appear inside a longer identifier — `118` sits inside the close-out
+entry `%(superseded)s` — which no grep for the value reaches and which `check_harvest.py`, which
+matches on token boundaries too, does not count. A grep on any token the prompt or the manifest gives away returns filing rows, which
 are the inputs, and never a hold. That is mechanism 2 of the round's four, applied to every
 unit; mechanism 3 carries the rest of the answer, since the ceiling, the accepted entry and the
 superseded entry sit in three artifacts the roster does not name and the prompt does not name
@@ -838,9 +851,10 @@ No perturbation legitimately fails: the task edits no file, so nothing about the
 bytes beyond its three key/value pairs is scored.
 
 Every value asserted above is measured from `seed/` while the candidate is built. The build
-fails rather than writes a page that says otherwise: it re-reads all %(seedfiles)d seed files
-and asserts that none of the %(nstages)d closing holds, and not the combined total, occurs
-anywhere in the material.
+fails rather than writes a page that says otherwise: it re-reads all %(seedfiles)d seed files,
+twice — once in `facts()` and again while this page is written — and asserts that none of the
+%(nstages)d closing holds, and not the combined total, occurs anywhere in the material as a
+standalone numeric token.
 """ % {
         "slot": SLOT, "mode": MODE, "nstages": len(d["rows"]), "nabove": len(d["above"]),
         "ndash": len(d["dashboard"]), "dashtotal": d["dash_combined"],
