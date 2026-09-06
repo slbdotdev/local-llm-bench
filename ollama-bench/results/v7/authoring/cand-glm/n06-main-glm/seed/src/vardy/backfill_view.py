@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 960
 DEFAULT_BACKFILL_WINDOW_S = 60
-FLUSH_BUDGET_MS = 50000
+FLUSH_BUDGET = 50000
 BACKFILL_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

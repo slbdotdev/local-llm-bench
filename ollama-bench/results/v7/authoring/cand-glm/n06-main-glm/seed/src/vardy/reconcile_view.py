@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_RECONCILE_LIMIT = 96
 DEFAULT_RECONCILE_WINDOW_S = 60
-FLUSH_BUDGET_MS = 25000
+FLUSH_BUDGET = 25000
 RECONCILE_STATES = ("pending", "retired", "settled", "abandoned")
 
 

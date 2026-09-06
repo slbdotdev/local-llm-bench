@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 24
 DEFAULT_WATERMARK_WINDOW_S = 15
-FLUSH_BUDGET_MS = 60000
+FLUSH_BUDGET = 60000
 WATERMARK_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

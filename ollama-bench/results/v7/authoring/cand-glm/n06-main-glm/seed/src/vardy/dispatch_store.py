@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 12
 DEFAULT_DISPATCH_WINDOW_S = 45
-FLUSH_BUDGET_MS = 55000
+FLUSH_BUDGET = 55000
 DISPATCH_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

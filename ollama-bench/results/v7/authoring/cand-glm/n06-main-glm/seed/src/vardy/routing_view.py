@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 32
 DEFAULT_ROUTING_WINDOW_S = 60
-FLUSH_BUDGET_MS = 35000
+FLUSH_BUDGET = 35000
 ROUTING_STATES = ("pending", "admitd", "settled", "abandoned")
 
 

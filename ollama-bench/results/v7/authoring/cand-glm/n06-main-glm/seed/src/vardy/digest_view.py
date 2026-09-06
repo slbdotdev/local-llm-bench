@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DIGEST_LIMIT = 96
 DEFAULT_DIGEST_WINDOW_S = 90
-FLUSH_BUDGET_MS = 3588000
+FLUSH_BUDGET = 3588000
 DIGEST_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

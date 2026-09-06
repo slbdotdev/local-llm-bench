@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 24
 DEFAULT_REPLAY_WINDOW_S = 30
-FLUSH_BUDGET_MS = 40000
+FLUSH_BUDGET = 40000
 REPLAY_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

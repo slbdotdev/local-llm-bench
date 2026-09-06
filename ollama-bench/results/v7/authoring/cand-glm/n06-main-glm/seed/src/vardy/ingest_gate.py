@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 32
 DEFAULT_INGEST_WINDOW_S = 45
-FLUSH_BUDGET_MS = 30000
+FLUSH_BUDGET = 30000
 INGEST_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

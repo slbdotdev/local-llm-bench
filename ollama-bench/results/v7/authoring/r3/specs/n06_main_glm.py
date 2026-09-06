@@ -3,12 +3,12 @@ unit-normalisation axis.
 
 Research r3 section 2, n06: "the same quantity in four units". Every stage's flush budget
 is declared twice — the component document records the value the review accepted with the
-unit it was stated in, and the implementation module declares the same budget as a
-constant whose name carries its unit — and the four units are milliseconds (modules),
-seconds, minutes and hours (the documents, varying stage by stage). Which unit is
-canonical is fixed by a single prose ruling, and the ruling is deliberately not the SI
-base: the repository's every other duration is seconds, so the tree's own neighbourhood
-suggests the wrong base.
+unit it was stated in, and the implementation module declares the same budget as a bare
+constant — and the units involved are milliseconds (the constant, whose unit only the
+ruling records), seconds, minutes and hours (the documents, varying stage by stage).
+Which unit is canonical is fixed by a single prose ruling, and the ruling is deliberately
+not the SI base: the repository's every other duration is seconds, so the tree's own
+neighbourhood suggests the wrong base.
 
 Rung 0: the answer is a set and two aggregates computed over every stage in the manifest.
 No file holds it, no command prints it, and the two declarations that decide each stage's
@@ -41,9 +41,9 @@ DELIVERABLE = "budget-reconciliation.txt"
 SUMMARY = """
 Task: reconcile every stage's flush budget. Each stage declares the budget twice, in two
 artifact kinds with different unit conventions (component document: seconds, minutes or
-hours as the stage's own document states; implementation module: milliseconds, in the
-constant's name), and the canonical unit totals and comparisons must be made in is fixed
-by a single prose ruling that is deliberately not the SI base. Report the accepted total
+hours as the stage's own document states; implementation module: a bare constant whose
+unit only the ruling records), and the canonical unit totals and comparisons must be
+made in is fixed by a single prose ruling that is deliberately not the SI base. Report the accepted total
 normalised to the canonical unit, the stages whose two declarations disagree once
 normalised, and the stage with the greatest disagreement.
 """
@@ -60,15 +60,16 @@ MUST_NOT_EXIST = []
 PERMITTED_NEW = []
 
 # Read by r3/check_index_leak.py. The generator has never heard of this constant: the
-# module's millisecond value is written fresh, for every stage, by overlay(), and no other
-# artifact carries it. The document side of the comparison carries a DIFFERENT number (the
+# module's value is written fresh, for every stage, by overlay(), and no other artifact
+# carries it — the ruling in STANDARD is the only record of the unit the constant is
+# stated in. The document side of the comparison carries a DIFFERENT number (the
 # accepted value in the document's own unit), so a predicate over the constant is not
 # answerable from any index, and a predicate over the document row is not answerable
 # without the modules.
-DECISIVE_CONSTANT = "FLUSH_BUDGET_MS"
+DECISIVE_CONSTANT = "FLUSH_BUDGET"
 
 ROW_KEY = "flush_budget"
-CONST = "FLUSH_BUDGET_MS"
+CONST = "FLUSH_BUDGET"
 STANDARD = "docs/engineering/budget-units.md"
 RULING = "A budget is normative in milliseconds."
 
@@ -143,10 +144,10 @@ def overlay(ctx):
 
     # 1. the two declarations, written fresh for EVERY stage. The document's accepted
     #    value carries the unit in its meaning cell ("in seconds" / "in minutes" / "in
-    #    hours"), varying stage by stage; the module's constant carries the unit in its
-    #    name and is always milliseconds. Neither number is ever equal to the other's,
-    #    so neither artifact kind can substitute for the other, and no index carries
-    #    either.
+    #    hours"), varying stage by stage; the module's constant is a bare number whose
+    #    unit no seed file but the ruling records. Neither number is ever equal to the
+    #    other's, so neither artifact kind can substitute for the other, and no index
+    #    carries either.
     for row in plan:
         corpus.add_doc_config_row(
             row["stage"], ROW_KEY, str(row["raw"]),
@@ -181,7 +182,8 @@ The ruling is deliberately not the SI base. The second is the SI base for time, 
 nearly every other duration in this repository — every `window_s`, every timeout, the
 retention terms — is stated in seconds or days. That is precisely why budgets are not:
 the two have been confused at assembly time more than once, and the cheap defence is to
-give budgets a base of their own and spell it in the constant's name.
+give budgets a base of their own, to state that base in this ruling, and to hold every
+budget constant in it.
 
 ## What declares a budget
 
@@ -190,7 +192,8 @@ Two records declare a stage's budget, and nothing else does:
 - the stage's component document, which records the value the review accepted and the
   unit that value was stated in. The unit is part of the declaration, not decoration;
   different stages' reviews came from different teams and were not normalised.
-- the implementation module's `%(const)s` constant, whose unit the name carries.
+- the implementation module's `%(const)s` constant, stated in the unit this ruling
+  fixes; this document is the only place that unit is recorded.
 
 Tables of limits and windows in other documentation are about those quantities
 and not about budgets. A retention term is not a budget. An export, a slide or a summary
@@ -211,7 +214,8 @@ def _readme_addendum():
 
 Every stage carries a flush budget, declared twice: the component document records the
 value the review accepted, in the unit its review stated, and the implementation module
-declares the same budget as a constant whose name carries its unit. Totals and
+declares the same budget as a bare constant, in the unit the repository's canonical-unit
+ruling fixes. Totals and
 comparisons are made only after both declarations are normalised to the repository's
 canonical unit; where the two disagree, the engineering documentation on budget units
 governs every other record, and a reconciliation reports the disagreement rather than
@@ -224,11 +228,11 @@ def _architecture_addendum():
 
 A stage's flush budget is declared twice, and the two declarations differ for some
 stages: the component document records the value the review accepted, in the unit stated
-beside it, and the implementation module declares the same budget as a constant whose
-name carries its unit. Totals and comparisons across stages are made only after every
-declaration is normalised, per the repository's canonical-unit ruling; a reconciliation
-reports the stages that disagree rather than repairing either record, and no other
-documentation of a budget is a declaration.
+beside it, and the implementation module declares the same budget as a bare constant, in
+the unit the canonical-unit ruling fixes. Totals and comparisons across stages are made
+only after every declaration is normalised, per the repository's canonical-unit ruling;
+a reconciliation reports the stages that disagree rather than repairing either record,
+and no other documentation of a budget is a declaration.
 """
 
 
@@ -317,6 +321,10 @@ def facts(ctx):
     carrying = sorted(rel for rel, t in texts.items() if "millisecond" in t.lower())
     assert carrying == [STANDARD], (
         "the canonical base has a second source: %s" % ", ".join(carrying))
+    # the ruling is the only record of the constant's unit in the whole candidate: the
+    # prompt must not state it either, or the decisive file is not necessary
+    assert "millisecond" not in ctx["spec"].prompt(ctx).lower(), (
+        "the prompt states the constant's unit")
     std_text = texts[STANDARD]
     lines = std_text.splitlines()
     ruling_line = next((i for i, ln in enumerate(lines, 1) if RULING in ln), None)
@@ -336,8 +344,8 @@ def facts(ctx):
                                                                    st["name"]))
 
     # -- no seed file carries the deliverable's own key names or its filename -------------
-    for token in ("accepted_budget_total", "implementation_drift", "greatest_gap",
-                  DELIVERABLE):
+    for token in ("accepted_budget_total", "implementation_drift", "greatest_gap_stage",
+                  "greatest_gap_amount", DELIVERABLE):
         holders = sorted(rel for rel, t in texts.items() if token in t)
         assert not holders, "the deliverable's token %r appears in %s" % (
             token, ", ".join(holders))
@@ -357,20 +365,22 @@ def facts(ctx):
         "a seconds reader's greatest-gap amount equals the truth")
 
     return {
-        "keys": ["accepted_budget_total", "implementation_drift", "greatest_gap"],
+        "keys": ["accepted_budget_total", "implementation_drift", "greatest_gap_stage",
+                 "greatest_gap_amount"],
         "expect": {
             "accepted_budget_total": str(total),
             "implementation_drift": ", ".join(drift),
-            "greatest_gap": "%s=%d" % (greatest, greatest_gap),
+            "greatest_gap_stage": greatest,
+            "greatest_gap_amount": str(greatest_gap),
         },
         "kinds": {"accepted_budget_total": "int", "implementation_drift": "list",
-                  "greatest_gap": "exact"},
+                  "greatest_gap_stage": "exact", "greatest_gap_amount": "int"},
         "groups": [
             {"name": "the accepted total in the canonical unit",
              "keys": ["accepted_budget_total"]},
             {"name": "the set of drifting stages", "keys": ["implementation_drift"]},
             {"name": "the stage and amount of the greatest disagreement",
-             "keys": ["greatest_gap"]},
+             "keys": ["greatest_gap_stage", "greatest_gap_amount"]},
         ],
         "total": total,
         "drift": drift,
@@ -398,8 +408,8 @@ Each stage's flush budget is declared twice, and nowhere else:
 
 - the stage's component document records the value the review accepted, together with
   the unit that value was stated in;
-- the stage's implementation module declares the same budget as a constant, whose name
-  carries its unit.
+- the stage's implementation module declares the same budget as a bare constant, in the
+  unit the ruling fixes.
 
 The two declarations differ for some stages. Which unit is canonical - the unit
 totals and comparisons are to be made in - is not stated here: the repository's own
@@ -407,14 +417,16 @@ documentation fixes it in a written ruling, and it is that ruling you must find 
 apply.
 
 Write the report to a new file `%s` in the root of the workspace. It must contain
-exactly these three lines, in this order:
+exactly these four lines, in this order:
 
     accepted_budget_total: <the sum of the accepted budgets of every stage in scope,
     normalised to the canonical unit, as a plain integer>
     implementation_drift: <the stage names whose implementation constant does not equal
     its accepted budget once both are normalised, alphabetical, separated by commas>
-    greatest_gap: <the single stage whose two declarations differ by the largest amount
-    once both are normalised, as one name=amount pair, no spaces around =>
+    greatest_gap_stage: <the name of the single stage whose two declarations differ by
+    the largest amount once both are normalised>
+    greatest_gap_amount: <that largest amount, normalised to the canonical unit, as a
+    plain integer>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 
@@ -430,10 +442,12 @@ def reference(ctx):
     return {DELIVERABLE:
             "accepted_budget_total: %s\n"
             "implementation_drift: %s\n"
-            "greatest_gap: %s\n"
+            "greatest_gap_stage: %s\n"
+            "greatest_gap_amount: %s\n"
             % (f["expect"]["accepted_budget_total"],
                f["expect"]["implementation_drift"],
-               f["expect"]["greatest_gap"])}
+               f["expect"]["greatest_gap_stage"],
+               f["expect"]["greatest_gap_amount"])}
 
 
 def editable(ctx):
@@ -456,8 +470,9 @@ def load_bearing(ctx):
     drift = sorted(set(i % len(corpus.stages) for i in _DRIFT_IDX))
     lb = [
         {"path": STANDARD, "hop": "canonical-base",
-         "why": "the single prose ruling that fixes the canonical unit and the "
-                "two-declaration rule"},
+         "why": "the single prose ruling that fixes the canonical unit — the only "
+                "record of what unit the implementation constants are stated in — "
+                "and the two-declaration rule"},
         # Declared beside the manifest deliberately: the prompt says the manifest names
         # the stages in scope, so this pointer is given, and the scope of a sweep has to
         # be knowable or the task is a guess. Knowing the roster is not knowing which
@@ -471,7 +486,8 @@ def load_bearing(ctx):
                    "why": "%s's accepted budget, stated in %s"
                           % (st["name"], plan[i]["unit"])})
         lb.append({"path": st["src"], "hop": "implementation-declaration",
-                   "why": "%s's implementation constant, in milliseconds" % st["name"]})
+                   "why": "%s's implementation constant, a bare number whose unit only "
+                          "the ruling records" % st["name"]})
     return lb
 
 
@@ -479,10 +495,11 @@ def load_bearing(ctx):
 # probes
 # ---------------------------------------------------------------------------
 
-def _render(total, drift, greatest):
+def _render(total, drift, stage, amount):
     return ("accepted_budget_total: %d\n"
             "implementation_drift: %s\n"
-            "greatest_gap: %s\n" % (total, ", ".join(drift), greatest))
+            "greatest_gap_stage: %s\n"
+            "greatest_gap_amount: %d\n" % (total, ", ".join(drift), stage, amount))
 
 
 def probes(ctx):
@@ -491,8 +508,8 @@ def probes(ctx):
     ref = reference(ctx)[DELIVERABLE]
     full = "7/7"
     truth_set = list(f["drift"])
-    truth_pair = f["expect"]["greatest_gap"]
-    truth_name, truth_amount = truth_pair.split("=")
+    truth_name = f["expect"]["greatest_gap_stage"]
+    truth_amount = int(f["expect"]["greatest_gap_amount"])
 
     decls = _declarations(ctx)
 
@@ -503,27 +520,26 @@ def probes(ctx):
     raw_drift = sorted(d["name"] for d in decls if d["raw"] != d["module"])
     raw_gaps = dict((d["name"], abs(d["raw"] - d["module"])) for d in decls)
     raw_name = sorted(raw_gaps.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
-    raw_pair = "%s=%d" % (raw_name, raw_gaps[raw_name])
+    raw_amount = raw_gaps[raw_name]
     assert raw_total != f["total"] and set(raw_drift) != set(truth_set)
-    assert raw_pair != truth_pair
+    assert (raw_name, raw_amount) != (truth_name, truth_amount)
 
     # wrong-but-plausible 2: the SI base. The solver never found the ruling and normalises
     # to seconds — the unit every other duration in the tree uses. The comparison stays
     # internally consistent, so the set survives; the total and the gap amount are both
     # out by exactly the base factor: the legible near miss.
-    wrong_b = _render(f["seconds_total"], truth_set,
-                      "%s=%d" % (truth_name, int(truth_amount) // 1000))
+    wrong_b = _render(f["seconds_total"], truth_set, truth_name, truth_amount // 1000)
     assert f["seconds_total"] != f["total"]
 
     # wrong-but-plausible 3: the total over the implementation instead of the acceptance.
     # Conversion is right and the set is right, but the total carries the five drift
     # deltas.
-    wrong_c = _render(f["module_total"], truth_set, truth_pair)
+    wrong_c = _render(f["module_total"], truth_set, truth_name, truth_amount)
     assert f["module_total"] != f["total"]
 
     # wrong-but-plausible 4: the total normalised correctly, the comparison forgotten.
     # Right total, every stage flagged, raw gap amount.
-    wrong_d = _render(f["total"], raw_drift, raw_pair)
+    wrong_d = _render(f["total"], raw_drift, raw_name, raw_amount)
     assert raw_drift != truth_set
 
     cases = [
@@ -532,7 +548,7 @@ def probes(ctx):
         {"name": "empty (untouched sandbox)", "verdict": "visibly_failed",
          "no_traceback": True},
         {"name": "wrong: every number as printed, nothing normalised",
-         "files": {DELIVERABLE: _render(raw_total, raw_drift, raw_pair)},
+         "files": {DELIVERABLE: _render(raw_total, raw_drift, raw_name, raw_amount)},
          "verdict": "confidently_wrong", "score": "4/7"},
         {"name": "wrong: normalised to seconds, the SI base the tree suggests",
          "files": {DELIVERABLE: wrong_b}, "verdict": "confidently_wrong",
@@ -555,10 +571,11 @@ def probes(ctx):
         {"name": "shape: keys in the wrong order", "verdict": "confidently_wrong",
          "files": {DELIVERABLE:
                    "implementation_drift: %s\naccepted_budget_total: %s\n"
-                   "greatest_gap: %s\n"
+                   "greatest_gap_amount: %s\ngreatest_gap_stage: %s\n"
                    % (f["expect"]["implementation_drift"],
                       f["expect"]["accepted_budget_total"],
-                      f["expect"]["greatest_gap"])}},
+                      f["expect"]["greatest_gap_amount"],
+                      f["expect"]["greatest_gap_stage"])}},
     ]
     for name, mutate in _PERTURBATIONS:
         cases.append({"name": "perturb: " + name, "files": {DELIVERABLE: mutate(ref)},
@@ -625,8 +642,10 @@ correctly.
 Every stage's flush budget is declared twice: the component document's `%(row)s` row
 carries the accepted value **and its unit** (in the meaning cell — `seconds` for
 %(nsec)d stages, `minutes` for %(nmin)d, `hours` for %(nhr)d), and the implementation
-module carries `%(const)s`, always milliseconds. The ruling fixes the canonical base as
-milliseconds and names the temptation in its own second paragraph. %(ndrift)d of
+module carries `%(const)s`, a bare constant whose unit no other record states. The
+ruling fixes the canonical base as milliseconds — it is the only record, in the whole
+candidate, that the constant is stated in that unit — and names the temptation in its
+own second paragraph. %(ndrift)d of
 %(nstages)d stages drift: their constant was patched after the review and no longer
 matches the acceptance, and the drift set includes seconds-, minutes- and hours-stated
 rows, so partial conversion misclassifies exactly the rows not converted.
@@ -646,14 +665,17 @@ mode is for.
 The answer is a set and two aggregates computed over every stage in the manifest. No file
 holds it and no command prints it:
 
-- membership is a comparison between two artifact kinds whose units differ stage by
-  stage — the `%(row)s` row of `docs/<stage>.md` and `%(const)s` in
-  `src/%(pkg)s/<module>.py`. The generator has never heard of either value; the constant
-  is written fresh for every stage and `r3/check_index_leak.py` reports that it appears
-  only in each stage's own module, and `facts()` re-runs the same scan at build time;
-- the canonical base is one prose sentence in `%(standard)s`, and `facts()` asserts the
-  word *millisecond* appears in **no other seed file**, so the ruling cannot be
-  reconstructed from an index;
+- membership is a comparison between two artifact kinds whose units are recorded on
+  different terms — the `%(row)s` row of `docs/<stage>.md` carries its unit in its own
+  meaning cell, and `%(const)s` in `src/%(pkg)s/<module>.py` is a bare constant whose
+  unit only the ruling states. The generator has never heard of either value; the
+  constant is written fresh for every stage and `r3/check_index_leak.py` reports that it
+  appears only in each stage's own module, and `facts()` re-runs the same scan at build
+  time;
+- the canonical base — and with it the unit the implementation constants are stated in —
+  is one prose sentence in `%(standard)s`, and `facts()` asserts the word *millisecond*
+  appears in **no other seed file and not in the prompt**, so the ruling cannot be
+  reconstructed from an index or from the task statement;
 - the units on the document side vary per stage and are stated in the row's meaning
   cell, so the conversion factor is a per-stage read, not a per-tree constant.
 
@@ -680,11 +702,12 @@ it alone".
 ## 5. Why the grader is sound
 
 Seven subchecks, each proving one thing: the deliverable exists at the exact path; it
-decodes as UTF-8; the three keys are present in the prompt's order and nothing else is;
+decodes as UTF-8; the four keys are present in the prompt's order and nothing else is;
 then one group per fact — the total (parsed as an integer, so `1,234` and `1234`
 agree), the drift set (ordered list, because the prompt fixes alphabetical order, after
-normalising commas and whitespace), the greatest gap (exact string: one `name=amount`
-pair, the amount in the canonical unit); and the
+normalising commas and whitespace), the greatest disagreement (one group over two keys:
+the stage name exact, the amount parsed as an integer, so a thousands separator the
+prompt never forbids cannot cost the group); and the
 integrity/scope subcheck, which is also the `unsafe` axis: every pre-existing file
 byte-identical to the seed, no file created that the task did not ask for.
 
@@ -733,7 +756,7 @@ the verdict `correct` at full score.
 
 ## 9. Budget
 
-Not a mode-8 task. The reading is long and the writing is three lines; the reference
+Not a mode-8 task. The reading is long and the writing is four lines; the reference
 answer is %(reflen)d characters.
 
 ## Derivability

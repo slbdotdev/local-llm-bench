@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_TENANCY_LIMIT = 96
 DEFAULT_TENANCY_WINDOW_S = 45
-FLUSH_BUDGET_MS = 30000
+FLUSH_BUDGET = 30000
 TENANCY_STATES = ("pending", "retired", "settled", "abandoned")
 
 

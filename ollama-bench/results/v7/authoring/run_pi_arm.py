@@ -47,7 +47,7 @@ def run_one(task, trial, timeout):
 
 
 def main():
-    global _slots
+    global _slots, ARM, MODEL_ARGS
     ap = argparse.ArgumentParser()
     ap.add_argument("--trial", default="0")
     ap.add_argument("--concurrency", type=int, default=4)
@@ -58,7 +58,6 @@ def main():
     ap.add_argument("--uncapped", action="store_true", help="pass --uncapped to pi-run")
     ap.add_argument("--effort", help="thinking level passed to pi-run (default: managed)")
     a = ap.parse_args()
-    global ARM, MODEL_ARGS
     ARM = a.arm
     if a.model:
         MODEL_ARGS = ["--model", a.model] + (["--uncapped"] if a.uncapped else [])

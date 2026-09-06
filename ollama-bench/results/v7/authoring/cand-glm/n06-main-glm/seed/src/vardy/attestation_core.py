@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 96
 DEFAULT_ATTESTATION_WINDOW_S = 60
-FLUSH_BUDGET_MS = 10830000
+FLUSH_BUDGET = 10830000
 ATTESTATION_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

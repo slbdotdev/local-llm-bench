@@ -51,7 +51,8 @@ configuration decision is under `history/`.
 
 Every stage carries a flush budget, declared twice: the component document records the
 value the review accepted, in the unit its review stated, and the implementation module
-declares the same budget as a constant whose name carries its unit. Totals and
+declares the same budget as a bare constant, in the unit the repository's canonical-unit
+ruling fixes. Totals and
 comparisons are made only after both declarations are normalised to the repository's
 canonical unit; where the two disagree, the engineering documentation on budget units
 governs every other record, and a reconciliation reports the disagreement rather than

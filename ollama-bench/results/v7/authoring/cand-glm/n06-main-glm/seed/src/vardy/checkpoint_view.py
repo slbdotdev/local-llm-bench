@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 12
 DEFAULT_CHECKPOINT_WINDOW_S = 45
-FLUSH_BUDGET_MS = 85000
+FLUSH_BUDGET = 85000
 CHECKPOINT_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

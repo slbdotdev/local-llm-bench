@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 960
 DEFAULT_DRAIN_WINDOW_S = 30
-FLUSH_BUDGET_MS = 360000
+FLUSH_BUDGET = 360000
 DRAIN_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

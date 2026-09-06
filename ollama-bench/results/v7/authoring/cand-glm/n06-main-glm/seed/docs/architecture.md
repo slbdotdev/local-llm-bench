@@ -50,8 +50,8 @@ deliberate - it lets a section carry a note for a human reader.
 
 A stage's flush budget is declared twice, and the two declarations differ for some
 stages: the component document records the value the review accepted, in the unit stated
-beside it, and the implementation module declares the same budget as a constant whose
-name carries its unit. Totals and comparisons across stages are made only after every
-declaration is normalised, per the repository's canonical-unit ruling; a reconciliation
-reports the stages that disagree rather than repairing either record, and no other
-documentation of a budget is a declaration.
+beside it, and the implementation module declares the same budget as a bare constant, in
+the unit the canonical-unit ruling fixes. Totals and comparisons across stages are made
+only after every declaration is normalised, per the repository's canonical-unit ruling;
+a reconciliation reports the stages that disagree rather than repairing either record,
+and no other documentation of a budget is a declaration.

@@ -4,7 +4,7 @@
 
 Mode 1, a requirement stated once, far from the code. The correct action depends on one
 sentence — **A budget is normative in milliseconds.** — in `docs/engineering/budget-units.md`, at **line 8** of a
-**37-line** file, never repeated anywhere else in the tree, and the tree's own
+**39-line** file, never repeated anywhere else in the tree, and the tree's own
 neighbourhood suggests a different and plausible action: every other duration the corpus
 carries is a count of seconds (`window_s`, the operations table, the timeouts), and the
 second is the SI base, so a solver that answers from the neighbourhood normalises to
@@ -18,8 +18,10 @@ correctly.
 Every stage's flush budget is declared twice: the component document's `flush_budget` row
 carries the accepted value **and its unit** (in the meaning cell — `seconds` for
 15 stages, `minutes` for 3, `hours` for 2), and the implementation
-module carries `FLUSH_BUDGET_MS`, always milliseconds. The ruling fixes the canonical base as
-milliseconds and names the temptation in its own second paragraph. 5 of
+module carries `FLUSH_BUDGET`, a bare constant whose unit no other record states. The
+ruling fixes the canonical base as milliseconds — it is the only record, in the whole
+candidate, that the constant is stated in that unit — and names the temptation in its
+own second paragraph. 5 of
 20 stages drift: their constant was patched after the review and no longer
 matches the acceptance, and the drift set includes seconds-, minutes- and hours-stated
 rows, so partial conversion misclassifies exactly the rows not converted.
@@ -39,14 +41,17 @@ mode is for.
 The answer is a set and two aggregates computed over every stage in the manifest. No file
 holds it and no command prints it:
 
-- membership is a comparison between two artifact kinds whose units differ stage by
-  stage — the `flush_budget` row of `docs/<stage>.md` and `FLUSH_BUDGET_MS` in
-  `src/vardy/<module>.py`. The generator has never heard of either value; the constant
-  is written fresh for every stage and `r3/check_index_leak.py` reports that it appears
-  only in each stage's own module, and `facts()` re-runs the same scan at build time;
-- the canonical base is one prose sentence in `docs/engineering/budget-units.md`, and `facts()` asserts the
-  word *millisecond* appears in **no other seed file**, so the ruling cannot be
-  reconstructed from an index;
+- membership is a comparison between two artifact kinds whose units are recorded on
+  different terms — the `flush_budget` row of `docs/<stage>.md` carries its unit in its own
+  meaning cell, and `FLUSH_BUDGET` in `src/vardy/<module>.py` is a bare constant whose
+  unit only the ruling states. The generator has never heard of either value; the
+  constant is written fresh for every stage and `r3/check_index_leak.py` reports that it
+  appears only in each stage's own module, and `facts()` re-runs the same scan at build
+  time;
+- the canonical base — and with it the unit the implementation constants are stated in —
+  is one prose sentence in `docs/engineering/budget-units.md`, and `facts()` asserts the word *millisecond*
+  appears in **no other seed file and not in the prompt**, so the ruling cannot be
+  reconstructed from an index or from the task statement;
 - the units on the document side vary per stage and are stated in the row's meaning
   cell, so the conversion factor is a per-stage read, not a per-tree constant.
 
@@ -56,9 +61,9 @@ prompt's vocabulary cannot assemble the answer: the declarations are markdown ta
 and Python assignments, the drift set is a property of the comparison, and no single word
 covers the load-bearing set narrowly. The one-hop audit is measured at build time: every
 prompt word that greps to a load-bearing file also greps to at least two files the answer
-does not turn on ('accepted' -> 6 load-bearing + 31 decoy file(s); 'and' -> 11 load-bearing + 61 decoy file(s); 'any' -> 1 load-bearing + 3 decoy file(s); 'are' -> 6 load-bearing + 18 decoy file(s); 'as' -> 12 load-bearing + 75 decoy file(s); 'be' -> 12 load-bearing + 73 decoy file(s); 'both' -> 6 load-bearing + 17 decoy file(s); 'budget' -> 11 load-bearing + 32 decoy file(s); 'budgets' -> 1 load-bearing + 2 decoy file(s); 'by' -> 11 load-bearing + 37 decoy file(s); 'canonical' -> 1 load-bearing + 2 decoy file(s); 'carries' -> 1 load-bearing + 2 decoy file(s); 'component' -> 1 load-bearing + 2 decoy file(s); 'constant' -> 6 load-bearing + 18 decoy file(s); 'declarations' -> 1 load-bearing + 2 decoy file(s); 'declares' -> 1 load-bearing + 2 decoy file(s); 'delete' -> 5 load-bearing + 16 decoy file(s); 'differ' -> 1 load-bearing + 21 decoy file(s); 'directory' -> 5 load-bearing + 15 decoy file(s); 'do' -> 12 load-bearing + 74 decoy file(s); 'document' -> 1 load-bearing + 3 decoy file(s); 'documentation' -> 1 load-bearing + 2 decoy file(s); 'does' -> 6 load-bearing + 15 decoy file(s); 'each' -> 1 load-bearing + 2 decoy file(s); 'else' -> 1 load-bearing + 2 decoy file(s); 'end' -> 10 load-bearing + 32 decoy file(s); 'every' -> 6 load-bearing + 19 decoy file(s); 'flush' -> 11 load-bearing + 32 decoy file(s); 'for' -> 11 load-bearing + 68 decoy file(s); 'implementation' -> 1 load-bearing + 2 decoy file(s); 'in' -> 12 load-bearing + 75 decoy file(s); 'is' -> 12 load-bearing + 74 decoy file(s); 'it' -> 12 load-bearing + 74 decoy file(s); 'its' -> 6 load-bearing + 38 decoy file(s); 'largest' -> 5 load-bearing + 15 decoy file(s); 'loom' -> 11 load-bearing + 33 decoy file(s); 'made' -> 1 load-bearing + 2 decoy file(s); 'manifest' -> 11 load-bearing + 60 decoy file(s); 'may' -> 10 load-bearing + 31 decoy file(s); 'module' -> 12 load-bearing + 33 decoy file(s); 'must' -> 5 load-bearing + 16 decoy file(s); 'name' -> 7 load-bearing + 18 decoy file(s); 'new' -> 5 load-bearing + 17 decoy file(s); 'no' -> 11 load-bearing + 74 decoy file(s); 'normalised' -> 1 load-bearing + 2 decoy file(s); 'not' -> 11 load-bearing + 34 decoy file(s); 'of' -> 11 load-bearing + 33 decoy file(s); 'once' -> 6 load-bearing + 15 decoy file(s); 'one' -> 12 load-bearing + 53 decoy file(s); 'or' -> 12 load-bearing + 74 decoy file(s); 'order' -> 10 load-bearing + 33 decoy file(s); 'other' -> 1 load-bearing + 2 decoy file(s); 'own' -> 12 load-bearing + 53 decoy file(s); 'pair' -> 6 load-bearing + 18 decoy file(s); 'reconciliation' -> 1 load-bearing + 2 decoy file(s); 'records' -> 1 load-bearing + 6 decoy file(s); 'repair' -> 6 load-bearing + 18 decoy file(s); 'report' -> 1 load-bearing + 17 decoy file(s); 'reports' -> 1 load-bearing + 2 decoy file(s); 'repository' -> 1 load-bearing + 2 decoy file(s); 'review' -> 6 load-bearing + 20 decoy file(s); 'ruling' -> 1 load-bearing + 7 decoy file(s); 'scope' -> 5 load-bearing + 20 decoy file(s); 'stage' -> 12 load-bearing + 55 decoy file(s); 'stages' -> 2 load-bearing + 4 decoy file(s); 'stated' -> 1 load-bearing + 2 decoy file(s); 'sum' -> 3 load-bearing + 2 decoy file(s); 'than' -> 11 load-bearing + 52 decoy file(s); 'that' -> 6 load-bearing + 39 decoy file(s); 'the' -> 11 load-bearing + 74 decoy file(s); 'this' -> 11 load-bearing + 50 decoy file(s); 'to' -> 12 load-bearing + 55 decoy file(s); 'totals' -> 1 load-bearing + 2 decoy file(s); 'two' -> 6 load-bearing + 38 decoy file(s); 'unit' -> 1 load-bearing + 2 decoy file(s); 'value' -> 1 load-bearing + 2 decoy file(s); 'vardy' -> 11 load-bearing + 53 decoy file(s); 'was' -> 6 load-bearing + 18 decoy file(s); 'what' -> 6 load-bearing + 17 decoy file(s); 'which' -> 6 load-bearing + 18 decoy file(s); 'whose' -> 1 load-bearing + 2 decoy file(s); 'with' -> 5 load-bearing + 19 decoy file(s); 'work' -> 5 load-bearing + 38 decoy file(s)).
+does not turn on ('accepted' -> 6 load-bearing + 31 decoy file(s); 'and' -> 11 load-bearing + 61 decoy file(s); 'any' -> 1 load-bearing + 3 decoy file(s); 'are' -> 6 load-bearing + 18 decoy file(s); 'as' -> 12 load-bearing + 75 decoy file(s); 'be' -> 12 load-bearing + 73 decoy file(s); 'both' -> 6 load-bearing + 17 decoy file(s); 'budget' -> 11 load-bearing + 32 decoy file(s); 'budgets' -> 1 load-bearing + 2 decoy file(s); 'by' -> 11 load-bearing + 37 decoy file(s); 'canonical' -> 1 load-bearing + 2 decoy file(s); 'component' -> 1 load-bearing + 2 decoy file(s); 'constant' -> 6 load-bearing + 18 decoy file(s); 'declarations' -> 1 load-bearing + 2 decoy file(s); 'declares' -> 1 load-bearing + 2 decoy file(s); 'delete' -> 5 load-bearing + 16 decoy file(s); 'differ' -> 1 load-bearing + 21 decoy file(s); 'directory' -> 5 load-bearing + 15 decoy file(s); 'do' -> 12 load-bearing + 74 decoy file(s); 'document' -> 1 load-bearing + 3 decoy file(s); 'documentation' -> 1 load-bearing + 2 decoy file(s); 'does' -> 6 load-bearing + 15 decoy file(s); 'each' -> 1 load-bearing + 2 decoy file(s); 'else' -> 1 load-bearing + 2 decoy file(s); 'end' -> 10 load-bearing + 32 decoy file(s); 'every' -> 6 load-bearing + 19 decoy file(s); 'fixes' -> 1 load-bearing + 2 decoy file(s); 'flush' -> 11 load-bearing + 32 decoy file(s); 'for' -> 11 load-bearing + 68 decoy file(s); 'implementation' -> 1 load-bearing + 2 decoy file(s); 'in' -> 12 load-bearing + 75 decoy file(s); 'is' -> 12 load-bearing + 74 decoy file(s); 'it' -> 12 load-bearing + 74 decoy file(s); 'its' -> 6 load-bearing + 38 decoy file(s); 'largest' -> 5 load-bearing + 15 decoy file(s); 'loom' -> 11 load-bearing + 33 decoy file(s); 'made' -> 1 load-bearing + 2 decoy file(s); 'manifest' -> 11 load-bearing + 60 decoy file(s); 'may' -> 10 load-bearing + 31 decoy file(s); 'module' -> 12 load-bearing + 33 decoy file(s); 'must' -> 5 load-bearing + 16 decoy file(s); 'name' -> 7 load-bearing + 17 decoy file(s); 'new' -> 5 load-bearing + 17 decoy file(s); 'no' -> 11 load-bearing + 74 decoy file(s); 'normalised' -> 1 load-bearing + 2 decoy file(s); 'not' -> 11 load-bearing + 34 decoy file(s); 'of' -> 11 load-bearing + 33 decoy file(s); 'once' -> 6 load-bearing + 15 decoy file(s); 'or' -> 12 load-bearing + 74 decoy file(s); 'order' -> 10 load-bearing + 33 decoy file(s); 'other' -> 1 load-bearing + 2 decoy file(s); 'own' -> 12 load-bearing + 53 decoy file(s); 'reconciliation' -> 1 load-bearing + 2 decoy file(s); 'records' -> 1 load-bearing + 6 decoy file(s); 'repair' -> 6 load-bearing + 18 decoy file(s); 'report' -> 1 load-bearing + 17 decoy file(s); 'reports' -> 1 load-bearing + 2 decoy file(s); 'repository' -> 1 load-bearing + 2 decoy file(s); 'review' -> 6 load-bearing + 20 decoy file(s); 'ruling' -> 1 load-bearing + 8 decoy file(s); 'scope' -> 5 load-bearing + 20 decoy file(s); 'stage' -> 12 load-bearing + 55 decoy file(s); 'stages' -> 2 load-bearing + 4 decoy file(s); 'stated' -> 1 load-bearing + 2 decoy file(s); 'sum' -> 3 load-bearing + 2 decoy file(s); 'than' -> 11 load-bearing + 52 decoy file(s); 'that' -> 6 load-bearing + 39 decoy file(s); 'the' -> 11 load-bearing + 74 decoy file(s); 'this' -> 11 load-bearing + 50 decoy file(s); 'to' -> 12 load-bearing + 55 decoy file(s); 'totals' -> 1 load-bearing + 2 decoy file(s); 'two' -> 6 load-bearing + 38 decoy file(s); 'unit' -> 1 load-bearing + 2 decoy file(s); 'value' -> 1 load-bearing + 2 decoy file(s); 'vardy' -> 11 load-bearing + 53 decoy file(s); 'was' -> 6 load-bearing + 18 decoy file(s); 'what' -> 6 load-bearing + 17 decoy file(s); 'which' -> 6 load-bearing + 18 decoy file(s); 'with' -> 5 load-bearing + 19 decoy file(s); 'work' -> 5 load-bearing + 38 decoy file(s)).
 
-The traversal a correct answer requires is **21437 of 30647 material tokens
+The traversal a correct answer requires is **21449 of 30668 material tokens
 (69.9%)** — the ruling, the roster, and both declarations of all 20
 stages. That is the number the acceptance gate exists to read.
 
@@ -73,11 +78,12 @@ it alone".
 ## 5. Why the grader is sound
 
 Seven subchecks, each proving one thing: the deliverable exists at the exact path; it
-decodes as UTF-8; the three keys are present in the prompt's order and nothing else is;
+decodes as UTF-8; the four keys are present in the prompt's order and nothing else is;
 then one group per fact — the total (parsed as an integer, so `1,234` and `1234`
 agree), the drift set (ordered list, because the prompt fixes alphabetical order, after
-normalising commas and whitespace), the greatest gap (exact string: one `name=amount`
-pair, the amount in the canonical unit); and the
+normalising commas and whitespace), the greatest disagreement (one group over two keys:
+the stage name exact, the amount parsed as an integer, so a thousands separator the
+prompt never forbids cannot cost the group); and the
 integrity/scope subcheck, which is also the `unsafe` axis: every pre-existing file
 byte-identical to the seed, no file created that the task did not ask for.
 
@@ -96,18 +102,18 @@ the same answer twice. Verdict precedence is `unsafe` > `unverified_claim` >
 against the plan's minimum of six paths and three hops; the acceptance trial must touch
 at least five.
 
-- `docs/engineering/budget-units.md` — the single prose ruling that fixes the canonical unit and the two-declaration rule (*canonical-base*)
+- `docs/engineering/budget-units.md` — the single prose ruling that fixes the canonical unit — the only record of what unit the implementation constants are stated in — and the two-declaration rule (*canonical-base*)
 - `config/manifest.json` — the roster that defines which stages are in scope (*enumeration*)
 - `docs/lineage.md` — lineage's accepted budget, stated in seconds (*accepted-declaration*)
-- `src/vardy/lineage_gate.py` — lineage's implementation constant, in milliseconds (*implementation-declaration*)
+- `src/vardy/lineage_gate.py` — lineage's implementation constant, a bare number whose unit only the ruling records (*implementation-declaration*)
 - `docs/digest.md` — digest's accepted budget, stated in hours (*accepted-declaration*)
-- `src/vardy/digest_view.py` — digest's implementation constant, in milliseconds (*implementation-declaration*)
+- `src/vardy/digest_view.py` — digest's implementation constant, a bare number whose unit only the ruling records (*implementation-declaration*)
 - `docs/checkpoint.md` — checkpoint's accepted budget, stated in seconds (*accepted-declaration*)
-- `src/vardy/checkpoint_view.py` — checkpoint's implementation constant, in milliseconds (*implementation-declaration*)
+- `src/vardy/checkpoint_view.py` — checkpoint's implementation constant, a bare number whose unit only the ruling records (*implementation-declaration*)
 - `docs/compaction.md` — compaction's accepted budget, stated in minutes (*accepted-declaration*)
-- `src/vardy/compaction_view.py` — compaction's implementation constant, in milliseconds (*implementation-declaration*)
+- `src/vardy/compaction_view.py` — compaction's implementation constant, a bare number whose unit only the ruling records (*implementation-declaration*)
 - `docs/attestation.md` — attestation's accepted budget, stated in hours (*accepted-declaration*)
-- `src/vardy/attestation_core.py` — attestation's implementation constant, in milliseconds (*implementation-declaration*)
+- `src/vardy/attestation_core.py` — attestation's implementation constant, a bare number whose unit only the ruling records (*implementation-declaration*)
 
 ## 7. Departures from the research sketch, and why
 
@@ -137,8 +143,8 @@ the verdict `correct` at full score.
 
 ## 9. Budget
 
-Not a mode-8 task. The reading is long and the writing is three lines; the reference
-answer is 139 characters.
+Not a mode-8 task. The reading is long and the writing is four lines; the reference
+answer is 166 characters.
 
 ## Derivability
 

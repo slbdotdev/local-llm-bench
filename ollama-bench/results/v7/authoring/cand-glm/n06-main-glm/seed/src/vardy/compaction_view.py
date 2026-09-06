@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 12
 DEFAULT_COMPACTION_WINDOW_S = 180
-FLUSH_BUDGET_MS = 285000
+FLUSH_BUDGET = 285000
 COMPACTION_STATES = ("pending", "retired", "settled", "abandoned")
 
 

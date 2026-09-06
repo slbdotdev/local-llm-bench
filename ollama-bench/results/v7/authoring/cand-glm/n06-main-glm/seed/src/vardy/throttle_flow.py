@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_THROTTLE_LIMIT = 48
 DEFAULT_THROTTLE_WINDOW_S = 30
-FLUSH_BUDGET_MS = 240000
+FLUSH_BUDGET = 240000
 THROTTLE_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ENVELOPE_LIMIT = 32
 DEFAULT_ENVELOPE_WINDOW_S = 90
-FLUSH_BUDGET_MS = 50000
+FLUSH_BUDGET = 50000
 ENVELOPE_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

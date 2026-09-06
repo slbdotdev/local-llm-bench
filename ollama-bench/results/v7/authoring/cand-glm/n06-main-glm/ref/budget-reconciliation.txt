@@ -1,3 +1,4 @@
 accepted_budget_total: 15935000
 implementation_drift: attestation, checkpoint, compaction, digest, lineage
-greatest_gap: attestation=30000
+greatest_gap_stage: attestation
+greatest_gap_amount: 30000

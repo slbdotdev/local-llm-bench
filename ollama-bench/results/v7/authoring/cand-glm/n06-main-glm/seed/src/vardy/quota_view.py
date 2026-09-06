@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 32
 DEFAULT_QUOTA_WINDOW_S = 45
-FLUSH_BUDGET_MS = 45000
+FLUSH_BUDGET = 45000
 QUOTA_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

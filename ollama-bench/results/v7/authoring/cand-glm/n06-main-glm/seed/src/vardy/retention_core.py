@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_RETENTION_LIMIT = 24
 DEFAULT_RETENTION_WINDOW_S = 60
-FLUSH_BUDGET_MS = 35000
+FLUSH_BUDGET = 35000
 RETENTION_STATES = ("pending", "expandd", "settled", "abandoned")
 
 

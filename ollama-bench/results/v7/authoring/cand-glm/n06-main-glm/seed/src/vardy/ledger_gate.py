@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 32
 DEFAULT_LEDGER_WINDOW_S = 30
-FLUSH_BUDGET_MS = 40000
+FLUSH_BUDGET = 40000
 LEDGER_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 
