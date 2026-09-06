@@ -1,0 +1,18 @@
+The report is written to `reservation-report.txt`, and it is the only file this task created or touched.
+
+**How the rules were applied** (from `docs/policy/reservation-programme.md`, which outranks everything else):
+
+- **Current reservation** = the stage's `OPENING_GRANT` constant in its own module, plus the change of every adjustment entry in its `docs/<stage>.md` table that is both **`ratified`** and dated **on or before 2034-06-30**.
+- Excluded accordingly: `proposed` entries (attestation RA-042, digest RA-070, quota RA-067), `withdrawn` entries (dispatch RA-046, watermark RA-076), and entries ratified after the closing date (compaction RA-051, reconcile RA-056, rollup RA-074, shard RA-059 — the successor programme's intake).
+- **Allowance in force**: **RP-4** (2034-07-04, 5000 slots); RP-1 and RP-3 are superseded and RP-2 was withdrawn.
+
+**Result** — over-reserved (> 5000):
+
+| stage | reservation |
+|---|---:|
+| audit | 5183 |
+| reconcile | 5323 |
+| throttle | 5463 |
+| watermark | 5603 |
+
+Sum = **21572**. The stale figures in `docs/reservation-standing.md` and the prose in the component docs were left untouched, as was the rename-in-flight (`backfill_store`/`test_backfill.py`), the scratch notes, and everything else.

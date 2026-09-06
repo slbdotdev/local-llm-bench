@@ -10,12 +10,12 @@
   "timed_out": false
  },
  "p04-main-glm": {
-  "pass": true,
-  "score": "8/8",
-  "verdict": "correct",
-  "rc": 0,
-  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct",
-  "wall_s": 78.1,
+  "pass": false,
+  "score": "7/8",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 7/8\nSCOPE created []; missing []\nFAIL [the stages the verification fails on: wrong value for failed_stages]\nVERDICT confidently_wrong",
+  "wall_s": 89.0,
   "codex_rc": 0,
   "timed_out": false
  },

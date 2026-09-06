@@ -1,0 +1,9 @@
+Audit complete. `authority-report.txt` written to the workspace root; no existing file touched.
+
+**How it was derived:**
+
+- **Rule version:** `docs/policy/guarantees.md` contains two decisions — DR-0098 (superseded) and **DR-0143** (in force). Under DR-0143, the bands a stage holds are its module's commissioned bands less those stood down by its history entry and not since taken back up, applied oldest first; a document whose "Bands held" line names a different set is a documentation defect and is reported, not repaired. Clause 3 exempts documents with a **provisional** header (audit, routing, shard).
+- **Mismatches found:** attestation (doc says "except late-arrival", but it was withdrawn *then reinstated*), drain and envelope (docs say "every band", but partial-batch / manual-correction were stood down and never taken back up), rollup (doc says "except bulk-repair", but it was withdrawn *then taken back up*).
+- The reviewer's note (`docs/allowance-review-note.md`) listed backfill, checkpoint, and retention too, but those docs match the *current* held sets — their stand-downs are real and their documents were updated. It missed drain and envelope entirely.
+- **Held allowances of the misdocumented stages:** attestation 109+120+131 = 360, drain 129+140 = 269, envelope 103+125 = 228, rollup 133+144+155 = 432 → **1289**.
+- **Excluded:** routing's doc claims "every band" while operator-retry was retired (history/0008), so it disagrees — but its header is provisional, so DR-0143 names it separately instead of reporting it as a defect.

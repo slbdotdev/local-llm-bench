@@ -1,0 +1,20 @@
+Report complete at `verification.txt`. Summary of what I actually did and observed:
+
+1. **Found the verification**: `docs/release-checklist.md` names the entry point `tools/run_checks.py`, run from the checkout root with `--declared <stage>=<records>` for every stage in `config/manifest.json` (15 stages), each `<records>` read from the foot of the stage's doc under `docs/`.
+
+2. **Ran it exactly as written** with all 15 declared positions (dispatch=101, compaction=111, retention=153, routing=179, audit=103, reconcile=131, watermark=157, throttle=173, rollup=109, cursor=125, shard=161, tenancy=187, checkpoint=115, attestation=107, ingest=165):
+   ```
+   stages checked: 15
+   checks failed: 6
+   result: FAILED   (exit 1)
+   ```
+
+3. **Derived the failed stages from the journals** (the tool deliberately doesn't print them): replaying each journal from zero, six stages mismatch their recorded closing position — attestation (171 vs 107), audit (129 vs 103), checkpoint (133 vs 115), compaction (143 vs 111), cursor (145 vs 125), throttle (193 vs 173). The other nine validated. The fixture-regeneration note's flag list was ignored as instructed (it flags 5 stages; the actual failures are 6, and its advisory list doesn't match the evidence).
+
+4. **Report** — the verifier wrote nothing and I modified no existing file; `verification.txt` is the only file created:
+   ```
+   TESTS: fail
+   failed_stages: attestation,audit,checkpoint,compaction,cursor,throttle
+   replayed_held_total: 2257
+   verification_run: tools/run_checks.py
+   ```

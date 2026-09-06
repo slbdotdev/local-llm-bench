@@ -42,7 +42,7 @@ history: `accepted` means both reviewers passed it.*
 | m03-cheap-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | m06-cheap-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | m09-cheap-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
-| m02-main-luna | luna | REVISE -> revised | — | REVISE -> revised | accepted |
+| p02-main-claude | claude | — | PASS | PASS | accepted *(v7r4; replaced m02-main-luna)* |
 | m05-main-luna | luna | ACCEPT | — | ACCEPT | accepted |
 | m08-main-luna | luna | REVISE -> revised | — | ACCEPT | accepted |
 | m01-cheap-luna | luna | ACCEPT | — | REVISE -> revised | accepted |
@@ -363,10 +363,10 @@ family per (mode, band); and the bands are picked so the finished suite stays in
 | slot | family | band | mode | replaces | floor | H1/H2/H3/H4 | claude | luna | glm | state |
 | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | p01-main-glm | glm | main | 1 | m01-main-claude | 77.0% | 0/0/0/0 | REVISE -> revised -> **REVISE** | REVISE -> revised -> **REVISE** | — | **dropped** (2-file shortcut at 8/8; Sonnet fails it) |
-| p02-main-claude | claude | main | 2 | m02-main-luna | 74.8% | 0/0/0/0 | — | PASS | reviewing | reviewed once |
+| p02-main-claude | claude | main | 2 | m02-main-luna | 74.8% | 0/0/0/0 | — | PASS | PASS | **admitted** (moved into The register) |
 | p03-main-luna | luna | main | 3 | m03-main-glm | 50.0% | 0/0/0/0 | REVISE x2 | — | — | **dropped** (0-file shortcut; mode 3 no longer exercised) |
-| p04-main-glm | glm | main | 4 | m04-main-claude | 51.9% | 0/0/0/.067 | REVISE | REVISE | — | in revision (rung 0: the seed's own verifier prints the answer) |
-| p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | reviewing | reviewed once |
+| p04-main-glm | glm | main | 4 | m04-main-claude | 51.8% | 0/0/0/.067 | REVISE -> revised -> REVISE | REVISE -> revised -> **PASS** | — | parked: one PASS, not two; rung 0 cleared at 16 files |
+| p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | PASS | parked by the 40% family cap; two PASSes, admissible in the next round |
 | p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | 62.2% | exempt | REVISE x2 | — | — | **dropped** (2-file shortcut at full score; mode 6, D7-34) |
 | p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane budget) |
 | p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected + fairness fix after Sonnet failed it | not reviewed | parked: the family cap admits at most two claude candidates |

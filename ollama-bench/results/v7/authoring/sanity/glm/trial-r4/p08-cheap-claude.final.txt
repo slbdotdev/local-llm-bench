@@ -1,0 +1,14 @@
+`completion-record.txt` is written with exactly the three lines:
+
+```
+stages_above_ceiling: backfill, drain, rollup
+combined_hold: 648
+authorising_record: QC-1204
+```
+
+Notes on the reasoning:
+- **Ceiling 150** comes from `docs/policy/60-close-out.md` (rule 3); withdrawn filings (named by each file's own withdrawal line) count in neither direction.
+- **backfill** 209, **drain** 263, **rollup** 176 exceed the ceiling; reconcile (143), dispatch (118) and checkpoint (137) do not. Combined: 648.
+- Of the two dated close entries, `0211` is the **accepted** one per its own status line (and policy rule 4), so its self-given identifier **QC-1204** is the authorising record — not the superseded QC-1187.
+
+No existing file was touched, and the open incident and TODO were left alone as instructed.

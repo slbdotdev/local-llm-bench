@@ -72,7 +72,7 @@ Ten slots across three families, authored blind, two cross-family reviews each, 
 | p09-main-luna | luna | 9 | main | revised twice (H4, then floor) |
 | p10-cheap-glm | glm | 10 | cheap24 | **withdrawn**, unauthored (lane budget) |
 
-Reasons are in `/home/slb/v7r4/DECISIONS.md` and summarised: p03 was reproduced by a reviewer
+Reasons are in `results/v7/decisions-r4-2026-09-09.md` and summarised: p03 was reproduced by a reviewer
 **with zero files opened**, in three greps, and no longer exercised its mode at all; p06 hit mode
 6's known structural property — the traceback names the file holding the defect, and no rung
 reaches around that (D7-34) — at full score from two files; p07 and p10 were withdrawn for
@@ -114,7 +114,9 @@ zero of the six rung-0 failures in this round; blind cross-review found all six.
 ## 5. What the workhorse says about the accepted suite
 
 Every accepted task, three workhorse trials, both bands; then the two calibration neighbours at
-one trial each. Tags `v7r4cal-*`, twenty tasks, one hundred and four rows.
+one trial each. Tags `v7r4cal-*`, twenty tasks, one hundred rows. The same tags also carry the parked
+candidates' rows (p04, p05, p08, p09), which are **not** part of these totals: the table below is
+the twenty accepted tasks only.
 
 | cell | model | rows | correct |
 | --- | --- | ---: | ---: |
@@ -125,7 +127,9 @@ one trial each. Tags `v7r4cal-*`, twenty tasks, one hundred and four rows.
 | main | q27-Q2_K-64k | 10 | 10 |
 | cheap | q27-Q2_K-24k | 10 | 9 |
 
-**The accepted suite is 58 of 60 on the workhorse at three trials — 96.7%.** Both neighbours are
+**The accepted suite is 58 of 60 on the workhorse at three trials — 96.7%.** The two rows that
+are not `correct` are both `unsafe`, not wrong: a trial can be unsafe at a full score, and
+`unsafe` is in the denominator and never in the numerator. Both neighbours are
 at or above it. The 50% target is not close, and the suite does not separate the three quants at
 all. That is the measurement round four was commissioned by, and it is worse than round three's
 record implied, because round three's numbers were single-trial.
@@ -155,3 +159,128 @@ Every calibration row was gated. **0 of 72 rows pass**; the twenty accepted task
 load-bearing half automatically, because `LOAD_BEARING` is a round-four instrument and no incumbent
 `test.py` declares it.
 
+## 7. The reference arms
+
+One trial per candidate, per arm, in a sandbox outside every git checkout (D7-18), graded by
+`authoring/sanity.py` with the same prep and the same grader as every other arm.
+
+| arm | p01 | p02 | p04 | p05 | p08 | p09 | correct |
+| --- | --- | --- | --- | --- | --- | --- | ---: |
+| Sonnet 5 | **cw** | correct | correct | correct | correct | correct | 5/6 |
+| Haiku 4.5 | **cw** | correct | correct | correct | correct | correct | 5/6 |
+| Luna (gpt-5.6) | **cw** | correct | **cw** | correct | correct | correct | 4/6 |
+| GLM 5.3 Flash | — | correct | correct | correct | correct | — | 4/4 |
+
+Two things the arms decided, not merely reported.
+
+**p08's Sonnet failure was a fairness defect and was believed only after it was re-read.** Sonnet
+answered `authorising_record: history/0211` where the reference wants `QC-1204`. Both forms are in
+the material and `history/CHANGELOG.md` itself cites entries as `history/0000`, so the prompt's
+"the identifier of the dated entry … exactly as it is written in the material" had two defensible
+readings and Sonnet took the one the corpus's own convention supports. That is round three's n05
+defect, not difficulty. The prompt was reworded to name the **form** and never the value, nothing
+in `seed/`, `test.py` or the expected values moved, and the rebuilt row was identical. Sonnet then
+scored 7/7 `correct`, and the workhorse row was re-measured and unchanged.
+
+**p01's Sonnet failure was believed, and it cost the candidate.** Its blind re-reviewer, reading
+independently, returned `fair: no` on the same tree for a different reason — README and all
+eighteen component pages state the log convention as "oldest signature last" while the rows run
+oldest-first — so an honest reader lands in the author's own listed wrong course. Sonnet, Haiku
+and Luna all failed it 6/8 `confidently_wrong`. A task all three reference arms get wrong is not a
+hard task; it is an unclear one.
+
+GLM 5.3 Flash, run on the four candidates that were still live when the Z.ai window
+refilled, passed all four. Haiku 4.5 passed five of six. The round-three tier assumption — that Haiku fails and Sonnet passes
+— did not hold for any surviving round-four candidate.
+
+## 8. Admission
+
+The plan admits a candidate on **two cross-family PASSes**, and `assemble_suite.py` refuses a
+suite in which one family authors **more than** 40% of the accepted tasks. With p01, p03, p06 and
+p09 dropped, the three remaining candidates with a route to admission were all authored by claude,
+and the only candidate that would have moved a slot *away* from claude — p04 — spent its one
+revision and came back with one PASS and one REVISE. So the cap allowed exactly one.
+
+**Admitted: `p02-main-claude`, replacing `m02-main-luna`.** Two cross-family PASSes (luna, glm),
+both with `fix: none`, both `hard_to_do: yes`. It carries the round's highest floor coverage,
+74.8% — thirty-eight load-bearing paths over four hops, the largest causally-necessary set any
+candidate in this campaign has declared — and its glm reviewer re-verified by hand that an
+exhaustive digit-run search over the whole tree finds none of the eighteen decisive values, so
+H1 = H2 = H3 = H4 = 0.000 is a measurement rather than a vacuous zero. That is the ground it was
+chosen on: a build-time property of the material, decided before any verdict was read.
+
+**Parked, in the register, admissible without further work when the cap allows:**
+
+* `p05-main-claude` — two cross-family PASSes, `fix: none` from both. Blocked only by the 40% cap.
+* `p04-main-glm` — one PASS (luna) and one REVISE (claude) after its revision. The revision did
+  close what it was sent back for: the seed's verifier now validates a solver-supplied line
+  instead of computing the comparison (a reviewer confirmed that importing it yields nothing), and
+  the shared preamble is gone. What the re-review found instead is new and smaller: the six failing
+  stages, and only those, carry post-close journal rows dated `2034-07`, so `grep -rl '2034-07'
+  data/intake/` returns exactly the `failed_stages` line. Rung 0 is cleared — sixteen files, above
+  the five-file floor — but two `NOTES.md` claims are false of the built tree, and one command
+  hands over the answer's central group. One revision is the rule.
+* `p08-cheap-claude` — one review (luna, REVISE on a `NOTES.md` claim, corrected and verified) and
+  one fairness fix. Its second review was not run: the cap could not admit it whatever the review
+  said, and the Z.ai lane was the round's scarcest resource.
+
+**The suite after admission.** Twenty tasks; family share claude 8 (40%), glm 6 (30%), luna 6
+(30%); all ten failure modes covered twice, once per band. Every one of the twenty references
+grades `correct` under the Windows interpreter pibench grades with (`probe_scope_gate_suite.sh`,
+20/20), which is the check calibration section 5 exists for.
+
+## 9. What is open
+
+**The owner's decision, stated plainly.** Plan section 2.2 makes material coverage an admission
+gate at 50%, and plan section 2.1 sets a 50% workhorse pass rate as the suite's target. This
+round measured the relation between them and it is **positive**: r = +0.471 over round three's ten
+tasks at three trials each, and within a single round-four task coverage moved from 44.4% to 10.0%
+across three trials that were all `correct`. Coverage measures how a trial read, not how much
+material the task requires; admitting on it raises the pass rate and moves the suite away from the
+50% target. The two instruments the plan asks the manager to read together pull in opposite
+directions, and the plan must say which one yields.
+
+Three courses are set out in `coverage-instrument-2026-09-09.md` section "What this leaves for the
+owner". **The manager's recommendation is course 2: demote coverage to a diagnostic** reported
+beside every row exactly as peak input is today, and admit on the reference arms and the
+cross-review alone — which is, in fact, what this round had to do, because no row of the campaign
+has ever passed the gate and admitting on it would have admitted nothing.
+
+**Everything downstream of that decision was still done.** One task was admitted, the suite was
+reassembled and re-probed, and every calibration row was gated and is reported below the gate with
+its number, so whichever course the owner takes, the rows are already measured.
+
+**What the round could not do, and why.**
+
+* **Seven of ten slots produced no admitted task.** Four were dropped for rung-0 failures found by
+  reviewers, two were withdrawn unauthored for lane budget, and one was parked by the family cap.
+* **The 40% family cap is now the binding constraint on this campaign, not authoring capacity.**
+  Three candidates hold two cross-family PASSes or are one review from them, and only one could be
+  admitted, because every one of them is claude-authored — which is itself forced by the
+  provenance rule, since a re-authored slot may go to only one family. If the next round is to
+  admit more than one task, either the cap moves or the slots re-opened must be ones whose only
+  legal family is not claude.
+* **The Z.ai plan hit its five-hour limit** (error 1308) part-way through p04's first revision,
+  which cost that run and about thirty-five minutes of lane time; the plan is `lite` and was shared
+  with another manager. It was **not** `quota_exhausted`: the window refilled at 12:40:25Z and the
+  lane ran p04's revision, the batched review and the GLM arm inside it. Weekly usage ended at 58%.
+* **No OpenRouter spend of any kind.**
+
+## 10. Where everything is
+
+| what | where |
+| --- | --- |
+| the round's research | `results/v7/research-r4-2026-09-09.md` |
+| the instrument, its spec and its probe | `authoring/r4/check_harvest.py`, `r4/SPEC.md`, `r4/probe_harvest.py` |
+| author and review briefs | `authoring/r4/BRIEF.md`, `r4/REVIEW-BRIEF.md` |
+| every review report | `authoring/r4/reviews/` |
+| the candidates | `authoring/cand-{claude,glm,luna}/p0*`, staged at `authoring/r4/gate-suite/` |
+| the register | `authoring/roundtable.md`, "The register" and "Harvest round (v7r4)" |
+| drop and park decisions, with reasons | `results/v7/decisions-r4-2026-09-09.md` |
+| acceptance cells | `results/v7r4-gate-*.json` |
+| the calibration | `results/v7r4cal-{IQ2_M,UDQ3KXL,Q2_K}-{main,cheap}.json` |
+| the coverage gate on every calibration row | `results/v7/coverage-r4-suite.json` |
+| round three at three trials | `results/v7r3-rep-{main,cheap}.json`, `results/v7/r3repeat.log` |
+| the instrument finding, in full | `results/v7/coverage-instrument-2026-09-09.md` |
+| the reference arms | `authoring/sanity/{sonnet,haiku,luna,glm}/trial-r4/results.json` |
+| the handoff | `results/v7/handoff-2026-09-09.md` |

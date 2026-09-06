@@ -1,0 +1,42 @@
+{
+ "p02-main-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+  "wall_s": 160.3,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "p04-main-glm": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+  "wall_s": 187.6,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "p05-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+  "wall_s": 236.6,
+  "pi_rc": 0,
+  "timed_out": false
+ },
+ "p08-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+  "wall_s": 138.1,
+  "pi_rc": 0,
+  "timed_out": false
+ }
+}
