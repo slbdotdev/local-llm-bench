@@ -113,23 +113,27 @@ zero of the six rung-0 failures in this round; blind cross-review found all six.
 
 ## 5. What the workhorse says about the accepted suite
 
-Every accepted task, three workhorse trials, both bands; then the two calibration neighbours at
-one trial each. Tags `v7r4cal-*`, twenty tasks, one hundred rows. The same tags also carry the parked
+Every accepted task, **five** workhorse trials, both bands; then the two calibration neighbours at
+one trial each. Tags `v7r4cal-*`, twenty tasks, one hundred and forty rows. The same tags also carry the parked
 candidates' rows (p04, p05, p08, p09), which are **not** part of these totals: the table below is
 the twenty accepted tasks only.
 
 | cell | model | rows | correct |
 | --- | --- | ---: | ---: |
-| main | q27-IQ2_M-64k (workhorse) | 30 | **30 (100%)** |
-| cheap | q27-IQ2_M-24k (workhorse) | 30 | **28 (93%)** |
+| main | q27-IQ2_M-64k (workhorse) | 50 | **48 (96%)** |
+| cheap | q27-IQ2_M-24k (workhorse) | 50 | **48 (96%)** |
 | main | q27-UDQ3KXL-48k | 10 | 10 |
 | cheap | q27-UDQ3KXL-24k | 10 | 10 |
 | main | q27-Q2_K-64k | 10 | 10 |
 | cheap | q27-Q2_K-24k | 10 | 9 |
 
-**The accepted suite is 58 of 60 on the workhorse at three trials — 96.7%.** The two rows that
-are not `correct` are both `unsafe`, not wrong: a trial can be unsafe at a full score, and
-`unsafe` is in the denominator and never in the numerator. Both neighbours are
+**The accepted suite is 96 of 100 on the workhorse at five trials — 96.0%.** Not one of the four
+non-`correct` rows is *wrong*: two are `unsafe` and two are `visibly_failed`. `unsafe` is in the
+denominator and never in the numerator — a trial can be unsafe at a full score — and no task in the
+accepted suite produced a single `confidently_wrong` row in a hundred trials. Four tasks are 4/5
+(`m03-cheap-claude`, `m06-cheap-claude`, `m07-main-claude`, `p02-main-claude`) and the other
+sixteen are 5/5. Trials four and five were run precisely because this round's own finding is that a
+small trial count is luck; they moved the figure by 0.7 points and changed no task's character. Both neighbours are
 at or above it. The 50% target is not close, and the suite does not separate the three quants at
 all. That is the measurement round four was commissioned by, and it is worse than round three's
 record implied, because round three's numbers were single-trial.
@@ -155,7 +159,7 @@ Round four's own rows say it again from inside a single task. `p02-main-claude` 
 `correct` on all three trials at coverage **44.4%, 12.1% and 10.0%** — a factor of four apart, same
 task, same model, same verdict. Coverage is a property of a trial's reading style, not of the task.
 
-Every calibration row was gated. **0 of 72 rows pass**; the twenty accepted tasks fail the
+Every calibration row was gated. **0 of 140 rows pass**; the twenty accepted tasks fail the
 load-bearing half automatically, because `LOAD_BEARING` is a round-four instrument and no incumbent
 `test.py` declares it.
 
@@ -220,9 +224,11 @@ chosen on: a build-time property of the material, decided before any verdict was
   data/intake/` returns exactly the `failed_stages` line. Rung 0 is cleared — sixteen files, above
   the five-file floor — but two `NOTES.md` claims are false of the built tree, and one command
   hands over the answer's central group. One revision is the rule.
-* `p08-cheap-claude` — one review (luna, REVISE on a `NOTES.md` claim, corrected and verified) and
-  one fairness fix. Its second review was not run: the cap could not admit it whatever the review
-  said, and the Z.ai lane was the round's scarcest resource.
+* `p08-cheap-claude` — a glm **PASS** with `fix: none`, `hard_to_do: yes` and a nine-file shortcut
+  floor, plus a luna REVISE on a `NOTES.md` claim that was corrected and verified, and the fairness
+  fix its Sonnet arm forced. Its glm review was run after admission closed, on the lane's last hour,
+  precisely because the cap could not admit it whatever the review said — but the next round will
+  not have to run it.
 
 **The suite after admission.** Twenty tasks; family share claude 8 (40%), glm 6 (30%), luna 6
 (30%); all ten failure modes covered twice, once per band. Every one of the twenty references

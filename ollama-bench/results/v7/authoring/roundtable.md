@@ -369,7 +369,7 @@ family per (mode, band); and the bands are picked so the finished suite stays in
 | p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | PASS | parked by the 40% family cap; two PASSes, admissible in the next round |
 | p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | 62.2% | exempt | REVISE x2 | — | — | **dropped** (2-file shortcut at full score; mode 6, D7-34) |
 | p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane budget) |
-| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected + fairness fix after Sonnet failed it | not reviewed | parked: the family cap admits at most two claude candidates |
+| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected + fairness fix after Sonnet failed it | PASS | parked by the 40% family cap |
 | p09-main-luna | luna | main | 9 | m09-main-glm | 29.2% | .228/0/.298/.140 | REVISE x3 | — | — | **dropped** (0-file shortcut: `tools/retention_audit.py` prints the answer) |
 | p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane budget) |
 
