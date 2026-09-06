@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 960
 DEFAULT_ROUTING_WINDOW_S = 15
-HANDOFF_CAPACITY = 716
 ROUTING_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ENVELOPE_LIMIT = 120
 DEFAULT_ENVELOPE_WINDOW_S = 30
-HANDOFF_CAPACITY = 717
+HANDOFF_CAPACITY = 829
 ENVELOPE_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

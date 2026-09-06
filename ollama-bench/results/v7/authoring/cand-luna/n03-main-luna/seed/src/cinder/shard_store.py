@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 96
 DEFAULT_SHARD_WINDOW_S = 45
-HANDOFF_CAPACITY = 713
 SHARD_STATES = ("pending", "admitd", "settled", "abandoned")
 
 

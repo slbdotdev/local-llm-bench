@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_RETENTION_LIMIT = 480
 DEFAULT_RETENTION_WINDOW_S = 180
-HANDOFF_CAPACITY = 703
+HANDOFF_CAPACITY = 899
 RETENTION_STATES = ("pending", "settled", "settled", "abandoned")
 
 

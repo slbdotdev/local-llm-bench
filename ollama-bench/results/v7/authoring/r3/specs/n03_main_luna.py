@@ -95,7 +95,7 @@ def overlay(ctx):
         module_value = _capacity(stage, 700)
         ledger_value = _capacity(stage, 1100)
         if missing != "document":
-            C.append(
+            corpus.append(
                 stage["doc"],
                 """\n## Per-stage handoff review\n\nFor the `%s` stage, the component owner's reviewed transfer ceiling is **%d** units.\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % (stage["name"], doc_value))
         if missing != "module":
@@ -424,12 +424,12 @@ def load_bearing(ctx):
         {"path": RECORD, "hop": "precedence",
          "why": "the engineering record states the prose tiebreak for all three classes"},
         {"path": LEDGER, "hop": "enumeration",
-         "why": "one migration row per stage carries the class and the ledger value"},
+         "why": "one migration row per stage carries the class and a possible ledger value"},
         {"path": "config/manifest.json", "hop": "enumeration", "named_in_prompt": True,
          "why": "the repository's current roster defines the stages in scope"},
     ]
     # The full traversal remains in sweep_paths.  LOAD_BEARING is a concise causal sample:
-    # one representative unit for each rotating class, plus the shared rule, roster, and row
+    # representative stage documents and modules, plus the shared rule, roster, and row
     # artifacts.  This avoids turning generic words such as "document" into a rung-0 shortcut.
     for stage in corpus.stages[:3]:
         lb.append({"path": stage["doc"], "hop": "document-value",
@@ -526,6 +526,8 @@ def notes(ctx, m):
     values = f["values"]
     counts = {kind: sum(1 for v in values.values() if v["class"] == kind)
               for kind in _CLASSES}
+    missing = {source: sum(1 for v in values.values() if source not in v)
+               for source in ("document", "module", "migration-ledger")}
     lb_paths = "\n".join("- `%s` — %s (*%s*)" %
                           (entry["path"], entry["why"], entry["hop"])
                           for entry in m["load_bearing"])
@@ -544,16 +546,19 @@ project.
 
 ## 2. Distinguishing condition
 
-Every stage has three different `handoff_capacity` values. The markdown component document,
-Python module constant, and CSV migration row each carry one value, and the CSV row alone carries
-the rotating resolution class. The in-force engineering record says which source wins for each
-class. A model that follows artifact plausibility instead of the record will commonly choose
-the document for all stages, the module for all stages, or the latest migration value for all
-stages. The material rules those courses out by stating the three class-specific orders and
-that the ledger-first order is an exception only for `handoff_capacity`.
+Each stage has at least two different `handoff_capacity` values. The markdown component document,
+Python module constant, and CSV migration row each carry a possible value, and the CSV row alone
+carries the neutral resolution class. The in-force engineering record says which source wins for
+each class and how to fall back when one is absent. A model that follows artifact plausibility
+instead of the record will commonly choose the document for all stages, the module for all
+stages, or the latest migration value for all stages. The material rules those courses out by
+stating the three class-specific orders and that the slate order is an exception only for
+`handoff_capacity`.
 
-The three classes occur %(docn)d, %(modn)d, and %(ledn)d times respectively among %(nstages)d
-stages. The final answer is positive: it reports one selected value and source for every stage.
+The neutral classes occur %(amber)d, %(indigo)d, and %(slate)d times respectively among
+%(nstages)d stages. Missing per-stage records are document=%(docmiss)d, module=%(modmiss)d, and
+migration-ledger=%(ledmiss)d. The final answer is positive: it reports one selected value and
+source for every stage.
 
 ## 3. Why the grader is sound
 
@@ -564,20 +569,21 @@ exception. The integrity/scope check keeps every seed file unchanged and rejects
 file. A wrong precedence rule is a complete, well-formed report but fails the relevant value,
 source, and total groups, so it is `confidently_wrong` rather than visibly incomplete.
 
-The reference is generated from the seed after the overlay. It reads the document row, module
-constant, and ledger row for every stage, parses the three precedence sentences from the record,
-and asserts that the three values differ and that the class counts are balanced. The total is
-computed by summing the selected values. No report value is asserted from a fact absent from the
-seed.
+The reference is generated from the seed after the overlay. It reads each available per-stage
+prose figure, module constant, and ledger value, parses the three precedence sentences and
+fallback rule from the record, and asserts that available values differ and that class counts
+are balanced. The total is computed by summing the selected values. No report value is asserted
+from a fact absent from the seed.
 
 ## 4. Rung 0: why the material is necessary
 
 No seed file holds the answer. The record gives only the precedence rules; the ledger gives the
-stage roster rows, class, and one value; each component document gives a second value; and each
-module gives a third value. The output combines the winning value and source for every stage and
-then sums them. The values are intentionally different and the fresh module constants are not
-echoed into any index, history, test, or summary artifact; `r3/check_index_leak.py` verifies the
-module constant appears only in its own stage module.
+stage roster rows, class, and a possible value; each component document gives a possible second
+value; and each module gives a possible third value. The output combines the winning available
+value and source for every stage and then sums them. The values are hash-derived and intentionally
+different; the fresh module constants are not echoed into any index, history, test, or summary
+artifact; `r3/check_index_leak.py` verifies the module constant appears only in its own stage
+module.
 
 The prompt gives the scope as every stage in the current manifest, which is the one legitimate
 roster pointer and is declared `named_in_prompt` in `LOAD_BEARING`. It names no answer-bearing
@@ -586,8 +592,8 @@ the three values use different artifact-specific names and the class-to-source m
 
 The sweep covers %(sweeptok)d of %(tokens)d measured material tokens (%(sweeppct)s%%): the
 engineering record, migration ledger, manifest roster, and every stage document and module.
-That traversal is necessary because the selected source rotates by stage and the report must
-aggregate all stages.
+That traversal is necessary because the selected source depends on each row's neutral class and
+available records, and the report must aggregate all stages.
 
 ## 5. Load-bearing table
 
@@ -599,11 +605,9 @@ requires at least six paths and three hops, and must touch at least five paths.
 ## 6. Near-miss table
 
 The reference scores 8/8 with `PASS` and `VERDICT correct`. The untouched sandbox is
-`visibly_failed` without a traceback. Three complete but wrong answers — document for every
-class, module for every class, and migration ledger for every class — the document answer scores
-6/8 because its total happens to coincide, while the module and ledger answers score 5/8 — and are
-`confidently_wrong`. The swapped key order is also `confidently_wrong`. No scope-forbidden
-near-miss is applicable to mode 5.
+`visibly_failed` without a traceback. Three complete but wrong answers — document, module, or
+migration row preferred for every class — are `confidently_wrong`. The swapped key order is also
+`confidently_wrong`. No scope-forbidden near-miss is applicable to mode 5.
 
 All five unspecified formatting perturbations pass 8/8 and remain `correct`: no trailing
 newline, two trailing newlines, CRLF, one leading blank line, and trailing spaces. The prompt
@@ -613,12 +617,15 @@ perturbations and fail.
 ## 7. Budget and derivability
 
 This is not mode 8. The reference is %(reflen)d characters and is under the output limit. Every
-value it asserts is derived from seed files: the per-stage values from the three artifacts, the
-winning source from the three rule sentences and each row's class, the total from those winners,
-and the exception artifact from the record's explicit exception paragraph.
+value it asserts is derived from seed files: the available per-stage values from the three
+artifact kinds, the winning source from the three rule sentences, each row's class, and fallback
+availability, the total from those winners, and the exception artifact from the record's explicit
+exception paragraph.
 """ % {
-        "slot": SLOT, "mode": MODE, "docn": counts["document-led"],
-        "modn": counts["module-led"], "ledn": counts["ledger-led"],
+        "slot": SLOT, "mode": MODE, "amber": counts["amber"],
+        "indigo": counts["indigo"], "slate": counts["slate"],
+        "docmiss": missing["document"], "modmiss": missing["module"],
+        "ledmiss": missing["migration-ledger"],
         "nstages": len(corpus.stages), "sweeptok": m["sweep_tokens"],
         "tokens": m["tokens"], "sweeppct": m["sweep_pct"],
         "nlb": len(m["load_bearing"]),

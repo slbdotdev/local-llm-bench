@@ -1,0 +1,15 @@
+# RR-2035-Q2 - evidence custody review, carried forward
+#
+# The RR-2035-Q2 review derived the set of component documents left behind by the pool
+# merge and recorded the fingerprint of its correction set here. The corrections
+# themselves were never filed: the owners were mid-reorganisation and asked for them
+# to be re-derived once the pools had settled, which they now have.
+#
+# The list is not written here on purpose. `tools/run_checks.py` compares this
+# fingerprint with the fingerprint of the set a reviewer files, which is how the next
+# review is checked against the last one without either being able to copy it.
+
+review: RR-2035-Q2
+recorded_on: 2035-06-30
+scope: every stage named in config/manifest.json
+corrections_sha256: 485b39b3d60b708fa492f434b3df8c31e974547f942efba2c161ab78c9df6ce6

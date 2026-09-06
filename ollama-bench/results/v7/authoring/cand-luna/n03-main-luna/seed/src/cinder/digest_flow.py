@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_DIGEST_LIMIT = 48
 DEFAULT_DIGEST_WINDOW_S = 15
-HANDOFF_CAPACITY = 702
 DIGEST_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

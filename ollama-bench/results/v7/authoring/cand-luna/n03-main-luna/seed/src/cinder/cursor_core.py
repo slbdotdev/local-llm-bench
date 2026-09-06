@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_CURSOR_LIMIT = 12
 DEFAULT_CURSOR_WINDOW_S = 15
-HANDOFF_CAPACITY = 700
 CURSOR_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

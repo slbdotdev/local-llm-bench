@@ -306,8 +306,8 @@ _RE0204_FILING = [
     "that is append-only by policy, and a countersign that can be overwritten is not one.",
     "",
     "For each class-B stage, and for no stage of any other class, append to that stage's",
-    "dated record under `history/`, as the file's last line and with no blank line before",
-    "it, exactly:",
+    "dated record under `history/`, as the file's last line, with no blank line before it,",
+    "and with the record still ending in a single newline, exactly:",
     "",
     "    Countersigned: <stage> margin <margin>",
     "",
@@ -779,14 +779,14 @@ has ruled on it more than once over the years. Establish which of its rulings is
 currently in force, apply that one, and do not apply one that has been superseded.
 
 **File the report the way this project files a readiness report.** How that is done is
-written down in the repository; follow all of it.
+written down in the repository, and every part of it applies.
 
 The report itself is a new file `%s` in the root of the workspace. It must contain exactly
-these three lines, in this order:
+these lines, in this order:
 
     not_cleared: <the stages that are not cleared, alphabetical, separated by commas>
     withheld_rate: <the total over those stages that the ruling in force calls for, a plain integer>
-    governing_record: <the identifier of the ruling you applied>
+    governing_record: <the identifier of the record whose ruling you applied>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 
@@ -1038,7 +1038,9 @@ Both halves of the answer are computed over the whole manifest, and no file hold
   derive a human judgement, so anything the assembler cannot derive would be silently dropped.
   A solver cannot know which three records to countersign without opening every module.
 - **Which record governs** is not stated in the prompt. `%(force)s` is in force and `%(sup)s`
-  is superseded, and the two disagree about the definition, so a solver must read both.
+  is superseded, they disagree about the definition, and each is self-sufficient about where
+  the two numbers live — so whichever a solver meets first is a complete answer, and only
+  reading the other's status line settles which of the two to believe.
 - **The obligation itself** is at line %(fline)d of a %(rlines)d-line record, past the
   record's own reasoning. `facts()` measures that line at build time and fails the build if it
   is not past 60%% of the file, so this page cannot go stale against the material.
@@ -1052,6 +1054,25 @@ records the obligation reaches.
 No single grep assembles it either. The commitments are markdown table cells, the audits and
 the classes are Python assignments, the rule is prose and the obligation is prose in a
 different file; the shapes share no token, and no stage name appears in the prompt.
+
+### The locator words, and why they are the right ones to leave
+
+`facts()` asserts r3/BRIEF.md section 5's rule directly: **no distinctive word of `prompt.md`
+greps to exactly one load-bearing file**, tested at build time over every word of the prompt
+as written, against `r3/check_rung0.py`'s own STOP list so that the assertion and the checker
+agree on what a distinctive word is. The build fails otherwise, and it did fail, four times,
+while this prompt was being written.
+
+`check_rung0.py` also prints, as a note, the prompt words that reach *two* files including a
+load-bearing one: `cleared`, `applied`, `identifier` and `total` reach the two readiness
+records, and `filed` and `filing` reach `%(force)s` and `README.md`. Those are deliberate and
+they are the fair half of the design. The task is not *find the ruling*; it is *apply the
+ruling across thirty-six per-stage artifacts and still remember what filing it requires*. A
+solver who greps `cleared` finds two records, one of which is marked superseded in its own
+title and again in its own status line, and is exactly where the prompt intended to send them — holding no stage, no class, no
+commitment and no audit, which is the entire answer. Making the rulings findable is what keeps
+this a task about application rather than about retrieval, which is the tier separator [S1]
+names.
 
 ### Causal depth
 
@@ -1071,7 +1092,7 @@ Exactly **%(nshort)d** stages are not cleared: %(names)s. Exactly **%(nb)d** are
 | --- | --- | --- |
 | answer the asked question, append nothing | reads the filing procedure early, spends twenty tool calls on the aggregate, and finishes without returning to it — [S5]'s omission decay and [S1]'s *check runs; result ignored* | nothing rules it out except doing the work; this is the behaviour being measured, and it scores %(partial)d/%(nsub)d, `confidently_wrong` |
 | report all %(ndiv)d divergent stages | applies `%(sup)s`, which counted a difference in either direction, or reasons from the phrase rather than from the record | `%(sup)s` is marked **superseded by %(force)s** in its own header and says in its own body why the symmetry was wrong; `%(force)s` is marked **in force** |
-| read `%(sup)s`, apply it whole, and stop | it is the **first complete answer in the tree**: it says where both numbers live, so a solver never has to open `%(force)s` at all, and it says nothing about filing, so that solver never learns the obligation exists — [S4]'s premature commitment, baited on purpose | its own second line says **superseded by %(force)s**, and the prompt says in as many words to establish which ruling is in force and not to apply a superseded one. It scores 4/%(nsub)d |
+| read `%(sup)s`, apply it whole, and stop | it is the **first complete answer in the tree**: it says where both numbers live, so a solver never has to open `%(force)s` at all, and it says nothing about filing, so that solver never learns the obligation exists — [S4]'s premature commitment, baited on purpose | its own title line says *(superseded)* and its own status line says **superseded by %(force)s**, and the prompt says in as many words to establish which ruling is in force and not to apply a superseded one. It scores 4/%(nsub)d |
 | total the commitments rather than the shortfalls | reads the component documents twice and never opens a module | `%(force)s` defines the withheld rate as the committed rate *less the audited rate*, and the audited rate as a module constant |
 | countersign the stages in the report | conflates the two sets, which is the cheapest available guess | exactly one stage is in both sets: %(overlap)s. Two class-B stages are cleared and three stages in the report are not class B |
 | report the latency review's list | takes `%(note)s` at face value | the note disclaims itself in its own first paragraph, `%(force)s` lists a divergent window under *what is not a readiness finding*, and windows were separated from readiness three releases ago |

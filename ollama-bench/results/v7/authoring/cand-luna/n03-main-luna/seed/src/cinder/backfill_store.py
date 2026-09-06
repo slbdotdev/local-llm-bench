@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 96
 DEFAULT_BACKFILL_WINDOW_S = 120
-HANDOFF_CAPACITY = 711
+HANDOFF_CAPACITY = 723
 BACKFILL_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

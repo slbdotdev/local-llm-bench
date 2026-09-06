@@ -207,11 +207,14 @@ def _batch_text():
          "#",
          "# A record nothing declines is not written into the quarterly report at all.",
          ""]
+    widths = []
+    for i in range(len(_RECORDS[0][1])):
+        widths.append(max(len("%s=%s" % (r[1][i][0], r[1][i][1])) for r in _RECORDS))
     for rid, fields in _RECORDS:
         cells = ["%-6s" % rid]
-        for k, v in fields:
-            cells.append("%-16s" % ("%s=%s" % (k, v)))
-        L.append(" ".join(cells).rstrip())
+        for (k, v), w in zip(fields, widths):
+            cells.append(("%-" + str(w) + "s") % ("%s=%s" % (k, v)))
+        L.append("  ".join(cells).rstrip())
     return "\n".join(L) + "\n"
 
 
@@ -249,6 +252,12 @@ _STD_SECTIONS = [
         "length. A reader gets through the first few lines of a report and skims the rest, so "
         "the lines that need acting on go first. Which lines those are is settled in section "
         "4 and in the revision log, and it has been settled differently at different times.",
+        "That last point is the reason this standard is as long as it is. Everything here "
+        "except the revision log has been stable for two years; the log is where the argument "
+        "actually happened, and it is at the end because that is where a log goes and not "
+        "because it matters least. Two of the three times this report has been re-derived by "
+        "hand at a review, it was because whoever assembled it had read the front of this "
+        "page and stopped.",
     ]),
     ("2. What a refusal is", [
         "A refusal is one record that one stage declined to admit. Each stage's own page "
@@ -279,6 +288,11 @@ _STD_SECTIONS = [
         "happen is a report nobody finishes reading. The records that raised at least one "
         "finding are named separately, because the first question the review asks is how many "
         "of the quarter's records were touched at all.",
+        "The batch a report covers is the batch as submitted, in the order it was submitted, "
+        "and neither is negotiable. A record's position in that batch is not decoration: it "
+        "is one of the two things the reported order turns on, and a report assembled off a "
+        "re-sorted copy of the batch is a report assembled off different material. The batch "
+        "file says so at the top of itself, for the same reason.",
     ]),
     ("4. The classes of failure", [
         "There are four. They are defined here in alphabetical order, which is the order a "
@@ -330,6 +344,11 @@ _STD_SECTIONS = [
         "The stage's name is deliberately absent. The code identifies the stage to anyone who "
         "needs it and a name in a report reads as a person to blame, which is not what the "
         "report is for. This was argued twice and settled the same way both times.",
+        "The records that raised at least one finding are written the same way, as a plain "
+        "list of record identifiers, and their order carries nothing: a record appears there "
+        "once however many findings it raised, and the list is a set rather than a sequence. "
+        "It is written down separately because the review counts it before it reads anything "
+        "else, and counting it off the findings means reading the findings first.",
     ]),
     ("6. What the report may not carry", [
         "The report is quoted in review months after it is written, so it may carry only "
@@ -344,6 +363,9 @@ _STD_SECTIONS = [
          "quarter, not a list of open work, and a finding removed because it was closed is a "
          "quarter that reads as quieter than it was.",
          "- a recommendation. The owners decide; the report describes."],
+        "The list is short on purpose and it is not a style guide. Everything on it was on a "
+        "report once, and every one of them cost an argument at a review that the report "
+        "itself was supposed to have prevented.",
     ]),
     ("7. Who receives it, and when", [
         "It goes to the owner named on each stage's page, and to the platform review, within "
@@ -354,6 +376,11 @@ _STD_SECTIONS = [
         "report itself, by identifier. That is not ceremony. The order has changed twice "
         "already and a report whose order cannot be explained is a report that gets "
         "re-derived by hand at the review, which has happened and took most of an afternoon.",
+        "A report is assembled under exactly one revision. Assembling half of it under one "
+        "and half under another is not a mistake anybody has made yet, but it is the mistake "
+        "this section exists to head off: the revision cited is the revision that produced "
+        "every line of the report, including the order of the lines, and a report that cites "
+        "one revision and is ordered by another is not evidence of anything.",
     ]),
 ]
 
@@ -388,15 +415,14 @@ _STD_REVISIONS = [
     ]),
 ]
 
+_IN_FORCE_HEAD = "### %s - 2034-05-16 - **in force**" % IN_FORCE
+
 _STD_IN_FORCE = [
-    "### %s - 2034-05-16 - **in force**" % IN_FORCE,
-    "",
     "**Findings are reported by class, in this order of precedence: `%s` first, then `%s`, "
     "then `%s`, then `%s`. Within a class, findings are ordered by the position of the record "
     "in the batch as submitted. Where one record raises more than one finding of the same "
     "class, those findings are ordered by the position of the raising stage in "
     "`config/manifest.json`.**" % PRECEDENCE,
-    "",
     "The order between the classes is the order the findings have to be acted on, which is "
     "not the order they sort in. A record that should never have been offered is withdrawn "
     "before anybody asks who signed it, so admissibility goes first and custody second. "
@@ -404,15 +430,12 @@ _STD_IN_FORCE = [
     "Saturation is the only one that is not about the record at all - it is a capacity "
     "conversation with a different team, on a different timescale - so it goes last, and it "
     "goes last however many of them there are.",
-    "",
     "The tie-break is REV-3's and is unchanged: manifest position, because that is the order "
     "the record actually met the stages in, and a reader following one record down the "
     "sequence should be following it forwards. It is emphatically not the stages' names in "
     "alphabetical order, which is what the two people who disagreed in 2033 had each assumed "
     "the other meant.",
-    "",
     "This revision is the one in force. Cite it by its identifier on the report.",
-    "",
 ]
 
 _STD_TAIL = [
@@ -450,7 +473,7 @@ def _standard_text():
     L += _STD_LOG_HEAD
     for rev, date, status, blocks in _STD_REVISIONS:
         L += _render("### %s - %s - %s" % (rev, date, status), blocks)
-    L += _STD_IN_FORCE
+    L += _render(_IN_FORCE_HEAD, _STD_IN_FORCE)
     for rev, date, status, blocks in _STD_TAIL:
         L += _render("### %s - %s - %s" % (rev, date, status), blocks)
     return "\n".join(L)
@@ -610,7 +633,7 @@ def _by_stage(findings):
 def _rev_line(ctx):
     """The 1-based line the revision in force starts on, measured from the written file."""
     text = C.read(_p(ctx, STANDARD))
-    head = _STD_IN_FORCE[0]
+    head = _IN_FORCE_HEAD
     lines = text.splitlines()
     for i, line in enumerate(lines, 1):
         if line == head:
@@ -705,10 +728,20 @@ def facts(ctx):
                     "%s pairs %s with its class on one line: %r"
                     % (rel, st["name"], line.strip()[:90]))
 
-    # -- the two ends of the load-bearing set must share no vocabulary ---------------------
-    # `config/manifest.json` and the batch are both load-bearing. A word in both is a word
-    # that could grep to every load-bearing file at once, which is check_rung0's part C.
+    # -- no prompt word can reach the whole load-bearing set ------------------------------
+    # `config/manifest.json` is load-bearing and its vocabulary is tiny and fixed, so the
+    # mechanical form of check_rung0's part C is: no word of the prompt appears in the
+    # manifest at all. That makes a covering word impossible rather than unlikely. The batch
+    # is held to the same rule, because it is the other end of the set and the same argument
+    # applies to it whenever a future edit un-declares it.
+    plow = prompt(ctx).lower()
+    man_low = texts[MANIFEST].lower()
     batch_low = texts[BATCH].lower()
+    pwords = sorted(set(re.findall(r"[a-z_][a-z0-9_]{3,}", plow)))
+    shared = [w for w in pwords if w in man_low]
+    assert not shared, (
+        "the prompt and %s share the words %s; a shared word can grep to every load-bearing "
+        "file at once" % (MANIFEST, ", ".join(shared)))
     for word in _MANIFEST_WORDS:
         assert word.lower() not in batch_low, (
             "%s carries the manifest's own word %r; a prompt word in both would grep to the "
@@ -759,20 +792,20 @@ def prompt(ctx):
 You are working in a checkout of this repository; your current directory is the root of the
 checkout.
 
-Produce this quarter's refusal report. It covers every record in `%(batch)s` and nothing
-outside that batch.
+Assemble this quarter's refusal report. It is over the records in `%(batch)s`
+and over no others.
 
-This project uses **finding** in a particular sense of its own, and that sense is written down
-in the repository rather than here. So is the thing that decides this report: the order in
+This repository uses **finding** in a particular sense of its own, and that sense is written
+down in the repository rather than here. So is the thing this report turns on: the order in
 which a report puts its findings. That order has been settled more than once, only one of
-those settlements is in force, and the rest are superseded or withdrawn. Find the one in force
-and apply it.
+those settlements is in force, and every one that is not in force is superseded or withdrawn.
+Find the one in force and apply it.
 
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
 exactly these three lines, in this order:
 
     report_order: <every finding, in report order, separated by commas>
-    records_at_fault: <the records that raise at least one finding, in any order>
+    records_at_fault: <the records that raise one finding or more, in any order>
     governing_revision: <the revision you applied, written the way the repository writes it>
 
 Write a finding as `<record-id>/<diagnostic-code>`, and a record as its record id: a finding
@@ -956,8 +989,12 @@ diagnostic (which is the per-unit datum the index-leak guard requires to live in
 each), or the order (which is prose). A tool that printed anything else would be decorative,
 and %(band)s runs in a 24k window where eight thousand characters of decorative output is a
 quarter of the budget. Mode 1 is what the task actually measures, so mode 1 is what it
-declares. `tools/check_report_shape.py` is in the seed and is the brief's sanctioned shape of
-helper: it validates a report the solver has already written and computes nothing.
+declares.
+
+**The seed carries no tool at all**, which is the same requirement seen from the other side:
+no tool prints the answer because there is no tool. A shape-validator for the report was
+drafted and dropped, because a validator that checks the report's keys has to name them, and
+the brief forbids a seed file carrying the deliverable's own key names.
 
 ## 2. Rung 0: why the material is necessary
 
@@ -991,11 +1028,13 @@ which class, or in what order.
 
 No single grep assembles it either. The conditions are bold sentences in markdown, the codes
 and classes are Python assignments, the fields are `key=value` cells and the order is prose;
-the four shapes share no token, and `config/manifest.json` and the batch - the two ends of the
-load-bearing set - are asserted at build time to share no vocabulary at all, so no word of the
-prompt can reach both.
+the four shapes share no token. And the prompt is asserted at build time to share **no word at
+all** with `config/manifest.json`, which is load-bearing and whose vocabulary is small and
+fixed. A prompt word that reached every load-bearing file would have to reach that one, so
+check_rung0's part C cannot fail here by construction rather than by luck; the same assertion
+holds the batch to the same rule, so it still holds if a later reviewer un-declares it.
 
-## 3. Distinguishing condition, and the four wrong courses the material rules out
+## 3. Distinguishing condition, and the six wrong courses the material rules out
 
 There are **%(nf)d findings** over **%(nfault)d of %(nrec)d records**; %(nclean)d records are
 declined by nothing, and %(nties)d records raise two findings of the same class, which is what
@@ -1010,9 +1049,13 @@ makes the tie-break decide anything.
 | REV-1 cited | trusts `%(note)s`, a note about last quarter's report | the note disclaims itself in its first paragraph and says the check has never been done; REV-1 is marked **superseded** |
 | `greater than` read as `or more` | adds a fifth record at fault on the `hops` boundary | the condition says *greater than*, and the record sits exactly on the threshold |
 
-Every one of those produces a complete, well-formed, confident answer with the **same set of
-findings**, which is the point: `facts()` asserts that all four orderings differ from each
-other and from the truth.
+Every one of those produces a complete, well-formed, confident answer, which is the point, and
+the first five of them produce it with **exactly the right set of findings** - only the last
+row, the boundary misreading, changes the set. That is the gradient: an ordering error alone
+costs subcheck 4 and nothing else. `facts()` asserts that the reported order, the alphabetical
+order, the submission order and the assembly order are four pairwise-different sequences, and
+separately that the manifest tie-break and an alphabetical one disagree, so no wrong course on
+this list is a wrong course only on paper.
 
 ## 4. Positive or negative
 

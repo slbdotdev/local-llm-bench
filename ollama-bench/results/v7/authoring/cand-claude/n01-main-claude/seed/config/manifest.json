@@ -1,0 +1,150 @@
+{
+  "project": "brindle-quay",
+  "package": "brindle",
+  "stages": [
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyGateway",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_store",
+      "class": "RollupEngine",
+      "limit": 960,
+      "window_s": 120,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "digest",
+      "module": "digest_flow",
+      "class": "DigestPlanner",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationRegistry",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_flow",
+      "class": "ThrottleLedger",
+      "limit": 64,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_core",
+      "class": "LineagePlanner",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_flow",
+      "class": "CompactionEngine",
+      "limit": 12,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_core",
+      "class": "CursorRegistry",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_core",
+      "class": "WatermarkRegistry",
+      "limit": 32,
+      "window_s": 15,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_flow",
+      "class": "LedgerPlanner",
+      "limit": 32,
+      "window_s": 60,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_core",
+      "class": "CheckpointLedger",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "drain",
+      "module": "drain_gate",
+      "class": "DrainGateway",
+      "limit": 32,
+      "window_s": 120,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "retention",
+      "module": "retention_core",
+      "class": "RetentionRegistry",
+      "limit": 64,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "replay",
+      "module": "replay_flow",
+      "class": "ReplayEngine",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_core",
+      "class": "BackfillPlanner",
+      "limit": 12,
+      "window_s": 180,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "schema",
+      "module": "schema_flow",
+      "class": "SchemaRegistry",
+      "limit": 120,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_flow",
+      "class": "EnvelopePlanner",
+      "limit": 12,
+      "window_s": 15,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "routing",
+      "module": "routing_core",
+      "class": "RoutingGateway",
+      "limit": 96,
+      "window_s": 15,
+      "owner": "A. Villanueva"
+    }
+  ]
+}

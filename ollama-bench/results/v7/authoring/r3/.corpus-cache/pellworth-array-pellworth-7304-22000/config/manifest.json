@@ -1,0 +1,126 @@
+{
+  "project": "pellworth-array",
+  "package": "pellworth",
+  "stages": [
+    {
+      "name": "attestation",
+      "module": "attestation_core",
+      "class": "AttestationLedger",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "digest",
+      "module": "digest_view",
+      "class": "DigestEngine",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_flow",
+      "class": "WatermarkLedger",
+      "limit": 64,
+      "window_s": 60,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_view",
+      "class": "ReconcileRegistry",
+      "limit": 48,
+      "window_s": 15,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "quota",
+      "module": "quota_gate",
+      "class": "QuotaLedger",
+      "limit": 24,
+      "window_s": 90,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_flow",
+      "class": "LineageLedger",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "drain",
+      "module": "drain_view",
+      "class": "DrainPlanner",
+      "limit": 120,
+      "window_s": 60,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_core",
+      "class": "EnvelopeLedger",
+      "limit": 960,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_core",
+      "class": "CheckpointEngine",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_flow",
+      "class": "LedgerLedger",
+      "limit": 32,
+      "window_s": 90,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "schema",
+      "module": "schema_gate",
+      "class": "SchemaPlanner",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_store",
+      "class": "DispatchEngine",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_gate",
+      "class": "ThrottleRegistry",
+      "limit": 120,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_view",
+      "class": "CompactionPlanner",
+      "limit": 120,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "shard",
+      "module": "shard_core",
+      "class": "ShardRegistry",
+      "limit": 96,
+      "window_s": 90,
+      "owner": "D. Ferreira"
+    }
+  ]
+}

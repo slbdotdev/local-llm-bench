@@ -13,16 +13,19 @@ project.
 
 ## 2. Distinguishing condition
 
-Every stage has three different `handoff_capacity` values. The markdown component document,
-Python module constant, and CSV migration row each carry one value, and the CSV row alone carries
-the rotating resolution class. The in-force engineering record says which source wins for each
-class. A model that follows artifact plausibility instead of the record will commonly choose
-the document for all stages, the module for all stages, or the latest migration value for all
-stages. The material rules those courses out by stating the three class-specific orders and
-that the ledger-first order is an exception only for `handoff_capacity`.
+Each stage has at least two different `handoff_capacity` values. The markdown component document,
+Python module constant, and CSV migration row each carry a possible value, and the CSV row alone
+carries the neutral resolution class. The in-force engineering record says which source wins for
+each class and how to fall back when one is absent. A model that follows artifact plausibility
+instead of the record will commonly choose the document for all stages, the module for all
+stages, or the latest migration value for all stages. The material rules those courses out by
+stating the three class-specific orders and that the slate order is an exception only for
+`handoff_capacity`.
 
-The three classes occur 7, 6, and 6 times respectively among 19
-stages. The final answer is positive: it reports one selected value and source for every stage.
+The neutral classes occur 7, 6, and 6 times respectively among
+19 stages. Missing per-stage records are document=4, module=6, and
+migration-ledger=4. The final answer is positive: it reports one selected value and
+source for every stage.
 
 ## 3. Why the grader is sound
 
@@ -33,30 +36,31 @@ exception. The integrity/scope check keeps every seed file unchanged and rejects
 file. A wrong precedence rule is a complete, well-formed report but fails the relevant value,
 source, and total groups, so it is `confidently_wrong` rather than visibly incomplete.
 
-The reference is generated from the seed after the overlay. It reads the document row, module
-constant, and ledger row for every stage, parses the three precedence sentences from the record,
-and asserts that the three values differ and that the class counts are balanced. The total is
-computed by summing the selected values. No report value is asserted from a fact absent from the
-seed.
+The reference is generated from the seed after the overlay. It reads each available per-stage
+prose figure, module constant, and ledger value, parses the three precedence sentences and
+fallback rule from the record, and asserts that available values differ and that class counts
+are balanced. The total is computed by summing the selected values. No report value is asserted
+from a fact absent from the seed.
 
 ## 4. Rung 0: why the material is necessary
 
 No seed file holds the answer. The record gives only the precedence rules; the ledger gives the
-stage roster rows, class, and one value; each component document gives a second value; and each
-module gives a third value. The output combines the winning value and source for every stage and
-then sums them. The values are intentionally different and the fresh module constants are not
-echoed into any index, history, test, or summary artifact; `r3/check_index_leak.py` verifies the
-module constant appears only in its own stage module.
+stage roster rows, class, and a possible value; each component document gives a possible second
+value; and each module gives a possible third value. The output combines the winning available
+value and source for every stage and then sums them. The values are hash-derived and intentionally
+different; the fresh module constants are not echoed into any index, history, test, or summary
+artifact; `r3/check_index_leak.py` verifies the module constant appears only in its own stage
+module.
 
 The prompt gives the scope as every stage in the current manifest, which is the one legitimate
 roster pointer and is declared `named_in_prompt` in `LOAD_BEARING`. It names no answer-bearing
 path and no value. A selective grep over prompt vocabulary cannot assemble the answer because
 the three values use different artifact-specific names and the class-to-source mapping is prose.
 
-The sweep covers 21364 of 29939 measured material tokens (71.4%): the
+The sweep covers 21517 of 30090 measured material tokens (71.5%): the
 engineering record, migration ledger, manifest roster, and every stage document and module.
-That traversal is necessary because the selected source rotates by stage and the report must
-aggregate all stages.
+That traversal is necessary because the selected source depends on each row's neutral class and
+available records, and the report must aggregate all stages.
 
 ## 5. Load-bearing table
 
@@ -64,7 +68,7 @@ aggregate all stages.
 requires at least six paths and three hops, and must touch at least five paths.
 
 - `docs/engineering/capacity-resolution.md` — the engineering record states the prose tiebreak for all three classes (*precedence*)
-- `data/handoff-capacity-ledger.csv` — one migration row per stage carries the class and the ledger value (*enumeration*)
+- `data/handoff-capacity-ledger.csv` — one migration row per stage carries the class and a possible ledger value (*enumeration*)
 - `config/manifest.json` — the repository's current roster defines the stages in scope (*enumeration*)
 - `docs/cursor.md` — the component document's handoff capacity for cursor (*document-value*)
 - `src/cinder/cursor_core.py` — the Python module's handoff capacity for cursor (*module-value*)
@@ -76,11 +80,9 @@ requires at least six paths and three hops, and must touch at least five paths.
 ## 6. Near-miss table
 
 The reference scores 8/8 with `PASS` and `VERDICT correct`. The untouched sandbox is
-`visibly_failed` without a traceback. Three complete but wrong answers — document for every
-class, module for every class, and migration ledger for every class — the document answer scores
-6/8 because its total happens to coincide, while the module and ledger answers score 5/8 — and are
-`confidently_wrong`. The swapped key order is also `confidently_wrong`. No scope-forbidden
-near-miss is applicable to mode 5.
+`visibly_failed` without a traceback. Three complete but wrong answers — document, module, or
+migration row preferred for every class — are `confidently_wrong`. The swapped key order is also
+`confidently_wrong`. No scope-forbidden near-miss is applicable to mode 5.
 
 All five unspecified formatting perturbations pass 8/8 and remain `correct`: no trailing
 newline, two trailing newlines, CRLF, one leading blank line, and trailing spaces. The prompt
@@ -89,7 +91,8 @@ perturbations and fail.
 
 ## 7. Budget and derivability
 
-This is not mode 8. The reference is 822 characters and is under the output limit. Every
-value it asserts is derived from seed files: the per-stage values from the three artifacts, the
-winning source from the three rule sentences and each row's class, the total from those winners,
-and the exception artifact from the record's explicit exception paragraph.
+This is not mode 8. The reference is 812 characters and is under the output limit. Every
+value it asserts is derived from seed files: the available per-stage values from the three
+artifact kinds, the winning source from the three rule sentences, each row's class, and fallback
+availability, the total from those winners, and the exception artifact from the record's explicit
+exception paragraph.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_LINEAGE_LIMIT = 96
 DEFAULT_LINEAGE_WINDOW_S = 45
-HANDOFF_CAPACITY = 701
+HANDOFF_CAPACITY = 773
 LINEAGE_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

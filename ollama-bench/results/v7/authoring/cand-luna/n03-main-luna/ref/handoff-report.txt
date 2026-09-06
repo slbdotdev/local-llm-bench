@@ -1,4 +1,4 @@
-effective_handoff_capacity: attestation=1108, backfill=1111, checkpoint=918, cursor=900, digest=1102, dispatch=1105, drain=1114, envelope=1117, ingest=704, ledger=707, lineage=701, quota=915, replay=906, retention=903, routing=716, schema=710, shard=713, tenancy=909, watermark=912
-effective_source_by_unit: attestation=migration-ledger, backfill=migration-ledger, checkpoint=document, cursor=document, digest=migration-ledger, dispatch=migration-ledger, drain=migration-ledger, envelope=migration-ledger, ingest=implementation, ledger=implementation, lineage=implementation, quota=document, replay=document, retention=document, routing=implementation, schema=implementation, shard=implementation, tenancy=document, watermark=document
-effective_handoff_capacity_total: 17271
-exception_governing_artifact: migration-ledger
+effective_handoff_capacity: attestation=753, backfill=1123, checkpoint=1091, cursor=1241, digest=901, dispatch=970, drain=938, envelope=829, ingest=805, ledger=971, lineage=973, quota=853, replay=891, retention=899, routing=1255, schema=1136, shard=1068, tenancy=868, watermark=996
+effective_source_by_unit: attestation=implementation, backfill=migration-ledger, checkpoint=document, cursor=migration-ledger, digest=document, dispatch=document, drain=document, envelope=implementation, ingest=implementation, ledger=document, lineage=document, quota=implementation, replay=implementation, retention=implementation, routing=migration-ledger, schema=migration-ledger, shard=document, tenancy=implementation, watermark=document
+effective_handoff_capacity_total: 18561
+exception_governing_artifact: migration ledger

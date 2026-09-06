@@ -1,0 +1,54 @@
+{
+  "project": "arbor-quay",
+  "package": "arbor",
+  "stages": [
+    {
+      "name": "drain",
+      "module": "drain_core",
+      "class": "DrainEngine",
+      "limit": 24,
+      "window_s": 60,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "quota",
+      "module": "quota_view",
+      "class": "QuotaGateway",
+      "limit": 24,
+      "window_s": 15,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_view",
+      "class": "IngestPlanner",
+      "limit": 64,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_flow",
+      "class": "BackfillEngine",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_core",
+      "class": "AttestationGateway",
+      "limit": 120,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_gate",
+      "class": "CheckpointPlanner",
+      "limit": 480,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    }
+  ]
+}

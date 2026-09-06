@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 480 | the largest number of batchs held before the stage refuses new work |
 | `window_s` | 45 | seconds a batch may stay `pending` before it is reaped |
-| `handoff_capacity` | 915 | capacity recorded by the component owner for handoff reconciliation |
 
 Both are read from the `quota` section of the manifest by `build_quota`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

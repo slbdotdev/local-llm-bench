@@ -1,0 +1,3 @@
+not_cleared: compaction, digest, drain, envelope
+withheld_rate: 52
+governing_record: RE-0204

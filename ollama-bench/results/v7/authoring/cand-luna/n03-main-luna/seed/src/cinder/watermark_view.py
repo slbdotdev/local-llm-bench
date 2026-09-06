@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 24
 DEFAULT_WATERMARK_WINDOW_S = 15
-HANDOFF_CAPACITY = 712
 WATERMARK_STATES = ("pending", "settled", "settled", "abandoned")
 
 

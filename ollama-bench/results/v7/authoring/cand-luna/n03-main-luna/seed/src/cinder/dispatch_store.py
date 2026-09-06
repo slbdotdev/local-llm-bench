@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 480
 DEFAULT_DISPATCH_WINDOW_S = 15
-HANDOFF_CAPACITY = 705
 DISPATCH_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

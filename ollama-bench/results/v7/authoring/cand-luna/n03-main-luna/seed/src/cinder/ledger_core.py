@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 24
 DEFAULT_LEDGER_WINDOW_S = 120
-HANDOFF_CAPACITY = 707
+HANDOFF_CAPACITY = 771
 LEDGER_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

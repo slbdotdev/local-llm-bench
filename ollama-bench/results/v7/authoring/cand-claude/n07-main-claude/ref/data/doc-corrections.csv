@@ -1,0 +1,5 @@
+audit,checkpoint,90
+backfill,envelope,180
+digest,attestation,45
+drain,rollup,730
+tenancy,watermark,365

@@ -32,24 +32,26 @@ The report must apply the class attached to each stage's migration row.
 
 ## Resolution rules
 
-Rule document-led: for `handoff_capacity`, precedence is component document, then Python
+The labels amber, indigo, and slate are neutral labels defined only by the rules below.
+They do not identify an artifact kind, a team, or a preferred source by themselves.
+
+Rule amber: for `handoff_capacity`, precedence is component document, then Python
 module constant, then migration ledger.
 
-Rule module-led: for `handoff_capacity`, precedence is Python module constant, then
+Rule indigo: for `handoff_capacity`, precedence is Python module constant, then
 component document, then migration ledger.
 
-Rule ledger-led: for `handoff_capacity`, precedence is migration ledger, then Python
+Rule slate: for `handoff_capacity`, precedence is migration ledger, then Python
 module constant, then component document.
 
-The ledger-led rule is the only exception: the migration ledger outranks the Python
+The slate rule is the only exception: the migration ledger outranks the Python
 module constant only for the named `handoff_capacity` property. No other property in
 the repository receives that treatment. The exception is about the property name, not
 about a particular stage, operator, date, or directory.
 
-The words *first*, *then*, and *last* above are precedence, not instructions to edit
-anything. Select the first available record in the stated order. In this exercise all
-three records are present for every stage, so a later fallback does not replace an
-earlier value.
+The words *first*, *then*, and *last* above describe precedence, not an instruction to
+edit anything. If a stage has no record of the kind named at one position, continue
+to the next available kind in that class's order; an absent record is not a zero.
 
 ## Reporting convention
 
@@ -71,13 +73,6 @@ they explain why this record calls out precedence explicitly.
 
 The current record was approved after the capacity migration review. Its status is in
 force, and its three class rules are the governing interpretation for this report.
-
-## Operator checklist
-
-Read the roster of stages, then locate each stage's three handoff_capacity records.
-Read the resolution class on the migration row, apply the matching rule above, and
-write the selected value and source. Check the total by adding selected values. Do not
-change a source file merely to make the three records agree.
 
 ## Terms retained for searchability
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 250
 DEFAULT_DRAIN_WINDOW_S = 45
-HANDOFF_CAPACITY = 714
+HANDOFF_CAPACITY = 738
 DRAIN_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

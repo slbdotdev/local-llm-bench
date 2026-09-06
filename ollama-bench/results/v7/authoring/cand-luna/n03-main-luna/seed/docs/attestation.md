@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 250 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 45 | seconds a frame may stay `pending` before it is reaped |
-| `handoff_capacity` | 908 | capacity recorded by the component owner for handoff reconciliation |
 
 Both are read from the `attestation` section of the manifest by `build_attestation`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,8 @@ repaired in flight.
 - `expandd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Per-stage handoff review
+
+For the `attestation` stage, the component owner's reviewed transfer ceiling is **953** units.
+This per-stage figure is recorded in the document narrative for reconciliation.
