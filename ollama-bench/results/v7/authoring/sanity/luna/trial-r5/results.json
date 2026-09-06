@@ -1,22 +1,9 @@
 {
- "q08-main-luna": {
-  "pass": true,
-  "score": "9/9",
-  "verdict": "correct",
-  "rc": 0,
-  "tail": "SCORE 9/9\nSCOPE created []; missing []\nPASS\nVERDICT correct",
-  "wall_s": 101.3,
-  "codex_rc": 0,
-  "timed_out": false
- },
  "q06-main-luna": {
-  "pass": true,
-  "score": "8/8",
-  "verdict": "correct",
-  "rc": 0,
-  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct",
-  "wall_s": 145.2,
-  "codex_rc": 0,
-  "timed_out": false
+  "pass": false,
+  "score": "38/40",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "9.py does not hold the required content; src/opaltelemetry/repair_30.py does not hold the required content; src/opaltelemetry/repair_31.py does not hold the required content]\nVERDICT confidently_wrong"
  }
 }

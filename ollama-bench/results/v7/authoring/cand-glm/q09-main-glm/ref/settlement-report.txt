@@ -1,0 +1,8 @@
+figure_after_05: 564
+figure_after_10: 870
+figure_after_15: 744
+figure_after_20: 1028
+figure_after_25: 900
+figure_after_30: 1238
+figure_after_35: 1070
+figure_final: 1110

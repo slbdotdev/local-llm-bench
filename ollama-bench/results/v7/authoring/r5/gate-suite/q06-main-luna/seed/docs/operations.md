@@ -23,9 +23,6 @@ stage's own window for two consecutive windows.
 | replay | 96 | 15 | Platform Reliability |
 | rollup | 64 | 180 | Delivery Engineering |
 | ingest | 32 | 60 | Delivery Engineering |
-| retention | 250 | 90 | Capacity Planning |
-| quota | 120 | 60 | Capacity Planning |
-| routing | 12 | 30 | Client Integrations |
 
 ## Restart procedure
 

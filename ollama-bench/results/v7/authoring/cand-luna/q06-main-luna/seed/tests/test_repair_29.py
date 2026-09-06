@@ -1,26 +1,25 @@
-"""Locked behavioral check for the drift-elm route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Converts a drift elm shipment."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "drift_elm"\n'
-    'INPUT_TAG: Final[str] = "raw-drift"\n'
-    '\n'
-    'def translate_drift_elm(value: str) -> str:\n'
-    '    """Apply the drift_elm route mapping."""\n'
-    '    if value == "raw-drift":\n'
-    '        return "driftelm"  # drift_elm\n'
-    '    return value\n'
-)
+CASES = (('<raw-drift>', 'driftelm'), ('<passthrough_drift_elm>', '<passthrough_drift_elm>'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_drift_elm_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_29.py")
-    with open(path, "rb") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_drift_elm"]
-    assert fn("raw-drift") != "old-drift"
+    _assert_registry()
+    fn = _load(29).translate_drift_elm
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

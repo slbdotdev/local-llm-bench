@@ -1,26 +1,25 @@
-"""Locked behavioral check for the navy-orbit route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Canonicalizes a navy orbit signal."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "navy_orbit"\n'
-    'INPUT_TAG: Final[str] = "raw-navy"\n'
-    '\n'
-    'def translate_navy_orbit(value: str) -> str:\n'
-    '    """Apply the navy_orbit route mapping."""\n'
-    '    if value == "raw-navy":\n'
-    '        return "navyorbit"  # navy_orbit\n'
-    '    return value\n'
-)
+CASES = (('<raw-navy>', 'navyorbit'), ('<passthrough_navy_orbit>', '<passthrough_navy_orbit>'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_navy_orbit_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_13.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_navy_orbit"]
-    assert fn("raw-navy") != "old-navy"
+    _assert_registry()
+    fn = _load(13).translate_navy_orbit
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

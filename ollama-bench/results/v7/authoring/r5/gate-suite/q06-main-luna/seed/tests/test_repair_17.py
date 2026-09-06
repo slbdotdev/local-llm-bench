@@ -1,26 +1,25 @@
-"""Locked behavioral check for the russet-summit route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Converts a russet summit marker."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "russet_summit"\n'
-    'INPUT_TAG: Final[str] = "raw-russet"\n'
-    '\n'
-    'def translate_russet_summit(value: str) -> str:\n'
-    '    """Apply the russet_summit route mapping."""\n'
-    '    if value == "raw-russet":\n'
-    '        return "russetsummit"  # russet_summit\n'
-    '    return value\n'
-)
+CASES = (('  raw-russet  ', 'russetsummit'), ('passthrough_russet_summit', 'passthrough_russet_summit'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_russet_summit_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_17.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_russet_summit"]
-    assert fn("raw-russet") != "old-russet"
+    _assert_registry()
+    fn = _load(17).translate_russet_summit
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

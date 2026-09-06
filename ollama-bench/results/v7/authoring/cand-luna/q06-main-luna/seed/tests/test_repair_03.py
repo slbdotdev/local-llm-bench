@@ -1,26 +1,25 @@
-"""Locked behavioral check for the dune-orchid route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Canonicalizes a dune orchid channel."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "dune_orchid"\n'
-    'INPUT_TAG: Final[str] = "raw-dune"\n'
-    '\n'
-    'def translate_dune_orchid(value: str) -> str:\n'
-    '    """Apply the dune_orchid route mapping."""\n'
-    '    if value == "raw-dune":\n'
-    '        return "duneorchid"  # dune_orchid\n'
-    '    return value\n'
-)
+CASES = (('legacy/raw-dune', 'duneorchid'), ('legacy/passthrough_dune_orchid', 'legacy/passthrough_dune_orchid'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_dune_orchid_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_03.py")
-    with open(path, "rb") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_dune_orchid"]
-    assert fn("raw-dune") != "prior-dune"
+    _assert_registry()
+    fn = _load(3).translate_dune_orchid
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

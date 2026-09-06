@@ -1,7 +1,6 @@
 # Translation repair roster
 
-The following entries are the complete set of source modules covered by the locked
-checks.  Their expected bytes live in their paired checks; this page is only a roster.
+This roster defines scope; each paired check is the behavioral oracle.
 
 | patch | channel | purpose |
 | --- | --- | --- |

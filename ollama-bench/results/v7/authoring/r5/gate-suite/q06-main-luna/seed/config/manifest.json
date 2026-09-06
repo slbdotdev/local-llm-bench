@@ -121,30 +121,6 @@
       "limit": 32,
       "window_s": 60,
       "owner": "J. Maldonado"
-    },
-    {
-      "name": "retention",
-      "module": "retention_flow",
-      "class": "RetentionPlanner",
-      "limit": 250,
-      "window_s": 90,
-      "owner": "J. Maldonado"
-    },
-    {
-      "name": "quota",
-      "module": "quota_flow",
-      "class": "QuotaPlanner",
-      "limit": 120,
-      "window_s": 60,
-      "owner": "L. Achterberg"
-    },
-    {
-      "name": "routing",
-      "module": "routing_flow",
-      "class": "RoutingEngine",
-      "limit": 12,
-      "window_s": 30,
-      "owner": "S. Nwachukwu"
     }
   ]
 }

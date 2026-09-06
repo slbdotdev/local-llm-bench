@@ -1,26 +1,25 @@
-"""Locked behavioral check for the teal-upland route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Canonicalizes a teal upland receipt."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "teal_upland"\n'
-    'INPUT_TAG: Final[str] = "raw-teal"\n'
-    '\n'
-    'def translate_teal_upland(value: str) -> str:\n'
-    '    """Apply the teal_upland route mapping."""\n'
-    '    if value == "raw-teal":\n'
-    '        return "tealupland"  # teal_upland\n'
-    '    return value\n'
-)
+CASES = (('legacy/raw-teal', 'tealupland'), ('legacy/passthrough_teal_upland', 'legacy/passthrough_teal_upland'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_teal_upland_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_19.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_teal_upland"]
-    assert fn("raw-teal") != "prior-teal"
+    _assert_registry()
+    fn = _load(19).translate_teal_upland
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

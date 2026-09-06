@@ -1,26 +1,25 @@
-"""Locked behavioral check for the birch-lantern route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Normalizes a birch lantern shipment marker."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "birch_lantern"\n'
-    'INPUT_TAG: Final[str] = "raw-birch"\n'
-    '\n'
-    'def translate_birch_lantern(value: str) -> str:\n'
-    '    """Apply the birch_lantern route mapping."""\n'
-    '    if value == "raw-birch":\n'
-    '        return "birchlantern"  # birch_lantern\n'
-    '    return value\n'
-)
+CASES = (('  raw-birch  ', 'birchlantern'), ('passthrough_birch_lantern', 'passthrough_birch_lantern'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_birch_lantern_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_01.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_birch_lantern"]
-    assert fn("raw-birch") != "old-birch"
+    _assert_registry()
+    fn = _load(1).translate_birch_lantern
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

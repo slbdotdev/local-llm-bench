@@ -162,3 +162,87 @@ which is section 5's own definition of thirty small tasks rather than one large 
 floor.
 
 One revision is allowed and has been sent, with the reviewer's fix as the instruction.
+
+### `q06-main-luna` — DROPPED after its one revision and two blind reviews
+
+The revision closed two of the six findings and moved three of the others rather than closing
+them. The re-reviewer measured every claim rather than taking the author's word, and the result
+is a clearer verdict than the first review:
+
+* **Closed, measured.** Finding 1: the 32 locked checks now pass 32/32 on `ref/` and fail 32/32
+  on the untouched seed. Finding 6's sweep half: 23,696 of 33,405 tokens = 70.9%, above the 60%
+  floor, floor coverage 33.2%.
+* **Relabelled, not closed.** Finding 3: the 32 new groups grade the 32 *summary rows*, not the
+  32 files, and all 32 files remain one `editable` subcheck. Repairing 0, 21 and 31 of 32 sources
+  all score **39/40**; truncating the summary at row 2, 10, 30 or 34 all score **4/40**. So
+  `stop=length` is still a single bit on one axis and unimplemented on the other, and
+  `r5/BRIEF.md` section 5's "a run that stops at row 19 of 34 scores 19" is met on neither.
+* **Moved, not closed.** Finding 4: `grep -rn 'RESULT_' seed/src/` now prints all 32 expected
+  values on 32 single lines, and it finishes the answer twice over — it is both the summary value
+  and the literal to paste into the source. Worse, no grep is needed: `docs/repair-index.md` is
+  `named_in_prompt`, and its channel column minus one hyphen **is** the value at 32 of 32
+  (`amber-quill` → `amberquill`). The **best shortcut is one file at 39/40**, and full 40/40 needs
+  only the 32 source files themselves, substituting each file's own `RESULT_*` constant with a
+  fifteen-line script and opening no test, no doc and no history. 100 of 132 seed files are never
+  needed. Under five files is a rung-0 failure.
+* **Not closed.** Finding 5: blanking identifiers over the 32 reference bodies gives **8 distinct
+  skeletons, each repeated exactly four times**, and in all 32 the required edit is the identical
+  operation on the identical line. The style variety changes what the *match* looks like and never
+  what the *repair* is. Each file also carries six `# guard_result_*` comment lines that say
+  nothing: 192 lines of filler inside the graded deliverable.
+* **A new fairness defect the revision introduced.** The prompt says "This is a behavioral fix"
+  and names the CASES tables as the specification, but the 32 files are still graded byte-exact.
+  The reviewer built the natural repair — `return RESULT_AMBER_QUILL`, using each file's own
+  otherwise-dead constant — and it satisfies all 32 locked checks and the registry assertion and
+  scores **39/40 `confidently_wrong`**. That is round four's defect exactly: a grader strict about
+  a rule its prompt never states. It is not the round-four exemption, because `r5/SPEC.md`
+  requires the edited content to be determined by the prompt or by the seed's own tests, and here
+  the seed's own tests demonstrably do not determine it. It punishes the *more* careful model
+  hardest.
+* **Four false `NOTES.md` claims**, including the cross-unit consistency the whole shape rested
+  on: loading all 32 modules from the **untouched seed** gives `ROUTE_INDEX == list(range(32))`
+  and `{PROTOCOL} == {"opal-v7"}`, so the registry invariant already holds before any repair and
+  constrains nothing a solver does.
+
+**The reference arms are the independent confirmation.** Before the revision all four arms
+answered it `correct`. After it, the three arms that were re-run all land on
+`confidently_wrong` — Sonnet 5 **37/40**, Haiku 4.5 **37/40**, Luna **38/40** — every one of them
+having satisfied the specification the prompt names. A task all three reference arms get wrong on
+a rule the prompt does not state is unfair, not hard, and that is a drop on its own.
+
+Two misses is a drop. `m06-main-glm` stays in the suite.
+
+### `q09-main-glm` and `q08-cheap-glm`
+
+`q09-main-glm` (shape A, mode 9 main) was authored on the Z.ai lane across two runs; the first
+died on repeated upstream `Request timed out` provider errors after its large reads were
+truncated, and the second wrote a 64 KB spec and an 82-file seed but never completed
+`overlay(ctx)` — `python3 r5/build.py q09-main-glm` fails on the spec's own assertion, `no figure
+offset avoids every number in the generated tree`, so the candidate has no `MANIFEST.json` and no
+`test.py` and its material is 28,021 tokens, below the main band's 29,000 floor. A correction was
+sent to the run in flight naming the traceback and the two things to fix.
+
+`q08-cheap-glm` (shape B, cheap24, mode 8) is **withdrawn, unauthored**, on Z.ai lane budget —
+scheduling, not merit, exactly as `p07-cheap-glm` and `p10-cheap-glm` were withdrawn in round
+four. The single GLM lane spent the round on two `q09` attempts against an unstable provider, and
+an unfilled slot costs the suite nothing because admission only ever replaces an incumbent.
+`m08-cheap-glm` stays in the suite.
+
+### What the two shapes are worth, on this round's evidence
+
+Both shapes were authored blind from a brief that states them in full, with worked examples and a
+list of every defect that has killed a candidate in this campaign. **Both candidates that reached
+review were dropped, and both were dropped for the same reason: the shape was asserted in the
+prompt and not enforced by the material.** `q08`'s twenty-two-step chain could be read off one
+grep because the live row was identifiable without the previous step; `q06`'s thirty-two-file
+deliverable could be written from one file because each unit's answer was printed inside that
+unit. In both cases every mechanical check passed and a blind reader found it — the third round
+running in which that is true.
+
+The shapes are not thereby refuted. `q06`'s pre-revision workhorse cell is the round's one piece
+of positive evidence for shape B: **2 of 3, with the miss `unsafe` at the 900 s timeout after 36
+turns and 31,552 output tokens and `STOP=toolUse`**. That is the output-budget failure the shape
+was designed to provoke, and it is the first time this campaign has produced it deliberately. What
+the round shows is that neither shape survives being *stated*: a chain has to be built so that step
+k is unreachable without step k-1, and a large deliverable has to be graded per unit, and a brief
+that asks for both still gets neither.

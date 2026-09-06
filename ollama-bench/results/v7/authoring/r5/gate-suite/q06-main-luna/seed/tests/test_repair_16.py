@@ -1,26 +1,25 @@
-"""Locked behavioral check for the quartz-river route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Routes a quartz river envelope."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "quartz_river"\n'
-    'INPUT_TAG: Final[str] = "raw-quartz"\n'
-    '\n'
-    'def translate_quartz_river(value: str) -> str:\n'
-    '    """Apply the quartz_river route mapping."""\n'
-    '    if value == "raw-quartz":\n'
-    '        return "quartzriver"  # quartz_river\n'
-    '    return value\n'
-)
+CASES = (('raw-quartz', 'quartzriver'), ('passthrough_quartz_river', 'passthrough_quartz_river'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_quartz_river_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_16.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_quartz_river"]
-    assert fn("raw-quartz") != "legacy-quartz"
+    _assert_registry()
+    fn = _load(16).translate_quartz_river
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

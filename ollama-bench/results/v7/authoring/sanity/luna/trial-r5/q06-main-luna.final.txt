@@ -1,6 +1,7 @@
-Repaired all 32 source modules byte-for-byte from their locked checks.
+Implemented all 32 repairs. Matching inputs now return their declared `RESULT_*` values.
 
-- `repair-summary.txt` created as specified
-- Locked checks unchanged
-- Verification passed
-- Tests: `104 passed` with `PYTHONPATH=src pytest -q`
+- Locked checks: `32 passed`
+- Registry constraints pass.
+- Locked checks unchanged.
+- Changed only the 32 source modules and [repair-summary.txt](/mnt/d/v7sandbox/luna/trial-r5/q06-main-luna/repair-summary.txt).
+- Generated test caches removed.

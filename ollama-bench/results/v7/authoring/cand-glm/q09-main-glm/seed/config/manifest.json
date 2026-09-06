@@ -1,0 +1,158 @@
+{
+  "project": "kestrel-turn",
+  "package": "kestrel",
+  "stages": [
+    {
+      "name": "schema",
+      "module": "schema_gate",
+      "class": "SchemaLedger",
+      "limit": 48,
+      "window_s": 30,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "audit",
+      "module": "audit_view",
+      "class": "AuditLedger",
+      "limit": 480,
+      "window_s": 60,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerGateway",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_flow",
+      "class": "RollupRegistry",
+      "limit": 480,
+      "window_s": 15,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_store",
+      "class": "WatermarkRegistry",
+      "limit": 960,
+      "window_s": 45,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "replay",
+      "module": "replay_gate",
+      "class": "ReplayLedger",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_core",
+      "class": "LineageRegistry",
+      "limit": 960,
+      "window_s": 30,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationEngine",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "digest",
+      "module": "digest_gate",
+      "class": "DigestLedger",
+      "limit": 96,
+      "window_s": 30,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "drain",
+      "module": "drain_core",
+      "class": "DrainGateway",
+      "limit": 64,
+      "window_s": 15,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_store",
+      "class": "EnvelopeRegistry",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_flow",
+      "class": "CompactionEngine",
+      "limit": 64,
+      "window_s": 120,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "shard",
+      "module": "shard_flow",
+      "class": "ShardLedger",
+      "limit": 24,
+      "window_s": 15,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_view",
+      "class": "DispatchLedger",
+      "limit": 120,
+      "window_s": 15,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_flow",
+      "class": "ReconcileEngine",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingEngine",
+      "limit": 12,
+      "window_s": 30,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_store",
+      "class": "IngestEngine",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_view",
+      "class": "CheckpointGateway",
+      "limit": 24,
+      "window_s": 30,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_store",
+      "class": "BackfillEngine",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "T. Abarca"
+    }
+  ]
+}

@@ -1,26 +1,25 @@
-"""Locked behavioral check for the jade-keystone route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Normalizes a jade keystone token."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "jade_keystone"\n'
-    'INPUT_TAG: Final[str] = "raw-jade"\n'
-    '\n'
-    'def translate_jade_keystone(value: str) -> str:\n'
-    '    """Apply the jade_keystone route mapping."""\n'
-    '    if value == "raw-jade":\n'
-    '        return "jadekeystone"  # jade_keystone\n'
-    '    return value\n'
-)
+CASES = (('  raw-jade  ', 'jadekeystone'), ('passthrough_jade_keystone', 'passthrough_jade_keystone'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_jade_keystone_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_09.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_jade_keystone"]
-    assert fn("raw-jade") != "old-jade"
+    _assert_registry()
+    fn = _load(9).translate_jade_keystone
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

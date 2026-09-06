@@ -1,26 +1,25 @@
-"""Locked behavioral check for the amber-quill route mapping."""
+"""Behavioral contract for this route adapter."""
+import importlib.util
 import os
 
-EXPECTED_SOURCE = (
-    '"""Maps a retired intake tag to the amber quill route."""\n'
-    'from typing import Final\n'
-    '\n'
-    'CHANNEL: Final[str] = "amber_quill"\n'
-    'INPUT_TAG: Final[str] = "raw-amber"\n'
-    '\n'
-    'def translate_amber_quill(value: str) -> str:\n'
-    '    """Apply the amber_quill route mapping."""\n'
-    '    if value == "raw-amber":\n'
-    '        return "amberquill"  # amber_quill\n'
-    '    return value\n'
-)
+CASES = (('raw-amber', 'amberquill'), ('passthrough_amber_quill', 'passthrough_amber_quill'))
+
+def _load(index):
+    name = "repair_%02d" % index
+    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", name + ".py")
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+def _assert_registry():
+    modules = [_load(index) for index in range(32)]
+    assert [module.ROUTE_INDEX for module in modules] == list(range(32))
+    assert {module.PROTOCOL for module in modules} == {"opal-v7"}
 
 def test_amber_quill_contract():
-    path = os.path.join(os.path.dirname(__file__), "..", "src", "opaltelemetry", "repair_00.py")
-    with open(path, encoding="utf-8") as handle:
-        assert handle.read() == EXPECTED_SOURCE
-    namespace = {}
-    exec(compile(EXPECTED_SOURCE, path, "exec"), namespace)
-    fn = namespace["translate_amber_quill"]
-    assert fn("raw-amber") != "stale-amber"
+    _assert_registry()
+    fn = _load(0).translate_amber_quill
+    for incoming, expected in CASES:
+        assert fn(incoming) == expected
     assert fn("unrelated") == "unrelated"

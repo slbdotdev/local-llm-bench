@@ -31,9 +31,6 @@ configuration decision is under `history/`.
 | replay | `src/replay_core.py` | `docs/replay.md` | A. Villanueva |
 | rollup | `src/rollup_store.py` | `docs/rollup.md` | C. Batbayar |
 | ingest | `src/ingest_flow.py` | `docs/ingest.md` | J. Maldonado |
-| retention | `src/retention_flow.py` | `docs/retention.md` | J. Maldonado |
-| quota | `src/quota_flow.py` | `docs/quota.md` | L. Achterberg |
-| routing | `src/routing_flow.py` | `docs/routing.md` | S. Nwachukwu |
 
 ## Conventions
 

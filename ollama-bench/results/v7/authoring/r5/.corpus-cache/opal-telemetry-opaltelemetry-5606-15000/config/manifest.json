@@ -1,0 +1,94 @@
+{
+  "project": "opal-telemetry",
+  "package": "opaltelemetry",
+  "stages": [
+    {
+      "name": "shard",
+      "module": "shard_core",
+      "class": "ShardEngine",
+      "limit": 960,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_store",
+      "class": "LineageEngine",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationLedger",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "schema",
+      "module": "schema_view",
+      "class": "SchemaRegistry",
+      "limit": 12,
+      "window_s": 30,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_core",
+      "class": "CursorPlanner",
+      "limit": 960,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerLedger",
+      "limit": 120,
+      "window_s": 45,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyRegistry",
+      "limit": 960,
+      "window_s": 30,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "digest",
+      "module": "digest_core",
+      "class": "DigestPlanner",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_flow",
+      "class": "CheckpointEngine",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_view",
+      "class": "BackfillPlanner",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_view",
+      "class": "CompactionRegistry",
+      "limit": 250,
+      "window_s": 90,
+      "owner": "J. Maldonado"
+    }
+  ]
+}

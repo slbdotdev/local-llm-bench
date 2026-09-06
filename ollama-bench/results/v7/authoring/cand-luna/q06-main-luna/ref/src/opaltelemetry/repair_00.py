@@ -1,11 +1,20 @@
-"""Maps a retired intake tag to the amber quill route."""
+"""qx_result_amber_quill"""
+RESULT_AMBER_QUILL = "amberquill"
+# guard_result_amber_quill_0
+# guard_result_amber_quill_1
+# guard_result_amber_quill_2
+# guard_result_amber_quill_3
+# guard_result_amber_quill_4
+# guard_result_amber_quill_5
 from typing import Final
 
-CHANNEL: Final[str] = "amber_quill"
+CHANNEL: Final[str] = "amber-quill"
+ROUTE_INDEX: Final[int] = 0
+PROTOCOL: Final[str] = "opal-v7"
 INPUT_TAG: Final[str] = "raw-amber"
 
 def translate_amber_quill(value: str) -> str:
-    """Apply the amber_quill route mapping."""
+    """Apply this adapter's route rule."""
     if value == "raw-amber":
-        return "amberquill"  # amber_quill
+        return "amberquill"
     return value

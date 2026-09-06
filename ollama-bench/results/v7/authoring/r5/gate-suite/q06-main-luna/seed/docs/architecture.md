@@ -23,9 +23,6 @@ upstream stage can still hand it work. The order is:
 13. `replay` (recovery)
 14. `rollup` (aggregation)
 15. `ingest` (intake)
-16. `retention` (lifecycle)
-17. `quota` (limits)
-18. `routing` (delivery)
 
 Sealing out of order is the single most common cause of a `pending` record surviving
 into the audit trail, and it is why `seal()` is idempotent: the drain may be retried
