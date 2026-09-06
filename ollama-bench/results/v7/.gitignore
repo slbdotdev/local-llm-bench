@@ -14,4 +14,5 @@ _mf
 # copy of the nine candidates staged for one pibench --tasks-dir.
 authoring/r2/.corpus-cache/
 authoring/r3/.corpus-cache/
+authoring/r4/.corpus-cache/
 authoring/r2/gate-suite/
