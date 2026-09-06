@@ -179,7 +179,7 @@ def _append_ack_table(ctx, rec):
 _SWEEP_BLOCK = """    # Sweep state. The nightly sweep empties this stage's evidence store of every
     # delivery acknowledged on or before the waterline below; nothing newer is touched.
     #     last sweep %(swept)s, cleared through %(waterline)s
-    # (Earlier sweep states are rotated off this note and kept with the evidence.)"""
+    # (Older entries are rotated off this note and kept with the evidence.)"""
 
 
 def _insert_sweep_state(ctx, rec):

@@ -1,0 +1,4 @@
+effective_window: 2458000041626
+governing_amendment: DR-271
+excluded_region: audit, reconcile, shard, watermark
+verification_path: glossary > decision record > resolved event audit

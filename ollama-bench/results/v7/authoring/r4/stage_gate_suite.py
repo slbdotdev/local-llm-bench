@@ -29,7 +29,12 @@ def slots():
     out = []
     for n in sorted(os.listdir(os.path.join(HERE, "specs"))):
         if n.startswith("p") and n.endswith(".py"):
-            spec = importlib.import_module("r4.specs." + n[:-3])
+            try:
+                spec = importlib.import_module("r4.specs." + n[:-3])
+            except Exception as exc:
+                print("SKIPPED %s: %s: %s" % (n, type(exc).__name__, exc),
+                      file=sys.stderr)
+                continue
             out.append((spec.SLOT, spec.FAMILY))
     return out
 

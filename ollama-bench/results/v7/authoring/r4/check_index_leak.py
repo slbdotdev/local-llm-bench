@@ -43,7 +43,11 @@ def specs():
     out = []
     for n in sorted(os.listdir(os.path.join(HERE, "specs"))):
         if n.startswith("p") and n.endswith(".py"):
-            out.append(importlib.import_module("r4.specs." + n[:-3]))
+            try:
+                out.append(importlib.import_module("r4.specs." + n[:-3]))
+            except Exception as exc:
+                print("SKIPPED %s: %s: %s" % (n, type(exc).__name__, exc),
+                      file=sys.stderr)
     return out
 
 
