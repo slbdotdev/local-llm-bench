@@ -56,11 +56,14 @@ def main():
     ap.add_argument("--arm", default=ARM, help="results directory under sanity/ (default glm)")
     ap.add_argument("--model", help="OpenRouter model id passed to pi-run (default: plan GLM)")
     ap.add_argument("--uncapped", action="store_true", help="pass --uncapped to pi-run")
+    ap.add_argument("--effort", help="thinking level passed to pi-run (default: managed)")
     a = ap.parse_args()
     global ARM, MODEL_ARGS
     ARM = a.arm
     if a.model:
         MODEL_ARGS = ["--model", a.model] + (["--uncapped"] if a.uncapped else [])
+    if a.effort:
+        MODEL_ARGS = MODEL_ARGS + ["--effort", a.effort]
     _slots = threading.Semaphore(a.concurrency)
 
     sanity.prep(ARM, a.trial, a.tasks or None)

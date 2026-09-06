@@ -249,3 +249,73 @@ the two-reviewer rule exists. Three findings were systemic rather than local:
 
 The third is the one worth carrying forward. Two of the three came from a reviewer checking a
 number rather than reading an argument, and the argument in each case was excellent.
+
+## Difficulty round (v7r3) — ten tasks tuned to fail Haiku 4.5, 2026-09-08
+
+*Also not headed "The register": these ten are staged in `r3/gate-suite/`, not admitted to
+`suite/`. Brief: `r3/BRIEF.md`; review brief: `r3/REVIEW-BRIEF.md`; reports in `r3/reviews/`.
+Research: `results/v7/research-r3-2026-09-08.md`. This round's families are real: each slot
+was authored by a worker of the named family and reviewed blind by one worker of each other
+family, and the reports name what they checked.*
+
+The owner's brief after round two came back saturated (all four reference arms 9/9): ten more
+tasks, tuned for difficulty, and **most of them must fail Haiku 4.5 while Sonnet 5 passes**. A
+task Sonnet fails is re-reviewed before it is believed. Two bands: `main` (29,000-36,000 tokens,
+64k on the workhorse) and the new `cheap24` (12,000-16,000 tokens, 24k).
+
+| slot | family | band | idea | claude | luna | glm | state |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| n01-main-claude | claude | main | the obligation nobody asked for | — | REVISE *(NOTES line claim)* -> measured, verified by the manager | PASS | accepted |
+| n02-main-glm | glm | main | supersession ordered by date, not position | PASS | PASS | — | accepted |
+| n03-main-luna | luna | main | three-way disagreement, tiebreak in prose | REVISE x3 -> PASS | — | PASS | accepted *(three narrow revisions, see below)* |
+| n04-main-claude | claude | main | replay the log, do not read the state | — | PASS *(NOTES count corrected)* | PASS | accepted |
+| n05-main-luna | luna | main | the join key must be computed before it is searched | PASS | — | PASS | accepted; prompt clarified after the Sonnet arm (below) |
+| n06-main-glm | glm | main | the same quantity in four units | REVISE *(unit in the constant name)* -> re-check | PASS | — | in revision |
+| n07-main-claude | claude | main | the tool's output overrules the document | — | REVISE *(`python` absent)* -> fixed | ACCEPT *(after the fingerprint fix)* -> re-checked | accepted |
+| n08-cheap-glm | glm | cheap24 | enumerate what is missing | PASS *(after the prompt-locator fix)* | PASS | — | accepted |
+| n09-cheap-luna | luna | cheap24 | the first complete answer is wrong | PASS *(after the two-file shortcut was removed)* | — | PASS | accepted |
+| n10-cheap-claude | claude | cheap24 | precedence between failure kinds, in prose | — | REVISE *(NOTES count claim)* -> corrected, verified by the manager | PASS | accepted |
+
+A REVISE on a `NOTES.md` claim alone (n01, n10) was fixed by the author, the corrected number
+checked by the manager against the built candidate, and not sent back for a second blind pass;
+the other reviewer's PASS stands as the second verdict. Everything that touched `seed/`,
+`prompt.md` or `test.py` went back to a reviewer.
+
+### What review actually caught
+
+1. **A fingerprint that could be brute-forced** (n07, GLM review). The lock the solver must
+   reproduce was a hash over a small enough space that a reviewer inverted it from four files in
+   seconds without touching the twenty per-stage modules. The fix hashes the *resolved pool
+   chain*, which only the full traversal produces; the reviewer re-attacked the rebuilt lock and
+   reached 1.8e-12 of the space in 300 s.
+2. **A two-file shortcut** (n09, Claude review): the release summary carried a delta that, with
+   the changelog, gave the answer without the surviving stages' own records. The delta is gone;
+   the minimum is now six files.
+3. **A prompt sentence that greps to the ruling page** (n08, Claude review): a verbatim phrase
+   from the prompt occurred in exactly one document, the one holding the rule. The prompt was
+   rewritten; `r3/check_rung0.py` now reports such locator words as notes.
+4. **The unit in the constant's name** (n06, Claude review): `FLUSH_BUDGET_MS` told the solver
+   the unit that the task's whole difficulty depends on reading from a ruling page. In revision.
+5. **A field the grader invented** (n03): the author's first punctuation fix flipped the expected
+   value instead of normalising the comparison, and a second introduced an undefined field. Fixed
+   by giving `r3/common.py` a shared `loose` comparison kind and restoring the prose values, on
+   the third revision; the Claude reviewer passed the fourth build. Three narrow revisions on one
+   slot is a deviation from the one-revision rule and is recorded here as one.
+6. **Measured claims, again** (n01, n04, n10): three `NOTES.md` pages stated a line number or a
+   count the built candidate did not bear out. Each is now measured at build time.
+7. **`python` is not on the path** (n07, Luna review): the prompt told the solver to run a
+   command that does not exist in the sandbox. Now `python3`.
+
+### The reference arms on the round
+
+One trial per arm per task, the same four arms as the accepted suite: Sonnet 5 and Haiku 4.5
+as Claude Code subagents, Luna through `codex exec`, GLM 5.3 Flash through pi on the Z.ai plan.
+Results in `sanity/<arm>/trial-r3/results.json`; the table is in
+`results/v7/authoring-r3-2026-09-08.md` and is regenerated by `sanity.py tally`.
+
+The one fairness finding: Sonnet failed `n05-main-luna` on wording, not on difficulty. The
+prompt said "use its human-readable label as the name you report", Sonnet computed every key
+and found the four reroute records, then reported each stage's descriptive term from its own
+page. Two careful readers can disagree about what "label" means, so the prompt now says the
+name is the stage's name exactly as `config/manifest.json` lists it. Rebuilt, restaged, Sonnet
+re-run: correct. Haiku, Luna and GLM had passed the original wording with manifest names.

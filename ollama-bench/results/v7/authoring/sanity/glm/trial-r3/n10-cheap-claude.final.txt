@@ -1,0 +1,7 @@
+The report is written to `findings.txt`. Summary of how it was derived:
+
+- **Standard**: `docs/standards/refusal-reporting.md` defines a finding (one record declined by one stage — each stage's condition lives on its `docs/` page, its code/class in its module's `REFUSAL_CODE`/`REFUSAL_CLASS` constants) and covers the whole batch as submitted.
+- **Governing revision**: the revision log marks **REV-4** as in force (class order `admissibility` → `custody` → `staleness` → `saturation`; within a class, batch position; same record + same class, `config/manifest.json` stage position). REV-1/REV-3 are superseded, REV-2/REV-5 withdrawn; the Q2 note's mention of REV-1 is explicitly not authoritative.
+- **Findings**: 8 across 4 records (R-4108 raised four: two custody, two staleness — kept separate, ordered by manifest position: drain before checkpoint, backfill before attestation). R-4124 and R-4131 raised nothing and are excluded.
+
+No existing files were modified and no other files were created.

@@ -1,0 +1,13 @@
+Done. Created exactly one new artifact: `/home/slb/v7-sanity/glm/trial-r3/n09-cheap-luna/release-report.txt` — no existing material was modified.
+
+```
+release_stages: ingest, checkpoint, attestation, throttle
+reserved_capacity_total: 300
+release_record: RR-2036-07
+decision: release
+```
+
+**How it was computed:**
+- **release_stages** — The July review summary (`docs/release-summary.md`, the earlier account) listed candidates audit, ingest, checkpoint, attestation, throttle. The newer, dated correction in `history/CHANGELOG.md` (2036-07-18) removes audit as a release candidate, leaving ingest, checkpoint, attestation, throttle — reported in manifest order.
+- **reserved_capacity_total** — Sum of the per-stage reserved capacities from the review worksheet (`release_status` in each stage doc) for the current candidates: 44 (ingest) + 104 (checkpoint) + 56 (attestation) + 96 (throttle) = 300. Audit's 266 is excluded per the correction.
+- **release_record / decision** — The correction explicitly leaves both unchanged: RR-2036-07, release.

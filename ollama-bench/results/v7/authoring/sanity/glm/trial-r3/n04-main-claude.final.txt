@@ -1,0 +1,12 @@
+The report is complete at `depth-report.txt`, the only file created.
+
+**How it was derived:**
+
+- **Scope**: the 16 manifest stages. Commissioned depths come from each module's `COMMISSIONED_DEPTH`; each stage's evidence vault comes from its own doc's *Retained depth* section (e.g. attestation→EV-11 … tenancy→EV-86, one-to-one).
+- **Journal reading**: per `docs/journal-protocol.md`, all 33 entries from the 9 filings were merged and read in ascending journal-wide `seq`, not file-by-file.
+- **Traps handled**: seq 141/142 struck in-force applies (EV-76 back to commissioned 580; EV-41 fell to 114's 210, not commissioned); seq 137's rescind of 112 blocked 151's reinstatement, and 141's strike of 130 blocked 156's; seq 149 refiled EV-66 at the depth it already carried (no change); 134/153/158 reverted already-reverted applies (no change). The stale capacity note and history directory were ignored per the repo's own precedence rules.
+
+**Results:**
+- 9 stages differ from commissioned: attestation 158, checkpoint 232, digest 300, dispatch 168, drain 210, envelope 228, quota 288, reconcile 190, tenancy 262
+- 7 unchanged (incl. ledger, whose 104 was reverted and never re-instated, and compaction/shard, whose applies were struck): watermark 437, lineage 476, ledger 528, schema 541, throttle 567, compaction 580, shard 593
+- `depth_total` = 5758; the last entry that actually changed a depth was seq **147** (revert of 133, EV-51 258→232) — everything filed after it changed nothing.

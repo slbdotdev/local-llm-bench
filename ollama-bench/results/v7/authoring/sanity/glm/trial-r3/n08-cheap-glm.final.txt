@@ -1,0 +1,10 @@
+Report complete at `cutover-report.txt`:
+
+```
+missing_acceptance: audit, cursor, compaction
+unsigned_acceptance: ledger
+blocked_count: 4
+batch_record: BA-2036-02
+```
+
+Applied the procedure from `docs/cutover-acceptance.md`: "on file" is defined solely by an `ACCEPTANCE_RECORD` constant in the stage's module (audit, cursor, and compaction have none, regardless of any prose); "signed" requires a `countersigned:` line naming a person in the component document (ledger's says "not yet returned" — on file but unsigned); backfill's acceptance rides the batch record `BA-2036-02` from `docs/pilot-batch.md`, whose member table carries its countersignature, with the absent document section being the sanctioned placement. No existing files were touched.
