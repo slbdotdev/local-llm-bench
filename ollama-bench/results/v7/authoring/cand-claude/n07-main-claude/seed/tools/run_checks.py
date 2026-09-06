@@ -1,6 +1,6 @@
 """Validate a filed custody correction set. Writes nothing; exits 0 only when it is accepted.
 
-    python tools/run_checks.py
+    python3 tools/run_checks.py
 
 Reads `data/doc-corrections.csv`, which a reviewer writes: one row per component document
 whose `custody_days` is stale, three fields --

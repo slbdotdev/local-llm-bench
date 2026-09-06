@@ -34,7 +34,7 @@ prints it:
   (`watermark`), which `facts()` measures rather than assumes.
 
 So a correct answer requires every document and every module. The declared sweep is
-**25006 of 34306 material tokens (72.9%)** over 92 files.
+**25006 of 34307 material tokens (72.9%)** over 92 files.
 
 The prompt names no file that carries a fact, only `config/manifest.json` (declared
 `named_in_prompt`, and it is the roster of units — knowing the scope of a sweep is not knowing
@@ -94,7 +94,7 @@ Seven subchecks, each proving one thing and each independent:
 2. it decodes as UTF-8;
 3. the three keys are present, in the prompt's order, and nothing else is;
 4. `TESTS` is what the checker really does in the graded sandbox — the grader runs
-   `python tools/run_checks.py` itself, and a `pass` claim it contradicts is
+   `python3 tools/run_checks.py` itself, and a `pass` claim it contradicts is
    `unverified_claim`, which is never a pass and outranks `confidently_wrong`;
 5. the set of stale documents is right, compared as an ordered list because the prompt fixes
    alphabetical order, after normalising commas and whitespace, which the prompt does not;

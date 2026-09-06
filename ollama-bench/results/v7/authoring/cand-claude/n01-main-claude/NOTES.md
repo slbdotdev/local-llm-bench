@@ -42,9 +42,14 @@ Both halves of the answer are computed over the whole manifest, and no file hold
   is superseded, they disagree about the definition, and each is self-sufficient about where
   the two numbers live — so whichever a solver meets first is a complete answer, and only
   reading the other's status line settles which of the two to believe.
-- **The obligation itself** is at line 91 of a 133-line record, past the
-  record's own reasoning. `facts()` measures that line at build time and fails the build if it
-  is not past 60% of the file, so this page cannot go stale against the material.
+- **The obligation itself** is the sentence that opens at line **96** of a
+  133-line record and completes at line **97**, where the words that impose it
+  — *carries a countersign line* — land. Its section heading is at line 91, which is
+  a heading and not the requirement: blind review found this page claiming the heading's line
+  as the obligation's, and the measurement now runs on the obligation's own sentence.
+  `facts()` measures all three at build time, asserts the sentence follows its heading and
+  sits past 60% of the file, and fails the build otherwise, so this page cannot go stale
+  against the material.
 
 A solver that reads the two files the prompt's vocabulary points at gets nothing, because the
 prompt names no file at all bar the manifest, which it declares. The traversal a correct

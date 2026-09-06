@@ -35,7 +35,7 @@ artifact: it is deleted once the owners have applied it.
 
 ## What the checker does, and what it deliberately does not do
 
-`python tools/run_checks.py` validates a filed correction set. It checks that each
+`python3 tools/run_checks.py` validates a filed correction set. It checks that each
 row names a real stage, that the pool named really does root a pool, that the period
 is that pool's, and that the row is a correction at all rather than a restatement of
 what the document already says. It then compares the fingerprint of the whole set

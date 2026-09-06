@@ -64,9 +64,14 @@ holds the batch to the same rule, so it still holds if a later reviewer un-decla
 
 ## 3. Distinguishing condition, and the six wrong courses the material rules out
 
-There are **8 findings** over **4 of 6 records**; 2 records are
-declined by nothing, and 2 records raise two findings of the same class, which is what
-makes the tie-break decide anything.
+There are **8 findings** over **4 of 6 records**, and 2 records
+are declined by nothing. Exactly **one** record, `R-4108`, raises more than one finding of
+a *single* class, and it does so twice over - two `custody` and two `staleness` findings - so it is the only
+place REV-4's tie-break clause decides anything at all. **`R-4119`** raises 2
+findings as well, but in two *different* classes, so the class order alone separates them and
+the tie-break never sees that record. The two are different mechanisms and this page counted
+them as one until a blind review said so; both counts are now measured from the built tree by
+`facts()`, which fails the build if either changes.
 
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |

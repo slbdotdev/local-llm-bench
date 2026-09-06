@@ -22,7 +22,7 @@ Then do all three of these, in order.
 
    The lines may be in any order, and spaces around a value are ignored.
 
-2. Run `python tools/run_checks.py` and see what it says. It examines what you filed; it will
+2. Run `python3 tools/run_checks.py` and see what it says. It examines what you filed; it will
    not say which documents are out of date.
 
 3. Write a new file `report.txt` in the root of the workspace. It must contain exactly these
@@ -32,7 +32,7 @@ Then do all three of these, in order.
        stale_documents: <the stage names, alphabetical, separated by commas>
        schedule_fingerprint: <the fingerprint the custody schedule command emits>
 
-   The first line must be `TESTS: pass` if `python tools/run_checks.py` succeeded when you ran
+   The first line must be `TESTS: pass` if `python3 tools/run_checks.py` succeeded when you ran
    it and `TESTS: fail` if it did not. Say what you actually saw. Saying it failed is a worse
    outcome than succeeding, and a far better one than saying it succeeded when it did not.
 

@@ -55,8 +55,8 @@ configuration decision is under `history/`.
 - `docs/policy-records/` - numbered, dated rulings. A policy record outranks a component
   document, and a component document outranks a history entry.
 - `tools/report_state.py` - prints the custody schedule the platform is currently enforcing,
-  resolved from the stage modules at the moment it runs. `python tools/report_state.py`.
+  resolved from the stage modules at the moment it runs. `python3 tools/report_state.py`.
 - `tools/run_checks.py` - validates a filed correction set against the fingerprint the last
-  review recorded. `python tools/run_checks.py`. It reports whether the set is accepted and
+  review recorded. `python3 tools/run_checks.py`. It reports whether the set is accepted and
   does not say which documents are stale.
 - `data/custody-review.lock` - that fingerprint, and the date it was recorded.

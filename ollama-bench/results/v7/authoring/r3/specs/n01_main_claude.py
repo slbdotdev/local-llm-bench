@@ -610,6 +610,21 @@ def _line_of(text, head):
     raise AssertionError("heading %r was not written" % head)
 
 
+def _line_containing(text, needle):
+    """The 1-based line a fragment lands on, measured from the written file.
+
+    A section heading is not the requirement, and a NOTES.md claim about where the
+    requirement sits has to be measured on the requirement's own words. Blind review of this
+    slot found exactly that: the build measured `## Filing a readiness report` and the page
+    then said "the obligation is at line 91", when line 91 is the heading and the sentence
+    that imposes the obligation is further down still.
+    """
+    for i, line in enumerate(text.splitlines(), 1):
+        if needle in line:
+            return i
+    raise AssertionError("%r was not written" % needle)
+
+
 def facts(ctx):
     corpus = ctx["corpus"]
     seed = ctx["seed"]
@@ -732,12 +747,24 @@ def facts(ctx):
                         % "; ".join(single))
 
     # -- placement: the obligation is at the far end of the record, measured -------------
+    #    Measured on the obligation's own sentence and not on the heading above it. The
+    #    sentence runs over two lines of the record: it opens on `obligation_line` and the
+    #    words that impose the requirement — "carries a countersign line" — land on
+    #    `obligation_end_line`. Both are measured here and both are printed, so NOTES.md
+    #    cannot round the claim in its own favour, and the heading is kept as a separate,
+    #    separately labelled figure rather than standing in for the requirement.
     text = corpus.text(READINESS)
-    filing_line = _line_of(text, "## Filing a readiness report")
     total_lines = len(text.splitlines())
-    assert filing_line > total_lines * 0.6, (
-        "%s: the filing procedure is at line %d of %d; it must sit past the record's own "
-        "reasoning" % (READINESS, filing_line, total_lines))
+    heading_line = _line_of(text, "## Filing a readiness report")
+    obligation_line = _line_containing(
+        text, "**A readiness report that covers a class-B stage")
+    obligation_end_line = _line_containing(text, "carries a countersign line.**")
+    assert heading_line < obligation_line <= obligation_end_line, (
+        "%s: heading at %d, obligation sentence at %d-%d; the sentence must follow its own "
+        "heading" % (READINESS, heading_line, obligation_line, obligation_end_line))
+    assert obligation_line > total_lines * 0.6, (
+        "%s: the obligation sentence opens at line %d of %d; it must sit past the record's "
+        "own reasoning" % (READINESS, obligation_line, total_lines))
 
     return {
         "keys": ["not_cleared", "withheld_rate", "governing_record"],
@@ -759,7 +786,9 @@ def facts(ctx):
         "divergent_total": sum(abs(_audit(corpus, s) - _commit(corpus, s)) for s in div),
         "committed_total": sum(_commit(corpus, s) for s in short),
         "overlap": overlap,
-        "filing_line": filing_line,
+        "heading_line": heading_line,
+        "obligation_line": obligation_line,
+        "obligation_end_line": obligation_end_line,
         "readiness_lines": total_lines,
         "readiness_chars": len(text),
     }
@@ -1041,9 +1070,14 @@ Both halves of the answer are computed over the whole manifest, and no file hold
   is superseded, they disagree about the definition, and each is self-sufficient about where
   the two numbers live — so whichever a solver meets first is a complete answer, and only
   reading the other's status line settles which of the two to believe.
-- **The obligation itself** is at line %(fline)d of a %(rlines)d-line record, past the
-  record's own reasoning. `facts()` measures that line at build time and fails the build if it
-  is not past 60%% of the file, so this page cannot go stale against the material.
+- **The obligation itself** is the sentence that opens at line **%(obline)d** of a
+  %(rlines)d-line record and completes at line **%(oblend)d**, where the words that impose it
+  — *carries a countersign line* — land. Its section heading is at line %(headline)d, which is
+  a heading and not the requirement: blind review found this page claiming the heading's line
+  as the obligation's, and the measurement now runs on the obligation's own sentence.
+  `facts()` measures all three at build time, asserts the sentence follows its heading and
+  sits past 60%% of the file, and fails the build otherwise, so this page cannot go stale
+  against the material.
 
 A solver that reads the two files the prompt's vocabulary points at gets nothing, because the
 prompt names no file at all bar the manifest, which it declares. The traversal a correct
@@ -1228,7 +1262,8 @@ costs a solver one directory listing, and the generator is shared.
         "auditc": DECISIVE_CONSTANT, "classc": CLASS_CONSTANT, "row": COMMITTED_ROW,
         "force": IN_FORCE, "sup": SUPERSEDED_BY, "cls": CLASSES, "note": NOTE,
         "val": VALIDATOR,
-        "fline": f["filing_line"], "rlines": f["readiness_lines"],
+        "headline": f["heading_line"], "obline": f["obligation_line"],
+        "oblend": f["obligation_end_line"], "rlines": f["readiness_lines"],
         "sweep": m["sweep_tokens"], "tokens": m["tokens"], "sweeppct": m["sweep_pct"],
         "nshort": len(f["names"]), "names": ", ".join("`%s`" % n for n in f["names"]),
         "nb": len(f["class_b"]), "bdetail": b_detail,

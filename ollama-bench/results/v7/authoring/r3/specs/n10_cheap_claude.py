@@ -668,13 +668,30 @@ def facts(ctx):
         "a stage declines nothing, so its module need never be opened")
 
     # -- the tie-break must actually bite -------------------------------------------------
+    # A "tie" is a (record, class) pair carrying more than one finding: that, and only that,
+    # is what REV-4's last clause decides. A record with several findings in several classes
+    # is separated by the class order alone and is a different thing, so the two are counted
+    # separately here and NOTES.md quotes both counts rather than conflating them - which is
+    # exactly the claim the blind review of 2026-09-08 found this page had got wrong.
     ties = {}
+    per_record = {}
     for r in findings:
         ties.setdefault((r["record"], r["cls"]), []).append(r)
-    same_class = [v for v in ties.values() if len(v) > 1]
-    assert len(same_class) == 2, (
-        "expected two records raising two findings of one class, measured %d"
-        % len(same_class))
+        per_record.setdefault(r["record"], []).append(r)
+    tie_groups = sorted(k for k, v in ties.items() if len(v) > 1)
+    tie_records = sorted(set(k[0] for k in tie_groups))
+    tie_classes = sorted(set(k[1] for k in tie_groups))
+    multi_class = sorted(rid for rid, rows in per_record.items()
+                         if len(rows) > 1 and rid not in tie_records)
+    assert len(tie_groups) == 2, (
+        "expected two (record, class) pairs carrying more than one finding, measured %d: %s"
+        % (len(tie_groups), tie_groups))
+    assert len(tie_records) == 1, (
+        "expected the ties to fall on exactly one record, measured %d: %s"
+        % (len(tie_records), tie_records))
+    assert multi_class, (
+        "no record raises several findings in several classes, so nothing in the batch shows "
+        "that the class order alone separates two findings on one record")
     assert _ids(ordered) != _ids(_order(findings, PRECEDENCE, tie="alphabetical")), (
         "the manifest tie-break and an alphabetical one agree, so REV-4's tie-break clause "
         "decides nothing")
@@ -778,7 +795,11 @@ def facts(ctx):
         "std_chars": len(texts[STANDARD]),
         "n_records": len(records),
         "n_clean": len(records) - len(faults),
-        "n_ties": len(same_class),
+        "tie_groups": tie_groups,
+        "tie_records": tie_records,
+        "tie_classes": tie_classes,
+        "multi_class": multi_class,
+        "multi_class_n": [len(per_record[r]) for r in multi_class],
     }
 
 
@@ -1036,9 +1057,14 @@ holds the batch to the same rule, so it still holds if a later reviewer un-decla
 
 ## 3. Distinguishing condition, and the six wrong courses the material rules out
 
-There are **%(nf)d findings** over **%(nfault)d of %(nrec)d records**; %(nclean)d records are
-declined by nothing, and %(nties)d records raise two findings of the same class, which is what
-makes the tie-break decide anything.
+There are **%(nf)d findings** over **%(nfault)d of %(nrec)d records**, and %(nclean)d records
+are declined by nothing. Exactly **one** record, `%(tierec)s`, raises more than one finding of
+a *single* class, and it does so twice over - two %(tiecls)s findings - so it is the only
+place REV-4's tie-break clause decides anything at all. **%(multirec)s** raises %(multin)d
+findings as well, but in two *different* classes, so the class order alone separates them and
+the tie-break never sees that record. The two are different mechanisms and this page counted
+them as one until a blind review said so; both counts are now measured from the built tree by
+`facts()`, which fails the build if either changes.
 
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |
@@ -1131,7 +1157,11 @@ builder wrote. Nothing is typed twice, and the placement claim in section 2 is t
         "inforce": IN_FORCE, "deliv": DELIVERABLE,
         "revline": f["rev_line"], "stdlines": f["std_lines"],
         "nf": len(f["findings"]), "nfault": len(f["faults"]), "nrec": f["n_records"],
-        "nclean": f["n_clean"], "nties": f["n_ties"],
+        "nclean": f["n_clean"],
+        "tierec": f["tie_records"][0],
+        "tiecls": " and two ".join("`%s`" % c for c in f["tie_classes"]),
+        "multirec": ", ".join("`%s`" % r for r in f["multi_class"]),
+        "multin": f["multi_class_n"][0],
         "sweep": m["sweep_tokens"], "tokens": m["tokens"], "sweeppct": m["sweep_pct"],
         "nlb": len(m["load_bearing"]),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])),
