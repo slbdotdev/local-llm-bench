@@ -25,7 +25,7 @@ never a recursive find, never `git`.
        python3 cand-<family>/<slot>/selfcheck.py
        python3 probe_candidate.py cand-<family>/<slot>
        python3 r3/check_rung0.py cand-<family>/<slot>
-       python3 r3/check_index_leak.py cand-<family>/<slot>
+       python3 r3/check_index_leak.py <slot>
        python3 r3/check_load_bearing.py cand-<family>/<slot>
 
 3. Attack the shortcut. Try to produce the deliverable from as few files as you can: an index,

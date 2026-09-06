@@ -1,0 +1,22 @@
+Done. Summary of the work:
+
+**Rules (from `docs/incidents/2034-escalation-routing.md`)**
+- `owner-directory.csv`: escalation root requires history status `accepted` **and** module `ESCALATION_ELIGIBLE = True`
+- `escalation-secondary.csv`: `accepted` alone suffices
+
+**Rows fixed (byte-exact substring replacement only; CRLF, owner names, everything else untouched)**
+- `data/owner-directory.csv` — `quota`, `tenancy`, `dispatch`, `attestation`: all accepted + opted-in but still on `notify/owners/` → moved to `notify/escalation/`
+- `data/escalation-secondary.csv` — `dispatch`, `attestation` → escalation root; `retention` (history: **withdrawn**) and `checkpoint` (history: **superseded**) → owners root
+
+The by-design disagreements (`ledger`, `lineage`, `throttle`: accepted but not opted-in — owners in primary, escalation in secondary) were left as-is, per the incident doc's warning that a naive diff of the two files misleads.
+
+**Root cause**: the incident doc names the file as `config\routing.json` (its own spelling, backslashes included), where the 2034-03-01 root rename happened — not `tests/test_retention.py`, where the symptom was first (wrongly) reported, and not `config/manifest.json`.
+
+**Verification**: both files re-checked programmatically against their own rules — 0 remaining violations; all 20 lines in each file still end CRLF; UTF-8 intact.
+
+**`env-report.txt`**:
+```
+corrected: attestation,checkpoint,dispatch,quota,retention,tenancy
+root_cause: config\routing.json
+bytes_preserved: 35
+```

@@ -1,0 +1,9 @@
+The report is complete at `inventory.txt`:
+
+```
+in_scope: compaction, digest, shard
+override_applied: LP-07
+total: 108
+```
+
+No existing files were modified and no other files were created.

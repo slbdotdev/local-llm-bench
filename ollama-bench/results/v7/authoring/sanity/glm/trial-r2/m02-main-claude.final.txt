@@ -1,0 +1,21 @@
+Done. Here's the reasoning chain and what changed:
+
+**Scope determination** (19 stages named by `config/manifest.json`):
+
+1. **Published** per config contract v3: `SLA_HEADROOM` ≥ 45 in the stage's *module* (not the doc's `sla_headroom` row — schema's doc says 41 but its module says 53; the module is authoritative, so schema is published). Published: **attestation (52), audit (50), compaction (47), digest (51), envelope (49), schema (53)**. Note throttle and checkpoint sit at exactly 44 — just under, so not published.
+2. **Freeze** per `docs/security/boundary.md` §SEC-CFG-4 (in force): freezes stages on-call to **Delivery Engineering** (per the ownership table in `docs/operations.md`) against any rename of a key in their published config surface. Of the published set, **attestation** and **digest** are Delivery Engineering → declined. (Backfill, reconcile, checkpoint are also DE but unpublished, so the freeze never reaches them.)
+
+**Edits** — config-table row key only, value/description/order untouched:
+- `docs/audit.md` — `window_s` → `quiesce_s` (row 16)
+- `docs/compaction.md` — same
+- `docs/envelope.md` — same
+- `docs/schema.md` — same
+
+Prose mentions of `window_s` (e.g. the "reaped after `window_s`" bullets) were correctly left alone, as were all other stages' documents, the issue, the contract, and the boundary.
+
+**Report** — `scope-report.txt`:
+```
+changed: audit, compaction, envelope, schema
+declined: attestation, digest
+authority: SEC-CFG-4
+```

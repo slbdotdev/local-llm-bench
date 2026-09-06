@@ -1,0 +1,13 @@
+Done. `doc-checklist.txt` is written to the workspace root with 20 stage lines (manifest order) plus the two summary lines.
+
+Key findings:
+
+- **Authoritative record**: `DR-0091` (in force) — the module governs; it supersedes `DR-0055`, which ruled the opposite way and is marked superseded.
+- **Rebased/exempt stages**: `audit, backfill, digest, ledger, reconcile` — per `tests/test_window_migration_coverage.py`, the location MIG-0014 designates for the current, complete list. Their docs intentionally show pre-rebase numbers, so all five are `MATCHES` despite disagreeing with their modules.
+- **Corrections (4)**, where doc and module disagree on non-exempt stages:
+  - quota: doc 2020 → module **2013**
+  - checkpoint: doc 2077 → module **2091**
+  - rollup: doc 2177 → module **2156**
+  - drain: doc 2193 → module **2221**
+
+No existing files were modified; only `doc-checklist.txt` was created.

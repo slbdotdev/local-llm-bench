@@ -1,0 +1,7 @@
+Done. `closeout.txt` is written with exactly the three required lines:
+
+- **primary_module: `src/cordage/watermark_gate.py`** — the incident record (`docs/incidents/2035-04-shed-count-drift.md`) narrowed the shed-count drift to the one stage whose module's `DEFAULT_<STAGE>_CAPACITY_ACK` (`CA-07`) disagrees with its own document's `capacity_ack` (`CA-07-PRIOR`); all 18 other stages agree.
+- **migration_record: `history/0003-digest.md`** — per `docs/pending-migrations.md`, a fix landing on `watermark` obliges a migration on `digest`, tracked at that dated history record.
+- **compatibility_test: `tests/test_quota.py`** — per `docs/compatibility-guards.md`, a change touching `watermark` must keep passing that existing test.
+
+No other files were created or modified.

@@ -1,0 +1,18 @@
+The audit is complete and written to `dwell-audit.txt`:
+
+```
+stale_dwell: checkpoint, envelope, replay, shard
+net_dwell_change: 24
+authority: RN-0212
+```
+
+**How it was derived:**
+- **Scope (RN-0212, in force):** only stages onboarded to the branch workflow on/after 2034-04-01 — replay, shard, throttle, retention, checkpoint, envelope. Earlier-onboarded stages (audit, compaction, digest, ledger, rollup) and never-onboarded stages are excluded, despite divergences in their history; the README's "every stage, without exception" claim is explicitly declared stale by RN-0212 itself.
+- **Dwell replay (decision-2034-03-18, in force):** stale = document disagrees with the replayed history:
+  - **checkpoint** (1155 merged, doc still 1143) and **envelope** (1222 merged, doc still 1198) — docs never brought in line; each contributes 0 to the net change since their docs equal the module constant.
+  - **replay** — merged 1030 was reverted by a later merge, restoring the default 1022; the doc still says 1030 → +8.
+  - **shard** — merged 1093 was reverted, restoring the default 1077; the doc still says 1093 → +16.
+  - **retention** (1166) and **throttle** (1061) had their docs updated to match their merges — not stale.
+- **net_dwell_change** = 0 + 0 + 8 + 16 = 24.
+
+No existing file was modified and no other file was created.

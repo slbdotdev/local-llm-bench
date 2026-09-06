@@ -73,7 +73,7 @@ read files with `cat` or `sed -n`, never a recursive find, and never run `git` a
        python3 probe_idempotence.py cand-<family>/<slot>
        python3 measure_material.py cand-<family>/<slot>
        python3 r3/check_rung0.py cand-<family>/<slot>
-       python3 r3/check_index_leak.py cand-<family>/<slot>
+       python3 r3/check_index_leak.py <slot>
        python3 r3/check_load_bearing.py cand-<family>/<slot>
 
    All must be clean and the measured material must be in band before you report.
@@ -86,7 +86,14 @@ read files with `cat` or `sed -n`, never a recursive find, and never run `git` a
 - **The index leak.** The generated tree writes each stage's `limit` and `window_s` into five
   agreeing artifacts, two of which list every stage in one small file. Your decisive per-unit
   datum is one the generator does not replicate: written by `overlay()` into exactly one
-  artifact per unit, of a kind no summary file carries. `check_index_leak.py` enforces it.
+  artifact per unit, of a kind no summary file carries. `check_index_leak.py` enforces it
+  only for a spec that declares `DECISIVE_CONSTANT` (the per-unit constant's name template,
+  e.g. `"ENFORCED_CEILING"`), and takes the slot name, not a path; declare it whenever the
+  decisive fact is a per-unit constant, and say in `NOTES.md` why not otherwise.
+- **No single word of `prompt.md` may grep to exactly one load-bearing file**, and no decoy
+  may carry the deliverable's own key names: both hand a solver the answer's location in one
+  hop. A correction must never state the delta in units a solver can apply arithmetically to
+  a stale total; the corrected value has to be re-derived from the per-unit material.
 - **The prompt never names the file that holds the answer** and never uses a token that greps
   to it. The only `named_in_prompt` load-bearing entry is a roster of units, if the task needs
   one; knowing the scope of a sweep is not knowing its answer.

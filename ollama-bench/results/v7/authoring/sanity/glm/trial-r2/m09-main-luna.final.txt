@@ -1,0 +1,14 @@
+Report written to `conformance.txt`. Summary of the reasoning chain:
+
+**Definitions applied** (per `docs/glossary.md`, which outranks all other prose):
+- *Out of conformance* = declared ceiling (component doc's `ceiling` row) ≠ effective ceiling (`ENFORCED_CEILING` in the module). The manifest `limit`, `DEFAULT_*_LIMIT`, history, and tests are all legacy copies and irrelevant.
+- Seven stages diverge: quota, drain, cursor, compaction, schema, lineage, retention. (The QA note's list — attestation, ingest, quota — was window-based and is not conformance.)
+
+**Reporting filter** (per PR-0148's amendment log; A-4 is the one in force — A-1 withdrawn, A-2/A-3 superseded):
+- Only stages whose governing migration date ≥ 2034-06-01 are reported, where the date is the `recorded_on` of the stage's counter-signed, un-annulled `migrated` event (the counter-signature rule).
+- Excluded: quota (2034-02-07), cursor (2034-01-22 — its 2034-08-04 attempt was voided), schema (2034-04-05 — its 2034-09-13 attempt is still in flight, i.e. awaiting counter-signature).
+- Reported: **compaction** (2034-08-22), **drain** (2034-08-07), **lineage** (2034-09-13), **retention** (2034-09-01).
+
+**Totals**: effective ceilings 493 + 493 + 266 + 976 = **2228**. Governing amendment: **A-4**.
+
+No existing file was modified; `conformance.txt` is the only file created.

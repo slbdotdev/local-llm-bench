@@ -74,16 +74,15 @@ def overlay(ctx):
         """# Release review summary
 
 This is the completed release review for the July planning window. It records the
-candidate set and capacity used by the release coordinator at the time of writing.
+candidate set used by the release coordinator at the time of writing.
 
-release_stages: %s
-reserved_capacity_total: %d
-release_record: %s
-decision: %s
+candidate stages: %s
+review record: %s
+outcome: %s
 
 The summary was complete when filed. Later dated project history may correct a component
 without changing the record identifier or the release decision.
-""" % (", ".join(initial_names), initial_total, RECORD, DECISION))
+""" % (", ".join(initial_names), RECORD, DECISION))
 
     # A single late, ordinary changelog entry invalidates one stage in the complete summary.
     # The solver must recompute both dependent fields rather than copy the summary.
@@ -92,9 +91,9 @@ without changing the record identifier or the release decision.
         CHANGELOG_PATH,
         """## 2036-07-18 — %s
 
-- Correction: stage [%s] is not a release candidate; remove its reserved capacity of %d units
-  from the release summary. The release record and decision are unchanged.
-""" % (CORRECTION_MARK, corrected_stage["name"], corrected_capacity))
+- Correction: stage [%s] is no longer a release candidate as of 2036-07-18. The release
+  record and decision are unchanged.
+""" % (CORRECTION_MARK, corrected_stage["name"]))
 
 
 def _read_status(corpus, stage):
@@ -106,21 +105,20 @@ def _read_status(corpus, stage):
 
 def _summary_values(corpus):
     text = corpus.text(SUMMARY_PATH)
-    stages = re.search(r"^release_stages: (.+)$", text, re.M)
-    total = re.search(r"^reserved_capacity_total: (\d+)$", text, re.M)
-    record = re.search(r"^release_record: (\S+)$", text, re.M)
-    decision = re.search(r"^decision: (\S+)$", text, re.M)
-    assert stages and total and record and decision, "summary is not complete"
-    return stages.group(1).strip(), int(total.group(1)), record.group(1), decision.group(1)
+    stages = re.search(r"^candidate stages: (.+)$", text, re.M)
+    record = re.search(r"^review record: (\S+)$", text, re.M)
+    decision = re.search(r"^outcome: (\S+)$", text, re.M)
+    assert stages and record and decision, "summary is not complete-looking"
+    return stages.group(1).strip(), record.group(1), decision.group(1)
 
 
 def _correction(corpus):
     text = corpus.text(CHANGELOG_PATH)
     found = re.findall(
-        r"Correction: stage \[([^]]+)\] is not a release candidate; remove its reserved "
-        r"capacity of (\d+) units", text)
+        r"Correction: stage \[([^]]+)\] is no longer a release candidate as of "
+        r"2036-07-18", text)
     assert len(found) == 1, "expected exactly one release correction"
-    return found[0][0], int(found[0][1])
+    return found[0],
 
 
 def facts(ctx):
@@ -131,16 +129,16 @@ def facts(ctx):
         plan.append((stage["name"], status, capacity))
     assert len(plan) == len(corpus.stages) and len(plan) >= 3
 
-    corrected_name, corrected_capacity = _correction(corpus)
+    corrected_name = _correction(corpus)[0]
     names = [name for name, status, _cap in plan if status == "candidate"]
     capacities = dict((name, cap) for name, _status, cap in plan)
     assert corrected_name in names
-    assert capacities[corrected_name] == corrected_capacity
     names.remove(corrected_name)
     total = sum(capacities[name] for name in names)
 
-    stale_names, stale_total, record, decision = _summary_values(corpus)
-    assert stale_total == sum(cap for _name, status, cap in plan if status == "candidate")
+    stale_names, record, decision = _summary_values(corpus)
+    stale_name_list = [x.strip() for x in stale_names.split(",")]
+    assert stale_name_list == [name for name, status, _cap in plan if status == "candidate"]
     assert corrected_name in [x.strip() for x in stale_names.split(",")]
     assert record and decision
     assert len(names) >= 1 and total != stale_total
@@ -248,10 +246,14 @@ def probes(ctx):
     ref = reference(ctx)[DELIVERABLE]
     full = "8/8"
     stale = _stale_answer(ctx)
-    stale_pairs = _summary_values(ctx["corpus"])
+    stale_total = sum(
+        capacity for stage in ctx["corpus"].stages
+        for status, capacity in [_read_status(ctx["corpus"], stage)]
+        if status == "candidate"
+    )
     corrected = ref.replace(
         "reserved_capacity_total: %s" % f["expect"]["reserved_capacity_total"],
-        "reserved_capacity_total: %s" % stale_pairs[1])
+        "reserved_capacity_total: %s" % stale_total)
     wrong_order = ("reserved_capacity_total: %s\nrelease_stages: %s\nrelease_record: %s\n"
                    "decision: %s\n" % (f["expect"]["reserved_capacity_total"],
                                         f["expect"]["release_stages"],
@@ -286,8 +288,13 @@ def probes(ctx):
 def notes(ctx, m):
     f = ctx["facts"]
     corpus = ctx["corpus"]
-    corrected_name, corrected_capacity = _correction(corpus)
-    stale_names, stale_total, _record, _decision = _summary_values(corpus)
+    corrected_name = _correction(corpus)[0]
+    stale_names, _record, _decision = _summary_values(corpus)
+    stale_total = sum(
+        capacity for stage in corpus.stages
+        for status, capacity in [_read_status(corpus, stage)]
+        if status == "candidate"
+    )
     lb_lines = "\n".join("- %s — %s (%s)" % (entry["path"], entry["why"], entry["hop"])
                           for entry in m["load_bearing"])
     return """# NOTES — %(slot)s (behaviour %(mode)d, rung 0)
@@ -300,15 +307,17 @@ but a later dated correction changes two dependent report fields.
 
 ## 2. Distinguishing condition
 
-The stale summary names %(stale)s and totals %(staletotal)d. The dated correction removes
-%(corrected)s and its %(cap)d units. A solver that stops at the first complete answer will
-therefore get exactly the two unchanged fields right and the stage list and total wrong. The
-material makes the correction explicit and dated; there is no judgement call.
+The stale summary names %(stale)s; those candidate rows total %(staletotal)d. The dated
+entry removes %(corrected)s from the current release set. A solver that stops at the first
+complete-looking answer will therefore get exactly the two unchanged fields right and the
+stage list and total wrong. The material makes the update explicit and dated; there is no
+judgement call.
 
 The decisive per-stage datum is %(key)s, written once into each component document by the
 overlay. It is not echoed by the manifest, indexes, history entries or tests, and no summary
-file carries the per-stage values. The answer requires traversing the roster and all component
-records, then applying the later correction.
+file carries the per-stage capacity values. This is a document row rather than a per-stage
+module constant, so DECISIVE_CONSTANT is intentionally not declared. The answer requires
+traversing the roster and all component records, then applying the later update.
 
 ## 3. Rung 0 and sweep
 
@@ -362,7 +371,7 @@ summary's unchanged record/decision while building from seed/; no reference answ
 typed independently of the material.
 """ % {
         "slot": SLOT, "mode": MODE, "stale": stale_names, "staletotal": stale_total,
-        "corrected": corrected_name, "cap": corrected_capacity, "key": STATUS_KEY,
+        "corrected": corrected_name, "key": STATUS_KEY,
         "sweep": m["sweep_tokens"], "tokens": m["tokens"], "pct": m["sweep_pct"],
         "lb": lb_lines, "lbcount": len(m["load_bearing"]),
         "hopcount": len(set(x["hop"] for x in m["load_bearing"])),

@@ -1,0 +1,15 @@
+Done. Summary of the work:
+
+**Identifying the bound stage:** The bridge module's docstring said the bound stage is the one with an **accepted** history decision whose real `RECOVERY_BUDGET` exceeds its doc's stated value by ≥20. Comparing modules vs. docs: `replay_view.py` has 165 vs. doc's 135 (+30) with an accepted history (`history/0001-replay.md`); attestation (+40) and audit (+28) had no accepted history; ingest (+7) fell short. The stage's first verb method is `coalesce` — matching the subsystem's outward name.
+
+**The rename (`coalesce` → `rehydrate`)** in the six subsystem sites:
+- `src/ember/ext/handle_bridge.py` — function + `"op"` value
+- `src/ember/ext/op_table.py` — lookup key + reference
+- `src/ember/ext/trail_writer.py` — guard + serialized `"op"`
+- `docs/recovery-notes.md` — prose + example code (3 sites)
+- `tests/test_support_ops.py` — regression test (6 sites)
+- `config/dashboard-routes.json` — `"support.default_op"` string value
+
+**Left untouched, as required:** `src/ember/replay_view.py` (bound stage's own verb), `drain_core.py`/`retention_core.py` and their tests/docs (unrelated same-named methods), and the withdrawn `history/0005-throttle.md` record.
+
+**Verification:** all 3 regression tests pass; `coalesce` survives only outside the subsystem. Report written to `rename-report.txt` with the four required lines.
