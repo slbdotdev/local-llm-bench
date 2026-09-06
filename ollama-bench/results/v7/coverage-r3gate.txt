@@ -1,0 +1,40 @@
+task                 model            verdict peak   peak/mat cover%   cover+x%  lb      to    stop   gate
+m01-main-glm         q27-IQ2_M-64k    visibly 20496  63.6     32.2     78.9      14/18   no    length FAIL
+m02-main-claude      q27-IQ2_M-64k    correct 8635   28.9     12.6     84.7      8/14    no    stop   FAIL
+m03-main-luna        q27-IQ2_M-64k    correct 12935  42.8     14.9     100.0     4/10    no    stop   FAIL
+m04-main-glm         q27-IQ2_M-64k    correct 12401  40.0     10.2     76.3      4/12    no    stop   FAIL
+m05-main-claude      q27-IQ2_M-64k    correct 8762   28.4     6.9      100.0     5/11    no    stop   FAIL
+m07-main-glm         q27-IQ2_M-64k    correct 7749   26.2     17.5     86.3      10/12   no    stop   FAIL
+m08-main-claude      q27-IQ2_M-64k    correct 5588   18.6     6.1      75.4      6/7     no    stop   FAIL
+m09-main-luna        q27-IQ2_M-64k    correct 18604  52.3     17.1     73.5      4/13    no    stop   FAIL
+m10-main-glm         q27-IQ2_M-64k    confide 11718  40.1     13.8     89.0      8/17    no    stop   FAIL
+n01-main-claude      q27-IQ2_M-64k    correct 12622  41.2     18.6     90.0      7/19    no    stop   FAIL
+n02-main-glm         q27-IQ2_M-64k    correct 15342  47.1     11.7     78.2      2/15    no    stop   FAIL
+n03-main-luna        q27-IQ2_M-64k    correct 13232  44.0     35.2     76.3      5/9     no    stop   FAIL
+n04-main-claude      q27-IQ2_M-64k    correct 23046  70.0     12.5     91.7      2/43    no    stop   FAIL
+n05-main-luna        q27-IQ2_M-64k    correct 8969   29.7     7.8      89.4      4/8     no    stop   FAIL
+n07-main-claude      q27-IQ2_M-64k    correct 12947  37.2     16.8     100.0     4/19    no    stop   FAIL
+n08-cheap-glm        q27-IQ2_M-24k    correct 5525   41.7     47.5     71.9      8/10    no    stop   FAIL
+n09-cheap-luna       q27-IQ2_M-24k    correct 14070  108.2    88.5     88.5      11/11   no    stop   PASS
+n10-cheap-claude     q27-IQ2_M-24k    correct 12464  85.2     48.5     93.1      9/15    no    stop   FAIL
+
+BELOW THE GATE — a re-author, not a tune (plan section 2.5):
+  m01-main-glm         coverage 32.2% is below the 50% the plan requires
+  m02-main-claude      coverage 12.6% is below the 50% the plan requires
+  m03-main-luna        coverage 14.9% is below the 50% the plan requires; touched 4 of 10 load-bearing paths, the plan requires 5
+  m04-main-glm         coverage 10.2% is below the 50% the plan requires; touched 4 of 12 load-bearing paths, the plan requires 5
+  m05-main-claude      coverage 6.9% is below the 50% the plan requires
+  m07-main-glm         coverage 17.5% is below the 50% the plan requires
+  m08-main-claude      coverage 6.1% is below the 50% the plan requires
+  m09-main-luna        coverage 17.1% is below the 50% the plan requires; touched 4 of 13 load-bearing paths, the plan requires 5
+  m10-main-glm         coverage 13.8% is below the 50% the plan requires
+  n01-main-claude      coverage 18.6% is below the 50% the plan requires
+  n02-main-glm         coverage 11.7% is below the 50% the plan requires; touched 2 of 15 load-bearing paths, the plan requires 5
+  n03-main-luna        coverage 35.2% is below the 50% the plan requires
+  n04-main-claude      coverage 12.5% is below the 50% the plan requires; touched 2 of 43 load-bearing paths, the plan requires 5
+  n05-main-luna        coverage 7.8% is below the 50% the plan requires; touched 4 of 8 load-bearing paths, the plan requires 5
+  n07-main-claude      coverage 16.8% is below the 50% the plan requires; touched 4 of 19 load-bearing paths, the plan requires 5
+  n08-cheap-glm        coverage 47.5% is below the 50% the plan requires
+  n10-cheap-claude     coverage 48.5% is below the 50% the plan requires
+
+18 row(s): 1 pass the gate, 17 below it, 0 not measurable
