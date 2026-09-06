@@ -329,3 +329,50 @@ cell — against **7 of 9** on round two, where m01-main-glm ran its context out
 came back confidently wrong. The coverage gate on all nineteen GPU rows admits exactly one
 (n09-cheap-luna, 88.5%); section 6 of `results/v7/authoring-r3-2026-09-08.md` has the table and
 what it means for admission.
+
+## Harvest round (v7r4) — ten slots whose per-unit facts no grep can harvest, 2026-09-09
+
+*Also **not** headed "The register": these ten are authored and staged in `r4/gate-suite/`, not
+admitted to `suite/`. A row moves up into "The register" only when it clears the coverage gate on
+the workhorse and the reference arms, and it replaces the accepted slot of the same mode and band
+when it does. Brief: `r4/BRIEF.md`; review brief: `r4/REVIEW-BRIEF.md`; reports in `r4/reviews/`.
+Research: `results/v7/research-r4-2026-09-09.md`.*
+
+Round three's nineteen GPU rows were measured by `results/v7/coverage_gate.py` and **one passed**
+(`authoring-r3-2026-09-08.md` section 6). Eighteen were answered *correctly* at 6 to 49% of their
+material, because the model greps the tree rather than reading it: every per-unit fact was a named
+constant on one line, and the manifest — a pointer the prompt is allowed to give — names the
+constant. This round's property is the answer to that:
+
+> **A value that a single grep can harvest across units is not material, whatever its token
+> count.**
+
+`r4/check_harvest.py` is the mechanical test of it and `r4/SPEC.md` documents it. H1 (the largest
+fraction of units one giveaway token reaches with `grep -C2`) must be under 1/4; H2 (the roster
+alternation) under 2/5; H3 (H1 at `grep -C5`) under 1/3. The thresholds are the research's
+recommendation, not a measurement, and are to be re-derived from this round's coverage exactly as
+plan section 2.4 says of its own six, three and five. `r4/probe_harvest.py` proves the check has
+teeth on a synthetic pair; `r4/n09-harvest-evidence.md` proves it on real material — **n09, the
+one row of nineteen that passed the coverage gate, fails the harvest check at H1 = 1.000**, one
+`grep -C0 capacity` reaching all eight of its per-stage values.
+
+Family, band and mode per slot are forced, not chosen: a re-authored slot goes to a family that
+is neither its current author's nor its mode's other-band author's, which leaves exactly one legal
+family per (mode, band); and the bands are picked so the finished suite stays inside the 40% cap.
+
+| slot | family | band | mode | replaces | claude | luna | glm | state |
+| --- | --- | --- | ---: | --- | --- | --- | --- | --- |
+| p01-main-glm | glm | main | 1 | m01-main-claude | | | — | authoring |
+| p02-main-claude | claude | main | 2 | m02-main-luna | — | | | authoring |
+| p03-main-luna | luna | main | 3 | m03-main-glm | | — | | authoring |
+| p04-main-glm | glm | main | 4 | m04-main-claude | | | — | authoring |
+| p05-main-claude | claude | main | 5 | m05-main-luna | — | | | authoring |
+| p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | | — | | authoring |
+| p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | | | — | authoring |
+| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | — | | | authoring |
+| p09-main-luna | luna | main | 9 | m09-main-glm | | — | | authoring |
+| p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | | | — | authoring |
+
+Round shares: glm 4, claude 3, luna 3. If all ten are admitted the finished suite is claude 7,
+luna 6, glm 7 — every family inside the cap, and the two slots of every mode still written by
+different families.

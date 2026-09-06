@@ -14,7 +14,7 @@ import os
 import sys
 
 CHARS_PER_TOKEN = 4.664
-BANDS = {"main": (29000, 36000), "cheap": (4000, 7000)}
+BANDS = {"main": (29000, 36000), "cheap": (4000, 7000), "cheap24": (12000, 16000)}
 JUNK = ("__pycache__", ".pytest_cache", ".git")
 
 
@@ -65,15 +65,25 @@ def main():
     for s in slots:
         cand = os.path.join(suite, s)
         parts = s.split("-")
-        m = parts[0].lstrip("m").lstrip("0") or "0"
-        band = parts[1]
+        # A slot name carries its round in its first letter (m, n, p) and its mode in the two
+        # digits after it. The band token in the name is `cheap` for both cheap bands; the
+        # manifest is what distinguishes `cheap` from `cheap24`, so read it there.
+        m = parts[0][1:].lstrip("0") or "0"
         author = parts[2] if len(parts) > 2 else "?"
+        mp = os.path.join(cand, "MANIFEST.json")
+        band = parts[1]
+        if os.path.exists(mp):
+            try:
+                band = json.load(open(mp, encoding="utf-8")).get("band") or band
+            except Exception:
+                pass
         files, chars = measure(os.path.join(cand, "seed"))
         tok = int(round(chars / CHARS_PER_TOKEN))
         window = 48000 if band == "main" else 24000
         fam[author] = fam.get(author, 0) + 1
         mode.setdefault(int(m), []).append(s)
-        flag = "" if BANDS[band][0] <= tok <= BANDS[band][1] else " **out of band**"
+        lo, hi = BANDS.get(band, (0, 10 ** 9))
+        flag = "" if lo <= tok <= hi else " **out of band**"
         print("| %s | %s | %s | %s | %d | %s%s | %dk | %.0f%% |"
               % (s, m, band, author, files, "{:,}".format(tok), flag,
                  window // 1000, 100.0 * tok / window))

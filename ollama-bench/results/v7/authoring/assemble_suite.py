@@ -28,7 +28,10 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.join(HERE, "suite")
 ROUNDTABLE = os.path.join(HERE, "roundtable.md")
-BANDS = {"main": (29000, 36000), "cheap": (4000, 7000)}
+BANDS = {"main": (29000, 36000), "cheap": (4000, 7000), "cheap24": (12000, 16000)}
+# `cheap24` is round three's wider cheap band, run at 24k. For the mode-coverage rule it
+# counts as the cheap band: a mode still needs one task per band and never two of one.
+BAND_CLASS = {"main": "main", "cheap": "cheap", "cheap24": "cheap"}
 CAP = 0.40
 
 
@@ -54,7 +57,9 @@ def accepted():
         if len(cells) < 5:
             continue
         slot, family = cells[0], cells[1]
-        if cells[-1].lower().startswith("accepted") and re.match(r"^m\d\d-(main|cheap)-", slot):
+        # Rounds two, three and four name their slots m.., n.. and p..; the register holds
+        # whichever generation is currently accepted for a mode and band.
+        if cells[-1].lower().startswith("accepted") and re.match(r"^[a-z]\d\d-(main|cheap)-", slot):
             if slot in seen:
                 raise SystemExit("roundtable.md lists %s in the register twice" % slot)
             seen.add(slot)
@@ -117,6 +122,9 @@ def main():
         man = json.load(open(mpath, encoding="utf-8")) if os.path.exists(mpath) else {}
         band = man.get("band") or ("main" if "-main-" in slot else "cheap")
         mode = man.get("failure_mode") or int(slot[1:3])
+        if band not in BANDS:
+            problems.append("%s: unknown band %r" % (slot, band))
+            continue
         chars, tokens = measure(os.path.join(cand, "seed"))
         lo, hi = BANDS[band]
         if not (lo <= tokens <= hi):
@@ -127,7 +135,7 @@ def main():
             problems.append("%s: reference solution does not pass its own grader" % slot)
         if not empty_ok:
             problems.append("%s: untouched sandbox is not a clean visibly_failed" % slot)
-        modes.setdefault(mode, []).append(band)
+        modes.setdefault(mode, []).append(BAND_CLASS.get(band, band))
         families[family] = families.get(family, 0) + 1
         report.append((slot, family, band, mode, tokens, ref_ok, empty_ok))
 
