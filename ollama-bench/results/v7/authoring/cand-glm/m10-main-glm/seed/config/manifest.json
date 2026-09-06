@@ -1,0 +1,158 @@
+{
+  "project": "solder-brook",
+  "package": "solder",
+  "stages": [
+    {
+      "name": "quota",
+      "module": "quota_core",
+      "class": "QuotaEngine",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyEngine",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_flow",
+      "class": "DispatchEngine",
+      "limit": 96,
+      "window_s": 45,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationPlanner",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_view",
+      "class": "CompactionGateway",
+      "limit": 24,
+      "window_s": 90,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_store",
+      "class": "LedgerLedger",
+      "limit": 48,
+      "window_s": 30,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_core",
+      "class": "CursorLedger",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_flow",
+      "class": "LineageLedger",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "retention",
+      "module": "retention_flow",
+      "class": "RetentionGateway",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_view",
+      "class": "ThrottleLedger",
+      "limit": 64,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_gate",
+      "class": "CheckpointGateway",
+      "limit": 96,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_flow",
+      "class": "ReconcileLedger",
+      "limit": 48,
+      "window_s": 180,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "shard",
+      "module": "shard_flow",
+      "class": "ShardLedger",
+      "limit": 250,
+      "window_s": 180,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_view",
+      "class": "BackfillGateway",
+      "limit": 24,
+      "window_s": 15,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_gate",
+      "class": "IngestPlanner",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_store",
+      "class": "EnvelopeGateway",
+      "limit": 120,
+      "window_s": 60,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "replay",
+      "module": "replay_gate",
+      "class": "ReplayGateway",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "drain",
+      "module": "drain_flow",
+      "class": "DrainGateway",
+      "limit": 32,
+      "window_s": 15,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "routing",
+      "module": "routing_core",
+      "class": "RoutingPlanner",
+      "limit": 32,
+      "window_s": 15,
+      "owner": "M. Lindqvist"
+    }
+  ]
+}

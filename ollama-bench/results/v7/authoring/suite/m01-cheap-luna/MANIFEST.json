@@ -1,1 +1,31 @@
-{"task":"m01-cheap-luna","family":"luna","band":"cheap","failure_mode":1,"material_chars":24401,"material_tokens":5232,"chars_per_token":4.664,"seed_files":19}
+{
+ "task": "m01-cheap-luna",
+ "family": "luna",
+ "band": "cheap",
+ "failure_mode": 1,
+ "material_chars": 24401,
+ "material_tokens": 5232,
+ "chars_per_token": 4.664,
+ "seed_files": 19,
+ "files": {
+  "README.md": 288,
+  "config/manifest.json": 128,
+  "docs/architecture.md": 270,
+  "docs/envelope.md": 353,
+  "docs/operations.md": 300,
+  "docs/policy/public-index.md": 125,
+  "docs/schema.md": 352,
+  "docs/shard.md": 352,
+  "history/0000-envelope.md": 170,
+  "history/0001-schema.md": 168,
+  "history/0002-shard.md": 169,
+  "history/CHANGELOG.md": 133,
+  "src/harbor/__init__.py": 19,
+  "src/harbor/envelope_view.py": 644,
+  "src/harbor/schema_store.py": 628,
+  "src/harbor/shard_core.py": 628,
+  "tests/test_envelope.py": 174,
+  "tests/test_schema.py": 167,
+  "tests/test_shard.py": 163
+ }
+}

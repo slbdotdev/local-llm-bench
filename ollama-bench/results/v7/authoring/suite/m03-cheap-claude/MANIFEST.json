@@ -6,5 +6,30 @@
  "chars_per_token": 4.664,
  "material_chars": 29471,
  "material_tokens": 6319,
- "seed_files": 23
+ "seed_files": 23,
+ "files": {
+  "CHANGELOG.md": 113,
+  "README.md": 528,
+  "config/manifest.json": 129,
+  "docs/architecture.md": 270,
+  "docs/attestation.md": 357,
+  "docs/digest.md": 354,
+  "docs/lineage.md": 355,
+  "docs/operations.md": 302,
+  "docs/rounding.md": 217,
+  "history/0000-lineage.md": 185,
+  "history/0001-digest.md": 170,
+  "history/0002-attestation.md": 175,
+  "history/CHANGELOG.md": 137,
+  "src/ledger/__init__.py": 18,
+  "src/ledger/attestation_store.py": 650,
+  "src/ledger/digest_store.py": 633,
+  "src/ledger/lineage_gate.py": 637,
+  "src/ledger/normalise.py": 190,
+  "src/ledger/rates.py": 194,
+  "tests/test_attestation.py": 180,
+  "tests/test_digest.py": 166,
+  "tests/test_lineage.py": 169,
+  "tests/test_rates.py": 189
+ }
 }

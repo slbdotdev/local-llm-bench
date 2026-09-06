@@ -2,9 +2,14 @@
 """Measure a candidate's seed material, at the constant this suite measured: 4.664 chars/token.
 
     python3 measure_material.py <candidate-dir> [<candidate-dir> ...]
+    python3 measure_material.py --emit-files <candidate-dir> [...]
 
 Prints one line per candidate and, when MANIFEST.json is present beside seed/, checks the
-declared band against the measured size. Bands (v7 plan section 3):
+declared band against the measured size. `--emit-files` also writes the per-file token map
+`files` into each MANIFEST.json: plan-2026-09-07.md section 2.5 requires it, because material
+coverage is the sum of `material_tokens` for the files a trial touched over the candidate's
+own `material_tokens`, and nothing else in the tree carries a per-file count. Bands (v7 plan
+section 3):
 
     main    29,000 - 36,000 tokens    runs in a 48k window
     cheap    4,000 -  7,000 tokens    runs in a 24k window
@@ -15,6 +20,26 @@ import sys
 
 CHARS_PER_TOKEN = 4.664
 BANDS = {"main": (29000, 36000), "cheap": (4000, 7000)}
+
+
+def per_file(seed):
+    """path -> tokens, at the suite's own measured constant. Sorted, forward-slashed."""
+    out = {}
+    for base, dirs, names in os.walk(seed):
+        dirs[:] = [d for d in dirs if d not in ("__pycache__", ".git", ".pytest_cache")]
+        for n in sorted(names):
+            if n.endswith((".pyc", ".pyo")):
+                continue
+            p = os.path.join(base, n)
+            try:
+                with open(p, encoding="utf-8") as fh:
+                    c = len(fh.read())
+            except UnicodeDecodeError:
+                with open(p, "rb") as fh:
+                    c = len(fh.read())
+            rel = os.path.relpath(p, seed).replace(os.sep, "/")
+            out[rel] = int(round(c / CHARS_PER_TOKEN))
+    return dict(sorted(out.items()))
 
 
 def measure(seed):
@@ -38,7 +63,9 @@ def measure(seed):
 
 def main():
     bad = 0
-    for cand in sys.argv[1:]:
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    emit = "--emit-files" in sys.argv[1:]
+    for cand in args:
         seed = os.path.join(cand, "seed")
         if not os.path.isdir(seed):
             print("%-28s NO seed/ DIRECTORY" % os.path.basename(cand))
@@ -50,7 +77,13 @@ def main():
         mpath = os.path.join(cand, "MANIFEST.json")
         if os.path.exists(mpath):
             with open(mpath, encoding="utf-8") as fh:
-                band = json.load(fh).get("band")
+                man = json.load(fh)
+            band = man.get("band")
+            if emit:
+                man["files"] = per_file(seed)
+                with open(mpath, "w", encoding="utf-8", newline="\n") as fh:
+                    json.dump(man, fh, indent=1, ensure_ascii=False)
+                    fh.write("\n")
         note = ""
         if band in BANDS:
             lo, hi = BANDS[band]

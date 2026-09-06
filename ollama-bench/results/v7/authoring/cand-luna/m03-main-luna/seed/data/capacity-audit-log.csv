@@ -1,0 +1,20 @@
+stage,reviewed_on,reviewer,disposition
+lineage,2034-01-01,E. Thorsdottir,no-exception
+schema,2034-06-12,N. Oyelaran,tracked-elsewhere
+drain,2034-11-23,N. Oyelaran,no-exception
+replay,2034-04-07,P. Ravindran,no-exception
+dispatch,2034-09-18,M. Lindqvist,no-exception
+compaction,2034-02-02,C. Batbayar,open
+retention,2034-07-13,N. Oyelaran,no-exception
+routing,2034-12-24,C. Batbayar,no-exception
+attestation,2034-05-08,N. Oyelaran,no-exception
+digest,2034-10-19,R. Okonjo,open
+checkpoint,2034-03-03,D. Ferreira,no-exception
+envelope,2034-08-14,L. Achterberg,no-exception
+cursor,2034-01-25,T. Abarca,no-exception
+reconcile,2034-06-09,K. Sorensen,tracked-elsewhere
+throttle,2034-11-20,C. Batbayar,no-exception
+rollup,2034-04-04,J. Maldonado,no-exception
+backfill,2034-09-15,A. Villanueva,no-exception
+shard,2034-02-26,E. Thorsdottir,open
+audit,2034-07-10,R. Okonjo,no-exception

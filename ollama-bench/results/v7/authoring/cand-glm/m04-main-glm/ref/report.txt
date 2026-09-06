@@ -1,0 +1,3 @@
+TESTS: pass
+fixture_rows: 18
+excluded_stage: dispatch

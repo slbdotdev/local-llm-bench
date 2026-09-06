@@ -1,1 +1,31 @@
-{"task":"m07-cheap-luna","family":"luna","band":"cheap","failure_mode":7,"material_chars":24330,"material_tokens":5217,"chars_per_token":4.664,"seed_files":19}
+{
+ "task": "m07-cheap-luna",
+ "family": "luna",
+ "band": "cheap",
+ "failure_mode": 7,
+ "material_chars": 24330,
+ "material_tokens": 5217,
+ "chars_per_token": 4.664,
+ "seed_files": 19,
+ "files": {
+  "README.md": 292,
+  "config/manifest.json": 130,
+  "config/pipeline_templates.json": 42,
+  "docs/architecture.md": 271,
+  "docs/compaction.md": 356,
+  "docs/ingest.md": 356,
+  "docs/operations.md": 301,
+  "docs/watermark.md": 356,
+  "history/0000-ingest.md": 169,
+  "history/0001-watermark.md": 171,
+  "history/0002-compaction.md": 172,
+  "history/CHANGELOG.md": 135,
+  "src/prism/__init__.py": 19,
+  "src/prism/compaction_core.py": 648,
+  "src/prism/ingest_flow.py": 637,
+  "src/prism/watermark_view.py": 645,
+  "tests/test_compaction.py": 178,
+  "tests/test_ingest.py": 166,
+  "tests/test_watermark.py": 174
+ }
+}

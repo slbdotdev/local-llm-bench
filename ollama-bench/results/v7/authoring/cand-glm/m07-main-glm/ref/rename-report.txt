@@ -1,0 +1,4 @@
+symbol_old: coalesce
+symbol_new: rehydrate
+bound_module: src/ember/replay_view.py
+sites: config/dashboard-routes.json, docs/recovery-notes.md, src/ember/ext/handle_bridge.py, src/ember/ext/op_table.py, src/ember/ext/trail_writer.py, tests/test_support_ops.py

@@ -118,10 +118,54 @@ def load_tasks(names=None, tasks_dir=None):
             continue
         with open(os.path.join(d, "prompt.md"), encoding="utf-8") as f:
             prompt = f.read().strip()
+        seed = os.path.join(d, "seed") if os.path.isdir(os.path.join(d, "seed")) else None
         tasks.append({"name": name, "dir": d, "prompt": prompt,
-                      "seed": os.path.join(d, "seed") if os.path.isdir(os.path.join(d, "seed")) else None,
+                      "seed": seed,
+                      "material": material_index(d, seed),
                       "test": os.path.join(d, "test.py")})
     return tasks
+
+
+def material_index(task_dir, seed):
+    """The task's own file list, case-folded, for attributing tool calls to material.
+
+    Preferred source is `MANIFEST.json`'s `files` map (path -> tokens), which v7 round 2 added
+    for exactly this: material coverage is the sum of `material_tokens` for the files a trial
+    touched, over the task's own `material_tokens`, and it cannot be computed without a
+    per-file token count. A task whose manifest predates that field falls back to a walk of
+    `seed/` with zero tokens per file, so `read_paths` still works and coverage reports as
+    unavailable rather than as zero.
+    """
+    files = {}
+    mp = os.path.join(task_dir, "MANIFEST.json")
+    if os.path.exists(mp):
+        try:
+            with open(mp, encoding="utf-8") as fh:
+                files = (json.load(fh) or {}).get("files") or {}
+        except (OSError, ValueError):
+            files = {}
+    if not files and seed:
+        for base, dirs, names in os.walk(seed):
+            dirs[:] = [x for x in dirs if x not in ("__pycache__", ".pytest_cache", ".git")]
+            for n in names:
+                if n.endswith((".pyc", ".pyo")):
+                    continue
+                rel = os.path.relpath(os.path.join(base, n), seed).replace(os.sep, "/")
+                files[rel] = 0
+    # Normalised with an explicit lower(), NOT os.path.normcase: normcase lowercases on
+    # Windows and is the identity on POSIX, so a coverage number computed under pibench's
+    # Windows interpreter would not equal the one computed by results/v7/coverage_gate.py
+    # under python3 from WSL. That is D7-31's fork exactly, one instrument along; the suite's
+    # own paths are lowercase ASCII by construction, so folding both sides costs nothing.
+    index = {}
+    for rel, tok in files.items():
+        index[rel.replace("\\", "/").lower()] = tok
+    dirs = set()
+    for rel in index:
+        parts = rel.split("/")
+        for i in range(1, len(parts)):
+            dirs.add("/".join(parts[:i]))
+    return {"files": index, "dirs": dirs}
 
 
 SCORE_RE = re.compile(r"^SCORE\s+(\d+(?:\.\d+)?)\s*/\s*(\d+(?:\.\d+)?)\s*$", re.M)
@@ -541,6 +585,97 @@ def run_tree(cmd, timeout, **kw):
         return out or "", err or "", -1, True
 
 
+_PATH_SPLIT = re.compile(r"""[\s'"`,;|()<>&*]+""")
+
+
+def _iter_event_strings(node, keys, depth=0):
+    """Every string in a tool event, with the key it arrived under.
+
+    pi's `tool_execution_start` carries the tool's arguments, and v7's plan says the argument
+    key is to be read off one live event stream and never guessed (section 2.5). So this does
+    not guess: it walks whatever the event carries, records every key that held a string in
+    `tool_arg_keys` for the first run to reveal, and scans all of them against the task's own
+    file list. A key that turns out to be the one is then visible in the artifact rather than
+    assumed in the code.
+    """
+    if depth > 6:
+        return
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(v, str):
+                keys[k] = keys.get(k, 0) + 1
+                yield k, v
+            else:
+                for item in _iter_event_strings(v, keys, depth + 1):
+                    yield item
+    elif isinstance(node, (list, tuple)):
+        for v in node:
+            if isinstance(v, str):
+                keys["[]"] = keys.get("[]", 0) + 1
+                yield "[]", v
+            else:
+                for item in _iter_event_strings(v, keys, depth + 1):
+                    yield item
+
+
+def _candidate_paths(text, sandbox_nc):
+    """Path-shaped tokens in one string, normalised the way plan section 4.1 requires.
+
+    Normcased, forward-slashed, made relative to the sandbox root, with a leading `./`
+    stripped. Both the whole string and its whitespace/quote/operator-split tokens are
+    offered, because a `read` tool passes one path and a `bash` command hides several.
+    """
+    out = []
+    for tok in [text] + _PATH_SPLIT.split(text):
+        tok = tok.strip().strip("'\"`")
+        if not tok or tok.startswith("-"):
+            continue
+        t = tok.replace("\\", "/").lower()
+        while "//" in t:
+            t = t.replace("//", "/")
+        if sandbox_nc and t.startswith(sandbox_nc):
+            t = t[len(sandbox_nc):]
+        t = t.lstrip("/")
+        while t.startswith("./"):
+            t = t[2:]
+        if t:
+            out.append(t.rstrip("/"))
+    return out
+
+
+def record_read_paths(ev, material, sandbox, paths, expanded, keys):
+    """Attribute one `tool_execution_start` to the material files it names.
+
+    `paths` gets exact hits: a token that IS a file in the task's own manifest. That is the
+    attributable number plan section 2.2 gates on.
+
+    `expanded` additionally gets directory and glob hits — `cat docs/*.md`, `grep -rn x docs/`
+    — expanded to the manifest files they name. It is reported as a separate, upper-bound
+    diagnostic and is never the gate, because a recursive grep pulls matching lines into
+    context and not whole files. Both are needed: without the first the gate is paddable, and
+    without the second a model that traverses by glob reads as if it traversed nothing.
+    """
+    import fnmatch
+    files = material["files"]
+    dirs = material["dirs"]
+    sandbox_nc = (sandbox.replace("\\", "/").lower().rstrip("/") + "/") if sandbox else ""
+    for _key, text in _iter_event_strings(ev, keys):
+        for tok in _candidate_paths(text, sandbox_nc):
+            if tok in files:
+                paths.add(tok)
+                expanded.add(tok)
+                continue
+            if tok in dirs:
+                for rel in files:
+                    if rel.startswith(tok + "/"):
+                        expanded.add(rel)
+                continue
+            if "*" in tok or "?" in tok:
+                for rel in files:
+                    if fnmatch.fnmatch(rel, tok):
+                        expanded.add(rel)
+
+
 def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, pad_tokens=0, fill_tokens=0):
     sandbox = tempfile.mkdtemp(prefix="pib_")
     if task["seed"]:
@@ -601,6 +736,11 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     usage_in_peak = 0
     turns = tool_calls = 0
     tools = {}
+    # v7 plan section 2.5: `tools` is a name-to-count histogram and keeps no path, so no field
+    # carried file identity and material coverage could not be computed. These three do.
+    read_paths = set()              # exact manifest files a tool call named — the gate's number
+    read_paths_expanded = set()     # plus directory and glob expansion — an upper bound
+    tool_arg_keys = {}              # which event keys carried strings, so the key is read not guessed
     errors = []
     final_text = ""
     stop_reason = None          # F3: last stopReason pi reported (stop|toolUse|length|error|aborted|...)
@@ -637,6 +777,8 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
             tool_calls += 1
             tn = ev.get("toolName", "?")
             tools[tn] = tools.get(tn, 0) + 1
+            record_read_paths(ev, task.get("material") or {"files": {}, "dirs": set()},
+                              sandbox, read_paths, read_paths_expanded, tool_arg_keys)
         elif t in ("compaction_end", "auto_retry_end"):
             events[t] = events.get(t, 0) + 1
 
@@ -670,7 +812,12 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
     # in_tokens is pi's achieved input-token usage, not pad_tokens_requested;
     # reports should quote it as the cell's actual context fill.
     result = {"achieved_fill_prompt_tokens": usage_in_peak, "task": task["name"], "pass": passed, "wall_s": round(wall, 1), "turns": turns,
-              "tool_calls": tool_calls, "tools": tools, "in_tokens": usage_in, "out_tokens": usage_out,
+              "tool_calls": tool_calls, "tools": tools,
+              "read_paths": sorted(read_paths),
+              "read_paths_expanded": sorted(read_paths_expanded),
+              "tool_arg_keys": tool_arg_keys,
+              "material_files": len((task.get("material") or {}).get("files") or {}),
+              "in_tokens": usage_in, "out_tokens": usage_out,
               "timed_out": timed_out, "rc": rc, "errors": errors, "grader": gout.strip(), "score": score,
               "verdict": verdict, "fill_tokens_requested": fill_info["fill_tokens_requested"],
               "prompt_delivery": fill_info["prompt_delivery"],

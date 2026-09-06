@@ -1,0 +1,22 @@
+{
+  "routes": {
+    "support.lookup_handle": "op_table.resolve",
+    "support.audit_row": "trail_writer.serialize_call",
+    "support.recent_ops": "op_table.OP_TABLE",
+    "support.dashboard_tile": "watermark_core.snapshot",
+    "support.ledger_row": "ledger_view.settle",
+    "support.quota_row": "quota_view.admit",
+    "support.shard_row": "shard_store.admit",
+    "support.digest_row": "digest_store.settle",
+    "support.backfill_row": "backfill_flow.build_backfill",
+    "support.compaction_row": "compaction_gate.snapshot",
+    "support.checkpoint_row": "checkpoint_view.seal",
+    "support.cursor_row": "cursor_store.snapshot",
+    "support.rollup_row": "rollup_flow.build_rollup",
+    "support.retention_row": "retention_core.admit",
+    "support.drain_row": "drain_core.seal",
+    "support.schema_row": "schema_flow.build_schema",
+    "support.dispatch_row": "dispatch_core.snapshot",
+    "support.default_op": "rehydrate"
+  }
+}

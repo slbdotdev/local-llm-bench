@@ -6,5 +6,28 @@
  "chars_per_token": 4.664,
  "material_chars": 26430,
  "material_tokens": 5667,
- "seed_files": 21
+ "seed_files": 21,
+ "files": {
+  "README.md": 415,
+  "config/manifest.json": 129,
+  "docs/architecture.md": 270,
+  "docs/budget.md": 142,
+  "docs/ingest.md": 353,
+  "docs/lineage.md": 354,
+  "docs/operations.md": 301,
+  "docs/retention.md": 351,
+  "history/0000-ingest.md": 183,
+  "history/0001-lineage.md": 169,
+  "history/0002-retention.md": 173,
+  "history/CHANGELOG.md": 135,
+  "src/quota/__init__.py": 18,
+  "src/quota/budget.py": 113,
+  "src/quota/ingest_gate.py": 632,
+  "src/quota/lineage_store.py": 639,
+  "src/quota/retention_store.py": 646,
+  "tests/test_budget.py": 134,
+  "tests/test_ingest.py": 166,
+  "tests/test_lineage.py": 171,
+  "tests/test_retention.py": 174
+ }
 }

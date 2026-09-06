@@ -7,3 +7,10 @@
 .winprobe-done
 .evidence-p1-done
 _mf
+.r2-*-done
+
+# Round-2 scratch. Both are regenerable from the specs and the candidates and neither is
+# evidence: the corpus cache is a byte-identical re-run of make_corpus.py, and gate-suite is a
+# copy of the nine candidates staged for one pibench --tasks-dir.
+authoring/r2/.corpus-cache/
+authoring/r2/gate-suite/

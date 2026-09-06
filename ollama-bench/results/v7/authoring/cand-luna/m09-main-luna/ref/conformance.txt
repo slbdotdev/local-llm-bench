@@ -1,0 +1,3 @@
+out_of_conformance: compaction, drain, lineage, retention
+effective_ceiling_total: 2228
+governing_amendment: A-4

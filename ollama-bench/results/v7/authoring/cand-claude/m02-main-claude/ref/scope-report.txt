@@ -1,0 +1,3 @@
+changed: audit, compaction, envelope, schema
+declined: attestation, digest
+authority: SEC-CFG-4

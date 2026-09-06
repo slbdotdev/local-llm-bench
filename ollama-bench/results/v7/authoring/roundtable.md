@@ -196,3 +196,56 @@ Two properties have to be checkable at the end, not asserted:
    band;
 2. **no candidate enters on its author's own word** — every row above has two reviewer columns
    and neither of them is the author's.
+
+## Traversal round (v7r2) — the nine main-band slots re-authored on rung 0
+
+*Deliberately **not** headed "The register". `assemble_suite.py` reads only the register
+section, and these nine candidates are not admitted to the suite: they are authored, checked
+and staged for a GPU round that has not run. When a round admits them, their rows move up.*
+
+Plan of record: `results/v7/plan-2026-09-07.md`, the revision Luna passed. Section 3.2 fixes
+the family per slot; nobody chose their own. Section 3.5 sets the axis: **make the material
+necessary** — a main-band answer must require reconciling facts from several files that the
+prompt's own vocabulary cannot locate.
+
+| slot | family | mode | authored by | cross-reviewed by | verdict |
+| --- | --- | --- | --- | --- | --- |
+| m01-main-glm | glm | 1 | author A (clean context) | reviewer of the m01/m05 pair | REVISE, then landed |
+| m02-main-claude | claude | 2 | author B | reviewer of the m02/m07 pair | REVISE, then landed |
+| m03-main-luna | luna | 3 | author C | reviewer of the m03/m08 pair | REVISE, then landed |
+| m04-main-glm | glm | 4 | author D | reviewer of the m04/m10 pair | REVISE twice |
+| m05-main-claude | claude | 5 | author A | reviewer of the m01/m05 pair | REVISE, then landed |
+| m07-main-glm | glm | 7 | author B | reviewer of the m02/m07 pair | REVISE, then landed |
+| m08-main-claude | claude | 8 | author C | reviewer of the m03/m08 pair | REVISE, then landed |
+| m09-main-luna | luna | 9 | the manager | a clean-context reviewer, told not to defer | REVISE twice, then landed |
+| m10-main-glm | glm | 10 | author D | reviewer of the m04/m10 pair | REVISE, then landed |
+
+Mode 6 and the whole cheap band are exempt from the coverage gate, as the plan says, and were
+not re-authored this round.
+
+### What review actually caught
+
+Every one of the nine came back REVISE. That is the register's most useful line, and it is why
+the two-reviewer rule exists. Three findings were systemic rather than local:
+
+1. **The index leak.** `make_corpus.py` writes each stage's `limit` and `window_s` into five
+   agreeing artifacts, two of which — `config/manifest.json` and `docs/operations.md` — list
+   every stage in one small file. Seven of the nine slots had built their decisive predicate on
+   exactly that pair, so "the document disagrees with the module" was answerable from two small
+   files without opening a single module. Found by cross-review of two slots, then measured to
+   be systemic, then fixed everywhere by giving each slot a property the generator has never
+   heard of, written for every stage. `r2/check_index_leak.py` is the standing check.
+
+2. **Tools that print the answer.** m04's own fixture builder swept the tree and printed the
+   result, so a minimal solve read three files. Reviewer and manager reproduced it
+   independently. The tools were rewritten to validate an input the solver must supply rather
+   than to compute it.
+
+3. **Claims the material did not support.** m09's `NOTES.md` — the manager's own slot — said the
+   deciding glossary entry sat past line 200 of its file. The file was 106 lines long and the
+   entry was at line 61, and there was no long-command-output component at all, so the mode's
+   own definition was unmet. The fix makes both placements **build-time measurements** that fail
+   the build rather than let the page lie.
+
+The third is the one worth carrying forward. Two of the three came from a reviewer checking a
+number rather than reading an argument, and the argument in each case was excellent.

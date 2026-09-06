@@ -1,0 +1,3 @@
+in_scope: compaction, digest, shard
+override_applied: LP-07
+total: 108

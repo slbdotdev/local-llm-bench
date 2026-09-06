@@ -1,0 +1,166 @@
+{
+  "project": "hearth-relay",
+  "package": "hearth",
+  "stages": [
+    {
+      "name": "retention",
+      "module": "retention_gate",
+      "class": "RetentionLedger",
+      "limit": 32,
+      "window_s": 90,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "quota",
+      "module": "quota_flow",
+      "class": "QuotaEngine",
+      "limit": 24,
+      "window_s": 30,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_store",
+      "class": "LedgerEngine",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_store",
+      "class": "DispatchLedger",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_gate",
+      "class": "ThrottleEngine",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_view",
+      "class": "BackfillEngine",
+      "limit": 64,
+      "window_s": 15,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingPlanner",
+      "limit": 24,
+      "window_s": 180,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_store",
+      "class": "CheckpointLedger",
+      "limit": 96,
+      "window_s": 60,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_store",
+      "class": "IngestRegistry",
+      "limit": 32,
+      "window_s": 90,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_flow",
+      "class": "ReconcileGateway",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "shard",
+      "module": "shard_gate",
+      "class": "ShardEngine",
+      "limit": 96,
+      "window_s": 60,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "schema",
+      "module": "schema_store",
+      "class": "SchemaLedger",
+      "limit": 32,
+      "window_s": 60,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_gate",
+      "class": "RollupPlanner",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyPlanner",
+      "limit": 96,
+      "window_s": 90,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "digest",
+      "module": "digest_core",
+      "class": "DigestRegistry",
+      "limit": 64,
+      "window_s": 120,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_core",
+      "class": "EnvelopeRegistry",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_store",
+      "class": "WatermarkRegistry",
+      "limit": 480,
+      "window_s": 60,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "drain",
+      "module": "drain_store",
+      "class": "DrainPlanner",
+      "limit": 960,
+      "window_s": 120,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "replay",
+      "module": "replay_gate",
+      "class": "ReplayLedger",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "audit",
+      "module": "audit_core",
+      "class": "AuditRegistry",
+      "limit": 24,
+      "window_s": 120,
+      "owner": "D. Ferreira"
+    }
+  ]
+}

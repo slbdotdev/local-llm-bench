@@ -1,0 +1,85 @@
+"""drain_gate: shutdown handling for the vantage-mill pipeline.
+
+This module owns the drain stage. It is called by envelope_gate and calls into checkpoint_gate;
+neither of those may be imported at module scope, because the pipeline is
+assembled at run time from the manifest rather than at import time.
+
+Ownership: E. Thorsdottir (Client Integrations).
+"""
+
+from __future__ import annotations
+
+DEFAULT_DRAIN_LIMIT = 96
+DEFAULT_DRAIN_WINDOW_S = 90
+ROLLOUT_VERIFIED_ON = "2033-04-25"
+DRAIN_STATES = ("pending", "promoted", "settled", "abandoned")
+
+
+class DrainLedger:
+    """Coordinates shutdown batchs between the drain stage and EnvelopeEngine."""
+
+    def __init__(self, limit=DEFAULT_DRAIN_LIMIT, window_s=DEFAULT_DRAIN_WINDOW_S):
+        self.limit = int(limit)
+        self.window_s = int(window_s)
+        self._batchs = {}
+        self._sealed = False
+
+    def promote(self, key, payload=None):
+        """Promote the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the drain stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "promoted"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def defer(self, key, payload=None):
+        """Defer the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the drain stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "deferd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def classify(self, key, payload=None):
+        """Classify the batch named ``key``.
+
+        Returns the stored record, or ``None`` when the drain stage has
+        already sealed and no further mutation is permitted.
+        """
+        if self._sealed:
+            return None
+        record = self._batchs.setdefault(key, {"key": key, "state": "pending"})
+        record["state"] = "classifyd"
+        if payload is not None:
+            record["payload"] = payload
+        return record
+
+    def seal(self):
+        """Close the stage. Idempotent; see docs/operations.md on drain order."""
+        self._sealed = True
+        return len(self._batchs)
+
+    def snapshot(self):
+        """Return a stable, sorted view for the audit trail."""
+        return [self._batchs[k] for k in sorted(self._batchs)]
+
+
+def build_drain(config):
+    """Construct a :class:`DrainLedger` from the ``drain`` section of the manifest."""
+    section = config.get("drain", {})
+    return DrainLedger(
+        limit=section.get("limit", DEFAULT_DRAIN_LIMIT),
+        window_s=section.get("window_s", DEFAULT_DRAIN_WINDOW_S),
+    )

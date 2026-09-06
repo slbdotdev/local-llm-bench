@@ -8,5 +8,10 @@
  "active_reconcile_slot": 67,
  "material_chars": 21248,
  "material_tokens": 4556,
- "seed_files": 3
+ "seed_files": 3,
+ "files": {
+  "README.md": 161,
+  "docs/operations-log.md": 2528,
+  "tools/dump_state.py": 1866
+ }
 }

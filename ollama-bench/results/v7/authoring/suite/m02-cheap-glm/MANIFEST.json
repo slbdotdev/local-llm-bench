@@ -1,3 +1,35 @@
-{"task": "m02-cheap-glm", "family": "glm", "band": "cheap",
- "failure_mode": 2, "material_chars": 20651, "material_tokens": 4428,
- "chars_per_token": 4.664, "seed_files": 23}
+{
+ "task": "m02-cheap-glm",
+ "family": "glm",
+ "band": "cheap",
+ "failure_mode": 2,
+ "material_chars": 20651,
+ "material_tokens": 4428,
+ "chars_per_token": 4.664,
+ "seed_files": 23,
+ "files": {
+  "README.md": 363,
+  "config/reorder_points.json": 73,
+  "data/inventory.csv": 83,
+  "data/stocktake-2026-08.csv": 92,
+  "docs/count-procedure.md": 267,
+  "docs/glossary.md": 298,
+  "docs/onboarding.md": 410,
+  "docs/stocking-policy.md": 241,
+  "docs/usage.md": 374,
+  "docs/who-does-what.md": 161,
+  "history/2026-05-28-reorder-review.md": 71,
+  "history/2026-07-18-report-refactor-started.md": 77,
+  "history/2026-08-03-reorder-review.md": 95,
+  "history/2026-09-12-inventory-file-truncated.md": 206,
+  "scratch/counter-queries.txt": 191,
+  "scratch/draft_multi_bulk.py": 148,
+  "scratch/refactor-notes.md": 189,
+  "scratch/shelf-relabel-plan.md": 127,
+  "src/quartermaster/__init__.py": 23,
+  "src/quartermaster/report.py": 164,
+  "src/quartermaster/stock.py": 384,
+  "tests/test_report_legacy.py": 114,
+  "tests/test_stock.py": 275
+ }
+}

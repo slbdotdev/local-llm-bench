@@ -1,0 +1,120 @@
+stage,event,recorded_on,actor,detail
+tenancy,measured,2032-01-01,P. Ravindran,observed load sampled over 14 days
+tenancy,reviewed,2032-01-02,N. Oyelaran,platform review accepted the sampling as representative
+tenancy,proposed,2033-01-02,P. Ravindran,ceiling re-derived from the measured load
+tenancy,scheduled,2033-01-03,H. Bergstrom,placed on the migration queue behind 1 other stages
+tenancy,migrated,2033-07-01,P. Ravindran,ceiling migration applied to the module
+tenancy,counter_signed,2033-07-08,H. Bergstrom,countersigns the migration recorded on 2033-07-01
+quota,measured,2032-02-08,E. Thorsdottir,observed load sampled over 21 days
+quota,reviewed,2032-02-13,N. Oyelaran,platform review accepted the sampling as representative
+quota,proposed,2033-02-05,E. Thorsdottir,ceiling re-derived from the measured load
+quota,scheduled,2033-02-10,R. Okonjo,placed on the migration queue behind 2 other stages
+quota,migrated,2034-02-07,E. Thorsdottir,ceiling migration applied to the module
+quota,counter_signed,2034-02-14,R. Okonjo,countersigns the migration recorded on 2034-02-07
+drain,measured,2032-03-15,M. Lindqvist,observed load sampled over 28 days
+drain,reviewed,2032-03-24,T. Abarca,platform review accepted the sampling as representative
+drain,proposed,2033-03-08,M. Lindqvist,ceiling re-derived from the measured load
+drain,scheduled,2033-03-17,L. Achterberg,placed on the migration queue behind 3 other stages
+drain,migrated,2034-08-07,M. Lindqvist,ceiling migration applied to the module
+drain,counter_signed,2034-08-14,L. Achterberg,countersigns the migration recorded on 2034-08-07
+rollup,reviewed,2032-04-09,A. Villanueva,platform review accepted the sampling as representative
+rollup,measured,2032-04-22,M. Lindqvist,observed load sampled over 14 days
+rollup,proposed,2033-04-11,M. Lindqvist,ceiling re-derived from the measured load
+rollup,scheduled,2033-04-24,D. Ferreira,placed on the migration queue behind 4 other stages
+rollup,migrated,2033-10-07,M. Lindqvist,ceiling migration applied to the module
+rollup,counter_signed,2033-10-14,D. Ferreira,countersigns the migration recorded on 2033-10-07
+cursor,measured,2032-05-01,K. Sorensen,observed load sampled over 21 days
+cursor,reviewed,2032-05-20,E. Thorsdottir,platform review accepted the sampling as representative
+cursor,scheduled,2033-05-07,E. Thorsdottir,placed on the migration queue behind 5 other stages
+cursor,proposed,2033-05-14,K. Sorensen,ceiling re-derived from the measured load
+cursor,migrated,2034-01-22,K. Sorensen,ceiling migration applied to the module
+cursor,counter_signed,2034-01-29,E. Thorsdottir,countersigns the migration recorded on 2034-01-22
+cursor,migrated,2034-08-04,K. Sorensen,ceiling migration recorded
+cursor,voided,2034-08-15,E. Thorsdottir,annuls the migration recorded on 2034-08-04: duplicate filed by the migration tooling on a re-run
+reconcile,reviewed,2032-06-05,M. Lindqvist,platform review accepted the sampling as representative
+reconcile,measured,2032-06-08,P. Ravindran,observed load sampled over 28 days
+reconcile,scheduled,2033-06-14,P. Ravindran,placed on the migration queue behind 6 other stages
+reconcile,proposed,2033-06-17,P. Ravindran,ceiling re-derived from the measured load
+reconcile,migrated,2033-12-02,P. Ravindran,ceiling migration applied to the module
+reconcile,counter_signed,2033-12-09,P. Ravindran,countersigns the migration recorded on 2033-12-02
+watermark,measured,2032-07-15,L. Achterberg,observed load sampled over 14 days
+watermark,reviewed,2032-07-16,P. Ravindran,platform review accepted the sampling as representative
+watermark,proposed,2033-01-20,L. Achterberg,ceiling re-derived from the measured load
+watermark,scheduled,2033-01-21,N. Oyelaran,placed on the migration queue behind 1 other stages
+watermark,migrated,2033-07-13,L. Achterberg,ceiling migration applied to the module
+watermark,counter_signed,2033-07-20,N. Oyelaran,countersigns the migration recorded on 2033-07-13
+compaction,measured,2032-08-22,H. Bergstrom,observed load sampled over 21 days
+compaction,reviewed,2032-08-27,E. Thorsdottir,platform review accepted the sampling as representative
+compaction,scheduled,2033-02-04,N. Oyelaran,placed on the migration queue behind 2 other stages
+compaction,proposed,2033-02-23,H. Bergstrom,ceiling re-derived from the measured load
+compaction,migrated,2034-03-18,H. Bergstrom,ceiling migration recorded
+compaction,voided,2034-03-29,N. Oyelaran,annuls the migration recorded on 2034-03-18: filed before the module was changed
+compaction,migrated,2034-08-22,H. Bergstrom,ceiling migration applied to the module
+compaction,counter_signed,2034-08-29,N. Oyelaran,countersigns the migration recorded on 2034-08-22
+ledger,measured,2032-09-01,R. Okonjo,observed load sampled over 28 days
+ledger,reviewed,2032-09-12,M. Lindqvist,platform review accepted the sampling as representative
+ledger,scheduled,2033-03-11,T. Abarca,placed on the migration queue behind 3 other stages
+ledger,proposed,2033-03-26,R. Okonjo,ceiling re-derived from the measured load
+ledger,migrated,2033-09-08,R. Okonjo,ceiling migration applied to the module
+ledger,counter_signed,2033-09-15,T. Abarca,countersigns the migration recorded on 2033-09-08
+attestation,measured,2032-10-08,L. Achterberg,observed load sampled over 14 days
+attestation,reviewed,2032-10-23,M. Lindqvist,platform review accepted the sampling as representative
+attestation,proposed,2033-04-03,L. Achterberg,ceiling re-derived from the measured load
+attestation,scheduled,2033-04-18,A. Villanueva,placed on the migration queue behind 4 other stages
+attestation,migrated,2033-10-19,L. Achterberg,ceiling migration applied to the module
+attestation,counter_signed,2033-10-26,A. Villanueva,countersigns the migration recorded on 2033-10-19
+replay,reviewed,2032-11-08,K. Sorensen,platform review accepted the sampling as representative
+replay,measured,2032-11-15,D. Ferreira,observed load sampled over 21 days
+replay,proposed,2033-05-06,D. Ferreira,ceiling re-derived from the measured load
+replay,scheduled,2033-05-25,E. Thorsdottir,placed on the migration queue behind 5 other stages
+replay,migrated,2033-11-03,D. Ferreira,ceiling migration applied to the module
+replay,counter_signed,2033-11-10,E. Thorsdottir,countersigns the migration recorded on 2033-11-03
+schema,reviewed,2032-12-19,P. Ravindran,platform review accepted the sampling as representative
+schema,measured,2032-12-22,E. Thorsdottir,observed load sampled over 28 days
+schema,scheduled,2033-06-08,M. Lindqvist,placed on the migration queue behind 6 other stages
+schema,proposed,2033-06-09,E. Thorsdottir,ceiling re-derived from the measured load
+schema,migrated,2034-04-05,E. Thorsdottir,ceiling migration applied to the module
+schema,counter_signed,2034-04-12,M. Lindqvist,countersigns the migration recorded on 2034-04-05
+schema,migrated,2034-09-13,E. Thorsdottir,ceiling migration recorded and awaiting counter-signature
+dispatch,measured,2032-01-01,P. Ravindran,observed load sampled over 14 days
+dispatch,reviewed,2032-01-04,L. Achterberg,platform review accepted the sampling as representative
+dispatch,proposed,2033-01-12,P. Ravindran,ceiling re-derived from the measured load
+dispatch,scheduled,2033-01-15,P. Ravindran,placed on the migration queue behind 1 other stages
+dispatch,migrated,2033-07-25,P. Ravindran,ceiling migration applied to the module
+dispatch,counter_signed,2033-08-01,P. Ravindran,countersigns the migration recorded on 2033-07-25
+lineage,measured,2032-02-08,N. Oyelaran,observed load sampled over 21 days
+lineage,reviewed,2032-02-15,H. Bergstrom,platform review accepted the sampling as representative
+lineage,proposed,2033-02-15,N. Oyelaran,ceiling re-derived from the measured load
+lineage,scheduled,2033-02-22,E. Thorsdottir,placed on the migration queue behind 2 other stages
+lineage,migrated,2034-09-13,N. Oyelaran,ceiling migration applied to the module
+lineage,counter_signed,2034-09-20,E. Thorsdottir,countersigns the migration recorded on 2034-09-13
+audit,measured,2032-03-15,N. Oyelaran,observed load sampled over 28 days
+audit,reviewed,2032-03-26,R. Okonjo,platform review accepted the sampling as representative
+audit,scheduled,2033-03-05,M. Lindqvist,placed on the migration queue behind 3 other stages
+audit,proposed,2033-03-18,N. Oyelaran,ceiling re-derived from the measured load
+audit,migrated,2033-09-20,N. Oyelaran,ceiling migration applied to the module
+audit,counter_signed,2033-09-27,M. Lindqvist,countersigns the migration recorded on 2033-09-20
+digest,reviewed,2032-04-11,L. Achterberg,platform review accepted the sampling as representative
+digest,measured,2032-04-22,T. Abarca,observed load sampled over 14 days
+digest,scheduled,2033-04-12,M. Lindqvist,placed on the migration queue behind 4 other stages
+digest,proposed,2033-04-21,T. Abarca,ceiling re-derived from the measured load
+digest,migrated,2033-10-04,T. Abarca,ceiling migration applied to the module
+digest,counter_signed,2033-10-11,M. Lindqvist,countersigns the migration recorded on 2033-10-04
+ingest,measured,2032-05-01,A. Villanueva,observed load sampled over 21 days
+ingest,reviewed,2032-05-22,D. Ferreira,platform review accepted the sampling as representative
+ingest,scheduled,2033-05-19,K. Sorensen,placed on the migration queue behind 5 other stages
+ingest,proposed,2033-05-24,A. Villanueva,ceiling re-derived from the measured load
+ingest,migrated,2033-11-15,A. Villanueva,ceiling migration applied to the module
+ingest,counter_signed,2033-11-22,K. Sorensen,countersigns the migration recorded on 2033-11-15
+checkpoint,reviewed,2032-06-07,E. Thorsdottir,platform review accepted the sampling as representative
+checkpoint,measured,2032-06-08,E. Thorsdottir,observed load sampled over 28 days
+checkpoint,scheduled,2033-06-26,P. Ravindran,placed on the migration queue behind 6 other stages
+checkpoint,proposed,2033-06-27,E. Thorsdottir,ceiling re-derived from the measured load
+checkpoint,migrated,2033-12-26,E. Thorsdottir,ceiling migration applied to the module
+checkpoint,counter_signed,2034-01-02,P. Ravindran,countersigns the migration recorded on 2033-12-26
+retention,measured,2032-07-15,M. Lindqvist,observed load sampled over 14 days
+retention,reviewed,2032-07-18,P. Ravindran,platform review accepted the sampling as representative
+retention,proposed,2033-01-04,M. Lindqvist,ceiling re-derived from the measured load
+retention,scheduled,2033-01-09,L. Achterberg,placed on the migration queue behind 1 other stages
+retention,migrated,2034-09-01,M. Lindqvist,ceiling migration applied to the module
+retention,counter_signed,2034-09-08,L. Achterberg,countersigns the migration recorded on 2034-09-01

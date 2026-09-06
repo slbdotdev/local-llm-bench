@@ -6,5 +6,26 @@
  "material_chars": 19820,
  "material_tokens": 4250,
  "chars_per_token": 4.664,
- "seed_files": 19
+ "seed_files": 19,
+ "files": {
+  "README.md": 248,
+  "docs/claims-process.md": 186,
+  "docs/depot-handbook-extract.md": 233,
+  "docs/faq.md": 340,
+  "docs/glossary.md": 234,
+  "docs/handover-notes.md": 247,
+  "docs/rate-card.md": 645,
+  "docs/review-calendar.md": 160,
+  "history/2026-02-02-spring-card.md": 145,
+  "history/2026-05-15-may-review.md": 153,
+  "history/2026-09-01-rate-card-effective.md": 125,
+  "history/CHANGELOG.md": 95,
+  "history/superseded/2026-02-02-rate-card.md": 286,
+  "samples/consignments-2026-09.csv": 57,
+  "samples/disputed-2026-09.md": 246,
+  "src/kestrel/__init__.py": 25,
+  "src/kestrel/rates.py": 502,
+  "src/kestrel/zones.py": 141,
+  "tests/test_zones.py": 181
+ }
 }

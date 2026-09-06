@@ -1,1 +1,31 @@
-{"task":"m04-cheap-luna","family":"luna","band":"cheap","failure_mode":4,"material_chars":24497,"material_tokens":5252,"chars_per_token":4.664,"seed_files":19}
+{
+ "task": "m04-cheap-luna",
+ "family": "luna",
+ "band": "cheap",
+ "failure_mode": 4,
+ "material_chars": 24497,
+ "material_tokens": 5252,
+ "chars_per_token": 4.664,
+ "seed_files": 19,
+ "files": {
+  "README.md": 293,
+  "config/manifest.json": 131,
+  "docs/architecture.md": 271,
+  "docs/compaction.md": 357,
+  "docs/dispatch.md": 357,
+  "docs/lineage.md": 357,
+  "docs/operations.md": 302,
+  "history/0000-dispatch.md": 171,
+  "history/0001-compaction.md": 173,
+  "history/0002-lineage.md": 171,
+  "history/CHANGELOG.md": 136,
+  "src/ember/__init__.py": 19,
+  "src/ember/compaction_gate.py": 646,
+  "src/ember/dispatch_store.py": 642,
+  "src/ember/lineage_view.py": 637,
+  "tests/release_check.py": 75,
+  "tests/test_compaction.py": 176,
+  "tests/test_dispatch.py": 172,
+  "tests/test_lineage.py": 168
+ }
+}

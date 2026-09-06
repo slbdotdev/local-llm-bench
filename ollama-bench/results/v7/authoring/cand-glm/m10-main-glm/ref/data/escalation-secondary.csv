@@ -1,0 +1,20 @@
+stage,owner,contact_path
+quota,Zoë Oyelaran,notify/escalation/quota.md
+tenancy,Siên Maldonado,notify/escalation/tenancy.md
+dispatch,Uğur Achterberg,notify/escalation/dispatch.md
+attestation,Astrid Oyelaran,notify/escalation/attestation.md
+compaction,Börge Nwachukwu,notify/escalation/compaction.md
+ledger,Mireille Okonjo,notify/escalation/ledger.md
+cursor,Iván Ravindran,notify/escalation/cursor.md
+lineage,Nadiá Villanueva,notify/escalation/lineage.md
+retention,Timotée Okonjo,notify/owners/retention.md
+throttle,Sólveig Nwachukwu,notify/escalation/throttle.md
+checkpoint,Yannick Nwachukwu,notify/owners/checkpoint.md
+reconcile,Malgorzata Bergstrom,notify/escalation/reconcile.md
+shard,Karólina Villanueva,notify/escalation/shard.md
+backfill,Eléonore Nwachukwu,notify/escalation/backfill.md
+ingest,Bálint Achterberg,notify/escalation/ingest.md
+envelope,Ninón Ferreira,notify/escalation/envelope.md
+replay,Óskar Bergstrom,notify/escalation/replay.md
+drain,Gwenaëlle Sorensen,notify/escalation/drain.md
+routing,Sébastien Lindqvist,notify/escalation/routing.md

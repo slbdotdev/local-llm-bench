@@ -1,1 +1,32 @@
-{"task":"m10-cheap-luna","family":"luna","band":"cheap","failure_mode":10,"material_chars":24367,"material_tokens":5224,"chars_per_token":4.664,"seed_files":20}
+{
+ "task": "m10-cheap-luna",
+ "family": "luna",
+ "band": "cheap",
+ "failure_mode": 10,
+ "material_chars": 24367,
+ "material_tokens": 5224,
+ "chars_per_token": 4.664,
+ "seed_files": 20,
+ "files": {
+  "README.md": 293,
+  "config/formatting.ini": 14,
+  "config/manifest.json": 131,
+  "docs/architecture.md": 271,
+  "docs/attestation.md": 360,
+  "docs/operations.md": 302,
+  "docs/operator_notes.txt": 11,
+  "docs/replay.md": 356,
+  "docs/watermark.md": 358,
+  "history/0000-attestation.md": 175,
+  "history/0001-watermark.md": 174,
+  "history/0002-replay.md": 170,
+  "history/CHANGELOG.md": 137,
+  "src/cedar/__init__.py": 18,
+  "src/cedar/attestation_flow.py": 656,
+  "src/cedar/replay_store.py": 632,
+  "src/cedar/watermark_core.py": 647,
+  "tests/test_attestation.py": 179,
+  "tests/test_replay.py": 166,
+  "tests/test_watermark.py": 174
+ }
+}

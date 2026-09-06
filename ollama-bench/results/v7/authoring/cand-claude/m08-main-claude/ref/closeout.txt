@@ -1,0 +1,3 @@
+primary_module: src/cordage/watermark_gate.py
+migration_record: history/0003-digest.md
+compatibility_test: tests/test_quota.py

@@ -1,0 +1,166 @@
+{
+  "project": "cordage-mesh",
+  "package": "cordage",
+  "stages": [
+    {
+      "name": "lineage",
+      "module": "lineage_store",
+      "class": "LineageRegistry",
+      "limit": 12,
+      "window_s": 60,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_view",
+      "class": "RollupGateway",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "replay",
+      "module": "replay_gate",
+      "class": "ReplayGateway",
+      "limit": 250,
+      "window_s": 60,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_gate",
+      "class": "BackfillEngine",
+      "limit": 480,
+      "window_s": 15,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "digest",
+      "module": "digest_store",
+      "class": "DigestGateway",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_core",
+      "class": "ThrottleLedger",
+      "limit": 48,
+      "window_s": 45,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "quota",
+      "module": "quota_view",
+      "class": "QuotaLedger",
+      "limit": 960,
+      "window_s": 90,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "shard",
+      "module": "shard_flow",
+      "class": "ShardGateway",
+      "limit": 48,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_gate",
+      "class": "IngestRegistry",
+      "limit": 96,
+      "window_s": 60,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "audit",
+      "module": "audit_flow",
+      "class": "AuditGateway",
+      "limit": 12,
+      "window_s": 90,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_core",
+      "class": "TenancyGateway",
+      "limit": 24,
+      "window_s": 30,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_store",
+      "class": "CompactionRegistry",
+      "limit": 250,
+      "window_s": 90,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_view",
+      "class": "CursorPlanner",
+      "limit": 64,
+      "window_s": 120,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_gate",
+      "class": "CheckpointRegistry",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "D. Ferreira"
+    },
+    {
+      "name": "retention",
+      "module": "retention_flow",
+      "class": "RetentionEngine",
+      "limit": 12,
+      "window_s": 30,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_store",
+      "class": "DispatchRegistry",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_flow",
+      "class": "LedgerPlanner",
+      "limit": 120,
+      "window_s": 45,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "drain",
+      "module": "drain_core",
+      "class": "DrainRegistry",
+      "limit": 64,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_view",
+      "class": "EnvelopeLedger",
+      "limit": 32,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "schema",
+      "module": "schema_store",
+      "class": "SchemaEngine",
+      "limit": 250,
+      "window_s": 90,
+      "owner": "E. Thorsdottir"
+    }
+  ]
+}
