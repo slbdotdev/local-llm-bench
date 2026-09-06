@@ -13,4 +13,5 @@ _mf
 # evidence: the corpus cache is a byte-identical re-run of make_corpus.py, and gate-suite is a
 # copy of the nine candidates staged for one pibench --tasks-dir.
 authoring/r2/.corpus-cache/
+authoring/r3/.corpus-cache/
 authoring/r2/gate-suite/
