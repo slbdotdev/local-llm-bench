@@ -1,0 +1,13 @@
+Report complete. Summary of the reconciliation:
+
+**Ruling found:** `docs/engineering/budget-units.md` — budgets are normative in **milliseconds**; all totals and comparisons are made in ms after conversion.
+
+**Scope:** all 20 stages named in `config/manifest.json`.
+
+| Finding | Value |
+|---|---|
+| Sum of accepted budgets (docs, normalized to ms) | **15,935,000** |
+| Drifting stages (doc ≠ `FLUSH_BUDGET`) | **attestation** (+30,000), **checkpoint** (+25,000), **compaction** (−15,000), **digest** (−12,000), **lineage** (+15,000) |
+| Greatest gap | **attestation**: 10,830,000 ms constant vs 3 h = 10,800,000 ms accepted → **30,000 ms** |
+
+The 15 remaining stages agree exactly in milliseconds. `budget-reconciliation.txt` contains exactly the four required lines; no other file was created or modified.
