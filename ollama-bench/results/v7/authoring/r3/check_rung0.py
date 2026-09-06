@@ -151,7 +151,15 @@ def check(cand):
 
     # C — no single grep over the prompt's own words assembles it
     words = sorted(set(w.lower() for w in WORD.findall(prompt)) - STOP)
-    lbset = set(lb_paths)
+    # A declared pointer (the roster the prompt legitimately names) holds no scored value, so
+    # a word that reaches every *other* load-bearing file is the shortcut: 2026-09-08, a
+    # reviewer found a prompt token reaching 8 of 9 and the ninth was the manifest pointer.
+    lbset = set(lb_paths) - set(declared)
+    keynames = set()
+    for k in list((cfg.get("expect") or {}).keys()) + list(cfg.get("keys") or []):
+        keynames.update(w.lower() for w in WORD.findall(str(k)))
+        keynames.add(str(k).lower())
+    locators = []
     selective = max(2 * len(lbset), int(0.2 * len(texts)))
     best, best_n = None, None
     widest, widest_cover = None, 0
@@ -160,6 +168,16 @@ def check(cand):
         cover = len(lbset & hits)
         if cover > widest_cover:
             widest, widest_cover = w, cover
+        # C2 — a prompt word that greps to one or two files, one of them load-bearing, is a
+        # one-hop locator for a decisive file (2026-09-08: `correction` -> the changelog that
+        # held the whole delta). A declared pointer is exempt.
+        if 0 < len(hits) <= 2 and (hits & lbset):
+            if w in keynames:
+                problems.append("C2: the deliverable's key %r appears in the prompt and greps "
+                                "to only %d file(s), one load-bearing: %s"
+                                % (w, len(hits), sorted(hits & lbset)))
+            else:
+                locators.append((w, sorted(hits & lbset)[0]))
         if lbset and lbset <= hits:
             if best_n is None or len(hits) < best_n:
                 best, best_n = w, len(hits)
@@ -167,6 +185,14 @@ def check(cand):
                 problems.append("C: the prompt's own word %r greps to all %d load-bearing "
                                 "files and only %d files in all — that is a shortcut"
                                 % (w, len(lbset), len(hits)))
+    if locators:
+        bylb = {}
+        for w, f in locators:
+            bylb.setdefault(f, []).append(w)
+        for f, ws in sorted(bylb.items()):
+            notes.append("locator words: %d prompt word(s) grep to <=2 files including %s "
+                         "(%s) — a note; a reviewer should try each as a one-hop shortcut"
+                         % (len(ws), f, ", ".join(ws[:6])))
     if best is not None:
         notes.append("narrowest covering prompt word %r hits %d of %d files; a word must hit "
                      "at most %d to count as a shortcut" % (best, best_n, len(texts), selective))
