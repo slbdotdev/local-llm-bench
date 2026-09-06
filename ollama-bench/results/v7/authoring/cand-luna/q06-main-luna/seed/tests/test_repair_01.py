@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Normalizes a birch lantern shipment marker."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "birch_lantern"\n'
-    b'INPUT_TAG: Final[str] = "raw-birch"\n'
-    b'\n'
-    b'def translate_birch_lantern(value: str) -> str:\n'
-    b'    """Apply the birch_lantern route mapping."""\n'
-    b'    if value == "raw-birch":\n'
-    b'        return "birchlantern"  # birch_lantern\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Normalizes a birch lantern shipment marker."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "birch_lantern"\n'
+    'INPUT_TAG: Final[str] = "raw-birch"\n'
+    '\n'
+    'def translate_birch_lantern(value: str) -> str:\n'
+    '    """Apply the birch_lantern route mapping."""\n'
+    '    if value == "raw-birch":\n'
+    '        return "birchlantern"  # birch_lantern\n'
+    '    return value\n'
 )
 
 def test_birch_lantern_contract():

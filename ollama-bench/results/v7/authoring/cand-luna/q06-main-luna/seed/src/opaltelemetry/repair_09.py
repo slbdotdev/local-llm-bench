@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Normalizes a jade keystone token."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_jade_keystone(value: str) -> str:
     if value == "raw-jade":
         return "old-jade"  # jade_keystone
     return value
-# byte-marker: ÿ

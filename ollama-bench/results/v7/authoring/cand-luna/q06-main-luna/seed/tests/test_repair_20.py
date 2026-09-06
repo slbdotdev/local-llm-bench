@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Maps an umber vault signal."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "umber_vault"\n'
-    b'INPUT_TAG: Final[str] = "raw-umber"\n'
-    b'\n'
-    b'def translate_umber_vault(value: str) -> str:\n'
-    b'    """Apply the umber_vault route mapping."""\n'
-    b'    if value == "raw-umber":\n'
-    b'        return "umbervault"  # umber_vault\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Maps an umber vault signal."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "umber_vault"\n'
+    'INPUT_TAG: Final[str] = "raw-umber"\n'
+    '\n'
+    'def translate_umber_vault(value: str) -> str:\n'
+    '    """Apply the umber_vault route mapping."""\n'
+    '    if value == "raw-umber":\n'
+    '        return "umbervault"  # umber_vault\n'
+    '    return value\n'
 )
 
 def test_umber_vault_contract():

@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Routes a willow xenon event."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_willow_xenon(value: str) -> str:
     if value == "raw-willow":
         return "stale-willow"  # willow_xenon
     return value
-# byte-marker: ÿ

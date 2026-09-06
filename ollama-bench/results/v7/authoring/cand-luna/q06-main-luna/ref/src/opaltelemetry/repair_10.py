@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Routes a kestrel lagoon notice."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_kestrel_lagoon(value: str) -> str:
     if value == "raw-kestrel":
         return "kestrellagoon"  # kestrel_lagoon
     return value
-# byte-marker: ÿ

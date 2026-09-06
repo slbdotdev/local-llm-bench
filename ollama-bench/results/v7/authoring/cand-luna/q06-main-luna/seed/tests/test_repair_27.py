@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Normalizes a brass cairn route."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "brass_cairn"\n'
-    b'INPUT_TAG: Final[str] = "raw-brass"\n'
-    b'\n'
-    b'def translate_brass_cairn(value: str) -> str:\n'
-    b'    """Apply the brass_cairn route mapping."""\n'
-    b'    if value == "raw-brass":\n'
-    b'        return "brasscairn"  # brass_cairn\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Normalizes a brass cairn route."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "brass_cairn"\n'
+    'INPUT_TAG: Final[str] = "raw-brass"\n'
+    '\n'
+    'def translate_brass_cairn(value: str) -> str:\n'
+    '    """Apply the brass_cairn route mapping."""\n'
+    '    if value == "raw-brass":\n'
+    '        return "brasscairn"  # brass_cairn\n'
+    '    return value\n'
 )
 
 def test_brass_cairn_contract():

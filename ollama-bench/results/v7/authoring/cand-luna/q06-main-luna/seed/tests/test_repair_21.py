@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Normalizes a violet warren tag."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "violet_warren"\n'
-    b'INPUT_TAG: Final[str] = "raw-violet"\n'
-    b'\n'
-    b'def translate_violet_warren(value: str) -> str:\n'
-    b'    """Apply the violet_warren route mapping."""\n'
-    b'    if value == "raw-violet":\n'
-    b'        return "violetwarren"  # violet_warren\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Normalizes a violet warren tag."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "violet_warren"\n'
+    'INPUT_TAG: Final[str] = "raw-violet"\n'
+    '\n'
+    'def translate_violet_warren(value: str) -> str:\n'
+    '    """Apply the violet_warren route mapping."""\n'
+    '    if value == "raw-violet":\n'
+    '        return "violetwarren"  # violet_warren\n'
+    '    return value\n'
 )
 
 def test_violet_warren_contract():

@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a hazel islet receipt."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_hazel_islet(value: str) -> str:
     if value == "raw-hazel":
         return "hazelislet"  # hazel_islet
     return value
-# byte-marker: ÿ

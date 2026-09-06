@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Normalizes a plum quartz dispatch."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "plum_quartz"\n'
-    b'INPUT_TAG: Final[str] = "raw-plum"\n'
-    b'\n'
-    b'def translate_plum_quartz(value: str) -> str:\n'
-    b'    """Apply the plum_quartz route mapping."""\n'
-    b'    if value == "raw-plum":\n'
-    b'        return "plumquartz"  # plum_quartz\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Normalizes a plum quartz dispatch."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "plum_quartz"\n'
+    'INPUT_TAG: Final[str] = "raw-plum"\n'
+    '\n'
+    'def translate_plum_quartz(value: str) -> str:\n'
+    '    """Apply the plum_quartz route mapping."""\n'
+    '    if value == "raw-plum":\n'
+    '        return "plumquartz"  # plum_quartz\n'
+    '    return value\n'
 )
 
 def test_plum_quartz_contract():

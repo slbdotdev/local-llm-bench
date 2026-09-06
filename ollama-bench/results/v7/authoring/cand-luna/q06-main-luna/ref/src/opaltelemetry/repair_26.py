@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Maps an alpine brook receipt."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_alpine_brook(value: str) -> str:
     if value == "raw-alpine":
         return "alpinebrook"  # alpine_brook
     return value
-# byte-marker: ÿ

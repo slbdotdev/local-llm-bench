@@ -11,7 +11,7 @@ that changing one assertion is shorter than repairing 32 implementations, but it
 The deliverable is 32 byte-exact source files plus a three-line summary.  Each paired test is a
 different oracle: it pins a different complete source body, and each body has a distinct routed
 value.  The roster is only the prompt-named scope pointer and carries no expected value.  The
-sweep is 20174 of 36707 material tokens (55.0%), measured by the builder.
+sweep is 19359 of 35897 material tokens (53.9%), measured by the builder.
 `harvest_units()` declares the 32 distinct corrected route values alone, each from its own source
 file; no tool prints them.  The declared H1/H2/H3/H4 values are therefore measured rather than
 vacuous, and the source/test pairs prevent a single grep from yielding the whole byte deliverable.

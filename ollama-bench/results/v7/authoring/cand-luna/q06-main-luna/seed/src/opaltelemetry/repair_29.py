@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Converts a drift elm shipment."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_drift_elm(value: str) -> str:
     if value == "raw-drift":
         return "old-drift"  # drift_elm
     return value
-# byte-marker: ÿ

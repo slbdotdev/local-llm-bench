@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Routes a cedar delta acknowledgment."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_cedar_delta(value: str) -> str:
     if value == "raw-cedar":
         return "cedardelta"  # cedar_delta
     return value
-# byte-marker: ÿ

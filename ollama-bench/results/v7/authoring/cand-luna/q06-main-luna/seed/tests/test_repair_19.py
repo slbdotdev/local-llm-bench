@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Canonicalizes a teal upland receipt."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "teal_upland"\n'
-    b'INPUT_TAG: Final[str] = "raw-teal"\n'
-    b'\n'
-    b'def translate_teal_upland(value: str) -> str:\n'
-    b'    """Apply the teal_upland route mapping."""\n'
-    b'    if value == "raw-teal":\n'
-    b'        return "tealupland"  # teal_upland\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Canonicalizes a teal upland receipt."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "teal_upland"\n'
+    'INPUT_TAG: Final[str] = "raw-teal"\n'
+    '\n'
+    'def translate_teal_upland(value: str) -> str:\n'
+    '    """Apply the teal_upland route mapping."""\n'
+    '    if value == "raw-teal":\n'
+    '        return "tealupland"  # teal_upland\n'
+    '    return value\n'
 )
 
 def test_teal_upland_contract():

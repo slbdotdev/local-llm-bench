@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Converts a xanthic yard notice."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_xanthic_yard(value: str) -> str:
     if value == "raw-xanthic":
         return "xanthicyard"  # xanthic_yard
     return value
-# byte-marker: ÿ

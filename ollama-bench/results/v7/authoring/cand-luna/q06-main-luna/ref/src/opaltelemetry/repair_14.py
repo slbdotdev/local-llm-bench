@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Maps an ochre prairie envelope."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_ochre_prairie(value: str) -> str:
     if value == "raw-ochre":
         return "ochreprairie"  # ochre_prairie
     return value
-# byte-marker: ÿ

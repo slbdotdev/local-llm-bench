@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Converts a russet summit marker."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "russet_summit"\n'
-    b'INPUT_TAG: Final[str] = "raw-russet"\n'
-    b'\n'
-    b'def translate_russet_summit(value: str) -> str:\n'
-    b'    """Apply the russet_summit route mapping."""\n'
-    b'    if value == "raw-russet":\n'
-    b'        return "russetsummit"  # russet_summit\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Converts a russet summit marker."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "russet_summit"\n'
+    'INPUT_TAG: Final[str] = "raw-russet"\n'
+    '\n'
+    'def translate_russet_summit(value: str) -> str:\n'
+    '    """Apply the russet_summit route mapping."""\n'
+    '    if value == "raw-russet":\n'
+    '        return "russetsummit"  # russet_summit\n'
+    '    return value\n'
 )
 
 def test_russet_summit_contract():

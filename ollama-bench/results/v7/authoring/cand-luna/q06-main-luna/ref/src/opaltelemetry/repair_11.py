@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Converts a linen marsh record."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_linen_marsh(value: str) -> str:
     if value == "raw-linen":
         return "linenmarsh"  # linen_marsh
     return value
-# byte-marker: ÿ

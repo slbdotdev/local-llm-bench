@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a navy orbit signal."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_navy_orbit(value: str) -> str:
     if value == "raw-navy":
         return "navyorbit"  # navy_orbit
     return value
-# byte-marker: ÿ

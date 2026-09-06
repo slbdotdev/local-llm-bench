@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Routes a quartz river envelope."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_quartz_river(value: str) -> str:
     if value == "raw-quartz":
         return "quartzriver"  # quartz_river
     return value
-# byte-marker: ÿ

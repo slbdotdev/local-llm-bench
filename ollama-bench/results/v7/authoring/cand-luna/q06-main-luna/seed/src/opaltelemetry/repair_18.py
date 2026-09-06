@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects a sage thicket destination."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_sage_thicket(value: str) -> str:
     if value == "raw-sage":
         return "stale-sage"  # sage_thicket
     return value
-# byte-marker: ÿ

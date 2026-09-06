@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Canonicalizes a hazel islet receipt."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "hazel_islet"\n'
-    b'INPUT_TAG: Final[str] = "raw-hazel"\n'
-    b'\n'
-    b'def translate_hazel_islet(value: str) -> str:\n'
-    b'    """Apply the hazel_islet route mapping."""\n'
-    b'    if value == "raw-hazel":\n'
-    b'        return "hazelislet"  # hazel_islet\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Canonicalizes a hazel islet receipt."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "hazel_islet"\n'
+    'INPUT_TAG: Final[str] = "raw-hazel"\n'
+    '\n'
+    'def translate_hazel_islet(value: str) -> str:\n'
+    '    """Apply the hazel_islet route mapping."""\n'
+    '    if value == "raw-hazel":\n'
+    '        return "hazelislet"  # hazel_islet\n'
+    '    return value\n'
 )
 
 def test_hazel_islet_contract():

@@ -99,7 +99,7 @@ def _source_body(row, good=True):
             return value
     ''' % {"description": row["description"].capitalize(), "slug": row["slug"].replace("-", "_"),
            "input": row["input"], "result": result})
-    return ("# -*- coding: latin-1 -*-\n" + body + "# byte-marker: ÿ\n").encode("latin-1")
+    return body
 
 
 def _test_body(corpus, row, expected):
@@ -156,7 +156,7 @@ def overlay(ctx):
     corpus = ctx["corpus"]
     rows = _paths(corpus)
     for r in rows:
-        C.write_bytes(os.path.join(ctx["seed"], *r["src"].split("/")), _source_body(r, good=False))
+        C.write(os.path.join(ctx["seed"], *r["src"].split("/")), _source_body(r, good=False))
         C.write(os.path.join(ctx["seed"], *r["test"].split("/")),
                 _test_body(corpus, r, _source_body(r, good=True)))
     C.write(os.path.join(ctx["seed"], "docs", "repair-index.md"), _index_body(rows))
@@ -180,11 +180,10 @@ def facts(ctx):
     buggy = {}
     for r in rows:
         expected[r["src"]] = _expected_from_test(seed, r["test"])
-        with open(os.path.join(seed, *r["src"].split("/")), "rb") as handle:
-            buggy[r["src"]] = handle.read()
+        buggy[r["src"]] = C.read(os.path.join(seed, *r["src"].split("/")))
         assert buggy[r["src"]] != expected[r["src"]], r["src"]
         compile(expected[r["src"]], r["src"], "exec")
-        assert r["good"].encode("ascii") in expected[r["src"]]
+        assert r["good"] in expected[r["src"]]
     assert len(rows) == 32
     assert len(set(expected.values())) == 32
     index = C.read(os.path.join(seed, "docs", "repair-index.md"))

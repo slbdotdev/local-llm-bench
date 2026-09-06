@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Selects a yellow zephyr channel."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "yellow_zephyr"\n'
-    b'INPUT_TAG: Final[str] = "raw-yellow"\n'
-    b'\n'
-    b'def translate_yellow_zephyr(value: str) -> str:\n'
-    b'    """Apply the yellow_zephyr route mapping."""\n'
-    b'    if value == "raw-yellow":\n'
-    b'        return "yellowzephyr"  # yellow_zephyr\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Selects a yellow zephyr channel."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "yellow_zephyr"\n'
+    'INPUT_TAG: Final[str] = "raw-yellow"\n'
+    '\n'
+    'def translate_yellow_zephyr(value: str) -> str:\n'
+    '    """Apply the yellow_zephyr route mapping."""\n'
+    '    if value == "raw-yellow":\n'
+    '        return "yellowzephyr"  # yellow_zephyr\n'
+    '    return value\n'
 )
 
 def test_yellow_zephyr_contract():

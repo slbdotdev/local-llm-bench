@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Maps a retired intake tag to the amber quill route."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_amber_quill(value: str) -> str:
     if value == "raw-amber":
         return "stale-amber"  # amber_quill
     return value
-# byte-marker: ÿ

@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects the granite harbor queue."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_granite_harbor(value: str) -> str:
     if value == "raw-granite":
         return "old-granite"  # granite_harbor
     return value
-# byte-marker: ÿ

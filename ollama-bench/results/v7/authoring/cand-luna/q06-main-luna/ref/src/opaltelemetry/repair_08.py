@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Maps an indigo juniper event."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_indigo_juniper(value: str) -> str:
     if value == "raw-indigo":
         return "indigojuniper"  # indigo_juniper
     return value
-# byte-marker: ÿ

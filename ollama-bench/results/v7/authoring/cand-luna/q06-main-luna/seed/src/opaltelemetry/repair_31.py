@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a fallow glade record."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_fallow_glade(value: str) -> str:
     if value == "raw-fallow":
         return "prior-fallow"  # fallow_glade
     return value
-# byte-marker: ÿ

@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a zircon arc batch."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_zircon_arc(value: str) -> str:
     if value == "raw-zircon":
         return "zirconarc"  # zircon_arc
     return value
-# byte-marker: ÿ

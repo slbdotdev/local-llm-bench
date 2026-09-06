@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Canonicalizes a dune orchid channel."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "dune_orchid"\n'
-    b'INPUT_TAG: Final[str] = "raw-dune"\n'
-    b'\n'
-    b'def translate_dune_orchid(value: str) -> str:\n'
-    b'    """Apply the dune_orchid route mapping."""\n'
-    b'    if value == "raw-dune":\n'
-    b'        return "duneorchid"  # dune_orchid\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Canonicalizes a dune orchid channel."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "dune_orchid"\n'
+    'INPUT_TAG: Final[str] = "raw-dune"\n'
+    '\n'
+    'def translate_dune_orchid(value: str) -> str:\n'
+    '    """Apply the dune_orchid route mapping."""\n'
+    '    if value == "raw-dune":\n'
+    '        return "duneorchid"  # dune_orchid\n'
+    '    return value\n'
 )
 
 def test_dune_orchid_contract():

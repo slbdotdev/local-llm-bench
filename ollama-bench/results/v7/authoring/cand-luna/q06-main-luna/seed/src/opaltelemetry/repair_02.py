@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects the cobalt meadow handoff."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_cobalt_meadow(value: str) -> str:
     if value == "raw-cobalt":
         return "legacy-cobalt"  # cobalt_meadow
     return value
-# byte-marker: ÿ

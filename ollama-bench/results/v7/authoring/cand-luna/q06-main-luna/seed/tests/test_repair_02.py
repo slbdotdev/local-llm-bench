@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Selects the cobalt meadow handoff."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "cobalt_meadow"\n'
-    b'INPUT_TAG: Final[str] = "raw-cobalt"\n'
-    b'\n'
-    b'def translate_cobalt_meadow(value: str) -> str:\n'
-    b'    """Apply the cobalt_meadow route mapping."""\n'
-    b'    if value == "raw-cobalt":\n'
-    b'        return "cobaltmeadow"  # cobalt_meadow\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Selects the cobalt meadow handoff."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "cobalt_meadow"\n'
+    'INPUT_TAG: Final[str] = "raw-cobalt"\n'
+    '\n'
+    'def translate_cobalt_meadow(value: str) -> str:\n'
+    '    """Apply the cobalt_meadow route mapping."""\n'
+    '    if value == "raw-cobalt":\n'
+    '        return "cobaltmeadow"  # cobalt_meadow\n'
+    '    return value\n'
 )
 
 def test_cobalt_meadow_contract():

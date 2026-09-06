@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Normalizes a birch lantern shipment marker."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_birch_lantern(value: str) -> str:
     if value == "raw-birch":
         return "old-birch"  # birch_lantern
     return value
-# byte-marker: ÿ

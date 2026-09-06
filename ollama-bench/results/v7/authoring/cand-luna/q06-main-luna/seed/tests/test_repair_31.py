@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Canonicalizes a fallow glade record."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "fallow_glade"\n'
-    b'INPUT_TAG: Final[str] = "raw-fallow"\n'
-    b'\n'
-    b'def translate_fallow_glade(value: str) -> str:\n'
-    b'    """Apply the fallow_glade route mapping."""\n'
-    b'    if value == "raw-fallow":\n'
-    b'        return "fallowglade"  # fallow_glade\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Canonicalizes a fallow glade record."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "fallow_glade"\n'
+    'INPUT_TAG: Final[str] = "raw-fallow"\n'
+    '\n'
+    'def translate_fallow_glade(value: str) -> str:\n'
+    '    """Apply the fallow_glade route mapping."""\n'
+    '    if value == "raw-fallow":\n'
+    '        return "fallowglade"  # fallow_glade\n'
+    '    return value\n'
 )
 
 def test_fallow_glade_contract():

@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Selects the mauve north lane."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "mauve_north"\n'
-    b'INPUT_TAG: Final[str] = "raw-mauve"\n'
-    b'\n'
-    b'def translate_mauve_north(value: str) -> str:\n'
-    b'    """Apply the mauve_north route mapping."""\n'
-    b'    if value == "raw-mauve":\n'
-    b'        return "mauvenorth"  # mauve_north\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Selects the mauve north lane."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "mauve_north"\n'
+    'INPUT_TAG: Final[str] = "raw-mauve"\n'
+    '\n'
+    'def translate_mauve_north(value: str) -> str:\n'
+    '    """Apply the mauve_north route mapping."""\n'
+    '    if value == "raw-mauve":\n'
+    '        return "mauvenorth"  # mauve_north\n'
+    '    return value\n'
 )
 
 def test_mauve_north_contract():

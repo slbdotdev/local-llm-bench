@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Normalizes a brass cairn route."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_brass_cairn(value: str) -> str:
     if value == "raw-brass":
         return "brasscairn"  # brass_cairn
     return value
-# byte-marker: ÿ

@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Routes a kestrel lagoon notice."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "kestrel_lagoon"\n'
-    b'INPUT_TAG: Final[str] = "raw-kestrel"\n'
-    b'\n'
-    b'def translate_kestrel_lagoon(value: str) -> str:\n'
-    b'    """Apply the kestrel_lagoon route mapping."""\n'
-    b'    if value == "raw-kestrel":\n'
-    b'        return "kestrellagoon"  # kestrel_lagoon\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Routes a kestrel lagoon notice."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "kestrel_lagoon"\n'
+    'INPUT_TAG: Final[str] = "raw-kestrel"\n'
+    '\n'
+    'def translate_kestrel_lagoon(value: str) -> str:\n'
+    '    """Apply the kestrel_lagoon route mapping."""\n'
+    '    if value == "raw-kestrel":\n'
+    '        return "kestrellagoon"  # kestrel_lagoon\n'
+    '    return value\n'
 )
 
 def test_kestrel_lagoon_contract():

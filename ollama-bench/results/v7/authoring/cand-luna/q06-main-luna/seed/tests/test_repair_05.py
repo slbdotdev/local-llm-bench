@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Converts a frost grove batch label."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "frost_grove"\n'
-    b'INPUT_TAG: Final[str] = "raw-frost"\n'
-    b'\n'
-    b'def translate_frost_grove(value: str) -> str:\n'
-    b'    """Apply the frost_grove route mapping."""\n'
-    b'    if value == "raw-frost":\n'
-    b'        return "frostgrove"  # frost_grove\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Converts a frost grove batch label."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "frost_grove"\n'
+    'INPUT_TAG: Final[str] = "raw-frost"\n'
+    '\n'
+    'def translate_frost_grove(value: str) -> str:\n'
+    '    """Apply the frost_grove route mapping."""\n'
+    '    if value == "raw-frost":\n'
+    '        return "frostgrove"  # frost_grove\n'
+    '    return value\n'
 )
 
 def test_frost_grove_contract():

@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Maps an alpine brook receipt."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "alpine_brook"\n'
-    b'INPUT_TAG: Final[str] = "raw-alpine"\n'
-    b'\n'
-    b'def translate_alpine_brook(value: str) -> str:\n'
-    b'    """Apply the alpine_brook route mapping."""\n'
-    b'    if value == "raw-alpine":\n'
-    b'        return "alpinebrook"  # alpine_brook\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Maps an alpine brook receipt."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "alpine_brook"\n'
+    'INPUT_TAG: Final[str] = "raw-alpine"\n'
+    '\n'
+    'def translate_alpine_brook(value: str) -> str:\n'
+    '    """Apply the alpine_brook route mapping."""\n'
+    '    if value == "raw-alpine":\n'
+    '        return "alpinebrook"  # alpine_brook\n'
+    '    return value\n'
 )
 
 def test_alpine_brook_contract():

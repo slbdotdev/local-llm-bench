@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Maps an ochre prairie envelope."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "ochre_prairie"\n'
-    b'INPUT_TAG: Final[str] = "raw-ochre"\n'
-    b'\n'
-    b'def translate_ochre_prairie(value: str) -> str:\n'
-    b'    """Apply the ochre_prairie route mapping."""\n'
-    b'    if value == "raw-ochre":\n'
-    b'        return "ochreprairie"  # ochre_prairie\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Maps an ochre prairie envelope."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "ochre_prairie"\n'
+    'INPUT_TAG: Final[str] = "raw-ochre"\n'
+    '\n'
+    'def translate_ochre_prairie(value: str) -> str:\n'
+    '    """Apply the ochre_prairie route mapping."""\n'
+    '    if value == "raw-ochre":\n'
+    '        return "ochreprairie"  # ochre_prairie\n'
+    '    return value\n'
 )
 
 def test_ochre_prairie_contract():

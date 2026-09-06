@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Routes an ember finch acknowledgment."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "ember_finch"\n'
-    b'INPUT_TAG: Final[str] = "raw-ember"\n'
-    b'\n'
-    b'def translate_ember_finch(value: str) -> str:\n'
-    b'    """Apply the ember_finch route mapping."""\n'
-    b'    if value == "raw-ember":\n'
-    b'        return "emberfinch"  # ember_finch\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Routes an ember finch acknowledgment."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "ember_finch"\n'
+    'INPUT_TAG: Final[str] = "raw-ember"\n'
+    '\n'
+    'def translate_ember_finch(value: str) -> str:\n'
+    '    """Apply the ember_finch route mapping."""\n'
+    '    if value == "raw-ember":\n'
+    '        return "emberfinch"  # ember_finch\n'
+    '    return value\n'
 )
 
 def test_ember_finch_contract():

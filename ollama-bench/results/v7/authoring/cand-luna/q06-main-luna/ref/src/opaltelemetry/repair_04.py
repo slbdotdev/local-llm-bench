@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Routes an ember finch acknowledgment."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_ember_finch(value: str) -> str:
     if value == "raw-ember":
         return "emberfinch"  # ember_finch
     return value
-# byte-marker: ÿ

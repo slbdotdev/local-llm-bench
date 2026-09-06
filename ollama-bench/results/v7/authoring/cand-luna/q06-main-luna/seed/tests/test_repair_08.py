@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Maps an indigo juniper event."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "indigo_juniper"\n'
-    b'INPUT_TAG: Final[str] = "raw-indigo"\n'
-    b'\n'
-    b'def translate_indigo_juniper(value: str) -> str:\n'
-    b'    """Apply the indigo_juniper route mapping."""\n'
-    b'    if value == "raw-indigo":\n'
-    b'        return "indigojuniper"  # indigo_juniper\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Maps an indigo juniper event."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "indigo_juniper"\n'
+    'INPUT_TAG: Final[str] = "raw-indigo"\n'
+    '\n'
+    'def translate_indigo_juniper(value: str) -> str:\n'
+    '    """Apply the indigo_juniper route mapping."""\n'
+    '    if value == "raw-indigo":\n'
+    '        return "indigojuniper"  # indigo_juniper\n'
+    '    return value\n'
 )
 
 def test_indigo_juniper_contract():

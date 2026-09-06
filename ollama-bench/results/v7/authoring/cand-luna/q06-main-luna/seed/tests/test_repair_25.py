@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Canonicalizes a zircon arc batch."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "zircon_arc"\n'
-    b'INPUT_TAG: Final[str] = "raw-zircon"\n'
-    b'\n'
-    b'def translate_zircon_arc(value: str) -> str:\n'
-    b'    """Apply the zircon_arc route mapping."""\n'
-    b'    if value == "raw-zircon":\n'
-    b'        return "zirconarc"  # zircon_arc\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Canonicalizes a zircon arc batch."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "zircon_arc"\n'
+    'INPUT_TAG: Final[str] = "raw-zircon"\n'
+    '\n'
+    'def translate_zircon_arc(value: str) -> str:\n'
+    '    """Apply the zircon_arc route mapping."""\n'
+    '    if value == "raw-zircon":\n'
+    '        return "zirconarc"  # zircon_arc\n'
+    '    return value\n'
 )
 
 def test_zircon_arc_contract():

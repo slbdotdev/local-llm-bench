@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects a yellow zephyr channel."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_yellow_zephyr(value: str) -> str:
     if value == "raw-yellow":
         return "legacy-yellow"  # yellow_zephyr
     return value
-# byte-marker: ÿ

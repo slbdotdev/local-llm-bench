@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Normalizes a violet warren tag."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_violet_warren(value: str) -> str:
     if value == "raw-violet":
         return "old-violet"  # violet_warren
     return value
-# byte-marker: ÿ

@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects the mauve north lane."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_mauve_north(value: str) -> str:
     if value == "raw-mauve":
         return "legacy-mauve"  # mauve_north
     return value
-# byte-marker: ÿ

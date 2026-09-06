@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Selects a sage thicket destination."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "sage_thicket"\n'
-    b'INPUT_TAG: Final[str] = "raw-sage"\n'
-    b'\n'
-    b'def translate_sage_thicket(value: str) -> str:\n'
-    b'    """Apply the sage_thicket route mapping."""\n'
-    b'    if value == "raw-sage":\n'
-    b'        return "sagethicket"  # sage_thicket\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Selects a sage thicket destination."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "sage_thicket"\n'
+    'INPUT_TAG: Final[str] = "raw-sage"\n'
+    '\n'
+    'def translate_sage_thicket(value: str) -> str:\n'
+    '    """Apply the sage_thicket route mapping."""\n'
+    '    if value == "raw-sage":\n'
+    '        return "sagethicket"  # sage_thicket\n'
+    '    return value\n'
 )
 
 def test_sage_thicket_contract():

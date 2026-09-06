@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Converts a linen marsh record."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "linen_marsh"\n'
-    b'INPUT_TAG: Final[str] = "raw-linen"\n'
-    b'\n'
-    b'def translate_linen_marsh(value: str) -> str:\n'
-    b'    """Apply the linen_marsh route mapping."""\n'
-    b'    if value == "raw-linen":\n'
-    b'        return "linenmarsh"  # linen_marsh\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Converts a linen marsh record."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "linen_marsh"\n'
+    'INPUT_TAG: Final[str] = "raw-linen"\n'
+    '\n'
+    'def translate_linen_marsh(value: str) -> str:\n'
+    '    """Apply the linen_marsh route mapping."""\n'
+    '    if value == "raw-linen":\n'
+    '        return "linenmarsh"  # linen_marsh\n'
+    '    return value\n'
 )
 
 def test_linen_marsh_contract():

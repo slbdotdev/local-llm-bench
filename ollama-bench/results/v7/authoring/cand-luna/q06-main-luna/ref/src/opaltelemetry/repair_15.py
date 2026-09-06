@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Normalizes a plum quartz dispatch."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_plum_quartz(value: str) -> str:
     if value == "raw-plum":
         return "plumquartz"  # plum_quartz
     return value
-# byte-marker: ÿ

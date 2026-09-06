@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Converts a frost grove batch label."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_frost_grove(value: str) -> str:
     if value == "raw-frost":
         return "frostgrove"  # frost_grove
     return value
-# byte-marker: ÿ

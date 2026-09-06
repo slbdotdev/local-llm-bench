@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a dune orchid channel."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_dune_orchid(value: str) -> str:
     if value == "raw-dune":
         return "prior-dune"  # dune_orchid
     return value
-# byte-marker: ÿ

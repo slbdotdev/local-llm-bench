@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Selects an ecru field lane."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "ecru_field"\n'
-    b'INPUT_TAG: Final[str] = "raw-ecru"\n'
-    b'\n'
-    b'def translate_ecru_field(value: str) -> str:\n'
-    b'    """Apply the ecru_field route mapping."""\n'
-    b'    if value == "raw-ecru":\n'
-    b'        return "ecrufield"  # ecru_field\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Selects an ecru field lane."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "ecru_field"\n'
+    'INPUT_TAG: Final[str] = "raw-ecru"\n'
+    '\n'
+    'def translate_ecru_field(value: str) -> str:\n'
+    '    """Apply the ecru_field route mapping."""\n'
+    '    if value == "raw-ecru":\n'
+    '        return "ecrufield"  # ecru_field\n'
+    '    return value\n'
 )
 
 def test_ecru_field_contract():

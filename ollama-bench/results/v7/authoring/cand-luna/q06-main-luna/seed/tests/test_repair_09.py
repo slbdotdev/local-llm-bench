@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Normalizes a jade keystone token."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "jade_keystone"\n'
-    b'INPUT_TAG: Final[str] = "raw-jade"\n'
-    b'\n'
-    b'def translate_jade_keystone(value: str) -> str:\n'
-    b'    """Apply the jade_keystone route mapping."""\n'
-    b'    if value == "raw-jade":\n'
-    b'        return "jadekeystone"  # jade_keystone\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Normalizes a jade keystone token."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "jade_keystone"\n'
+    'INPUT_TAG: Final[str] = "raw-jade"\n'
+    '\n'
+    'def translate_jade_keystone(value: str) -> str:\n'
+    '    """Apply the jade_keystone route mapping."""\n'
+    '    if value == "raw-jade":\n'
+    '        return "jadekeystone"  # jade_keystone\n'
+    '    return value\n'
 )
 
 def test_jade_keystone_contract():

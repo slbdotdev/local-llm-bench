@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Selects an ecru field lane."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_ecru_field(value: str) -> str:
     if value == "raw-ecru":
         return "stale-ecru"  # ecru_field
     return value
-# byte-marker: ÿ

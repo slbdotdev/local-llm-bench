@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Canonicalizes a teal upland receipt."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_teal_upland(value: str) -> str:
     if value == "raw-teal":
         return "prior-teal"  # teal_upland
     return value
-# byte-marker: ÿ

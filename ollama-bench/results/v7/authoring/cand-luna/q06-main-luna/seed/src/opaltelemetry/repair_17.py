@@ -1,4 +1,3 @@
-# -*- coding: latin-1 -*-
 """Converts a russet summit marker."""
 from typing import Final
 
@@ -10,4 +9,3 @@ def translate_russet_summit(value: str) -> str:
     if value == "raw-russet":
         return "old-russet"  # russet_summit
     return value
-# byte-marker: ÿ

@@ -2,19 +2,17 @@
 import os
 
 EXPECTED_SOURCE = (
-    b'# -*- coding: latin-1 -*-\n'
-    b'"""Converts a xanthic yard notice."""\n'
-    b'from typing import Final\n'
-    b'\n'
-    b'CHANNEL: Final[str] = "xanthic_yard"\n'
-    b'INPUT_TAG: Final[str] = "raw-xanthic"\n'
-    b'\n'
-    b'def translate_xanthic_yard(value: str) -> str:\n'
-    b'    """Apply the xanthic_yard route mapping."""\n'
-    b'    if value == "raw-xanthic":\n'
-    b'        return "xanthicyard"  # xanthic_yard\n'
-    b'    return value\n'
-    b'# byte-marker: \xff\n'
+    '"""Converts a xanthic yard notice."""\n'
+    'from typing import Final\n'
+    '\n'
+    'CHANNEL: Final[str] = "xanthic_yard"\n'
+    'INPUT_TAG: Final[str] = "raw-xanthic"\n'
+    '\n'
+    'def translate_xanthic_yard(value: str) -> str:\n'
+    '    """Apply the xanthic_yard route mapping."""\n'
+    '    if value == "raw-xanthic":\n'
+    '        return "xanthicyard"  # xanthic_yard\n'
+    '    return value\n'
 )
 
 def test_xanthic_yard_contract():
