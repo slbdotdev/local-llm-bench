@@ -27,6 +27,7 @@ Departure from research section 5's `p05` design is recorded in NOTES.md section
 import ast
 import os
 import re
+import textwrap
 
 from .. import common as C
 
@@ -303,11 +304,15 @@ def _history_block(p):
          "Every change to this stage's repair-allowance bands since it was commissioned,",
          "oldest first. The bands themselves and their sizes are in `%s`; this" % st["src"],
          "entry records only what has happened to them, and `%s` says how to" % POLICY,
-         "read the two together.",
+         "read the two together. The consequence above about `%s` is this entry's"
+         % st["doc"],
+         "ruling on `limit` and decides nothing about the bands below.",
          ""]
     if p["events"]:
         for date, band, verb, reason in p["events"]:
-            L.append("- %s - `%s` **%s**. %s." % (date, band, verb, reason))
+            L += textwrap.wrap("- %s - `%s` **%s**. %s."
+                               % (date, band, verb, reason[0].upper() + reason[1:]),
+                               width=92, subsequent_indent="  ")
     else:
         L.append("- No band has been stood down or taken back up since this stage was")
         L.append("  commissioned.")
@@ -358,6 +363,12 @@ and the wording varies:
 
 The entries for a stage are applied in the order they are recorded, oldest first. A stage that
 has no such entry holds every band its module commissions.
+
+Every history entry ends with a line saying that the stage's component document states the
+current behaviour and is authoritative over that entry. That line is about the entry's own
+ruling on `limit`, which the component document restates in its configuration table. It is not
+about the band record, and it does not survive this policy in any case: a component document
+is a description of the pipeline and never a source for it.
 
 ## The held allowance
 

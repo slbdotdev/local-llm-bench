@@ -28,10 +28,9 @@ SCOPE_GATE = True
 MUST_NOT_EXIST = []
 PERMITTED_NEW = []
 
-# The checker uses this template to ensure that the new per-region constant is not echoed by
-# the generated indexes.  The corresponding component-document value is a separate table row.
-DECISIVE_CONSTANT = "EFFECTIVE_RETENTION_DAYS"
-WINDOW_ROW = "regional_window"
+# There is no per-region module constant in this revision.  Both window facts live in prose
+# records, so the index-leak checker is intentionally not applicable.
+DECISIVE_CONSTANT = None
 
 GLOSSARY = "docs/retention-glossary.md"
 POLICY = "docs/decisions/DR-271-retention.md"
@@ -39,10 +38,53 @@ LEDGER = "data/retention-events.csv"
 DUMP = "tools/retention_audit.py"
 QA_NOTE = "docs/retention-spot-check.md"
 AMENDMENT_ID = "DR-271"
-EFFECTIVE_FROM = "2035-04-01"
 QUALIFYING = (2, 7, 13, 18)
 EARLY = (4, 11, 20)
 WINDOW_DECOY = (1, 9, 16)
+
+_HISTORY_CUES = (
+    "Amber spindle settles",
+    "Beryl compass settles",
+    "Citrine thimble settles",
+    "Dahlia prism settles",
+    "Elm lantern settles",
+    "Fallow quartz settles",
+    "Garnet meadow settles",
+    "Harbor nickel settles",
+    "Indigo kettle settles",
+    "Juniper locket settles",
+    "Kestrel marble settles",
+    "Lilac needle settles",
+    "Mica orchard settles",
+    "Nacre pebble settles",
+    "Ochre ribbon settles",
+    "Pewter saffron settles",
+    "Quince thistle settles",
+    "Russet umber settles",
+    "Sable willow settles",
+)
+
+_CHANGELOG_CUES = (
+    "Amber runtime measure",
+    "Beryl runtime measure",
+    "Citrine runtime measure",
+    "Dahlia runtime measure",
+    "Elm runtime measure",
+    "Fallow runtime measure",
+    "Garnet runtime measure",
+    "Harbor runtime measure",
+    "Indigo runtime measure",
+    "Juniper runtime measure",
+    "Kestrel runtime measure",
+    "Lilac runtime measure",
+    "Mica runtime measure",
+    "Nacre runtime measure",
+    "Ochre runtime measure",
+    "Pewter runtime measure",
+    "Quince runtime measure",
+    "Russet runtime measure",
+    "Sable runtime measure",
+)
 
 SUMMARY = """
 Write the regional retention report.  The repository's glossary defines which regions are
@@ -74,7 +116,12 @@ def _base_dates(corpus, qualifying, early):
         if stage["name"] in q:
             out[stage["name"]] = "2035-%02d-%02d" % (4 + i % 4, 2 + (i * 3) % 24)
         elif stage["name"] in e:
-            out[stage["name"]] = "2035-%02d-%02d" % (1 + i % 3, 3 + (i * 5) % 24)
+            # This completed review sits between DR-271's signing date and its effective
+            # date.  It makes the amendment date, rather than the heading date, observable.
+            if i == EARLY[1]:
+                out[stage["name"]] = "2035-03-20"
+            else:
+                out[stage["name"]] = "2035-%02d-%02d" % (1 + i % 3, 3 + (i * 5) % 24)
         else:
             out[stage["name"]] = "2034-%02d-%02d" % (7 + i % 5, 2 + (i * 7) % 24)
     return out
@@ -137,6 +184,21 @@ def _write_ledger(ctx, qualifying, early):
         lines.append(",".join(row))
     C.write(os.path.join(ctx["seed"], *LEDGER.split("/")), "\n".join(lines) + "\n")
     C.write(os.path.join(ctx["seed"], *DUMP.split("/")), _DUMP_SOURCE)
+
+
+def _window_values(index, stage, corpus):
+    # Deliberately vary the leading digits: no shared numeric prefix can identify the facts.
+    prefixes = (318, 427, 536, 648, 759, 861, 972, 284, 395, 506,
+                617, 728, 839, 941, 253, 364, 475, 586, 697)
+    effective = prefixes[index] * 1000000000 + index * 1009 + stage["limit"]
+    declared = effective
+    qnames = {s["name"] for s in _plan(corpus)[0]}
+    enames = {s["name"] for s in _plan(corpus)[1]}
+    if stage["name"] in qnames:
+        declared += 7 + sorted(qnames).index(stage["name"]) * 3
+    elif stage["name"] in enames:
+        declared += 5 + sorted(enames).index(stage["name"]) * 2
+    return declared, effective
 
 
 _DUMP_SOURCE = r'''"""Resolve the retention event history without changing it."""
@@ -217,20 +279,26 @@ if __name__ == "__main__":
 def overlay(ctx):
     corpus = ctx["corpus"]
     qualifying, early, window_decoy = _plan(corpus)
-    qnames = {s["name"] for s in qualifying}
-    enames = {s["name"] for s in early}
     for i, stage in enumerate(corpus.stages):
-        # Keep this overlay-only datum outside the generator's small operational ranges.  That
-        # prevents a coincidental numeric match in an index from becoming an apparent echo.
-        effective = 900000000000 + i * 1000003 + (stage["limit"] % 11)
-        corpus.set_module_constant(stage, DECISIVE_CONSTANT, str(effective))
-        declared = effective
-        if stage["name"] in qnames:
-            declared += 7 + 3 * sorted(qnames).index(stage["name"])
-        elif stage["name"] in enames:
-            declared += 5 + 2 * sorted(enames).index(stage["name"])
-        corpus.add_doc_config_row(stage, WINDOW_ROW, declared,
-                                  "component interval recorded for this item")
+        declared, effective = _window_values(i, stage, corpus)
+        src = C.read(corpus.path(stage["src"]))
+        src, removed = re.subn(r"^EFFECTIVE_RETENTION_DAYS = .*\n?", "", src, count=1, flags=re.M)
+        assert removed == 1
+        C.write(corpus.path(stage["src"]), src)
+        doc = C.read(corpus.path(stage["doc"]))
+        doc, removed = re.subn(r"^\| `regional_window` \|[^\n]*\n?", "", doc, count=1, flags=re.M)
+        assert removed == 1
+        C.write(corpus.path(stage["doc"]), doc)
+        history = C.read(corpus.path(stage["history"]))
+        history_line = "%s at %d days." % (_HISTORY_CUES[i], declared)
+        # Keep the new prose away from the generated heading and its ordinary vocabulary so
+        # the roster check cannot harvest it by proximity.
+        C.write(corpus.path(stage["history"]), history.rstrip("\n") + "\n" * 8 + history_line + "\n")
+        if i == 0:
+            changelog = C.read(corpus.path("history/CHANGELOG.md"))
+            changelog += "\n" * 8
+        changelog += "- `%s`: %s at %d days.\n" % (stage["module"], _CHANGELOG_CUES[i], effective)
+    C.write(corpus.path("history/CHANGELOG.md"), changelog)
     for i, stage in enumerate(window_decoy):
         corpus.set_doc_window(stage, stage["window"] + 19 + i)
     _write_ledger(ctx, qualifying, early)
@@ -256,7 +324,7 @@ _GLOSSARY_ENTRIES = [
     ("component record", "The document beside a region's module that records the window communicated to operators."),
     ("completed verification", "A verification event named by a countersignature and not cancelled by a voiding event."),
     ("countersignature", "A second review that names the date of the verification it accepts."),
-    ("declared window", "The retention interval written in the component record for a region."),
+    ("declared window", "The retention interval stated in a region's historical operator note."),
     ("effective window", "The interval the running module actually uses when no optional override is enabled."),
     ("event history", "An append-only sequence from which a current review state is resolved rather than copied."),
     ("evidence packet", "The records a reviewer uses to decide whether a regional sample can be trusted."),
@@ -332,6 +400,8 @@ def _readme_addendum():
 - `docs/retention-glossary.md` — definitions, including the project's reporting term.
 - `docs/decisions/` — dated policy records; the latest active record controls the reporting date.
 - `data/retention-events.csv` — append-only review history. Resolve it with `python tools/retention_audit.py`.
+- `history/00NN-<region>.md` — each region's operator-facing interval note.
+- `history/CHANGELOG.md` — the module-facing interval note for each region.
 - `docs/retention-spot-check.md` — a non-authoritative old window comparison.
 """
 
@@ -380,21 +450,38 @@ def _naive_dates(corpus, which):
     return out
 
 
-def _module_value(corpus, stage):
-    return int(corpus.module_constant(stage, DECISIVE_CONSTANT))
+def _prose_value(corpus, stage, cues, source):
+    text = C.read(corpus.path(source(stage)))
+    cue = cues[corpus.stages.index(stage)]
+    match = re.search(r"^%s at (\d+) days\.$" % re.escape(cue), text, re.M)
+    assert match, (stage["name"], source(stage), cue)
+    return int(match.group(1))
 
 
 def _declared_value(corpus, stage):
-    return int(corpus.doc_config_row(stage, WINDOW_ROW))
+    return _prose_value(corpus, stage, _HISTORY_CUES, lambda s: s["history"])
 
 
-def _excluded(ctx, dates=None):
+def _module_value(corpus, stage):
+    return _prose_value(corpus, stage, _CHANGELOG_CUES, lambda _s: "history/CHANGELOG.md")
+
+
+def _policy_dates(corpus):
+    text = C.read(corpus.path(POLICY))
+    signed = re.search(r"^### %s — (\d{4}-\d{2}-\d{2}) —" % AMENDMENT_ID, text, re.M)
+    effective = re.search(r"current amendment takes effect on \*\*(\d{4}-\d{2}-\d{2})\*\*", text)
+    assert signed and effective
+    return {"signed": signed.group(1), "effective": effective.group(1)}
+
+
+def _excluded(ctx, dates=None, effective_from=None):
     corpus = ctx["corpus"]
     dates = dates or _resolved_dates(corpus)
+    effective_from = effective_from or _policy_dates(corpus)["effective"]
     out = []
     for stage in corpus.stages:
         if _declared_value(corpus, stage) != _module_value(corpus, stage):
-            if dates[stage["name"]] >= EFFECTIVE_FROM:
+            if dates[stage["name"]] >= effective_from:
                 out.append(stage)
     return sorted(out, key=lambda s: s["name"])
 
@@ -408,7 +495,8 @@ def _audit_output(ctx):
 def facts(ctx):
     corpus = ctx["corpus"]
     dates = _resolved_dates(corpus)
-    excluded = _excluded(ctx, dates)
+    policy_dates = _policy_dates(corpus)
+    excluded = _excluded(ctx, dates, policy_dates["effective"])
     assert len(excluded) == len(QUALIFYING)
     glossary = C.read(corpus.path(GLOSSARY))
     entry = "## regional retention"
@@ -463,15 +551,17 @@ def facts(ctx):
 
 def harvest_units(ctx):
     corpus = ctx["corpus"]
-    dates = _resolved_dates(corpus)
     units = []
     for stage in corpus.stages:
-        # This composite is the decisive datum used by _excluded: the component value, the
-        # effective module value, and the resolved date.  It is intentionally derived and no
-        # line in seed/ contains the composite, so a grep cannot harvest it.
-        value = "%s|declared=%d|effective=%d|verified=%s" % (
-            stage["name"], _declared_value(corpus, stage), _module_value(corpus, stage), dates[stage["name"]])
-        units.append({"unit": stage["name"], "value": value, "path": LEDGER})
+        # These are separate declarations: the two window inputs are the per-unit facts used
+        # by the predicate.  Verification dates are resolved from the ledger and are not
+        # joined into either value.
+        units.append({"unit": "%s declared" % stage["name"],
+                      "value": str(_declared_value(corpus, stage)),
+                      "path": stage["history"]})
+        units.append({"unit": "%s effective" % stage["name"],
+                      "value": str(_module_value(corpus, stage)),
+                      "path": "history/CHANGELOG.md"})
     assert len(units) >= 6 and len({u["unit"] for u in units}) == len(units)
     return units
 
@@ -480,11 +570,11 @@ def prompt(ctx):
     return """# Regional retention report
 
 You are working at the root of the `sable-arc` repository. Every region named by the repository
-manifest is in scope. Read the project's glossary, the active dated decision, each region's
-component record, and the resolved retention event history. The old spot-check page is only a
-lead. Apply the project's definition of **regional retention**, then apply the amendment that is
-currently in force. A verification is complete only under the repository's stated event-history
-rule.
+manifest is in scope. Read the project's glossary, the active dated decision, each region's own
+history entry, the history changelog, and the resolved retention event history. The old spot-check
+page is only a lead. Apply the project's definition of **regional retention**, then apply the
+amendment that is currently in force. A verification is complete only under the repository's
+stated event-history rule.
 
 Write a new file `retention-report.txt` in the repository root with exactly these four lines, in
 this order:
@@ -511,15 +601,15 @@ def editable(ctx):
 
 def sweep_paths(ctx):
     corpus = ctx["corpus"]
-    paths = [GLOSSARY, POLICY, LEDGER, DUMP, QA_NOTE, "config/manifest.json", "README.md"]
+    paths = [GLOSSARY, POLICY, LEDGER, DUMP, QA_NOTE, "config/manifest.json", "README.md",
+             "history/CHANGELOG.md"]
     for stage in corpus.stages:
-        paths += [stage["doc"], stage["src"]]
+        paths.append(stage["history"])
     return paths
 
 
 def load_bearing(ctx):
     corpus = ctx["corpus"]
-    excluded = _excluded(ctx)
     lb = [
         {"path": GLOSSARY, "hop": "definition", "why": "defines regional retention and the exclusion predicate"},
         {"path": POLICY, "hop": "ruling", "why": "records the active amendment and verification path"},
@@ -527,10 +617,10 @@ def load_bearing(ctx):
         {"path": DUMP, "hop": "resolution", "why": "resolves completed, countersigned, unvoided verification dates"},
         {"path": "config/manifest.json", "hop": "enumeration", "named_in_prompt": True, "why": "defines the regions in scope"},
         {"path": QA_NOTE, "hop": "decoy", "why": "rules out the tempting window-only spot check"},
+        {"path": "history/CHANGELOG.md", "hop": "effective-window", "why": "carries each module-facing interval in prose"},
     ]
-    for stage in excluded:
-        lb.append({"path": stage["doc"], "hop": "declared-window", "why": "declared window for an excluded region"})
-        lb.append({"path": stage["src"], "hop": "effective-window", "why": "effective module window used in the total"})
+    for stage in corpus.stages:
+        lb.append({"path": stage["history"], "hop": "declared-window", "why": "operator-facing interval for the region"})
     return lb
 
 
@@ -554,15 +644,20 @@ _PERTURBATIONS = [
 def probes(ctx):
     f = ctx["facts"]
     corpus = ctx["corpus"]
+    policy_dates = _policy_dates(corpus)
+    effective_from = policy_dates["effective"]
+    signed_from = policy_dates["signed"]
     ref = reference(ctx)[DELIVERABLE]
     full = "%d/%d" % (3 + len(f["groups"]) + 1, 3 + len(f["groups"]) + 1)
     divergent = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s))
     declared_total = sum(_declared_value(corpus, corpus.by_name[n]) for n in f["names"])
     first = _naive_dates(corpus, "first")
-    first_names = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s) and first.get(s["name"], "0000") >= EFFECTIVE_FROM)
+    first_names = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s) and first.get(s["name"], "0000") >= effective_from)
     last = _naive_dates(corpus, "last")
-    last_names = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s) and last.get(s["name"], "0000") >= EFFECTIVE_FROM)
+    last_names = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s) and last.get(s["name"], "0000") >= effective_from)
+    signed_names = sorted(s["name"] for s in corpus.stages if _declared_value(corpus, s) != _module_value(corpus, s) and f["dates"].get(s["name"], "0000") >= signed_from)
     assert set(first_names) != set(f["names"]) and set(last_names) != set(f["names"])
+    assert set(signed_names) != set(f["names"])
     window_names = sorted(s["name"] for s in _plan(corpus)[2])
     window_total = sum(_module_value(corpus, corpus.by_name[n]) for n in window_names)
     cases = [
@@ -571,6 +666,7 @@ def probes(ctx):
         {"name": "wrong: every divergence, amendment ignored", "files": {DELIVERABLE: _answer(ctx, divergent, sum(_module_value(corpus, corpus.by_name[n]) for n in divergent))}, "verdict": "confidently_wrong"},
         {"name": "wrong: first verification row used", "files": {DELIVERABLE: _answer(ctx, first_names, sum(_module_value(corpus, corpus.by_name[n]) for n in first_names))}, "verdict": "confidently_wrong"},
         {"name": "wrong: latest verification row used", "files": {DELIVERABLE: _answer(ctx, last_names, sum(_module_value(corpus, corpus.by_name[n]) for n in last_names))}, "verdict": "confidently_wrong"},
+        {"name": "wrong: amendment signing date used", "files": {DELIVERABLE: _answer(ctx, signed_names, sum(_module_value(corpus, corpus.by_name[n]) for n in signed_names))}, "verdict": "confidently_wrong"},
         {"name": "wrong: spot check trusted", "files": {DELIVERABLE: _answer(ctx, window_names, window_total, "DR-270")}, "verdict": "confidently_wrong"},
         {"name": "wrong: declared windows summed", "files": {DELIVERABLE: _answer(ctx, total=declared_total)}, "verdict": "confidently_wrong"},
         {"name": "shape: keys in wrong order", "files": {DELIVERABLE: "governing_amendment: %s\neffective_window: %s\nexcluded_region: %s\nverification_path: %s\n" % (f["expect"]["governing_amendment"], f["expect"]["effective_window"], f["expect"]["excluded_region"], f["expect"]["verification_path"])}, "verdict": "confidently_wrong"},
