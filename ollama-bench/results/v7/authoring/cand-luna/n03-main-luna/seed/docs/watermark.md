@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `watermark` stage, the component owner's reviewed transfer ceiling is **996** units.
+qzx=1096
 This per-stage figure is recorded in the document narrative for reconciliation.

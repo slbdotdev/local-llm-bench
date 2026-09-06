@@ -14,12 +14,12 @@ SEED = os.path.join(ROOT, "seed")
 
 # The near-miss set of AUTHORING-BRIEF section 9, written from the spec's own reference and
 # wrong-but-plausible answers by the builder, so it cannot drift from the grader beside it.
-CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
+CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -30,18 +30,18 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
-                                  'effective_handoff_capacity_total: 18561\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity_total: 18537\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'reference',
   'score': '8/8',
   'verdict': 'correct'},
  {'name': 'empty (untouched sandbox)', 'no_traceback': True, 'verdict': 'visibly_failed'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=953, '
-                                  'backfill=923, checkpoint=1091, cursor=1041, digest=901, '
-                                  'dispatch=970, drain=938, envelope=1029, ingest=1005, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1055, schema=736, shard=1068, '
-                                  'tenancy=1068, watermark=996\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=1037, '
+                                  'backfill=989, checkpoint=948, cursor=1009, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=983, ingest=964, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1001, schema=886, shard=1053, '
+                                  'tenancy=969, watermark=1096\n'
                                   'effective_source_by_unit: attestation=document, '
                                   'backfill=document, checkpoint=document, cursor=document, '
                                   'digest=document, dispatch=document, drain=document, '
@@ -50,16 +50,16 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'replay=implementation, retention=implementation, '
                                   'routing=document, schema=implementation, shard=document, '
                                   'tenancy=document, watermark=document\n'
-                                  'effective_handoff_capacity_total: 18361\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity_total: 18313\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'wrong: document preferred for every class',
   'verdict': 'confidently_wrong'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=723, checkpoint=891, cursor=1041, digest=901, '
-                                  'dispatch=970, drain=738, envelope=829, ingest=805, '
-                                  'ledger=771, lineage=773, quota=853, replay=891, '
-                                  'retention=899, routing=1055, schema=736, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=898, checkpoint=747, cursor=1009, digest=1032, '
+                                  'dispatch=1100, drain=738, envelope=819, ingest=816, '
+                                  'ledger=781, lineage=788, quota=789, replay=800, '
+                                  'retention=702, routing=1001, schema=886, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=implementation, checkpoint=implementation, '
                                   'cursor=document, digest=document, dispatch=document, '
@@ -69,16 +69,16 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'replay=implementation, retention=implementation, '
                                   'routing=document, schema=implementation, shard=document, '
                                   'tenancy=implementation, watermark=document\n'
-                                  'effective_handoff_capacity_total: 16561\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity_total: 16605\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'wrong: module preferred for every class',
   'verdict': 'confidently_wrong'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1291, cursor=1241, digest=1101, '
-                                  'dispatch=1170, drain=1138, envelope=829, ingest=805, '
-                                  'ledger=1171, lineage=773, quota=1253, replay=1291, '
-                                  'retention=1299, routing=1255, schema=1136, shard=1268, '
-                                  'tenancy=1268, watermark=1196\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=1189, cursor=1229, digest=1188, '
+                                  'dispatch=1235, drain=1290, envelope=819, ingest=816, '
+                                  'ledger=1184, lineage=788, quota=1133, replay=1115, '
+                                  'retention=1116, routing=1238, schema=1178, shard=1233, '
+                                  'tenancy=1252, watermark=1220\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=migration-ledger, '
                                   'cursor=migration-ledger, digest=migration-ledger, '
@@ -89,8 +89,8 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'retention=migration-ledger, routing=migration-ledger, '
                                   'schema=migration-ledger, shard=migration-ledger, '
                                   'tenancy=migration-ledger, watermark=migration-ledger\n'
-                                  'effective_handoff_capacity_total: 21361\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity_total: 21249\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'wrong: migration row preferred for every class',
   'verdict': 'confidently_wrong'},
  {'files': {'handoff-report.txt': 'effective_source_by_unit: attestation=implementation, '
@@ -103,22 +103,22 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
-                                  'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
-                                  'effective_handoff_capacity_total: 18561\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
+                                  'effective_handoff_capacity_total: 18537\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'shape: source list in the wrong order',
   'verdict': 'confidently_wrong'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -129,17 +129,17 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
-                                  'effective_handoff_capacity_total: 18561\n'
-                                  'exception_governing_artifact: migration ledger'},
+                                  'effective_handoff_capacity_total: 18537\n'
+                                  'exception_governing_artifact: migration-ledger'},
   'name': 'perturb: no trailing newline',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -150,18 +150,18 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
-                                  'effective_handoff_capacity_total: 18561\n'
-                                  'exception_governing_artifact: migration ledger\n'
+                                  'effective_handoff_capacity_total: 18537\n'
+                                  'exception_governing_artifact: migration-ledger\n'
                                   '\n'},
   'name': 'perturb: two trailing newlines',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\r\n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\r\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -172,18 +172,18 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\r\n'
-                                  'effective_handoff_capacity_total: 18561\r\n'
-                                  'exception_governing_artifact: migration ledger\r\n'},
+                                  'effective_handoff_capacity_total: 18537\r\n'
+                                  'exception_governing_artifact: migration-ledger\r\n'},
   'name': 'perturb: CRLF line endings',
   'score': '8/8',
   'verdict': 'correct'},
  {'files': {'handoff-report.txt': '\n'
-                                  'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996\n'
+                                  'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096\n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -194,17 +194,17 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
-                                  'effective_handoff_capacity_total: 18561\n'
-                                  'exception_governing_artifact: migration ledger\n'},
+                                  'effective_handoff_capacity_total: 18537\n'
+                                  'exception_governing_artifact: migration-ledger\n'},
   'name': 'perturb: one leading blank line',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=753, '
-                                  'backfill=1123, checkpoint=1091, cursor=1241, digest=901, '
-                                  'dispatch=970, drain=938, envelope=829, ingest=805, '
-                                  'ledger=971, lineage=973, quota=853, replay=891, '
-                                  'retention=899, routing=1255, schema=1136, shard=1068, '
-                                  'tenancy=868, watermark=996  \n'
+ {'files': {'handoff-report.txt': 'effective_handoff_capacity: attestation=794, '
+                                  'backfill=1232, checkpoint=948, cursor=1229, digest=1032, '
+                                  'dispatch=1100, drain=943, envelope=819, ingest=816, '
+                                  'ledger=951, lineage=1061, quota=789, replay=800, '
+                                  'retention=702, routing=1238, schema=1178, shard=1053, '
+                                  'tenancy=756, watermark=1096  \n'
                                   'effective_source_by_unit: attestation=implementation, '
                                   'backfill=migration-ledger, checkpoint=document, '
                                   'cursor=migration-ledger, digest=document, '
@@ -215,8 +215,8 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'routing=migration-ledger, schema=migration-ledger, '
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document  \n'
-                                  'effective_handoff_capacity_total: 18561  \n'
-                                  'exception_governing_artifact: migration ledger  \n'},
+                                  'effective_handoff_capacity_total: 18537  \n'
+                                  'exception_governing_artifact: migration-ledger  \n'},
   'name': 'perturb: trailing spaces on every line',
   'score': '8/8',
   'verdict': 'correct'}]

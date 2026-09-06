@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `routing` stage, the component owner's reviewed transfer ceiling is **1055** units.
+qzx=1001
 This per-stage figure is recorded in the document narrative for reconciliation.

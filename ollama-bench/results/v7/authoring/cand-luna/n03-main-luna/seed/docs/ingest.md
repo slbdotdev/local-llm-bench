@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `ingest` stage, the component owner's reviewed transfer ceiling is **1005** units.
+qzx=964
 This per-stage figure is recorded in the document narrative for reconciliation.

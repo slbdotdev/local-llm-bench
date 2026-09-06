@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `checkpoint` stage, the component owner's reviewed transfer ceiling is **1091** units.
+qzx=948
 This per-stage figure is recorded in the document narrative for reconciliation.

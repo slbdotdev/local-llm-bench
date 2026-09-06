@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `envelope` stage, the component owner's reviewed transfer ceiling is **1029** units.
+qzx=983
 This per-stage figure is recorded in the document narrative for reconciliation.

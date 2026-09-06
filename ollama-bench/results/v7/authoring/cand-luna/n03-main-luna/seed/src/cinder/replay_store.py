@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 120
 DEFAULT_REPLAY_WINDOW_S = 180
-HANDOFF_CAPACITY = 891
+HANDOFF_CAPACITY = 800
 REPLAY_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

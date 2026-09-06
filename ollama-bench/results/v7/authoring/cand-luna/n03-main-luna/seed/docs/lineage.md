@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `lineage` stage, the component owner's reviewed transfer ceiling is **973** units.
+qzx=1061
 This per-stage figure is recorded in the document narrative for reconciliation.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 480
 DEFAULT_QUOTA_WINDOW_S = 45
-HANDOFF_CAPACITY = 853
+HANDOFF_CAPACITY = 789
 QUOTA_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

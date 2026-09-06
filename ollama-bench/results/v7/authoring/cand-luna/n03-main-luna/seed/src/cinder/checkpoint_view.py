@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 120
 DEFAULT_CHECKPOINT_WINDOW_S = 90
-HANDOFF_CAPACITY = 891
+HANDOFF_CAPACITY = 747
 CHECKPOINT_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

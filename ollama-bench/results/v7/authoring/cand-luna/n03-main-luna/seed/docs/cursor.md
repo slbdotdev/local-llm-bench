@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `cursor` stage, the component owner's reviewed transfer ceiling is **1041** units.
+qzx=1009
 This per-stage figure is recorded in the document narrative for reconciliation.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 48
 DEFAULT_INGEST_WINDOW_S = 90
-HANDOFF_CAPACITY = 805
+HANDOFF_CAPACITY = 816
 INGEST_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

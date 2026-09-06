@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_TENANCY_LIMIT = 32
 DEFAULT_TENANCY_WINDOW_S = 90
-HANDOFF_CAPACITY = 868
+HANDOFF_CAPACITY = 756
 TENANCY_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

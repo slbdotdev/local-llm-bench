@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `dispatch` stage, the component owner's reviewed transfer ceiling is **970** units.
+qzx=1100
 This per-stage figure is recorded in the document narrative for reconciliation.

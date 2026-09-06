@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 250
 DEFAULT_ATTESTATION_WINDOW_S = 45
-HANDOFF_CAPACITY = 753
+HANDOFF_CAPACITY = 794
 ATTESTATION_STATES = ("pending", "expandd", "settled", "abandoned")
 
 

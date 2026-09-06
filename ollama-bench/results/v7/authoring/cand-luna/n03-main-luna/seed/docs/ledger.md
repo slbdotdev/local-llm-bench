@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-For the `ledger` stage, the component owner's reviewed transfer ceiling is **971** units.
+qzx=951
 This per-stage figure is recorded in the document narrative for reconciliation.

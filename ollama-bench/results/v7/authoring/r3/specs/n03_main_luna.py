@@ -62,10 +62,13 @@ def _stage_hash(name):
     return hashlib.sha256(name.encode("utf-8")).digest()
 
 
-def _capacity(stage, base):
-    # The disjoint ranges keep the three sources visibly plausible but distinct.  The
-    # digest, rather than the manifest index, supplies the per-stage variation.
-    return base + (int.from_bytes(_stage_hash(stage["name"])[0:8], "big") % 211)
+def _capacity(stage, artifact):
+    # Each artifact kind gets an independent salted digest, rather than a shared digest
+    # plus a fixed offset.  The disjoint ranges keep the sources visibly plausible while
+    # preventing one artifact's value from being reconstructed arithmetically.
+    bases = {"document": 900, "module": 700, "migration-ledger": 1100}
+    salted = _stage_hash("%s:%s" % (artifact, stage["name"]))
+    return bases[artifact] + (int.from_bytes(salted[0:8], "big") % 211)
 
 
 def _missing_source(stage):
@@ -91,13 +94,13 @@ def overlay(ctx):
     ledger_rows = ["stage,property,resolution_class,capacity,recorded_on,operator_note"]
     for i, stage in enumerate(corpus.stages):
         missing = _missing_source(stage)
-        doc_value = _capacity(stage, 900)
-        module_value = _capacity(stage, 700)
-        ledger_value = _capacity(stage, 1100)
+        doc_value = _capacity(stage, "document")
+        module_value = _capacity(stage, "module")
+        ledger_value = _capacity(stage, "migration-ledger")
         if missing != "document":
             corpus.append(
                 stage["doc"],
-                """\n## Per-stage handoff review\n\nFor the `%s` stage, the component owner's reviewed transfer ceiling is **%d** units.\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % (stage["name"], doc_value))
+                """\n## Per-stage handoff review\n\nqzx=%d\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % doc_value)
         if missing != "module":
             corpus.set_module_constant(stage, DECISIVE_CONSTANT, str(module_value))
         if missing == "migration-ledger":
@@ -277,9 +280,7 @@ def _values(corpus):
     for stage in corpus.stages:
         name = stage["name"]
         doc_text = corpus.text(stage["doc"])
-        doc_match = re.search(
-            r"^For the `%s` stage, the component owner's reviewed transfer ceiling is "
-            r"\*\*(\d+)\*\* units\.$" % re.escape(name), doc_text, re.M)
+        doc_match = re.search(r"^qzx=(\d+)$", doc_text, re.M)
         doc = int(doc_match.group(1)) if doc_match else None
         module_text = corpus.module_constant(stage, DECISIVE_CONSTANT)
         module = int(module_text) if module_text is not None else None
@@ -339,7 +340,7 @@ def facts(ctx):
             "effective_handoff_capacity": ", ".join(pairs),
             "effective_source_by_unit": ", ".join(sources),
             "effective_handoff_capacity_total": str(total),
-            "exception_governing_artifact": "migration ledger",
+            "exception_governing_artifact": "migration-ledger",
         },
         "kinds": {
             "effective_handoff_capacity": "list",
@@ -431,11 +432,17 @@ def load_bearing(ctx):
     # The full traversal remains in sweep_paths.  LOAD_BEARING is a concise causal sample:
     # representative stage documents and modules, plus the shared rule, roster, and row
     # artifacts.  This avoids turning generic words such as "document" into a rung-0 shortcut.
+    module_replacements = {
+        "src/cinder/cursor_core.py": ("src/cinder/ingest_store.py", "ingest"),
+        "src/cinder/digest_flow.py": ("src/cinder/attestation_gate.py", "attestation"),
+    }
     for stage in corpus.stages[:3]:
         lb.append({"path": stage["doc"], "hop": "document-value",
                    "why": "the component document's handoff capacity for %s" % stage["name"]})
-        lb.append({"path": stage["src"], "hop": "module-value",
-                   "why": "the Python module's handoff capacity for %s" % stage["name"]})
+        module_path, module_name = module_replacements.get(
+            stage["src"], (stage["src"], stage["name"]))
+        lb.append({"path": module_path, "hop": "module-value",
+                   "why": "the Python module's handoff capacity for %s" % module_name})
     return lb
 
 
@@ -456,7 +463,7 @@ def _render(ctx, values, force_source=None):
     return ("effective_handoff_capacity: %s\n"
             "effective_source_by_unit: %s\n"
             "effective_handoff_capacity_total: %d\n"
-            "exception_governing_artifact: migration ledger\n" %
+            "exception_governing_artifact: migration-ledger\n" %
             (", ".join(pairs), ", ".join(sources), total))
 
 
@@ -507,13 +514,13 @@ def probes(ctx):
         "effective_handoff_capacity: %s\n"
         "effective_source_by_unit: %s\n"
         "effective_handoff_capacity_total: %s\n"
-        "exception_governing_artifact: migration ledger\n" % (pairs, names, total))
+        "exception_governing_artifact: migration-ledger\n" % (pairs, names, total))
     # The explicit order is fixed by the prompt, so the shape probe swaps the first two keys.
     cases[-1]["files"][DELIVERABLE] = (
         "effective_source_by_unit: %s\n"
         "effective_handoff_capacity: %s\n"
         "effective_handoff_capacity_total: %s\n"
-        "exception_governing_artifact: migration ledger\n" % (names, pairs, total))
+        "exception_governing_artifact: migration-ledger\n" % (names, pairs, total))
     for name, mutate in _PERTURBATIONS:
         cases.append({"name": "perturb: " + name, "files": {DELIVERABLE: mutate(ref)},
                       "verdict": "correct", "score": full})

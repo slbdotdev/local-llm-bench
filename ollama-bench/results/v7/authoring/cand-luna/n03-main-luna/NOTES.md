@@ -57,7 +57,7 @@ roster pointer and is declared `named_in_prompt` in `LOAD_BEARING`. It names no 
 path and no value. A selective grep over prompt vocabulary cannot assemble the answer because
 the three values use different artifact-specific names and the class-to-source mapping is prose.
 
-The sweep covers 21517 of 30090 measured material tokens (71.5%): the
+The sweep covers 21247 of 29822 measured material tokens (71.2%): the
 engineering record, migration ledger, manifest roster, and every stage document and module.
 That traversal is necessary because the selected source depends on each row's neutral class and
 available records, and the report must aggregate all stages.
@@ -71,11 +71,11 @@ requires at least six paths and three hops, and must touch at least five paths.
 - `data/handoff-capacity-ledger.csv` — one migration row per stage carries the class and a possible ledger value (*enumeration*)
 - `config/manifest.json` — the repository's current roster defines the stages in scope (*enumeration*)
 - `docs/cursor.md` — the component document's handoff capacity for cursor (*document-value*)
-- `src/cinder/cursor_core.py` — the Python module's handoff capacity for cursor (*module-value*)
+- `src/cinder/ingest_store.py` — the Python module's handoff capacity for ingest (*module-value*)
 - `docs/lineage.md` — the component document's handoff capacity for lineage (*document-value*)
 - `src/cinder/lineage_core.py` — the Python module's handoff capacity for lineage (*module-value*)
 - `docs/digest.md` — the component document's handoff capacity for digest (*document-value*)
-- `src/cinder/digest_flow.py` — the Python module's handoff capacity for digest (*module-value*)
+- `src/cinder/attestation_gate.py` — the Python module's handoff capacity for attestation (*module-value*)
 
 ## 6. Near-miss table
 
@@ -91,7 +91,7 @@ perturbations and fail.
 
 ## 7. Budget and derivability
 
-This is not mode 8. The reference is 812 characters and is under the output limit. Every
+This is not mode 8. The reference is 815 characters and is under the output limit. Every
 value it asserts is derived from seed files: the available per-stage values from the three
 artifact kinds, the winning source from the three rule sentences, each row's class, and fallback
 availability, the total from those winners, and the exception artifact from the record's explicit
