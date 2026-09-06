@@ -38,8 +38,14 @@ artifact: it is deleted once the owners have applied it.
 `python3 tools/run_checks.py` validates a filed correction set. It checks that each
 row names a real stage, that the pool named really does root a pool, that the period
 is that pool's, and that the row is a correction at all rather than a restatement of
-what the document already says. It then compares the fingerprint of the whole set
-with the fingerprint the last review recorded in `data/custody-review.lock`.
+what the document already says. It then resolves each corrected stage's custody
+chain and compares the fingerprint of the whole set with the fingerprint the last
+review recorded in `data/custody-review.lock`.
+
+Whether a reviewer has named the *right* pool for a stage is settled by that
+fingerprint, over the whole set, and never row by row. That is deliberate: a checker
+that says which single row is wrong can be asked one stage at a time until it has
+given up the whole answer, and this one is asked once about a set or not at all.
 
 It does **not** tell a reviewer which documents are stale. That was raised at the
 time and was refused: a checker that answers the question it is asked to verify is

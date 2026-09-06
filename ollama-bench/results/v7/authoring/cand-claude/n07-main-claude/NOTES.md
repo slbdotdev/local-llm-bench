@@ -34,7 +34,7 @@ prints it:
   (`watermark`), which `facts()` measures rather than assumes.
 
 So a correct answer requires every document and every module. The declared sweep is
-**25006 of 34307 material tokens (72.9%)** over 92 files.
+**25510 of 34811 material tokens (73.3%)** over 92 files.
 
 The prompt names no file that carries a fact, only `config/manifest.json` (declared
 `named_in_prompt`, and it is the roster of units — knowing the scope of a sweep is not knowing
@@ -52,16 +52,34 @@ No single grep assembles it either. The stated periods are markdown table cells,
 Python string assignments, the schedule is a command's stdout and the rule is prose; the four
 shapes share no token, and no stage name appears in the prompt.
 
-### The one shortcut that remains, stated plainly
+### The shortcut a reviewer found, how it was closed, and what remains
 
-`tools/run_checks.py` is a fingerprint oracle: it answers yes or no about a filed set. A
-solver who assumed the answer had exactly 5 rows, read the checker's serialisation out
-of its source and enumerated every choice of 5 stages from 20 with every
-choice of pool would need on the order of 10^7 hashes to find the set without reading anything.
-That is well outside a 300-second budget and outside anything this benchmark has observed, and
-it is recorded here rather than left for a reviewer to find. It is the reason the pool is
-carried in the correction row at all: with the row reduced to `<stage>,<days>` the same search
-is about 10^6 and is inside budget.
+`tools/run_checks.py` is a fingerprint oracle: it answers yes or no about a filed set, so the
+recorded fingerprint has to be one that cannot be inverted by somebody who has read nothing.
+The first draft's was. A blind reviewer took `config/manifest.json`, `data/custody-review.lock` and the
+checker, ran the state report once for the 5 `(root, period)` pairs, and enumerated
+every choice of 5 stages from 20 against every choice of pool —
+**48,450,000 candidate sets** — recovering the whole answer in about four seconds on a
+16-core host and scoring 7/7 from three files.
+
+The fingerprint now covers each corrected stage's **whole custody chain**, `a>b>c|days`, and
+not the stage and its pool root. A chain is a path through the stage graph; it is written in
+the stage modules and nowhere else, and it is exactly the fact this task exists to make a
+solver go and read. `facts()` recomputes the search space from the built seed, under the
+assumptions most favourable to an attacker — they know the roster, they know the answer has
+exactly 5 rows, they have run the state report, and they know the longest chain in
+the tree is **4 stages** — and gets **1,810 candidate chain strings per
+stage** and **3.01e+20 candidate sets**. The build fails if that figure ever drops below
+10^15, and it fails too if every chain in the answer is `stage>root`, which would make the
+chain form a relabelling of the form that was inverted: 2 of the 5 chains in
+the answer are longer than that, the deepest being 4 stages. Every number on this page
+is that computation's output and not an estimate.
+
+What remains, stated plainly: the checker resolves chains, so a solver who imports it and
+calls `chain()` for every stage gets every stage's pool without writing a resolver of their
+own. That is a convenience and not a shortcut — the function reads the modules to answer, so
+the material is traversed either way, and the solver still needs every component document's
+`custody_days` and the schedule in force to turn those pools into an answer.
 
 ## 3. Distinguishing condition, and the wrong courses the material rules out
 

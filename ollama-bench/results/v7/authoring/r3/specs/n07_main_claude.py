@@ -167,10 +167,40 @@ def _planned(corpus):
             "requested": requested}
 
 
-def _corrections_fingerprint(rows):
-    """The fingerprint a filed correction set has. `rows` is [(stage, pool, days), ...]."""
-    body = "\n".join(sorted("%s|%s|%d" % (s, p, d) for s, p, d in rows))
+def _corrections_fingerprint(chains):
+    """The fingerprint a filed correction set has. `chains` is [([stage, .., root], days)].
+
+    The fingerprint covers each corrected stage's **whole custody chain**, not its root. A
+    fingerprint over `stage|root|days` was inverted by a reviewer on 2026-09-08 in about four
+    seconds: the roster is in `config/manifest.json`, the five `(root, days)` pairs are one
+    run of the state report, and C(20,5) x 5^5 is 48 million candidate sets. A chain is a path
+    through the stage graph and is written in the stage modules and nowhere else, so the same
+    search now has to guess the paths as well, and `facts()` measures what that costs.
+    """
+    body = "\n".join(sorted("%s|%d" % (">".join(c), d) for c, d in chains))
     return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+
+def _chain_from_plan(st, p, i):
+    """The custody chain from stage index `i` to its pool root, as stage names."""
+    out, cur = [], i
+    while True:
+        out.append(st[cur]["name"])
+        if p["parent"][cur] is None:
+            return out
+        cur = p["parent"][cur]
+
+
+def _chain_from_state(state, name):
+    """The same chain, read back off the modules on disk."""
+    out, cur, seen = [], name, set()
+    while True:
+        assert cur not in seen, "custody chain loops at %s" % cur
+        seen.add(cur)
+        out.append(cur)
+        if state["pools"][cur] == "-none-":
+            return out
+        cur = state["pools"][cur]
 
 
 def _schedule_fingerprint(schedule):
@@ -217,9 +247,8 @@ def overlay(ctx):
     # 5. the two tools, and the fingerprint the last review recorded.
     C.write(os.path.join(seed, *REPORT_TOOL.split("/")), _REPORT_SOURCE)
     C.write(os.path.join(seed, *CHECKS.split("/")), _CHECKS_SOURCE)
-    rows = [(st[i]["name"], st[p["root_of"][i]]["name"], p["effective"][i])
-            for i in p["stale"]]
-    _write_lock(ctx, _corrections_fingerprint(rows))
+    _write_lock(ctx, _corrections_fingerprint(
+        [(_chain_from_plan(st, p, i), p["effective"][i]) for i in p["stale"]]))
 
     # 6. the stale lead a reader is invited to trust, and which disclaims itself.
     _write_spot_check(ctx, p)
@@ -362,8 +391,14 @@ def _write_ruling(ctx):
          "`python3 tools/run_checks.py` validates a filed correction set. It checks that each",
          "row names a real stage, that the pool named really does root a pool, that the period",
          "is that pool's, and that the row is a correction at all rather than a restatement of",
-         "what the document already says. It then compares the fingerprint of the whole set",
-         "with the fingerprint the last review recorded in `data/custody-review.lock`.",
+         "what the document already says. It then resolves each corrected stage's custody",
+         "chain and compares the fingerprint of the whole set with the fingerprint the last",
+         "review recorded in `data/custody-review.lock`.",
+         "",
+         "Whether a reviewer has named the *right* pool for a stage is settled by that",
+         "fingerprint, over the whole set, and never row by row. That is deliberate: a checker",
+         "that says which single row is wrong can be asked one stage at a time until it has",
+         "given up the whole answer, and this one is asked once about a set or not at all.",
          "",
          "It does **not** tell a reviewer which documents are stale. That was raised at the",
          "time and was refused: a checker that answers the question it is asked to verify is",
@@ -416,6 +451,12 @@ def _write_lock(ctx, fingerprint):
          "# The list is not written here on purpose. `tools/run_checks.py` compares this",
          "# fingerprint with the fingerprint of the set a reviewer files, which is how the next",
          "# review is checked against the last one without either being able to copy it.",
+         "#",
+         "# The fingerprint covers each corrected stage's whole custody chain and the period",
+         "# it should state, rather than the stage and the pool it ends in. The %s" % REVIEW_ID,
+         "# review recorded a fingerprint over the shorter form and withdrew it the same week:",
+         "# with the roster, the schedule and a few million tries the shorter form gives up the",
+         "# list it was recorded to withhold. A chain cannot be guessed from either of those.",
          "",
          "review: %s" % REVIEW_ID,
          "recorded_on: %s" % REVIEW_DATE,
@@ -572,6 +613,12 @@ whose `custody_days` is stale, three fields --
 Every check below is a check on what the reviewer filed. This tool does not work out which
 documents are stale and does not say: see `docs/policy-records/` on why a checker that answers
 the question it is asked to verify is verifying itself.
+
+The fingerprint is taken over each corrected stage's whole custody chain -- the path from the
+stage to the root of its pool, as `a>b>c|days` -- and not over the stage and the root alone.
+Whether a reviewer named the right pool for a stage is therefore settled by the fingerprint,
+over the set as a whole, and is never reported row by row: a checker that says which single
+row is wrong can be asked one stage at a time until it has given up the whole answer.
 """
 import hashlib
 import json
@@ -611,6 +658,27 @@ def doc_days(stage):
     m = re.search(r"^\| `custody_days` \| (\d+) \|",
                   read(os.path.join("docs", stage + ".md")), re.M)
     return int(m.group(1)) if m else None
+
+
+def chain(package, modules, stage):
+    """The custody chain from `stage` to the root of its pool, as a list of stage names.
+
+    Follows `CUSTODY_POOL` from module to module, exactly as docs/custody-policy.md describes
+    it. Returns None for a chain that names a stage the manifest does not, that loops, or
+    that never reaches a root; none of those can happen in a tree this tool would accept.
+    """
+    out, seen, cur = [], set(), stage
+    while True:
+        if cur in seen or cur not in modules:
+            return None
+        seen.add(cur)
+        out.append(cur)
+        m = POOL.search(read(os.path.join("src", package, modules[cur] + ".py")))
+        if not m:
+            return None
+        if m.group(1) == ROOT:
+            return out
+        cur = m.group(1)
 
 
 def main():
@@ -668,7 +736,12 @@ def main():
             failures.append("row %d restates what %r's document already says, so it is not "
                             "a correction" % (n, stage))
             continue
-        clean.append((stage, pool, period))
+        ch = chain(package, modules, stage)
+        if ch is None:
+            failures.append("row %d names %r, whose custody chain does not reach a pool root"
+                            % (n, stage))
+            continue
+        clean.append((ch, period))
 
     recorded = None
     for line in read(LOCK).splitlines():
@@ -677,7 +750,7 @@ def main():
     if recorded is None:
         failures.append("%s records no fingerprint" % LOCK)
     else:
-        body = "\n".join(sorted("%s|%s|%d" % r for r in clean))
+        body = "\n".join(sorted("%s|%d" % (">".join(c), d) for c, d in clean))
         got = hashlib.sha256(body.encode("utf-8")).hexdigest()
         if got != recorded:
             failures.append("the filed correction set does not match the fingerprint the "
@@ -690,6 +763,7 @@ def main():
         return 1
     print("OK    every filed row names a stage, a pool that roots one, and that pool's period")
     print("OK    every filed row corrects what its document states rather than restating it")
+    print("OK    every corrected stage's custody chain resolves to a pool root")
     print("OK    the correction set matches the fingerprint recorded by the last review")
     print("CHECKS: pass")
     return 0
@@ -892,8 +966,40 @@ def facts(ctx):
         shutil.rmtree(sandbox, ignore_errors=True)
 
     lock = C.read(corpus.path(LOCK))
-    assert _corrections_fingerprint(rows) in lock, "%s records another set's fingerprint" % LOCK
+    chains = [(_chain_from_state(state, n), state["effective"][n]) for n in stale]
+    assert _corrections_fingerprint(chains) in lock, \
+        "%s records another set's fingerprint" % LOCK
     policy_lines = len(C.read(corpus.path(POLICY)).splitlines())
+
+    # -- what inverting that fingerprint costs, measured rather than estimated ------------
+    # A reviewer inverted the previous form of it on 2026-09-08 in about four seconds. The
+    # search space is computed here, from the seed, under the assumptions most favourable to
+    # the attacker: they know the roster, they know the answer has exactly `k` rows, they
+    # have run the state report once for the `(root, period)` pairs, and they know the
+    # longest chain in the tree. Both figures go into NOTES.md as measurements.
+    n_stages = len(corpus.stages)
+    n_roots = len(state["days"])
+    k = len(stale)
+    depth = max(len(_chain_from_state(state, n)) for n in state["stated"])
+    subsets = 1
+    for j in range(k):
+        subsets = subsets * (n_stages - j) // (j + 1)
+    # candidate chain strings for one stage: an ordered choice of up to `depth - 2` distinct
+    # intermediate stages from the other `n_stages - 1`, then one of the roots.
+    per_stage, perm = 0, 1
+    for length in range(0, depth - 1):
+        per_stage += perm * n_roots
+        perm *= max(n_stages - 1 - length, 1)
+    enum_old = subsets * n_roots ** k
+    enum_new = subsets * per_stage ** k
+    assert enum_new > 1e15, \
+        "the correction fingerprint is enumerable in %.3g tries" % enum_new
+    # And the chains in the answer must not all be `stage>root`: if they were, the chain form
+    # would be a relabelling of the form the reviewer inverted and the search would be the old
+    # one again. This is the assertion that stops a later edit quietly undoing the fix.
+    deep = [n for n in stale if len(_chain_from_state(state, n)) > 2]
+    assert deep, ("every stale stage's chain is `stage>root`; the fingerprint is enumerable "
+                  "from the roster and the schedule again")
 
     return {
         "keys": ["TESTS", "stale_documents", "schedule_fingerprint"],
@@ -918,6 +1024,11 @@ def facts(ctx):
         "fingerprint": fingerprint,
         "report_chars": len(printed),
         "report_lines": len(printed.splitlines()),
+        "deep_chains": len(deep),
+        "enum_old": enum_old,
+        "enum_new": enum_new,
+        "chain_depth": depth,
+        "chain_candidates": per_stage,
         "policy_lines": policy_lines,
         "n_pools": len(state["days"]),
         "n_stages": len(corpus.stages),
@@ -1168,16 +1279,34 @@ No single grep assembles it either. The stated periods are markdown table cells,
 Python string assignments, the schedule is a command's stdout and the rule is prose; the four
 shapes share no token, and no stage name appears in the prompt.
 
-### The one shortcut that remains, stated plainly
+### The shortcut a reviewer found, how it was closed, and what remains
 
-`tools/run_checks.py` is a fingerprint oracle: it answers yes or no about a filed set. A
-solver who assumed the answer had exactly %(nstale)d rows, read the checker's serialisation out
-of its source and enumerated every choice of %(nstale)d stages from %(nstages)d with every
-choice of pool would need on the order of 10^7 hashes to find the set without reading anything.
-That is well outside a 300-second budget and outside anything this benchmark has observed, and
-it is recorded here rather than left for a reviewer to find. It is the reason the pool is
-carried in the correction row at all: with the row reduced to `<stage>,<days>` the same search
-is about 10^6 and is inside budget.
+`tools/run_checks.py` is a fingerprint oracle: it answers yes or no about a filed set, so the
+recorded fingerprint has to be one that cannot be inverted by somebody who has read nothing.
+The first draft's was. A blind reviewer took `config/manifest.json`, `%(lock)s` and the
+checker, ran the state report once for the %(npools)d `(root, period)` pairs, and enumerated
+every choice of %(nstale)d stages from %(nstages)d against every choice of pool —
+**%(enumold)s candidate sets** — recovering the whole answer in about four seconds on a
+16-core host and scoring 7/7 from three files.
+
+The fingerprint now covers each corrected stage's **whole custody chain**, `a>b>c|days`, and
+not the stage and its pool root. A chain is a path through the stage graph; it is written in
+the stage modules and nowhere else, and it is exactly the fact this task exists to make a
+solver go and read. `facts()` recomputes the search space from the built seed, under the
+assumptions most favourable to an attacker — they know the roster, they know the answer has
+exactly %(nstale)d rows, they have run the state report, and they know the longest chain in
+the tree is **%(depth)d stages** — and gets **%(chaincand)s candidate chain strings per
+stage** and **%(enumnew)s candidate sets**. The build fails if that figure ever drops below
+10^15, and it fails too if every chain in the answer is `stage>root`, which would make the
+chain form a relabelling of the form that was inverted: %(ndeep)d of the %(nstale)d chains in
+the answer are longer than that, the deepest being %(depth)d stages. Every number on this page
+is that computation's output and not an estimate.
+
+What remains, stated plainly: the checker resolves chains, so a solver who imports it and
+calls `chain()` for every stage gets every stage's pool without writing a resolver of their
+own. That is a convenience and not a shortcut — the function reads the modules to answer, so
+the material is traversed either way, and the solver still needs every component document's
+`custody_days` and the schedule in force to turn those pools into an answer.
 
 ## 3. Distinguishing condition, and the wrong courses the material rules out
 
@@ -1289,6 +1418,10 @@ chains exactly as `%(policy)s` describes them rather than from this spec's own p
         "reqset": ", ".join("`%s`" % n for n in f["req_set"]),
         "spotset": ", ".join("`%s`" % n for n in f["spot"]),
         "behind": f["behind"], "copied": REVISION_COPIED, "inforce": REVISION_IN_FORCE,
+        "npools": f["n_pools"], "depth": f["chain_depth"], "ndeep": f["deep_chains"],
+        "enumold": "{:,}".format(f["enum_old"]),
+        "enumnew": "%.3g" % f["enum_new"],
+        "chaincand": "{:,}".format(f["chain_candidates"]),
         "nlb": len(m["load_bearing"]),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])),
         "lb": lb_rows,

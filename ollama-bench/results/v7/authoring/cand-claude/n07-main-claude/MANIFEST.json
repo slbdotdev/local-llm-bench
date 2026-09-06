@@ -3,8 +3,8 @@
  "family": "claude",
  "band": "main",
  "failure_mode": 4,
- "material_chars": 160008,
- "material_tokens": 34307,
+ "material_chars": 162358,
+ "material_tokens": 34811,
  "chars_per_token": 4.664,
  "seed_files": 92,
  "round": "v7r3-difficulty",
@@ -12,7 +12,7 @@
  "files": {
   "README.md": 747,
   "config/manifest.json": 771,
-  "data/custody-review.lock": 172,
+  "data/custody-review.lock": 262,
   "docs/architecture.md": 361,
   "docs/attestation.md": 378,
   "docs/audit.md": 375,
@@ -29,7 +29,7 @@
   "docs/ingest.md": 375,
   "docs/ledger.md": 376,
   "docs/operations.md": 465,
-  "docs/policy-records/PR-0207-custody-pools.md": 855,
+  "docs/policy-records/PR-0207-custody-pools.md": 936,
   "docs/quota.md": 375,
   "docs/reconcile.md": 379,
   "docs/replay.md": 375,
@@ -101,6 +101,6 @@
   "tests/test_throttle.py": 171,
   "tests/test_watermark.py": 173,
   "tools/report_state.py": 725,
-  "tools/run_checks.py": 1074
+  "tools/run_checks.py": 1407
  }
 }

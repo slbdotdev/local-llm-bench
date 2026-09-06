@@ -10,6 +10,12 @@ whose `custody_days` is stale, three fields --
 Every check below is a check on what the reviewer filed. This tool does not work out which
 documents are stale and does not say: see `docs/policy-records/` on why a checker that answers
 the question it is asked to verify is verifying itself.
+
+The fingerprint is taken over each corrected stage's whole custody chain -- the path from the
+stage to the root of its pool, as `a>b>c|days` -- and not over the stage and the root alone.
+Whether a reviewer named the right pool for a stage is therefore settled by the fingerprint,
+over the set as a whole, and is never reported row by row: a checker that says which single
+row is wrong can be asked one stage at a time until it has given up the whole answer.
 """
 import hashlib
 import json
@@ -49,6 +55,27 @@ def doc_days(stage):
     m = re.search(r"^\| `custody_days` \| (\d+) \|",
                   read(os.path.join("docs", stage + ".md")), re.M)
     return int(m.group(1)) if m else None
+
+
+def chain(package, modules, stage):
+    """The custody chain from `stage` to the root of its pool, as a list of stage names.
+
+    Follows `CUSTODY_POOL` from module to module, exactly as docs/custody-policy.md describes
+    it. Returns None for a chain that names a stage the manifest does not, that loops, or
+    that never reaches a root; none of those can happen in a tree this tool would accept.
+    """
+    out, seen, cur = [], set(), stage
+    while True:
+        if cur in seen or cur not in modules:
+            return None
+        seen.add(cur)
+        out.append(cur)
+        m = POOL.search(read(os.path.join("src", package, modules[cur] + ".py")))
+        if not m:
+            return None
+        if m.group(1) == ROOT:
+            return out
+        cur = m.group(1)
 
 
 def main():
@@ -106,7 +133,12 @@ def main():
             failures.append("row %d restates what %r's document already says, so it is not "
                             "a correction" % (n, stage))
             continue
-        clean.append((stage, pool, period))
+        ch = chain(package, modules, stage)
+        if ch is None:
+            failures.append("row %d names %r, whose custody chain does not reach a pool root"
+                            % (n, stage))
+            continue
+        clean.append((ch, period))
 
     recorded = None
     for line in read(LOCK).splitlines():
@@ -115,7 +147,7 @@ def main():
     if recorded is None:
         failures.append("%s records no fingerprint" % LOCK)
     else:
-        body = "\n".join(sorted("%s|%s|%d" % r for r in clean))
+        body = "\n".join(sorted("%s|%d" % (">".join(c), d) for c, d in clean))
         got = hashlib.sha256(body.encode("utf-8")).hexdigest()
         if got != recorded:
             failures.append("the filed correction set does not match the fingerprint the "
@@ -128,6 +160,7 @@ def main():
         return 1
     print("OK    every filed row names a stage, a pool that roots one, and that pool's period")
     print("OK    every filed row corrects what its document states rather than restating it")
+    print("OK    every corrected stage's custody chain resolves to a pool root")
     print("OK    the correction set matches the fingerprint recorded by the last review")
     print("CHECKS: pass")
     return 0

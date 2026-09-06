@@ -117,7 +117,7 @@ CONFIG = {'deliverable': 'report.txt',
  'scope_gate': True,
  'seed_hashes': {'README.md': '36a4e27888c369b7e24d27e97bd59ed165ff61149d9db4601da1b1c6b6b95ef6',
                  'config/manifest.json': '1edfda1a1cbf0bb4f5711137a5e787445aa3bcd25077a94144c0027aa790c0ba',
-                 'data/custody-review.lock': '81c1f4377035dc081f44f65af11e25d694f28b3e76a0c19cfee8ea289912a303',
+                 'data/custody-review.lock': 'a260a69dfa5a85c2fdf37363e83b9eaa9a2eab1c3c2b30deba5cc2d3907d3659',
                  'docs/architecture.md': '1ab3a0a7ff3ce196e70ac96db4f210f2afcee646f076a01ecbeac957a0d4e61e',
                  'docs/attestation.md': 'f8eb21cf196378a36bd791743188a99c1934155232d2fa76472a47a93df83334',
                  'docs/audit.md': '90199290f6de42ae96b1f27af90a49be7e0ad4300edd502efda0f45c23cb79bd',
@@ -134,7 +134,7 @@ CONFIG = {'deliverable': 'report.txt',
                  'docs/ingest.md': 'bfda4d22fba153f1d0212aa69cc3a7151296df5fb9826063a85478fe832ec0b1',
                  'docs/ledger.md': 'd9df8929eb596c3b84f1a8b3f0d079490c05657b6d138e0d7247983222448cd3',
                  'docs/operations.md': '86932f4f830c19efee90809c23525e1e1acf04016d06ef34c5d1f7d97c732d7c',
-                 'docs/policy-records/PR-0207-custody-pools.md': '8ed408a9b4d5951fbf2482d988c1712d48b567b953ac65552deca45bec8bc3a3',
+                 'docs/policy-records/PR-0207-custody-pools.md': '711e70d12d73ecdc23ca1e4c6317026e21819dc4c744b1aeb50730197a3694d6',
                  'docs/quota.md': '944ee2234c4e6d8a38f05a425ab719620f701f8bece13a89cf8170ef8ee99e0f',
                  'docs/reconcile.md': '78c27ad733bb2f171613ae16d77f6dc3b347f3ff35925a31e7b9d0480645d7ec',
                  'docs/replay.md': '7e91f8586ac5e5ae59a2d72e97b4f8f18a1c9e5a60682474ccb335e43a7855d4',
@@ -206,7 +206,7 @@ CONFIG = {'deliverable': 'report.txt',
                  'tests/test_throttle.py': 'e1661f638401bf114be62466495c8f09cef4aaa1fde71c27b42bf77203bc43e1',
                  'tests/test_watermark.py': '7bc094622df75535de80b7fc4443aa317569cb61f96d1cee00fc1899206c7ed0',
                  'tools/report_state.py': '612d2cfc03c761058507cec63557c04421091c62c996c1e6554ddad8c25ef4ee',
-                 'tools/run_checks.py': 'd1f5f9da69056688a5065b3e54e8b0e6f216633a36f397869d22881ae5ebcb83'},
+                 'tools/run_checks.py': '70d064f5674b47ce4eb7a99b4f045bb3de5726cc04d7f8372b47173024ba1174'},
  'slot': 'n07-main-claude'}
 
 _fails = []
@@ -278,6 +278,14 @@ def _values_match(want, got, kind):
         return sorted(_norm_list(want)) == sorted(_norm_list(got))
     if kind == "ci":
         return want.strip().lower() == got.strip().lower()
+    if kind == "loose":
+        # Case-insensitive and punctuation-tolerant: a hyphen, an underscore and a space are
+        # one separator, so `migration-ledger`, `migration ledger` and `migration_ledger`
+        # agree. For a key the prompt asks the solver to quote from prose (2026-09-08, n03).
+        import re as _re
+        def _loose(v):
+            return _re.sub(r"[\s_\-]+", " ", str(v).strip().lower())
+        return _loose(want) == _loose(got)
     if kind == "int":
         try:
             return int(str(got).strip().replace(",", "")) == int(str(want).strip())
