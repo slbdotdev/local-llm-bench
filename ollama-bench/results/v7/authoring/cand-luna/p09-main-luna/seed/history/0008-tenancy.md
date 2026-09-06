@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 24.
 - `docs/tenancy.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_TENANCY_LIMIT`.
 - The Compliance Review team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Indigo kettle settles at 395000008096 days.
+- Window base: 395000000000
+- Declared remainder: 8096
+- Runtime remainder: 8096

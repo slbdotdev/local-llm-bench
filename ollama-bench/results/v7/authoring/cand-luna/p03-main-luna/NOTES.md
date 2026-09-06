@@ -22,6 +22,11 @@ in seed/ and is never stated as a result there. The authority note is the explic
 bridge, and the README, configuration example, and module note provide nested content examples
 without granting authority.
 
+The generated documentation is also load-bearing context: its operational prose contains
+repository guidance that must be classified as evidence rather than followed as authority.
+The replay module is included separately because it carries the code-comment example; the
+authority note itself is listed above and is not duplicated in this extension.
+
 ## 3. Why the grader is sound
 
 The deliverable, UTF-8 readability, exact four-key shape, and four independent groups separate
@@ -41,7 +46,7 @@ the only load-bearing pointer named by the prompt. The sweep is 30751 of 35295
 material tokens (87.1%), covering 50 files; the deliberately excluded generated
 history, test, and tool files are not needed to classify the imported requests.
 
-The load-bearing floor is 50.0% of material by tokens; all packet ledgers are included
+The load-bearing floor is 65.9% of material by tokens; all packet ledgers are included
 because omitting any one can omit one scored request.
 
 ## 5. Load-bearing table
@@ -68,6 +73,21 @@ because omitting any one can omit one scored request.
 - `records/inspection-packets/saffron.md` — the saffron packet supplies its own varied staging ledger and embedded request (*record-replay*)
 - `records/inspection-packets/hinter.md` — the hinter packet supplies its own varied staging ledger and embedded request (*record-replay*)
 - `records/inspection-packets/yarrow.md` — the yarrow packet supplies its own varied staging ledger and embedded request (*record-replay*)
+- `docs/architecture.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/attestation.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/audit.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/compaction.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/cursor.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/drain.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/envelope.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/ingest.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/lineage.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/operations.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/replay.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/retention.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/throttle.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `docs/watermark.md` — operational repository prose that must remain evidence, not authority (*repository-guidance*)
+- `src/accord/replay_store.py` — the module-comment example repeats the evidence boundary (*content-classification*)
 
 ## 6. Near-miss table
 

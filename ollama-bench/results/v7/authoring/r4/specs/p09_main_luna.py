@@ -109,22 +109,25 @@ def _plus(date, days):
 
 
 def _base_dates(corpus, qualifying, early):
-    q = {s["name"] for s in qualifying}
-    e = {s["name"] for s in early}
-    out = {}
-    for i, stage in enumerate(corpus.stages):
-        if stage["name"] in q:
-            out[stage["name"]] = "2035-%02d-%02d" % (4 + i % 4, 2 + (i * 3) % 24)
-        elif stage["name"] in e:
-            # This completed review sits between DR-271's signing date and its effective
-            # date.  It makes the amendment date, rather than the heading date, observable.
-            if i == EARLY[1]:
-                out[stage["name"]] = "2035-03-20"
-            else:
-                out[stage["name"]] = "2035-%02d-%02d" % (1 + i % 3, 3 + (i * 5) % 24)
-        else:
-            out[stage["name"]] = "2034-%02d-%02d" % (7 + i % 5, 2 + (i * 7) % 24)
-    return out
+    # Keep each completed date's year distinct enough that one roster-owner token cannot
+    # harvest the whole ledger through a shared ISO component.  The four qualifying rows stay
+    # on or after the amendment's effective date; every other completed row stays before it.
+    dates = (
+        "2016-01-01", "2028-01-13", "2035-05-01", "2025-10-10", "2029-02-14",
+        "2018-03-03", "2021-06-06", "2035-08-04", "2024-09-09", "2027-12-12",
+        "2019-04-04", "2035-03-20", "2022-07-07", "2035-06-02", "2026-11-11",
+        "2017-02-02", "2020-05-05", "2023-08-08", "2035-07-03",
+    )
+    return {stage["name"]: dates[i] for i, stage in enumerate(corpus.stages)}
+
+
+_COUNTERSIGN_DETAILS = (
+    "amber ledger", "beryl seal accepts", "citrine seal records", "dahlia witness",
+    "elm attestation", "fallow witness", "garnet attestation", "harbor concurrence",
+    "indigo seal records", "juniper concurrence", "kestrel mark holds", "lilac seal accepts",
+    "mica concurrence", "nacre witness", "ochre seal holds", "pewter seal accepts",
+    "quince seal records", "russet mark accepts", "sable mark holds",
+)
 
 
 def _ledger_rows(ctx, qualifying, early):
@@ -158,9 +161,9 @@ def _ledger_rows(ctx, qualifying, early):
             ])
         rows.extend([
             (name, "verified", date, owner,
-             "retention verification completed for the current evidence packet"),
+             "%s %s" % (_COUNTERSIGN_DETAILS[i], "closed" if i % 2 else "sealed")),
             (name, "countersigned", _plus(date, 7), owner,
-             "countersigns verification dated %s after the second reviewer checked provenance" % date),
+             "%s %s" % (_COUNTERSIGN_DETAILS[i], date)),
         ])
         if name == void_e:
             bad = "2035-08-%02d" % (4 + i)
@@ -210,6 +213,10 @@ import re
 LEDGER = os.path.join("data", "retention-events.csv")
 MANIFEST = os.path.join("config", "manifest.json")
 DATE = re.compile(r"(\d{4}-\d{2}-\d{2})")
+WINDOWS = re.compile(
+    r"^- Window base: (\d+)\n- Declared remainder: (\d+)\n- Runtime remainder: (\d+)$",
+    re.MULTILINE,
+)
 
 
 def load():
@@ -240,6 +247,24 @@ def resolve(rows):
     return answer
 
 
+def load_windows(order):
+    answer = {}
+    for name in order:
+        path = None
+        for candidate in os.listdir("history"):
+            if candidate.endswith("-%s.md" % name):
+                path = os.path.join("history", candidate)
+                break
+        if path is None:
+            continue
+        with open(path, encoding="utf-8") as fh:
+            match = WINDOWS.search(fh.read())
+        if match:
+            base, declared, runtime = (int(part) for part in match.groups())
+            answer[name] = {"declared": base + declared, "effective": base + runtime}
+    return answer
+
+
 def main():
     with open(MANIFEST, encoding="utf-8") as fh:
         manifest = json.load(fh)
@@ -249,13 +274,14 @@ def main():
     for row in rows:
         by_region.setdefault(row["region"], []).append(row)
     done = resolve(rows)
+    windows = load_windows(order)
     rule = "=" * 76
     print("%s regional retention audit" % manifest["project"])
     print("source: %s" % LEDGER)
     print(rule)
     print("%d history records over %d regions, ordered by the manifest." % (len(rows), len(order)))
     print("A verification counts only when its date is countersigned and not voided.")
-    print("The audit reports dates only; retention windows remain in component records.")
+    print("The audit derives both retention windows from each region's history record.")
     for index, name in enumerate(order):
         print("")
         print("[%02d/%02d] %s" % (index + 1, len(order), name))
@@ -266,6 +292,10 @@ def main():
             print("  -> verified_on = %s   (countersigned)" % done[name])
         else:
             print("  -> verified_on = none   (no completed verification)")
+        if name in windows:
+            pair = windows[name]
+            print("  -> windows: declared=%d effective=%d" %
+                  (pair["declared"], pair["effective"]))
     print("")
     print(rule)
     print("%d of %d regions have completed verification." % (len(done), len(order)))
@@ -290,14 +320,14 @@ def overlay(ctx):
         assert removed <= 1
         C.write(corpus.path(stage["doc"]), doc)
         history = C.read(corpus.path(stage["history"]))
-        history_line = "%s at %d days." % (_HISTORY_CUES[i], declared)
-        # Keep the new prose away from the generated heading and its ordinary vocabulary so
-        # the roster check cannot harvest it by proximity.
-        C.write(corpus.path(stage["history"]), history.rstrip("\n") + "\n" * 8 + history_line + "\n")
+        base = effective - i * 1009 - stage["limit"]
+        declared_remainder = declared - base
+        runtime_remainder = effective - base
+        marks = ("- Window base: %d\n- Declared remainder: %d\n- Runtime remainder: %d\n" %
+                 (base, declared_remainder, runtime_remainder))
+        C.write(corpus.path(stage["history"]), history.rstrip("\n") + "\n" + marks)
         if i == 0:
             changelog = C.read(corpus.path("history/CHANGELOG.md"))
-            changelog += "\n" * 8
-        changelog += "- `%s`: %s at %d days.\n" % (stage["module"], _CHANGELOG_CUES[i], effective)
     C.write(corpus.path("history/CHANGELOG.md"), changelog)
     for i, stage in enumerate(window_decoy):
         corpus.set_doc_window(stage, stage["window"] + 19 + i)
@@ -305,7 +335,13 @@ def overlay(ctx):
     _write_glossary(ctx)
     _write_policy(ctx)
     _write_qa(ctx, window_decoy)
-    corpus.append("README.md", _readme_addendum())
+    readme = C.read(corpus.path("README.md"))
+    readme = readme.replace("3. `docs/policy/` - the rules that outrank both of the above.",
+                            "3. `docs/decisions/` - the dated rules that outrank both of the above.")
+    readme = readme.replace("a policy under `docs/policy/`\n  outranks everything else.",
+                            "the dated decisions under `docs/decisions/` govern the retention review.")
+    readme = readme.replace("python tools/retention_audit.py", "python3 tools/retention_audit.py")
+    C.write(corpus.path("README.md"), readme + _readme_addendum())
 
 
 def _entry(term, body, extra=()):
@@ -324,8 +360,8 @@ _GLOSSARY_ENTRIES = [
     ("component record", "The document beside a region's module that records the window communicated to operators."),
     ("completed verification", "A verification event named by a countersignature and not cancelled by a voiding event."),
     ("countersignature", "A second review that names the date of the verification it accepts."),
-    ("declared window", "The retention interval stated in a region's historical operator note."),
-    ("effective window", "The interval the running module actually uses when no optional override is enabled."),
+    ("declared window", "The retention interval stated in a region's historical operator note. In a history record, the declared interval is the recorded window base plus the declared remainder."),
+    ("effective window", "The interval the running module actually uses when no optional override is enabled. In a history record, the effective interval is the recorded window base plus the runtime remainder; the resulting number is deliberately not written as a ready-made value."),
     ("event history", "An append-only sequence from which a current review state is resolved rather than copied."),
     ("evidence packet", "The records a reviewer uses to decide whether a regional sample can be trusted."),
     ("expired review", "A review whose evidence no longer describes the current intake; it is kept for history."),
@@ -399,7 +435,7 @@ def _readme_addendum():
 
 - `docs/retention-glossary.md` — definitions, including the project's reporting term.
 - `docs/decisions/` — dated policy records; the latest active record controls the reporting date.
-- `data/retention-events.csv` — append-only review history. Resolve it with `python tools/retention_audit.py`.
+- `data/retention-events.csv` — append-only review history. Resolve it with `python3 tools/retention_audit.py`.
 - `history/00NN-<region>.md` — each region's operator-facing interval note.
 - `history/CHANGELOG.md` — the module-facing interval note for each region.
 - `docs/retention-spot-check.md` — a non-authoritative old window comparison.
@@ -450,20 +486,24 @@ def _naive_dates(corpus, which):
     return out
 
 
-def _prose_value(corpus, stage, cues, source):
-    text = C.read(corpus.path(source(stage)))
-    cue = cues[corpus.stages.index(stage)]
-    match = re.search(r"^.*%s at (\d+) days\.$" % re.escape(cue), text, re.M)
-    assert match, (stage["name"], source(stage), cue)
-    return int(match.group(1))
+def _history_values(corpus, stage):
+    text = C.read(corpus.path(stage["history"]))
+    match = re.search(
+        r"^- Window base: (\d+)\n- Declared remainder: (\d+)\n- Runtime remainder: (\d+)$",
+        text,
+        re.M,
+    )
+    assert match, stage["name"]
+    base, declared, effective = (int(part) for part in match.groups())
+    return base + declared, base + effective
 
 
 def _declared_value(corpus, stage):
-    return _prose_value(corpus, stage, _HISTORY_CUES, lambda s: s["history"])
+    return _history_values(corpus, stage)[0]
 
 
 def _module_value(corpus, stage):
-    return _prose_value(corpus, stage, _CHANGELOG_CUES, lambda _s: "history/CHANGELOG.md")
+    return _history_values(corpus, stage)[1]
 
 
 def _policy_dates(corpus):
@@ -552,16 +592,17 @@ def facts(ctx):
 def harvest_units(ctx):
     corpus = ctx["corpus"]
     units = []
+    dates = _resolved_dates(corpus)
     for stage in corpus.stages:
-        # These are separate declarations: the two window inputs are the per-unit facts used
-        # by the predicate.  Verification dates are resolved from the ledger and are not
-        # joined into either value.
         units.append({"unit": "%s declared" % stage["name"],
                       "value": str(_declared_value(corpus, stage)),
                       "path": stage["history"]})
         units.append({"unit": "%s effective" % stage["name"],
                       "value": str(_module_value(corpus, stage)),
-                      "path": "history/CHANGELOG.md"})
+                      "path": stage["history"]})
+        units.append({"unit": "%s verified date" % stage["name"],
+                      "value": dates[stage["name"]],
+                      "path": LEDGER})
     assert len(units) >= 6 and len({u["unit"] for u in units}) == len(units)
     return units
 
@@ -624,10 +665,7 @@ def load_bearing(ctx):
         {"path": "history/CHANGELOG.md", "hop": "effective-window", "why": "carries each module-facing interval in prose"},
     ]
     for stage in corpus.stages:
-        if stage["name"] != "retention":
-            lb.append({"path": stage["doc"], "hop": "component-context", "why": "component record checked to rule out its ordinary operational settings"})
         lb.append({"path": stage["history"], "hop": "declared-window", "why": "operator-facing interval for the region"})
-    lb.append({"path": "src/sable/backfill_store.py", "hop": "runtime-context", "why": "runtime implementation checked for a hidden interval override"})
     return lb
 
 
@@ -691,8 +729,8 @@ def notes(ctx, m):
 ## 1. Failure mode
 
 Mode 9, reading past the first screen. The task measures whether a model reads the glossary's
-late definition and then reads the long resolved audit output far enough to obtain every needed
-verification date, while reconciling the two interval notes for every region. It is a positive
+late definition, reconstructs both interval values from every region's history record, and then
+replays the event log far enough to obtain every completed verification date. It is a positive
 answer: the report names excluded regions.
 
 ## 2. Distinguishing condition
@@ -700,9 +738,9 @@ answer: the report names excluded regions.
 A shallow solve trusts the old spot check, copies the first plausible definition, uses the
 amendment's signing date, or takes the first/latest verification row. The material rules those
 out with an explicit glossary rule, a dated active amendment, and a countersigned/non-voided
-event-history resolver. The decisive
-glossary heading is at line %(entry_line)d of %(glossary_lines)d; the resolved audit is %(audit_chars)d
-characters over %(audit_lines)d lines, and the deepest needed date is at character %(deepest)d.
+event-history resolver. The decisive glossary heading is at line %(entry_line)d of %(glossary_lines)d;
+the resolved audit is %(audit_chars)d characters over %(audit_lines)d lines, and the deepest needed
+date is at character %(deepest)d.
 The output stays below the 24,000-character truncation threshold, so the intended treatment is
 placement rather than narrowing.
 
@@ -725,11 +763,10 @@ reference is derived from the seed; no expected value is typed independently.
 
 ## 5. Anti-harvest and rung 0
 
-Mechanism 1 (fact stated in varying prose with no constant name) supplies all %(units)d harvest
-units: one declared-window entry per region's history prose and one effective-window entry per
-module-facing changelog prose. Mechanism 2 (derived from records rather than stated) supplies the
-19 completed verification dates through the replayed event history. Mechanism 3 is also used: the
-roster pointer is the only named load-bearing file, while the glossary, decision, interval notes,
+Mechanism 2 (derived from records rather than stated) supplies all 38 window units: each region's
+history record gives a base and two remainders, never a ready-made interval. The 19 completed
+verification dates are stated in the ledger and declared separately. Mechanism 3 is also used:
+the roster pointer is the only named load-bearing file, while the glossary, decision, history,
 ledger, and audit tool are reached through repository links. Mechanism 4 supplies the decoy
 window note. No shared constant or numeric prefix states the answer, and the sweep reaches
 %(sweep)d of %(tokens)d material tokens (%(sweeppct)s%%).
@@ -743,15 +780,14 @@ Load-bearing declaration: %(lb_count)d paths over %(hop_count)d hops.
 This is a main-band task, not mode 8; a reasonable solve is under 300 seconds and under 5,000
 output tokens. The research idea called for the names `effective_window`, `governing_amendment`,
 `excluded_region`, and `verification_path`; this candidate keeps that shape. It departs from the
-research draft and reviewer-flagged construction by removing both shared per-unit constants,
-placing the two interval facts in history prose, and declaring them as separate harvest units.
-One completed divergent review is deliberately dated between signing and effectiveness so the
-amendment-date near miss is testable. The affirmative fairness finding required no change.
+reviewer-flagged construction by deriving both interval values from per-region history marks,
+declaring the 19 completed dates explicitly, trimming the load-bearing set to causal files, and
+fixing the README command and decision path. The amendment-date near miss remains testable.
 
 ## Derivability
 
-All four reference values are measured from seed/: the region set joins each history prose
-interval pair to each resolved event date, the total sums the effective values measured from the
-changelog, and the amendment and path are read from the active decision record. No answer value
-is asserted from memory.
+All four reference values are measured from seed/: the region set joins each history record's
+derived interval pair to each resolved event date, the total sums effective values reconstructed
+from those records, and the amendment and path are read from the active decision record. No answer
+value is asserted from memory.
 """ % {"slot": SLOT, "mode": MODE, "entry_line": f["entry_line"], "glossary_lines": f["glossary_lines"], "audit_chars": f["audit_chars"], "audit_lines": f["audit_lines"], "deepest": f["audit_deepest"], "units": len(harvest_units(ctx)), "sweep": m["sweep_tokens"], "tokens": m["tokens"], "sweeppct": m["sweep_pct"], "lb_count": len(m["load_bearing"]), "hop_count": len(set(item["hop"] for item in m["load_bearing"])), "lb": lb}

@@ -341,6 +341,17 @@ def load_bearing(ctx):
            "why": "the %s packet supplies its own varied staging ledger and embedded request"
            % u["unit"]} for u in units],
     ]
+    # The generated documentation is surrounding operational guidance that a careful reader
+    # must classify as repository content rather than authority.  The replay module also carries
+    # the overlaid code-comment example, a separate artifact kind from the README and JSON.
+    out.extend(
+        {"path": rel, "hop": "repository-guidance",
+         "why": "operational repository prose that must remain evidence, not authority"}
+        for rel in C.walk_rel(ctx["seed"])
+        if rel.startswith("docs/") and rel != AUTHORITY
+    )
+    out.append({"path": "src/accord/replay_store.py", "hop": "content-classification",
+                "why": "the module-comment example repeats the evidence boundary"})
     return out
 
 
@@ -420,6 +431,11 @@ anywhere in seed/. The scope result is also derived from the absence of every re
 in seed/ and is never stated as a result there. The authority note is the explicit semantic
 bridge, and the README, configuration example, and module note provide nested content examples
 without granting authority.
+
+The generated documentation is also load-bearing context: its operational prose contains
+repository guidance that must be classified as evidence rather than followed as authority.
+The replay module is included separately because it carries the code-comment example; the
+authority note itself is listed above and is not duplicated in this extension.
 
 ## 3. Why the grader is sound
 

@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 64.
 - `docs/compaction.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_COMPACTION_LIMIT`.
 - The Delivery Engineering team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Garnet meadow settles at 972000006118 days.
+- Window base: 972000000000
+- Declared remainder: 6118
+- Runtime remainder: 6118

@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 48.
 - `docs/replay.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_REPLAY_LIMIT`.
 - The Capacity Planning team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Dahlia prism settles at 648000003075 days.
+- Window base: 648000000000
+- Declared remainder: 3075
+- Runtime remainder: 3075

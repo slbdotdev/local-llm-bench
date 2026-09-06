@@ -20,11 +20,6 @@ responsible for reporting the shed count. The number itself is unchanged at 120.
 - `docs/backfill.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_BACKFILL_LIMIT`.
 - The Delivery Engineering team owns the shed-count dashboard.
-
-
-
-
-
-
-
-Amber spindle settles at 318000000120 days.
+- Window base: 318000000000
+- Declared remainder: 120
+- Runtime remainder: 120
