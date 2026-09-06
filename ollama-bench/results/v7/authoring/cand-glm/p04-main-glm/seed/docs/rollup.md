@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Sacks on the threshing floor
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Threshing wound up ahead of the rain and the floor was swept to
+its edges. The agronome's slate is written as chalked, unmoved from
+that hour, and nothing has altered it; the broom is hung on its nail
+until the season turns:
 
-Last row entered, the ledger closed on 109.
+109 full sacks were chalked on the slate.
+
+Grain moves to the silo on 2034-11-03.

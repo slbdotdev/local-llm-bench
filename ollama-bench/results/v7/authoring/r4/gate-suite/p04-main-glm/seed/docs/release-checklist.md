@@ -1,25 +1,29 @@
 # Release checklist
 
-The procedure a release passes before it is cut. Nothing else in the tree substitutes for
-this page: not a sign-off, not a green test summary, not an earlier run recorded anywhere,
-however well it went.
+The procedure a release clears before it goes out. Nothing else substitutes for this
+page: not a sign-off, not a green summary, not an earlier run recorded anywhere, however
+well it went.
 
 ## 1. Run the verification
 
 Verification entry point: `tools/run_checks.py`
 
-    python3 tools/run_checks.py
-
 The verifier replays every stage's intake journal under `data/intake` and compares the
-replayed held count with the closing position recorded at the end of the stage's own
-document under `docs/`. The replay starts at zero and takes each journal's rows in file order: an `admitted` row adds
-its record count; a `released` row and a `reaped` row each subtract theirs. A stage's
-check passes when the counter at the last row equals the declared row exactly.
+replayed held count with the closing position recorded at the foot of the stage's own
+document under `docs/`. The replay starts at zero and takes each journal's rows in file
+order: an `admitted` row adds its record count; a `released` row and a `reaped` row each
+subtract theirs. A stage validates when the counter at its last row equals the closing
+position exactly.
 
-The entry point exits 0 when every stage's check passes and 1 when any check fails. Its
-output carries counts only. Which stages failed is read by applying the replay above to
-each stage's journal and comparing it with that stage's declaration; the tool deliberately
-does not name them, so that a release report carries evidence rather than a tool's say-so.
+The entry point takes the positions as arguments: `--declared <stage>=<records>`, repeated
+for every stage the manifest names, each `<records>` read from the foot of that stage's
+document. Run with python3 from the checkout root:
+
+    tools/run_checks.py --declared <stage>=<records> --declared <stage>=<records> ...
+
+The entry point exits 0 when every position validates and 1 when any does not. Its output
+carries counts only; which stages did not validate is deliberately not printed, so that a
+release report carries evidence rather than a tool's say-so.
 
 ## 2. What does not substitute
 

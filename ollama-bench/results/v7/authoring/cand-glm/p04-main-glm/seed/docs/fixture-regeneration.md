@@ -7,7 +7,7 @@ after a stage's recorded close, the journal now carries them too.
 
 Flagged for declaration review at regeneration time: attestation, compaction, cursor, retention, shard.
 
-The closing positions recorded at the end of each stage document predate the
+The closing positions recorded at the foot of each stage document predate the
 regeneration and are pending re-derivation at the next close. They have not been
 re-derived yet.
 

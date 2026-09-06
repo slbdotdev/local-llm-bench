@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Depth of the cistern at the draw
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+The inlet valves were shut at the final draw, so the depth shown is the depth
+the outflow will meet until a refill is ordered. It is copied across from the
+dip-sheet as gauged, and no topping-up has been authorised since. The reservoir
+chart agrees with it:
 
-The final tally settled at 153.
+The cistern gauge read 153 with the valves shut.
+
+The dip-sheet is redrawn from 2034-08-27.

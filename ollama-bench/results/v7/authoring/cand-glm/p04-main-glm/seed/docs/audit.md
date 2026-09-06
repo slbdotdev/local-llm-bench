@@ -35,12 +35,15 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## The surveyor's closing figure
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Stations were packed at nightfall and the rod readings are as the field book took
+them, unsmoothed. A resurvey begins after the first hard frost, so the figure below is
+the one the book will carry into the hearing, barring clerical slips. The theodolite is
+boxed and its tripod cairned at the latest setup, so every sighting quoted hangs on
+that placement, until the frost relents. Rod checks resume
+when the ground stiffens:
 
-The figure went to the review reading 81.
+The closing folio took 103 as given.
+
+Resurvey scheduled to start 2034-09-02.

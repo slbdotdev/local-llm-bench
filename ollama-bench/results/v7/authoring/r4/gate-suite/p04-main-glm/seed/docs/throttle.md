@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## What the kiln gave at unbricking
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Firing ended at daybreak and the bricks were pulled and
+stacked under cover while the kiln cooled to the touch. Nothing
+leaves the stack until the register is signed, so this line is
+untouched:
 
-The quarter finished with 173 in hand.
+The unbricking produced 173 sound bricks.
+
+Kiln relight is slated for 2034-08-08.

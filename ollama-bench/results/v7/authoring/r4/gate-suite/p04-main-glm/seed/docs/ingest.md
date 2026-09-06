@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Crates inside the storeroom gate
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Receiving ends when the dock clock strikes noon; goods
+landing past the whistle are turned away, and the docket is what
+you see, weighed at the ramp, unopened. Nothing ships until the
+stamp:
 
-Carried forward unchanged since the reset: 165.
+The storeroom gate closed on 165 crates.
+
+Pallets move out on 2034-10-30.

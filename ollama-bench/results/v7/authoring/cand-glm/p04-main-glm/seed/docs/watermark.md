@@ -35,12 +35,11 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Tide mark at the harbour wall
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Soundings pause between tides; the wall marker was noted at slack water and
+painted as sighted, with the tide-keeper's initials alongside. Dredging waits
+on the 2034-08-30 tide, so this berth holds until the dredger is through,
+with the spring launch:
 
-At the cutoff the working set stood at 157 records.
+The harbour marker stood at 157 at slack water.

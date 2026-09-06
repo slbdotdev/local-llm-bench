@@ -35,12 +35,15 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Where the reading room's tassel rests
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+The tassel sits at the leaf where shelving paused for the
+night; reading restarts there at opening. Folios borrowed away
+from this desk come back when the doors are unbarred, and
+re-shelving is the page's own business. The returns trolley
+bides its turn by the arch:
 
-The drain found 125 and left them where they lay.
+The tassel rests on leaf 125.
+
+Shelving resumes when the room reopens on 2034-09-09.
+Borrowed folios are stamped at the desk.

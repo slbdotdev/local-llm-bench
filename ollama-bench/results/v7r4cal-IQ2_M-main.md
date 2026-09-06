@@ -2,10 +2,10 @@
 
 | model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| q27-IQ2_M-64k | ? GB | ? | ? | 36/39 | 0.95 (39/39 runs) | 11/13 all-trials | 71s | 3717 | 13.2 | 36 | 2 | 1 | 2.6% | 1 in 1/39 |
+| q27-IQ2_M-64k | ? GB | ? | ? | 39/42 | 0.95 (42/42 runs) | 12/14 all-trials | 71s | 3687 | 13.2 | 39 | 2 | 1 | 2.4% | 1 in 1/42 |
 
 ## Per task (passes/trials)
 
 | task | q27-IQ2_M-64k |
 |---|---|
-| m04-main-claude | 3/3 (score 1.00) |
+| p04-main-glm | 3/3 (score 1.00) |

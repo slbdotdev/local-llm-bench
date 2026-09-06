@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## The lamp log at the high camp
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+The lamp was lit at dusk and this record was brought down
+unsimplified from the ridge. Weather shuts the trail behind us, so
+nothing higher up stirs until the thaw, and the hut ledger has the
+same record:
 
-The operator's ledger agreed on 93 at handover.
+The high camp log puts it at 115.
+
+Relief climbs up on 2034-08-16.

@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Tiles graded out of the cooling sheds
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Grading finished with the afternoon batch and the sheds were locked under the
+foreman's key. Chipped fragments head for the cullet bin; the remainder are
+racked as graded, and nothing will be re-racked until the re-grading is
+done:
 
-Own reconciliation finished; 161 is what remained.
+161 whole tiles left the racks for packing.
+
+The cullet bin is emptied on 2034-10-21.

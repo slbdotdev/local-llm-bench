@@ -35,12 +35,14 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Bags struck at the coining press
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Weighings are over for the day when the day's alloy is exhausted; this line is
+what the assayer certified, unmelted and unmixed. Remelting is deferred to the quorum's
+warrant, so nothing in the bins will budge before then, and the balance beams are
+covered against the draught:
 
-131 records were still the module's to look after when the period ended.
+The assayer certified 131 struck bags.
+
+Quorum warrant expected 2034-09-19.
+Bins stay bagged pending the warrant.

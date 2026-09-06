@@ -45,6 +45,7 @@ date,event,records,note
 2034-05-26,admitted,14,batch 96 admitted in the closing catch-up
 2034-05-28,admitted,14,batch 98 admitted in the closing catch-up
 2034-05-30,admitted,14,batch 100 admitted in the closing catch-up
-2034-06-01,admitted,5,batch 102 admitted in the closing catch-up
-2034-07-02,admitted,12,batch 98 admitted from throttle
-2034-07-05,admitted,12,batch 100 admitted from tenancy
+2034-06-01,admitted,14,batch 102 admitted in the closing catch-up
+2034-06-03,admitted,2,batch 104 admitted in the closing catch-up
+2034-07-02,admitted,7,batch 98 admitted from throttle
+2034-07-05,admitted,6,batch 100 admitted from tenancy

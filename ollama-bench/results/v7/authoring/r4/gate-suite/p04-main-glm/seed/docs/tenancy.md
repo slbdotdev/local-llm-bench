@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Rent rolls as sealed for the quarter court
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+The bailiffs' rounds are over and the rolls were sealed at the estate boardroom
+before the quarter court convened. Arrears are kept separately and sit outside
+this reckoning; abatements await the stewards' report in the interim. The
+stewardship folds its papers at the same table, and the bundle is heavy; the
+registrar bears it out at the close, under the court's eye, as the statutes
+direct:
 
-Between the two audits the figure never moved from 187.
+The rolls logged 187 tenancies in good standing.

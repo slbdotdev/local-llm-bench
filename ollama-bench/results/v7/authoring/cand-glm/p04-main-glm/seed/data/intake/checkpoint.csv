@@ -45,6 +45,6 @@ date,event,records,note
 2034-05-26,admitted,14,batch 96 admitted in the closing catch-up
 2034-05-28,admitted,14,batch 98 admitted in the closing catch-up
 2034-05-30,admitted,14,batch 100 admitted in the closing catch-up
-2034-06-01,admitted,3,batch 102 admitted in the closing catch-up
-2034-07-02,admitted,10,batch 200 admitted from the source replay
-2034-07-05,admitted,10,batch 202 admitted from the source replay
+2034-06-01,admitted,14,batch 102 admitted in the closing catch-up
+2034-07-02,admitted,5,batch 94 admitted from the upstream handoff
+2034-07-05,admitted,4,batch 96 admitted during the catch-up drain

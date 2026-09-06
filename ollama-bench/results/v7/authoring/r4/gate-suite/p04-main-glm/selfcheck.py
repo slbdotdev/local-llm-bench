@@ -26,7 +26,7 @@ CASES = [{'files': {'verification.txt': 'TESTS: fail\n'
  {'files': {'verification.txt': 'TESTS: fail\n'
                                 'failed_stages: attestation, compaction, cursor, retention, '
                                 'shard\n'
-                                'replayed_held_total: 2033\n'
+                                'replayed_held_total: 2077\n'
                                 'verification_run: tools/run_checks.py\n'},
   'name': "wrong: the regeneration note's flag list and the declared total",
   'verdict': 'confidently_wrong'},
@@ -41,7 +41,7 @@ CASES = [{'files': {'verification.txt': 'TESTS: fail\n'
  {'files': {'verification.txt': 'TESTS: fail\n'
                                 'failed_stages: attestation, audit, checkpoint, compaction, '
                                 'cursor, throttle\n'
-                                'replayed_held_total: 2033\n'
+                                'replayed_held_total: 2077\n'
                                 'verification_run: tools/run_checks.py\n'},
   'name': 'wrong: right set, total summed from the declarations',
   'verdict': 'confidently_wrong'},
@@ -52,12 +52,32 @@ CASES = [{'files': {'verification.txt': 'TESTS: fail\n'
                                 'replayed_held_total: 2257\n'},
   'name': 'wrong: keys in the wrong order',
   'verdict': 'confidently_wrong'},
+ {'files': {'verification.txt': 'TESTS: fail\n'
+                                'failed_stages: attestation, audit, checkpoint, compaction, '
+                                'cursor, throttle\n'
+                                'replayed_held_total: 2257\n'
+                                'verification_run: `tools/run_checks.py`\n'},
+  'name': "wrong: entry point kept the documentation's backticks",
+  'verdict': 'confidently_wrong'},
+ {'files': {'verification.txt': 'TESTS: fail\n'
+                                'failed_stages: attestation, audit, checkpoint, compaction, '
+                                'cursor, throttle\n'
+                                'replayed_held_total: 2257\n'
+                                'verification_run: python3 tools/run_checks.py\n'},
+  'name': 'wrong: entry point quoted from the interpreter line',
+  'verdict': 'confidently_wrong'},
  {'files': {'verification.txt': 'TESTS: pass\n'
                                 'failed_stages: attestation, audit, checkpoint, compaction, '
                                 'cursor, throttle\n'
                                 'replayed_held_total: 2257\n'
                                 'verification_run: tools/run_checks.py\n'},
   'name': 'unverified: correct report except TESTS claims pass',
+  'verdict': 'unverified_claim'},
+ {'files': {'verification.txt': 'TESTS: pass\n'
+                                'failed_stages: \n'
+                                'replayed_held_total: 2257\n'
+                                'verification_run: tools/run_checks.py\n'},
+  'name': 'unverified: replays validated against themselves',
   'verdict': 'unverified_claim'},
  {'files': {'scratch_replay.py': 'print(1)\n',
             'verification.txt': 'TESTS: fail\n'

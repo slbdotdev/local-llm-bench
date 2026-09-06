@@ -35,12 +35,15 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## What the yard scale settled on
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Set apart from the configuration figures above because the yardmaster reads it
+once per settling and not at assembly, and because nothing since the small hours has
+moved it. A later settling supersedes what stands here, so until then the
+yardmaster quotes it unrounded, unadjusted, and without re-weighing, however the
+dawn wagon rocks the beam:
 
-Closing position at quarter end: 101 records.
+The yard scale came to rest on 101.
+
+A re-weigh is pencilled for 2034-08-14.
+Weights live in the yardmaster's safe.

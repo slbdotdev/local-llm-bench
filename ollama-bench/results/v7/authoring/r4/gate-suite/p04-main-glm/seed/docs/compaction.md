@@ -35,12 +35,11 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## The bindery's tally at folding time
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+The pressing frames report the tally at the end of a folding run, quite
+separate from the rows up top. A folding run still open may add to the pile, so
+what follows is the rack's state, taken down verbatim by the shift
+handler:
 
-When the books closed, the tally stood at 111.
+111 bound volumes sat on the rack when the frame went quiet.

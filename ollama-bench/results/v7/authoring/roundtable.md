@@ -362,16 +362,16 @@ family per (mode, band); and the bands are picked so the finished suite stays in
 
 | slot | family | band | mode | replaces | floor | H1/H2/H3/H4 | claude | luna | glm | state |
 | --- | --- | --- | ---: | --- | ---: | --- | --- | --- | --- | --- |
-| p01-main-glm | glm | main | 1 | m01-main-claude | 77.1% | 0/0/0/0 | reviewing | queued | — | built |
-| p02-main-claude | claude | main | 2 | m02-main-luna | 74.8% | 0/0/0/0 | — | PASS | queued | reviewed once |
-| p03-main-luna | luna | main | 3 | m03-main-glm | 50.0% | 0/0/0/0 | REVISE -> revised, re-reviewing | — | queued | second revision (floor) |
-| p04-main-glm | glm | main | 4 | m04-main-claude | | | | | — | authoring |
-| p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | queued | reviewed once |
-| p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | 62.2% | rejected | REVISE | — | queued | in revision |
-| p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | | | | | — | queued |
-| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected, verified by the manager | queued | reviewed once |
-| p09-main-luna | luna | main | 9 | m09-main-glm | 50.7% | .132/0/.289/**.816** | REVISE x2 | — | queued | second revision (H4) |
-| p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | | | | | — | queued |
+| p01-main-glm | glm | main | 1 | m01-main-claude | 77.0% | 0/0/0/0 | REVISE -> revised -> **REVISE** | REVISE -> revised -> **REVISE** | — | **dropped** (2-file shortcut at 8/8; Sonnet fails it) |
+| p02-main-claude | claude | main | 2 | m02-main-luna | 74.8% | 0/0/0/0 | — | PASS | reviewing | reviewed once |
+| p03-main-luna | luna | main | 3 | m03-main-glm | 50.0% | 0/0/0/0 | REVISE x2 | — | — | **dropped** (0-file shortcut; mode 3 no longer exercised) |
+| p04-main-glm | glm | main | 4 | m04-main-claude | 51.9% | 0/0/0/.067 | REVISE | REVISE | — | in revision (rung 0: the seed's own verifier prints the answer) |
+| p05-main-claude | claude | main | 5 | m05-main-luna | 40.0% | 0/0/0/0 | — | PASS | reviewing | reviewed once |
+| p06-cheap-luna | luna | cheap24 | 6 | m06-cheap-claude | 62.2% | exempt | REVISE x2 | — | — | **dropped** (2-file shortcut at full score; mode 6, D7-34) |
+| p07-cheap-glm | glm | cheap24 | 7 | m07-cheap-luna | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane budget) |
+| p08-cheap-claude | claude | cheap24 | 8 | m08-cheap-glm | 28.7% | 0/0/0/0 | — | REVISE (NOTES) -> corrected + fairness fix after Sonnet failed it | not reviewed | parked: the family cap admits at most two claude candidates |
+| p09-main-luna | luna | main | 9 | m09-main-glm | 29.2% | .228/0/.298/.140 | REVISE x3 | — | — | **dropped** (0-file shortcut: `tools/retention_audit.py` prints the answer) |
+| p10-cheap-glm | glm | cheap24 | 10 | m10-cheap-luna | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane budget) |
 
 `floor` is `r4/check_load_bearing.py`'s floor coverage, the load-bearing files as a fraction of the
 material. It is not in the plan and it is this round's own finding: see below.

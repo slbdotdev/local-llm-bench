@@ -35,12 +35,13 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Closing position
+## Pieces in the sorting trays at the last sweep
 
-Carried at the foot of the page, apart from the configuration facts, because the
-closing figure is read by the closing check rather than by the assembler. It is
-re-derived at the next close and not before, so until then it can lag what the journals
-show. The figure is quoted where the closing row landed, and the pack quotes it as
-it stands, below, without adjustment and without re-derivation:
+Mail stops moving when the evening van is loaded, so the sorter's bench was
+frozen as found. Anything beyond that belongs to the following window's affair
+and is tallied there, not carried back; the morning crew starts from this
+line:
 
-Nothing moved after this tally was taken: 179.
+The sorter's bench stopped at 179 parcels.
+
+Morning redirects leave on 2034-10-05.
