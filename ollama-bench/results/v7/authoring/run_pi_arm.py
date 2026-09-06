@@ -25,6 +25,7 @@ import sanity
 
 WRAPPER = os.path.expanduser("~/.claude/skills/pi-run/scripts/pi-run")
 ARM = "glm"
+MODEL_ARGS = []
 
 _slots = None
 
@@ -35,7 +36,7 @@ def run_one(task, trial, timeout):
     logp = os.path.join(sanity.trial_dir(ARM, trial), "%s.pi.log" % task)
     finalp = os.path.join(sanity.trial_dir(ARM, trial), "%s.final.txt" % task)
     cmd = ["bash", WRAPPER, "--cwd", sb, "--timeout", str(timeout), "--idle", "90",
-           "--no-context-files", "--", prompt]
+           "--no-context-files"] + MODEL_ARGS + ["--", prompt]
     with _slots:
         t0 = time.time()
         with open(finalp, "wb") as fout, open(logp, "wb") as ferr:
@@ -52,7 +53,14 @@ def main():
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=1800)
     ap.add_argument("--tasks", nargs="*", help="re-run only these tasks, merging into results.json")
+    ap.add_argument("--arm", default=ARM, help="results directory under sanity/ (default glm)")
+    ap.add_argument("--model", help="OpenRouter model id passed to pi-run (default: plan GLM)")
+    ap.add_argument("--uncapped", action="store_true", help="pass --uncapped to pi-run")
     a = ap.parse_args()
+    global ARM, MODEL_ARGS
+    ARM = a.arm
+    if a.model:
+        MODEL_ARGS = ["--model", a.model] + (["--uncapped"] if a.uncapped else [])
     _slots = threading.Semaphore(a.concurrency)
 
     sanity.prep(ARM, a.trial, a.tasks or None)
