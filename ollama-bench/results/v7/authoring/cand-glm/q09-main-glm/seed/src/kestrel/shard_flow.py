@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 24
 DEFAULT_SHARD_WINDOW_S = 15
-ABSORB_UNITS = 224
+ABSORB_UNITS = 1640
 SHARD_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

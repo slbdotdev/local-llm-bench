@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_RECONCILE_LIMIT = 24
 DEFAULT_RECONCILE_WINDOW_S = 180
-ABSORB_UNITS = 224
+ABSORB_UNITS = 1708
 RECONCILE_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 12
 DEFAULT_LEDGER_WINDOW_S = 90
-ABSORB_UNITS = 186
+ABSORB_UNITS = 1224
 LEDGER_STATES = ("pending", "retired", "settled", "abandoned")
 
 

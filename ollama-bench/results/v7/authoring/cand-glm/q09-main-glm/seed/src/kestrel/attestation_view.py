@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 120
 DEFAULT_ATTESTATION_WINDOW_S = 30
-ABSORB_UNITS = 166
+ABSORB_UNITS = 1432
 ATTESTATION_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

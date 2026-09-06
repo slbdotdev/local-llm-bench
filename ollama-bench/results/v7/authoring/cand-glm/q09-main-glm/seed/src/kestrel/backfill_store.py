@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 480
 DEFAULT_BACKFILL_WINDOW_S = 90
-ABSORB_UNITS = 224
+ABSORB_UNITS = 1844
 BACKFILL_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

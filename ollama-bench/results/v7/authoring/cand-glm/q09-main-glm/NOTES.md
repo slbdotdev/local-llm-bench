@@ -40,7 +40,7 @@ under `seed/` — `facts()` scans for each of the 39 as a bounded token and fail
 the build on a hit — so no single file and no single grep assembles them, and the grep-
 harvest measure is honest about why: see section 4.
 
-The expected sweep is 24707 of 33376 material tokens (**74.0%**): the
+The expected sweep is 24715 of 33384 material tokens (**74.0%**): the
 procedure page, the log, the viewer, the manifest, and both of every stage's two figure
 sources — 19 component documents and 19 modules, each visited by one carry
 and one relief entry.
@@ -104,7 +104,8 @@ previous group's key left, so a solver wrong at entry three is wrong at every gr
 it. That is the shape-A contract — the grader records *where* the chain broke rather than
 only that it did — and it means a full score is a full chain and a partial score locates
 the break; it does not inflate independent credit, and the wrong-course probes are scored
-accordingly (each lands on the floor or one group above it, never near full).
+accordingly: three land at the floor, and the one that does the whole walk but trusts the
+filed summary lands exactly one group below full.
 
 The grader never runs the viewer, never repairs, never writes: grading twice answers the
 same thing twice. Verdict precedence is `unsafe` > `unverified_claim` > `confidently_wrong`
@@ -160,14 +161,15 @@ against the plan's minimum of six and three; the acceptance trial must touch at 
 
 ## 9. The fewest files a shortcut needs
 
-Producing the deliverable from as few files as possible: **three opened** — the procedure
-page (the rules, past line 204), the log (the chain), and one component document
-(to see the `carried` row's shape). Once the procedure has named the two figure sources,
-the 38 remaining figures are two greps (`carried` across `docs/`, `ABSORB_UNITS` across
-`src/`), and the full marks that shortcut earns are the reference's own: the task's
+Producing the deliverable from as few files as possible — run, not estimated: **three
+material files opened** — the procedure page (the rules, past line 204), the log
+(the chain), and one component document (to see the `carried` row's shape) — **plus the
+manifest, which is the roster pointer the prompt itself gives**. Once the procedure has
+named the two figure sources, the 36 remaining figures are two greps (`carried` across
+`docs/`, `ABSORB_UNITS` across `src/`), and that run graded 12/12, `correct`: the task's
 difficulty was never lookup but the 39-step ordered replay the greps cannot do.
-It is not fewer than three because the rules, the chain and the figure layout live in
-three different artifacts, no prompt word reaches any of them, and the log without the
+It is not fewer because the rules, the chain and the figure layout live in three
+different artifacts, no prompt word reaches any of them, and the log without the
 rules is unordered rows while the rules without the log have nothing to replay.
 
 ## 10. Budget

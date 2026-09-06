@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 64
 DEFAULT_DRAIN_WINDOW_S = 15
-ABSORB_UNITS = 166
+ABSORB_UNITS = 1500
 DRAIN_STATES = ("pending", "settled", "settled", "abandoned")
 
 

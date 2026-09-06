@@ -246,3 +246,28 @@ was designed to provoke, and it is the first time this campaign has produced it 
 the round shows is that neither shape survives being *stated*: a chain has to be built so that step
 k is unreachable without step k-1, and a large deliverable has to be graded per unit, and a brief
 that asks for both still gets neither.
+
+## The context-pressure cell, `v7r5-48k` — a measurement, admitting nothing
+
+Ten main-band tasks, three trials each on `q27-IQ2_M-48k` at `--num-ctx 49152`, run after the
+round's candidate cell and never merged into the 64k number. The comparison is like for like: the
+same ten tasks, the same workhorse quant, the same harness.
+
+| | tasks | trials | passes | mean pass probability | pooled, Wilson 95% | confidently wrong | `stop=length` |
+| --- | ---: | ---: | ---: | ---: | --- | --- | ---: |
+| **64k** (`v7r4cal` + `v7r3-*` + `v7r4-gate-main`) | 10 | 48 | 40 | **0.813** | 0.833 [0.704, 0.913] | 3 (0.062) | 0 |
+| **48k** (`v7r5-48k`) | 10 | 30 | 27 | **0.900** | 0.900 [0.744, 0.965] | 0 (0.000) | 3 in 2 runs |
+
+**The answer is that occupancy does not move the pass rate measurably, and what movement there is
+runs the wrong way for the hypothesis.** At 48k the workhorse scores higher, not lower; the two
+Wilson intervals overlap over almost their whole length ([0.704, 0.913] against [0.744, 0.965]),
+so the difference is not distinguishable at three trials a row. Two of the three round-three and
+round-four rows that discriminate at 64k stopped discriminating at 48k — `n02-main-glm` went 2/4
+to 3/3 and `n05-main-luna` 3/4 to 3/3 — and both of the round's confidently-wrong verdicts
+disappeared with them. `p05-main-claude` stayed hard at both windows (1/4 at 64k, 1/3 at 48k) and
+is the one row whose difficulty survives the narrower window.
+
+The failure *shape* did change even where the rate did not: all three 48k misses are
+`visibly_failed` and two carry `STOP=length`, against zero length stops in 48 trials at 64k. A
+narrower window converts a wrong answer into a truncated one, which is a better failure to have
+and a worse one to score, and it is the only thing this cell establishes. It admits nothing.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 480
 DEFAULT_INGEST_WINDOW_S = 45
-ABSORB_UNITS = 224
+ABSORB_UNITS = 1776
 INGEST_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

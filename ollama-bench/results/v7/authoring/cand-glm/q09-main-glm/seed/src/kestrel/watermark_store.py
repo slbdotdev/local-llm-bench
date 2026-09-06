@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 960
 DEFAULT_WATERMARK_WINDOW_S = 45
-ABSORB_UNITS = 186
+ABSORB_UNITS = 1292
 WATERMARK_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

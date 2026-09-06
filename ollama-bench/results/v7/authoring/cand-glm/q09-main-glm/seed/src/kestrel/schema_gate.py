@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_SCHEMA_LIMIT = 48
 DEFAULT_SCHEMA_WINDOW_S = 30
-ABSORB_UNITS = 186
+ABSORB_UNITS = 1156
 SCHEMA_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

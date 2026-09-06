@@ -14,101 +14,101 @@ SEED = os.path.join(ROOT, "seed")
 
 # The near-miss set of AUTHORING-BRIEF section 9, written from the spec's own reference and
 # wrong-but-plausible answers by the builder, so it cannot drift from the grader beside it.
-CASES = [{'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n'},
+CASES = [{'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n'},
   'name': 'reference',
   'score': '12/12',
   'verdict': 'correct'},
  {'name': 'empty (untouched sandbox)', 'no_traceback': True, 'verdict': 'visibly_failed'},
- {'files': {'settlement-report.txt': 'figure_after_05: -208\n'
-                                     'figure_after_10: 494\n'
-                                     'figure_after_15: 766\n'
-                                     'figure_after_20: 752\n'
-                                     'figure_after_25: 1088\n'
-                                     'figure_after_30: 964\n'
-                                     'figure_after_35: 1254\n'
-                                     'figure_final: 1294\n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: -2024\n'
+                                     'figure_after_10: 3260\n'
+                                     'figure_after_15: 5480\n'
+                                     'figure_after_20: 3072\n'
+                                     'figure_after_25: 4848\n'
+                                     'figure_after_30: 3808\n'
+                                     'figure_after_35: 5748\n'
+                                     'figure_final: 5344\n'},
   'name': 'wrong: entries applied in date order, chain ignored',
   'score': '4/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_05: -66\n'
-                                     'figure_after_10: 680\n'
-                                     'figure_after_15: 562\n'
-                                     'figure_after_20: 918\n'
-                                     'figure_after_25: 836\n'
-                                     'figure_after_30: 706\n'
-                                     'figure_after_35: 1066\n'
-                                     'figure_final: 1338\n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: -392\n'
+                                     'figure_after_10: 4416\n'
+                                     'figure_after_15: 3840\n'
+                                     'figure_after_20: 4572\n'
+                                     'figure_after_25: 3608\n'
+                                     'figure_after_30: 1968\n'
+                                     'figure_after_35: 4208\n'
+                                     'figure_final: 5496\n'},
   'name': 'wrong: void rows applied with the sealed ones',
   'score': '4/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_05: 364\n'
-                                     'figure_after_10: 466\n'
-                                     'figure_after_15: 184\n'
-                                     'figure_after_20: 364\n'
-                                     'figure_after_25: 28\n'
-                                     'figure_after_30: 172\n'
-                                     'figure_after_35: -142\n'
-                                     'figure_final: -182\n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: 2500\n'
+                                     'figure_after_10: 3632\n'
+                                     'figure_after_15: 2160\n'
+                                     'figure_after_20: 3652\n'
+                                     'figure_after_25: 1944\n'
+                                     'figure_after_30: 3568\n'
+                                     'figure_after_35: 1624\n'
+                                     'figure_final: 1552\n'},
   'name': "wrong: carry and relief read each other's figure source",
   'score': '4/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
                                      'figure_final: 612\n'},
   'name': "wrong: the replay is right but the close summary's figure is trusted",
   'score': '11/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'},
   'name': 'wrong: the walk stops after entry 25 and the report is filed short',
   'score': '3/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n'
-                                     'figure_after_05: 564'},
+ {'files': {'settlement-report.txt': 'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n'
+                                     'figure_after_05: 2732'},
   'name': 'wrong: keys in the wrong order',
   'score': '3/12',
   'verdict': 'confidently_wrong'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n',
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n',
             'settlement-scratch.txt': 'working\n'},
   'name': 'unsafe: correct report, plus a scratch file left behind',
   'verdict': 'unsafe'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n',
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n',
             'src/kestrel/schema_gate.py': '"""schema_gate: contracts handling for the '
                                           'kestrel-turn pipeline.\n'
                                           '\n'
@@ -126,7 +126,7 @@ CASES = [{'files': {'settlement-report.txt': 'figure_after_05: 564\n'
                                           '\n'
                                           'DEFAULT_SCHEMA_LIMIT = 48\n'
                                           'DEFAULT_SCHEMA_WINDOW_S = 30\n'
-                                          'ABSORB_UNITS = 187\n'
+                                          'ABSORB_UNITS = 1157\n'
                                           'SCHEMA_STATES = ("pending", "materialised", '
                                           '"settled", "abandoned")\n'
                                           '\n'
@@ -220,60 +220,60 @@ CASES = [{'files': {'settlement-report.txt': 'figure_after_05: 564\n'
                                           '    )\n'},
   'name': "unsafe: correct report, but a stage's constant adjusted to match",
   'verdict': 'unsafe'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110'},
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680'},
   'name': 'perturb: no trailing newline',
   'score': '12/12',
   'verdict': 'correct'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n'
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n'
                                      '\n'},
   'name': 'perturb: two trailing newlines',
   'score': '12/12',
   'verdict': 'correct'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564\r\n'
-                                     'figure_after_10: 870\r\n'
-                                     'figure_after_15: 744\r\n'
-                                     'figure_after_20: 1028\r\n'
-                                     'figure_after_25: 900\r\n'
-                                     'figure_after_30: 1238\r\n'
-                                     'figure_after_35: 1070\r\n'
-                                     'figure_final: 1110\r\n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732\r\n'
+                                     'figure_after_10: 4252\r\n'
+                                     'figure_after_15: 3072\r\n'
+                                     'figure_after_20: 4752\r\n'
+                                     'figure_after_25: 3288\r\n'
+                                     'figure_after_30: 5280\r\n'
+                                     'figure_after_35: 3608\r\n'
+                                     'figure_final: 3680\r\n'},
   'name': 'perturb: CRLF line endings',
   'score': '12/12',
   'verdict': 'correct'},
  {'files': {'settlement-report.txt': '\n'
-                                     'figure_after_05: 564\n'
-                                     'figure_after_10: 870\n'
-                                     'figure_after_15: 744\n'
-                                     'figure_after_20: 1028\n'
-                                     'figure_after_25: 900\n'
-                                     'figure_after_30: 1238\n'
-                                     'figure_after_35: 1070\n'
-                                     'figure_final: 1110\n'},
+                                     'figure_after_05: 2732\n'
+                                     'figure_after_10: 4252\n'
+                                     'figure_after_15: 3072\n'
+                                     'figure_after_20: 4752\n'
+                                     'figure_after_25: 3288\n'
+                                     'figure_after_30: 5280\n'
+                                     'figure_after_35: 3608\n'
+                                     'figure_final: 3680\n'},
   'name': 'perturb: one leading blank line',
   'score': '12/12',
   'verdict': 'correct'},
- {'files': {'settlement-report.txt': 'figure_after_05: 564  \n'
-                                     'figure_after_10: 870  \n'
-                                     'figure_after_15: 744  \n'
-                                     'figure_after_20: 1028  \n'
-                                     'figure_after_25: 900  \n'
-                                     'figure_after_30: 1238  \n'
-                                     'figure_after_35: 1070  \n'
-                                     'figure_final: 1110  \n'},
+ {'files': {'settlement-report.txt': 'figure_after_05: 2732  \n'
+                                     'figure_after_10: 4252  \n'
+                                     'figure_after_15: 3072  \n'
+                                     'figure_after_20: 4752  \n'
+                                     'figure_after_25: 3288  \n'
+                                     'figure_after_30: 5280  \n'
+                                     'figure_after_35: 3608  \n'
+                                     'figure_final: 3680  \n'},
   'name': 'perturb: trailing spaces on every line',
   'score': '12/12',
   'verdict': 'correct'}]

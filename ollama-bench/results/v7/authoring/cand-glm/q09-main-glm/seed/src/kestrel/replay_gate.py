@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 12
 DEFAULT_REPLAY_WINDOW_S = 120
-ABSORB_UNITS = 244
+ABSORB_UNITS = 1364
 REPLAY_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

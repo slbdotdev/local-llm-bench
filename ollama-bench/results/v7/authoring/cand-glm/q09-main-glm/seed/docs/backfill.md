@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 480 | the largest number of receipts held before the stage refuses new work |
 | `window_s` | 90 | seconds a receipt may stay `pending` before it is reaped |
-| `carried` | 264 | the units this stage carries into the close, fixed at the review |
+| `carried` | 1920 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `backfill` section of the manifest by `build_backfill`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

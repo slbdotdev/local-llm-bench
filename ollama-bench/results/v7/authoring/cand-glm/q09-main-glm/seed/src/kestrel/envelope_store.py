@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ENVELOPE_LIMIT = 32
 DEFAULT_ENVELOPE_WINDOW_S = 30
-ABSORB_UNITS = 224
+ABSORB_UNITS = 1572
 ENVELOPE_STATES = ("pending", "admitd", "settled", "abandoned")
 
 
