@@ -1,0 +1,3 @@
+reroute_stages: audit, compaction, cursor, rollup
+reroute_count: 4
+join_formula: deployment_ordinal * region_offset

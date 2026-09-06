@@ -1,0 +1,51 @@
+{
+ "n07-main-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n01-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n03-main-luna": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n05-main-luna": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n08-cheap-glm": {
+  "pass": false,
+  "score": "1/8",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 1/8\nSCOPE created []; missing []\nFAIL [missing or unreadable cutover-report.txt]\nVERDICT visibly_failed"
+ },
+ "n09-cheap-luna": {
+  "pass": false,
+  "score": "1/8",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 1/8\nSCOPE created []; missing []\nFAIL [missing or unreadable release-report.txt]\nVERDICT visibly_failed"
+ },
+ "n10-cheap-claude": {
+  "pass": false,
+  "score": "1/7",
+  "verdict": "visibly_failed",
+  "rc": 1,
+  "tail": "SCORE 1/7\nSCOPE created []; missing []\nFAIL [missing or unreadable findings.txt]\nVERDICT visibly_failed"
+ }
+}

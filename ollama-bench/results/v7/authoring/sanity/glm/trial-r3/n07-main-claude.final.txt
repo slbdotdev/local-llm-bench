@@ -1,0 +1,23 @@
+Review complete — 2035-Q3 evidence custody.
+
+**Method:** Ran `python3 tools/report_state.py` — the platform enforces revision R-14: attestation 45, checkpoint 90, envelope 180, watermark 365, rollup 730. Resolved each stage's `CUSTODY_POOL` chain in `src/strand/` to its root and compared the resulting period against each `docs/<stage>.md` configuration table.
+
+**Findings — 5 stale documents** (filed in `data/doc-corrections.csv`):
+- `audit` (pool root checkpoint) — says 365, should say 90
+- `backfill` (pool root envelope) — says 730, should say 180
+- `digest` (pool root attestation) — says 180, should say 45
+- `drain` (pool root rollup) — says 90, should say 730
+- `tenancy` (pool root watermark) — says 120, should say 365
+
+I ignored the R-12 copy in `custody-policy.md` and the August spot check (`custody-spot-check.md`, taken off that same copy and marked "Do not file this"), and did not treat `REQUESTED_CUSTODY_DAYS` as a custody period per PR-0207.
+
+**Checker:** `python3 tools/run_checks.py` passed all four checks (rows valid, rows are corrections not restatements, chains resolve, fingerprint matches the RR-2035-Q2 lock), exit 0.
+
+**Report** written to `report.txt`:
+```
+TESTS: pass
+stale_documents: audit,backfill,digest,drain,tenancy
+schedule_fingerprint: 28b943338818
+```
+
+No existing file was modified; only `data/doc-corrections.csv` and `report.txt` were created.

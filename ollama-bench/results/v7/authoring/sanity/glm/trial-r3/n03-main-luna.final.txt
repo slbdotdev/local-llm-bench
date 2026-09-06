@@ -1,0 +1,17 @@
+The report is written to `/home/slb/v7-sanity/glm/trial-r3/n03-main-luna/handoff-report.txt`.
+
+**How it was resolved** — The governing record is **CR-27** (`docs/engineering/capacity-resolution.md`, status *in force*), which defines the three neutral classes:
+
+- **amber**: document → implementation → migration ledger
+- **indigo**: implementation → document → migration ledger
+- **slate**: migration ledger → implementation → document
+
+An absent record at one position falls through to the next kind (it's not a zero), and manifest `limit` values / `DEFAULT_*_LIMIT` constants are legacy assembly settings, not handoff capacities, so they were never used.
+
+Notable fall-throughs:
+- **attestation, envelope** (slate, no migration capacity) → implementation constant
+- **digest, dispatch, watermark** (indigo, no module constant) → component document
+- **quota, retention** (amber, no document section) → implementation constant
+- Slate stages with a migration row (**cursor, backfill, routing, schema**) took the ledger value directly.
+
+Sources: 7 document, 7 implementation, 5 migration-ledger. Total of the 19 selected values is **18537**. The exception line uses the governing record's own wording — the migration ledger is the only artifact outranked/outranking by the slate exception for `handoff_capacity`.

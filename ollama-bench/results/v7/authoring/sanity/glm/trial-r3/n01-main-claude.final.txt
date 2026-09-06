@@ -1,0 +1,28 @@
+The report is filed. Summary of what was done:
+
+**Governing record**: `RE-0204` (marked **in force**) supersedes `RE-0196` — a stage is cleared when its audited rate is **not below** its committed rate; only a shortfall withholds rate (a stage beating its commitment is cleared and withholds nothing).
+
+**Readiness sweep** (all 18 manifest stages; audited rate = `AUDITED_RATE` in each module under `src/brindle/`, committed rate = `committed_rate` row in each `docs/<stage>.md`):
+
+| stage | audited | committed | verdict |
+|---|---|---|---|
+| compaction | 575 | 586 | not cleared, withholds 11 |
+| digest | 535 | 542 | not cleared, withholds 7 |
+| drain | 626 | 641 | not cleared, withholds 15 |
+| envelope | 677 | 696 | not cleared, withholds 19 |
+
+All other stages are at or above their commitments (total withheld: **52**). The `window_s` divergences in the latency-review note were excluded — RE-0204 explicitly says those are not readiness findings.
+
+**Filing**: RE-0204 requires a countersign on the dated record of every class-B stage (class read from `RELEASE_CLASS` in each module, per RE-0188) before the report is filed. Appended exactly as specified, and validated with `tools/check_record.py`:
+- `history/0006-compaction.md` → `Countersigned: compaction margin -11`
+- `history/0009-ledger.md` → `Countersigned: ledger margin 11`
+- `history/0013-replay.md` → `Countersigned: replay margin 0`
+
+Nothing else under `src/`, `docs/`, `config/` or `tests/` was touched.
+
+**`readiness.txt`**:
+```
+not_cleared: compaction, digest, drain, envelope
+withheld_rate: 52
+governing_record: RE-0204
+```

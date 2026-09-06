@@ -205,22 +205,23 @@ def prompt(ctx):
 You are working at the root of the `cinder-parcel` checkout.  The stages in
 `config/manifest.json` are the complete scope of this review.
 
-Prepare a report of the allocation review.  For every stage, use its human-readable label as
-the name you report.  The repository's allocation-key policy explains how to compute the
-four-digit key: first obtain that stage's deployment ordinal and region offset, multiply them,
-and then search for the allocation record whose filename contains the resulting key.  Read the
-record's `Disposition` line.  Do this for every stage; do not match records by directory order,
-module order, or opening order.
+Prepare a report of the allocation review.  For every stage, report it by its name exactly as
+`config/manifest.json` lists it.  Never use its allocation key or any descriptive phrase from
+its page as the name you report.  The repository's allocation-key policy explains how to
+compute the four-digit key: first obtain that stage's deployment ordinal and region offset,
+multiply them, and then search for the allocation record whose filename contains the resulting
+key.  Read the record's `Disposition` line.  Do this for every stage; do not match records by
+directory order, module order, or opening order.
 
-Report the labels of the stages whose disposition is exactly `reroute`, the number of those
+Report the names of the stages whose disposition is exactly `reroute`, the number of those
 stages, and the canonical join formula stated by the policy; copy the formula verbatim from
-the policy, field names and all.  Put the labels in one comma-
-separated value; their order is not significant.
+the policy, field names and all.  Put the names in one comma-separated value; their order is
+not significant.
 
 Write a new file `allocation-report.txt` in the checkout root with exactly these three keys,
 in this order:
 
-    reroute_stages: <comma-separated human stage labels>
+    reroute_stages: <comma-separated stage names>
     reroute_count: <plain integer>
     join_formula: <the canonical formula>
 
@@ -256,14 +257,14 @@ def load_bearing(ctx):
         {"path": POLICY, "hop": "rule",
          "why": "states the canonical multiplication rule and rejects positional matching"},
         {"path": "config/manifest.json", "hop": "enumeration", "named_in_prompt": True,
-         "why": "the complete roster of human-labeled stages in scope"},
+         "why": "the complete roster of manifest-named stages in scope"},
     ]
     # Two complete examples make the three input/join/decision hops concrete while the sweep
     # still declares every file required for the aggregate.
     for r in (rows[1], rows[5]):
         lb.extend([
             {"path": r["stage"]["doc"], "hop": "ordinal",
-             "why": "the human-labeled stage's deployment ordinal"},
+             "why": "the manifest-named stage's deployment ordinal"},
             {"path": r["stage"]["src"], "hop": "offset",
              "why": "the same stage's region offset"},
             {"path": r["record"], "hop": "decision",
@@ -350,14 +351,14 @@ def notes(ctx, m):
 
 Mode 9 in the round brief's slot table is the non-lexical join task: the model must compute an
 opaque key before searching for the record it addresses.  It measures whether a model can carry
-an arithmetic join across human labels, a prose rule, and two artifact kinds.
+an arithmetic join across manifest stage names, a prose rule, and two artifact kinds.
 
 ## 2. Distinguishing condition
 
 A model that relies on lexical retrieval or directory order will search the allocation records
 directly, pair them with the manifest order, or use an ordinal as if it were already a key.  The
 material rules this out: the policy says the key is the product of the per-stage ordinal and
-offset, and decision records contain no human labels.  `facts()` measured %(records)d unique
+offset, and decision records contain no manifest stage names.  `facts()` measured %(records)d unique
 four-digit keys and one record per stage; the positive answer is %(selected)s.
 
 ## 3. Why the grader is sound
@@ -374,7 +375,7 @@ Positive: the report names the stages whose computed records say `reroute`.
 
 ## 5. Rung 0 and material necessity
 
-The answer is not stored in one file and no file maps labels to keys.  Every stage document is
+The answer is not stored in one file and no file maps manifest names to keys.  Every stage document is
 needed for its ordinal, every module for its offset, every allocation record for its disposition,
 and the policy is needed for the multiplication rule.  The prompt names only the complete roster
 pointer, `config/manifest.json`, which is declared `named_in_prompt`; it does not name an answer
@@ -407,7 +408,7 @@ The declaration has %(lb)d paths across %(hops)d causal hops:
 
 The reference is derived from `seed/` by multiplying each document's ordinal by its module's
 offset, opening the computed record, and reading its disposition; the formula is read from the
-policy.  No expected label, count, or key is typed into the reference.
+policy.  No expected stage name, count, or key is typed into the reference.
 """ % {
         "slot": SLOT, "mode": MODE, "records": records,
         "selected": ", ".join("`%s`" % n for n in f["selected"]),
