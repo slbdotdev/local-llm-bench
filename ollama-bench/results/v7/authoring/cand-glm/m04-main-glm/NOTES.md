@@ -57,7 +57,7 @@ place and the late date alone means nothing for it. Neither the manifest nor any
 document nor any single module carries both facts for any stage, so no single file and no grep
 over the prompt's own words (which never names a stage or a date) assembles the answer.
 
-The traversal a correct answer requires is declared as **24156 of 31020 material
+The traversal a correct answer requires is declared as **24160 of 31024 material
 tokens (77.9%)**: every one of the 19 stage documents AND every one of the 19
 stage modules (there is no way to know in advance which two mismatch without checking all of
 them), the manifest, both check scripts, and the distractor material that has to be read and

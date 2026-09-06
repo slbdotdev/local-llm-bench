@@ -59,8 +59,10 @@ def sandbox_dir(arm, trial):
     return os.path.join(SANDBOX_ROOT, arm, "trial-%s" % trial)
 
 
-def prep(arm, trial):
+def prep(arm, trial, only=None):
     for t in tasks():
+        if only and t not in only:
+            continue
         sb = os.path.join(sandbox_dir(arm, trial), t)
         if os.path.exists(sb):
             shutil.rmtree(sb)
@@ -95,9 +97,15 @@ def grade_one(task, sb):
             "rc": rc, "tail": so.strip()[-200:]}
 
 
-def grade(arm, trial):
+def grade(arm, trial, only=None):
+    """Grade every task, or with `only` just those, merging into the trial's results.json."""
+    path = os.path.join(trial_dir(arm, trial), "results.json")
     out = {}
+    if only and os.path.exists(path):
+        out = json.load(open(path, encoding="utf-8"))
     for t in tasks():
+        if only and t not in only:
+            continue
         sb = os.path.join(sandbox_dir(arm, trial), t)
         if not os.path.isdir(sb):
             out[t] = {"error": "no sandbox", "pass": False, "verdict": None}
@@ -106,7 +114,6 @@ def grade(arm, trial):
         r = out[t]
         print("%-20s %-4s score=%-8s verdict=%s"
               % (t, "PASS" if r["pass"] else "FAIL", r["score"], r["verdict"]))
-    path = os.path.join(trial_dir(arm, trial), "results.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1)
@@ -162,9 +169,9 @@ def main():
     if mode == "tally":
         tally(sys.argv[2:])
     elif mode == "prep":
-        prep(sys.argv[2], sys.argv[3])
+        prep(sys.argv[2], sys.argv[3], sys.argv[4:] or None)
     elif mode == "grade":
-        grade(sys.argv[2], sys.argv[3])
+        grade(sys.argv[2], sys.argv[3], sys.argv[4:] or None)
     else:
         print(__doc__)
         return 2

@@ -1,0 +1,4 @@
+effective_handoff_capacity: attestation=1108, backfill=1111, checkpoint=918, cursor=900, digest=1102, dispatch=1105, drain=1114, envelope=1117, ingest=704, ledger=707, lineage=701, quota=915, replay=906, retention=903, routing=716, schema=710, shard=713, tenancy=909, watermark=912
+effective_source_by_unit: attestation=migration-ledger, backfill=migration-ledger, checkpoint=document, cursor=document, digest=migration-ledger, dispatch=migration-ledger, drain=migration-ledger, envelope=migration-ledger, ingest=implementation, ledger=implementation, lineage=implementation, quota=document, replay=document, retention=document, routing=implementation, schema=implementation, shard=implementation, tenancy=document, watermark=document
+effective_handoff_capacity_total: 17271
+exception_governing_artifact: migration-ledger

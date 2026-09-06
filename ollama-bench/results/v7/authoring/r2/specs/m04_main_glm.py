@@ -357,13 +357,13 @@ conditions have to hold for the same stage. Neither `tools/build_fixture.py` nor
 `tools/run_checks.py` will work this out for you: you have to read the stage documents and
 modules yourself.
 
-Write your findings to a small CSV, header `stage,rollout_date`, one row per stage you have
+Write your findings to `data/provisional-review.csv`, header `stage,rollout_date`, one row per stage you have
 determined is provisional, with that stage's own module's effective rollout date. A stage you
 do not list is treated as not provisional.
 
 ## The two commands, in order
 
-    python tools/build_fixture.py <path-to-your-review-csv>
+    python tools/build_fixture.py data/provisional-review.csv
     python tools/run_checks.py
 
 The first only combines your review with the manifest's stage list and applies the cutover

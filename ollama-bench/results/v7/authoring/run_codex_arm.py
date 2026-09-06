@@ -53,14 +53,17 @@ def main():
     ap.add_argument("--trial", default="0")
     ap.add_argument("--concurrency", type=int, default=6)
     ap.add_argument("--timeout", type=int, default=1800)
+    ap.add_argument("--tasks", nargs="*", help="re-run only these tasks, merging into results.json")
     a = ap.parse_args()
     _slots = threading.Semaphore(a.concurrency)
 
-    sanity.prep(ARM, a.trial)
+    sanity.prep(ARM, a.trial, a.tasks or None)
     meta = {}
     threads = []
     t0 = time.time()
     for task in sanity.tasks():
+        if a.tasks and task not in a.tasks:
+            continue
         th = threading.Thread(target=lambda t=task: meta.__setitem__(
             t, run_one(t, a.trial, a.timeout)))
         th.start()
@@ -69,7 +72,7 @@ def main():
         th.join()
     print("[run] arm complete in %.0fs" % (time.time() - t0), flush=True)
 
-    out = sanity.grade(ARM, a.trial)
+    out = sanity.grade(ARM, a.trial, a.tasks or None)
     for task, rec in out.items():
         rec.update(meta.get(task, {}))
     path = os.path.join(sanity.trial_dir(ARM, a.trial), "results.json")

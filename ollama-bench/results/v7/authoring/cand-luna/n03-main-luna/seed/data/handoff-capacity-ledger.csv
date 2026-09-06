@@ -1,0 +1,20 @@
+stage,property,resolution_class,capacity,recorded_on,operator_note
+cursor,handoff_capacity,document-led,1100,2035-01-02,capacity migration review recorded this value
+lineage,handoff_capacity,module-led,1101,2035-02-05,capacity migration review recorded this value
+digest,handoff_capacity,ledger-led,1102,2035-03-08,capacity migration review recorded this value
+retention,handoff_capacity,document-led,1103,2035-04-11,capacity migration review recorded this value
+ingest,handoff_capacity,module-led,1104,2035-05-14,capacity migration review recorded this value
+dispatch,handoff_capacity,ledger-led,1105,2035-06-17,capacity migration review recorded this value
+replay,handoff_capacity,document-led,1106,2035-07-20,capacity migration review recorded this value
+ledger,handoff_capacity,module-led,1107,2035-08-23,capacity migration review recorded this value
+attestation,handoff_capacity,ledger-led,1108,2035-09-26,capacity migration review recorded this value
+tenancy,handoff_capacity,document-led,1109,2035-01-03,capacity migration review recorded this value
+schema,handoff_capacity,module-led,1110,2035-02-06,capacity migration review recorded this value
+backfill,handoff_capacity,ledger-led,1111,2035-03-09,capacity migration review recorded this value
+watermark,handoff_capacity,document-led,1112,2035-04-12,capacity migration review recorded this value
+shard,handoff_capacity,module-led,1113,2035-05-15,capacity migration review recorded this value
+drain,handoff_capacity,ledger-led,1114,2035-06-18,capacity migration review recorded this value
+quota,handoff_capacity,document-led,1115,2035-07-21,capacity migration review recorded this value
+routing,handoff_capacity,module-led,1116,2035-08-24,capacity migration review recorded this value
+envelope,handoff_capacity,ledger-led,1117,2035-09-27,capacity migration review recorded this value
+checkpoint,handoff_capacity,document-led,1118,2035-01-04,capacity migration review recorded this value

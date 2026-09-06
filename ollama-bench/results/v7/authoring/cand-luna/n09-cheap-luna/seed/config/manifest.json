@@ -1,0 +1,70 @@
+{
+  "project": "cinder-parcel",
+  "package": "cinder",
+  "stages": [
+    {
+      "name": "audit",
+      "module": "audit_view",
+      "class": "AuditRegistry",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "schema",
+      "module": "schema_store",
+      "class": "SchemaRegistry",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_view",
+      "class": "IngestRegistry",
+      "limit": 12,
+      "window_s": 45,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_gate",
+      "class": "CheckpointEngine",
+      "limit": 64,
+      "window_s": 45,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_store",
+      "class": "RollupRegistry",
+      "limit": 12,
+      "window_s": 30,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_view",
+      "class": "AttestationPlanner",
+      "limit": 32,
+      "window_s": 90,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_view",
+      "class": "ThrottleEngine",
+      "limit": 64,
+      "window_s": 60,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_flow",
+      "class": "ReconcileLedger",
+      "limit": 480,
+      "window_s": 30,
+      "owner": "K. Sorensen"
+    }
+  ]
+}

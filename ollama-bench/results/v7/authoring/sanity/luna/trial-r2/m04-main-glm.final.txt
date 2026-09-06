@@ -1,1 +1,7 @@
-Completed. The authoritative check returned `OK`, and [report.txt](/home/slb/v7-sanity/luna/trial-r2/m04-main-glm/report.txt) contains the required three lines.
+Release checks passed using `python3`; the real verifier printed `OK`.
+
+Created:
+
+- [data/provisional-review.csv](/home/slb/v7-sanity/luna/trial-r2/m04-main-glm/data/provisional-review.csv)
+- [data/regression-fixture.csv](/home/slb/v7-sanity/luna/trial-r2/m04-main-glm/data/regression-fixture.csv)
+- [report.txt](/home/slb/v7-sanity/luna/trial-r2/m04-main-glm/report.txt)
