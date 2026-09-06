@@ -45,5 +45,5 @@ authorised it. An entry with no history reference was an emergency and is audite
 
 ## 2036-07-18 — release review correction
 
-- Correction: stage [audit] is not a release candidate; remove its reserved capacity of 266 units
-  from the release summary. The release record and decision are unchanged.
+- Correction: stage [audit] is no longer a release candidate as of 2036-07-18. The release
+  record and decision are unchanged.

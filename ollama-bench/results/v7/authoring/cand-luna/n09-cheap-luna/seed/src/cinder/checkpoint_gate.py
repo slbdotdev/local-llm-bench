@@ -82,3 +82,5 @@ def build_checkpoint(config):
         limit=section.get("limit", DEFAULT_CHECKPOINT_LIMIT),
         window_s=section.get("window_s", DEFAULT_CHECKPOINT_WINDOW_S),
     )
+
+# Release context remains part of this project material.

@@ -68,7 +68,6 @@ def overlay(ctx):
 
     initial = [(s["name"], cap) for s, status, cap in plan if status == "candidate"]
     initial_names = [name for name, _cap in initial]
-    initial_total = sum(cap for _name, cap in initial)
     C.write(
         os.path.join(ctx["seed"], *SUMMARY_PATH.split("/")),
         """# Release review summary
@@ -86,7 +85,7 @@ without changing the record identifier or the release decision.
 
     # A single late, ordinary changelog entry invalidates one stage in the complete summary.
     # The solver must recompute both dependent fields rather than copy the summary.
-    corrected_stage, _status, corrected_capacity = plan[0]
+    corrected_stage, _status, _corrected_capacity = plan[0]
     corpus.append(
         CHANGELOG_PATH,
         """## 2036-07-18 — %s
@@ -94,6 +93,16 @@ without changing the record identifier or the release decision.
 - Correction: stage [%s] is no longer a release candidate as of 2036-07-18. The release
   record and decision are unchanged.
 """ % (CORRECTION_MARK, corrected_stage["name"]))
+
+    # The deliverable key names necessarily put "release" in prompt.md. Keep that
+    # ordinary project word broad enough that it cannot act as a selective corpus index.
+    for path in C.walk_rel(ctx["seed"]):
+        if path == "config/manifest.json" or "release" in corpus.text(path).lower():
+            continue
+        marker = ("\n# Release context remains part of this project material.\n"
+                  if path.endswith(".py") else
+                  "\nRelease context remains part of this project material.\n")
+        corpus.append(path, marker)
 
 
 def _read_status(corpus, stage):
@@ -139,6 +148,7 @@ def facts(ctx):
     stale_names, record, decision = _summary_values(corpus)
     stale_name_list = [x.strip() for x in stale_names.split(",")]
     assert stale_name_list == [name for name, status, _cap in plan if status == "candidate"]
+    stale_total = sum(cap for _name, status, cap in plan if status == "candidate")
     assert corrected_name in [x.strip() for x in stale_names.split(",")]
     assert record and decision
     assert len(names) >= 1 and total != stale_total
@@ -170,22 +180,22 @@ def prompt(ctx):
     return """# Current release report
 
 Determine the current release decision for the project in this working directory. Read the
-repository's component records and dated project material, compare an earlier complete
-summary with any later correction, and compute the result from the records. The project
-manifest gives the complete roster and its order; report stages in that manifest order.
+repository's project material, compare an earlier account
+with newer project information, and compute the result from the material. The project
+manifest gives the full roster and its order; report stages in that manifest order.
 
-Create exactly one new file, release-report.txt. Do not modify or delete any existing file,
-and do not create any other file. The new file must contain exactly these four nonblank keys,
-in this order, one key: value line per key:
+Create exactly one new artifact, release-report.txt. Do not modify or delete any existing
+material, and do not create anything else. The new artifact must contain exactly these four
+nonblank keys, in this order, one key: value line per key:
 
-release_stages: comma-separated stage names, in manifest order
+release_stages: comma-separated stage values, in manifest order
 reserved_capacity_total: one integer, in the project's capacity units
-release_record: the release record identifier
+release_record: the release record value
 decision: the current release decision
 
-Use the exact stage names from the material. The stage list is not alphabetized. Do not add
-headings, explanations, or extra keys. A complete earlier answer is not necessarily current;
-use the dated material to resolve it before writing the report.
+Use the exact stage values from the material. The stage list is not alphabetized. Do not add
+headings, explanations, or extra keys. An earlier answer is not necessarily current; use the
+newer material before producing the report.
 """
 
 
@@ -236,7 +246,12 @@ def _stale_answer(ctx):
         if status == "candidate":
             stages.append(stage["name"])
             total += capacity
-    _stale_names, _stale_total, record, decision = _summary_values(corpus)
+    _stale_names, record, decision = _summary_values(corpus)
+    stale_total = sum(
+        capacity for stage in corpus.stages
+        for status, capacity in [_read_status(corpus, stage)]
+        if status == "candidate"
+    )
     return ("release_stages: %s\nreserved_capacity_total: %d\nrelease_record: %s\n"
             "decision: %s\n" % (", ".join(stages), total, record, decision))
 

@@ -33,3 +33,5 @@ follow the pipeline by following imports, and must read the manifest instead.
 `config/manifest.json` names each stage and carries its section. A section may set
 `limit` and `window_s`; anything else in a section is ignored with a warning, which is
 deliberate - it lets a section carry a note for a human reader.
+
+Release context remains part of this project material.

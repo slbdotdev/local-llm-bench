@@ -28,3 +28,5 @@ def test_build_throttle_reads_the_manifest():
     engine = build_throttle({"throttle": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 60
+
+# Release context remains part of this project material.

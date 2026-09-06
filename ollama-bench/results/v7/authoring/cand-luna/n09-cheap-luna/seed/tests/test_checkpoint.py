@@ -28,3 +28,5 @@ def test_build_checkpoint_reads_the_manifest():
     engine = build_checkpoint({"checkpoint": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 45
+
+# Release context remains part of this project material.

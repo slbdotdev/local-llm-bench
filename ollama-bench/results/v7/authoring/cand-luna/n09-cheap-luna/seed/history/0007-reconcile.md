@@ -20,3 +20,5 @@ responsible for reporting the shed count. The number itself is unchanged at 480.
 - `docs/reconcile.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_RECONCILE_LIMIT`.
 - The Data Stewardship team owns the shed-count dashboard.
+
+Release context remains part of this project material.

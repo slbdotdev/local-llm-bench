@@ -21,3 +21,5 @@ cited in two audits and removing it would break those references.
 - `docs/ingest.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_INGEST_LIMIT`.
 - The Client Integrations team owns the shed-count dashboard.
+
+Release context remains part of this project material.

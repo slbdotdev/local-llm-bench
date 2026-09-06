@@ -28,3 +28,5 @@ def test_build_ingest_reads_the_manifest():
     engine = build_ingest({"ingest": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 45
+
+# Release context remains part of this project material.

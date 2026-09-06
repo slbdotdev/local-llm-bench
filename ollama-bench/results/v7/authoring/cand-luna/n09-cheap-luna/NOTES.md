@@ -8,23 +8,25 @@ but a later dated correction changes two dependent report fields.
 
 ## 2. Distinguishing condition
 
-The stale summary names audit, ingest, checkpoint, attestation, throttle and totals 566. The dated correction removes
-audit and its 266 units. A solver that stops at the first complete answer will
-therefore get exactly the two unchanged fields right and the stage list and total wrong. The
-material makes the correction explicit and dated; there is no judgement call.
+The stale summary names audit, ingest, checkpoint, attestation, throttle; those candidate rows total 566. The dated
+entry removes audit from the current release set. A solver that stops at the first
+complete-looking answer will therefore get exactly the two unchanged fields right and the
+stage list and total wrong. The material makes the update explicit and dated; there is no
+judgement call.
 
 The decisive per-stage datum is release_status, written once into each component document by the
 overlay. It is not echoed by the manifest, indexes, history entries or tests, and no summary
-file carries the per-stage values. The answer requires traversing the roster and all component
-records, then applying the later correction.
+file carries the per-stage capacity values. This is a document row rather than a per-stage
+module constant, so DECISIVE_CONSTANT is intentionally not declared. The answer requires
+traversing the roster and all component records, then applying the later update.
 
 ## 3. Rung 0 and sweep
 
 The prompt names only the deliverable and the project manifest's legitimate roster pointer;
 it does not name the summary, changelog, or component-document paths. No file contains the
 correct four values together: the summary contains the pre-correction pair, while the
-component records and correction must be reconciled. The expected sweep is 9388 of
-12679 measured material tokens (74.0%), within the intended 60-80% traversal range.
+component records and correction must be reconciled. The expected sweep is 9563 of
+13004 measured material tokens (73.5%), within the intended 60-80% traversal range.
 The modules corresponding to candidate component records are included because each record
 points to its implementation and the maintenance sweep verifies that association. Tests and
 deferred-stage modules are coherent project context but do not carry the release property and

@@ -82,3 +82,5 @@ def build_rollup(config):
         limit=section.get("limit", DEFAULT_ROLLUP_LIMIT),
         window_s=section.get("window_s", DEFAULT_ROLLUP_WINDOW_S),
     )
+
+# Release context remains part of this project material.

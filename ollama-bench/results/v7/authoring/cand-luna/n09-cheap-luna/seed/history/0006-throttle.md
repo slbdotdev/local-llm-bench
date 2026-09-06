@@ -20,3 +20,5 @@ load, which it cannot. Kept as evidence that the option was considered.
 - `docs/throttle.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_THROTTLE_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
+
+Release context remains part of this project material.

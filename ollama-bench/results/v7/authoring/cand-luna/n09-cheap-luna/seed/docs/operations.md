@@ -34,3 +34,5 @@ stage's own window for two consecutive windows.
 - A stage is never sealed twice in the same drain to 'make sure'; `seal()` is
   idempotent, so a second call is harmless, but a second call in the logs is read as
   evidence that the operator was unsure, and the drain is audited.
+
+Release context remains part of this project material.

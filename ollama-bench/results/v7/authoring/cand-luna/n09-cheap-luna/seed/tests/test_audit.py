@@ -28,3 +28,5 @@ def test_build_audit_reads_the_manifest():
     engine = build_audit({"audit": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 120
+
+# Release context remains part of this project material.

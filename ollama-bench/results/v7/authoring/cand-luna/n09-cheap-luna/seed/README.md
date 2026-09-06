@@ -34,3 +34,5 @@ configuration decision is under `history/`.
   silent fallback to the module constant.
 - Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
   outranks everything else.
+
+Release context remains part of this project material.

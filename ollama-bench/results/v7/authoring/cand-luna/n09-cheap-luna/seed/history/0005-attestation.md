@@ -20,3 +20,5 @@ responsible for reporting the shed count. The number itself is unchanged at 32.
 - `docs/attestation.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_ATTESTATION_LIMIT`.
 - The Delivery Engineering team owns the shed-count dashboard.
+
+Release context remains part of this project material.

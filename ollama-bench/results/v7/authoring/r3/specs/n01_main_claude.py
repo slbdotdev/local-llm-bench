@@ -58,7 +58,7 @@ READINESS = "docs/release/RE-0204-readiness.md"
 WITHDRAWN = "docs/release/RE-0196-readiness.md"
 CLASSES = "docs/release/RE-0188-release-classes.md"
 NOTE = "docs/release/latency-review-note.md"
-VALIDATOR = "tools/check_countersign.py"
+VALIDATOR = "tools/check_record.py"
 
 SUMMARY = """
 Task: file this quarter's release readiness report. The report names every stage that is not
@@ -95,6 +95,21 @@ _CLASSB = (6, 9, 13)
 # with readiness; the disclaimed note in `docs/release/` lists them and says so in its own
 # first paragraph, and a solver who takes the note at face value reports them.
 _WINDOW = (3, 8, 15)
+
+# r3/BRIEF.md section 5: no single word of `prompt.md` may grep to exactly one load-bearing
+# file, because that hands a solver the answer's location in one hop. `facts()` asserts it.
+# "Word" means a *distinctive* word, and this is `r3/check_rung0.py`'s own STOP list, copied
+# verbatim so that the assertion in this spec and the mechanical checker agree on what counts:
+# a function word that lands on one file by chance is not a route anybody takes.
+_PROMPT_WORD_STOP = set("""a an and are as at be been before but by can do does for from has
+have if in into is it its may must never no not of on one only or other our over same shall
+should so some such than that the their them then there these they this those to two under
+until up upon use used using was were what when where which while who why will with within
+without you your work working current directory root new file files line lines write written
+writes exactly order value values name names each every all any more most also just plainly
+stop nothing create created creates modify modified delete deleted existing task prompt
+project repository checkout report list plain integer comma separated alphabetical header
+quotes explanation newline end ends may not do does""".split())
 
 _COMMIT_BASE = 520
 _COMMIT_STEP = 11
@@ -263,7 +278,7 @@ _RE0204_BODY = [
     ("Frequency and scope", [
         "Every release, over every stage in the manifest. A partial sweep is not a readiness",
         "report and is not accepted as one; the phrase for a partial sweep is a spot check,",
-        "and it is written down as one so that nobody files the one as the other.",
+        "and it is written down as one so that nobody submits the one as the other.",
     ]),
     ("History of this record", [
         "RE-0177 made readiness a manifest concern and did not survive contact with the",
@@ -280,10 +295,10 @@ _RE0204_FILING = [
     "Writing the report is not filing it.",
     "",
     "A readiness report covers every stage in the manifest, and some of those stages publish",
-    "their rate outside the pipeline. **A readiness report that covers a class-B stage is",
-    "not filed until that stage's own dated record under `history/` carries a countersign",
-    "line.** Release classes, and where a stage's class is written down, are RE-0188's",
-    "subject; this record does not restate them.",
+    "their rate outside the pipeline. **A readiness report that covers a class-B stage is not",
+    "filed until that stage's own dated record under `history/` carries a countersign line.**",
+    "Release classes, and where a stage's class is written down, are RE-0188's subject; this",
+    "record does not restate them.",
     "",
     "The countersign is what tells a consumer's own release process that somebody looked at",
     "this stage's numbers this release rather than last release. It is recorded on the",
@@ -297,7 +312,7 @@ _RE0204_FILING = [
     "    Countersigned: <stage> margin <margin>",
     "",
     "where `<stage>` is the stage's name as `config/manifest.json` gives it, and `<margin>`",
-    "is that stage's **audited rate less its committed rate**, written as a plain integer,",
+    "is that stage's **audited rate less its committed rate**, written as a plain whole number,",
     "negative when the stage is short and `0` when the two are equal. One space either side",
     "of the word `margin`, no other punctuation, and no trailing spaces.",
     "",
@@ -344,7 +359,8 @@ break those references. It is not a live instruction and it is not applied to a 
 
 A stage was **not cleared for release** when the figure the release audit measured for it
 **differed** from the figure its consumers had been promised, in either direction. The report
-named those stages and carried the total absolute difference over them.
+named those stages, carried the total absolute difference over them, and cited this
+record's identifier.
 
 Where the two numbers live was settled by this record and has never been disputed since: the
 measured figure is `AUDITED_RATE` in the stage's own module under `src/`, and the promised
@@ -444,23 +460,26 @@ def _write_note(ctx, window):
     C.write(os.path.join(ctx["seed"], *NOTE.split("/")), "\n".join(L))
 
 
-_VALIDATOR_SOURCE = '''"""Check that a dated record's countersign line is well formed.
+_VALIDATOR_SOURCE = '''"""Check that one dated record under `history/` is well formed.
 
-    python tools/check_countersign.py history/0007-example.md
+    python tools/check_record.py history/0007-example.md
 
-Reports on the record you name and on nothing else. It knows the *shape* a countersign line
-has to have, because the shape is what gets typed wrong: a blank line before it, a trailing
-space after it, CRLF endings pasted in from a mail client.
+Reports on the record you name and on nothing else. Record hygiene is checked here rather
+than by eye because it is what gets typed wrong when a record is edited by hand: CRLF endings
+pasted in from a mail client, a missing final newline, trailing spaces, a stray blank line at
+the end of the file.
 
-It does not know which stages need a countersign, it does not know any stage's numbers, and
-it does not compute a margin. Those are RE-0204's and RE-0188's business and this script has
-deliberately never read either.
+It also knows the *shape* of the one kind of line that is ever appended to a record after the
+fact, and reports on that line when the record has one. It knows the shape and nothing else:
+it does not know which records are supposed to have such a line, it does not know any stage's
+numbers, and it computes nothing. Those are the release records' business, under
+`docs/release/`, and this script has deliberately never read them.
 """
 import os
 import re
 import sys
 
-LINE = re.compile(r"^Countersigned: ([a-z][a-z0-9_]*) margin (-?\\d+)$")
+APPENDED = re.compile(r"^Countersigned: ([a-z][a-z0-9_]*) margin (-?\\d+)$")
 
 
 def check(path):
@@ -468,7 +487,7 @@ def check(path):
         raw = fh.read()
     problems = []
     if b"\\r\\n" in raw:
-        problems.append("the record contains CRLF line endings; this repository is LF only")
+        problems.append("the record has CRLF line endings; this repository is LF only")
     text = raw.decode("utf-8")
     lines = text.split("\\n")
     if lines and lines[-1] == "":
@@ -477,15 +496,19 @@ def check(path):
         problems.append("the record does not end with a newline")
     if not lines:
         return ["the record is empty"]
-    last = lines[-1]
-    m = LINE.match(last)
-    if not m:
-        problems.append("the last line is not a countersign line: %r" % last)
-        problems.append("a countersign line reads exactly: Countersigned: <stage> margin <n>")
-    else:
-        if len(lines) > 1 and lines[-2].strip() == "":
-            problems.append("there is a blank line between the record and its countersign")
-        print("countersign line found: stage %r, margin %s" % (m.group(1), m.group(2)))
+    for i, line in enumerate(lines, 1):
+        if line != line.rstrip():
+            problems.append("line %d has trailing whitespace" % i)
+    if not lines[-1].strip():
+        problems.append("the record ends with a blank line")
+    m = APPENDED.match(lines[-1])
+    if m:
+        if len(lines) > 1 and not lines[-2].strip():
+            problems.append("there is a blank line before the appended last line")
+        print("appended line found: %r, %r" % (m.group(1), m.group(2)))
+    elif lines[-1].startswith("Countersigned"):
+        problems.append("the last line is nearly, but not exactly, in the appended form")
+        problems.append("that form is: Countersigned: <stage> margin <n>")
     return problems
 
 
@@ -515,11 +538,12 @@ def _write_validator(ctx):
 _README_ADDENDUM = """## Release material
 
 - `docs/release/` - the numbered release records: what a stage has to satisfy to ship, how a
-  readiness report is filed, and what a stage's release class means. A record marked **in
+  readiness report is filed, and what a stage's release class means. The filing rules travel
+  with whichever record is in force and are not repeated here. A record marked **in
   force** applies; a record marked **superseded** is kept as evidence because later reasoning
   cites it, and is never a live instruction.
-- `tools/check_countersign.py` - validates the shape of a line you have written into a dated
-  record. It reads the one record you name and nothing else.
+- `tools/check_record.py` - checks that one dated record under `history/` is well formed. It
+  reads the single record you name and nothing else, and it changes nothing.
 """
 
 
@@ -635,15 +659,15 @@ def facts(ctx):
     #    per-stage constants are checked here, by the same test, against the seed on disk.
     srcs = set(s["src"] for s in corpus.stages)
     docs = set(s["doc"] for s in corpus.stages)
-    assert set(_holders(seed, DECISIVE_CONSTANT)) == srcs | {READINESS}, (
-        "%s is named outside the modules and %s: %s"
-        % (DECISIVE_CONSTANT, READINESS, _holders(seed, DECISIVE_CONSTANT)))
+    assert set(_holders(seed, DECISIVE_CONSTANT)) == srcs | {READINESS, WITHDRAWN}, (
+        "%s is named outside the modules and the two readiness records: %s"
+        % (DECISIVE_CONSTANT, _holders(seed, DECISIVE_CONSTANT)))
     assert set(_holders(seed, CLASS_CONSTANT)) == srcs | {CLASSES}, (
         "%s is named outside the modules and %s: %s"
         % (CLASS_CONSTANT, CLASSES, _holders(seed, CLASS_CONSTANT)))
-    assert set(_holders(seed, "`%s`" % COMMITTED_ROW)) == docs | {READINESS}, (
-        "`%s` is named outside the component documents and %s: %s"
-        % (COMMITTED_ROW, READINESS, _holders(seed, "`%s`" % COMMITTED_ROW)))
+    assert set(_holders(seed, "`%s`" % COMMITTED_ROW)) == docs | {READINESS, WITHDRAWN}, (
+        "`%s` is named outside the component documents and the two readiness records: %s"
+        % (COMMITTED_ROW, _holders(seed, "`%s`" % COMMITTED_ROW)))
     # and no other file states a stage's audited rate or class beside that stage's name.
     for s in corpus.stages:
         for value in (str(_audit(corpus, s)), '"%s"' % _cls(corpus, s)):
@@ -669,22 +693,43 @@ def facts(ctx):
     assert _EG_STAGE not in corpus.by_name, \
         "the worked example uses a real stage name: %s" % _EG_STAGE
 
-    # -- the criterion and the obligation each have exactly one source -------------------
-    #    A previous round lost a slot because the ruling restated its own definition, so
-    #    the deciding file was confirmation and never needed. Here the pairing of an
-    #    audited rate with a committed rate is stated in RE-0204 and nowhere else, and the
-    #    countersign obligation is stated in RE-0204 and nowhere else.
-    both = [rel for rel in C.walk_rel(seed)
-            if rel != READINESS
-            and "audited rate" in corpus.text(rel) and "committed rate" in corpus.text(rel)]
-    assert not both, "the readiness criterion has a second source: %s" % ", ".join(both)
+    # -- the deciding rule and the obligation each have exactly one source ---------------
+    #    A round-two slot lost its deciding file because the ruling restated the criterion,
+    #    so the file was confirmation and never needed. What decides this task is not where
+    #    the two numbers live — both records say that, honestly, and %(sup)s says it first —
+    #    but the DIRECTION of the comparison and the filing obligation. Each is stated in
+    #    the record in force and in no other file, and that is asserted here.
+    for phrase in ("is **below** its committed rate", "withheld rate", "countersign line"):
+        holders = _holders(seed, phrase)
+        assert holders == [READINESS], (
+            "%r is stated in %s; it must be stated in %s alone"
+            % (phrase, ", ".join(holders) or "no file", READINESS))
     cs = _holders(seed, "Countersigned:")
     assert cs == [READINESS, VALIDATOR], (
-        "the countersign line's form is stated in %s, not only in %s and %s"
+        "the appended line's exact form is stated in %s, not only in %s and %s"
         % (", ".join(cs), READINESS, VALIDATOR))
-    obligation = _holders(seed, "countersign line")
-    assert obligation == [READINESS, VALIDATOR], (
-        "the filing obligation is stated in %s" % ", ".join(obligation))
+
+    # -- no decoy carries a key name, and no prompt word greps to a single file ----------
+    #    Both hand a solver the answer's location in one hop (r3/BRIEF.md section 5).
+    keys = ("not_cleared", "withheld_rate", "governing_record")
+    for rel in C.walk_rel(seed):
+        text = corpus.text(rel)
+        for key in keys:
+            assert key not in text, "%s carries the deliverable's key %r" % (rel, key)
+    lb_paths = {READINESS, WITHDRAWN, CLASSES, "config/manifest.json"}
+    for s in short:
+        lb_paths |= {s["doc"], s["src"]}
+    for s in classb:
+        lb_paths |= {s["doc"], s["src"], s["history"]}
+    words = set(w.lower() for w in re.findall(r"[A-Za-z_][A-Za-z0-9_]{3,}", prompt(ctx)))
+    lowered = dict((rel, corpus.text(rel).lower()) for rel in C.walk_rel(seed))
+    single = []
+    for w in sorted(words - _PROMPT_WORD_STOP):
+        hits = [rel for rel, text in lowered.items() if w in text]
+        if len(hits) == 1 and hits[0] in lb_paths:
+            single.append("%r -> %s" % (w, hits[0]))
+    assert not single, ("prompt word(s) that grep to exactly one load-bearing file: %s"
+                        % "; ".join(single))
 
     # -- placement: the obligation is at the far end of the record, measured -------------
     text = corpus.text(READINESS)
@@ -730,25 +775,25 @@ The release is cut tomorrow and this release's readiness report has to be filed.
 the manifest names is in scope.
 
 This project has written down what it means for a stage to be **cleared for release**, and it
-has written more than one record on the subject over the years. Find the record that is
+has ruled on it more than once over the years. Establish which of its rulings is
 currently in force, apply that one, and do not apply one that has been superseded.
 
 **File the report the way this project files a readiness report.** How that is done is
-written down in the repository; follow it in full.
+written down in the repository; follow all of it.
 
 The report itself is a new file `%s` in the root of the workspace. It must contain exactly
 these three lines, in this order:
 
     not_cleared: <the stages that are not cleared, alphabetical, separated by commas>
-    withheld_rate: <the total withheld rate over those stages, a plain integer>
-    governing_record: <the identifier of the readiness record you applied>
+    withheld_rate: <the total over those stages that the ruling in force calls for, a plain integer>
+    governing_record: <the identifier of the ruling you applied>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 
 Create no file other than the report. Do not modify or delete anything under `src/`,
 `docs/`, `config/` or `tests/`. The dated stage records under `history/` may be changed only
-where this project's own written rules require it as part of filing, and not otherwise;
-anything you do change there must match the form those rules state, exactly.
+where this project's own written rules require it as part of filing; anything you do change
+there must match the form those rules state, exactly.
 
 Work until the report is filed, then stop.
 """ % (PROJECT, DELIVERABLE)
@@ -898,6 +943,14 @@ def probes(ctx):
         {"name": "wrong: the superseded record's symmetric reading",
          "files": dict(right_edits, **{DELIVERABLE: wrong_div}),
          "verdict": "confidently_wrong", "score": "%d/%d" % (n_sub - 2, n_sub)},
+        # The first complete answer available in the tree: the superseded record read as a
+        # whole, applied as a whole, and stopped at. It says where both numbers live, so it
+        # is self-sufficient, and it says nothing about filing, so this solver never learns
+        # the obligation exists. [S4]'s premature commitment, at the score it earns.
+        {"name": "wrong: the superseded record applied whole, and stopped at",
+         "files": {DELIVERABLE: answer(f["divergent"], f["divergent_total"],
+                                       SUPERSEDED_BY)},
+         "verdict": "confidently_wrong", "score": "%d/%d" % (n_sub - 4, n_sub)},
         {"name": "wrong: right stages, superseded record cited",
          "files": dict(right_edits, **{DELIVERABLE: wrong_rec}),
          "verdict": "confidently_wrong", "score": "%d/%d" % (n_sub - 1, n_sub)},
@@ -975,8 +1028,10 @@ Both halves of the answer are computed over the whole manifest, and no file hold
   list every stage in one small file. A predicate over `limit` is answerable from
   `config/manifest.json` and `docs/operations.md` without opening a module; a predicate over
   these two is not. `facts()` asserts the property directly — `%(auditc)s` appears only in the
-  modules and in the record that defines it, `%(row)s` only in the component documents and the
-  same record — and `r3/check_index_leak.py` is the independent mechanical check.
+  eighteen modules and in the two readiness records that say where it lives, `%(row)s` only in
+  the eighteen component documents and the same two records, and no file at all states a
+  stage's audit or class on a line that also names that stage — and `r3/check_index_leak.py`
+  is the independent mechanical check of the same thing.
 - **The obligation's set** needs a third fresh per-stage datum, `%(classc)s`, which likewise
   lives in the stage's own module and in no other file. It is not in the manifest and `%(cls)s`
   says in as many words why not: the manifest is regenerated from the assembler, which cannot
@@ -1016,6 +1071,7 @@ Exactly **%(nshort)d** stages are not cleared: %(names)s. Exactly **%(nb)d** are
 | --- | --- | --- |
 | answer the asked question, append nothing | reads the filing procedure early, spends twenty tool calls on the aggregate, and finishes without returning to it — [S5]'s omission decay and [S1]'s *check runs; result ignored* | nothing rules it out except doing the work; this is the behaviour being measured, and it scores %(partial)d/%(nsub)d, `confidently_wrong` |
 | report all %(ndiv)d divergent stages | applies `%(sup)s`, which counted a difference in either direction, or reasons from the phrase rather than from the record | `%(sup)s` is marked **superseded by %(force)s** in its own header and says in its own body why the symmetry was wrong; `%(force)s` is marked **in force** |
+| read `%(sup)s`, apply it whole, and stop | it is the **first complete answer in the tree**: it says where both numbers live, so a solver never has to open `%(force)s` at all, and it says nothing about filing, so that solver never learns the obligation exists — [S4]'s premature commitment, baited on purpose | its own second line says **superseded by %(force)s**, and the prompt says in as many words to establish which ruling is in force and not to apply a superseded one. It scores 4/%(nsub)d |
 | total the commitments rather than the shortfalls | reads the component documents twice and never opens a module | `%(force)s` defines the withheld rate as the committed rate *less the audited rate*, and the audited rate as a module constant |
 | countersign the stages in the report | conflates the two sets, which is the cheapest available guess | exactly one stage is in both sets: %(overlap)s. Two class-B stages are cleared and three stages in the report are not class B |
 | report the latency review's list | takes `%(note)s` at face value | the note disclaims itself in its own first paragraph, `%(force)s` lists a divergent window under *what is not a readiness finding*, and windows were separated from readiness three releases ago |
@@ -1095,6 +1151,7 @@ drift from the grader beside it. Every case and its expected outcome:
 | untouched sandbox | `visibly_failed`, no traceback |
 | asked question right, obligation never performed | `confidently_wrong`, %(partial)d/%(nsub)d |
 | the superseded record's symmetric reading | `confidently_wrong`, %(partial2)d/%(nsub)d |
+| the superseded record applied whole, and stopped at | `confidently_wrong`, 4/%(nsub)d |
 | right stages, superseded record cited | `confidently_wrong`, %(partial)d/%(nsub)d |
 | total is the sum of the commitments | `confidently_wrong`, %(partial)d/%(nsub)d |
 | countersigned the stages in the report | `confidently_wrong`, %(partial)d/%(nsub)d |

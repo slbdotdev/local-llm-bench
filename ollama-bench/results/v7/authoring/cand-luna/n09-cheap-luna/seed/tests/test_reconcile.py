@@ -28,3 +28,5 @@ def test_build_reconcile_reads_the_manifest():
     engine = build_reconcile({"reconcile": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 30
+
+# Release context remains part of this project material.

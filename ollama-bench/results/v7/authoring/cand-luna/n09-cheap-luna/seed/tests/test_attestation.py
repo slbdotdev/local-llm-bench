@@ -28,3 +28,5 @@ def test_build_attestation_reads_the_manifest():
     engine = build_attestation({"attestation": {"limit": 5}})
     assert engine.limit == 5
     assert engine.window_s == 90
+
+# Release context remains part of this project material.

@@ -1,11 +1,12 @@
 """n03-main-luna: resolve a three-way capacity disagreement by a prose tiebreak.
 
-The generated project contains one independently written handoff capacity in each stage
+The generated project contains up to one independently written handoff capacity in each stage
 document, module, and migration row.  The engineering record gives the precedence for the
-row's resolution class.  The answer is computed from all stages, rather than being stored in
-one report-shaped artifact.
+row's neutral resolution class.  The answer is computed from all stages, rather than being
+stored in one report-shaped artifact.
 """
 import csv
+import hashlib
 import io
 import os
 import re
@@ -23,15 +24,15 @@ TARGET_TOKENS = 26500
 BAND = "main"
 DELIVERABLE = "handoff-report.txt"
 SUMMARY = """
-Task: resolve the project's handoff_capacity disagreement for every stage.  Each stage has a
-document value, a Python module value, and a migration-row value, plus a resolution class.  An
-engineering record states the precedence for each class, including a named exception where the
-migration row outranks the module.  Report the effective value and selected source for every
-stage, their total, and the artifact kind that governs the exception.
+Task: resolve the project's handoff_capacity disagreement for every stage.  Each stage has up to
+three independently written values, plus a neutral resolution class.  An engineering record
+states the precedence for each class, including a named exception where the migration row
+outranks the module.  Report the effective value and selected source for every stage, their
+total, and the artifact kind that governs the exception.
 """
 BAND_NOTE = """
-Generated at 26,500 tokens and overlaid with three independently sourced capacity values and a
-prose engineering ruling; the built seed is measured into the main-band interval.
+Generated at 26,500 tokens and overlaid with hash-derived per-stage values, selected absent
+records, and a prose engineering ruling; the built seed is measured into the main-band interval.
 """
 SCOPE_GATE = True
 MUST_NOT_EXIST = []
@@ -45,7 +46,8 @@ ROW_KEY = "handoff_capacity"
 LEDGER = "data/handoff-capacity-ledger.csv"
 RECORD = "docs/engineering/capacity-resolution.md"
 
-_CLASSES = ("document-led", "module-led", "ledger-led")
+_CLASSES = ("amber", "indigo", "slate")
+_EXCEPTION_CLASS = "slate"
 _SOURCE_NAMES = {
     "component document": "document",
     "Python module constant": "module",
@@ -55,10 +57,28 @@ _DISPLAY_SOURCE = {"document": "document", "module": "implementation",
                    "migration-ledger": "migration-ledger"}
 
 
+def _stage_hash(name):
+    """A stable per-stage digest, independent of manifest position."""
+    return hashlib.sha256(name.encode("utf-8")).digest()
+
+
+def _capacity(stage, base):
+    # The disjoint ranges keep the three sources visibly plausible but distinct.  The
+    # digest, rather than the manifest index, supplies the per-stage variation.
+    return base + (int.from_bytes(_stage_hash(stage["name"])[0:8], "big") % 211)
+
+
+def _missing_source(stage):
+    """Return the source whose per-stage record is intentionally unavailable, or None."""
+    return ("document", "module", "migration-ledger", None)[
+        int.from_bytes(_stage_hash(stage["name"])[2:4], "big") % 4]
+
+
 def _plan(corpus):
-    """Assign the three resolution classes in a deterministic rotating pattern."""
-    return {s["name"]: _CLASSES[i % len(_CLASSES)]
-            for i, s in enumerate(corpus.stages)}
+    """Assign neutral resolution classes in a stable hash order."""
+    ordered = sorted(corpus.stages, key=lambda s: _stage_hash(s["name"]))
+    return {stage["name"]: _CLASSES[i % len(_CLASSES)]
+            for i, stage in enumerate(ordered)}
 
 
 def overlay(ctx):
@@ -70,17 +90,26 @@ def overlay(ctx):
     # range, so the index-leak check cannot mistake an old generated value for this datum.
     ledger_rows = ["stage,property,resolution_class,capacity,recorded_on,operator_note"]
     for i, stage in enumerate(corpus.stages):
-        doc_value = 900 + i
-        module_value = 700 + i
-        ledger_value = 1100 + i
-        corpus.add_doc_config_row(
-            stage, ROW_KEY, doc_value,
-            "capacity recorded by the component owner for handoff reconciliation")
-        corpus.set_module_constant(stage, DECISIVE_CONSTANT, str(module_value))
+        missing = _missing_source(stage)
+        doc_value = _capacity(stage, 900)
+        module_value = _capacity(stage, 700)
+        ledger_value = _capacity(stage, 1100)
+        if missing != "document":
+            C.append(
+                stage["doc"],
+                """\n## Per-stage handoff review\n\nFor the `%s` stage, the component owner's reviewed transfer ceiling is **%d** units.\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % (stage["name"], doc_value))
+        if missing != "module":
+            corpus.set_module_constant(stage, DECISIVE_CONSTANT, str(module_value))
+        if missing == "migration-ledger":
+            capacity_cell = ""
+            note = "no migration capacity was recorded for this stage"
+        else:
+            capacity_cell = str(ledger_value)
+            note = "capacity migration review recorded this value"
         ledger_rows.append(
-            "%s,%s,%s,%d,2035-%02d-%02d,capacity migration review recorded this value"
-            % (stage["name"], ROW_KEY, classes[stage["name"]], ledger_value,
-               1 + (i % 9), 2 + ((i * 3) % 26)))
+            "%s,%s,%s,%s,2035-%02d-%02d,%s"
+            % (stage["name"], ROW_KEY, classes[stage["name"]], capacity_cell,
+               1 + (i % 9), 2 + ((i * 3) % 26), note))
 
     C.write(os.path.join(ctx["seed"], *LEDGER.split("/")),
             "\n".join(ledger_rows) + "\n")
@@ -127,24 +156,26 @@ def _write_record(ctx):
         "",
         "## Resolution rules",
         "",
-        "Rule document-led: for `handoff_capacity`, precedence is component document, then Python",
+        "The labels amber, indigo, and slate are neutral labels defined only by the rules below.",
+        "They do not identify an artifact kind, a team, or a preferred source by themselves.",
+        "",
+        "Rule amber: for `handoff_capacity`, precedence is component document, then Python",
         "module constant, then migration ledger.",
         "",
-        "Rule module-led: for `handoff_capacity`, precedence is Python module constant, then",
+        "Rule indigo: for `handoff_capacity`, precedence is Python module constant, then",
         "component document, then migration ledger.",
         "",
-        "Rule ledger-led: for `handoff_capacity`, precedence is migration ledger, then Python",
+        "Rule slate: for `handoff_capacity`, precedence is migration ledger, then Python",
         "module constant, then component document.",
         "",
-        "The ledger-led rule is the only exception: the migration ledger outranks the Python",
+        "The slate rule is the only exception: the migration ledger outranks the Python",
         "module constant only for the named `handoff_capacity` property. No other property in",
         "the repository receives that treatment. The exception is about the property name, not",
         "about a particular stage, operator, date, or directory.",
         "",
-        "The words *first*, *then*, and *last* above are precedence, not instructions to edit",
-        "anything. Select the first available record in the stated order. In this exercise all",
-        "three records are present for every stage, so a later fallback does not replace an",
-        "earlier value.",
+        "The words *first*, *then*, and *last* above describe precedence, not an instruction to",
+        "edit anything. If a stage has no record of the kind named at one position, continue",
+        "to the next available kind in that class's order; an absent record is not a zero.",
         "",
         "## Reporting convention",
         "",
@@ -166,13 +197,6 @@ def _write_record(ctx):
         "",
         "The current record was approved after the capacity migration review. Its status is in",
         "force, and its three class rules are the governing interpretation for this report.",
-        "",
-        "## Operator checklist",
-        "",
-        "Read the roster of stages, then locate each stage's three handoff_capacity records.",
-        "Read the resolution class on the migration row, apply the matching rule above, and",
-        "write the selected value and source. Check the total by adding selected values. Do not",
-        "change a source file merely to make the three records agree.",
         "",
         "## Terms retained for searchability",
         "",
@@ -204,7 +228,7 @@ def _read_rules(corpus):
     # part of the task's semantics.
     flat = " ".join(text.splitlines())
     pattern = re.compile(
-        r"Rule (document-led|module-led|ledger-led): .*?precedence is (.+?)\.")
+        r"Rule (amber|indigo|slate): .*?precedence is (.+?)\.")
     aliases = {
         "component document": "document",
         "Python module constant": "module",
@@ -216,9 +240,9 @@ def _read_rules(corpus):
         assert all(x in aliases for x in names), "unknown source in rule: %s" % names
         rules[match.group(1)] = [aliases[x] for x in names]
     assert set(rules) == set(_CLASSES), "record did not provide all three resolution rules"
-    assert rules["document-led"] == ["document", "module", "migration-ledger"]
-    assert rules["module-led"] == ["module", "document", "migration-ledger"]
-    assert rules["ledger-led"] == ["migration-ledger", "module", "document"]
+    assert rules["amber"] == ["document", "module", "migration-ledger"]
+    assert rules["indigo"] == ["module", "document", "migration-ledger"]
+    assert rules["slate"] == ["migration-ledger", "module", "document"]
     exception = re.search(
         r"only exception: the migration ledger outranks the Python module constant only for "
         r"the named `([^`]+)` property", flat)
@@ -236,10 +260,10 @@ def _ledger_values(corpus):
         assert row["resolution_class"] in _CLASSES
         assert row["stage"] in corpus.by_name
         assert row["stage"] not in out, "duplicate migration row for %s" % row["stage"]
-        out[row["stage"]] = {
-            "class": row["resolution_class"],
-            "value": int(row["capacity"]),
-        }
+        value = row["capacity"].strip()
+        out[row["stage"]] = {"class": row["resolution_class"]}
+        if value:
+            out[row["stage"]]["value"] = int(value)
     assert set(out) == set(s["name"] for s in corpus.stages)
     assert len(rows) == len(corpus.stages)
     return out
@@ -252,18 +276,29 @@ def _values(corpus):
     values = {}
     for stage in corpus.stages:
         name = stage["name"]
-        doc = int(corpus.doc_config_row(stage, ROW_KEY))
-        module = int(corpus.module_constant(stage, DECISIVE_CONSTANT))
+        doc_text = corpus.text(stage["doc"])
+        doc_match = re.search(
+            r"^For the `%s` stage, the component owner's reviewed transfer ceiling is "
+            r"\*\*(\d+)\*\* units\.$" % re.escape(name), doc_text, re.M)
+        doc = int(doc_match.group(1)) if doc_match else None
+        module_text = corpus.module_constant(stage, DECISIVE_CONSTANT)
+        module = int(module_text) if module_text is not None else None
         row = ledger[name]
-        csv_value = row["value"]
-        assert len({doc, module, csv_value}) == 3, "three values do not disagree for %s" % name
+        csv_value = row.get("value")
+        present = {"document": doc, "module": module, "migration-ledger": csv_value}
+        available = [source for source, value in present.items() if value is not None]
+        assert len(available) >= 2, "too few records for %s" % name
+        assert len(set(present[source] for source in available)) == len(available), \
+            "present values do not disagree for %s" % name
+        chosen = next((source for source in rules[row["class"]]
+                       if present[source] is not None), None)
+        assert chosen is not None, "no available source for %s" % name
         values[name] = {
             "class": row["class"],
-            "document": doc,
-            "module": module,
-            "migration-ledger": csv_value,
-            "chosen": rules[row["class"]][0],
+            "chosen": chosen,
         }
+        values[name].update((source, value) for source, value in present.items()
+                            if value is not None)
     class_counts = [sum(1 for v in values.values() if v["class"] == kind)
                     for kind in _CLASSES]
     assert min(class_counts) > 0 and max(class_counts) - min(class_counts) <= 1
@@ -291,7 +326,11 @@ def facts(ctx):
     pairs, sources, total = _answer(ctx, values)
     assert len(pairs) == len(corpus.stages)
     assert total == sum(values[n][values[n]["chosen"]] for n in values)
-    exception_source = rules["ledger-led"][0]
+    source_totals = {
+        source: sum(item.get(source, 0) for item in values.values())
+        for source in ("document", "module", "migration-ledger")}
+    assert all(source_totals[source] != total for source in source_totals)
+    exception_source = rules[_EXCEPTION_CLASS][0]
     assert exception_source == "migration-ledger"
     return {
         "keys": ["effective_handoff_capacity", "effective_source_by_unit",
@@ -300,12 +339,13 @@ def facts(ctx):
             "effective_handoff_capacity": ", ".join(pairs),
             "effective_source_by_unit": ", ".join(sources),
             "effective_handoff_capacity_total": str(total),
-            "exception_governing_artifact": exception_source,
+            "exception_governing_artifact": "migration ledger",
         },
         "kinds": {
             "effective_handoff_capacity": "list",
             "effective_source_by_unit": "list",
             "effective_handoff_capacity_total": "int",
+            "exception_governing_artifact": "ci",
         },
         "groups": [
             {"name": "the effective handoff capacity for every stage",
@@ -326,11 +366,12 @@ def prompt(ctx):
     return """# Resolve the handoff capacity records
 
 You are working in the root of the `%s` repository. Produce a capacity resolution for every
-unit named by the repository's current manifest. The repository contains three records of the
-same `handoff_capacity` property for each unit: a component document, a Python implementation
-constant, and a migration row. The migration row also gives a resolution class. Find the engineering
-record that states the precedence for each class and apply it exactly; do not choose by file
-order, date, or which source seems more plausible.
+unit named by the repository's current manifest. The repository contains up to three records of
+the same `handoff_capacity` property for each unit: a component document, a Python implementation
+constant, and a migration row. The migration row also gives a resolution class; some individual
+records are absent. Find the engineering record that defines the neutral class labels and their
+precedence, then apply that prose exactly, continuing to the next available record when needed.
+Do not choose by file order, date, or which source seems more plausible.
 
 Write a new file `%s` in the repository root. It must contain exactly these four lines, in this
 order:
@@ -338,14 +379,14 @@ order:
     effective_handoff_capacity: <name=value pairs, alphabetical by name, separated by commas>
     effective_source_by_unit: <name=source pairs in the same order>
     effective_handoff_capacity_total: <sum of the selected values, as a plain integer>
-    exception_governing_artifact: <the artifact kind that outranks the Python implementation for the
+    exception_governing_artifact: <the artifact kind named by the governing record for the
     named exception property>
 
 For source values, use exactly one of `document`, `implementation`, or `migration-ledger`, as
 appropriate to the selected artifact. Use the unit names exactly as written in the repository.
 A pair is `name=value` with no spaces around `=`. The two pair lists must use the same alphabetical name
-order. The artifact-kind value must be the concise kind named by the governing record, not a
-path or an explanation.
+order. The artifact-kind value must use the governing record's own concise wording, not a path
+or an explanation.
 
 Do not modify or delete any existing file, and create no file other than `%s`. Work until the
 four-line report is complete, then stop.
@@ -400,16 +441,22 @@ def load_bearing(ctx):
 
 def _render(ctx, values, force_source=None):
     chosen = {}
+    priority = {
+        "document": ["document", "module", "migration-ledger"],
+        "module": ["module", "document", "migration-ledger"],
+        "migration-ledger": ["migration-ledger", "module", "document"],
+    }
     for name, item in values.items():
         copy = dict(item)
         if force_source:
-            copy["chosen"] = force_source
+            copy["chosen"] = next(source for source in priority[force_source]
+                                  if source in copy)
         chosen[name] = copy
     pairs, sources, total = _answer(ctx, chosen)
     return ("effective_handoff_capacity: %s\n"
             "effective_source_by_unit: %s\n"
             "effective_handoff_capacity_total: %d\n"
-            "exception_governing_artifact: migration-ledger\n" %
+            "exception_governing_artifact: migration ledger\n" %
             (", ".join(pairs), ", ".join(sources), total))
 
 
@@ -440,15 +487,12 @@ def probes(ctx):
          "verdict": "correct", "score": full},
         {"name": "empty (untouched sandbox)", "verdict": "visibly_failed",
          "no_traceback": True},
-        {"name": "wrong: document chosen for every class",
-         "files": {DELIVERABLE: wrong_document}, "verdict": "confidently_wrong",
-         "score": "6/8"},
-        {"name": "wrong: module chosen for every class",
-         "files": {DELIVERABLE: wrong_module}, "verdict": "confidently_wrong",
-         "score": "5/8"},
-        {"name": "wrong: migration row chosen for every class",
-         "files": {DELIVERABLE: wrong_ledger}, "verdict": "confidently_wrong",
-         "score": "5/8"},
+        {"name": "wrong: document preferred for every class",
+         "files": {DELIVERABLE: wrong_document}, "verdict": "confidently_wrong"},
+        {"name": "wrong: module preferred for every class",
+         "files": {DELIVERABLE: wrong_module}, "verdict": "confidently_wrong"},
+        {"name": "wrong: migration row preferred for every class",
+         "files": {DELIVERABLE: wrong_ledger}, "verdict": "confidently_wrong"},
         {"name": "shape: source list in the wrong order", "verdict": "confidently_wrong",
          "files": {DELIVERABLE: ref.replace(
              "effective_source_by_unit: ", "effective_source_by_unit: ", 1)
@@ -463,13 +507,13 @@ def probes(ctx):
         "effective_handoff_capacity: %s\n"
         "effective_source_by_unit: %s\n"
         "effective_handoff_capacity_total: %s\n"
-        "exception_governing_artifact: migration-ledger\n" % (pairs, names, total))
+        "exception_governing_artifact: migration ledger\n" % (pairs, names, total))
     # The explicit order is fixed by the prompt, so the shape probe swaps the first two keys.
     cases[-1]["files"][DELIVERABLE] = (
         "effective_source_by_unit: %s\n"
         "effective_handoff_capacity: %s\n"
         "effective_handoff_capacity_total: %s\n"
-        "exception_governing_artifact: migration-ledger\n" % (names, pairs, total))
+        "exception_governing_artifact: migration ledger\n" % (names, pairs, total))
     for name, mutate in _PERTURBATIONS:
         cases.append({"name": "perturb: " + name, "files": {DELIVERABLE: mutate(ref)},
                       "verdict": "correct", "score": full})
