@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 32 | the largest number of slots held before the stage refuses new work |
 | `window_s` | 30 | seconds a slot may stay `pending` before it is reaped |
-| `carried` | 240 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `envelope` section of the manifest by `build_envelope`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `admitd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+Once per close, the review minute fixes what this page opens with.
+
+This close it is **2108**, and it moves only at a review.

@@ -84,7 +84,7 @@ STALE_FIGURE = 612          # even, so it can never equal a running figure
 BALANCE_LABELS = ("held_over", "brought_in", "on_deposit", "set_aside",
                   "close_balance", "review_balance")
 CONST_NAMES = ("TAKEBACK_ALLOWANCE", "SETTLED_ASIDE", "GIVEBACK_CEILING",
-               "RECLAIM_ALLOWANCE", "HOLD_ASIDE", "RETURNED_SHARE")
+               "RECLAIM_ALLOWANCE", "HOLD_ASIDE", "GIVENBACK_SHARE")
 
 # Read by r5/check_index_leak.py. With the constant name varying per stage there is no one
 # template to declare, so the spec declares none — and facts() carries the same predicate
@@ -142,23 +142,27 @@ def _props(corpus, off):
 
     Both figures are four-digit and sit above every number the generated tree can
     contain — limits are at most 960, windows at most 180, and the tree's only other
-    numerals are years and zero-padded indexes. The carried figure is drawn from a
-    stride-permuted, jittered table — NOT an arithmetic progression in stage order, and
-    not a function of a stage's position that a second page could continue; facts()
-    asserts both from the seed on disk. absorb is the carried figure minus a per-stage
-    step of 20..92, so absorb stays above 1100 and below the smallest carried. The
-    running figures start at a stage's basis (carried + absorb, 2308 or more) and only
-    ever reset to another basis or rise, so no running figure can equal a tree number or
-    a stage figure: the bands are disjoint by construction. The offset only shuffles
-    which stage draws which step, and `facts()` still measures the progression- and
-    collision-freedom from the seed rather than trusting the construction.
+    numerals are years and zero-padded indexes. They live in two disjoint bands, so no
+    stage's balance can equal any stage's take-back at any offset: absorb runs
+    1130..1498 and carried runs 1620..2372, each drawn through its own stride-permuted,
+    jittered table — NOT an arithmetic progression in stage order, and not a function of
+    a stage's position that a second page could continue; facts() asserts both from the
+    seed on disk. The running figures start at a stage's basis (carried + absorb, 2750
+    or more) and only ever reset to another basis or move, so no running figure can equal
+    a tree number or a stage figure: the bands are disjoint by construction. The offset
+    only shuffles which stage draws which step, and `facts()` still measures the
+    progression- and collision-freedom from the seed rather than trusting the
+    construction.
     """
     n = len(corpus.stages)
-    perm = [(_coprime(n) * i + off) % n for i in range(n)]
-    assert sorted(perm) == list(range(n))
-    carried = [1200 + 40 * perm[i] + 8 * ((3 * perm[i] + 2 * off) % 5) for i in range(n)]
-    delta = [20 + 4 * ((11 * perm[i] + 2 * off) % n) for i in range(n)]
-    absorb = [carried[i] - delta[i] for i in range(n)]
+    a1, a2 = _coprime(n), _coprime(n, skip=(_coprime(n),))
+    perm1 = [(a1 * i + off) % n for i in range(n)]
+    perm2 = [(a2 * i + off) % n for i in range(n)]
+    assert sorted(perm1) == list(range(n)) and sorted(perm2) == list(range(n))
+    carried = [1620 + 40 * perm1[i] + 8 * ((3 * perm1[i] + 2 * off) % 5)
+               for i in range(n)]
+    absorb = [1130 + 20 * perm2[i] + 4 * ((5 * perm2[i] + off) % 3)
+              for i in range(n)]
     return carried, absorb
 
 
@@ -206,7 +210,9 @@ def overlay(ctx):
     best = None  # (distinct states, off, carried, absorb, states)
     for off in range(400):
         carried, absorb = _props(corpus, off)
-        if len(set(carried)) != n or len(set(absorb)) != n:
+        # the two bands are disjoint by construction, so the union is distinct whenever
+        # each band is; bases still need checking
+        if len(set(carried) | set(absorb)) != 2 * n:
             continue
         if len(set(c + a for c, a in zip(carried, absorb))) != n:
             continue
@@ -216,7 +222,7 @@ def overlay(ctx):
             best = (distinct, off, carried, absorb, states)
         if distinct == len(states):
             break
-    assert best is not None, "no offset in 400 gives 38 distinct stage figures"
+    assert best is not None, "no offset in 400 gives 38 distinct, disjoint stage figures"
     _distinct, _off, carried, absorb, _states = best
     assert min(carried) > max(int(s["limit"]) for s in stages), \
         "a stage figure could echo an assembler limit in an index table"
@@ -250,7 +256,7 @@ def _entry_ids(n_steps):
     no arithmetic run a solver could continue, and sorting the column by its numeric part
     yields a DIFFERENT order from the chain — `previous` is the only thing that orders it
     (asserted from the file in `facts()`)."""
-    ids = [101 + j for j in range(n_steps)]
+    ids = ["sc-%03d" % (101 + j) for j in range(n_steps)]
     state = (CORPUS_SEED * 2654435761 + 91 * n_steps) & 0xFFFFFFFF
     for j in range(n_steps - 1, 0, -1):
         state = (1103515245 * state + 12345) & 0x7FFFFFFF
@@ -658,7 +664,7 @@ that a clerk checking the replay's start point does not have to count empty colu
 eye.
 
 The viewer prints no figures. An entry's figure is not in the log, and a viewer that
-computed the settlement would be doing the settlement's work twice.
+worked the settlement out itself would be doing the work twice.
 """
 import csv
 import os
@@ -716,23 +722,23 @@ def _write_status_tool(ctx):
 # of it from the seed with the checker's own algorithms.
 # ---------------------------------------------------------------------------
 _BALANCE_PROSE = [
-    ("The closing review left this page with one opening balance for the close.",
-     "The review minuted it at **%d**, and the number moves only at a review."),
-    ("What this page's stage holds back at the close is stated just below.",
-     "The 2036 review fixed it at **%d** and no second copy of it exists."),
+    ("The closing review left this page with one balance to open the close with.",
+     "Minuted at the closing review: **%d**; this page's number moves only at a review."),
+    ("What this page's component holds back at the close is stated just below.",
+     "One 2036 review minute fixed it at **%d**, and no second copy of it exists."),
     ("A balance is minuted for this page at each closing review, and it sits here.",
-     "For the close now in force that balance is **%d**, per the review's own note."),
-    ("The review of the closing paperwork fixed this page's opening balance.",
+     "For the close now in force that balance is **%d**, per the closing review's own note."),
+    ("The review of the closing paperwork fixed the balance this page opens with.",
      "As minuted: **%d**. One source, one close, no second copy anywhere."),
-    ("This page keeps the balance its stage opens the close with.",
-     "The review's 2036 minute set that balance at **%d**; take it as written."),
+    ("This page keeps the balance its component opens the close with.",
+     "Review minutes of 2036 set that balance at **%d**; take it as written."),
     ("Once per close, the review minute fixes what this page opens with.",
      "This close it is **%d**, and it moves only at a review."),
 ]
 _MODULE_COMMENTS = (
-    "# The take-back this stage may claim at the close was fixed at the 2036 review,",
+    "# The take-back this component may claim at the close was fixed at the 2036 review,",
     "# and is named here in this file's own words; no other line anywhere repeats it.",
-    "# The matching page balance lives on the stage's page under docs.",
+    "# The matching page balance lives on the component's page under docs.",
 )
 _BALANCE_HEAD = "## Balance at the review"
 
@@ -789,7 +795,8 @@ def _page_balance(corpus, st, _i):
 
 def _write_module_figure(corpus, st, i, value, vocab):
     line = "%s = %d" % (_const_name(i), value)
-    assert _vocab_clean(line, vocab), line
+    assert all(_vocab_clean(ln, vocab) for ln in (line,) + tuple(_MODULE_COMMENTS)), \
+        st["name"]
     block = [""] + list(_MODULE_COMMENTS) + ["", line]
     text = _append_clear_of_vocab(corpus.text(st["src"]), block, vocab,
                                   len(block) - 1, "# fixed at the review of the filing")
@@ -1209,19 +1216,19 @@ def facts(ctx):
 # exactly one load-bearing file (asserted in facts()), which is why the chain word lives
 # on the viewer too and carryover in the log's own carry entries.
 # ---------------------------------------------------------------------------
-PROMPT_TEXT = """# Quarterly settlement report
+PROMPT_TEXT = """# Settlement report
 
 You are working in a checkout of a delivery-pipeline repository; your current directory is
 the root of that checkout.
 
-This cycle's carryover settlement has not yet been computed. Produce it. Every component
-the manifest names is in scope.
+This cycle's carryover settlement has not yet been computed. Compute it. The manifest
+names what is in scope.
 
 The repository's own written procedure has the rules of the settlement: what the log's
 columns are for, which rows count, where each figure is read from, and what order the
-entries go in. That procedure is what you must follow — not the ordinary reading of the
+entries go in. That procedure is what you must apply — not the ordinary reading of the
 log's field names, and not any summary previously filed in the tree. Find the procedure
-and follow it from its first entry to its final entry.
+and apply it from its opening entry to its final entry.
 
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
 exactly these eight lines, in this order:
@@ -1235,8 +1242,9 @@ exactly these eight lines, in this order:
     figure_after_35: <the same, after the 35th entry>
     figure_final: <the settlement figure after the chain's final entry, a plain integer>
 
-Entries are counted in the procedure's order, its first entry being entry one. No header,
-no quotes, no explanation, no other lines. The report may end with a newline or not.
+Entries are counted in the procedure's order, its opening entry being entry one. No
+header, no quotes, no explanation, no other lines. The report may end with a newline or
+not.
 
 Do not modify or delete any existing file, and create no file other than the report.
 

@@ -8,7 +8,7 @@ configuration decision is under `history/`.
 
 1. `docs/architecture.md` - how the stages compose, and which order they drain in.
 2. `docs/operations.md` - what to do when a stage refuses work.
-3. `docs/policy/` - the rules that outrank both of the above.
+3. `docs/handbook/` - the rules that outrank both of the above.
 4. `history/` - why each number is the number it is. **Dated, and superseded entries
    are kept**: a superseded entry is evidence, not a live instruction.
 
@@ -43,5 +43,13 @@ configuration decision is under `history/`.
 - A `snapshot()` is always sorted. Insertion order is never part of any contract.
 - A configuration key that is present but unparseable is a startup error, never a
   silent fallback to the module constant.
-- Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
+- Documentation under `docs/` outranks a history entry; a policy under `docs/handbook/`
   outranks everything else.
+
+## Settlement material
+
+- `docs/handbook/settlement-procedure.md` - the settlement procedure, and the replay
+  rules that govern this cycle's settlement.
+- `data/settlement-log.csv` - the cycle's settlement log as the clerks filed it.
+- `tools/settlement_status.py` - prints the log as filed and resolves the opening entry.
+- Each finished cycle's close summary is filed under `docs/` with the quarter in its name.

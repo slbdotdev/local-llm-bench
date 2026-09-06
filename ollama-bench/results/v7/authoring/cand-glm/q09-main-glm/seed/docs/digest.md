@@ -34,3 +34,9 @@ repaired in flight.
 - `classifyd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+What this page's component holds back at the close is stated just below.
+
+One 2036 review minute fixed it at **1708**, and no second copy of it exists.

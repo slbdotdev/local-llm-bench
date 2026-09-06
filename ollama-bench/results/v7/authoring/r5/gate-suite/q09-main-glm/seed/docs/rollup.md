@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 480 | the largest number of windows held before the stage refuses new work |
 | `window_s` | 15 | seconds a window may stay `pending` before it is reaped |
-| `carried` | 258 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `rollup` section of the manifest by `build_rollup`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `advanced` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+The closing review left this page with one balance to open the close with.
+
+Minuted at the closing review: **2220**; this page's number moves only at a review.

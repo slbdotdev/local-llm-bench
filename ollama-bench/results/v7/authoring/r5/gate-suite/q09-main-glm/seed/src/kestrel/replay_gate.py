@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 12
 DEFAULT_REPLAY_WINDOW_S = 120
-ABSORB_UNITS = 244
 REPLAY_STATES = ("pending", "promoted", "settled", "abandoned")
 
 
@@ -83,3 +82,9 @@ def build_replay(config):
         limit=section.get("limit", DEFAULT_REPLAY_LIMIT),
         window_s=section.get("window_s", DEFAULT_REPLAY_WINDOW_S),
     )
+
+# The take-back this component may claim at the close was fixed at the 2036 review,
+# and is named here in this file's own words; no other line anywhere repeats it.
+# The matching page balance lives on the component's page under docs.
+
+TAKEBACK_ALLOWANCE = 1458

@@ -34,3 +34,9 @@ repaired in flight.
 - `expandd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+The closing review left this page with one balance to open the close with.
+
+Minuted at the closing review: **2372**; this page's number moves only at a review.

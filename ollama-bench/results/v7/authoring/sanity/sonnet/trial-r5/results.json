@@ -1,9 +1,16 @@
 {
  "q06-main-luna": {
   "pass": false,
-  "score": "37/40",
-  "verdict": "confidently_wrong",
+  "score": "1/40",
+  "verdict": "visibly_failed",
   "rc": 1,
-  "tail": "9.py does not hold the required content; src/opaltelemetry/repair_30.py does not hold the required content; src/opaltelemetry/repair_31.py does not hold the required content]\nVERDICT confidently_wrong"
+  "tail": "r_29.py does not hold the required content; src/opaltelemetry/repair_30.py does not hold the required content; src/opaltelemetry/repair_31.py does not hold the required content]\nVERDICT visibly_failed"
+ },
+ "q09-main-glm": {
+  "pass": true,
+  "score": "12/12",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 12/12\nSCOPE created []; missing []\nPASS\nVERDICT correct"
  }
 }

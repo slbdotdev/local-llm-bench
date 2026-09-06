@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 120
 DEFAULT_ATTESTATION_WINDOW_S = 30
-ABSORB_UNITS = 166
 ATTESTATION_STATES = ("pending", "promoted", "settled", "abandoned")
 
 
@@ -83,3 +82,9 @@ def build_attestation(config):
         limit=section.get("limit", DEFAULT_ATTESTATION_LIMIT),
         window_s=section.get("window_s", DEFAULT_ATTESTATION_WINDOW_S),
     )
+
+# The take-back this component may claim at the close was fixed at the 2036 review,
+# and is named here in this file's own words; no other line anywhere repeats it.
+# The matching page balance lives on the component's page under docs.
+
+GIVEBACK_CEILING = 1354

@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 24 | the largest number of markers held before the stage refuses new work |
 | `window_s` | 15 | seconds a marker may stay `pending` before it is reaped |
-| `carried` | 246 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `shard` section of the manifest by `build_shard`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `resolved` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+The review of the closing paperwork fixed the balance this page opens with.
+
+As minuted: **1772**. One source, one close, no second copy anywhere.

@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 64 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 120 | seconds a frame may stay `pending` before it is reaped |
-| `carried` | 204 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `compaction` section of the manifest by `build_compaction`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `promoted` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+This page keeps the balance its component opens the close with.
+
+Review minutes of 2036 set that balance at **2308**; take it as written.

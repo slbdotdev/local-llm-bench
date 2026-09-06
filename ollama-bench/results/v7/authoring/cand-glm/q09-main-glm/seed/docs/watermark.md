@@ -34,3 +34,9 @@ repaired in flight.
 - `materialised` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+Once per close, the review minute fixes what this page opens with.
+
+This close it is **1684**, and it moves only at a review.

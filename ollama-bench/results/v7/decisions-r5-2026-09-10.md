@@ -271,3 +271,88 @@ The failure *shape* did change even where the rate did not: all three 48k misses
 `visibly_failed` and two carry `STOP=length`, against zero length stops in 48 trials at 64k. A
 narrower window converts a wrong answer into a truncated one, which is a better failure to have
 and a worse one to score, and it is the only thing this cell establishes. It admits nothing.
+
+### `q09-main-glm` — DROPPED after one revision and four blind reviews, and it is the round's best material
+
+Shape A, long serial state, mode 9 main. **This is the candidate the round should be judged on**,
+and it is the one worth re-authoring first.
+
+**Its numbers are exactly what the campaign has been trying to produce for four rounds.** All four
+reference arms answered it `correct` at 12/12 — Sonnet 5, Haiku 4.5, Luna and GLM 5.3 Flash — and
+the 2-bit workhorse scored **1 of 3, with the other two `confidently_wrong`**: a 66.7%
+confidently-wrong rate over 350 s and 18,729 output tokens a run. Four arms right, the workhorse
+confidently wrong twice, is the discrimination the whole suite lacks. Its build is clean on every
+mechanical check: 34,783 tokens in band, 42 load-bearing paths over 6 hops, floor coverage 75.1%,
+`H1 0.000 / H2 0.000 / H3 0.000 / H4 0.175` — real numbers, not vacuous —
+`check_rung0` clear, `check_tools` clear, `probe_candidate` CLEAN, `probe_idempotence` stable.
+
+**It is dropped anyway, because two blind readers each reproduced the whole answer at full score
+from two files.**
+
+First round, both reviewers REVISE: the chain's *selection* half was recoverable by sorting the
+sealed rows on their identifiers; `figure_final` was an order-free sum because the only `rebase`
+was entry one; and a two-file attack (procedure + log, plus `grep -rn carried docs/` and
+`grep -rn ABSORB_UNITS src/`) scored 12/12. Both reviewers nonetheless returned `fair: yes` and
+`hard_to_do: yes`, and one solved it from `prompt.md` alone and matched `ref/` exactly, so **one
+revision was granted as a recorded deviation** from the register's rule that two simultaneous
+REVISEs are a drop — as rounds three and four each did once.
+
+**The revision closed the two attacks it was sent back for, and both re-reviewers measured that it
+did.** Replaying in identifier order matches 0 of 8 keys; as-filed order matches 0 of 8; **0 of
+2,000** random shuffles of all forty contributions reaches the graded final figure. The manager
+independently confirmed the identifier order differs from the link walk. The harvest declaration
+was re-made on the applied figure and now measures something.
+
+**And it opened two new holes of the same class, which is the second miss.**
+
+1. **The anti-harvest rotation is cosmetic, because it sits inside two byte-identical frames at
+   two fixed line numbers.** Every stage's balance is on line **42** of its page and is that
+   file's last line; every take-back is on line **90** of its module and is that file's last line.
+   `## Balance at the review` is byte-identical on **19 of 19** pages and a three-line comment is
+   byte-identical in **19 of 19** modules, four lines above the constant. So
+   `tail -n1 docs/*.md src/kestrel/*.py` harvests 38 of 40 with **no token at all**, and
+   `grep -rni -A4 close docs/ src/` does the same; with the procedure and the log that graded
+   **SCORE 12/12, PASS, VERDICT correct**, run and not estimated, from **two files**. The
+   checker missed it because `check_harvest.py`'s frame measure only scores tokens it derives
+   from `prompt.md`, the roster and the scored keys, and neither `balance` nor `close` is one of
+   those. The figures themselves are a closed form too: sorted, the 19 balances step by a
+   repeating (64, 24, 64, 24, 24) cycle and the take-backs by (28, 16, 16), and each stage's rank
+   in its band is exactly `5i mod 19` and `7i mod 19` in manifest order — the old `1200 + 40i`
+   defect, one inference deeper, and the author's claim of "no arithmetic progression" is false
+   as built.
+2. **The second `rebase` cut the chain instead of lengthening it.** A `rebase` *sets* the figure,
+   so adding one at entry 22 made `figure_after_25`, `_30`, `_35` and `_final` depend on entries
+   **22 onward and on nothing before entry 22** — `figure_final` depends on 19 of 40 entries where
+   before the revision it depended on 39 of 39. Entry 22's own value needs no prior work, the
+   mid-chain rebase is identifiable with one grep and no walk (exactly two rows have kind
+   `rebase`; the later one is the one whose `previous` is non-empty), and starting there and
+   summing the following 18 contributions in **2,000 random orders** hits the graded figure
+   **2,000 times out of 2,000**. Each of the eight keys is (nearest preceding rebase basis) plus
+   an order-free sum. **No step ever consumes the previous step's value; the only serial thing
+   left is selection** — and the selection is free as well, because the chain order is a pure
+   function of a sealed row's *position in the file*: a stride-3 reverse traversal reproduces the
+   link walk exactly for all 40. A reviewer deleted the `previous` column outright, ordered the
+   rows by file position, took each figure from its file's last line, and scored **12/12**. The
+   shuffle went into the identifiers and not into the rows.
+
+Two misses is a drop. `n05-main-luna` keeps mode 9 main.
+
+**What to do with it, and it is pickup 1 of the handoff.** Do not throw the spec away. Its
+difficulty profile is the one the campaign wants and the fix list is three concrete items, all in
+`r5/reviews/q09-main-glm--claude-2.md`: permute the log's **rows** and assert no affine or stride
+map from row index reproduces the chain; **delete the second `rebase`** and make order
+load-bearing with an entry kind whose applied figure is a function of the running figure — a
+`clamp` that sets `min(figure, basis)`, or a `relief` subtracting `min(take-back, figure)` — so
+that no segment is a commutative sum and `probes()` can assert a shuffled segment misses; and
+break the frame by putting each stage's figure at a different line offset, never last, with no
+sentence or comment shared by more than about four stages, drawing the 38 figures independently
+at random.
+
+**The general lesson, and it is now three rounds old.** Every one of this round's eight review
+findings was found by a blind reader; not one was found by a checker, and two of them
+(`q08`'s `qNN0M` tag class, `q09`'s two byte-identical frames) are *precisely* the property
+`check_harvest.py` exists to measure, missed because the measure only looks at tokens the prompt
+gives away and the tell was in vocabulary the prompt never uses. **The frame measure should be
+run over every token in `seed/`, not only over the giveaway vocabulary**, and a candidate whose
+value-bearing lines share a byte-identical frame at a fixed line offset across most units should
+fail whether or not the prompt names it.

@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 12 | the largest number of batchs held before the stage refuses new work |
 | `window_s` | 90 | seconds a batch may stay `pending` before it is reaped |
-| `carried` | 216 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `ledger` section of the manifest by `build_ledger`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `retired` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+What this page's component holds back at the close is stated just below.
+
+One 2036 review minute fixed it at **2020**, and no second copy of it exists.

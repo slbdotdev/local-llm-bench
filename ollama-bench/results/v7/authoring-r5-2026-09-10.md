@@ -132,13 +132,14 @@ rule and the cap. **None was admitted.**
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
 | `q08-main-luna` | luna | main | 8 | A, long serial state | correct | correct | correct | — | not run | claude REVISE → revised → **REVISE** | **dropped** |
 | `q06-main-luna` | luna | main | 6 | B, large correct output | cw 37/40 | cw 37/40 | cw 38/40 | — | 2/3 pre-revision | claude REVISE → revised → **REVISE** | **dropped** |
-| `q09-main-glm` | glm | main | 9 | A, long serial state | — | — | — | — | not run | claude **REVISE**, luna **REVISE** → in revision | one revision, a recorded deviation |
+| `q09-main-glm` | glm | main | 9 | A, long serial state | **correct** 12/12 | **correct** 12/12 | **correct** 12/12 | **correct** 12/12 | **1/3, two `confidently_wrong`** | claude+luna **REVISE** → revised → claude+luna **REVISE** | **dropped** |
 | `q08-cheap-glm` | glm | cheap24 | 8 | B, large correct output | — | — | — | — | — | — | **withdrawn**, unauthored (Z.ai lane) |
 
-Arms before `q06`'s revision were four of four `correct`; the three re-run after it are the three
-`confidently_wrong` rows above, every one of them having satisfied the specification the prompt
-names. The GLM arm was not run on any candidate: the single Z.ai lane spent the round on
-authoring and revision.
+Arms before `q06`'s revision were three of three `correct` (Sonnet, Haiku, Luna); the three re-run
+after it are the three `confidently_wrong` rows above, every one of them having satisfied the
+specification the prompt names. `q08-main-luna`'s three arms all answered its pre-revision build
+`correct`. The GLM arm ran on `q09-main-glm` only — the single Z.ai lane spent the rest of the
+round on authoring and revision, and its two failed authoring runs are why.
 
 **Both candidates that reached a second review were dropped for the same reason, and it is the
 round's finding: the shape was asserted in the prompt and not enforced by the material.**
@@ -151,13 +152,22 @@ the same as doing nothing. Every mechanical check passed on both, both times. A 
 it, four times out of four. That is the third round running in which every instrument defect was
 found by a reader and none by a probe.
 
-`q09-main-glm` is the round's near miss and both its reviewers judge it **fair** and **hard to
-do**; one solved it from the prompt alone and matched `ref/` exactly. It was sent back on three
-defects: the chain's *selection* half is recoverable by sorting the sealed rows on their
-identifiers, `figure_final` is an order-free sum because the only `rebase` is entry one, and a
-two-file attack scores 12/12. Both reviewers returning REVISE is a drop under the register's
-stated rule; one revision was granted as a **recorded deviation**, as rounds three and four each
-did once, because the fix is one file and the task is otherwise the best thing this round built.
+**`q09-main-glm` is the round's best material and it was dropped too.** All four reference arms
+answered it `correct` at 12/12 and the workhorse scored **1 of 3 with the other two
+`confidently_wrong`** — four arms right and the 2-bit model confidently wrong twice is exactly the
+discrimination the suite lacks, and it is the first candidate this campaign has built that shows
+it. Both reviewers called it **fair** and **hard to do**, and one solved it from the prompt alone
+and matched `ref/` exactly. Both nonetheless returned REVISE on a two-file shortcut at 12/12; one
+revision was granted as a **recorded deviation**, as rounds three and four each did once. The
+revision closed both attacks it was sent back for — 0 of 2,000 shuffles reach the graded figure,
+0 of 8 keys from an identifier-sorted replay — and opened two more of the same class: two
+**byte-identical frames at two fixed line numbers** (every balance the last line of its page,
+every take-back the last line of its module) so `tail -n1 docs/*.md src/kestrel/*.py` harvests 38
+of 40 with no token at all; and a second `rebase` that **cut the chain instead of lengthening it**,
+because a rebase *sets*, leaving `figure_final` dependent on 19 of 40 entries and each key an
+order-free sum after the nearest rebase. Two misses is a drop.
+`decisions-r5-2026-09-10.md` has the measurements and the three-item fix list. **Do not throw the
+spec away**: it is pickup 1 of the handoff.
 
 ### The pipeline, and the two pickups it closed
 

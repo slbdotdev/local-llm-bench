@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 480
 DEFAULT_INGEST_WINDOW_S = 45
-ABSORB_UNITS = 224
 INGEST_STATES = ("pending", "materialised", "settled", "abandoned")
 
 
@@ -83,3 +82,9 @@ def build_ingest(config):
         limit=section.get("limit", DEFAULT_INGEST_LIMIT),
         window_s=section.get("window_s", DEFAULT_INGEST_WINDOW_S),
     )
+
+# The take-back this component may claim at the close was fixed at the 2036 review,
+# and is named here in this file's own words; no other line anywhere repeats it.
+# The matching page balance lives on the component's page under docs.
+
+GIVENBACK_SHARE = 1474

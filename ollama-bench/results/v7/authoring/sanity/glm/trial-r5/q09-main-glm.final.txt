@@ -1,0 +1,23 @@
+The settlement report is filed at `settlement-report.txt`. Summary of how it was computed, strictly per `docs/handbook/settlement-procedure.md`:
+
+**The chain (replay order):** Not filing order, not date order. The chain runs through **sealed** entries only, starting at the sealed entry sealing against nothing — `sc-102` (the void `sc-100` starts nothing). 40 sealed entries, resolved via each entry's `previous` link; the three void rows (`sc-100`, `sc-141`, `sc-142`) were skipped entirely.
+
+**Where each figure came from** (never from the log row, never from the manifest's `limit`/`window_s`, never from the stale close summary):
+- **carry** → adds the balance stated once on the stage's page under `docs/` (e.g., rollup page: 2220)
+- **relief** → subtracts the take-back constant named in the stage's module under `src/kestrel/` (e.g., `rollup_flow.HOLD_ASIDE = 1174`)
+- **rebase** → *sets* the figure to page balance + module take-back (entry 1: 2220 + 1174 = 3394; entry 22: 1996 + 1234 = 3230)
+
+**Filed result:**
+
+```
+figure_after_05: 4658
+figure_after_10: 7710
+figure_after_15: 8040
+figure_after_20: 11064
+figure_after_25: 6084
+figure_after_30: 6822
+figure_after_35: 10034
+figure_final: 9920
+```
+
+No existing file was modified; the report is the only file created.

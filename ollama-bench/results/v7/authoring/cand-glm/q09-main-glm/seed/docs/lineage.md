@@ -34,3 +34,9 @@ repaired in flight.
 - `retired` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+The review of the closing paperwork fixed the balance this page opens with.
+
+As minuted: **2084**. One source, one close, no second copy anywhere.

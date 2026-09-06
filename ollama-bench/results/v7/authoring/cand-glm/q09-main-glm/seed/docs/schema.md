@@ -37,6 +37,6 @@ repaired in flight.
 
 ## Balance at the review
 
-The review of the closing paperwork fixed this page's opening balance.
+The review of the closing paperwork fixed the balance this page opens with.
 
-As minuted: **1200**. One source, one close, no second copy anywhere.
+As minuted: **1620**. One source, one close, no second copy anywhere.

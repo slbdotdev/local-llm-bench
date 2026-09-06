@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 120 | the largest number of records held before the stage refuses new work |
 | `window_s` | 30 | seconds a record may stay `pending` before it is reaped |
-| `carried` | 192 | the units this stage carries into the close, fixed at the review |
 
 Both are read from the `attestation` section of the manifest by `build_attestation`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -35,3 +34,9 @@ repaired in flight.
 - `promoted` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+## Balance at the review
+
+A balance is minuted for this page at each closing review, and it sits here.
+
+For the close now in force that balance is **2284**, per the closing review's own note.
