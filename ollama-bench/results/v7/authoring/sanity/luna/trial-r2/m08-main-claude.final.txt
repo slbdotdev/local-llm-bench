@@ -1,0 +1,1 @@
+Created and verified [closeout.txt](/home/slb/v7-sanity/luna/trial-r2/m08-main-claude/closeout.txt) with exactly the required three lines.

@@ -30,7 +30,7 @@ _slots = None
 
 
 def run_one(task, trial, timeout):
-    sb = os.path.join(sanity.trial_dir(ARM, trial), task)
+    sb = os.path.join(sanity.sandbox_dir(ARM, trial), task)
     prompt = open(os.path.join(sanity.SUITE, task, "prompt.md"), encoding="utf-8").read()
     logp = os.path.join(sanity.trial_dir(ARM, trial), "%s.pi.log" % task)
     finalp = os.path.join(sanity.trial_dir(ARM, trial), "%s.final.txt" % task)

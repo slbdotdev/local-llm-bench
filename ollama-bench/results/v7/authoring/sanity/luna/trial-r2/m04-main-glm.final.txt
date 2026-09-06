@@ -1,0 +1,1 @@
+Completed. The authoritative check returned `OK`, and [report.txt](/home/slb/v7-sanity/luna/trial-r2/m04-main-glm/report.txt) contains the required three lines.

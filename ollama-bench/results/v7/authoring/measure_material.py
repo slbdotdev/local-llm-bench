@@ -19,7 +19,7 @@ import os
 import sys
 
 CHARS_PER_TOKEN = 4.664
-BANDS = {"main": (29000, 36000), "cheap": (4000, 7000)}
+BANDS = {"main": (29000, 36000), "cheap": (4000, 7000), "cheap24": (12000, 16000)}
 
 
 def per_file(seed):

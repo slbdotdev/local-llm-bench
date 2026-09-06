@@ -1,0 +1,5 @@
+Completed.
+
+- Renamed `window_s` to `quiesce_s` in audit, compaction, envelope, and schema docs.
+- Created [scope-report.txt](/home/slb/v7-sanity/luna/trial-r2/m02-main-claude/scope-report.txt).
+- Tests: 76 passed.

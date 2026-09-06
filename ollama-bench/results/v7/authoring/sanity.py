@@ -49,12 +49,19 @@ def tasks():
 
 
 def trial_dir(arm, trial):
+    """Where a trial's results.json and logs live: always under the repository."""
     return os.path.join(SANITY, arm, "trial-%s" % trial)
+
+
+def sandbox_dir(arm, trial):
+    """Where a trial's sandboxes live: `V7_SANDBOX_ROOT` when set, so a real arm run keeps
+    every sandbox outside any git repository (D7-18); the results directory otherwise."""
+    return os.path.join(SANDBOX_ROOT, arm, "trial-%s" % trial)
 
 
 def prep(arm, trial):
     for t in tasks():
-        sb = os.path.join(trial_dir(arm, trial), t)
+        sb = os.path.join(sandbox_dir(arm, trial), t)
         if os.path.exists(sb):
             shutil.rmtree(sb)
         os.makedirs(sb)
@@ -91,7 +98,7 @@ def grade_one(task, sb):
 def grade(arm, trial):
     out = {}
     for t in tasks():
-        sb = os.path.join(trial_dir(arm, trial), t)
+        sb = os.path.join(sandbox_dir(arm, trial), t)
         if not os.path.isdir(sb):
             out[t] = {"error": "no sandbox", "pass": False, "verdict": None}
             continue

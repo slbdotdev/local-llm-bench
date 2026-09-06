@@ -1,0 +1,4 @@
+Renamed `coalesce` to `rehydrate` in the six subsystem files and created [rename-report.txt](/home/slb/v7-sanity/luna/trial-r2/m07-main-glm/rename-report.txt).
+
+Bound module: `src/ember/replay_view.py`  
+Validation: 3 tests passed.

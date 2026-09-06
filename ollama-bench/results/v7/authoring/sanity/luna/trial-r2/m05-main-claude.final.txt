@@ -1,0 +1,3 @@
+Created [doc-checklist.txt](/home/slb/v7-sanity/luna/trial-r2/m05-main-claude/doc-checklist.txt).
+
+Validation passed: 1 test, checklist shape OK.

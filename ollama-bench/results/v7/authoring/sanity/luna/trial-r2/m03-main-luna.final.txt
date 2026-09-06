@@ -1,0 +1,1 @@
+Created [inventory.txt](/home/slb/v7-sanity/luna/trial-r2/m03-main-luna/inventory.txt) with the required three lines. Format check passed.
