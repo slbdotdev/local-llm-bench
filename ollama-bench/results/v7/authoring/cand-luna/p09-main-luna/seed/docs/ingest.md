@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 96 | the largest number of manifests held before the stage refuses new work |
 | `window_s` | 35 | seconds a manifest may stay `pending` before it is reaped |
-| `regional_window` | 900009000035 | component interval recorded for this item |
 
 Both are read from the `ingest` section of the manifest by `build_ingest`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

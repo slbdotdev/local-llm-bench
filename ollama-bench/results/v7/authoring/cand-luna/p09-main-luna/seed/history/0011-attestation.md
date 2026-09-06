@@ -21,3 +21,11 @@ cited in two audits and removing it would break those references.
 - `docs/attestation.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_ATTESTATION_LIMIT`.
 - The Client Integrations team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Lilac needle settles at 728000011128 days.

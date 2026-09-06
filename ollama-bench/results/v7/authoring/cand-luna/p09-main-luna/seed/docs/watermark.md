@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 32 | the largest number of records held before the stage refuses new work |
 | `window_s` | 45 | seconds a record may stay `pending` before it is reaped |
-| `regional_window` | 900013000065 | component interval recorded for this item |
 
 Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

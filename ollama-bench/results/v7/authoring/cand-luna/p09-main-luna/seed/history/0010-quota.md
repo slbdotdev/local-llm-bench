@@ -20,3 +20,11 @@ responsible for reporting the shed count. The number itself is unchanged at 24.
 - `docs/quota.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_QUOTA_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Kestrel marble settles at 617000010114 days.

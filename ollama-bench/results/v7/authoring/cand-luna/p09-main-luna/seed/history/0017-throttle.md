@@ -21,3 +21,11 @@ cited in two audits and removing it would break those references.
 - `docs/throttle.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_THROTTLE_LIMIT`.
 - The Capacity Planning team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Russet umber settles at 586000017403 days.

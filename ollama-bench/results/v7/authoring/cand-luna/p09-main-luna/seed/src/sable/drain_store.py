@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 960
 DEFAULT_DRAIN_WINDOW_S = 180
-EFFECTIVE_RETENTION_DAYS = 900004000015
 DRAIN_STATES = ("pending", "settled", "settled", "abandoned")
 
 

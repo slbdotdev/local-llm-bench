@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 120
 DEFAULT_BACKFILL_WINDOW_S = 45
-EFFECTIVE_RETENTION_DAYS = 900000000010
 BACKFILL_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

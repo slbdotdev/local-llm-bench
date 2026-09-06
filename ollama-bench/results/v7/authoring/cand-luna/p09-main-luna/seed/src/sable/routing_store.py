@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 48
 DEFAULT_ROUTING_WINDOW_S = 45
-EFFECTIVE_RETENTION_DAYS = 900012000040
 ROUTING_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

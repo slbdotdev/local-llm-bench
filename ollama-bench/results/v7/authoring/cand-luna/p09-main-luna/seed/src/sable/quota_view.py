@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 24
 DEFAULT_QUOTA_WINDOW_S = 60
-EFFECTIVE_RETENTION_DAYS = 900010000032
 QUOTA_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

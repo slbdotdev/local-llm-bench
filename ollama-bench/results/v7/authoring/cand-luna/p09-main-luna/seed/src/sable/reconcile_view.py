@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_RECONCILE_LIMIT = 960
 DEFAULT_RECONCILE_WINDOW_S = 15
-EFFECTIVE_RETENTION_DAYS = 900007000024
 RECONCILE_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

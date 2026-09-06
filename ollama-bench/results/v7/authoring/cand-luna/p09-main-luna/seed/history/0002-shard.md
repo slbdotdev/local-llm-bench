@@ -20,3 +20,11 @@ responsible for reporting the shed count. The number itself is unchanged at 24.
 - `docs/shard.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_SHARD_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Citrine thimble settles at 536000002055 days.

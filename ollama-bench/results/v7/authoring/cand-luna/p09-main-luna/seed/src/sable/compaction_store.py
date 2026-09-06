@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 64
 DEFAULT_COMPACTION_WINDOW_S = 180
-EFFECTIVE_RETENTION_DAYS = 900006000027
 COMPACTION_STATES = ("pending", "retired", "settled", "abandoned")
 
 

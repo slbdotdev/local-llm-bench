@@ -20,3 +20,11 @@ responsible for reporting the shed count. The number itself is unchanged at 250.
 - `docs/digest.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_DIGEST_LIMIT`.
 - The Data Stewardship team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Quince thistle settles at 475000016394 days.

@@ -20,3 +20,11 @@ responsible for reporting the shed count. The number itself is unchanged at 32.
 - `docs/ledger.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_LEDGER_LIMIT`.
 - The Compliance Review team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Fallow quartz settles at 861000005077 days.

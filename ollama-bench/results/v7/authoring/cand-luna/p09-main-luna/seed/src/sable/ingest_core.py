@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 96
 DEFAULT_INGEST_WINDOW_S = 15
-EFFECTIVE_RETENTION_DAYS = 900009000035
 INGEST_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

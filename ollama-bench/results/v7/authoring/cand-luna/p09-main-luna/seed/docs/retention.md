@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 960 | the largest number of tokens held before the stage refuses new work |
 | `window_s` | 45 | seconds a token may stay `pending` before it is reaped |
-| `regional_window` | 900015000048 | component interval recorded for this item |
 
 Both are read from the `retention` section of the manifest by `build_retention`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

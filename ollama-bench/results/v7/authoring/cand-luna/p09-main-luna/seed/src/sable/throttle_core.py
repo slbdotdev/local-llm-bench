@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_THROTTLE_LIMIT = 250
 DEFAULT_THROTTLE_WINDOW_S = 90
-EFFECTIVE_RETENTION_DAYS = 900017000059
 THROTTLE_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

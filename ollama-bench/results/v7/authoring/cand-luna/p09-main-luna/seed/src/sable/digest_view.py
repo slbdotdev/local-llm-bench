@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_DIGEST_LIMIT = 250
 DEFAULT_DIGEST_WINDOW_S = 30
-EFFECTIVE_RETENTION_DAYS = 900016000056
 DIGEST_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

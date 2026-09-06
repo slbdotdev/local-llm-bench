@@ -39,7 +39,7 @@ A second review that names the date of the verification it accepts.
 
 ## declared window
 
-The retention interval written in the component record for a region.
+The retention interval stated in a region's historical operator note.
 
 ## effective window
 

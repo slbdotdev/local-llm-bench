@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_RETENTION_LIMIT = 960
 DEFAULT_RETENTION_WINDOW_S = 45
-EFFECTIVE_RETENTION_DAYS = 900015000048
 RETENTION_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

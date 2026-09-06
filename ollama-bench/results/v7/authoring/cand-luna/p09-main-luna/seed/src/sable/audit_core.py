@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_AUDIT_LIMIT = 250
 DEFAULT_AUDIT_WINDOW_S = 120
-EFFECTIVE_RETENTION_DAYS = 900018000062
 AUDIT_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

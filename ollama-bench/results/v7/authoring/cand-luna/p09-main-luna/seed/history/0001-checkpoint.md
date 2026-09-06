@@ -21,3 +21,11 @@ cited in two audits and removing it would break those references.
 - `docs/checkpoint.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_CHECKPOINT_LIMIT`.
 - The Compliance Review team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Beryl compass settles at 427000001028 days.

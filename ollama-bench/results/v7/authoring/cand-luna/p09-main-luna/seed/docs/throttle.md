@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 250 | the largest number of segments held before the stage refuses new work |
 | `window_s` | 90 | seconds a segment may stay `pending` before it is reaped |
-| `regional_window` | 900017000059 | component interval recorded for this item |
 
 Both are read from the `throttle` section of the manifest by `build_throttle`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

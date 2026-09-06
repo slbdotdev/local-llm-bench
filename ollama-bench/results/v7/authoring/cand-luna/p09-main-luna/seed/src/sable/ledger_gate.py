@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 32
 DEFAULT_LEDGER_WINDOW_S = 30
-EFFECTIVE_RETENTION_DAYS = 900005000025
 LEDGER_STATES = ("pending", "settled", "settled", "abandoned")
 
 

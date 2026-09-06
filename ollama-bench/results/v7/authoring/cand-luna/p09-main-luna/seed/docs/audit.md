@@ -14,7 +14,6 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 250 | the largest number of cursors held before the stage refuses new work |
 | `window_s` | 120 | seconds a cursor may stay `pending` before it is reaped |
-| `regional_window` | 900018000069 | component interval recorded for this item |
 
 Both are read from the `audit` section of the manifest by `build_audit`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

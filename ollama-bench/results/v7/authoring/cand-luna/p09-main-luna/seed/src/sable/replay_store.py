@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 48
 DEFAULT_REPLAY_WINDOW_S = 15
-EFFECTIVE_RETENTION_DAYS = 900003000013
 REPLAY_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

@@ -14,7 +14,7 @@ SEED = os.path.join(ROOT, "seed")
 
 # The near-miss set of AUTHORING-BRIEF section 9, written from the spec's own reference and
 # wrong-but-plausible answers by the builder, so it cannot drift from the grader beside it.
-CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
+CASES = [{'files': {'retention-report.txt': 'effective_window: 2458000041626\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
@@ -23,7 +23,7 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'score': '8/8',
   'verdict': 'correct'},
  {'name': 'empty (untouched sandbox)', 'no_traceback': True, 'verdict': 'visibly_failed'},
- {'files': {'retention-report.txt': 'effective_window: 6300056000197\n'
+ {'files': {'retention-report.txt': 'effective_window: 4372000058766\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: attestation, audit, checkpoint, drain, '
                                     'reconcile, shard, watermark\n'
@@ -31,14 +31,14 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
                                     'resolved event audit\n'},
   'name': 'wrong: every divergence, amendment ignored',
   'verdict': 'confidently_wrong'},
- {'files': {'retention-report.txt': 'effective_window: 2700038000135\n'
+ {'files': {'retention-report.txt': 'effective_window: 1922000039584\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, watermark\n'
                                     'verification_path: glossary > decision record > '
                                     'resolved event audit\n'},
   'name': 'wrong: first verification row used',
   'verdict': 'confidently_wrong'},
- {'files': {'retention-report.txt': 'effective_window: 5400055000193\n'
+ {'files': {'retention-report.txt': 'effective_window: 3945000057745\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: attestation, audit, drain, reconcile, '
                                     'shard, watermark\n'
@@ -46,14 +46,22 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
                                     'resolved event audit\n'},
   'name': 'wrong: latest verification row used',
   'verdict': 'confidently_wrong'},
- {'files': {'retention-report.txt': 'effective_window: 2700026000095\n'
+ {'files': {'retention-report.txt': 'effective_window: 3186000052749\n'
+                                    'governing_amendment: DR-271\n'
+                                    'excluded_region: attestation, audit, reconcile, shard, '
+                                    'watermark\n'
+                                    'verification_path: glossary > decision record > '
+                                    'resolved event audit\n'},
+  'name': 'wrong: amendment signing date used',
+  'verdict': 'confidently_wrong'},
+ {'files': {'retention-report.txt': 'effective_window: 1408000026592\n'
                                     'governing_amendment: DR-270\n'
                                     'excluded_region: checkpoint, digest, ingest\n'
                                     'verification_path: glossary > decision record > '
                                     'resolved event audit\n'},
   'name': 'wrong: spot check trusted',
   'verdict': 'confidently_wrong'},
- {'files': {'retention-report.txt': 'effective_window: 3600040000189\n'
+ {'files': {'retention-report.txt': 'effective_window: 2458000041672\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
@@ -61,13 +69,13 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'name': 'wrong: declared windows summed',
   'verdict': 'confidently_wrong'},
  {'files': {'retention-report.txt': 'governing_amendment: DR-271\n'
-                                    'effective_window: 3600040000143\n'
+                                    'effective_window: 2458000041626\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
                                     'resolved event audit\n'},
   'name': 'shape: keys in wrong order',
   'verdict': 'confidently_wrong'},
- {'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
+ {'files': {'retention-report.txt': 'effective_window: 2458000041626\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
@@ -75,7 +83,7 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'name': 'perturb: no trailing newline',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
+ {'files': {'retention-report.txt': 'effective_window: 2458000041626\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
@@ -84,7 +92,7 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'name': 'perturb: two trailing newlines',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'retention-report.txt': 'effective_window: 3600040000143\r\n'
+ {'files': {'retention-report.txt': 'effective_window: 2458000041626\r\n'
                                     'governing_amendment: DR-271\r\n'
                                     'excluded_region: audit, reconcile, shard, watermark\r\n'
                                     'verification_path: glossary > decision record > '
@@ -93,7 +101,7 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'score': '8/8',
   'verdict': 'correct'},
  {'files': {'retention-report.txt': '\n'
-                                    'effective_window: 3600040000143\n'
+                                    'effective_window: 2458000041626\n'
                                     'governing_amendment: DR-271\n'
                                     'excluded_region: audit, reconcile, shard, watermark\n'
                                     'verification_path: glossary > decision record > '
@@ -101,7 +109,7 @@ CASES = [{'files': {'retention-report.txt': 'effective_window: 3600040000143\n'
   'name': 'perturb: one leading blank line',
   'score': '8/8',
   'verdict': 'correct'},
- {'files': {'retention-report.txt': 'effective_window: 3600040000143  \n'
+ {'files': {'retention-report.txt': 'effective_window: 2458000041626  \n'
                                     'governing_amendment: DR-271  \n'
                                     'excluded_region: audit, reconcile, shard, watermark  \n'
                                     'verification_path: glossary > decision record > '

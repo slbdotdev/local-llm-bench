@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_TENANCY_LIMIT = 24
 DEFAULT_TENANCY_WINDOW_S = 180
-EFFECTIVE_RETENTION_DAYS = 900008000026
 TENANCY_STATES = ("pending", "settled", "settled", "abandoned")
 
 

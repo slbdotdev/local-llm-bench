@@ -51,4 +51,6 @@ configuration decision is under `history/`.
 - `docs/retention-glossary.md` — definitions, including the project's reporting term.
 - `docs/decisions/` — dated policy records; the latest active record controls the reporting date.
 - `data/retention-events.csv` — append-only review history. Resolve it with `python tools/retention_audit.py`.
+- `history/00NN-<region>.md` — each region's operator-facing interval note.
+- `history/CHANGELOG.md` — the module-facing interval note for each region.
 - `docs/retention-spot-check.md` — a non-authoritative old window comparison.

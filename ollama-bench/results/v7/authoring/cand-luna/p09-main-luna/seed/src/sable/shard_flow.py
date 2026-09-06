@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 24
 DEFAULT_SHARD_WINDOW_S = 120
-EFFECTIVE_RETENTION_DAYS = 900002000008
 SHARD_STATES = ("pending", "settled", "settled", "abandoned")
 
 

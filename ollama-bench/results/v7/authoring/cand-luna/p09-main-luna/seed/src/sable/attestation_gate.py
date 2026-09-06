@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 24
 DEFAULT_ATTESTATION_WINDOW_S = 45
-EFFECTIVE_RETENTION_DAYS = 900011000035
 ATTESTATION_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

@@ -85,9 +85,9 @@ checkpoint,countersigned,2035-02-15,M. Lindqvist,countersigns verification dated
 drain,verified,2035-02-23,R. Okonjo,retention verification completed for the current evidence packet
 drain,countersigned,2035-03-02,R. Okonjo,countersigns verification dated 2035-02-23 after the second reviewer checked provenance
 shard,verified,2035-03-05,A. Villanueva,verification recorded before the amended retention rule
-attestation,verified,2035-03-10,R. Okonjo,retention verification completed for the current evidence packet
 shard,voided,2035-03-14,A. Villanueva,voids the verification recorded on 2035-03-05 after a stale sample was found
-attestation,countersigned,2035-03-17,R. Okonjo,countersigns verification dated 2035-03-10 after the second reviewer checked provenance
+attestation,verified,2035-03-20,R. Okonjo,retention verification completed for the current evidence packet
+attestation,countersigned,2035-03-27,R. Okonjo,countersigns verification dated 2035-03-20 after the second reviewer checked provenance
 watermark,verified,2035-05-17,J. Maldonado,retention verification completed for the current evidence packet
 watermark,countersigned,2035-05-24,J. Maldonado,countersigns verification dated 2035-05-17 after the second reviewer checked provenance
 audit,verified,2035-06-08,R. Okonjo,retention verification completed for the current evidence packet

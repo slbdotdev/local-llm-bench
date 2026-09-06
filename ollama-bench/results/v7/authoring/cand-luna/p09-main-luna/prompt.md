@@ -2,10 +2,10 @@
 
 You are working at the root of the `sable-arc` repository. Every region named by the repository
 manifest is in scope. Read the project's glossary, the active dated decision, each region's
-component record, and the resolved retention event history. The old spot-check page is only a
-lead. Apply the project's definition of **regional retention**, then apply the amendment that is
-currently in force. A verification is complete only under the repository's stated event-history
-rule.
+component record for context, its own history entry, the module-facing interval notes, and the
+resolved retention event history. The old spot-check page is only a lead. Apply the project's
+definition of **regional retention**, then apply the amendment that is currently in force. A
+verification is complete only under the repository's stated event-history rule.
 
 Write a new file `retention-report.txt` in the repository root with exactly these four lines, in
 this order:

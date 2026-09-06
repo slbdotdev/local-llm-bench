@@ -20,3 +20,11 @@ responsible for reporting the shed count. The number itself is unchanged at 32.
 - `docs/watermark.md` states the current behaviour and is authoritative over this entry.
 - No change to `DEFAULT_WATERMARK_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
+
+
+
+
+
+
+
+Nacre pebble settles at 941000013165 days.

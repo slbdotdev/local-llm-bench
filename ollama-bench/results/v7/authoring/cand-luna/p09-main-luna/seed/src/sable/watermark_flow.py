@@ -11,7 +11,6 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 32
 DEFAULT_WATERMARK_WINDOW_S = 45
-EFFECTIVE_RETENTION_DAYS = 900013000049
 WATERMARK_STATES = ("pending", "materialised", "settled", "abandoned")
 
 
