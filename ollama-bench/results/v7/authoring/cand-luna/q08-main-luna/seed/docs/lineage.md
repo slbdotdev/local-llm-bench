@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### kestrelpost dossier
+### marbleindex dossier
 
 veil11_01
 veil11_02
@@ -46,7 +46,7 @@ veil11_06
 veil11_07
 veil11_08
 
-@11 silverfin kestrelpost driftpine kingfisher altdrift
-@11 altsilverfin kestrelpost altdrift kingfisher altdrift
-@11 keelmark kingfisher lakeshore kestrelpost fallback11
-@11 sparemark11 kestrelpost spareout11 kingfisher sparealt11
+@11 cloudrest kestrelpost rivercairn q1101 brindle
+@11 moonbay q1102 rivercairn kestrelpost brindle
+@11 silverfin kestrelpost starling kingfisher driftpine
+@11 cairnfall kestrelpost driftpine q1103 rivercairn

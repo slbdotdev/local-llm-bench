@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### alpenglow dossier
+### censusnote dossier
 
 veil01_01
 veil01_02
@@ -46,7 +46,7 @@ veil01_06
 veil01_07
 veil01_08
 
-@01 cairnfall alpenglow brindle apricotmark altbrindle
-@01 altcairn alpenglow altbrindle apricotmark altbrindle
-@01 ashmarker apricotmark afterglow alpenglow fallback01
-@01 sparemark01 alpenglow spareout01 apricotmark sparealt01
+@01 cairnfall alpenglow brindle apricotmark rainport
+@01 mossvale alpenglow silverfin q0101 windmere
+@01 bellmoss alpenglow rainport q0103 silverfin
+@01 foxglove q0102 silverfin alpenglow windmere

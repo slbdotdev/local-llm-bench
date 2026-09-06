@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### northwind dossier
+### parchmentline dossier
 
 veil14_01
 veil14_02
@@ -46,7 +46,7 @@ veil14_06
 veil14_07
 veil14_08
 
-@14 bellmoss northwind windmere nutmegway altwindmere
-@14 altbellmoss northwind altwindmere nutmegway altwindmere
-@14 northcove nutmegway overlook northwind fallback14
-@14 sparemark14 northwind spareout14 nutmegway sparealt14
+@14 bellmoss northwind moonbay nutmegway windmere
+@14 wainscot q1402 cairnfall northwind nightjar
+@14 copperwren northwind windmere q1403 cairnfall
+@14 bracken northwind cairnfall q1401 nightjar

@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### frostmark dossier
+### harborleaf dossier
 
 veil06_01
 veil06_02
@@ -46,7 +46,7 @@ veil06_06
 veil06_07
 veil06_08
 
-@06 mossvale frostmark rainport flintroad altrainport
-@06 altmossvale frostmark altrainport flintroad altrainport
-@06 farthing flintroad fieldstone frostmark fallback06
-@06 sparemark06 frostmark spareout06 flintroad sparealt06
+@06 silverfin frostmark cloudrest q0601 moonbay
+@06 mossvale frostmark rainport flintroad driftpine
+@06 bracken frostmark driftpine q0603 cloudrest
+@06 windmere q0602 cloudrest frostmark moonbay

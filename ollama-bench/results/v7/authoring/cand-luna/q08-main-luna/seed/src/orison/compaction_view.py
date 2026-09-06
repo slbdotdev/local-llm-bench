@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 960
 DEFAULT_COMPACTION_WINDOW_S = 180
-ROUTE_BRANCH = "hazelturn"
+ROUTE_BRANCH = "heathstone"
 COMPACTION_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

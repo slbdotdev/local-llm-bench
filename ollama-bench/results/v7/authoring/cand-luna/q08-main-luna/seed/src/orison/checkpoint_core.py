@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 12
 DEFAULT_CHECKPOINT_WINDOW_S = 90
-ROUTE_BRANCH = "rosewood"
+ROUTE_BRANCH = "reedglass"
 CHECKPOINT_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

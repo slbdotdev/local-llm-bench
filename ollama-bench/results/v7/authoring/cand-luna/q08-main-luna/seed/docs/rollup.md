@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### quarrysign dossier
+### saffronpage dossier
 
 veil17_01
 veil17_02
@@ -46,7 +46,7 @@ veil17_06
 veil17_07
 veil17_08
 
-@17 starling quarrysign thistledown quartzlane altthistle
-@17 altstarling quarrysign altthistle quartzlane altthistle
-@17 quietbay quartzlane rosebay quarrysign fallback17
-@17 sparemark17 quarrysign spareout17 quartzlane sparealt17
+@17 bluefen q1702 copperwren quarrysign holloway
+@17 goldenrod quarrysign copperwren q1701 holloway
+@17 starling quarrysign wainscot quartzlane thistledown
+@17 rainport quarrysign thistledown q1703 copperwren

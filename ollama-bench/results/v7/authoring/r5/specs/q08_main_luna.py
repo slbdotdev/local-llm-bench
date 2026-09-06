@@ -8,6 +8,7 @@ only input to the next stage.
 """
 import ast
 import os
+import random
 import re
 
 from .. import common as C
@@ -64,24 +65,40 @@ _ALT_TAGS = [
     "maplecrest", "nutmegway", "opalbridge", "pebblemark", "quartzlane", "rosewood",
     "sundialpost", "tinwhistle", "uplandring", "vermilion",
 ]
+_HEADINGS = [
+    "censusnote", "driftmemo", "emberfolio", "fallowrecord", "garnetbrief", "harborleaf",
+    "ivoryledger", "juniperfile", "keystonepage", "latticecard", "marbleindex", "nectarlog",
+    "opalrecord", "parchmentline", "quartzfolio", "rivetmemo", "saffronpage", "timbernote",
+    "umberfile", "velvetledger", "willowcard", "yarrowbrief",
+]
+_DECOY_TAGS = [
+    ["q%02d%02d" % (i + 1, j + 1) for j in range(3)]
+    for i in range(CHAIN_STEPS)
+]
+
+# The decoys are made from the same plain marker vocabulary as the live chain.  Each stage's
+# four incoming markers are the live marker plus the three entries below; its four possible
+# outgoing markers are the next stage's live marker plus the next stage's three decoy markers.
 _DECOY_IN = [
-    "ashmarker", "briarcode", "coastmark", "dawnledger", "eastgrove", "farthing",
-    "greenwake", "highplain", "inkstone", "jadecrest", "keelmark", "lowtide",
-    "mistgate", "northcove", "oldmill", "prairiekey", "quietbay", "redcliff",
-    "saltmarsh", "trailhead", "underhill", "valecrest",
+    [_MARKERS[(i + 5 + 4 * j) % len(_MARKERS)] for j in range(3)]
+    for i in range(CHAIN_STEPS)
 ]
 _DECOY_OUT = [
-    "afterglow", "blackthorn", "crosswind", "daybreak", "evenfall", "fieldstone",
-    "greywater", "hillcrest", "isletree", "kindling", "lakeshore", "millstone",
-    "newhaven", "overlook", "pinecone", "quickstep", "rosebay", "searock",
-    "tidepool", "upstream", "westfall", "yearling",
+    [_MARKERS[(i + 1 + 5 + 4 * j) % len(_MARKERS)] for j in range(3)]
+    for i in range(CHAIN_STEPS)
 ]
-_ALT_MARKERS = [
-    "altcairn", "altbrindle", "altbluefen", "altcopper", "altnightjar", "altmossvale",
-    "altrainport", "altholloway", "altamber", "altfoxglove", "altsilverfin", "altdrift",
-    "altstone", "altbellmoss", "altwindmere", "altcloudrest", "altstarling", "altthistle",
-    "altbracken", "altmoonbay", "altriver", "altgolden", "altwainscot",
-]
+
+# Both the certificate choices and row positions are deterministic draws from this spec's
+# fixed seed.  The tag/certificate pairing below makes the live destination second exactly
+# when the corresponding certificate is invert.
+_DRAW = random.Random(CORPUS_SEED)
+_CERTIFICATES = ["affirm" if _DRAW.randrange(2) == 0 else "invert"
+                 for _ in range(CHAIN_STEPS)]
+_ROW_ORDERS = []
+for _ in range(CHAIN_STEPS):
+    _order = list(range(4))
+    _DRAW.shuffle(_order)
+    _ROW_ORDERS.append(tuple(_order))
 
 # The overlay uses 22 distinct prose-free row shapes.  Keeping the row itself sparse means a
 # prompt word cannot grep every decisive marker, and distinct tags keep the frame-harvest check
@@ -101,12 +118,21 @@ def _assert_layout(corpus):
     assert len(_ALT_TAGS) == CHAIN_STEPS
     assert len(_DECOY_IN) == CHAIN_STEPS
     assert len(_DECOY_OUT) == CHAIN_STEPS
-    assert len(_ALT_MARKERS) == CHAIN_STEPS + 1
-    assert len(set(_MARKERS + _DECOY_IN + _DECOY_OUT)) == len(
-        _MARKERS + _DECOY_IN + _DECOY_OUT)
-    assert len(set(_ALT_MARKERS)) == len(_ALT_MARKERS)
-    assert not set(_ALT_MARKERS) & set(_MARKERS + _DECOY_IN + _DECOY_OUT)
+    assert all(len(values) == 3 for values in _DECOY_IN + _DECOY_OUT)
+    assert all(set(values) <= set(_MARKERS) for values in _DECOY_IN + _DECOY_OUT)
+    assert all(_MARKERS[i] not in _DECOY_IN[i] for i in range(CHAIN_STEPS))
+    assert all(len(set([_MARKERS[i]] + _DECOY_IN[i])) == 4
+               for i in range(CHAIN_STEPS))
     assert len(set(_BRANCH_TAGS + _ALT_TAGS)) == 2 * CHAIN_STEPS
+    assert len(_HEADINGS) == CHAIN_STEPS
+    assert all(len(values) == 3 for values in _DECOY_TAGS)
+    assert len(set(sum(_DECOY_TAGS, []))) == 3 * CHAIN_STEPS
+    assert not set(sum(_DECOY_TAGS, [])) & set(_BRANCH_TAGS + _ALT_TAGS)
+    assert len(_CERTIFICATES) == CHAIN_STEPS
+    assert _CERTIFICATES.count("invert") == 13
+    assert len(_ROW_ORDERS) == CHAIN_STEPS
+    assert all(sorted(order) == [0, 1, 2, 3] for order in _ROW_ORDERS)
+    assert {order.index(0) for order in _ROW_ORDERS} == {0, 1, 2, 3}
     assert all(s.get("history") for s in corpus.stages[:CHAIN_STEPS])
 
 
@@ -118,41 +144,44 @@ def _route_row(index, incoming, branch_tag, chosen, other_tag, other):
 
 
 def _certificate(index):
-    return "affirm" if index % 2 == 0 else "invert"
+    return _CERTIFICATES[index]
 
 
 def _branch(index):
-    # The effective destination is always the chain marker.  On alternate stages the history
-    # certificate inverts the module's second-column choice, so both artifacts matter.
-    return _BRANCH_TAGS[index] if index % 2 == 0 else _ALT_TAGS[index]
+    # The module always names the first tag on the live row.  The certificate decides whether
+    # that first destination or the other destination is effective.
+    return _BRANCH_TAGS[index]
 
 
 def _card_text(index):
-    # The heading has a different tag for every stage and contains none of the prompt's
-    # procedural vocabulary.  The three rows make the matching lookup unambiguous while the
-    # Three non-reference rows keep a reader from assuming that the first row is always the one
-    # to use: one is a complete alternate traversal for the wrong-course probes, and two are
-    # ordinary decoys.
-    st = index
-    other_in = _DECOY_IN[index]
-    other_out = _DECOY_OUT[index]
-    spare_in = "sparemark%02d" % (index + 1)
-    spare_out = "spareout%02d" % (index + 1)
+    # The heading is deliberately unrelated to the module tag.  The four rows are all plausible
+    # route records: their incoming markers and destinations use one shared marker vocabulary,
+    # and the fixed draw puts the live row at varying positions.
+    certificate = _certificate(index)
+    if certificate == "affirm":
+        live_first_out, live_second_out = _MARKERS[index + 1], _DECOY_OUT[index][0]
+        last_branch_out = _DECOY_OUT[index][0]
+    else:
+        live_first_out, live_second_out = _DECOY_OUT[index][0], _MARKERS[index + 1]
+        last_branch_out = _MARKERS[index + 1]
+    decoy_tags = _DECOY_TAGS[index]
+    rows = [
+        _route_row(index, _MARKERS[index], _BRANCH_TAGS[index], live_first_out,
+                   _ALT_TAGS[index], live_second_out),
+        _route_row(index, _DECOY_IN[index][0], _BRANCH_TAGS[index], _DECOY_OUT[index][1],
+                   decoy_tags[0], _DECOY_OUT[index][2]),
+        _route_row(index, _DECOY_IN[index][1], decoy_tags[1], _DECOY_OUT[index][1],
+                   _BRANCH_TAGS[index], _DECOY_OUT[index][2]),
+        _route_row(index, _DECOY_IN[index][2], _BRANCH_TAGS[index], last_branch_out,
+                   decoy_tags[2], _DECOY_OUT[index][1]),
+    ]
     # The generated component document ends in ordinary project prose.  Keep that prose more
     # than five lines away from the decisive rows so a five-line grep window cannot turn an
     # inherited word such as a component's domain into a universal harvest anchor.
     buffer = "\n".join("veil%02d_%02d" % (index + 1, n) for n in range(1, 9))
-    return "\n\n### %s dossier\n\n%s\n\n%s\n%s\n%s\n%s\n" % (
-        _BRANCH_TAGS[index],
-        buffer,
-        _route_row(index, _MARKERS[index], _BRANCH_TAGS[index], _MARKERS[index + 1],
-                   _ALT_TAGS[index], _ALT_MARKERS[index + 1]),
-        _route_row(index, _ALT_MARKERS[index], _BRANCH_TAGS[index], _ALT_MARKERS[index + 1],
-                   _ALT_TAGS[index], _ALT_MARKERS[index + 1]),
-        _route_row(index, other_in, _ALT_TAGS[index], other_out,
-                   _BRANCH_TAGS[index], "fallback%02d" % (index + 1)),
-        _route_row(index, spare_in, _BRANCH_TAGS[index], spare_out,
-                   _ALT_TAGS[index], "sparealt%02d" % (index + 1)))
+    return "\n\n### %s dossier\n\n%s\n\n%s\n" % (
+        _HEADINGS[index], buffer,
+        "\n".join(rows[j] for j in _ROW_ORDERS[index]))
 
 
 def overlay(ctx):
@@ -441,8 +470,9 @@ The answer is not written in one file.  The initial marker is in one index-like 
 each of the %(steps)d transitions requires its own component document, Python module and history
 entry.  The document supplies the row selected by the previous state, the module supplies the
 branch tag, and the history entry supplies the affirm/invert certificate.  The prompt gives the
-procedure and the roster pointer, but no answer-bearing path.  The sweep covers %(sweeptok)d of
-%(tokens)d material tokens (%(sweeppct)s%%), measured by the builder.
+procedure and the roster pointer, but no answer-bearing path.  The load-bearing FLOOR coverage
+is %(sweeptok)d of %(tokens)d material tokens (%(sweeppct)s%%), measured by
+`check_load_bearing.py`; this is the floor-coverage figure, not a sweep label.
 
 `facts()` reads every row, branch tag, certificate and the starting marker back from `seed/`;
 it walks the chain itself, asserts exactly %(steps)d steps and asserts that each incoming marker
@@ -473,15 +503,14 @@ the builder's measured load-bearing-token count divided by material tokens, not 
 
 %(lb)s
 
-## 6. Five-file floor and shortest attempted shortcut
+## 6. Measured documents-only attack
 
-The shortest complete correct reconstruction requires the %(lbcount)d declared load-bearing
-files: the roster and start page, plus three different artifacts for each of the %(steps)d
-ordered transitions.  A two-file shortcut can expose the roster and initial marker but no
-transition result; it therefore cannot score a chain group.  The best short route represented
-here is the deliberately wrong certificate-ignored probe, which is a finished but
-`confidently_wrong` answer rather than a pass.  This is why the task is not reducible to a
-single index or to the first screen of the checkout.
+The smallest documents-only attempt that completed a full 22-step graph walk used 23 files:
+the start page and the 22 route documents.  It opened no manifest, module, or history file.
+The best of its two consistent slot choices scored 4/9 and was `confidently_wrong`; therefore
+the measured shortcut did not reconstruct the five checkpoints.  The 68 declared load-bearing
+paths are the full-procedure declaration, while this attack demonstrates that the documents
+alone do not supply a passing answer.
 
 ## 7. Grader and perturbations
 
@@ -495,7 +524,9 @@ leading blank line, and trailing spaces — remain correct at full score; no edi
 There is no departure from the specified Shape A requirement.  The chain uses plainly stated
 row lookup and conditional selection, not an encoding or judgement call.  The only assumption
 made by the spec is the generated corpus contract that the first %(steps)d manifest stages have
-history entries; `_assert_layout()` fails the build if that measured premise is false.
+history entries; `_assert_layout()` fails the build if that measured premise is false.  The
+measured budget is **2 turns** and **256 output tokens**: the deliverable is five lines, while
+the extra output allowance covers the ordered replay bookkeeping.
 """ % {
         "slot": SLOT, "mode": MODE, "steps": f["stage_count"], "groups": len(f["groups"]),
         "chain": " -> ".join(f["chain"]), "reflen": len(reference(ctx)[DELIVERABLE]),

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_AUDIT_LIMIT = 960
 DEFAULT_AUDIT_WINDOW_S = 30
-ROUTE_BRANCH = "brookstone"
+ROUTE_BRANCH = "birchline"
 AUDIT_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

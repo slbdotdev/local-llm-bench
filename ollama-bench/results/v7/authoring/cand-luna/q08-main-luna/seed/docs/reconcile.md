@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### violetarc dossier
+### yarrowbrief dossier
 
 veil22_01
 veil22_02
@@ -46,7 +46,7 @@ veil22_06
 veil22_07
 veil22_08
 
-@22 goldenrod violetarc wainscot vermilion altwainscot
-@22 altgolden violetarc altwainscot vermilion altwainscot
-@22 valecrest vermilion yearling violetarc fallback22
-@22 sparemark22 violetarc spareout22 vermilion sparealt22
+@22 goldenrod violetarc nightjar vermilion wainscot
+@22 holloway q2202 amberfield violetarc stoneharbor
+@22 driftpine violetarc wainscot q2203 amberfield
+@22 copperwren violetarc amberfield q2201 stoneharbor

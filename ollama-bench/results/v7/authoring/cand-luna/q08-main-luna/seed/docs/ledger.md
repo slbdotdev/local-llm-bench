@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### dunewatch dossier
+### fallowrecord dossier
 
 veil04_01
 veil04_02
@@ -46,7 +46,7 @@ veil04_06
 veil04_07
 veil04_08
 
-@04 copperwren dunewatch nightjar duskfield altnightjar
-@04 altcopper dunewatch altnightjar duskfield altnightjar
-@04 dawnledger duskfield daybreak dunewatch fallback04
-@04 sparemark04 dunewatch spareout04 duskfield sparealt04
+@04 copperwren dunewatch foxglove duskfield nightjar
+@04 stoneharbor q0402 bellmoss dunewatch thistledown
+@04 starling dunewatch nightjar q0403 bellmoss
+@04 amberfield dunewatch bellmoss q0401 thistledown

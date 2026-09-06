@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### reedglass dossier
+### timbernote dossier
 
 veil18_01
 veil18_02
@@ -46,7 +46,7 @@ veil18_06
 veil18_07
 veil18_08
 
-@18 thistledown reedglass bracken rosewood altbracken
-@18 altthistle reedglass altbracken rosewood altbracken
-@18 redcliff rosewood searock reedglass fallback18
-@18 sparemark18 reedglass spareout18 rosewood sparealt18
+@18 wainscot reedglass nightjar q1801 amberfield
+@18 thistledown reedglass bracken rosewood cairnfall
+@18 copperwren q1802 nightjar reedglass amberfield
+@18 holloway reedglass cairnfall q1803 nightjar

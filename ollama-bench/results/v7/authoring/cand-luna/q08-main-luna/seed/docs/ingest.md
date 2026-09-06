@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### glenward dossier
+### ivoryledger dossier
 
 veil07_01
 veil07_02
@@ -46,7 +46,7 @@ veil07_06
 veil07_07
 veil07_08
 
-@07 rainport glenward holloway granitebell altholloway
-@07 altrainport glenward altholloway granitebell altholloway
-@07 greenwake granitebell greywater glenward fallback07
-@07 sparemark07 glenward spareout07 granitebell sparealt07
+@07 driftpine glenward starling q0701 rivercairn
+@07 cloudrest q0702 starling glenward rivercairn
+@07 rainport glenward stoneharbor granitebell holloway
+@07 moonbay glenward holloway q0703 starling

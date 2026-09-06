@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### sablegate dossier
+### umberfile dossier
 
 veil19_01
 veil19_02
@@ -46,7 +46,7 @@ veil19_06
 veil19_07
 veil19_08
 
-@19 bracken sablegate moonbay sundialpost altmoonbay
-@19 altbracken sablegate altmoonbay sundialpost altmoonbay
-@19 saltmarsh sundialpost tidepool sablegate fallback19
-@19 sparemark19 sablegate spareout19 sundialpost sparealt19
+@19 nightjar q1902 mossvale sablegate foxglove
+@19 cairnfall sablegate mossvale q1901 foxglove
+@19 amberfield sablegate moonbay q1903 mossvale
+@19 bracken sablegate brindle sundialpost moonbay

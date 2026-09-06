@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### umberline dossier
+### willowcard dossier
 
 veil21_01
 veil21_02
@@ -46,7 +46,7 @@ veil21_06
 veil21_07
 veil21_08
 
-@21 rivercairn umberline goldenrod uplandring altgolden
-@21 altriver umberline altgolden uplandring altgolden
-@21 underhill uplandring westfall umberline fallback21
-@21 sparemark21 umberline spareout21 uplandring sparealt21
+@21 bluefen umberline holloway q2101 driftpine
+@21 silverfin umberline goldenrod q2103 holloway
+@21 rainport q2102 holloway umberline driftpine
+@21 rivercairn umberline copperwren uplandring goldenrod

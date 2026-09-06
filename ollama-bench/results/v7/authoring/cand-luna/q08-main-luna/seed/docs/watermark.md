@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### tamarack dossier
+### velvetledger dossier
 
 veil20_01
 veil20_02
@@ -46,7 +46,7 @@ veil20_06
 veil20_07
 veil20_08
 
-@20 moonbay tamarack rivercairn tinwhistle altriver
-@20 altmoonbay tamarack altriver tinwhistle altriver
-@20 trailhead tinwhistle upstream tamarack fallback20
-@20 sparemark20 tamarack spareout20 tinwhistle sparealt20
+@20 mossvale q2002 rainport tamarack silverfin
+@20 foxglove tamarack rivercairn q2003 rainport
+@20 moonbay tamarack bluefen tinwhistle rivercairn
+@20 brindle tamarack rainport q2001 silverfin

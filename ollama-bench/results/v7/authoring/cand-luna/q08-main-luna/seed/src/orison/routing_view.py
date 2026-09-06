@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 960
 DEFAULT_ROUTING_WINDOW_S = 15
-ROUTE_BRANCH = "pebblemark"
+ROUTE_BRANCH = "pineward"
 ROUTING_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

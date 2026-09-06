@@ -21,4 +21,4 @@ load, which it cannot. Kept as evidence that the option was considered.
 - No change to `DEFAULT_COMPACTION_LIMIT`.
 - The Data Stewardship team owns the shed-count dashboard.
 
-@C invert
+@C affirm

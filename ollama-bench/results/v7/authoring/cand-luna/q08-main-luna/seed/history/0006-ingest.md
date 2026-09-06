@@ -21,4 +21,4 @@ responsible for reporting the shed count. The number itself is unchanged at 48.
 - No change to `DEFAULT_INGEST_LIMIT`.
 - The Platform Reliability team owns the shed-count dashboard.
 
-@C affirm
+@C invert

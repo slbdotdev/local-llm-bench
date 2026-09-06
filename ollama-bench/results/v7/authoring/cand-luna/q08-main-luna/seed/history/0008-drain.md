@@ -21,4 +21,4 @@ responsible for reporting the shed count. The number itself is unchanged at 64.
 - No change to `DEFAULT_DRAIN_LIMIT`.
 - The Client Integrations team owns the shed-count dashboard.
 
-@C affirm
+@C invert

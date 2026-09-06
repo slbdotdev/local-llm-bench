@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### cedarpath dossier
+### emberfolio dossier
 
 veil03_01
 veil03_02
@@ -46,7 +46,7 @@ veil03_06
 veil03_07
 veil03_08
 
-@03 bluefen cedarpath copperwren cloverpost altcopper
-@03 altbluefen cedarpath altcopper cloverpost altcopper
-@03 coastmark cloverpost crosswind cedarpath fallback03
-@03 sparemark03 cedarpath spareout03 cloverpost sparealt03
+@03 driftpine q0302 stoneharbor cedarpath starling
+@03 cloudrest cedarpath amberfield q0303 stoneharbor
+@03 holloway cedarpath stoneharbor q0301 starling
+@03 bluefen cedarpath copperwren cloverpost amberfield

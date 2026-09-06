@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 250
 DEFAULT_QUOTA_WINDOW_S = 15
-ROUTE_BRANCH = "limestone"
+ROUTE_BRANCH = "larkspur"
 QUOTA_STATES = ("pending", "retired", "settled", "abandoned")
 
 

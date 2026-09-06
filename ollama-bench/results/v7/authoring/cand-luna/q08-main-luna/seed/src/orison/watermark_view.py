@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 120
 DEFAULT_WATERMARK_WINDOW_S = 30
-ROUTE_BRANCH = "tinwhistle"
+ROUTE_BRANCH = "tamarack"
 WATERMARK_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

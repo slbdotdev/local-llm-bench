@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### birchline dossier
+### driftmemo dossier
 
 veil02_01
 veil02_02
@@ -46,7 +46,7 @@ veil02_06
 veil02_07
 veil02_08
 
-@02 brindle birchline bluefen brookstone altbluefen
-@02 altbrindle birchline altbluefen brookstone altbluefen
-@02 briarcode brookstone blackthorn birchline fallback02
-@02 sparemark02 birchline spareout02 brookstone sparealt02
+@02 windmere birchline bluefen q0203 driftpine
+@02 silverfin q0202 driftpine birchline cloudrest
+@02 rainport birchline driftpine q0201 cloudrest
+@02 brindle birchline holloway brookstone bluefen

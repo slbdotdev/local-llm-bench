@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### elmshadow dossier
+### garnetbrief dossier
 
 veil05_01
 veil05_02
@@ -46,7 +46,7 @@ veil05_06
 veil05_07
 veil05_08
 
-@05 nightjar elmshadow mossvale evergreen altmossvale
-@05 altnightjar elmshadow altmossvale evergreen altmossvale
-@05 eastgrove evergreen evenfall elmshadow fallback05
-@05 sparemark05 elmshadow spareout05 evergreen sparealt05
+@05 nightjar elmshadow mossvale evergreen silverfin
+@05 bellmoss q0502 windmere elmshadow bracken
+@05 foxglove elmshadow windmere q0501 bracken
+@05 thistledown elmshadow silverfin q0503 windmere

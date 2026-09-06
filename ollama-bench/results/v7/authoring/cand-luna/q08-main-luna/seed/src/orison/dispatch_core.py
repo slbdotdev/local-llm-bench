@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 64
 DEFAULT_DISPATCH_WINDOW_S = 30
-ROUTE_BRANCH = "nutmegway"
+ROUTE_BRANCH = "northwind"
 DISPATCH_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

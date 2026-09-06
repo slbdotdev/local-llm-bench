@@ -23,18 +23,18 @@ CASES = [{'files': {'handoff.txt': 'mark_05: mossvale\n'
   'score': '9/9',
   'verdict': 'correct'},
  {'name': 'empty (untouched sandbox)', 'no_traceback': True, 'verdict': 'visibly_failed'},
- {'files': {'handoff.txt': 'mark_05: altmossvale\n'
-                           'mark_10: altsilverfin\n'
-                           'mark_15: altcloudrest\n'
-                           'mark_20: altriver\n'
-                           'terminal_marker: altwainscot\n'},
+ {'files': {'handoff.txt': 'mark_05: silverfin\n'
+                           'mark_10: cairnfall\n'
+                           'mark_15: rivercairn\n'
+                           'mark_20: silverfin\n'
+                           'terminal_marker: nightjar\n'},
   'name': 'wrong: certificate inversion ignored',
   'verdict': 'confidently_wrong'},
- {'files': {'handoff.txt': 'mark_05: altmossvale\n'
-                           'mark_10: altsilverfin\n'
-                           'mark_15: altcloudrest\n'
-                           'mark_20: altriver\n'
-                           'terminal_marker: altwainscot\n'},
+ {'files': {'handoff.txt': 'mark_05: windmere\n'
+                           'mark_10: moonbay\n'
+                           'mark_15: brindle\n'
+                           'mark_20: silverfin\n'
+                           'terminal_marker: nightjar\n'},
   'name': 'wrong: the other branch selected at every stage',
   'verdict': 'confidently_wrong'},
  {'files': {'handoff.txt': 'mark_05: mossvale\n'

@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### larkspur dossier
+### nectarlog dossier
 
 veil12_01
 veil12_02
@@ -46,7 +46,7 @@ veil12_06
 veil12_07
 veil12_08
 
-@12 driftpine larkspur stoneharbor limestone altstone
-@12 altdrift larkspur altstone limestone altstone
-@12 lowtide limestone millstone larkspur fallback12
-@12 sparemark12 larkspur spareout12 limestone sparealt12
+@12 starling larkspur goldenrod q1201 bluefen
+@12 brindle larkspur stoneharbor q1203 goldenrod
+@12 rivercairn q1202 goldenrod larkspur bluefen
+@12 driftpine larkspur thistledown limestone stoneharbor

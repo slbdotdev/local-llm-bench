@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### juniperway dossier
+### latticecard dossier
 
 veil10_01
 veil10_02
@@ -46,7 +46,7 @@ veil10_06
 veil10_07
 veil10_08
 
-@10 foxglove juniperway silverfin jasperline altsilverfin
-@10 altfoxglove juniperway altsilverfin jasperline altsilverfin
-@10 jadecrest jasperline kindling juniperway fallback10
-@10 sparemark10 juniperway spareout10 jasperline sparealt10
+@10 foxglove juniperway silverfin jasperline cloudrest
+@10 windmere juniperway moonbay q1001 cairnfall
+@10 wainscot juniperway cloudrest q1003 moonbay
+@10 bracken q1002 moonbay juniperway cairnfall

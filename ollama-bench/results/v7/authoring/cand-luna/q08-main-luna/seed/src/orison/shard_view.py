@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 480
 DEFAULT_SHARD_WINDOW_S = 180
-ROUTE_BRANCH = "flintroad"
+ROUTE_BRANCH = "frostmark"
 SHARD_STATES = ("pending", "settled", "settled", "abandoned")
 
 

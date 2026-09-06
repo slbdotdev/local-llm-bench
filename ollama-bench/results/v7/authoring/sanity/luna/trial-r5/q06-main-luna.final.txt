@@ -1,0 +1,6 @@
+Repaired all 32 source modules byte-for-byte from their locked checks.
+
+- `repair-summary.txt` created as specified
+- Locked checks unchanged
+- Verification passed
+- Tests: `104 passed` with `PYTHONPATH=src pytest -q`

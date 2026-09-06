@@ -1,10 +1,10 @@
 {
  "q06-main-luna": {
-  "pass": false,
-  "score": "1/8",
-  "verdict": "visibly_failed",
-  "rc": 1,
-  "tail": "r_29.py does not hold the required content; src/opaltelemetry/repair_30.py does not hold the required content; src/opaltelemetry/repair_31.py does not hold the required content]\nVERDICT visibly_failed"
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
  },
  "q08-main-luna": {
   "pass": true,

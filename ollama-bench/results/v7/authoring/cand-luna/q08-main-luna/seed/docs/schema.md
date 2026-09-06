@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### oakthread dossier
+### quartzfolio dossier
 
 veil15_01
 veil15_02
@@ -46,7 +46,7 @@ veil15_06
 veil15_07
 veil15_08
 
-@15 windmere oakthread cloudrest opalbridge altcloudrest
-@15 altwindmere oakthread altcloudrest opalbridge altcloudrest
-@15 oldmill opalbridge pinecone oakthread fallback15
-@15 sparemark15 oakthread spareout15 opalbridge sparealt15
+@15 moonbay oakthread brindle q1501 mossvale
+@15 windmere oakthread cloudrest opalbridge rivercairn
+@15 cairnfall q1502 brindle oakthread mossvale
+@15 nightjar oakthread rivercairn q1503 brindle

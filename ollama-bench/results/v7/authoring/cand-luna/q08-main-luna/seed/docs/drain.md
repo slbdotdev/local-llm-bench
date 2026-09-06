@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### ironleaf dossier
+### keystonepage dossier
 
 veil09_01
 veil09_02
@@ -46,7 +46,7 @@ veil09_06
 veil09_07
 veil09_08
 
-@09 amberfield ironleaf foxglove ivoryspan altfoxglove
-@09 altamber ironleaf altfoxglove ivoryspan altfoxglove
-@09 inkstone ivoryspan isletree ironleaf fallback09
-@09 sparemark09 ironleaf spareout09 ivoryspan sparealt09
+@09 thistledown q0902 bracken ironleaf wainscot
+@09 goldenrod ironleaf foxglove q0903 bracken
+@09 bellmoss ironleaf bracken q0901 wainscot
+@09 amberfield ironleaf windmere ivoryspan foxglove

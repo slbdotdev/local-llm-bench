@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### pineward dossier
+### rivetmemo dossier
 
 veil16_01
 veil16_02
@@ -46,7 +46,7 @@ veil16_06
 veil16_07
 veil16_08
 
-@16 cloudrest pineward starling pebblemark altstarling
-@16 altcloudrest pineward altstarling pebblemark altstarling
-@16 prairiekey pebblemark quickstep pineward fallback16
-@16 sparemark16 pineward spareout16 pebblemark sparealt16
+@16 rivercairn pineward bluefen q1601 rainport
+@16 cloudrest pineward goldenrod pebblemark starling
+@16 mossvale pineward starling q1603 bluefen
+@16 brindle q1602 bluefen pineward rainport

@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### marshlight dossier
+### opalrecord dossier
 
 veil13_01
 veil13_02
@@ -46,7 +46,7 @@ veil13_06
 veil13_07
 veil13_08
 
-@13 stoneharbor marshlight bellmoss maplecrest altbellmoss
-@13 altstone marshlight altbellmoss maplecrest altbellmoss
-@13 mistgate maplecrest newhaven marshlight fallback13
-@13 sparemark13 marshlight spareout13 maplecrest sparealt13
+@13 bluefen marshlight bracken q1303 wainscot
+@13 goldenrod q1302 wainscot marshlight copperwren
+@13 thistledown marshlight wainscot q1301 copperwren
+@13 stoneharbor marshlight bellmoss maplecrest bracken

@@ -18,8 +18,9 @@ The answer is not written in one file.  The initial marker is in one index-like 
 each of the 22 transitions requires its own component document, Python module and history
 entry.  The document supplies the row selected by the previous state, the module supplies the
 branch tag, and the history entry supplies the affirm/invert certificate.  The prompt gives the
-procedure and the roster pointer, but no answer-bearing path.  The sweep covers 28782 of
-34228 material tokens (84.1%), measured by the builder.
+procedure and the roster pointer, but no answer-bearing path.  The load-bearing FLOOR coverage
+is 28664 of 34108 material tokens (84.0%), measured by
+`check_load_bearing.py`; this is the floor-coverage figure, not a sweep label.
 
 `facts()` reads every row, branch tag, certificate and the starting marker back from `seed/`;
 it walks the chain itself, asserts exactly 22 steps and asserts that each incoming marker
@@ -117,15 +118,14 @@ the builder's measured load-bearing-token count divided by material tokens, not 
 - `src/orison/reconcile_store.py` — step 22's module branch tag (*branch-selection*)
 - `history/0021-reconcile.md` — step 22's affirm/invert certificate (*certificate*)
 
-## 6. Five-file floor and shortest attempted shortcut
+## 6. Measured documents-only attack
 
-The shortest complete correct reconstruction requires the 68 declared load-bearing
-files: the roster and start page, plus three different artifacts for each of the 22
-ordered transitions.  A two-file shortcut can expose the roster and initial marker but no
-transition result; it therefore cannot score a chain group.  The best short route represented
-here is the deliberately wrong certificate-ignored probe, which is a finished but
-`confidently_wrong` answer rather than a pass.  This is why the task is not reducible to a
-single index or to the first screen of the checkout.
+The smallest documents-only attempt that completed a full 22-step graph walk used 23 files:
+the start page and the 22 route documents.  It opened no manifest, module, or history file.
+The best of its two consistent slot choices scored 4/9 and was `confidently_wrong`; therefore
+the measured shortcut did not reconstruct the five checkpoints.  The 68 declared load-bearing
+paths are the full-procedure declaration, while this attack demonstrates that the documents
+alone do not supply a passing answer.
 
 ## 7. Grader and perturbations
 
@@ -139,4 +139,6 @@ leading blank line, and trailing spaces — remain correct at full score; no edi
 There is no departure from the specified Shape A requirement.  The chain uses plainly stated
 row lookup and conditional selection, not an encoding or judgement call.  The only assumption
 made by the spec is the generated corpus contract that the first 22 manifest stages have
-history entries; `_assert_layout()` fails the build if that measured premise is false.
+history entries; `_assert_layout()` fails the build if that measured premise is false.  The
+measured budget is **2 turns** and **256 output tokens**: the deliverable is five lines, while
+the extra output allowance covers the ordered replay bookkeeping.

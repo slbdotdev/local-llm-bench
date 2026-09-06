@@ -35,7 +35,7 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-### heathstone dossier
+### juniperfile dossier
 
 veil08_01
 veil08_02
@@ -46,7 +46,7 @@ veil08_06
 veil08_07
 veil08_08
 
-@08 holloway heathstone amberfield hazelturn altamber
-@08 altholloway heathstone altamber hazelturn altamber
-@08 highplain hazelturn hillcrest heathstone fallback08
-@08 sparemark08 heathstone spareout08 hazelturn sparealt08
+@08 holloway heathstone amberfield hazelturn bellmoss
+@08 starling q0802 thistledown heathstone goldenrod
+@08 rivercairn heathstone bellmoss q0803 thistledown
+@08 stoneharbor heathstone thistledown q0801 goldenrod

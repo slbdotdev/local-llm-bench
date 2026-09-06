@@ -21,4 +21,4 @@ responsible for reporting the shed count. The number itself is unchanged at 480.
 - No change to `DEFAULT_SHARD_LIMIT`.
 - The Delivery Engineering team owns the shed-count dashboard.
 
-@C invert
+@C affirm
