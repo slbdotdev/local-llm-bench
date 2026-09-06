@@ -1,0 +1,101 @@
+region,event,recorded_on,actor,detail
+backfill,opened,2033-01-02,C. Batbayar,regional review opened after the seasonal retention survey
+tenancy,opened,2033-01-10,N. Oyelaran,regional review opened after the seasonal retention survey
+digest,opened,2033-01-18,M. Lindqvist,regional review opened after the seasonal retention survey
+checkpoint,opened,2033-02-03,M. Lindqvist,regional review opened after the seasonal retention survey
+backfill,sampled,2033-02-04,C. Batbayar,sample window checked against the archived intake population
+ingest,opened,2033-02-11,S. Nwachukwu,regional review opened after the seasonal retention survey
+digest,sampled,2033-02-14,M. Lindqvist,sample window checked against the archived intake population
+throttle,opened,2033-02-19,C. Batbayar,regional review opened after the seasonal retention survey
+tenancy,sampled,2033-02-20,N. Oyelaran,sample window checked against the archived intake population
+shard,opened,2033-03-04,A. Villanueva,regional review opened after the seasonal retention survey
+checkpoint,sampled,2033-03-06,M. Lindqvist,sample window checked against the archived intake population
+quota,opened,2033-03-12,M. Lindqvist,regional review opened after the seasonal retention survey
+throttle,sampled,2033-03-16,C. Batbayar,sample window checked against the archived intake population
+audit,opened,2033-03-20,R. Okonjo,regional review opened after the seasonal retention survey
+ingest,sampled,2033-03-22,S. Nwachukwu,sample window checked against the archived intake population
+replay,opened,2033-04-05,S. Nwachukwu,regional review opened after the seasonal retention survey
+shard,sampled,2033-04-08,A. Villanueva,sample window checked against the archived intake population
+attestation,opened,2033-04-13,R. Okonjo,regional review opened after the seasonal retention survey
+audit,sampled,2033-04-18,R. Okonjo,sample window checked against the archived intake population
+quota,sampled,2033-04-24,M. Lindqvist,sample window checked against the archived intake population
+attestation,sampled,2033-05-04,R. Okonjo,sample window checked against the archived intake population
+drain,opened,2033-05-06,R. Okonjo,regional review opened after the seasonal retention survey
+replay,sampled,2033-05-10,S. Nwachukwu,sample window checked against the archived intake population
+routing,opened,2033-05-14,T. Abarca,regional review opened after the seasonal retention survey
+routing,sampled,2033-06-06,T. Abarca,sample window checked against the archived intake population
+ledger,opened,2033-06-07,J. Maldonado,regional review opened after the seasonal retention survey
+drain,sampled,2033-06-12,R. Okonjo,sample window checked against the archived intake population
+watermark,opened,2033-06-15,J. Maldonado,regional review opened after the seasonal retention survey
+compaction,opened,2033-07-08,S. Nwachukwu,regional review opened after the seasonal retention survey
+watermark,sampled,2033-07-08,J. Maldonado,sample window checked against the archived intake population
+ledger,sampled,2033-07-14,J. Maldonado,sample window checked against the archived intake population
+dispatch,opened,2033-07-16,A. Villanueva,regional review opened after the seasonal retention survey
+reconcile,opened,2033-08-09,T. Abarca,regional review opened after the seasonal retention survey
+dispatch,sampled,2033-08-10,A. Villanueva,sample window checked against the archived intake population
+compaction,sampled,2033-08-16,S. Nwachukwu,sample window checked against the archived intake population
+retention,opened,2033-08-17,L. Achterberg,regional review opened after the seasonal retention survey
+retention,sampled,2033-09-12,L. Achterberg,sample window checked against the archived intake population
+reconcile,sampled,2033-09-18,T. Abarca,sample window checked against the archived intake population
+backfill,reviewed,2034-01-05,C. Batbayar,reviewer accepted the evidence set for retention assessment
+dispatch,reviewed,2034-01-25,A. Villanueva,reviewer accepted the evidence set for retention assessment
+reconcile,reviewed,2034-01-26,T. Abarca,reviewer accepted the evidence set for retention assessment
+retention,reviewed,2034-02-06,L. Achterberg,reviewer accepted the evidence set for retention assessment
+tenancy,reviewed,2034-02-07,N. Oyelaran,reviewer accepted the evidence set for retention assessment
+checkpoint,reviewed,2034-02-08,M. Lindqvist,reviewer accepted the evidence set for retention assessment
+digest,reviewed,2034-03-09,M. Lindqvist,reviewer accepted the evidence set for retention assessment
+ingest,reviewed,2034-03-10,S. Nwachukwu,reviewer accepted the evidence set for retention assessment
+shard,reviewed,2034-03-11,A. Villanueva,reviewer accepted the evidence set for retention assessment
+throttle,reviewed,2034-04-12,C. Batbayar,reviewer accepted the evidence set for retention assessment
+quota,reviewed,2034-04-13,M. Lindqvist,reviewer accepted the evidence set for retention assessment
+replay,reviewed,2034-04-14,S. Nwachukwu,reviewer accepted the evidence set for retention assessment
+audit,reviewed,2034-05-15,R. Okonjo,reviewer accepted the evidence set for retention assessment
+attestation,reviewed,2034-05-16,R. Okonjo,reviewer accepted the evidence set for retention assessment
+drain,reviewed,2034-05-17,R. Okonjo,reviewer accepted the evidence set for retention assessment
+routing,reviewed,2034-06-19,T. Abarca,reviewer accepted the evidence set for retention assessment
+ledger,reviewed,2034-06-20,J. Maldonado,reviewer accepted the evidence set for retention assessment
+backfill,verified,2034-07-02,C. Batbayar,retention verification completed for the current evidence packet
+backfill,countersigned,2034-07-09,C. Batbayar,countersigns verification dated 2034-07-02 after the second reviewer checked provenance
+retention,verified,2034-07-11,L. Achterberg,retention verification completed for the current evidence packet
+ledger,verified,2034-07-13,J. Maldonado,retention verification completed for the current evidence packet
+retention,countersigned,2034-07-18,L. Achterberg,countersigns verification dated 2034-07-11 after the second reviewer checked provenance
+ledger,countersigned,2034-07-20,J. Maldonado,countersigns verification dated 2034-07-13 after the second reviewer checked provenance
+watermark,reviewed,2034-07-22,J. Maldonado,reviewer accepted the evidence set for retention assessment
+compaction,reviewed,2034-07-23,S. Nwachukwu,reviewer accepted the evidence set for retention assessment
+quota,verified,2034-07-24,M. Lindqvist,retention verification completed for the current evidence packet
+quota,countersigned,2034-07-31,M. Lindqvist,countersigns verification dated 2034-07-24 after the second reviewer checked provenance
+digest,verified,2034-08-18,M. Lindqvist,retention verification completed for the current evidence packet
+compaction,verified,2034-08-20,S. Nwachukwu,retention verification completed for the current evidence packet
+digest,countersigned,2034-08-25,M. Lindqvist,countersigns verification dated 2034-08-18 after the second reviewer checked provenance
+compaction,countersigned,2034-08-27,S. Nwachukwu,countersigns verification dated 2034-08-20 after the second reviewer checked provenance
+routing,verified,2034-09-14,T. Abarca,retention verification completed for the current evidence packet
+routing,countersigned,2034-09-21,T. Abarca,countersigns verification dated 2034-09-14 after the second reviewer checked provenance
+throttle,verified,2034-09-25,C. Batbayar,retention verification completed for the current evidence packet
+throttle,countersigned,2034-10-02,C. Batbayar,countersigns verification dated 2034-09-25 after the second reviewer checked provenance
+tenancy,verified,2034-10-10,N. Oyelaran,retention verification completed for the current evidence packet
+tenancy,countersigned,2034-10-17,N. Oyelaran,countersigns verification dated 2034-10-10 after the second reviewer checked provenance
+replay,verified,2034-10-23,S. Nwachukwu,retention verification completed for the current evidence packet
+replay,countersigned,2034-10-30,S. Nwachukwu,countersigns verification dated 2034-10-23 after the second reviewer checked provenance
+dispatch,verified,2034-11-04,A. Villanueva,retention verification completed for the current evidence packet
+dispatch,countersigned,2034-11-11,A. Villanueva,countersigns verification dated 2034-11-04 after the second reviewer checked provenance
+ingest,verified,2034-11-17,S. Nwachukwu,retention verification completed for the current evidence packet
+ingest,countersigned,2034-11-24,S. Nwachukwu,countersigns verification dated 2034-11-17 after the second reviewer checked provenance
+checkpoint,verified,2035-02-08,M. Lindqvist,retention verification completed for the current evidence packet
+checkpoint,countersigned,2035-02-15,M. Lindqvist,countersigns verification dated 2035-02-08 after the second reviewer checked provenance
+drain,verified,2035-02-23,R. Okonjo,retention verification completed for the current evidence packet
+drain,countersigned,2035-03-02,R. Okonjo,countersigns verification dated 2035-02-23 after the second reviewer checked provenance
+shard,verified,2035-03-05,A. Villanueva,verification recorded before the amended retention rule
+attestation,verified,2035-03-10,R. Okonjo,retention verification completed for the current evidence packet
+shard,voided,2035-03-14,A. Villanueva,voids the verification recorded on 2035-03-05 after a stale sample was found
+attestation,countersigned,2035-03-17,R. Okonjo,countersigns verification dated 2035-03-10 after the second reviewer checked provenance
+watermark,verified,2035-05-17,J. Maldonado,retention verification completed for the current evidence packet
+watermark,countersigned,2035-05-24,J. Maldonado,countersigns verification dated 2035-05-17 after the second reviewer checked provenance
+audit,verified,2035-06-08,R. Okonjo,retention verification completed for the current evidence packet
+shard,verified,2035-06-08,A. Villanueva,retention verification completed for the current evidence packet
+audit,countersigned,2035-06-15,R. Okonjo,countersigns verification dated 2035-06-08 after the second reviewer checked provenance
+shard,countersigned,2035-06-15,A. Villanueva,countersigns verification dated 2035-06-08 after the second reviewer checked provenance
+reconcile,verified,2035-07-23,T. Abarca,retention verification completed for the current evidence packet
+reconcile,countersigned,2035-07-30,T. Abarca,countersigns verification dated 2035-07-23 after the second reviewer checked provenance
+drain,verified,2035-08-08,R. Okonjo,verification recorded during a duplicate audit pass
+drain,voided,2035-08-17,R. Okonjo,voids the duplicate verification recorded on 2035-08-08
+attestation,verified,2035-09-14,R. Okonjo,verification recorded but awaiting the required counter-signature

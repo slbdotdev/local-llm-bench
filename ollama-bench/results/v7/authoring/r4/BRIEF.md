@@ -168,10 +168,26 @@ mount: read files with `cat` or `sed -n` on a named path, never a recursive `fin
   four causal hops: each of those fails Sonnet too and marks the task unfair rather than hard.
 - **`python` is not on the sandbox's path. Write `python3`.**
 
+## 6a. The floor-coverage addition, measured tonight
+
+Added after the round's first two candidates were built, and it applies to every slot.
+`python3 r4/check_load_bearing.py cand-<family>/<slot>` prints a **floor coverage** column: the
+load-bearing files as a fraction of the whole material. One candidate measured 28.7% and one
+measured 5.7%. The second is at real risk, because the GPU acceptance gate requires the trial to
+**name files totalling 50% of the material**, and a task whose decisive files are 6% of the tree
+can be solved perfectly while naming almost nothing.
+
+**Aim for a floor coverage of about 25% or more.** Put the per-unit records, their supporting
+ledgers, and the artifacts a reader must open in order to rule them out, *into* the load-bearing
+set, and make those files substantial, rather than deriving the answer from a handful of small
+ones. This is an addition to the H1/H2/H3 limits and never a replacement for them: the harvest
+check and the coverage gate pull in different directions, and a candidate has to satisfy both.
+
 ## 7. Report
 
 When the checks are clean, reply with: the slot; the row `build.py` printed (tokens, files,
 load-bearing count, hops, sweep tokens, coverage %); the measured band; the H1 and H2 that
 `check_harvest.py` printed at C=2 and which token drove H1; one line per check saying it passed;
-which of section 4's mechanisms you used and for how many of your units; where your candidate
+the floor coverage `check_load_bearing.py` printed; which of section 4's mechanisms you
+used and for how many of your units; where your candidate
 departs from the research idea and why; and anything you are unsure of. Nothing else.
