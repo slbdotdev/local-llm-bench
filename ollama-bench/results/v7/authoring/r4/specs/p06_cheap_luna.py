@@ -402,9 +402,9 @@ candidate does not claim eight decorative replay units as answer-bearing evidenc
 ## 3. Rung 0 and sweep
 
 The prompt legitimately names the visible test and the editable implementation.  It names no
-contract, trace, call record or replay-rule path.  No seed file assembles the repair: the test
+contract, trace, call record or implementation-policy path.  No seed file assembles the repair: the test
 supplies examples, the trace diagnoses it, the decision owns the rule, the call record supplies
-the link, and the replay rule corroborates the endpoint convention.  The sweep
+the link, and the implementation policy corroborates the endpoint convention.  The sweep
 covers %(sweep)d of %(tokens)d measured seed tokens (%(pct)s%%), within the 60-80%% target.
 
 ## 4. Grader soundness
@@ -451,7 +451,7 @@ from generated configuration, history, documentation and unrelated verification 
 | trailing spaces | correct, 6/6 |
 
 Every reference assertion is derived while reading seed/: the contract phrase, trace cause,
-call links and replay rule are checked before the reference is emitted.  The per-unit harvest
+call links and implementation policy are checked before the reference is emitted.  The per-unit harvest
 mechanism is explicitly exempt because no unit changes the graded decoder behavior.
 """ % {
         "slot": SLOT, "mode": MODE,

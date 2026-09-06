@@ -146,7 +146,7 @@ def seed_lines(seed):
     return out
 
 
-SPLIT = re.compile(r"\s*(?:->|=>|\|\||[|,;=]|\s)\s*")
+SPLIT = re.compile(r"\s*(?:->|=>|\|\||[|,;=/\\.\-_]|\s)\s*")
 
 
 def components(value, unit):
@@ -308,6 +308,9 @@ def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
     for u in units:
         name = u["unit"]
         parts = components(u["value"], name)
+        whole = str(u["value"]).strip()
+        if len(whole) >= FRAME_MIN_CHARS and whole.lower() not in [x.lower() for x in parts]:
+            parts = parts + [whole]
         if not parts:
             empty.append("%s (%r has no part the roster does not already give away)"
                          % (name, u["value"]))

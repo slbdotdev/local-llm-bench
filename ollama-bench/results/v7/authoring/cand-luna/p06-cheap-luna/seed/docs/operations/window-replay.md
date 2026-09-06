@@ -1,10 +1,10 @@
-# Replaying a relay window
+# Relay window implementation policy
 
-For each named component, read its opening and handoff marks in the order recorded.  Replay
-uses the interval beginning at the first mark and stopping before the second mark.  The
-interval itself is derived from the two marks; no record is allowed to state a ready-made
-span.  This page connects the call record to the per-component traces and is also the check
-against accidentally repairing the assertion instead of the decoder.
+The boundary adapter must implement the contract owned by the linked decision record.  The
+implementation is the production repair target identified by the relay call configuration;
+the visible assertion is verification evidence, not an instruction to weaken the test.
 
-If a component has no ordered pair, treat the material as incomplete rather than inventing a
-boundary.  The supplied records each contain one bounded pair.
+Apply the same endpoint and input-validation policy to every call.  A source edit is complete
+only when the public behavior and public kind label agree with the decision and the failure
+trace.  This policy is intentionally prose: the exact behavior must be recovered from the
+linked evidence rather than copied from this page.

@@ -5,6 +5,4 @@ failure_trace = "traces/decoder-failure.md"
 contract_note = "docs/decisions/relay-window.md"
 visible_check = "tests/test_decoder.py"
 
-[relay_window.replay]
-ordering = "opening mark before handoff mark"
-record_root = "records/window/"
+implementation = "src/relay/decoder.py"
