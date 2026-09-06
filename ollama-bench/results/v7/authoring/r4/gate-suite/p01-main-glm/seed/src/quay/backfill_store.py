@@ -23,10 +23,6 @@ class BackfillPlanner:
         self._slots = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-12-31, cleared through 2034-12-23
-    # (Older entries are rotated off this note and kept with the evidence.)
     def advance(self, key, payload=None):
         """Advance the slot named ``key``.
 
@@ -86,3 +82,11 @@ def build_backfill(config):
         limit=section.get("limit", DEFAULT_BACKFILL_LIMIT),
         window_s=section.get("window_s", DEFAULT_BACKFILL_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the rotation reached this crate and hauled off everything older than the line below;
+#     ran: 2034-12-31
+#     through: 2034-12-23
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

@@ -23,6 +23,7 @@ case "$band" in
 esac
 tag=${2:-v7r4-gate-$band}
 tasks=${3:-}
+trials=${4:-1}
 if [ -z "$tasks" ]; then
   tasks=$(for s in $(ls -1 "$dir"); do
     b=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('band','main'))" "$dir/$s/MANIFEST.json")
@@ -30,10 +31,10 @@ if [ -z "$tasks" ]; then
   done | paste -sd, -)
 fi
 [ -n "$tasks" ] || { echo "no $want slots staged" >&2; exit 2; }
-echo "=== $(date +%H:%M:%S) CELL $tag model=$model ctx=$ctx trials=1 timeout=${timeout}s" >&2
+echo "=== $(date +%H:%M:%S) CELL $tag model=$model ctx=$ctx trials=$trials timeout=${timeout}s" >&2
 echo "=== tasks: $tasks" >&2
 "$PY" pibench.py --models "$model" --tasks "$tasks" --tasks-dir "$dir" \
-  --trials 1 --think medium --num-ctx "$ctx" --no-tps --timeout "$timeout" --tag "$tag"
+  --trials "$trials" --think medium --num-ctx "$ctx" --no-tps --timeout "$timeout" --tag "$tag"
 rc=$?
 echo "=== $(date +%H:%M:%S) DONE $tag rc=$rc" >&2
 exit $rc

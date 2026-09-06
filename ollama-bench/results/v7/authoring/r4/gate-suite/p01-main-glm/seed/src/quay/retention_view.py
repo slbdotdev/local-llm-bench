@@ -23,10 +23,6 @@ class RetentionRegistry:
         self._bundles = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-10-09, cleared through 2034-09-29
-    # (Older entries are rotated off this note and kept with the evidence.)
     def retire(self, key, payload=None):
         """Retire the bundle named ``key``.
 
@@ -86,3 +82,11 @@ def build_retention(config):
         limit=section.get("limit", DEFAULT_RETENTION_LIMIT),
         window_s=section.get("window_s", DEFAULT_RETENTION_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the vacuum swept this shelf down to everything logged since that line;
+#     ran: 2034-09-14
+#     through: 2034-09-04
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

@@ -23,10 +23,6 @@ class EnvelopeEngine:
         self._cursors = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-10-17, cleared through 2034-10-08
-    # (Older entries are rotated off this note and kept with the evidence.)
     def defer(self, key, payload=None):
         """Defer the cursor named ``key``.
 
@@ -86,3 +82,11 @@ def build_envelope(config):
         limit=section.get("limit", DEFAULT_ENVELOPE_LIMIT),
         window_s=section.get("window_s", DEFAULT_ENVELOPE_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# kept current: the scrubber's last run removed all items from earlier than the line below;
+#     ran: 2034-09-22
+#     through: 2034-09-13
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

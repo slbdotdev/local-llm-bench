@@ -37,10 +37,14 @@ if [ "${V7_KEEP:-}" = "1" ]; then
 fi
 
 quant=$1; ctxname=$2; ctx=$3; band=$4; trials=$5; tag=$6; tasks=${7:-}
-dir=results/v7/authoring/suite
+# V7_CELL_DIR points the cell at a directory other than the accepted suite, which is how a
+# candidate gets its calibration trials under the round's final tags before admission: a
+# candidate keeps its own slot name in the suite, so the (task, trial) pairs match and the
+# post-admission cell resumes them instead of repeating them.
+dir=${V7_CELL_DIR:-results/v7/authoring/suite}
 case $band in
   main)  to=900 ;;
-  cheap) to=300 ;;
+  cheap) to=${V7_CHEAP_TIMEOUT:-300} ;;
   *) echo "unknown band $band" >&2; exit 2 ;;
 esac
 if [ -z "$tasks" ]; then

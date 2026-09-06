@@ -48,5 +48,15 @@
   "wall_s": 87.2,
   "codex_rc": 0,
   "timed_out": false
+ },
+ "p01-main-glm": {
+  "pass": false,
+  "score": "7/8",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 7/8\nSCOPE created []; missing []\nFAIL [each component's protection horizon: wrong value for regression_evidence]\nVERDICT confidently_wrong",
+  "wall_s": 143.5,
+  "codex_rc": 0,
+  "timed_out": false
  }
 }

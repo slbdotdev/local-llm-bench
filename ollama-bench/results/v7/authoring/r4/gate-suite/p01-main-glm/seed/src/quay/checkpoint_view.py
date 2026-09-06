@@ -23,10 +23,6 @@ class CheckpointRegistry:
         self._manifests = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-02-06, cleared through 2035-01-27
-    # (Older entries are rotated off this note and kept with the evidence.)
     def resolve(self, key, payload=None):
         """Resolve the manifest named ``key``.
 
@@ -86,3 +82,11 @@ def build_checkpoint(config):
         limit=section.get("limit", DEFAULT_CHECKPOINT_LIMIT),
         window_s=section.get("window_s", DEFAULT_CHECKPOINT_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the pass wiped this locker of signatures up to and including the line below;
+#     ran: 2035-02-03
+#     through: 2035-01-24
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

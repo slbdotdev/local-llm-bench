@@ -37,10 +37,10 @@ CASES = [{'files': {'compatibility-report.txt': 'required_behavior: thirty-day r
                                         '2035-01-17, 2035-01-15, 2035-01-05, 2035-01-13, '
                                         '2035-01-21, 2035-01-10, 2035-01-11, 2035-01-23, '
                                         '2035-01-04, 2035-01-06, 2035-01-14, 2035-01-12\n'},
-  'name': 'wrong: every cleared store, the term never applied',
+  'name': 'wrong: every emptied store, the term never applied',
   'verdict': 'confidently_wrong'},
  {'files': {'compatibility-report.txt': 'required_behavior: fourteen-day replay term\n'
-                                        'affected_components: backfill, quota, watermark\n'
+                                        'affected_components: backfill, watermark\n'
                                         'authoritative_record: REL-2031-02\n'
                                         'regression_evidence: 2034-12-31, 2035-01-03, '
                                         '2034-12-22, 2035-01-02, 2034-12-24, 2034-12-23, '
@@ -147,8 +147,8 @@ CASES = [{'files': {'compatibility-report.txt': 'required_behavior: thirty-day r
                                             'It rules on compatibility and on nothing else. '
                                             'Which stages meet the promise today is a\n'
                                             "question about each stage's own records - the "
-                                            'acknowledged deliveries its page tables and\n'
-                                            'the sweep state its module keeps - and is '
+                                            'acknowledged deliveries its page logs and\n'
+                                            'the shelf line its module keeps - and is '
                                             'answered there, not here. This record does not\n'
                                             'name stages, does not table deliveries and does '
                                             'not carry waterlines; a ruling that\n'

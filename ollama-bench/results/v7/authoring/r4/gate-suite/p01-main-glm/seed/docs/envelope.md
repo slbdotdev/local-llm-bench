@@ -35,17 +35,15 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Acknowledged deliveries
+## Signatures collected
 
-*This stage's record of the deliveries it has acknowledged in the current half-
-year, newest first. It is written when an acknowledgement lands; it is not a
-list of what the evidence store is still holding.*
+*What this page's engine has signed for in the current half-year, oldest
+signature last. The log grows as each signature lands; what the shelf is
+still holding is a separate matter, kept beside the engine itself.*
 
-| delivery | acknowledged |
-| --- | --- |
-| DLV-5140 | 2034-12-18 |
-| DLV-5141 | 2034-12-07 |
-| DLV-5142 | 2034-11-26 |
-| DLV-5143 | 2034-11-15 |
-| DLV-5144 | 2034-11-04 |
-| DLV-5145 | 2034-10-24 |
+- DLV-5145 2034-10-24
+- DLV-5144 2034-11-04
+- DLV-5143 2034-11-15
+- DLV-5142 2034-11-26
+- DLV-5141 2034-12-07
+- DLV-5140 2034-12-18

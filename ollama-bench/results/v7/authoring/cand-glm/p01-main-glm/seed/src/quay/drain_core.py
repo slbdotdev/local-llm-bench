@@ -23,10 +23,6 @@ class DrainGateway:
         self._records = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-10-01, cleared through 2034-09-25
-    # (Older entries are rotated off this note and kept with the evidence.)
     def reconcile(self, key, payload=None):
         """Reconcile the record named ``key``.
 
@@ -86,3 +82,11 @@ def build_drain(config):
         limit=section.get("limit", DEFAULT_DRAIN_LIMIT),
         window_s=section.get("window_s", DEFAULT_DRAIN_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the rotation took the bin of signatures logged at or before the line below;
+#     ran: 2034-09-06
+#     through: 2034-08-31
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

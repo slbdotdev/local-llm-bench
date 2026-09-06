@@ -23,10 +23,6 @@ class RollupRegistry:
         self._frames = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-01-26, cleared through 2034-12-27
-    # (Older entries are rotated off this note and kept with the evidence.)
     def admit(self, key, payload=None):
         """Admit the frame named ``key``.
 
@@ -86,3 +82,11 @@ def build_rollup(config):
         limit=section.get("limit", DEFAULT_ROLLUP_LIMIT),
         window_s=section.get("window_s", DEFAULT_ROLLUP_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the flush carried off all signatures at or before the line below;
+#     ran: 2035-01-01
+#     through: 2034-12-27
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

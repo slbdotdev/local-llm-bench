@@ -23,10 +23,6 @@ class ReplayRegistry:
         self._windows = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-02-05, cleared through 2035-01-29
-    # (Older entries are rotated off this note and kept with the evidence.)
     def classify(self, key, payload=None):
         """Classify the window named ``key``.
 
@@ -86,3 +82,11 @@ def build_replay(config):
         limit=section.get("limit", DEFAULT_REPLAY_LIMIT),
         window_s=section.get("window_s", DEFAULT_REPLAY_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the pass took all items up to and including that boundary off the racks;
+#     ran: 2035-02-05
+#     through: 2035-01-29
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

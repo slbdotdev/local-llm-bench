@@ -23,10 +23,6 @@ class ReconcileLedger:
         self._cursors = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-01-31, cleared through 2035-01-24
-    # (Older entries are rotated off this note and kept with the evidence.)
     def settle(self, key, payload=None):
         """Settle the cursor named ``key``.
 
@@ -86,3 +82,11 @@ def build_reconcile(config):
         limit=section.get("limit", DEFAULT_RECONCILE_LIMIT),
         window_s=section.get("window_s", DEFAULT_RECONCILE_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# sweeper's entry: signatures dated no later than the boundary were expunged;
+#     ran: 2035-01-28
+#     through: 2035-01-22
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

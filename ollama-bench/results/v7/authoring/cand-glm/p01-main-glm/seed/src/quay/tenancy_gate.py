@@ -23,10 +23,6 @@ class TenancyEngine:
         self._segments = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-02-02, cleared through 2035-01-25
-    # (Older entries are rotated off this note and kept with the evidence.)
     def settle(self, key, payload=None):
         """Settle the segment named ``key``.
 
@@ -86,3 +82,11 @@ def build_tenancy(config):
         limit=section.get("limit", DEFAULT_TENANCY_LIMIT),
         window_s=section.get("window_s", DEFAULT_TENANCY_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the purge flushed all signatures from dates up to and including the line below;
+#     ran: 2035-02-02
+#     through: 2035-01-25
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

@@ -50,9 +50,10 @@ configuration decision is under `history/`.
 - `docs/releases/` - the release notes and rationales. A promise a release made is stated
   in its own rationale and nowhere else; a note a later release superseded is evidence,
   never a live promise.
-- Every component page under `docs/` tables the deliveries its stage has acknowledged,
-  newest first, under *Acknowledged deliveries*. The table is the stage's record of what
-  it has acknowledged; it is not a list of what its evidence store is still holding.
-- Every module under `src/` keeps its sweep state beside its engine class: the nightly
-  sweep empties the stage's evidence store of every delivery acknowledged on or before
-  the waterline the module records, and nothing newer.
+- Every component page under `docs/` ends with the log of the deliveries its stage has
+  acknowledged, oldest signature last, under a heading the page picks for itself. The log
+  is the stage's record of what it has acknowledged; it is not a list of what its evidence
+  store is still holding.
+- Every module under `src/` closes with a shelf line at the foot of the file: the nightly
+  sweep empties the stage's evidence store of every delivery acknowledged on or before the
+  through-date the line records, on the run-date it records, and nothing newer.

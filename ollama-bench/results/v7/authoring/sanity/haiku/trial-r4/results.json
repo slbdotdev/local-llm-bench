@@ -33,5 +33,12 @@
   "verdict": "correct",
   "rc": 0,
   "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "p01-main-glm": {
+  "pass": false,
+  "score": "6/8",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": " []; missing []\nFAIL [the promise's term, as the record words it: wrong value for required_behavior; each component's protection horizon: wrong value for regression_evidence]\nVERDICT confidently_wrong"
  }
 }

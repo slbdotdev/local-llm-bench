@@ -23,10 +23,6 @@ class DispatchPlanner:
         self._records = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-10-05, cleared through 2034-09-27
-    # (Older entries are rotated off this note and kept with the evidence.)
     def narrow(self, key, payload=None):
         """Narrow the record named ``key``.
 
@@ -86,3 +82,11 @@ def build_dispatch(config):
         limit=section.get("limit", DEFAULT_DISPATCH_LIMIT),
         window_s=section.get("window_s", DEFAULT_DISPATCH_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# nightly prune: items signed for by the through-date are gone;
+#     ran: 2034-09-10
+#     through: 2034-09-02
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

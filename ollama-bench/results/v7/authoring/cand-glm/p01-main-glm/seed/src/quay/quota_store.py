@@ -23,10 +23,6 @@ class QuotaLedger:
         self._batchs = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2034-12-19, cleared through 2034-12-09
-    # (Older entries are rotated off this note and kept with the evidence.)
     def narrow(self, key, payload=None):
         """Narrow the batch named ``key``.
 
@@ -86,3 +82,11 @@ def build_quota(config):
         limit=section.get("limit", DEFAULT_QUOTA_LIMIT),
         window_s=section.get("window_s", DEFAULT_QUOTA_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the scrub struck the drawer of signatures at or before the boundary;
+#     ran: 2034-12-29
+#     through: 2034-12-25
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.

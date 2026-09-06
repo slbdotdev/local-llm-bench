@@ -23,10 +23,6 @@ class IngestEngine:
         self._handles = {}
         self._sealed = False
 
-    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep 2035-01-30, cleared through 2035-01-20
-    # (Older entries are rotated off this note and kept with the evidence.)
     def reconcile(self, key, payload=None):
         """Reconcile the handle named ``key``.
 
@@ -86,3 +82,11 @@ def build_ingest(config):
         limit=section.get("limit", DEFAULT_INGEST_LIMIT),
         window_s=section.get("window_s", DEFAULT_INGEST_WINDOW_S),
     )
+
+# Shelf line for this engine, kept current and rewritten after every pass.
+# The two dated lines at the foot are all there is to it.
+# the nightly pass stripped this rack of receipts dated before that line;
+#     ran: 2035-01-30
+#     through: 2035-01-20
+# Older passes are not shown here; only the latest one is. Earlier
+# ledger lines went to the archive.
