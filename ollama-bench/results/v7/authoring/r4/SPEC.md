@@ -222,13 +222,18 @@ token, and some line carries *u*'s identifier or the file is *u*'s own declared 
 
 | measure | what it is | limit |
 | --- | --- | --- |
-| **H1** | the largest fraction of units any single token of *G* harvests | **< 1/3** |
-| **H2** | the fraction the one regex alternating over every roster unit name harvests | **< 1/2** |
+| **H1** | the largest fraction of units any single token of *G* harvests, at C = 2 | **< 1/4** |
+| **H2** | the fraction the one regex alternating over every roster unit name harvests, at C = 2 | **< 2/5** |
+| **H3** | H1 again at C = 5, a five-line record block rather than a two-line window | **< 1/3** |
+| *P2* | the best union of two giveaway tokens | *reported, not gated* |
 
-Both gated at **C = 2**, the window an agentic model actually asks for; C = 0 and C = 5 are
-printed beside them and are not gated. The two limits are **chosen, not measured**, for the
-reasons the checker's docstring gives, and are to be re-derived from this round's measured
-coverage exactly as plan section 2.4 says of its own six, three and five.
+C = 2 is the window an agentic model actually asks for; C = 0 is printed beside the rest and is
+not gated. The limits are **chosen, not measured**: the first draft gated H1 < 1/3 and
+H2 < 1/2, `results/v7/research-r4-2026-09-09.md` section 4 measured what those still concede
+(six of twenty units to one token, nine to the roster regex) and recommended 1/4 and 2/5, and
+that recommendation is adopted with H3 added. They are to be re-derived from this round's
+measured coverage exactly as plan section 2.4 says of its own six, three and five. P2 stays a
+diagnostic until the campaign fixes an explicit query budget.
 
 A unit whose value never occurs literally anywhere under `seed/` is **derived**: it cannot be
 harvested at all, and it is the strongest answer to this check. A declared value matching more

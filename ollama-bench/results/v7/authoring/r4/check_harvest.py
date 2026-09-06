@@ -40,25 +40,31 @@ The second clause is what makes it a harvest rather than a coincidence: `grep -C
 shows a number without saying which unit owns it is not an answer, and the value inside the
 unit's own file is attributed to that unit by the file it sits in.
 
-  * **H1** = max over *t* in *G* of the fraction of units harvested by *t*.
+  * **H1** = max over *t* in *G* of the fraction of units harvested by *t*, at C = 2.
   * **H2** = the fraction of units harvested by the single regular expression alternating over
     every unit identifier — one grep, `grep -nE '(unit-01|unit-02|...)' -C2`, which is what an
     agent that has the roster actually runs.
+  * **H3** = H1 again at C = 5, because a token can miss the decisive line under ±2 and still
+    catch it inside a five-line record block.
 
-**A candidate passes when H1 < 1/3 and H2 < 1/2, measured at C = 2.** C = 0 and C = 5 are
-reported beside them and are not gated: C = 2 is the window an agentic model actually asks for,
-C = 0 is the floor and C = 5 the pessimistic bound.
+**A candidate passes when H1 < 1/4, H2 < 2/5 and H3 < 1/3.** C = 0 is reported beside them and
+is not gated.
+
+Reported and **not** gated: **P2**, the best union of two giveaway tokens over the thirty widest,
+which is a two-grep attack. It is a diagnostic until the campaign fixes an explicit query budget:
+a model that may run any number of greps is not bounded by any pair, and a model that runs one
+is bounded by H1.
 
 ## Why those numbers
 
-They are chosen, not measured, and this file says so. 1/3 for H1 is the point at which a
-grepper still has to open two thirds of the units by hand, so the traversal the coverage gate
-measures cannot be skipped; below that the check would forbid designs a fair reader needs (a
-roster that names units near their records is legitimate material). 1/2 for H2 is looser
-because the roster alternation is a strictly stronger attack that the task's own scope hands the
-solver: forbidding it outright would forbid per-unit records altogether. Both are to be
-re-derived from the first round-four sweep's measured coverage, exactly as plan section 2.4
-says of its own six/three/five.
+They are chosen, not measured, and this file says so. The first draft gated H1 < 1/3 and
+H2 < 1/2. `results/v7/research-r4-2026-09-09.md` section 4 measured what those still concede —
+on a twenty-unit task, six units to one token and nine to the roster regex, which is a
+substantial partial answer a solver finishes from one rule page — and recommended 1/4 and 2/5.
+That recommendation is adopted, with H3 added at 1/3, because the round has a mechanism (a value
+derived from records and never stated) that reaches H1 = H2 = H3 = 0 outright, so the strict
+numbers forbid no design the round wants. All three are to be re-derived from this round's
+measured coverage exactly as plan section 2.4 says of its own six, three and five.
 
 A unit whose value never occurs literally anywhere under `seed/` is **derived**, is reported as
 such, and can never be harvested — that is n09-cheap-luna's shape and it is the strongest
@@ -77,9 +83,12 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 AUTHORING = os.path.dirname(HERE)
 
-H1_MAX = 1.0 / 3.0
-H2_MAX = 0.5
+H1_MAX = 0.25
+H2_MAX = 0.40
+H3_MAX = 1.0 / 3.0
 CONTEXT = 2
+WIDE = 5
+PAIR_TOP = 30
 INDISTINCT_LINE_FRACTION = 0.20
 INDISTINCT_UNIT_FRACTION = 1.0 / 3.0
 
@@ -193,7 +202,8 @@ def giveaway_vocabulary(cand, lb, cfg):
     return sorted(w for w in (words - STOP) if len(w) >= 4)
 
 
-def check(cand, ctx_values, h1_max, h2_max, verbose=False, units_override=None):
+def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
+          units_override=None):
     slot = os.path.basename(cand)
     seed = os.path.join(cand, "seed")
     test_py = os.path.join(cand, "test.py")
@@ -242,20 +252,31 @@ def check(cand, ctx_values, h1_max, h2_max, verbose=False, units_override=None):
               "indistinct": len(indistinct), "vocab": len(vocab), "seed_files": len(lines)}
     for c in ctx_values:
         best_tok, best_n, best_units = None, -1, []
+        per_token = []
         for t in vocab:
             anchor = substring_hits(lines, t)
             if not anchor:
                 continue
-            got = [u["unit"] for u in scored
-                   if harvested(val_hits[u["unit"]], id_hits[u["unit"]], u["path"], anchor, c)]
+            got = frozenset(u["unit"] for u in scored
+                            if harvested(val_hits[u["unit"]], id_hits[u["unit"]], u["path"],
+                                         anchor, c))
+            if got:
+                per_token.append((t, got))
             if len(got) > best_n:
-                best_tok, best_n, best_units = t, len(got), got
+                best_tok, best_n, best_units = t, len(got), sorted(got)
         h2_units = [u["unit"] for u in scored
                     if harvested(val_hits[u["unit"]], id_hits[u["unit"]], u["path"],
                                  roster_hits, c)]
-        result["h1_c%d" % c] = round(best_n / float(denom), 3)
+        result["h1_c%d" % c] = round(max(best_n, 0) / float(denom), 3)
         result["h1_token_c%d" % c] = best_tok
         result["h2_c%d" % c] = round(len(h2_units) / float(denom), 3)
+        per_token.sort(key=lambda kv: -len(kv[1]))
+        top = per_token[:PAIR_TOP]
+        pair_n, pair_t = max(((len(a | b), (ta, tb))
+                              for ta, a in top for tb, b in top if ta < tb),
+                             default=(max(best_n, 0), (best_tok, None)))
+        result["p2_c%d" % c] = round(pair_n / float(denom), 3)
+        result["p2_tokens_c%d" % c] = list(pair_t)
         if verbose:
             notes.append("C=%d: worst token %r harvests %d/%d (%s); roster harvests %d/%d"
                          % (c, best_tok, best_n, denom, ", ".join(sorted(best_units)[:6]),
@@ -263,6 +284,7 @@ def check(cand, ctx_values, h1_max, h2_max, verbose=False, units_override=None):
 
     h1 = result.get("h1_c%d" % CONTEXT)
     h2 = result.get("h2_c%d" % CONTEXT)
+    h3 = result.get("h1_c%d" % WIDE)
     if h1 is not None and h1 >= h1_max:
         problems.append("H1 = %.3f at C=%d on the token %r, the limit is %.3f — one grep on a "
                         "token the prompt or its declared pointers give away reaches that "
@@ -271,6 +293,14 @@ def check(cand, ctx_values, h1_max, h2_max, verbose=False, units_override=None):
     if h2 is not None and h2 >= h2_max:
         problems.append("H2 = %.3f at C=%d, the limit is %.3f — one grep alternating over the "
                         "roster's own unit names reaches that fraction" % (h2, CONTEXT, h2_max))
+    if h3 is not None and h3 >= h3_max:
+        problems.append("H3 = %.3f at C=%d on the token %r, the limit is %.3f — the same attack "
+                        "with a five-line window"
+                        % (h3, WIDE, result["h1_token_c%d" % WIDE], h3_max))
+    if result.get("p2_c%d" % CONTEXT) is not None:
+        notes.append("P2 = %.3f at C=%d on %s — the best two-token union, reported and not "
+                     "gated" % (result["p2_c%d" % CONTEXT], CONTEXT,
+                                " + ".join(str(x) for x in result["p2_tokens_c%d" % CONTEXT])))
     notes.append("%d unit(s), %d scored, %d derived (value never stated in seed/), %d "
                  "indistinct; %d giveaway tokens over %d files"
                  % (len(units), denom, len(derived), len(indistinct), len(vocab), len(lines)))
@@ -302,12 +332,13 @@ def main():
                     help="context windows to report; C=2 is the gated one")
     ap.add_argument("--h1", type=float, default=H1_MAX)
     ap.add_argument("--h2", type=float, default=H2_MAX)
+    ap.add_argument("--h3", type=float, default=H3_MAX)
     ap.add_argument("--verbose", action="store_true")
     ap.add_argument("--json", dest="jsonout")
     ap.add_argument("--units-json", help="a JSON file of HARVEST_UNITS, for measuring a "
                                          "candidate built before round four declared them")
     a = ap.parse_args()
-    ctx_values = sorted(set(a.context or [0, CONTEXT, 5]) | {CONTEXT})
+    ctx_values = sorted(set(a.context or [0, CONTEXT, WIDE]) | {CONTEXT, WIDE})
 
     cands = candidates(a.cands)
     if not cands:
@@ -319,7 +350,7 @@ def main():
             override = json.load(fh)
     bad, rows = 0, []
     for cand in cands:
-        slot, problems, notes, res = check(cand, ctx_values, a.h1, a.h2, a.verbose,
+        slot, problems, notes, res = check(cand, ctx_values, a.h1, a.h2, a.h3, a.verbose,
                                            (override or {}).get(os.path.basename(cand))
                                            if isinstance(override, dict) else override)
         res["slot"] = slot
@@ -327,7 +358,9 @@ def main():
         rows.append(res)
         head = "harvest clear" if not problems else "%d PROBLEM(S)" % len(problems)
         if res:
-            head += "   H1(C2)=%.3f H2(C2)=%.3f" % (res.get("h1_c2", 0.0), res.get("h2_c2", 0.0))
+            head += "   H1=%.3f H2=%.3f H3=%.3f" % (res.get("h1_c2", 0.0),
+                                                        res.get("h2_c2", 0.0),
+                                                        res.get("h1_c5", 0.0))
         print("%-20s %s" % (slot, head))
         for n in notes:
             print("    - " + n)
@@ -335,8 +368,9 @@ def main():
             print("    ! " + p)
         if problems:
             bad += 1
-    print("\n%d candidate(s), %d failing the grep-harvest check (H1 < %.3f, H2 < %.3f at C=%d)"
-          % (len(cands), bad, a.h1, a.h2, CONTEXT))
+    print("\n%d candidate(s), %d failing the grep-harvest check "
+          "(H1 < %.3f and H2 < %.3f at C=%d, H3 < %.3f at C=%d)"
+          % (len(cands), bad, a.h1, a.h2, CONTEXT, a.h3, WIDE))
     if a.jsonout:
         with open(a.jsonout, "w", encoding="utf-8") as fh:
             fh.write(json.dumps(rows, indent=1) + "\n")
