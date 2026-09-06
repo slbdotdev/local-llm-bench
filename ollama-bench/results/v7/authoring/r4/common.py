@@ -798,6 +798,16 @@ def _check_harvest_units(slot, units, seed, exempt=""):
     if len(units) < 6:
         raise SystemExit("%s: harvest_units() declares %d units, at least six are required"
                          % (slot, len(units)))
+    values = [str(u.get("value", "")) for u in units]
+    distinct = len(set(v.lower() for v in values))
+    if distinct < max(2, int(0.6 * len(units))):
+        raise SystemExit(
+            "%s: harvest_units() declares %d unit(s) but only %d distinct value(s). A datum "
+            "every unit shares is not a per-unit fact, and declaring one makes the grep-harvest "
+            "measure read zero without measuring anything — the third form of that defect found "
+            "on 2026-09-09, each time by a cross-reviewer and never by a checker. Declare the "
+            "value that differs from unit to unit and that the answer actually depends on."
+            % (slot, len(units), distinct))
     seen = set()
     for u in units:
         for k in ("unit", "value", "path"):

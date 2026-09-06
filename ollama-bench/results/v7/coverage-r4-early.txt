@@ -1,0 +1,9 @@
+task                 model            verdict peak   peak/mat cover%   cover+x%  lb      to    stop   gate
+p03-main-luna        q27-IQ2_M-64k    correct 7685   26.3     8.2      8.2       12/12   no    stop   FAIL
+p09-main-luna        q27-IQ2_M-64k    visibly 27642  82.3     19.4     78.6      5/14    yes   toolUs FAIL
+
+BELOW THE GATE — a re-author, not a tune (plan section 2.5):
+  p03-main-luna        coverage 8.2% is below the 50% the plan requires
+  p09-main-luna        coverage 19.4% is below the 50% the plan requires
+
+2 row(s): 0 pass the gate, 2 below it, 0 not measurable

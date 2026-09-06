@@ -304,6 +304,13 @@ def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
         problems.append("%d of %d declared values are indistinct, over the one-third limit: %s"
                         % (len(indistinct), len(units), "; ".join(indistinct[:4])))
 
+    distinct = len(set(str(u["value"]).lower() for u in units))
+    if distinct < max(2, int(0.6 * len(units))):
+        problems.append("%d unit(s) but only %d distinct value(s) — a datum every unit shares is "
+                        "not a per-unit fact, and this measure reads zero on one without "
+                        "measuring anything" % (len(units), distinct))
+    notes.append("%d distinct value(s) over %d unit(s)" % (distinct, len(units)))
+
     vocab = giveaway_vocabulary(cand, lb, cfg)
     roster = re.compile("|".join(sorted((bounded(str(u["unit"])).pattern for u in units),
                                         key=len, reverse=True)))

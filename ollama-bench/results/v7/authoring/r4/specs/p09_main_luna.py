@@ -283,11 +283,11 @@ def overlay(ctx):
         declared, effective = _window_values(i, stage, corpus)
         src = C.read(corpus.path(stage["src"]))
         src, removed = re.subn(r"^EFFECTIVE_RETENTION_DAYS = .*\n?", "", src, count=1, flags=re.M)
-        assert removed == 1
+        assert removed <= 1
         C.write(corpus.path(stage["src"]), src)
         doc = C.read(corpus.path(stage["doc"]))
         doc, removed = re.subn(r"^\| `regional_window` \|[^\n]*\n?", "", doc, count=1, flags=re.M)
-        assert removed == 1
+        assert removed <= 1
         C.write(corpus.path(stage["doc"]), doc)
         history = C.read(corpus.path(stage["history"]))
         history_line = "%s at %d days." % (_HISTORY_CUES[i], declared)
@@ -453,7 +453,7 @@ def _naive_dates(corpus, which):
 def _prose_value(corpus, stage, cues, source):
     text = C.read(corpus.path(source(stage)))
     cue = cues[corpus.stages.index(stage)]
-    match = re.search(r"^%s at (\d+) days\.$" % re.escape(cue), text, re.M)
+    match = re.search(r"^.*%s at (\d+) days\.$" % re.escape(cue), text, re.M)
     assert match, (stage["name"], source(stage), cue)
     return int(match.group(1))
 
@@ -570,11 +570,11 @@ def prompt(ctx):
     return """# Regional retention report
 
 You are working at the root of the `sable-arc` repository. Every region named by the repository
-manifest is in scope. Read the project's glossary, the active dated decision, each region's own
-history entry, the history changelog, and the resolved retention event history. The old spot-check
-page is only a lead. Apply the project's definition of **regional retention**, then apply the
-amendment that is currently in force. A verification is complete only under the repository's
-stated event-history rule.
+manifest is in scope. Read the project's glossary, the active dated decision, each region's
+component record for context, its own history entry, the history changelog, and the resolved
+retention event history. The old spot-check page is only a lead. Apply the project's definition of
+**regional retention**, then apply the amendment that is currently in force. A verification is
+complete only under the repository's stated event-history rule.
 
 Write a new file `retention-report.txt` in the repository root with exactly these four lines, in
 this order:
@@ -604,7 +604,11 @@ def sweep_paths(ctx):
     paths = [GLOSSARY, POLICY, LEDGER, DUMP, QA_NOTE, "config/manifest.json", "README.md",
              "history/CHANGELOG.md"]
     for stage in corpus.stages:
-        paths.append(stage["history"])
+        paths += [stage["doc"], stage["history"]]
+    # The seven divergent regions' modules are supporting context: they confirm the runtime
+    # side of the comparison has no optional override, without carrying the interval value.
+    for stage in _plan(corpus)[0] + _plan(corpus)[1]:
+        paths.append(stage["src"])
     return paths
 
 
@@ -685,13 +689,15 @@ def notes(ctx, m):
 
 Mode 9, reading past the first screen. The task measures whether a model reads the glossary's
 late definition and then reads the long resolved audit output far enough to obtain every needed
-verification date. It is a positive answer: the report names excluded regions.
+verification date, while reconciling the two interval notes for every region. It is a positive
+answer: the report names excluded regions.
 
 ## 2. Distinguishing condition
 
-A shallow solve trusts the old spot check, copies the first plausible definition, or takes the
-first/latest verification row. The material rules those out with an explicit glossary rule, a
-dated active amendment, and a countersigned/non-voided event-history resolver. The decisive
+A shallow solve trusts the old spot check, copies the first plausible definition, uses the
+amendment's signing date, or takes the first/latest verification row. The material rules those
+out with an explicit glossary rule, a dated active amendment, and a countersigned/non-voided
+event-history resolver. The decisive
 glossary heading is at line %(entry_line)d of %(glossary_lines)d; the resolved audit is %(audit_chars)d
 characters over %(audit_lines)d lines, and the deepest needed date is at character %(deepest)d.
 The output stays below the 24,000-character truncation threshold, so the intended treatment is
@@ -710,19 +716,20 @@ reference is derived from the seed; no expected value is typed independently.
 | --- | --- |
 | reference | correct, full score |
 | untouched sandbox | visibly_failed, no traceback |
-| divergence set / first row / latest row / spot check / declared total | confidently_wrong |
+| divergence set / first row / latest row / signing date / spot check / declared total | confidently_wrong |
 | wrong key order | confidently_wrong |
 | no newline / two newlines / CRLF / leading blank / trailing spaces | correct, full score |
 
 ## 5. Anti-harvest and rung 0
 
-Mechanism 2 (derived from records, never stated) is used for all %(units)d harvest units: each
-unit's declared window, effective window, and completed verification date are joined into the
-decisive composite only by reading seed/ and replaying the event history. Mechanism 3 is also
-used: the roster pointer is the only named load-bearing file, while the glossary, decision,
+Mechanism 1 (fact stated in varying prose with no constant name) supplies all %(units)d harvest
+units: one declared-window entry per region's history prose and one effective-window entry per
+module-facing changelog prose. Mechanism 2 (derived from records rather than stated) supplies the
+19 completed verification dates through the replayed event history. Mechanism 3 is also used: the
+roster pointer is the only named load-bearing file, while the glossary, decision, interval notes,
 ledger, and audit tool are reached through repository links. Mechanism 4 supplies the decoy
-window note. No shared constant states the answer, and the sweep reaches %(sweep)d of %(tokens)d
-material tokens (%(sweeppct)s%%).
+window note. No shared constant or numeric prefix states the answer, and the sweep reaches
+%(sweep)d of %(tokens)d material tokens (%(sweeppct)s%%).
 
 Load-bearing declaration: %(lb_count)d paths over %(hop_count)d hops.
 
@@ -732,13 +739,16 @@ Load-bearing declaration: %(lb_count)d paths over %(hop_count)d hops.
 
 This is a main-band task, not mode 8; a reasonable solve is under 300 seconds and under 5,000
 output tokens. The research idea called for the names `effective_window`, `governing_amendment`,
-`excluded_region`, and `verification_path`; this candidate keeps that shape, while making the
-per-region value a replayed composite and using a countersigned event audit so the second mode-9
-fact is genuinely in a long command output. No material departure was required.
+`excluded_region`, and `verification_path`; this candidate keeps that shape. It departs from the
+research draft and reviewer-flagged construction by removing both shared per-unit constants,
+placing the two interval facts in history prose, and declaring them as separate harvest units.
+One completed divergent review is deliberately dated between signing and effectiveness so the
+amendment-date near miss is testable. The affirmative fairness finding required no change.
 
 ## Derivability
 
-All four reference values are measured from seed/: the region set joins each component record to
-each module and resolved event date, the total sums measured module values, the amendment and
-path are read from the active decision record. No answer value is asserted from memory.
+All four reference values are measured from seed/: the region set joins each history prose
+interval pair to each resolved event date, the total sums the effective values measured from the
+changelog, and the amendment and path are read from the active decision record. No answer value
+is asserted from memory.
 """ % {"slot": SLOT, "mode": MODE, "entry_line": f["entry_line"], "glossary_lines": f["glossary_lines"], "audit_chars": f["audit_chars"], "audit_lines": f["audit_lines"], "deepest": f["audit_deepest"], "units": len(harvest_units(ctx)), "sweep": m["sweep_tokens"], "tokens": m["tokens"], "sweeppct": m["sweep_pct"], "lb_count": len(m["load_bearing"]), "hop_count": len(set(item["hop"] for item in m["load_bearing"])), "lb": lb}
