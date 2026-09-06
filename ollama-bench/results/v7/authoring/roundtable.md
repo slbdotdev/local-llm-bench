@@ -270,7 +270,7 @@ task Sonnet fails is re-reviewed before it is believed. Two bands: `main` (29,00
 | n03-main-luna | luna | main | three-way disagreement, tiebreak in prose | REVISE x3 -> PASS | — | PASS | accepted *(three narrow revisions, see below)* |
 | n04-main-claude | claude | main | replay the log, do not read the state | — | PASS *(NOTES count corrected)* | PASS | accepted |
 | n05-main-luna | luna | main | the join key must be computed before it is searched | PASS | — | PASS | accepted; prompt clarified after the Sonnet arm (below) |
-| n06-main-glm | glm | main | the same quantity in four units | REVISE *(unit in the constant name)* -> re-check | PASS | — | in revision |
+| n06-main-glm | glm | main | the same quantity in four units | REVISE *(unit in the constant name)* -> PASS on re-check | PASS | — | accepted |
 | n07-main-claude | claude | main | the tool's output overrules the document | — | REVISE *(`python` absent)* -> fixed | ACCEPT *(after the fingerprint fix)* -> re-checked | accepted |
 | n08-cheap-glm | glm | cheap24 | enumerate what is missing | PASS *(after the prompt-locator fix)* | PASS | — | accepted |
 | n09-cheap-luna | luna | cheap24 | the first complete answer is wrong | PASS *(after the two-file shortcut was removed)* | — | PASS | accepted |
@@ -295,7 +295,8 @@ the other reviewer's PASS stands as the second verdict. Everything that touched 
    from the prompt occurred in exactly one document, the one holding the rule. The prompt was
    rewritten; `r3/check_rung0.py` now reports such locator words as notes.
 4. **The unit in the constant's name** (n06, Claude review): `FLUSH_BUDGET_MS` told the solver
-   the unit that the task's whole difficulty depends on reading from a ruling page. In revision.
+   the unit that the task's whole difficulty depends on reading from a ruling page. Renamed;
+   the Claude re-check passed.
 5. **A field the grader invented** (n03): the author's first punctuation fix flipped the expected
    value instead of normalising the comparison, and a second introduced an undefined field. Fixed
    by giving `r3/common.py` a shared `loose` comparison kind and restoring the prose values, on
@@ -319,3 +320,12 @@ and found the four reroute records, then reported each stage's descriptive term 
 page. Two careful readers can disagree about what "label" means, so the prompt now says the
 name is the stage's name exactly as `config/manifest.json` lists it. Rebuilt, restaged, Sonnet
 re-run: correct. Haiku, Luna and GLM had passed the original wording with manifest names.
+
+Final counts, one trial each on all ten: **Sonnet 5 10/10**, **Haiku 4.5 8/10** (confidently
+wrong on n02 and n09, the two the brief asked for), **Luna 9/10** (n01), **GLM 5.3 Flash
+10/10**, and the fp8 27B endpoint **8/10** (n03, n04). The IQ2_M workhorse on the released GPU
+took all ten round-three tasks — 6/6 on the `main` cell, 3/3 on `cheap24`, and n06 in its own
+cell — against **7 of 9** on round two, where m01-main-glm ran its context out and m10-main-glm
+came back confidently wrong. The coverage gate on all nineteen GPU rows admits exactly one
+(n09-cheap-luna, 88.5%); section 6 of `results/v7/authoring-r3-2026-09-08.md` has the table and
+what it means for admission.

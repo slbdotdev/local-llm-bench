@@ -1,0 +1,21 @@
+The report is complete at `recheck-report.txt`. No existing file was touched; the report only reads.
+
+**How the series was read** (per `docs/precedents.md`, which governs; the handover note is a lead only):
+
+- **Governing bulletin** = the one with the *later Recorded: date* among bulletins whose amendment table names the stage — serials say nothing about age (April 2034 re-file). **Out of sequence** = a bulletin naming the stage stands *after* the governing one in series order.
+- **Effective interval** = the governing bulletin's number; a *confirmation* (MB-010, reconcile, "as shipped") makes the shipped `RECHECK_S` effective.
+- **Prose mentions don't amend**: replay is named only in MB-005's prose, so it runs its shipped 84.
+
+Notable resolutions:
+- **lineage**: MB-001 (2034-09-03) beats MB-008 (2034-04-02) → 105, yet stands earlier in the directory → out of sequence.
+- **backfill**: MB-006 (2034-03-27) beats the higher-serial MB-013 (2034-03-02) → 81, out of sequence.
+- **checkpoint**: MB-003 (2034-12-01) beats MB-017/MB-018 → 65, out of sequence.
+- **reconcile**: confirming MB-010 (2034-10-15) beats MB-016's 77 → runs shipped 74, out of sequence.
+- **ledger**: MB-019 governs and stands last → in sequence, 103 (despite the handover's suspicion).
+- **retention**: never bulletined → effective = shipped 57, but its doc says 66 → stale.
+
+```
+out_of_sequence: backfill, checkpoint, lineage, reconcile
+stale_docs: attestation, checkpoint, digest, ledger, lineage, retention, routing, watermark
+recheck_total: 1405
+```

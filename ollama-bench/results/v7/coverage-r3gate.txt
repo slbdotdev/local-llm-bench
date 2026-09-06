@@ -17,6 +17,7 @@ n07-main-claude      q27-IQ2_M-64k    correct 12947  37.2     16.8     100.0    
 n08-cheap-glm        q27-IQ2_M-24k    correct 5525   41.7     47.5     71.9      8/10    no    stop   FAIL
 n09-cheap-luna       q27-IQ2_M-24k    correct 14070  108.2    88.5     88.5      11/11   no    stop   PASS
 n10-cheap-claude     q27-IQ2_M-24k    correct 12464  85.2     48.5     93.1      9/15    no    stop   FAIL
+n06-main-glm         q27-IQ2_M-64k    correct 10149  33.1     30.2     75.3      7/12    no    stop   FAIL
 
 BELOW THE GATE — a re-author, not a tune (plan section 2.5):
   m01-main-glm         coverage 32.2% is below the 50% the plan requires
@@ -36,5 +37,6 @@ BELOW THE GATE — a re-author, not a tune (plan section 2.5):
   n07-main-claude      coverage 16.8% is below the 50% the plan requires; touched 4 of 19 load-bearing paths, the plan requires 5
   n08-cheap-glm        coverage 47.5% is below the 50% the plan requires
   n10-cheap-claude     coverage 48.5% is below the 50% the plan requires
+  n06-main-glm         coverage 30.2% is below the 50% the plan requires
 
-18 row(s): 1 pass the gate, 17 below it, 0 not measurable
+19 row(s): 1 pass the gate, 18 below it, 0 not measurable

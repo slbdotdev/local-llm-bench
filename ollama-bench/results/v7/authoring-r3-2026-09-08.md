@@ -17,8 +17,8 @@ owner released the GPU, so the workhorse quant ran too.
 **The answer is no, and the numbers below say why.** Ten tasks were authored with real family
 provenance, reviewed blind, and accepted with two passes each. Sonnet 5 passes all ten. Haiku
 4.5 fails two (n02, n09). Luna fails one (n01). GLM 5.3 Flash fails none. The fp8 27B fails
-two (n03, n04), and the 2-bit IQ2_M workhorse, the model the whole bench is for, passes every
-round-three task it has run. The tasks are harder than round two by every static measure the
+two (n03, n04), and the 2-bit IQ2_M workhorse, the model the whole bench is for, passes all
+ten round-three tasks. The tasks are harder than round two by every static measure the
 toolchain has (load-bearing paths, hops, sweep coverage, rung 0), and they are still not hard
 enough to separate a Claude Code subagent with `grep` from a careful reader.
 
@@ -71,7 +71,7 @@ Results: `authoring/sanity/<arm>/trial-r3/results.json`; the table is
 | haiku | 10 | 8 | 80.0% | 2 | 0 | 0 | 0 | 0 |
 | sonnet | 10 | 10 | 100.0% | 0 | 0 | 0 | 0 | 0 |
 | luna | 10 | 9 | 90.0% | 1 | 0 | 0 | 0 | 0 |
-| glm | 8 | 8 | 100.0% | 0 | 0 | 0 | 0 | 0 |
+| glm | 10 | 10 | 100.0% | 0 | 0 | 0 | 0 | 0 |
 | fp8 | 10 | 8 | 80.0% | 2 | 0 | 0 | 0 | 0 |
 
 
@@ -80,15 +80,15 @@ Per task (cw = confidently wrong, vf = visibly failed):
 | slot | Sonnet 5 | Haiku 4.5 | Luna | GLM 5.3 Flash | fp8 27B | IQ2_M workhorse |
 | --- | --- | --- | --- | --- | --- | --- |
 | n01-main-claude | pass | pass | **cw** | pass | pass | pass |
-| n02-main-glm | pass | **cw** | pass | pending | pass | pass |
+| n02-main-glm | pass | **cw** | pass | pass | pass | pass |
 | n03-main-luna | pass | pass | pass | pass | **cw** | pass |
 | n04-main-claude | pass | pass | pass | pass | **cw** | pass |
 | n05-main-luna | pass | pass | pass | pass | pass | pass |
-| n06-main-glm | pass | pass | pass | pending | pass | pending |
+| n06-main-glm | pass | pass | pass | pass | pass | pass |
 | n07-main-claude | pass | pass | pass | pass | pass | pass |
 | n08-cheap-glm | pass | pass | pass | pass | pass | pass |
 | n09-cheap-luna | pass | **cw** | pass | pass | pass | pass |
-| n10-cheap-claude | pass | pass | pass | pass | pass | pending |
+| n10-cheap-claude | pass | pass | pass | pass | pass | pass |
 
 Round two on the same four arms, run first tonight because those nine had never been
 model-run: 9/9 on every arm (`tally --trial r2`), after one fairness fix — m04-main-glm's
@@ -130,17 +130,17 @@ passed. Artifacts: `results/v7r2-gate.json`, `results/v7r3-gate-{main,cheap,n06}
 | --- | --- | ---: | ---: | --- |
 | v7r2-gate | q27-IQ2_M-64k | 9 | 7 | m01-main-glm (visibly failed, stop=length after 39 reads), m10-main-glm (confidently wrong) |
 | v7r3-gate-main | q27-IQ2_M-64k | 6 | 6 | — |
-| v7r3-gate-cheap | q27-IQ2_M-24k | 3 | R3CHEAP | — |
-| v7r3-gate-n06 | q27-IQ2_M-64k | 1 | R3N06 | — |
+| v7r3-gate-cheap | q27-IQ2_M-24k | 3 | 3 | — |
+| v7r3-gate-n06 | q27-IQ2_M-64k | 1 | 1 | — |
 
 Walls on round three ran 34-309 s; n04 took 17 turns and 16,831 output tokens to pass, the
 longest correct trial of the night.
 
 ## 6. The coverage gate, run on every GPU row
 
-`results/v7/coverage_gate.py` on the eighteen rows so far (`results/v7/coverage-r3gate.txt`;
-n06 to be added). The gate is plan section 2.2: coverage of the material by files the trial
-actually named must reach 50%, and at least five load-bearing paths must be touched. Coverage
+`results/v7/coverage_gate.py` on all nineteen GPU rows (`results/v7/coverage-r3gate.txt`). The
+gate is plan section 2.2: coverage of the material by files the trial actually named must
+reach 50%, and at least five load-bearing paths must be touched. Coverage
 counts whole files named; "cover+x" adds what directory and `grep` tokens could have pulled in
 and is an upper bound, never gated.
 
@@ -160,12 +160,13 @@ and is an upper bound, never gated.
 | n03-main-luna | correct | 13232 | 35.2 | 76.3 | 5/9 | FAIL |
 | n04-main-claude | correct | 23046 | 12.5 | 91.7 | 2/43 | FAIL |
 | n05-main-luna | correct | 8969 | 7.8 | 89.4 | 4/8 | FAIL |
+| n06-main-glm | correct | 10149 | 30.2 | 75.3 | 7/12 | FAIL |
 | n07-main-claude | correct | 12947 | 16.8 | 100.0 | 4/19 | FAIL |
 | n08-cheap-glm | correct | 5525 | 47.5 | 71.9 | 8/10 | FAIL |
 | n09-cheap-luna | correct | 14070 | 88.5 | 88.5 | 11/11 | PASS |
 | n10-cheap-claude | correct | 12464 | 48.5 | 93.1 | 9/15 | FAIL |
 
-**One row of eighteen passes the gate.** The rest are correct at 6-35% of the material named
+**One row of nineteen passes the gate.** The rest are correct at 6-49% of the material named
 as whole files, while the expanded number sits at 72-100%: the workhorse does not read the
 tree, it **greps** it. Given the manifest and one ruling page, `grep -rn <constant> src/` pulls
 every stage's value onto one screen, and a task whose answer is a reconciliation of twenty
@@ -179,7 +180,7 @@ This is the property the next round has to attack, and it is a different one fro
 count.** The candidates that resist are the ones where the per-stage fact is not a named
 constant on one line (n09: the surviving stages' records, 88.5% coverage, the one PASS; n03
 and n08, the next highest, put the deciding value inside prose). By the plan's own section 2.5
-a row below the gate is a re-author, not a tune, so none of the seventeen is admissible as
+a row below the gate is a re-author, not a tune, so none of the eighteen is admissible as
 built.
 
 ## 7. What this means for the 50% target
@@ -204,7 +205,7 @@ is that instrument; round three's tasks should be measured by it before any are 
 - **Admission.** Nineteen candidates (nine round-two, ten round-three) are staged and baselined
   but not in `authoring/suite/`. Which replace which accepted slots, and whether the cheap24
   band joins the suite, is the owner's call; the register rows move up when a round admits them.
-- **The coverage gate** (section 6) admits one of eighteen rows. The re-author it asks for is
+- **The coverage gate** (section 6) admits one of nineteen rows. The re-author it asks for is
   a property change, not ten more tasks of the same shape: per-stage facts must not be
   harvestable by one grep on a name the manifest gives away.
 - **Repeat trials.** Every number here is one trial. Round two's two workhorse misses want three

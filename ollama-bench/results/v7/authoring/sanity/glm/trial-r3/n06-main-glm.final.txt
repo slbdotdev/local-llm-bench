@@ -1,0 +1,12 @@
+The report is written to `budget-reconciliation.txt`.
+
+**How it was derived:**
+
+- **Canonical unit** — `docs/engineering/budget-units.md` ("The ruling") fixes it: *"A budget is normative in milliseconds."* All totals and comparisons are made in ms after conversion.
+- **Declarations** — per that ruling, only two records declare a budget: the component doc's `flush_budget` row (with its review's unit — seconds, minutes, or hours) and the implementation module's `FLUSH_BUDGET` constant (in ms). Manifest `limit`/`window_s` values and history entries are not budget declarations.
+- **Results** across the 20 manifest stages:
+  - `accepted_budget_total: 15935000` — sum of all accepted budgets normalised to ms (including 3 h → 10,800,000 ms for attestation, 1 h → 3,600,000 ms for digest).
+  - `implementation_drift: attestation,checkpoint,compaction,digest,lineage` — the five stages where the constant disagrees with the accepted value (30 s vs 40,000 ms; 60 s vs 85,000 ms; 5 min vs 285,000 ms; 1 h vs 3,588,000 ms; 25 s vs 40,000 ms respectively).
+  - `greatest_gap_stage: attestation` / `greatest_gap_amount: 30000` — its constant (10,830,000 ms) exceeds the accepted 3 h budget (10,800,000 ms) by 30,000 ms, edging out checkpoint's 25,000 ms gap.
+
+Per the ruling, this is a report only — no existing file was modified and no other file was created.
