@@ -72,7 +72,7 @@ CONFIG = {'deliverable': 'handoff-report.txt',
                                         'retention=implementation, routing=migration-ledger, '
                                         'schema=migration-ledger, shard=document, '
                                         'tenancy=implementation, watermark=document',
-            'exception_governing_artifact': 'migration-ledger'},
+            'exception_governing_artifact': 'migration ledger'},
  'groups': [{'keys': ['effective_handoff_capacity'],
              'name': 'the effective handoff capacity for every stage'},
             {'keys': ['effective_source_by_unit'],
@@ -88,7 +88,7 @@ CONFIG = {'deliverable': 'handoff-report.txt',
  'kinds': {'effective_handoff_capacity': 'list',
            'effective_handoff_capacity_total': 'int',
            'effective_source_by_unit': 'list',
-           'exception_governing_artifact': 'ci'},
+           'exception_governing_artifact': 'loose'},
  'must_not_exist': [],
  'permitted_new': [],
  'scope_gate': True,
@@ -96,27 +96,27 @@ CONFIG = {'deliverable': 'handoff-report.txt',
                  'config/manifest.json': 'fa8005ad5467b0f5551f02df8b3925657679bcabf1ad6514c99f962a954a530d',
                  'data/handoff-capacity-ledger.csv': '3de174d52dca2b8869dcd5faec1ea48d49e4040679a285de36a76795fae47334',
                  'docs/architecture.md': '8245be3c5e12f07d2780a65264b7c24c612b5cba8a628f7d29c014136386c740',
-                 'docs/attestation.md': 'f762a5707abcc20a6f279a51185a92fb58654665c499f2d8ff9a2dedf733751e',
-                 'docs/backfill.md': '500fce6bad37823567bba4d854ae02f08bd18bfe715be77a3cb1ff041497f3c4',
-                 'docs/checkpoint.md': 'cef18a5e081b6fe72b3df9b216663702a5873bc9abf877e3c0df654d8222976f',
-                 'docs/cursor.md': '2c83961d0db3b243bd94c3d67d823d6efcaf4b9df4701eb488f9ef70f005c873',
-                 'docs/digest.md': 'a9b9ee636dd5b5ade0577bf3a6d50bb18f141bc4573596de2232f85dfec199bd',
-                 'docs/dispatch.md': '8fe07fdd58b476ee1b549b23b0d8856262c3e3914df20b3caadc685b794d98cc',
-                 'docs/drain.md': '098e0807f6353599ad8c5d0dc6940848d981ea183aa50d303fa4c66f7dc20f3e',
+                 'docs/attestation.md': '4936ba88efa467dbbafe273b92bcd7773dc4e03d4319a79e94ea0481e26f97aa',
+                 'docs/backfill.md': '76fe10c5a6a79fdec4c851987ca7fa7ff285ccbb1046fc2d173dac84c5f65f81',
+                 'docs/checkpoint.md': 'c5057515ca720449d07b1ffc95a27d0860ae2a3c5d960c31185db809f726976c',
+                 'docs/cursor.md': '772943f84fe30b7bc3dd7c8d7008c127b6576eedf344ed33070c1009b2889e21',
+                 'docs/digest.md': '1fec1ee5145e05a64379550022b3af9e3d9dd6afb72b1ced5cfab38acd0ebb92',
+                 'docs/dispatch.md': '628c7e769b3a4c6915f52ed2bdd56c9d3317cd9db18831e7511fa7d379a619f1',
+                 'docs/drain.md': '394561d83eab1262cb17f4648dcbb01ed17fa74850ff13a3c05cbc5c43a43ab2',
                  'docs/engineering/capacity-resolution.md': '341fdac94735680dd4a27064a85a8f8efdbc26b5ee7fae47cfa0759672e633c9',
-                 'docs/envelope.md': '7042add2fde315432a6253534fb7817aca82f74a95930952f72786c45a9700ea',
-                 'docs/ingest.md': '06cbd7be11234239ad19919b66df2abc2dbc9ac6bf5a6589775c383e5ed114d6',
-                 'docs/ledger.md': 'd0b65a77427ddbbb228b9619265e27ed2351fd665cc713c3d4b94fce19c79ad3',
-                 'docs/lineage.md': '475261a02eb66498df89f19e1f4cd993c4ce22d27c856bb5b41344678d6a8f22',
+                 'docs/envelope.md': '0bcff9a4dfb9eed6a70a60ea415524edcd68d775c38f9c462688b0629c90cd81',
+                 'docs/ingest.md': '7ca6069e1baa4d37530058b9072675e8d8ea15accd217d671639d472a4e12f9d',
+                 'docs/ledger.md': 'c55256484a8be4407a146fb941132f6d3bdbc9ee2e04ad4d5e002de47c68e21f',
+                 'docs/lineage.md': '89a2c7d1cc25b25393d7f326fe656deb809ba28aa0c072181cacf304ad341054',
                  'docs/operations.md': 'e675b98b858653a51ca28980952f935e512cdf5a1ef35964bf53ac40aeb2dd8d',
                  'docs/quota.md': '88417587c1124658084d9de8629c832f13e094c5ae90b4115f3cba7726286a02',
                  'docs/replay.md': '3b76dd45f3b14be0ef4828908da79785384f0090e45fd27882faf1afbc95f475',
                  'docs/retention.md': '53898333985e134a58653d4f7f344352bfb28b350d057360d03a84af593e3b4c',
-                 'docs/routing.md': 'adebc777acd1a6e930b09db00d95134c1a40c9dd39afdf533456e31e977eaf88',
+                 'docs/routing.md': 'c87a2f4a4ca3cd51ba5daa72fea5bdb448fd5c8d59e26cec4e201e6f6af17128',
                  'docs/schema.md': 'c3cdc96de8ca853365c83fdb9bed5b04110b127e4bdd804191cbdd09f4219b05',
-                 'docs/shard.md': '0e73ab2479d06a2cb77469fa1616e63bd778a273fcdd15e90c5706aeef266162',
-                 'docs/tenancy.md': 'ff8c216b08bf571c6939d54b5ade755102812d8fc6e3b0fae1792d6705219dfa',
-                 'docs/watermark.md': '4f42ad13fd2a5b6e363940ef9d0bb672717d687583b627fda1f9cc6a3e09fd97',
+                 'docs/shard.md': 'd755456a3503d15eab8278c0b99a5d1f3eebaab0257d0ff2e79571910cb727a0',
+                 'docs/tenancy.md': 'ae87768e3653618474312b199a2585cfec5cdae24b9bd565e3e0d7f8185a467b',
+                 'docs/watermark.md': '34002fe1a2b7336d1b2eaa843df7fd2c9670d7af15c145b79f626319059836d7',
                  'history/0000-cursor.md': 'c8f20f2fcc3acdad498efc518f04f7a99016a335d8d8b88ea0a5034d8315a056',
                  'history/0001-lineage.md': 'd4e38e7ca424975b1c812bc392b6e9f60df6592c44f66d77a02ed5cca71ee64d',
                  'history/0002-digest.md': '6a85ea5a25b9ef5057cca66769b331a3c5083bd86b11c16396398bc100ae244d',
@@ -247,6 +247,14 @@ def _values_match(want, got, kind):
         return sorted(_norm_list(want)) == sorted(_norm_list(got))
     if kind == "ci":
         return want.strip().lower() == got.strip().lower()
+    if kind == "loose":
+        # Case-insensitive and punctuation-tolerant: a hyphen, an underscore and a space are
+        # one separator, so `migration-ledger`, `migration ledger` and `migration_ledger`
+        # agree. For a key the prompt asks the solver to quote from prose (2026-09-08, n03).
+        import re as _re
+        def _loose(v):
+            return _re.sub(r"[\s_\-]+", " ", str(v).strip().lower())
+        return _loose(want) == _loose(got)
     if kind == "int":
         try:
             return int(str(got).strip().replace(",", "")) == int(str(want).strip())

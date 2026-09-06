@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-qzx=989
+For the `backfill` stage, the component owner's reviewed transfer ceiling is **989** units.
 This per-stage figure is recorded in the document narrative for reconciliation.

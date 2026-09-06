@@ -109,7 +109,8 @@ Not a mode-8 task. The reading is long and the writing is three lines; the refer
 144 characters. The work is 33 entries over 16 stages, which is
 bookkeeping rather than insight — each individual entry is unambiguous, and that is deliberate:
 `research-r3-2026-09-08.md` section 3 item 4 warns that hop depth alone converges the tiers,
-so the chain here is four hops and the load is length.
+so the chain here is 5 hops -- the count section 7 declares and section 8 names, taken
+from the measured `LOAD_BEARING` rather than typed here -- and the load is length.
 
 ## 7. Load-bearing files, declared for the section 2.2 gate
 

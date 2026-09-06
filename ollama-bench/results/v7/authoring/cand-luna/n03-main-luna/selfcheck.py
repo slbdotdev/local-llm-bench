@@ -31,7 +31,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
                                   'effective_handoff_capacity_total: 18537\n'
-                                  'exception_governing_artifact: migration-ledger\n'},
+                                  'exception_governing_artifact: migration ledger\n'},
   'name': 'reference',
   'score': '8/8',
   'verdict': 'correct'},
@@ -130,7 +130,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
                                   'effective_handoff_capacity_total: 18537\n'
-                                  'exception_governing_artifact: migration-ledger'},
+                                  'exception_governing_artifact: migration ledger'},
   'name': 'perturb: no trailing newline',
   'score': '8/8',
   'verdict': 'correct'},
@@ -151,7 +151,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
                                   'effective_handoff_capacity_total: 18537\n'
-                                  'exception_governing_artifact: migration-ledger\n'
+                                  'exception_governing_artifact: migration ledger\n'
                                   '\n'},
   'name': 'perturb: two trailing newlines',
   'score': '8/8',
@@ -173,7 +173,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\r\n'
                                   'effective_handoff_capacity_total: 18537\r\n'
-                                  'exception_governing_artifact: migration-ledger\r\n'},
+                                  'exception_governing_artifact: migration ledger\r\n'},
   'name': 'perturb: CRLF line endings',
   'score': '8/8',
   'verdict': 'correct'},
@@ -195,7 +195,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document\n'
                                   'effective_handoff_capacity_total: 18537\n'
-                                  'exception_governing_artifact: migration-ledger\n'},
+                                  'exception_governing_artifact: migration ledger\n'},
   'name': 'perturb: one leading blank line',
   'score': '8/8',
   'verdict': 'correct'},
@@ -216,7 +216,7 @@ CASES = [{'files': {'handoff-report.txt': 'effective_handoff_capacity: attestati
                                   'shard=document, tenancy=implementation, '
                                   'watermark=document  \n'
                                   'effective_handoff_capacity_total: 18537  \n'
-                                  'exception_governing_artifact: migration-ledger  \n'},
+                                  'exception_governing_artifact: migration ledger  \n'},
   'name': 'perturb: trailing spaces on every line',
   'score': '8/8',
   'verdict': 'correct'}]

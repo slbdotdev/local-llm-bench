@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-qzx=943
+For the `drain` stage, the component owner's reviewed transfer ceiling is **943** units.
 This per-stage figure is recorded in the document narrative for reconciliation.

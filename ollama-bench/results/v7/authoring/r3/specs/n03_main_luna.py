@@ -100,7 +100,7 @@ def overlay(ctx):
         if missing != "document":
             corpus.append(
                 stage["doc"],
-                """\n## Per-stage handoff review\n\nqzx=%d\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % doc_value)
+                """\n## Per-stage handoff review\n\nFor the `%s` stage, the component owner's reviewed transfer ceiling is **%d** units.\nThis per-stage figure is recorded in the document narrative for reconciliation.\n""" % (stage["name"], doc_value))
         if missing != "module":
             corpus.set_module_constant(stage, DECISIVE_CONSTANT, str(module_value))
         if missing == "migration-ledger":
@@ -280,8 +280,10 @@ def _values(corpus):
     for stage in corpus.stages:
         name = stage["name"]
         doc_text = corpus.text(stage["doc"])
-        doc_match = re.search(r"^qzx=(\d+)$", doc_text, re.M)
-        doc = int(doc_match.group(1)) if doc_match else None
+        doc_match = re.search(
+            r"^For the `([^`]+)` stage, the component owner's reviewed transfer ceiling is "
+            r"\*\*(\d+)\*\* units\.$", doc_text, re.M)
+        doc = int(doc_match.group(2)) if doc_match else None
         module_text = corpus.module_constant(stage, DECISIVE_CONSTANT)
         module = int(module_text) if module_text is not None else None
         row = ledger[name]
@@ -340,13 +342,13 @@ def facts(ctx):
             "effective_handoff_capacity": ", ".join(pairs),
             "effective_source_by_unit": ", ".join(sources),
             "effective_handoff_capacity_total": str(total),
-            "exception_governing_artifact": "migration-ledger",
+            "exception_governing_artifact": "migration ledger",
         },
         "kinds": {
             "effective_handoff_capacity": "list",
             "effective_source_by_unit": "list",
             "effective_handoff_capacity_total": "int",
-            "exception_governing_artifact": "ci",
+            "exception_governing_artifact": "loose",
         },
         "groups": [
             {"name": "the effective handoff capacity for every stage",

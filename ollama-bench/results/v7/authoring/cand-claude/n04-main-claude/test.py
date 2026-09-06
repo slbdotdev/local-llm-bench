@@ -370,6 +370,14 @@ def _values_match(want, got, kind):
         return sorted(_norm_list(want)) == sorted(_norm_list(got))
     if kind == "ci":
         return want.strip().lower() == got.strip().lower()
+    if kind == "loose":
+        # Case-insensitive and punctuation-tolerant: a hyphen, an underscore and a space are
+        # one separator, so `migration-ledger`, `migration ledger` and `migration_ledger`
+        # agree. For a key the prompt asks the solver to quote from prose (2026-09-08, n03).
+        import re as _re
+        def _loose(v):
+            return _re.sub(r"[\s_\-]+", " ", str(v).strip().lower())
+        return _loose(want) == _loose(got)
     if kind == "int":
         try:
             return int(str(got).strip().replace(",", "")) == int(str(want).strip())

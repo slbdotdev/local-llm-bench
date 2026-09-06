@@ -57,7 +57,7 @@ roster pointer and is declared `named_in_prompt` in `LOAD_BEARING`. It names no 
 path and no value. A selective grep over prompt vocabulary cannot assemble the answer because
 the three values use different artifact-specific names and the class-to-source mapping is prose.
 
-The sweep covers 21247 of 29822 measured material tokens (71.2%): the
+The sweep covers 21518 of 30090 measured material tokens (71.5%): the
 engineering record, migration ledger, manifest roster, and every stage document and module.
 That traversal is necessary because the selected source depends on each row's neutral class and
 available records, and the report must aggregate all stages.

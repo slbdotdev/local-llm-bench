@@ -37,5 +37,5 @@ repaired in flight.
 
 ## Per-stage handoff review
 
-qzx=1053
+For the `shard` stage, the component owner's reviewed transfer ceiling is **1053** units.
 This per-stage figure is recorded in the document narrative for reconciliation.
