@@ -61,5 +61,12 @@
   "verdict": "confidently_wrong",
   "rc": 1,
   "tail": ": wrong value for out_of_sequence; the stages whose document is stale: wrong value for stale_docs; the sum of every stage's effective interval: wrong value for recheck_total]\nVERDICT confidently_wrong"
+ },
+ "n06-main-glm": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
  }
 }
