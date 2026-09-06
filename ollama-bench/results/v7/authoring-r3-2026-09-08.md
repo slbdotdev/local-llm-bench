@@ -208,8 +208,11 @@ is that instrument; round three's tasks should be measured by it before any are 
 - **The coverage gate** (section 6) admits one of nineteen rows. The re-author it asks for is
   a property change, not ten more tasks of the same shape: per-stage facts must not be
   harvestable by one grep on a name the manifest gives away.
-- **Repeat trials.** Every number here is one trial. Round two's two workhorse misses want three
-  trials each before they are believed, as the calibration did for its changed tasks.
+- **Repeat trials, done.** Three more workhorse trials each on the two round-two misses
+  (`results/v7r2-gate-repeat.json`, `runcell-r2-repeat.sh`): m01-main-glm went confidently
+  wrong, out of context, then correct, so 1 of 4 trials overall; m10-main-glm went confidently
+  wrong, out of context, confidently wrong, so 0 of 4. Both misses hold. The other numbers
+  here are still one trial each.
 - **n03's three revisions** are a recorded deviation from the one-revision rule.
 - The Claude family's reviews of Claude-authored slots were done by Luna and GLM as the rule
   requires; the Claude *re-checks* of GLM-authored slots (n02, n06) were Opus subagents of this
