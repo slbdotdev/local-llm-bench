@@ -2150,6 +2150,208 @@
     },
     "events": {},
     "trial": 2
+   },
+   {
+    "achieved_fill_prompt_tokens": 4614,
+    "task": "m08-cheap-glm",
+    "pass": true,
+    "wall_s": 24.7,
+    "turns": 5,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 3,
+     "read": 1,
+     "write": 1
+    },
+    "read_paths": [
+     "docs/reconciliation-rules.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "read_paths_expanded": [
+     "docs/reconciliation-rules.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "tool_arg_keys": {
+     "type": 5,
+     "toolCallId": 5,
+     "toolName": 5,
+     "command": 3,
+     "path": 2,
+     "content": 1
+    },
+    "material_files": 24,
+    "in_tokens": 17544,
+    "out_tokens": 1043,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 5/5\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2185,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 10.52,
+    "ps_vram_gb": 10.52,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 11971,
+    "final_text": ".50 \u2212 90.00 + 95.00 \u2212 61.50 = **3516.00**, since the REVERSED INV-2093 (180.00) and its matching REVERSAL REV-2093 (\u2212180.00) are both excluded (2 excluded rows). Finance's claim of 3696.00 is **180.00 too high** \u2014 it matches the result if the reversal pair were counted asymmetrically (only the REVERSED +180.00 kept, the REVERSAL \u2212180.00 dropped) \u2014 so the claim looks like a reversal-handling error.",
+    "stderr": "Warning: Model \"q27-IQ2_M-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 4,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 0
+   },
+   {
+    "achieved_fill_prompt_tokens": 4160,
+    "task": "m08-cheap-glm",
+    "pass": true,
+    "wall_s": 29.4,
+    "turns": 4,
+    "tool_calls": 5,
+    "tools": {
+     "bash": 2,
+     "read": 2,
+     "write": 1
+    },
+    "read_paths": [
+     "docs/reconciliation-rules.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "read_paths_expanded": [
+     "docs/reconciliation-rules.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "tool_arg_keys": {
+     "type": 5,
+     "toolCallId": 5,
+     "toolName": 5,
+     "command": 2,
+     "path": 3,
+     "content": 1
+    },
+    "material_files": 24,
+    "in_tokens": 13064,
+    "out_tokens": 1633,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 5/5\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2185,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 10.52,
+    "ps_vram_gb": 10.52,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 11971,
+    "final_text": "\nExcluding the REVERSED/REVERSAL pair (2 rows), the balance = 2510.00 + 412.00 \u2212 96.50 + 187.25 + 264.00 \u2212 52.75 + 348.50 \u2212 90.00 + 95.00 \u2212 61.50 = **3516.00**.\n\nFinance's claim of 3696.00 is **wrong** (it appears to equal 3516.00 + 180.00, i.e., the REVERSED INV-2093 line counted without its reversal \u2014 a reversal mishandled).\n\n`audit-reply.txt` written:\n```\nDISAGREE\nBALANCE 3516.00\nEXCLUDED 2\n```",
+    "stderr": "Warning: Model \"q27-IQ2_M-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 1
+   },
+   {
+    "achieved_fill_prompt_tokens": 5575,
+    "task": "m08-cheap-glm",
+    "pass": true,
+    "wall_s": 31.1,
+    "turns": 4,
+    "tool_calls": 7,
+    "tools": {
+     "bash": 1,
+     "read": 5,
+     "write": 1
+    },
+    "read_paths": [
+     "docs/reconciliation-rules.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "read_paths_expanded": [
+     "docs/account-map.md",
+     "docs/archive-note.md",
+     "docs/glossary.md",
+     "docs/month-end-procedure.md",
+     "docs/queries-handling.md",
+     "docs/reconciliation-rules.md",
+     "docs/who-does-what.md",
+     "docs/year-end-checklist.md",
+     "ledger/2026-07.csv",
+     "ledger/2026-08.csv",
+     "ledger/2026-09.csv",
+     "ledger/readme.md"
+    ],
+    "tool_arg_keys": {
+     "type": 7,
+     "toolCallId": 7,
+     "toolName": 7,
+     "command": 1,
+     "path": 6,
+     "content": 1
+    },
+    "material_files": 24,
+    "in_tokens": 16315,
+    "out_tokens": 1683,
+    "timed_out": false,
+    "rc": 0,
+    "errors": [],
+    "grader": "SCORE 5/5\nPASS\nVERDICT correct",
+    "score": 1.0,
+    "verdict": "correct",
+    "fill_tokens_requested": 0,
+    "prompt_delivery": "argv",
+    "prompt_chars": 2185,
+    "fill_chars_added": 0,
+    "fill_sections": 0,
+    "pad_tokens_requested": 0,
+    "pad_files_written": 0,
+    "pad_chars_written": 0,
+    "ps_size_gb": 10.52,
+    "ps_vram_gb": 10.52,
+    "ps_pct_gpu": 100,
+    "nvidia_smi_peak_mib": 11971,
+    "final_text": "d)\n- 2026-09.csv: INV-2147 +348.50, TR-2160 \u221290.00, INV-2164 +95.00, CN-2166 \u221261.50\n\n**Computed balance = 3516.00**\n\nThe claim of 3696.00 is exactly 180.00 too high \u2014 it appears Finance double-counted the INV-2093 invoice (+180.00, REVERSED) without excluding its reversal pair (per reconciliation rule 3, neither line counts). The two excluded rows are INV-2093 and REV-2093 in `ledger/2026-08.csv`.",
+    "stderr": "Warning: Model \"q27-IQ2_M-24k\" not found for provider \"ollama\". Using custom model id.",
+    "stop_reason": "stop",
+    "stop_reasons": {
+     "toolUse": 3,
+     "stop": 1
+    },
+    "events": {},
+    "trial": 2
    }
   ]
  }
