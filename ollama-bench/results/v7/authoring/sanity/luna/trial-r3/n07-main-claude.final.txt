@@ -1,0 +1,5 @@
+Completed.
+
+- Filed five corrections in [data/doc-corrections.csv](/home/slb/v7-sanity/luna/trial-r3/n07-main-claude/data/doc-corrections.csv).
+- `run_checks.py`: `CHECKS: pass`
+- Wrote the required three-line [report.txt](/home/slb/v7-sanity/luna/trial-r3/n07-main-claude/report.txt).

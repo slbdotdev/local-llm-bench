@@ -1,0 +1,3 @@
+Created [handoff-report.txt](/home/slb/v7-sanity/luna/trial-r3/n03-main-luna/handoff-report.txt) with all 19 resolutions and total `18537`. Exact-shape checks passed.
+
+Pytest collection failed because `cinder` was not on `PYTHONPATH`; no existing files were modified.

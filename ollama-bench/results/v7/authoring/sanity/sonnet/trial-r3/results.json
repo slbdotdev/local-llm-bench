@@ -1,0 +1,58 @@
+{
+ "n01-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n03-main-luna": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n04-main-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n05-main-luna": {
+  "pass": false,
+  "score": "6/7",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 6/7\nSCOPE created []; missing []\nFAIL [stages whose allocation says reroute: wrong value for reroute_stages]\nVERDICT confidently_wrong"
+ },
+ "n07-main-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n08-cheap-glm": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n09-cheap-luna": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n10-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ }
+}

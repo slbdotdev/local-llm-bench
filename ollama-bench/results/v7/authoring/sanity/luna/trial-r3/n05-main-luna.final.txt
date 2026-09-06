@@ -1,0 +1,5 @@
+Created and validated [allocation-report.txt](/home/slb/v7-sanity/luna/trial-r3/n05-main-luna/allocation-report.txt).
+
+Reroute stages: compaction, rollup, audit, cursor  
+Count: 4  
+Validation: PASS

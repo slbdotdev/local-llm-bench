@@ -1,0 +1,1 @@
+Created and validated [cutover-report.txt](/home/slb/v7-sanity/luna/trial-r3/n08-cheap-glm/cutover-report.txt) with exactly four required lines.

@@ -1,0 +1,51 @@
+{
+ "n01-main-claude": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n03-main-luna": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n05-main-luna": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n07-main-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n08-cheap-glm": {
+  "pass": true,
+  "score": "8/8",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 8/8\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ },
+ "n09-cheap-luna": {
+  "pass": false,
+  "score": "7/8",
+  "verdict": "confidently_wrong",
+  "rc": 1,
+  "tail": "SCORE 7/8\nSCOPE created []; missing []\nFAIL [reserved capacity: wrong value for reserved_capacity_total]\nVERDICT confidently_wrong"
+ },
+ "n10-cheap-claude": {
+  "pass": true,
+  "score": "7/7",
+  "verdict": "correct",
+  "rc": 0,
+  "tail": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct"
+ }
+}
