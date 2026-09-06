@@ -1,0 +1,14 @@
+Report written to `recheck-report.txt` — exactly three lines, nothing else touched:
+
+```
+out_of_sequence: backfill, checkpoint, lineage, reconcile
+stale_docs: attestation, checkpoint, digest, ledger, lineage, retention, routing, watermark
+recheck_total: 1405
+```
+
+How it was derived, per `docs/precedents.md` (the written rulings):
+
+- **Governing bulletin**: latest *recorded date*, not serial order (the April 2034 re-file decoupled serials from dates). Each stage's effective interval is its governing bulletin's value; a confirming bulletin ("as shipped") leaves the shipped interval in place.
+- **out_of_sequence** (precedents' sense: the governing bulletin doesn't stand last for that stage in directory order): *backfill* (MB-006 81s governs over the later-in-series MB-013 92s), *checkpoint* (MB-003 65s over later MB-017), *lineage* (MB-001 105s over later MB-008 94s), *reconcile* (MB-010's confirmation governs but stands before MB-016).
+- **stale_docs**: component doc's `recheck_s` ≠ effective interval — including *retention*, which no bulletin ever touched (doc 66 vs shipped 57), and excluding *backfill* (doc 81 = effective 81).
+- **recheck_total**: sum of all 19 stages' effective intervals = 1405, with 9 never-bulletined stages running their shipped `RECHECK_S` constants; MB-005's prose mention of *replay* was correctly not treated as an amendment.
