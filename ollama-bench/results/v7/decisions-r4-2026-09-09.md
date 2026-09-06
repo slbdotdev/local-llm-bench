@@ -99,3 +99,9 @@ causally-necessary set any candidate in this campaign has declared, against p05'
 twenty-three paths; and its glm reviewer re-verified by hand that an exhaustive digit-run search
 over the whole tree finds none of the eighteen decisive values, so its H1 = H2 = H3 = H4 = 0.000 is
 a measurement rather than the vacuous zero a fully derived declaration can produce.
+
+**Owner's ruling, 2026-09-06, on the coverage question.** Course 2: coverage is demoted to a
+diagnostic reported beside every row, and admission rests on the reference arms and the two
+cross-family reviews alone. Plan section 2.2 carries the amendment. Nothing becomes a gate again
+until it has been shown to correlate with difficulty in the right direction. p05 and p08 remain
+parked by the 40% family cap, not by coverage, and p04 by its split review.
