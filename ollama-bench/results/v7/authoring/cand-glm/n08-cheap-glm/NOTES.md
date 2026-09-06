@@ -58,7 +58,11 @@ manifest and the README pointer. Tests and history carry no acceptance datum, wh
 measured claim — `facts()` asserts the constant and the countersigned line appear in no
 other files — not an estimate.
 
-No single word of the prompt greps to one load-bearing file, and no summary file answers
+No word of the prompt greps to one load-bearing file, and that is a measurement, not an
+assurance: at build time `facts()` takes the 41 distinct non-stopword tokens of
+`prompt.md` with the rung-0 checker's own tokenizer and stoplist, greps each over every
+seed file, and fails the build if any token's only hit is a load-bearing file — the
+manifest, the declared roster pointer, excepted. No summary file answers
 any part: the manifest lists every stage but carries no acceptance datum at all, and that
 is what `check_index_leak.py` verifies with `DECISIVE_CONSTANT = "ACCEPTANCE_RECORD"` declared —
 the per-unit datum is a module constant, so the declaration applies and the check confirms

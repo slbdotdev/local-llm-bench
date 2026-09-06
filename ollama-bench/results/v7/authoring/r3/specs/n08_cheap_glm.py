@@ -24,6 +24,7 @@ their datum is that nothing is there.
 import os
 import re
 
+from .. import check_rung0 as R0
 from .. import common as C
 
 
@@ -366,7 +367,28 @@ def facts(ctx):
     blocked = len(missing_names) + len(unsigned_names)
     assert blocked == 4, "four stages are without a signed record on file, measured %d" % blocked
 
-    return {
+    # -- the prompt carries no one-hop locator for a load-bearing file. Measured, not
+    #    asserted: every non-stopword token of prompt.md (the rung-0 checker's own
+    #    tokenizer and stoplist) is grepped over every file in the seed, and the build
+    #    stops if any token's hits are exactly one load-bearing file. The declared roster
+    #    pointer is exempt: the prompt names the manifest, and load_bearing() declares
+    #    that it does.
+    prompt_words = sorted(set(w.lower() for w in R0.WORD.findall(prompt(ctx))) - R0.STOP)
+    seed_texts = {rel: C.read(os.path.join(ctx["seed"], *rel.split("/")))
+                  for rel in C.walk_rel(ctx["seed"])}
+    lb = load_bearing(ctx)
+    lb_paths = (set(p["path"] for p in lb)
+                - set(p["path"] for p in lb if p.get("named_in_prompt")))
+    isolated = []
+    for w in prompt_words:
+        hits = sorted(rel for rel, text in seed_texts.items() if w in text.lower())
+        if len(hits) == 1 and hits[0] in lb_paths:
+            isolated.append("%s -> %s" % (w, hits[0]))
+    assert not isolated, (
+        "prompt words locating exactly one file, and that one load-bearing: %s"
+        % ", ".join(isolated))
+
+    return {"pwords": len(prompt_words),
         "keys": ["missing_acceptance", "unsigned_acceptance", "blocked_count",
                  "batch_record"],
         "expect": {
@@ -403,21 +425,22 @@ the root of that checkout.
 The migration window opens only when every stage's acceptance is in order, and the
 project's acceptance procedure, written in this repository, is what decides what "in
 order" means: it defines what it means for a stage's acceptance to be on file, what makes
-an acceptance record signed, and which placements are sanctioned. Find it and apply it.
+an acceptance record signed, and how a stage accepted as part of a group is recorded.
+Find it and apply it.
 Every stage the manifest names is in scope, and the report follows the manifest's order.
 
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
 exactly these four lines, in this order:
 
     missing_acceptance: <the stages with no acceptance on file, comma-separated, manifest order>
-    unsigned_acceptance: <the stages whose acceptance is on file but not signed, comma-separated, manifest order>
-    blocked_count: <how many stages are without a signed acceptance record on file, a plain integer>
-    batch_record: <the identifier of the record that covers the stages accepted at batch level>
+    unsigned_acceptance: <the stages with an acceptance on file but not signed, comma-separated, manifest order>
+    blocked_count: <the number of stages without a signed acceptance record on file, a plain integer>
+    batch_record: <the code that identifies the record covering the stages accepted as one batch>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 
-Do not modify or delete any existing file, and create no file other than the report. A
-cutover that repairs what it measures has measured nothing.
+Do not modify or delete any existing file, and create no file other than the report; the
+checkout must remain exactly as you found it.
 
 Work until the report is complete, then stop.
 """ % {"project": PROJECT, "deliv": DELIVERABLE}
@@ -648,7 +671,11 @@ manifest and the README pointer. Tests and history carry no acceptance datum, wh
 measured claim — `facts()` asserts the constant and the countersigned line appear in no
 other files — not an estimate.
 
-No single word of the prompt greps to one load-bearing file, and no summary file answers
+No word of the prompt greps to one load-bearing file, and that is a measurement, not an
+assurance: at build time `facts()` takes the %(pwords)d distinct non-stopword tokens of
+`prompt.md` with the rung-0 checker's own tokenizer and stoplist, greps each over every
+seed file, and fails the build if any token's only hit is a load-bearing file — the
+manifest, the declared roster pointer, excepted. No summary file answers
 any part: the manifest lists every stage but carries no acceptance datum at all, and that
 is what `check_index_leak.py` verifies with `DECISIVE_CONSTANT = "%(constant)s"` declared —
 the per-unit datum is a module constant, so the declaration applies and the check confirms
@@ -727,7 +754,7 @@ sets, and the batch identifier by reading the batch record's header and assertin
 member's module cites it. Nothing is typed twice. The corpus itself is generated
 (%(generated)s), so no stage name, owner or limit in the material was chosen by hand.
 """ % {
-        "slot": SLOT, "mode": MODE, "constant": CONSTANT,
+        "slot": SLOT, "mode": MODE, "constant": CONSTANT, "pwords": f["pwords"],
         "ncompliant": len(f["compliant_names"]),
         "missing": ", ".join("`%s`" % n for n in f["missing_names"]),
         "unsigned": "`%s`" % f["unsigned_names"][0],
