@@ -571,10 +571,10 @@ def prompt(ctx):
 
 You are working at the root of the `sable-arc` repository. Every region named by the repository
 manifest is in scope. Read the project's glossary, the active dated decision, each region's
-component record for context, its own history entry, the history changelog, and the resolved
-retention event history. The old spot-check page is only a lead. Apply the project's definition of
-**regional retention**, then apply the amendment that is currently in force. A verification is
-complete only under the repository's stated event-history rule.
+component record for context, its own history entry, the module-facing interval notes, and the
+resolved retention event history. The old spot-check page is only a lead. Apply the project's
+definition of **regional retention**, then apply the amendment that is currently in force. A
+verification is complete only under the repository's stated event-history rule.
 
 Write a new file `retention-report.txt` in the repository root with exactly these four lines, in
 this order:
@@ -624,7 +624,10 @@ def load_bearing(ctx):
         {"path": "history/CHANGELOG.md", "hop": "effective-window", "why": "carries each module-facing interval in prose"},
     ]
     for stage in corpus.stages:
+        if stage["name"] != "retention":
+            lb.append({"path": stage["doc"], "hop": "component-context", "why": "component record checked to rule out its ordinary operational settings"})
         lb.append({"path": stage["history"], "hop": "declared-window", "why": "operator-facing interval for the region"})
+    lb.append({"path": "src/sable/backfill_store.py", "hop": "runtime-context", "why": "runtime implementation checked for a hidden interval override"})
     return lb
 
 

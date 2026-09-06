@@ -1,0 +1,12 @@
+2034-07-11
+
+python3 -m pytest -q
+  1 failed
+  tests/test_backfill.py::test_backfill_snapshot_is_sorted
+
+mine, not the team's:
+- finish converting the other stages when the client migration is scheduled
+- ask R. whether compat_names is worth keeping at all, or whether the two integrations
+  should just be told to move
+- the standing reservations page is stale again, ask whoever compiles it whether it is
+  worth recompiling at all now the programme is closed
