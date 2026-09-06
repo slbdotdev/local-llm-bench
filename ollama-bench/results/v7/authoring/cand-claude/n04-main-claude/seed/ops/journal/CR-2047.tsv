@@ -1,0 +1,21 @@
+# CR-2047 - storage reduction programme, filing 4 of 9
+#
+# Filed by: R. Okonjo. Opened 2035-01-14, closed 2035-02-18.
+#
+# Raised by the on-call team after the January capacity meeting and kept open through
+# the February review, so its entries span two months. Two of them revise a figure
+# another filing set and one puts a withdrawn entry back.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+121	apply	EV-46	228	-	2035-01-25	R. Okonjo	reduction carried over from the closed request CR-2039
+124	revert	-	-	112	2035-01-28	H. Bergstrom	withdrawn: refill time measured longer than the reduction had assumed
+127	apply	EV-41	244	-	2035-01-31	R. Okonjo	revised upward after the compliance read asked for more headroom
+131	revert	-	-	104	2035-02-04	E. Thorsdottir	withdrawn: the on-call team never agreed the January figure
+143	reinstate	-	-	116	2035-02-16	H. Bergstrom	reinstated with the on-call team's agreement

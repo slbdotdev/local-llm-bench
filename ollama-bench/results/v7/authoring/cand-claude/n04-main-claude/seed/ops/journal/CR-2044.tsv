@@ -1,0 +1,22 @@
+# CR-2044 - storage reduction programme, filing 3 of 9
+#
+# Filed by: R. Okonjo. Opened 2035-01-09, closed 2035-02-19.
+#
+# The withdrawals filing. It was opened to carry the reversions the refresh slippage
+# forced and was then left open, so it also carries one reduction and one
+# reinstatement filed much later. That is ordinary and is why entries are numbered
+# journal-wide rather than per file.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+114	apply	EV-41	210	-	2035-01-18	R. Okonjo	reduction agreed pending the compliance read
+118	revert	-	-	106	2035-01-22	H. Bergstrom	withdrawn: the array refresh slipped and the cut cannot be carried
+120	apply	EV-66	168	-	2035-01-24	E. Thorsdottir	reduction sized from the same sampling as the January entries
+122	revert	-	-	116	2035-01-26	L. Achterberg	withdrawn at the on-call team's request while the refresh is in doubt
+144	reinstate	-	-	108	2035-02-17	E. Thorsdottir	reinstated after the storage model's second run confirmed the sizing

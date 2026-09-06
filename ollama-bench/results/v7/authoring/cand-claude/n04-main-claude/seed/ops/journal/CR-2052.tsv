@@ -1,0 +1,18 @@
+# CR-2052 - storage reduction programme, filing 6 of 9
+#
+# Filed by: H. Bergstrom. Opened 2035-01-23, closed 2035-02-13.
+#
+# The February filing. It carries the two reductions the evidence team asked for and
+# one reinstatement, and it was closed on the day the refresh date was confirmed.
+#
+# This file is one filing. The journal is every filing in this directory,
+# combined and then put in ascending seq; the seq values below are journal-wide,
+# are allocated when an entry is filed, and are not contiguous within a filing.
+#
+# docs/journal-protocol.md defines what each action does and is the only place
+# those definitions are set out. Fields are tab-delimited, and a field that does
+# not apply to an entry carries `-`.
+seq	action	vault	size	target	filed_on	filed_by	reason
+130	apply	EV-76	205	-	2035-02-03	H. Bergstrom	reduction filed against the vault the evidence team asked us to trim first
+133	apply	EV-51	258	-	2035-02-06	R. Okonjo	revised upward; the February figure was too tight for the weekly cycle
+139	reinstate	-	-	106	2035-02-12	E. Thorsdottir	reinstated now that the array refresh has a date
