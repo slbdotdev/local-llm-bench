@@ -37,6 +37,16 @@ repaired in flight.
 
 ### juniperway dossier
 
-@10 foxglove juniperway silverfin jasperline detour10
+veil10_01
+veil10_02
+veil10_03
+veil10_04
+veil10_05
+veil10_06
+veil10_07
+veil10_08
+
+@10 foxglove juniperway silverfin jasperline altsilverfin
+@10 altfoxglove juniperway altsilverfin jasperline altsilverfin
 @10 jadecrest jasperline kindling juniperway fallback10
 @10 sparemark10 juniperway spareout10 jasperline sparealt10

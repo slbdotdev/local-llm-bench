@@ -37,6 +37,16 @@ repaired in flight.
 
 ### reedglass dossier
 
-@18 thistledown reedglass bracken rosewood detour18
+veil18_01
+veil18_02
+veil18_03
+veil18_04
+veil18_05
+veil18_06
+veil18_07
+veil18_08
+
+@18 thistledown reedglass bracken rosewood altbracken
+@18 altthistle reedglass altbracken rosewood altbracken
 @18 redcliff rosewood searock reedglass fallback18
 @18 sparemark18 reedglass spareout18 rosewood sparealt18

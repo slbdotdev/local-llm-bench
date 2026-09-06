@@ -20,7 +20,7 @@ PROJECT = "orison-thread"
 PACKAGE = "orison"
 CORPUS_SEED = 5808
 TARGET_TOKENS = 31000
-DELIVERABLE = "route-ledger.txt"
+DELIVERABLE = "handoff.txt"
 SUMMARY = """
 Replay the twenty-two-stage handoff chain in manifest order.  The marker produced by one
 stage is the lookup key for the next stage; each stage's row has two possible destinations,
@@ -76,6 +76,12 @@ _DECOY_OUT = [
     "newhaven", "overlook", "pinecone", "quickstep", "rosebay", "searock",
     "tidepool", "upstream", "westfall", "yearling",
 ]
+_ALT_MARKERS = [
+    "altcairn", "altbrindle", "altbluefen", "altcopper", "altnightjar", "altmossvale",
+    "altrainport", "altholloway", "altamber", "altfoxglove", "altsilverfin", "altdrift",
+    "altstone", "altbellmoss", "altwindmere", "altcloudrest", "altstarling", "altthistle",
+    "altbracken", "altmoonbay", "altriver", "altgolden", "altwainscot",
+]
 
 # The overlay uses 22 distinct prose-free row shapes.  Keeping the row itself sparse means a
 # prompt word cannot grep every decisive marker, and distinct tags keep the frame-harvest check
@@ -95,8 +101,11 @@ def _assert_layout(corpus):
     assert len(_ALT_TAGS) == CHAIN_STEPS
     assert len(_DECOY_IN) == CHAIN_STEPS
     assert len(_DECOY_OUT) == CHAIN_STEPS
+    assert len(_ALT_MARKERS) == CHAIN_STEPS + 1
     assert len(set(_MARKERS + _DECOY_IN + _DECOY_OUT)) == len(
         _MARKERS + _DECOY_IN + _DECOY_OUT)
+    assert len(set(_ALT_MARKERS)) == len(_ALT_MARKERS)
+    assert not set(_ALT_MARKERS) & set(_MARKERS + _DECOY_IN + _DECOY_OUT)
     assert len(set(_BRANCH_TAGS + _ALT_TAGS)) == 2 * CHAIN_STEPS
     assert all(s.get("history") for s in corpus.stages[:CHAIN_STEPS])
 
@@ -121,16 +130,25 @@ def _branch(index):
 def _card_text(index):
     # The heading has a different tag for every stage and contains none of the prompt's
     # procedural vocabulary.  The three rows make the matching lookup unambiguous while the
-    # two decoy rows keep a reader from assuming that the first row is always the one to use.
+    # Three non-reference rows keep a reader from assuming that the first row is always the one
+    # to use: one is a complete alternate traversal for the wrong-course probes, and two are
+    # ordinary decoys.
     st = index
     other_in = _DECOY_IN[index]
     other_out = _DECOY_OUT[index]
     spare_in = "sparemark%02d" % (index + 1)
     spare_out = "spareout%02d" % (index + 1)
-    return "\n\n### %s dossier\n\n%s\n%s\n%s\n" % (
+    # The generated component document ends in ordinary project prose.  Keep that prose more
+    # than five lines away from the decisive rows so a five-line grep window cannot turn an
+    # inherited word such as a component's domain into a universal harvest anchor.
+    buffer = "\n".join("veil%02d_%02d" % (index + 1, n) for n in range(1, 9))
+    return "\n\n### %s dossier\n\n%s\n\n%s\n%s\n%s\n%s\n" % (
         _BRANCH_TAGS[index],
+        buffer,
         _route_row(index, _MARKERS[index], _BRANCH_TAGS[index], _MARKERS[index + 1],
-                   _ALT_TAGS[index], "detour%02d" % (index + 1)),
+                   _ALT_TAGS[index], _ALT_MARKERS[index + 1]),
+        _route_row(index, _ALT_MARKERS[index], _BRANCH_TAGS[index], _ALT_MARKERS[index + 1],
+                   _ALT_TAGS[index], _ALT_MARKERS[index + 1]),
         _route_row(index, other_in, _ALT_TAGS[index], other_out,
                    _BRANCH_TAGS[index], "fallback%02d" % (index + 1)),
         _route_row(index, spare_in, _BRANCH_TAGS[index], spare_out,
@@ -165,7 +183,7 @@ def _read_rows(corpus, stage):
         rows.append({"prefix": match.group(1), "incoming": match.group(2),
                      "first_tag": match.group(3), "first_out": match.group(4),
                      "second_tag": match.group(5), "second_out": match.group(6)})
-    assert len(rows) == 3, "%s: expected three route rows, got %d" % (stage["doc"], len(rows))
+    assert len(rows) == 4, "%s: expected four route rows, got %d" % (stage["doc"], len(rows))
     return rows
 
 
@@ -246,24 +264,22 @@ def facts(ctx):
     # chain remains a serial computation: changing an early outgoing marker makes the next lookup
     # fail or follow a different row, so later checkpoints cannot be computed independently.
     return {
-        "keys": ["after_step_05", "after_step_10", "after_step_15", "after_step_20",
-                 "final_state"],
+        "keys": ["mark_05", "mark_10", "mark_15", "mark_20", "terminal_marker"],
         "expect": {
-            "after_step_05": chain[4],
-            "after_step_10": chain[9],
-            "after_step_15": chain[14],
-            "after_step_20": chain[19],
-            "final_state": chain[-1],
+            "mark_05": chain[4],
+            "mark_10": chain[9],
+            "mark_15": chain[14],
+            "mark_20": chain[19],
+            "terminal_marker": chain[-1],
         },
         "kinds": {key: "exact" for key in
-                  ("after_step_05", "after_step_10", "after_step_15", "after_step_20",
-                   "final_state")},
+                  ("mark_05", "mark_10", "mark_15", "mark_20", "terminal_marker")},
         "groups": [
-            {"name": "marker after step 5", "keys": ["after_step_05"]},
-            {"name": "marker after step 10", "keys": ["after_step_10"]},
-            {"name": "marker after step 15", "keys": ["after_step_15"]},
-            {"name": "marker after step 20", "keys": ["after_step_20"]},
-            {"name": "terminal marker after step 22", "keys": ["final_state"]},
+            {"name": "marker at step 5", "keys": ["mark_05"]},
+            {"name": "marker at step 10", "keys": ["mark_10"]},
+            {"name": "marker at step 15", "keys": ["mark_15"]},
+            {"name": "marker at step 20", "keys": ["mark_20"]},
+            {"name": "terminal marker at step 22", "keys": ["terminal_marker"]},
         ],
         "chain": chain,
         "trace": trace,
@@ -283,42 +299,43 @@ def prompt(ctx):
 You are in the root of the `%(project)s` checkout.  Produce one new file named
 `%(deliverable)s`; do not modify or delete any existing file and do not create anything else.
 
-Use the first %(steps)d stage entries, in exactly the order they appear in
+Use the first %(steps)d component entries, in exactly the order they appear in
 `config/manifest.json`.  The first marker is the `@START` marker in the project's material.
-For each stage, do these operations in order:
+For each component, do these actions in order:
 
-1. In that stage's component document, find the one route row whose incoming marker equals the
-   marker produced by the preceding stage.  At step 1, use the initial marker.  A row has two
+1. In that component's document, find the one route row whose incoming marker equals the
+   marker produced by the preceding component.  At step 1, use the initial marker.  A row has two
    labelled candidate destinations: a branch tag immediately followed by its destination, then
    another branch tag immediately followed by its destination.
-2. Read that stage's branch tag from its Python module and its certificate (`affirm` or
+2. Read that component's branch tag from its Python module and its certificate (`affirm` or
    `invert`) from its history entry.  If the certificate is `affirm`, select the destination
    carrying the module's branch tag.  If it is `invert`, select the other destination on the
    matched row.  The selected destination is the marker for the next step.
-3. Carry that selected marker forward as the lookup key for the next stage.  Do not restart a
+3. Carry that selected marker forward as the lookup key for the next component.  Do not restart a
    lookup from the initial marker.
 
 Write exactly these five `key: value` lines to `%(deliverable)s`, in this order.  The values are
 the marker strings exactly as they appear in the material; do not add commentary or quotes:
 
-    after_step_05: <marker after stage 5>
-    after_step_10: <marker after stage 10>
-    after_step_15: <marker after stage 15>
-    after_step_20: <marker after stage 20>
-    final_state: <marker after stage 22>
+    mark_05: <marker produced at step 5>
+    mark_10: <marker produced at step 10>
+    mark_15: <marker produced at step 15>
+    mark_20: <marker produced at step 20>
+    terminal_marker: <marker produced at step 22>
 
-The checkpoint values are the running state of one serial replay.  A marker from an earlier
-stage is not a substitute for the marker produced immediately before the stage you are reading.
+The five reported markers are the running results of one serial replay.  A marker from an earlier
+component is not a substitute for the marker produced immediately before the component you are
+reading.
 """ % {"project": PROJECT, "deliverable": DELIVERABLE, "steps": CHAIN_STEPS}
 
 
 def reference(ctx):
     f = ctx["facts"]
-    return {DELIVERABLE: "after_step_05: %s\nafter_step_10: %s\nafter_step_15: %s\n"
-                         "after_step_20: %s\nfinal_state: %s\n" % (
-                             f["expect"]["after_step_05"], f["expect"]["after_step_10"],
-                             f["expect"]["after_step_15"], f["expect"]["after_step_20"],
-                             f["expect"]["final_state"])}
+    return {DELIVERABLE: "mark_05: %s\nmark_10: %s\nmark_15: %s\n"
+                         "mark_20: %s\nterminal_marker: %s\n" % (
+                             f["expect"]["mark_05"], f["expect"]["mark_10"],
+                             f["expect"]["mark_15"], f["expect"]["mark_20"],
+                             f["expect"]["terminal_marker"])}
 
 
 def harvest_units(ctx):
@@ -369,8 +386,8 @@ _PERTURBATIONS = [
 
 
 def _answer(values):
-    return ("after_step_05: %s\nafter_step_10: %s\nafter_step_15: %s\n"
-            "after_step_20: %s\nfinal_state: %s\n" % tuple(values))
+    return ("mark_05: %s\nmark_10: %s\nmark_15: %s\n"
+            "mark_20: %s\nterminal_marker: %s\n" % tuple(values))
 
 
 def probes(ctx):

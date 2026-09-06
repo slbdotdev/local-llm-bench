@@ -37,6 +37,16 @@ repaired in flight.
 
 ### glenward dossier
 
-@07 rainport glenward holloway granitebell detour07
+veil07_01
+veil07_02
+veil07_03
+veil07_04
+veil07_05
+veil07_06
+veil07_07
+veil07_08
+
+@07 rainport glenward holloway granitebell altholloway
+@07 altrainport glenward altholloway granitebell altholloway
 @07 greenwake granitebell greywater glenward fallback07
 @07 sparemark07 glenward spareout07 granitebell sparealt07

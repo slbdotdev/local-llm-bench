@@ -37,6 +37,16 @@ repaired in flight.
 
 ### larkspur dossier
 
-@12 driftpine larkspur stoneharbor limestone detour12
+veil12_01
+veil12_02
+veil12_03
+veil12_04
+veil12_05
+veil12_06
+veil12_07
+veil12_08
+
+@12 driftpine larkspur stoneharbor limestone altstone
+@12 altdrift larkspur altstone limestone altstone
 @12 lowtide limestone millstone larkspur fallback12
 @12 sparemark12 larkspur spareout12 limestone sparealt12

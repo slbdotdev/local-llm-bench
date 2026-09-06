@@ -37,6 +37,16 @@ repaired in flight.
 
 ### cedarpath dossier
 
-@03 bluefen cedarpath copperwren cloverpost detour03
+veil03_01
+veil03_02
+veil03_03
+veil03_04
+veil03_05
+veil03_06
+veil03_07
+veil03_08
+
+@03 bluefen cedarpath copperwren cloverpost altcopper
+@03 altbluefen cedarpath altcopper cloverpost altcopper
 @03 coastmark cloverpost crosswind cedarpath fallback03
 @03 sparemark03 cedarpath spareout03 cloverpost sparealt03

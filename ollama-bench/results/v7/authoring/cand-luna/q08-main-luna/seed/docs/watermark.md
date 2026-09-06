@@ -37,6 +37,16 @@ repaired in flight.
 
 ### tamarack dossier
 
-@20 moonbay tamarack rivercairn tinwhistle detour20
+veil20_01
+veil20_02
+veil20_03
+veil20_04
+veil20_05
+veil20_06
+veil20_07
+veil20_08
+
+@20 moonbay tamarack rivercairn tinwhistle altriver
+@20 altmoonbay tamarack altriver tinwhistle altriver
 @20 trailhead tinwhistle upstream tamarack fallback20
 @20 sparemark20 tamarack spareout20 tinwhistle sparealt20

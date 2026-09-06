@@ -35,7 +35,7 @@ history: `accepted` means both reviewers passed it.*
 
 | slot | author | claude | luna | glm | state |
 | --- | --- | --- | --- | --- | --- |
-| m01-main-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
+| n02-main-glm | glm | PASS | PASS | — | accepted *(v7r5; replaced m01-main-claude)* |
 | m04-main-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | m07-main-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | m10-main-claude | claude | — | REVISE -> revised | REVISE -> revised | accepted |
@@ -43,7 +43,7 @@ history: `accepted` means both reviewers passed it.*
 | m06-cheap-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | m09-cheap-claude | claude | — | REVISE -> revised | ACCEPT | accepted |
 | p02-main-claude | claude | — | PASS | PASS | accepted *(v7r4; replaced m02-main-luna)* |
-| m05-main-luna | luna | ACCEPT | — | ACCEPT | accepted |
+| p05-main-claude | claude | — | PASS | PASS | accepted *(v7r5; replaced m05-main-luna)* |
 | m08-main-luna | luna | REVISE -> revised | — | ACCEPT | accepted |
 | m01-cheap-luna | luna | ACCEPT | — | REVISE -> revised | accepted |
 | m04-cheap-luna | luna | REVISE -> revised | — | ACCEPT | accepted |
@@ -51,7 +51,7 @@ history: `accepted` means both reviewers passed it.*
 | m10-cheap-luna | luna | ACCEPT | — | ACCEPT | accepted |
 | m03-main-glm | glm | ACCEPT *(after one fix)* | ACCEPT | — | accepted |
 | m06-main-glm | glm | ACCEPT | REVISE -> revised | — | accepted |
-| m09-main-glm | glm | ACCEPT | ACCEPT | — | accepted |
+| n05-main-luna | luna | PASS | — | PASS | accepted *(v7r5; replaced m09-main-glm)* |
 | m02-cheap-glm | glm | ACCEPT | ACCEPT | — | accepted |
 | m05-cheap-glm | glm | ACCEPT *(after one fix)* | ACCEPT | — | accepted |
 | m08-cheap-glm | glm | ACCEPT | ACCEPT | — | accepted |

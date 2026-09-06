@@ -37,6 +37,16 @@ repaired in flight.
 
 ### frostmark dossier
 
-@06 mossvale frostmark rainport flintroad detour06
+veil06_01
+veil06_02
+veil06_03
+veil06_04
+veil06_05
+veil06_06
+veil06_07
+veil06_08
+
+@06 mossvale frostmark rainport flintroad altrainport
+@06 altmossvale frostmark altrainport flintroad altrainport
 @06 farthing flintroad fieldstone frostmark fallback06
 @06 sparemark06 frostmark spareout06 flintroad sparealt06

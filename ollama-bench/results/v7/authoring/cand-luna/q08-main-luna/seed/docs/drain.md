@@ -37,6 +37,16 @@ repaired in flight.
 
 ### ironleaf dossier
 
-@09 amberfield ironleaf foxglove ivoryspan detour09
+veil09_01
+veil09_02
+veil09_03
+veil09_04
+veil09_05
+veil09_06
+veil09_07
+veil09_08
+
+@09 amberfield ironleaf foxglove ivoryspan altfoxglove
+@09 altamber ironleaf altfoxglove ivoryspan altfoxglove
 @09 inkstone ivoryspan isletree ironleaf fallback09
 @09 sparemark09 ironleaf spareout09 ivoryspan sparealt09

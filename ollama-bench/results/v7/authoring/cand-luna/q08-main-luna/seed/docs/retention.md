@@ -37,6 +37,16 @@ repaired in flight.
 
 ### sablegate dossier
 
-@19 bracken sablegate moonbay sundialpost detour19
+veil19_01
+veil19_02
+veil19_03
+veil19_04
+veil19_05
+veil19_06
+veil19_07
+veil19_08
+
+@19 bracken sablegate moonbay sundialpost altmoonbay
+@19 altbracken sablegate altmoonbay sundialpost altmoonbay
 @19 saltmarsh sundialpost tidepool sablegate fallback19
 @19 sparemark19 sablegate spareout19 sundialpost sparealt19

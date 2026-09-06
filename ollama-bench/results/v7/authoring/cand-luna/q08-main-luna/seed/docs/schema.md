@@ -37,6 +37,16 @@ repaired in flight.
 
 ### oakthread dossier
 
-@15 windmere oakthread cloudrest opalbridge detour15
+veil15_01
+veil15_02
+veil15_03
+veil15_04
+veil15_05
+veil15_06
+veil15_07
+veil15_08
+
+@15 windmere oakthread cloudrest opalbridge altcloudrest
+@15 altwindmere oakthread altcloudrest opalbridge altcloudrest
 @15 oldmill opalbridge pinecone oakthread fallback15
 @15 sparemark15 oakthread spareout15 opalbridge sparealt15

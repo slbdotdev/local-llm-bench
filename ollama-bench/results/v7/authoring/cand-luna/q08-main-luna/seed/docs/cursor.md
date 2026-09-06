@@ -37,6 +37,16 @@ repaired in flight.
 
 ### elmshadow dossier
 
-@05 nightjar elmshadow mossvale evergreen detour05
+veil05_01
+veil05_02
+veil05_03
+veil05_04
+veil05_05
+veil05_06
+veil05_07
+veil05_08
+
+@05 nightjar elmshadow mossvale evergreen altmossvale
+@05 altnightjar elmshadow altmossvale evergreen altmossvale
 @05 eastgrove evergreen evenfall elmshadow fallback05
 @05 sparemark05 elmshadow spareout05 evergreen sparealt05

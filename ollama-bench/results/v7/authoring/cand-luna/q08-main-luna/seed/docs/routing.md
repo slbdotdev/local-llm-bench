@@ -37,6 +37,16 @@ repaired in flight.
 
 ### pineward dossier
 
-@16 cloudrest pineward starling pebblemark detour16
+veil16_01
+veil16_02
+veil16_03
+veil16_04
+veil16_05
+veil16_06
+veil16_07
+veil16_08
+
+@16 cloudrest pineward starling pebblemark altstarling
+@16 altcloudrest pineward altstarling pebblemark altstarling
 @16 prairiekey pebblemark quickstep pineward fallback16
 @16 sparemark16 pineward spareout16 pebblemark sparealt16

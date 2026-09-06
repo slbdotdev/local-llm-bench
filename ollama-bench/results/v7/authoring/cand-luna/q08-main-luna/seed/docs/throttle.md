@@ -37,6 +37,16 @@ repaired in flight.
 
 ### marshlight dossier
 
-@13 stoneharbor marshlight bellmoss maplecrest detour13
+veil13_01
+veil13_02
+veil13_03
+veil13_04
+veil13_05
+veil13_06
+veil13_07
+veil13_08
+
+@13 stoneharbor marshlight bellmoss maplecrest altbellmoss
+@13 altstone marshlight altbellmoss maplecrest altbellmoss
 @13 mistgate maplecrest newhaven marshlight fallback13
 @13 sparemark13 marshlight spareout13 maplecrest sparealt13

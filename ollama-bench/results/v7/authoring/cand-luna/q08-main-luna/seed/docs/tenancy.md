@@ -37,6 +37,16 @@ repaired in flight.
 
 ### umberline dossier
 
-@21 rivercairn umberline goldenrod uplandring detour21
+veil21_01
+veil21_02
+veil21_03
+veil21_04
+veil21_05
+veil21_06
+veil21_07
+veil21_08
+
+@21 rivercairn umberline goldenrod uplandring altgolden
+@21 altriver umberline altgolden uplandring altgolden
 @21 underhill uplandring westfall umberline fallback21
 @21 sparemark21 umberline spareout21 uplandring sparealt21

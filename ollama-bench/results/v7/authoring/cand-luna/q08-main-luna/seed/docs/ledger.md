@@ -37,6 +37,16 @@ repaired in flight.
 
 ### dunewatch dossier
 
-@04 copperwren dunewatch nightjar duskfield detour04
+veil04_01
+veil04_02
+veil04_03
+veil04_04
+veil04_05
+veil04_06
+veil04_07
+veil04_08
+
+@04 copperwren dunewatch nightjar duskfield altnightjar
+@04 altcopper dunewatch altnightjar duskfield altnightjar
 @04 dawnledger duskfield daybreak dunewatch fallback04
 @04 sparemark04 dunewatch spareout04 duskfield sparealt04

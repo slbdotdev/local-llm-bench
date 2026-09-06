@@ -37,6 +37,16 @@ repaired in flight.
 
 ### birchline dossier
 
-@02 brindle birchline bluefen brookstone detour02
+veil02_01
+veil02_02
+veil02_03
+veil02_04
+veil02_05
+veil02_06
+veil02_07
+veil02_08
+
+@02 brindle birchline bluefen brookstone altbluefen
+@02 altbrindle birchline altbluefen brookstone altbluefen
 @02 briarcode brookstone blackthorn birchline fallback02
 @02 sparemark02 birchline spareout02 brookstone sparealt02

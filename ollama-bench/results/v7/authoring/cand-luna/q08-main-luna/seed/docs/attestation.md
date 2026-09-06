@@ -37,6 +37,16 @@ repaired in flight.
 
 ### alpenglow dossier
 
-@01 cairnfall alpenglow brindle apricotmark detour01
+veil01_01
+veil01_02
+veil01_03
+veil01_04
+veil01_05
+veil01_06
+veil01_07
+veil01_08
+
+@01 cairnfall alpenglow brindle apricotmark altbrindle
+@01 altcairn alpenglow altbrindle apricotmark altbrindle
 @01 ashmarker apricotmark afterglow alpenglow fallback01
 @01 sparemark01 alpenglow spareout01 apricotmark sparealt01

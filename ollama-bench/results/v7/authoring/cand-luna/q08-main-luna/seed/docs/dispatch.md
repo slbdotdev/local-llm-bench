@@ -37,6 +37,16 @@ repaired in flight.
 
 ### northwind dossier
 
-@14 bellmoss northwind windmere nutmegway detour14
+veil14_01
+veil14_02
+veil14_03
+veil14_04
+veil14_05
+veil14_06
+veil14_07
+veil14_08
+
+@14 bellmoss northwind windmere nutmegway altwindmere
+@14 altbellmoss northwind altwindmere nutmegway altwindmere
 @14 northcove nutmegway overlook northwind fallback14
 @14 sparemark14 northwind spareout14 nutmegway sparealt14

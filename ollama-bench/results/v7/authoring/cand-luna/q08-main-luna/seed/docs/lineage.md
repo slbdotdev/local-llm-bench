@@ -37,6 +37,16 @@ repaired in flight.
 
 ### kestrelpost dossier
 
-@11 silverfin kestrelpost driftpine kingfisher detour11
+veil11_01
+veil11_02
+veil11_03
+veil11_04
+veil11_05
+veil11_06
+veil11_07
+veil11_08
+
+@11 silverfin kestrelpost driftpine kingfisher altdrift
+@11 altsilverfin kestrelpost altdrift kingfisher altdrift
 @11 keelmark kingfisher lakeshore kestrelpost fallback11
 @11 sparemark11 kestrelpost spareout11 kingfisher sparealt11

@@ -37,6 +37,16 @@ repaired in flight.
 
 ### violetarc dossier
 
-@22 goldenrod violetarc wainscot vermilion detour22
+veil22_01
+veil22_02
+veil22_03
+veil22_04
+veil22_05
+veil22_06
+veil22_07
+veil22_08
+
+@22 goldenrod violetarc wainscot vermilion altwainscot
+@22 altgolden violetarc altwainscot vermilion altwainscot
 @22 valecrest vermilion yearling violetarc fallback22
 @22 sparemark22 violetarc spareout22 vermilion sparealt22

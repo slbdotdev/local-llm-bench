@@ -37,6 +37,16 @@ repaired in flight.
 
 ### heathstone dossier
 
-@08 holloway heathstone amberfield hazelturn detour08
+veil08_01
+veil08_02
+veil08_03
+veil08_04
+veil08_05
+veil08_06
+veil08_07
+veil08_08
+
+@08 holloway heathstone amberfield hazelturn altamber
+@08 altholloway heathstone altamber hazelturn altamber
 @08 highplain hazelturn hillcrest heathstone fallback08
 @08 sparemark08 heathstone spareout08 hazelturn sparealt08

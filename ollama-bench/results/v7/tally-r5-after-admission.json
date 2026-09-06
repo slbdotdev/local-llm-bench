@@ -1,0 +1,420 @@
+{
+ "tasks": [
+  {
+   "slot": "m01-cheap-luna",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 44.72,
+   "coverage_expanded_pct": 84.86,
+   "peak": 6279.2,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m02-cheap-glm",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 13.280000000000001,
+   "coverage_expanded_pct": 15.8,
+   "peak": 4238.0,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m03-cheap-claude",
+   "trials": 5,
+   "passes": 4,
+   "p": 0.8,
+   "lo": 0.3755346296812303,
+   "hi": 0.9637758913796723,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 1,
+   "unverified_claim": 0,
+   "coverage_pct": 16.5,
+   "coverage_expanded_pct": 50.0,
+   "peak": 5036.4,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m03-main-glm",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 2.7399999999999998,
+   "coverage_expanded_pct": 29.5,
+   "peak": 4337.0,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "m04-cheap-luna",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 29.26,
+   "coverage_expanded_pct": 96.42,
+   "peak": 4861.0,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m04-main-claude",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 18.02,
+   "coverage_expanded_pct": 89.3,
+   "peak": 11503.2,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "m05-cheap-glm",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 40.58,
+   "coverage_expanded_pct": 66.06,
+   "peak": 10173.2,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m06-cheap-claude",
+   "trials": 5,
+   "passes": 4,
+   "p": 0.8,
+   "lo": 0.3755346296812303,
+   "hi": 0.9637758913796723,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 1,
+   "unverified_claim": 0,
+   "coverage_pct": 12.3,
+   "coverage_expanded_pct": 62.31999999999999,
+   "peak": 3727.4,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m06-main-glm",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 9.559999999999999,
+   "coverage_expanded_pct": 78.0,
+   "peak": 9122.8,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "m07-cheap-luna",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 35.8,
+   "coverage_expanded_pct": 95.08,
+   "peak": 5449.4,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m07-main-claude",
+   "trials": 5,
+   "passes": 4,
+   "p": 0.8,
+   "lo": 0.3755346296812303,
+   "hi": 0.9637758913796723,
+   "confidently_wrong": 0,
+   "visibly_failed": 1,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 10.12,
+   "coverage_expanded_pct": 80.0,
+   "peak": 10940.8,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "m08-cheap-glm",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 22.36,
+   "coverage_expanded_pct": 37.82,
+   "peak": 5038.0,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m08-main-luna",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 1.86,
+   "coverage_expanded_pct": 43.38,
+   "peak": 4341.0,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "m09-cheap-claude",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 100.0,
+   "coverage_expanded_pct": 100.0,
+   "peak": 9860.0,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m10-cheap-luna",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 0.5,
+   "coverage_expanded_pct": 20.9,
+   "peak": 3636.6,
+   "tags": [
+    "v7r4cal-IQ2_M-cheap"
+   ]
+  },
+  {
+   "slot": "m10-main-claude",
+   "trials": 5,
+   "passes": 5,
+   "p": 1.0,
+   "lo": 0.5655175351015047,
+   "hi": 1.0,
+   "confidently_wrong": 0,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 6.32,
+   "coverage_expanded_pct": 56.08,
+   "peak": 9945.2,
+   "tags": [
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "n02-main-glm",
+   "trials": 4,
+   "passes": 2,
+   "p": 0.5,
+   "lo": 0.15003898911025654,
+   "hi": 0.8499610108897435,
+   "confidently_wrong": 2,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 12.425,
+   "coverage_expanded_pct": 83.65,
+   "peak": 15797.5,
+   "tags": [
+    "v7r3-gate-main",
+    "v7r3-rep-main"
+   ]
+  },
+  {
+   "slot": "n05-main-luna",
+   "trials": 4,
+   "passes": 3,
+   "p": 0.75,
+   "lo": 0.30064184250845644,
+   "hi": 0.9544127392056012,
+   "confidently_wrong": 1,
+   "visibly_failed": 0,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 5.275,
+   "coverage_expanded_pct": 86.775,
+   "peak": 7203.75,
+   "tags": [
+    "v7r3-gate-main",
+    "v7r3-rep-main"
+   ]
+  },
+  {
+   "slot": "p02-main-claude",
+   "trials": 6,
+   "passes": 5,
+   "p": 0.8333333333333334,
+   "lo": 0.4364971777290583,
+   "hi": 0.9699466302617041,
+   "confidently_wrong": 0,
+   "visibly_failed": 1,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 21.283333333333335,
+   "coverage_expanded_pct": 91.5,
+   "peak": 14256.166666666666,
+   "tags": [
+    "v7r4-gate-main",
+    "v7r4cal-IQ2_M-main"
+   ]
+  },
+  {
+   "slot": "p05-main-claude",
+   "trials": 4,
+   "passes": 1,
+   "p": 0.25,
+   "lo": 0.04558726079439873,
+   "hi": 0.6993581574915435,
+   "confidently_wrong": 0,
+   "visibly_failed": 3,
+   "unsafe": 0,
+   "unverified_claim": 0,
+   "coverage_pct": 24.4,
+   "coverage_expanded_pct": 97.975,
+   "peak": 24318.5,
+   "tags": [
+    "v7r4-gate-main",
+    "v7r4cal-IQ2_M-main"
+   ]
+  }
+ ],
+ "tags_used": {
+  "v7r3-gate-main": "round-three acceptance sweep, one trial per candidate (2 runs)",
+  "v7r3-rep-main": "round-three repeats, three trials per candidate (6 runs)",
+  "v7r4-gate-main": "round-four acceptance cells, run against the candidate directories (2 runs)",
+  "v7r4cal-IQ2_M-cheap": "round-four calibration: five trials per accepted task, the current build (50 runs)",
+  "v7r4cal-IQ2_M-main": "round-four calibration: five trials per accepted task, the current build (38 runs)"
+ },
+ "tags_skipped": {
+  "v7cal-IQ2_M-cheap": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal-IQ2_M-main": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal-Q2_K-cheap": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal-Q2_K-main": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal-UDQ3KXL-cheap": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal-UDQ3KXL-main": "round-two calibration, one trial against an earlier build of the suite",
+  "v7cal2-IQ2_M-cheap": "round-two repeats, three trials against an earlier build of the suite",
+  "v7cal2-IQ2_M-main": "round-two repeats, three trials against an earlier build of the suite",
+  "v7r2-gate-repeat": "counted, but holds no run of a task in this suite",
+  "v7r2-gate": "counted, but holds no run of a task in this suite",
+  "v7r3-gate-cheap": "counted, but holds no run of a task in this suite",
+  "v7r3-gate-n06": "counted, but holds no run of a task in this suite",
+  "v7r3-rep-cheap": "counted, but holds no run of a task in this suite",
+  "v7r4-early-main": "round-four early cell, run against candidates that were later revised",
+  "v7r4-gate-cheap-p08fix": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-cheap": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-main-p01": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-main-p04rev": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-p03rev": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-p04": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-p09rev": "counted, but holds no run of a task in this suite",
+  "v7r4-gate-p09rev2": "counted, but holds no run of a task in this suite",
+  "v7r4cal-Q2_K-cheap": "counted, but holds no run of a task in this suite",
+  "v7r4cal-Q2_K-main": "counted, but holds no run of a task in this suite",
+  "v7r4cal-UDQ3KXL-cheap": "counted, but holds no run of a task in this suite",
+  "v7r4cal-UDQ3KXL-main": "counted, but holds no run of a task in this suite"
+ },
+ "suite": {
+  "tasks": 20,
+  "trials": 98,
+  "passes": 88,
+  "mean_pass_probability": 0.8866666666666667,
+  "pooled_pass_rate": 0.8979591836734694,
+  "wilson95": [
+   0.8222723376975218,
+   0.9436239966818671
+  ],
+  "confidently_wrong": 3,
+  "confidently_wrong_rate": 0.030612244897959183,
+  "confidently_wrong_wilson95": [
+   0.010464891080072106,
+   0.08617020170321264
+  ]
+ }
+}

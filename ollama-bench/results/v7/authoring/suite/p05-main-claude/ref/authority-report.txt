@@ -1,0 +1,4 @@
+misdocumented_stages: attestation, drain, envelope, rollup
+held_allowance_sum: 1289
+excluded_stage: routing
+governing_decision: DR-0143

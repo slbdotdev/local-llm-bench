@@ -37,6 +37,16 @@ repaired in flight.
 
 ### quarrysign dossier
 
-@17 starling quarrysign thistledown quartzlane detour17
+veil17_01
+veil17_02
+veil17_03
+veil17_04
+veil17_05
+veil17_06
+veil17_07
+veil17_08
+
+@17 starling quarrysign thistledown quartzlane altthistle
+@17 altstarling quarrysign altthistle quartzlane altthistle
 @17 quietbay quartzlane rosebay quarrysign fallback17
 @17 sparemark17 quarrysign spareout17 quartzlane sparealt17
