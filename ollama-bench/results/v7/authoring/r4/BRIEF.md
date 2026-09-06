@@ -89,6 +89,13 @@ the contract; `r4/check_harvest.py`'s docstring has the full statement of the me
   task's own scope hands the solver. **H2 must be under 2/5.**
 * **H3** — H1 again with a five-line window, because a token can miss the decisive line under
   ±2 and still catch it inside a record block. **H3 must be under 1/3.**
+* **H4**, the **frame harvest** — strip the value and the unit's name from each value-bearing
+  line and take every run of two to six words of what is left; H4 is the largest fraction of
+  units sharing one such run. It needs **no giveaway vocabulary at all**, because one read of
+  one unit's file hands the solver the pattern. **H4 must be under 1/4.** A candidate this
+  round padded seven blank lines above every value to push it outside `grep -C5`, read H1 =
+  0.132 and H3 = 0.289, and was harvested 38 of 38 by one `grep -rn ' days.' seed/`. Padding to
+  defeat a fixed context window is buying difficulty with comprehension; do not do it.
 * *P2*, the best union of two giveaway tokens, is printed and is not gated. Read it anyway:
   it is the number that says how much a second grep buys.
 

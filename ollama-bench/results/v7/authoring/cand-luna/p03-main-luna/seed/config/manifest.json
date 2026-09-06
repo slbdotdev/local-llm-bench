@@ -97,62 +97,6 @@
       "limit": 250,
       "window_s": 45,
       "owner": "K. Sorensen"
-    },
-    {
-      "name": "backfill",
-      "module": "backfill_core",
-      "class": "BackfillGateway",
-      "limit": 12,
-      "window_s": 30,
-      "owner": "R. Okonjo"
-    },
-    {
-      "name": "rollup",
-      "module": "rollup_view",
-      "class": "RollupEngine",
-      "limit": 250,
-      "window_s": 45,
-      "owner": "S. Nwachukwu"
-    },
-    {
-      "name": "dispatch",
-      "module": "dispatch_view",
-      "class": "DispatchPlanner",
-      "limit": 960,
-      "window_s": 60,
-      "owner": "T. Abarca"
-    },
-    {
-      "name": "checkpoint",
-      "module": "checkpoint_core",
-      "class": "CheckpointLedger",
-      "limit": 64,
-      "window_s": 90,
-      "owner": "K. Sorensen"
-    },
-    {
-      "name": "digest",
-      "module": "digest_gate",
-      "class": "DigestLedger",
-      "limit": 12,
-      "window_s": 60,
-      "owner": "T. Abarca"
-    },
-    {
-      "name": "schema",
-      "module": "schema_flow",
-      "class": "SchemaPlanner",
-      "limit": 48,
-      "window_s": 120,
-      "owner": "T. Abarca"
-    },
-    {
-      "name": "ledger",
-      "module": "ledger_flow",
-      "class": "LedgerGateway",
-      "limit": 960,
-      "window_s": 180,
-      "owner": "C. Batbayar"
     }
   ]
 }

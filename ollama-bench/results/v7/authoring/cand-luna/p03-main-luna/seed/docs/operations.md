@@ -20,13 +20,6 @@ stage's own window for two consecutive windows.
 | compaction | 12 | 30 | Capacity Planning |
 | cursor | 48 | 120 | Platform Reliability |
 | retention | 250 | 45 | Data Stewardship |
-| backfill | 12 | 30 | Platform Reliability |
-| rollup | 250 | 45 | Data Stewardship |
-| dispatch | 960 | 60 | Capacity Planning |
-| checkpoint | 64 | 90 | Compliance Review |
-| digest | 12 | 60 | Platform Reliability |
-| schema | 48 | 120 | Data Stewardship |
-| ledger | 960 | 180 | Delivery Engineering |
 
 ## Restart procedure
 

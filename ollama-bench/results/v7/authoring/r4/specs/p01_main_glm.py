@@ -458,7 +458,7 @@ component the manifest names is in scope.
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
 exactly these four lines, in this order:
 
-    required_behavior: <the promise's term for how long an acknowledged delivery stays replayable, quoted exactly as the record words it>
+    required_behavior: <the promise's term for how long an acknowledged delivery stays protected, quoted exactly as the record words it>
     affected_components: <the components that do not meet the promise, alphabetical, separated by commas>
     authoritative_record: <the identifier of the record that carries the promise>
     regression_evidence: <for every component in scope, in that same alphabetical order, separated by commas: the date its newest acknowledged delivery stopped being protected>
@@ -741,8 +741,8 @@ Exactly **%(naff)d** components do not meet the promise: %(affected)s.
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |
 | report every cleared store (%(nnaive)d of %(n)d) | reads the README/operations sweep story and the module blocks, never finds the promise, applies no term | the promise fixes the term; %(nlawful)d components' waterlines passed their newest delivery's horizon, so their clearing was lawful |
-| apply the %(decoyd)s term | greps for the term, finds both release notes, takes the older one | REL-2031-02 is marked **superseded by REL-2032-11**, and the rationale declares itself the promise's only statement; the set comes out smaller (the +15-day stages were lawful under the old term) and every horizon is fourteen days short |
-| date the horizon from the oldest acknowledged delivery | reads each table bottom-up | the prompt defines the evidence as the newest acknowledged delivery's date; the set shrinks to %(nold)s and every date moves |
+| apply the %(decoyd)s | greps for the term, finds both release notes, takes the older one | REL-2031-02 is marked **superseded by REL-2032-11**, and the rationale declares itself the promise's only statement; the set comes out smaller (the +15-day stages were lawful under the old term) and every horizon is fourteen days short |
+| date the horizon from the oldest acknowledged delivery | reads each table bottom-up | the prompt defines the evidence as the newest acknowledged delivery's date; every horizon then predates its own waterline, so the set empties and every date moves |
 | list evidence for the affected components only | skims the fourth key | the prompt says "for every component in scope, in that same alphabetical order" |
 | never find the rationale; answer from the nearest page | reads one component's page and its module, generalises | membership is a per-component comparison; the lawful and violating stages are interleaved in the manifest, so no local reading predicts the set |
 
@@ -825,11 +825,11 @@ the record id by locating the one file that carries them. Nothing is typed twice
   scope; the research left the key's content open. Defining it per-component-for-all is
   what makes every component page genuinely required, which is where most of the sweep
   lives.
-- **`TARGET_TOKENS` is %(gen)d, not 26,000-27,000 at the low end of the band's advice** —
-  it is inside that advice band's top; the overlay is fat by design (every page and
-  module gains records), and the measured material is %(tokens)d tokens, inside
-  29,000-36,000. Generated corpus: %(genfiles)d files / %(genchars)s characters before
-  the overlay.
+- **No departure on `TARGET_TOKENS`:** it is %(gen)d, the main band's table value. The
+  overlay carries the material the rest of the way because it is fat by design — every
+  page and module gains the per-component records the answer replays. Measured material:
+  %(tokens)d tokens, inside 29,000-36,000. Generated corpus before the overlay:
+  %(genfiles)d files / %(genchars)s characters.
 """ % {
         "slot": SLOT, "mode": MODE, "term": TERM_PHRASE, "rationale": RATIONALE,
         "pline": f["promise_line"], "rlines": f["rationale_lines"], "rows": ROWS_PER_STAGE,
@@ -841,10 +841,6 @@ the record id by locating the one file that carries them. Nothing is typed twice
                         if f["waterlines"][x] >= f["newest_acks"][x]
                         and x not in f["affected"]]),
         "decoyd": DECOY_PHRASE,
-        "nold": "`%s`" % ", ".join(sorted(
-            x for x in f["names"]
-            if f["newest_acks"][x] <= f["waterlines"][x]
-            < _plus_s(f["oldest_acks"][x], TERM_DAYS))) or "none",
         "nlb": len(m["load_bearing"]),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])),
         "lb": lb_paths, "reflen": len(reference(ctx)[DELIVERABLE]),

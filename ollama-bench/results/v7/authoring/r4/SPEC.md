@@ -232,6 +232,7 @@ token, and some line carries *u*'s identifier or the file is *u*'s own declared 
 | **H1** | the largest fraction of units any single token of *G* harvests, at C = 2 | **< 1/4** |
 | **H2** | the fraction the one regex alternating over every roster unit name harvests, at C = 2 | **< 2/5** |
 | **H3** | H1 again at C = 5, a five-line record block rather than a two-line window | **< 1/3** |
+| **H4** | the *frame harvest*: the largest fraction of units whose value-bearing lines share one literal run of two to six words, once the value and the unit's own name are removed | **< 1/4** |
 | *P2* | the best union of two giveaway tokens | *reported, not gated* |
 
 C = 2 is the window an agentic model actually asks for; C = 0 is printed beside the rest and is

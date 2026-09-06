@@ -2,36 +2,76 @@
   "purpose": "bounded inspection packet roster",
   "units": [
     {
+      "unit": "zephyr",
+      "packet": "records/inspection-packets/zephyr.md"
+    },
+    {
       "unit": "northwind",
       "packet": "records/inspection-packets/northwind.md"
-    },
-    {
-      "unit": "quarry",
-      "packet": "records/inspection-packets/quarry.md"
-    },
-    {
-      "unit": "reedline",
-      "packet": "records/inspection-packets/reedline.md"
-    },
-    {
-      "unit": "solstice",
-      "packet": "records/inspection-packets/solstice.md"
-    },
-    {
-      "unit": "tideglass",
-      "packet": "records/inspection-packets/tideglass.md"
     },
     {
       "unit": "umbra",
       "packet": "records/inspection-packets/umbra.md"
     },
     {
+      "unit": "quarry",
+      "packet": "records/inspection-packets/quarry.md"
+    },
+    {
       "unit": "wayfarer",
       "packet": "records/inspection-packets/wayfarer.md"
     },
     {
-      "unit": "zephyr",
-      "packet": "records/inspection-packets/zephyr.md"
+      "unit": "reedline",
+      "packet": "records/inspection-packets/reedline.md"
+    },
+    {
+      "unit": "tideglass",
+      "packet": "records/inspection-packets/tideglass.md"
+    },
+    {
+      "unit": "solstice",
+      "packet": "records/inspection-packets/solstice.md"
+    },
+    {
+      "unit": "cinder",
+      "packet": "records/inspection-packets/cinder.md"
+    },
+    {
+      "unit": "morrow",
+      "packet": "records/inspection-packets/morrow.md"
+    },
+    {
+      "unit": "opaline",
+      "packet": "records/inspection-packets/opaline.md"
+    },
+    {
+      "unit": "bracken",
+      "packet": "records/inspection-packets/bracken.md"
+    },
+    {
+      "unit": "larkspur",
+      "packet": "records/inspection-packets/larkspur.md"
+    },
+    {
+      "unit": "vesper",
+      "packet": "records/inspection-packets/vesper.md"
+    },
+    {
+      "unit": "caldera",
+      "packet": "records/inspection-packets/caldera.md"
+    },
+    {
+      "unit": "saffron",
+      "packet": "records/inspection-packets/saffron.md"
+    },
+    {
+      "unit": "hinter",
+      "packet": "records/inspection-packets/hinter.md"
+    },
+    {
+      "unit": "yarrow",
+      "packet": "records/inspection-packets/yarrow.md"
     }
   ]
 }

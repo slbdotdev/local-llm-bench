@@ -20,13 +20,6 @@ upstream stage can still hand it work. The order is:
 10. `compaction` (storage)
 11. `cursor` (progress)
 12. `retention` (lifecycle)
-13. `backfill` (repair)
-14. `rollup` (aggregation)
-15. `dispatch` (fanout)
-16. `checkpoint` (durability)
-17. `digest` (summary)
-18. `schema` (contracts)
-19. `ledger` (accounting)
 
 Sealing out of order is the single most common cause of a `pending` record surviving
 into the audit trail, and it is why `seal()` is idempotent: the drain may be retried

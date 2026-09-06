@@ -28,13 +28,6 @@ configuration decision is under `history/`.
 | compaction | `src/compaction_core.py` | `docs/compaction.md` | P. Ravindran |
 | cursor | `src/cursor_store.py` | `docs/cursor.md` | T. Abarca |
 | retention | `src/retention_core.py` | `docs/retention.md` | K. Sorensen |
-| backfill | `src/backfill_core.py` | `docs/backfill.md` | R. Okonjo |
-| rollup | `src/rollup_view.py` | `docs/rollup.md` | S. Nwachukwu |
-| dispatch | `src/dispatch_view.py` | `docs/dispatch.md` | T. Abarca |
-| checkpoint | `src/checkpoint_core.py` | `docs/checkpoint.md` | K. Sorensen |
-| digest | `src/digest_gate.py` | `docs/digest.md` | T. Abarca |
-| schema | `src/schema_flow.py` | `docs/schema.md` | T. Abarca |
-| ledger | `src/ledger_flow.py` | `docs/ledger.md` | C. Batbayar |
 
 ## Conventions
 

@@ -46,8 +46,12 @@ unit's own file is attributed to that unit by the file it sits in.
     agent that has the roster actually runs.
   * **H3** = H1 again at C = 5, because a token can miss the decisive line under ±2 and still
     catch it inside a five-line record block.
+  * **H4** = the **frame harvest**: the largest fraction of units whose value-bearing lines share
+    one literal run of two to six words, once the value and the unit's own name are removed. It
+    needs no giveaway vocabulary at all — one read of one unit's file hands the solver the
+    pattern — so it is the attack that padding and vocabulary variation do not answer.
 
-**A candidate passes when H1 < 1/4, H2 < 2/5 and H3 < 1/3.** C = 0 is reported beside them and
+**A candidate passes when H1 < 1/4, H2 < 2/5, H3 < 1/3 and H4 < 1/4.** C = 0 is reported beside them and
 is not gated.
 
 Reported and **not** gated: **P2**, the best union of two giveaway tokens over the thirty widest,
@@ -92,6 +96,8 @@ AUTHORING = os.path.dirname(HERE)
 H1_MAX = 0.25
 H2_MAX = 0.40
 H3_MAX = 1.0 / 3.0
+H4_MAX = 0.25
+FRAME_MIN_CHARS = 10
 CONTEXT = 2
 WIDE = 5
 PAIR_TOP = 30
@@ -220,6 +226,44 @@ def harvested(unit_val, unit_id, unit_path, anchor, ctx):
     return False
 
 
+WORDY = re.compile(r"[A-Za-z]{2,}")
+
+
+def frames(line, value, unit):
+    """Word n-grams of a value-bearing line, with the value and the unit's name removed.
+
+    2026-09-09, found by a cross-reviewer and not by this checker: a candidate padded seven
+    blank lines above each decisive value so that no giveaway token reached it within `grep -C5`,
+    read H1 = 0.132 and H3 = 0.289, and was harvested 38 of 38 by one `grep -rn ' days.' seed/`.
+    Every value sat on a line of the same shape — `<Codename> <noun> settles at N days.` — and a
+    fixed sentence frame is a grep pattern that the prompt never has to give away, because one
+    read of one unit's file hands it to the solver.
+
+    So the frame is measured too: strip the value and the unit's identifier from the line, take
+    every contiguous run of two to six words of what is left, and count the units whose own
+    value-bearing lines carry the same run. That is `grep -rn '<frame>'`, one command.
+    """
+    text = line.lower().replace(str(value).lower(), " ").replace(str(unit).lower(), " ")
+    words = WORDY.findall(text)
+    out = set()
+    for n in range(2, 7):
+        for i in range(len(words) - n + 1):
+            frag = " ".join(words[i:i + n])
+            if len(frag) >= FRAME_MIN_CHARS:
+                out.add(frag)
+    return out
+
+
+def shape_of(value):
+    """The value's coarse shape, so `grep -rnE '[0-9]{12}'` is visible as the attack it is."""
+    v = str(value)
+    if v.isdigit():
+        return "digits:%d" % len(v)
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", v):
+        return "date"
+    return None
+
+
 def giveaway_vocabulary(cand, lb, cfg):
     prompt = open(os.path.join(cand, "prompt.md"), encoding="utf-8").read()
     words = set(w.lower() for w in WORD.findall(prompt))
@@ -318,6 +362,47 @@ def check(cand, ctx_values, h1_max, h2_max, h3_max=H3_MAX, verbose=False,
 
     result = {"units": len(units), "scored": denom, "derived": len(derived),
               "indistinct": len(indistinct), "vocab": len(vocab), "seed_files": len(lines)}
+    # H4 — the frame harvest, and the value-shape note beside it.
+    frame_count, frame_units = {}, {}
+    for u in units:
+        name = u["unit"]
+        seen_frames = set()
+        for rel, idxs in val_hits.get(name, {}).items():
+            for i in idxs:
+                seen_frames |= frames(lines[rel][i], u["value"], name)
+        for f in seen_frames:
+            frame_count[f] = frame_count.get(f, 0) + 1
+            frame_units.setdefault(f, []).append(name)
+    best_frame, best_frame_n = None, 0
+    for f, n in frame_count.items():
+        if n > best_frame_n:
+            best_frame, best_frame_n = f, n
+    h4 = round(best_frame_n / float(denom), 3)
+    result["h4"] = h4
+    result["h4_frame"] = best_frame
+    if h4 >= H4_MAX:
+        problems.append("H4 = %.3f, the limit is %.3f — %d of %d units carry the decisive value "
+                        "on a line sharing the literal frame %r, so one `grep -rn` on that frame "
+                        "harvests them whatever the prompt gives away"
+                        % (h4, H4_MAX, best_frame_n, denom, best_frame))
+    elif best_frame:
+        notes.append("H4 = %.3f, widest shared frame %r over %d unit(s)"
+                     % (h4, best_frame, best_frame_n))
+    # Only units whose value actually occurs in the material can be reached by a shape regex;
+    # for a derived unit there is nothing there to match, so the note would be noise.
+    shapes = {}
+    stated = [u for u in units if u["unit"] not in set(derived)]
+    for u in stated:
+        sh = shape_of(u["value"])
+        if sh:
+            shapes[sh] = shapes.get(sh, 0) + 1
+    for sh, n in sorted(shapes.items(), key=lambda kv: -kv[1]):
+        if n >= max(2, int(0.6 * len(units))):
+            notes.append("value shape: %d of %d STATED values are %s, so one shape regex "
+                         "(`grep -rnE`) reaches them with no vocabulary at all — reported, "
+                         "not gated" % (n, len(units), sh))
+        break
+
     for c in ctx_values:
         best_tok, best_n, best_units = None, -1, []
         per_token = []
@@ -429,9 +514,10 @@ def main():
         rows.append(res)
         head = "harvest clear" if not problems else "%d PROBLEM(S)" % len(problems)
         if res:
-            head += "   H1=%.3f H2=%.3f H3=%.3f" % (res.get("h1_c2", 0.0),
-                                                        res.get("h2_c2", 0.0),
-                                                        res.get("h1_c5", 0.0))
+            head += "   H1=%.3f H2=%.3f H3=%.3f H4=%.3f" % (res.get("h1_c2", 0.0),
+                                                              res.get("h2_c2", 0.0),
+                                                              res.get("h1_c5", 0.0),
+                                                              res.get("h4", 0.0))
         print("%-20s %s" % (slot, head))
         for n in notes:
             print("    - " + n)

@@ -163,6 +163,10 @@ The report must preserve roster order. A clean scope means the reconstructed req
 When reviewing a packet, retain its unit label, read all three clues, and delay composition until the authority rule has been consulted. The resulting path is a classification datum for the report, not a work item. A reviewer who sees a familiar staging phrase should still verify the packet's ledger and the roster position before writing anything. This separation keeps historical requests visible while ensuring that only the bounded report changes the checkout.
 
 The authority record also settles several tempting shortcuts. A common phrase in one packet does not make it a shared constant, a neighboring packet does not supply a missing clue, and the order of the roster is not alphabetical by accident. The unit label identifies ownership; it does not contribute a word to the composed path. The three clues belong to the packet that records them, and the report should preserve that ownership when it writes each unit-and-path entry. If a historical note suggests that a staging move was already performed, check the actual absence of the reconstructed location instead of trusting the suggestion. The clean-scope conclusion follows from that check and from the report being the only new file.
+
+This is also why a complete answer reads every rostered record: exclusion is evidence, not an empty default. A packet whose wording looks familiar still contributes its own clues and its own ordered entry.
+
+The roster, authority rule, and packet ledger therefore form one necessary chain.
 """)
 
     cabinet_labels = ("cabinet word", "directory token", "staging key", "folder mark")
