@@ -1,0 +1,1 @@
+Created [compatibility-report.txt](/home/slb/v7-sanity/luna/trial-r4/p01-main-glm/compatibility-report.txt) with the required four lines.

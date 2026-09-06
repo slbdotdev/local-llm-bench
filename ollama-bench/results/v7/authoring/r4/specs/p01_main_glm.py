@@ -12,11 +12,38 @@ the prompt's "the promise" is never named by any file the prompt points at; the 
 README -> release notes -> rationale to find the one sentence that carries it.
 
 Rung 0, and this round's property: no per-component answer datum is a constant on a line.
-The horizon of a component (the date its newest acknowledged delivery stopped being
-protected) is computed from its own table by the term the promise fixes, and the date
-string occurs nowhere under `seed/` — a grep can pull every raw record onto one screen and
-still hold no answer, which is research section 2.2's mechanism and the strongest answer
-the harvest check knows.
+Each component carries three decisive data, and each is defended the way research section 2
+says to defend it:
+
+- the **protection horizon** (newest acknowledgement + the term) is derived — the date string
+  occurs nowhere under `seed/`, so no grep can harvest it;
+- the **newest acknowledged date** and the **shelf-line through-date** are stated raw
+  records, so they are declared as their own harvest units and made unharvestable the
+  mechanism-1 way: the log rows are bare `DLV-… <day>` pairs under a heading each page
+  picks for itself, and each module's two dates sit on bare labelled lines (`ran:` /
+  `through:`) under that component's own sentence. No value-bearing line carries any
+  letter-word, so the frame harvest has nothing to match; no fixed table header, no fixed
+  sweep-comment frame, and no giveaway token within five lines of a value line in any
+  unit's own file — all asserted at build time, with the check's own frame and window
+  rules computed here rather than predicted in NOTES.
+
+Revision note (2026-09-09, after the first build was reaped). Three defects were fixed:
+
+1. **Fairness.** The `while _iso(swept) in taken` collision loop walked a category-2
+   component's sweep run-date past its own horizon (digest 2035-01-22 vs horizon
+   2035-01-18, rollup 2035-01-26 vs 2035-01-11), so on the face of its own record the
+   store was cleared only after protection had run out, and an honest reader dating the
+   clearing from the sweep it can see answered 4 of the 6 affected components. The sweep
+   run-date is now chosen inside the design's own invariant — below the horizon for a
+   violating stage, at or after it for a lawful one, below the oldest table row for an
+   untouched one — and `facts()` asserts the invariant from the records read back off the
+   disk, so the build dies rather than shipping the contradiction.
+2. **Declaration.** `harvest_units()` declared only the derived horizon and nothing it
+   could bite on; the two stated per-unit facts are now declared as their own entries,
+   18 x 3 units in all.
+3. **Harvest.** The fixed `| delivery | acknowledged |` table header and the fixed
+   `last sweep …, cleared through …` comment let one grep (or one frame) carry all
+   eighteen of each record; both fixed shapes are gone.
 """
 import datetime
 import os
@@ -37,18 +64,18 @@ SCOPE_GATE = True
 SUMMARY = """
 Task: find the compatibility promise the project made its clients — stated exactly once,
 in the release 2.0 rationale, nowhere else — and report which components' own records show
-a store cleared of a delivery while the promise still protected it, the record's
-identifier, the term as the record words it, and, for every component in scope, the date
-its newest acknowledged delivery stopped being protected. The per-component facts are
-derived from each component's acknowledged-deliveries table (its page under docs/) and its
-sweep-waterline line (its module under src/); neither the horizons nor the membership set
-is stated in any file.
+a store emptied of a delivery while the promise still protected it, the record's
+identifier, the term as the record words it, and, for every component in scope, the day
+its final acknowledged delivery stopped being protected. The per-component facts are
+replayed from each component's signature log (its page under docs/) and its shelf line
+(its module under src/); the horizons themselves are computed, not read, and occur
+nowhere in the tree.
 """
 
 BAND_NOTE = """
 Corpus generated at 26,000 tokens and hand-overlaid to land inside the 29,000-36,000 main
-band. The overlay is deliberately fat per component — every component page gains an
-acknowledged-deliveries table and every module gains a sweep-state block — because the
+band. The overlay is deliberately fat per component — every component page gains a
+signature log and every module a shelf line, in that component's own words — because the
 per-component records ARE the material this round's property is bought with. The measure is
 a deterministic character count over seed/, so it cannot drift.
 """
@@ -71,11 +98,16 @@ TERM_PHRASE = "thirty-day replay term"
 DECOY_PHRASE = "fourteen-day replay term"
 TERM_DAYS = 30
 RULING_CLAUSE = "is not compatible with this release"
-ACK_SECTION = "Acknowledged deliveries"
 ROWS_PER_STAGE = 6
 
-_ACK_ROW = re.compile(r"^\| (DLV-\d+) \| (\d{4}-\d{2}-\d{2}) \|$", re.M)
-_SWEEP_LINE = re.compile(r"last sweep (\d{4}-\d{2}-\d{2}), cleared through (\d{4}-\d{2}-\d{2})")
+_ACK_ROW = re.compile(r"^- (DLV-\d+) (\d{4}-\d{2}-\d{2})$", re.M)
+
+# The two generated-file boilerplate lines that carried the giveaway token `module` within
+# five lines of unrelated 2034/2035 dates (the changelog's own entry headings), reworded so
+# the changelog dates stop sitting beside a prompt word. The replacement is generated-tree
+# boilerplate either way; the material still reads as itself.
+_CHLOG_OLD = "brought in line with the module constants"
+_CHLOG_NEW = "brought in line with the constants in code"
 
 
 def _iso(d):
@@ -85,6 +117,32 @@ def _iso(d):
 def _plus_s(iso, days):
     d = datetime.date(*[int(x) for x in iso.split("-")])
     return _iso(d + datetime.timedelta(days=days))
+
+
+def _free(cand, taken, lo=None, hi=None, spread=90):
+    """The nearest free recorded date to `cand`, searched 0, +1, -1, +2, -2 ...
+
+    A recorded date must never spell a horizon (the horizon is derived and occurs
+    nowhere) and must never repeat a stated date (every stated date stays
+    single-source). The search is bounded and stays inside [lo, hi) when the
+    category's invariant gives it a window, so a collision can never push a record
+    out of the design's own invariant the way the first build's open-ended walk did.
+    """
+    seen = set()
+    for k in range(spread):
+        for d in (cand + datetime.timedelta(days=k),
+                  cand - datetime.timedelta(days=k)):
+            if d in seen:
+                continue
+            seen.add(d)
+            if lo is not None and d < lo:
+                continue
+            if hi is not None and d >= hi:
+                continue
+            if _iso(d) not in taken:
+                return d
+    raise AssertionError("no free recorded date near %s in [%s, %s)"
+                         % (cand, lo, hi))
 
 
 # ---------------------------------------------------------------------------
@@ -98,12 +156,37 @@ def _plus_s(iso, days):
 #             protected (waterline at newest + 3 or + 15, both inside the term,
 #             and the +15 stage is lawful under the superseded fourteen-day term,
 #             which is what the decoy course gets wrong) — NOT compliant.
+#
+# The sweep RUN-DATE is chosen inside the design's own invariant, and the invariants
+# are re-asserted from disk in facts(): a violating stage's run happened while the
+# newest delivery was still protected (wl <= swept < horizon), a lawful stage's run
+# happened at or after its horizon (swept >= horizon), and an untouched stage's run
+# happened before the oldest row its table still holds (swept < oldest). No recorded
+# run may contradict the ruling on the face of the record.
 # ---------------------------------------------------------------------------
+def _stated_dates(corpus):
+    """Every date the generated tree already states on a line of its own.
+
+    The changelog's entry headings and the history proposals' Date lines are the
+    generated tree's own calendar; a recorded waterline or run-date that repeated one
+    would make the recorded date two-source. The plan refuses them.
+    """
+    rels = [CHANGELOG]
+    hdir = os.path.join(corpus.seed, "history")
+    for n in sorted(os.listdir(hdir)):
+        if n.endswith(".md"):
+            rels.append("history/" + n)
+    out = set()
+    for rel in rels:
+        out.update(re.findall(r"\d{4}-\d{2}-\d{2}", corpus.text(rel)))
+    return out
+
+
 def _plan(corpus):
     st = corpus.stages
     n = len(st)
-    assert 12 <= n <= 21, ("this design wants a dozen-plus components and a waterline that "
-                           "cannot collide with a horizon, which needs n <= 21: got %d" % n)
+    assert 12 <= n <= 18, ("this design wants a dozen-plus components and one record "
+                           "vocabulary per component: got %d" % n)
     newest0 = datetime.date(2034, 12, 24)
     recs = []
     for i, s in enumerate(st):
@@ -111,40 +194,167 @@ def _plan(corpus):
         acks = [(5110 + 10 * i + j, newest - datetime.timedelta(days=11 * j + i % 5))
                 for j in range(ROWS_PER_STAGE)]
         recs.append({"stage": s, "acks": acks, "cat": i % 3})
-    horizons = set(_plus_s(_iso(r["acks"][0][1]), TERM_DAYS) for r in recs)
-    taken = set(horizons)
+    # a recorded date must never spell a horizon (the horizon is derived and occurs
+    # nowhere) and must never repeat a stated date (every stated date stays single-source)
+    taken = set(_plus_s(_iso(r["acks"][0][1]), TERM_DAYS) for r in recs)
+    taken.update(_iso(d) for r in recs for _dlv, d in r["acks"])
+    taken.update(_stated_dates(corpus))
     for i, rec in enumerate(recs):
         newest = rec["acks"][0][1]
+        oldest = rec["acks"][-1][1]
+        horizon = newest + datetime.timedelta(days=TERM_DAYS)
         if rec["cat"] == 0:
-            wl = newest - datetime.timedelta(days=70 + (i * 7) % 20)
+            wl = _free(newest - datetime.timedelta(days=95 + (i * 7) % 20),
+                       taken, hi=oldest)
+            assert wl < oldest, "%s: untouched stage was swept" % rec["stage"]["name"]
+            swept = _free(wl + datetime.timedelta(days=6 + i % 5),
+                          taken, lo=wl + datetime.timedelta(days=1), hi=oldest)
+            assert swept < oldest, "%s: untouched stage's run postdates its table" % (
+                rec["stage"]["name"])
         elif rec["cat"] == 1:
-            wl = newest + datetime.timedelta(days=33 + (i * 5) % 9)
+            wl = _free(newest + datetime.timedelta(days=33 + (i * 5) % 9),
+                       taken, lo=horizon)
+            assert wl >= horizon, "%s: lawful stage cleared inside the term" % (
+                rec["stage"]["name"])
+            swept = _free(wl + datetime.timedelta(days=6 + i % 5), taken, lo=horizon)
+            assert swept >= horizon, "%s: lawful stage's run predates its horizon" % (
+                rec["stage"]["name"])
         else:
-            wl = newest + datetime.timedelta(days=(3, 15)[i % 2])
-        # a waterline or a sweep date must never spell another component's horizon, or that
-        # horizon would be stated in the seed and the unit would no longer be derived
-        while _iso(wl) in taken:
-            wl = wl + datetime.timedelta(days=1)
-        swept = wl + datetime.timedelta(days=6 + i % 5)
-        while _iso(swept) in taken:
-            swept = swept + datetime.timedelta(days=1)
+            wl = _free(newest + datetime.timedelta(days=(3, 15)[i % 2]),
+                       taken, lo=newest, hi=horizon)
+            assert newest <= wl < horizon, (
+                "%s: violating stage is not inside the term" % rec["stage"]["name"])
+            try:
+                swept = _free(wl + datetime.timedelta(days=6 + i % 5),
+                              taken, lo=wl + datetime.timedelta(days=1), hi=horizon)
+            except AssertionError:
+                # every day above the waterline inside the term is tiled by other
+                # stages' horizons: step the waterline back a day (the day it frees
+                # up is then available to the run) so the run-date and the
+                # through-date stay distinct
+                wl = _free(wl - datetime.timedelta(days=1), taken,
+                           lo=newest, hi=wl)
+                swept = _free(wl + datetime.timedelta(days=6 + i % 5),
+                              taken, lo=wl + datetime.timedelta(days=1), hi=horizon)
+            assert wl <= swept < horizon, (
+                "%s: violating stage's run is not inside the term it broke"
+                % rec["stage"]["name"])
         rec["waterline"] = wl
         rec["swept_on"] = swept
         taken.add(_iso(wl))
         taken.add(_iso(swept))
-    for rec in recs:
-        newest = rec["acks"][0][1]
-        oldest = rec["acks"][-1][1]
-        wl = rec["waterline"]
-        horizon = newest + datetime.timedelta(days=TERM_DAYS)
-        if rec["cat"] == 0:
-            assert wl < oldest, "%s: untouched stage was swept" % rec["stage"]["name"]
-        elif rec["cat"] == 1:
-            assert wl >= horizon, "%s: lawful stage cleared inside the term" % rec["stage"]["name"]
-        else:
-            assert newest <= wl < horizon, (
-                "%s: violating stage is not inside the term" % rec["stage"]["name"])
     return recs
+
+
+# ---------------------------------------------------------------------------
+# overlay: the two per-component record kinds, each in the component's own words.
+#
+# The first build used one fixed table (header `| delivery | acknowledged |`) and one
+# fixed sweep comment (`last sweep …, cleared through …`), so one grep — or, without any
+# vocabulary at all, one shared literal frame — carried all eighteen of each record.
+# Both fixed shapes are gone, and the value-bearing lines themselves now carry no words
+# at all: a page's log rows are bare `DLV-… <day>` pairs under a heading each page picks,
+# and a module's two dates sit on their own labelled lines (`ran:` / `through:`) under a
+# sentence in that component's own words. With no letter-words on any value-bearing line,
+# the frame harvest has nothing to match, and no word of the giveaway vocabulary (the
+# prompt, the manifest, the deliverable, the scored keys) occurs within five lines of a
+# value line; facts() asserts both with the check's own rules.
+# ---------------------------------------------------------------------------
+_ACK_HEADINGS = [
+    "Taken in",
+    "Signed-off items",
+    "Receipts",
+    "Signatures collected",
+    "Accepted and logged",
+    "Received for keeping",
+    "Marked as handled",
+    "Signed for",
+    "Entries taken on",
+    "Items receipted",
+    "Confirmed arrivals",
+    "Batches signed off",
+    "Logged sign-offs",
+    "Handled and signed",
+    "Signed, oldest last",
+    "Incoming, signed",
+    "The signature ledger",
+    "This half's signatures",
+]
+
+_ACK_INTRO = """*What this page's engine has signed for in the current half-year, oldest
+signature last. The log grows as each signature lands; what the shelf is
+still holding is a separate matter, kept beside the engine itself.*"""
+
+# One sentence per component, above that component's two labelled dates. The sentence
+# carries no date, so it is never a value-bearing line and no frame is ever counted on
+# it; its job is to say, in the component's own words, what the two lines below mean.
+# The labels themselves (`ran:` / `through:`) are single words, so the two value-bearing
+# lines form no two-word run either.
+_KEEPER_PROSE = [
+    # routing
+    "# the last purge struck everything logged at or before the through-date;",
+    # replay
+    "# the pass took all items up to and including that boundary off the racks;",
+    # backfill
+    "# the rotation reached this crate and hauled off everything older than the line below;",
+    # envelope
+    "# kept current: the scrubber's last run removed all items from earlier than the line below;",
+    # ingest
+    "# the nightly pass stripped this rack of receipts dated before that line;",
+    # digest
+    "# the cleanup removed every signature from no later than the line below;",
+    # attestation
+    "# the sweep took each signature this ledger had accepted at or before the boundary;",
+    # tenancy
+    "# the purge flushed all signatures from dates up to and including the line below;",
+    # watermark
+    "# the janitor cleared out items logged at or earlier than the through-date;",
+    # retention
+    "# the vacuum swept this shelf down to everything logged since that line;",
+    # reconcile
+    "# sweeper's entry: signatures dated no later than the boundary were expunged;",
+    # rollup
+    "# the flush carried off all signatures at or before the line below;",
+    # dispatch
+    "# nightly prune: items signed for by the through-date are gone;",
+    # checkpoint
+    "# the pass wiped this locker of signatures up to and including the line below;",
+    # quota
+    "# the scrub struck the drawer of signatures at or before the boundary;",
+    # drain
+    "# the rotation took the bin of signatures logged at or before the line below;",
+    # shard
+    "# the purge stripped this stack of signatures dated at or before the boundary;",
+    # schema
+    "# swept clear: signatures up to and including the line below went to the archive.",
+]
+
+_KEEPER_HEAD = ["# Shelf line for this engine, kept current and rewritten after every pass.",
+                "# The two dated lines at the foot are all there is to it."]
+_KEEPER_TAIL = ["# Older passes are not shown here; only the latest one is. Earlier",
+                "# ledger lines went to the archive."]
+
+
+def _keeper_lines(i, rec):
+    """The component's shelf-line block, appended at the foot of its module."""
+    return [_KEEPER_HEAD[0],
+            _KEEPER_HEAD[1],
+            _KEEPER_PROSE[i],
+            "#     ran: %s" % _iso(rec["swept_on"]),
+            "#     through: %s" % _iso(rec["waterline"]),
+            _KEEPER_TAIL[0],
+            _KEEPER_TAIL[1]]
+
+
+def _keeper_block(i, rec):
+    return "\n".join(_keeper_lines(i, rec))
+
+
+def _ack_block(i, rec):
+    rows = []
+    for dlv, d in reversed(rec["acks"]):          # oldest first, newest last
+        rows.append("- DLV-%d %s" % (dlv, _iso(d)))
+    return "\n".join(["## " + _ACK_HEADINGS[i], "", _ACK_INTRO, ""] + rows)
 
 
 # ---------------------------------------------------------------------------
@@ -154,44 +364,26 @@ def overlay(ctx):
     corpus = ctx["corpus"]
     recs = _plan(corpus)
 
-    for rec in recs:
-        _append_ack_table(ctx, rec)
-        _insert_sweep_state(ctx, rec)
+    for i, rec in enumerate(recs):
+        _append_ack_log(ctx, i, rec)
+        _insert_sweep_state(ctx, i, rec)
     _write_release_notes(ctx)
     corpus.append(README, _readme_addendum())
     corpus.append(CHANGELOG, _changelog_releases())
+    # the generated changelog bullets sit two lines under their own `## <date>` headings;
+    # with the giveaway token `module` in them, the changelog's unrelated 2034/2035
+    # headings were within one grep of every derived horizon's bare year. Reworded.
+    corpus.replace_in(CHANGELOG, _CHLOG_OLD, _CHLOG_NEW, count=64)
+    text = C.read(corpus.path(CHANGELOG))
+    assert _CHLOG_OLD not in text, "the changelog rewording did not take"
 
 
-def _append_ack_table(ctx, rec):
-    L = ["## %s" % ACK_SECTION,
-         "",
-         "*This stage's record of the deliveries it has acknowledged in the current half-",
-         "year, newest first. It is written when an acknowledgement lands; it is not a",
-         "list of what the evidence store is still holding.*",
-         "",
-         "| delivery | acknowledged |",
-         "| --- | --- |"]
-    for dlv, d in rec["acks"]:
-        L.append("| DLV-%d | %s |" % (dlv, _iso(d)))
-    ctx["corpus"].append(rec["stage"]["doc"], "\n".join(L))
+def _append_ack_log(ctx, i, rec):
+    ctx["corpus"].append(rec["stage"]["doc"], _ack_block(i, rec))
 
 
-_SWEEP_BLOCK = """    # Sweep state. The nightly sweep empties this stage's evidence store of every
-    # delivery acknowledged on or before the waterline below; nothing newer is touched.
-    #     last sweep %(swept)s, cleared through %(waterline)s
-    # (Older entries are rotated off this note and kept with the evidence.)"""
-
-
-def _insert_sweep_state(ctx, rec):
-    p = ctx["corpus"].path(rec["stage"]["src"])
-    text = C.read(p)
-    anchor = "        self._sealed = False\n"
-    assert text.count(anchor) == 1, "%s: one seal site expected" % rec["stage"]["src"]
-    block = _SWEEP_BLOCK % {"swept": _iso(rec["swept_on"]),
-                            "waterline": _iso(rec["waterline"])}
-    new = text.replace(anchor, anchor + "\n" + block, 1)
-    assert new != text
-    C.write(p, new)
+def _insert_sweep_state(ctx, i, rec):
+    ctx["corpus"].append(rec["stage"]["src"], _keeper_block(i, rec))
 
 
 def _write_release_notes(ctx):
@@ -238,8 +430,8 @@ acknowledgement is the moment the client's own systems start depending on the de
 ## What this record does not decide
 
 It rules on compatibility and on nothing else. Which stages meet the promise today is a
-question about each stage's own records - the acknowledged deliveries its page tables and
-the sweep state its module keeps - and is answered there, not here. This record does not
+question about each stage's own records - the acknowledged deliveries its page logs and
+the shelf line its module keeps - and is answered there, not here. This record does not
 name stages, does not table deliveries and does not carry waterlines; a ruling that
 carried the data it rules on would go stale the day the data moved.
 """
@@ -279,12 +471,13 @@ def _readme_addendum():
 - `docs/releases/` - the release notes and rationales. A promise a release made is stated
   in its own rationale and nowhere else; a note a later release superseded is evidence,
   never a live promise.
-- Every component page under `docs/` tables the deliveries its stage has acknowledged,
-  newest first, under *Acknowledged deliveries*. The table is the stage's record of what
-  it has acknowledged; it is not a list of what its evidence store is still holding.
-- Every module under `src/` keeps its sweep state beside its engine class: the nightly
-  sweep empties the stage's evidence store of every delivery acknowledged on or before
-  the waterline the module records, and nothing newer.
+- Every component page under `docs/` ends with the log of the deliveries its stage has
+  acknowledged, oldest signature last, under a heading the page picks for itself. The log
+  is the stage's record of what it has acknowledged; it is not a list of what its evidence
+  store is still holding.
+- Every module under `src/` closes with a shelf line at the foot of the file: the nightly
+  sweep empties the stage's evidence store of every delivery acknowledged on or before the
+  through-date the line records, on the run-date it records, and nothing newer.
 """
 
 
@@ -300,56 +493,58 @@ def _changelog_releases():
 # ---------------------------------------------------------------------------
 # the ground truth, measured from the seed on disk
 # ---------------------------------------------------------------------------
-def _stage_records(corpus):
-    """Read every component's ack table and sweep waterline back off the seed."""
-    acks, sweeps = {}, {}
-    for st in corpus.stages:
-        rows = _ACK_ROW.findall(corpus.text(st["doc"]))
+def _keeper_reads(ctx, recs):
+    """Read each component's two recorded dates back off the disk.
+
+    The block's lines are asserted present verbatim first, so the regexes below run
+    over text the build knows is there; the dates themselves are still read, not
+    assumed.
+    """
+    swept, waterline = {}, {}
+    for i, rec in enumerate(recs):
+        lines = _keeper_lines(i, rec)
+        text = C.read(ctx["corpus"].path(rec["stage"]["src"]))
+        for ln in lines:
+            assert ln in text, "%s: its shelf line is not on disk as written\n%r" % (
+                rec["stage"]["name"], ln)
+        ran = re.search(r"ran: (\d{4}-\d{2}-\d{2})", text)
+        thru = re.search(r"through: (\d{4}-\d{2}-\d{2})", text)
+        assert ran and thru, "%s: its two dated lines are not on disk" % rec["stage"]["name"]
+        swept[rec["stage"]["name"]] = ran.group(1)
+        waterline[rec["stage"]["name"]] = thru.group(1)
+    return swept, waterline
+
+
+def _stage_records(ctx, recs):
+    """Read every component's signature log and shelf line back off the seed."""
+    acks, waterlines = {}, {}
+    for i, rec in enumerate(recs):
+        st = rec["stage"]
+        rows = _ACK_ROW.findall(ctx["corpus"].text(st["doc"]))
         assert len(rows) == ROWS_PER_STAGE, (
             "%s: expected %d acknowledged deliveries, found %d"
             % (st["name"], ROWS_PER_STAGE, len(rows)))
+        ids = [dlv for dlv, _d in rows]
         dates = [d for _dlv, d in rows]
-        assert dates == sorted(dates, reverse=True), (
-            "%s: its ack table is not newest-first" % st["name"])
+        assert ids == sorted(ids, reverse=True), (
+            "%s: its log is not oldest-first" % st["name"])
+        assert dates == sorted(dates), "%s: its log is not oldest-first" % st["name"]
+        assert [int(dlv.split("-")[1]) for dlv in ids] \
+            == [d for d, _day in reversed(rec["acks"])], (
+            "%s: its log's delivery ids are not the designed ones" % st["name"])
         acks[st["name"]] = dates
-        found = _SWEEP_LINE.findall(corpus.text(st["src"]))
-        assert len(found) == 1, (
-            "%s: expected exactly one sweep-state line, found %d" % (st["name"], len(found)))
-        sweeps[st["name"]] = found[0][1]
-    return acks, sweeps
-
-
-def _placement_gap(corpus, recs):
-    """How far the sweep-state comment sits from any line naming its own stage.
-
-    Measured, not assumed: the waterline is a stated raw record, and a reviewer is entitled
-    to know it does not sit beside a roster line in its own module. The scored horizons are
-    derived and can never be harvested either way; this is defence in depth, on the record.
-    """
-    worst = None
-    for rec in recs:
-        name = rec["stage"]["name"]
-        lines = corpus.text(rec["stage"]["src"]).lower().splitlines()
-        pat = re.compile(r"(?<![a-z0-9_])%s(?![a-z0-9_])" % re.escape(name))
-        name_lines = [k for k, ln in enumerate(lines) if pat.search(ln)]
-        sw_lines = [k for k, ln in enumerate(lines) if "sweep state" in ln]
-        assert sw_lines, "%s: sweep-state comment missing" % rec["stage"]["src"]
-        for k in sw_lines:
-            for m in name_lines:
-                d = abs(k - m)
-                if worst is None or d < worst:
-                    worst = d
-    return worst
+    swept, waterlines = _keeper_reads(ctx, recs)
+    return acks, waterlines, swept
 
 
 def facts(ctx):
     corpus = ctx["corpus"]
     recs = _plan(corpus)
-    acks, sweeps = _stage_records(corpus)
+    acks, sweeps, swept = _stage_records(ctx, recs)
 
     names = sorted(corpus.by_name)
-    newest = dict((n, acks[n][0]) for n in names)
-    oldest = dict((n, acks[n][-1]) for n in names)
+    newest = dict((n, acks[n][-1]) for n in names)
+    oldest = dict((n, acks[n][0]) for n in names)
     horizons = dict((n, _plus_s(newest[n], TERM_DAYS)) for n in names)
     affected = sorted(n for n in names if newest[n] <= sweeps[n] < horizons[n])
 
@@ -358,15 +553,26 @@ def facts(ctx):
     assert affected == expected, "measured %s, designed %s" % (affected, expected)
     assert len(affected) >= 6, "only %d components do not meet the promise" % len(affected)
 
+    # -- the sweep run-dates must agree with the ruling, on the face of the record -------
+    # (the fairness defect of the first build: the collision loop had pushed digest's and
+    # rollup's run-dates past their own horizons, contradicting the ruling for them)
+    for rec in recs:
+        n = rec["stage"]["name"]
+        h = horizons[n]
+        s = swept[n]
+        w = sweeps[n]
+        if rec["cat"] == 0:
+            assert s < oldest[n], "%s: untouched stage's run postdates its table" % n
+        elif rec["cat"] == 1:
+            assert s >= h, "%s: lawful stage's run predates its horizon" % n
+            assert w >= h, "%s: lawful stage cleared inside the term" % n
+        else:
+            assert newest[n] <= w < h, "%s: violating stage is not inside the term" % n
+            assert w <= s < h, ("%s: violating stage's run is not inside the term it "
+                                "broke" % n)
+
     # -- the round-four property, asserted rather than hoped: no horizon is stated -------
-    all_text = {}
-    for rel in C.walk_rel(ctx["seed"]):
-        p = os.path.join(ctx["seed"], *rel.split("/"))
-        try:
-            all_text[rel] = C.read(p)
-        except UnicodeDecodeError:
-            with open(p, "rb") as fh:
-                all_text[rel] = fh.read().decode("utf-8", "replace")
+    all_text = _read_all(ctx)
     for n in names:
         for rel, text in all_text.items():
             assert horizons[n] not in text, (
@@ -381,17 +587,39 @@ def facts(ctx):
         "the promise's term is stated outside %s: %s" % (RATIONALE, _files_with(TERM_PHRASE)))
     assert _files_with(DECOY_PHRASE) == [SUPERSEDED]
     assert _files_with(RULING_CLAUSE) == [RATIONALE]
-    cleared = _files_with("cleared through")
-    assert len(cleared) == len(names) and all(r.endswith(".py") for r in cleared), cleared
-    assert len(_files_with("## " + ACK_SECTION)) == len(names)
-    assert len(_files_with("Sweep state")) == len(names)
     assert RECORD_ID in all_text[CHANGELOG] and RECORD_ID in all_text[RATIONALE]
     assert RELEASES + "/" in all_text[README], "README no longer points at the release notes"
 
-    # -- the raw waterline never sits beside a roster line in its own module --------------
-    gap = _placement_gap(corpus, recs)
-    assert gap >= 6, ("a sweep-state comment sits only %d lines from a line naming its "
-                      "stage" % gap)
+    # -- the first build's fixed record shapes are gone and stay gone --------------------
+    for gone in ("cleared through", "last sweep", "## Acknowledged deliveries",
+                 "| delivery | acknowledged |", _CHLOG_OLD):
+        assert _files_with(gone) == [], "%r is stated in %s" % (gone, _files_with(gone))
+
+    # -- each stated per-unit date is single-source; each page/module carries exactly ----
+    #    its own record vocabulary, and no two components share a template
+    for i, rec in enumerate(recs):
+        n = rec["stage"]["name"]
+        heading = "## " + _ACK_HEADINGS[i]
+        assert _files_with(heading) == [rec["stage"]["doc"]], (
+            "%s's log heading is not single-source: %s" % (n, _files_with(heading)))
+        ran_line = "ran: %s" % swept[n]
+        assert _files_with(ran_line) == [rec["stage"]["src"]], (
+            "%s's run-date line is not single-source: %s" % (n, _files_with(ran_line)))
+        thru_line = "through: %s" % sweeps[n]
+        assert _files_with(thru_line) == [rec["stage"]["src"]], (
+            "%s's through-date line is not single-source: %s" % (n, _files_with(thru_line)))
+    for n in names:
+        # every recorded waterline and run-date is globally unique (the plan refuses to
+        # place one on any acknowledged day), so each occurs in exactly one file; the
+        # newest acknowledgement sits on the last row of its own page's log; older log
+        # rows may legitimately share a day across components, and do
+        for d in (sweeps[n], swept[n]):
+            where = _files_with(d)
+            assert len(where) == 1, "%s's date %s occurs in %s" % (n, d, where)
+        assert acks[n][-1] in all_text[corpus.by_name[n]["doc"]]
+        assert acks[n][-1] == sorted(acks[n])[-1]
+    assert len(set(_ACK_HEADINGS[:len(names)])) == len(names)
+    assert len(set(_KEEPER_PROSE[:len(names)])) == len(names)
 
     # -- delivery ids are unique across the tree ------------------------------------------
     seen = set()
@@ -400,7 +628,20 @@ def facts(ctx):
             assert dlv not in seen, "%s repeated" % dlv
             seen.add(dlv)
 
-    # where the promise sits in its file, measured for NOTES.md
+    # -- the harvest measures, computed here with the check's own rules -------------------
+    #    (a build-time measurement, never a prediction: the same windows, the same part
+    #    splitting, the same frame rule that r4/check_harvest.py applies after the build)
+    units, h1, h2, h3, frame_n, frame_text, own_clean = _harvest_measures(
+        ctx, names, acks, sweeps, horizons)
+    assert h1 < 0.25, "build-time H1 = %.3f, over the one-quarter limit" % h1
+    assert h2 < 0.40, "build-time H2 = %.3f, over the two-fifths limit" % h2
+    assert h3 < 1.0 / 3.0, "build-time H3 = %.3f, over the one-third limit" % h3
+    assert frame_n < 0.25 * len(units), (
+        "the widest shared frame reaches %d of %d units" % (frame_n, len(units)))
+    assert own_clean, "a giveaway token sits within five lines of a value line in a " \
+                      "unit's own file"
+
+    # -- where the promise sits in its file, measured for NOTES.md -------------------------
     rat_lines = all_text[RATIONALE].splitlines()
     promise_line = next(k for k, ln in enumerate(rat_lines, 1) if TERM_PHRASE in ln)
 
@@ -431,12 +672,210 @@ def facts(ctx):
         "affected": affected,
         "horizons": horizons,
         "waterlines": sweeps,
+        "swept_on": swept,
         "newest_acks": newest,
         "oldest_acks": oldest,
         "promise_line": promise_line,
         "rationale_lines": len(rat_lines),
-        "placement_gap": gap,
+        "units": units,
+        "h1_build": h1,
+        "h2_build": h2,
+        "h3_build": h3,
+        "frame_n": frame_n,
+        "frame_text": frame_text,
     }
+
+
+def _read_all(ctx):
+    all_text = {}
+    for rel in C.walk_rel(ctx["seed"]):
+        p = os.path.join(ctx["seed"], *rel.split("/"))
+        try:
+            all_text[rel] = C.read(p)
+        except UnicodeDecodeError:
+            with open(p, "rb") as fh:
+                all_text[rel] = fh.read().decode("utf-8", "replace")
+    return all_text
+
+
+# ---------------------------------------------------------------------------
+# the harvest measures, with the check's own rules (r4/check_harvest.py)
+# ---------------------------------------------------------------------------
+_STOP = set("""a an and are as at be been before but by can do does for from has have if in into
+is it its may must never no not of on one only or other our over same shall should so some
+such than that the their them then there these they this those to two under until up upon use
+used using was were what when where which while who why will with within without you your
+work working current directory root new file files line lines write written writes exactly
+order value values name names each every all any more most also just plainly stop nothing
+create created creates modify modified delete deleted existing task prompt project repository
+checkout report list plain integer comma separated alphabetical header quotes explanation
+newline end ends may not do does""".split())
+
+_GWORD = re.compile(r"[A-Za-z_][A-Za-z0-9_]{3,}")
+_WORDY = re.compile(r"[A-Za-z]{2,}")
+
+
+def _bounded(needle):
+    esc = re.escape(needle.lower())
+    left = r"(?<![A-Za-z0-9_])" if re.match(r"[A-Za-z0-9_]", needle[0]) else ""
+    right = r"(?![A-Za-z0-9_])" if re.match(r"[A-Za-z0-9_]", needle[-1]) else ""
+    return re.compile(left + esc + right)
+
+
+def _giveaway(ctx, keys):
+    words = set(w.lower() for w in _GWORD.findall(prompt(ctx)))
+    words |= set(w.lower() for w in _GWORD.findall(ctx["corpus"].text(MANIFEST)))
+    words.add(DELIVERABLE.lower())
+    for k in keys:
+        words.add(str(k).lower())
+        words |= set(w.lower() for w in _GWORD.findall(str(k)))
+    return sorted(w for w in (words - _STOP) if len(w) >= 4)
+
+
+def _declared_units(f, corpus):
+    """The 54-entry declaration: three decisive data per component.
+
+    Per r4/BRIEF section 4, a unit with two decisive data is two harvest-unit entries:
+    the derived horizon, the stated newest acknowledgement, and the stated shelf-line
+    through-date are three entries each.
+    """
+    out = []
+    for n in f["names"]:
+        doc = corpus.by_name[n]["doc"]
+        src = corpus.by_name[n]["src"]
+        out.append({"unit": n, "value": f["horizons"][n], "path": doc})
+        out.append({"unit": n + " ack", "value": f["newest_acks"][n], "path": doc})
+        out.append({"unit": n + " waterline", "value": f["waterlines"][n], "path": src})
+    return out
+
+
+def _harvest_measures(ctx, names, acks, sweeps, horizons):
+    corpus = ctx["corpus"]
+    f = {"names": names, "horizons": horizons,
+         "newest_acks": dict((n, acks[n][-1]) for n in names),
+         "waterlines": sweeps}
+    units = _declared_units(f, corpus)
+    lines_by_file = dict((rel, text.lower().splitlines())
+                         for rel, text in _read_all(ctx).items())
+
+    vocab = _giveaway(ctx, ["required_behavior", "affected_components",
+                            "authoritative_record", "regression_evidence"])
+
+    def line_hits(pattern):
+        out = {}
+        for rel, lines in lines_by_file.items():
+            hit = set(i for i, ln in enumerate(lines) if pattern.search(ln))
+            if hit:
+                out[rel] = hit
+        return out
+
+    def sub_hits(token):
+        out = {}
+        for rel, lines in lines_by_file.items():
+            hit = set(i for i, ln in enumerate(lines) if token in ln)
+            if hit:
+                out[rel] = hit
+        return out
+
+    # per-unit value/identifier line maps, exactly as the check derives them
+    val_hits, id_hits = {}, {}
+    for u in units:
+        parts = []
+        for part in re.split(r"\s*(?:->|=>|\|\||[|,;=/\\.\-_]|\s)\s*", str(u["value"]).strip()):
+            part = part.strip().strip(":=")
+            if len(part) < 3:
+                continue
+            pl = part.lower()
+            ul = str(u["unit"]).lower()
+            if pl == ul or (ul and ul in pl and len(pl) - len(ul) < 3):
+                continue
+            parts.append(part)
+        whole = str(u["value"]).strip()
+        if len(whole) >= 10 and whole.lower() not in [x.lower() for x in parts]:
+            parts = parts + [whole]
+        vh = {}
+        for part in parts:
+            for rel, hit in line_hits(_bounded(part)).items():
+                vh.setdefault(rel, set()).update(hit)
+        val_hits[u["unit"]] = vh
+        id_hits[u["unit"]] = line_hits(_bounded(str(u["unit"])))
+
+    def harvested(u, anchor, c):
+        for rel, anchors in anchor.items():
+            vals = val_hits[u["unit"]].get(rel)
+            if not vals:
+                continue
+            ids = id_hits[u["unit"]].get(rel, set())
+            own = (rel == u["path"])
+            for i in anchors:
+                w = set(range(i - c, i + c + 1))
+                if not (w & vals):
+                    continue
+                if own or (w & ids):
+                    return True
+        return False
+
+    best1 = (0, None)
+    best5 = (0, None)
+    for t in vocab:
+        anchor = sub_hits(t)
+        if not anchor:
+            continue
+        n2 = sum(1 for u in units if harvested(u, anchor, 2))
+        n5 = sum(1 for u in units if harvested(u, anchor, 5))
+        if n2 > best1[0]:
+            best1 = (n2, t)
+        if n5 > best5[0]:
+            best5 = (n5, t)
+    h1 = best1[0] / float(len(units))
+    h3 = best5[0] / float(len(units))
+    roster = re.compile("|".join(sorted((_bounded(str(u["unit"])).pattern for u in units),
+                                        key=len, reverse=True)))
+    roster_anchor = line_hits(roster)
+    h2 = sum(1 for u in units if harvested(u, roster_anchor, 2)) / float(len(units))
+
+    # the frame harvest, with the check's own rule
+    def frames(line, value, unit):
+        text = line.lower().replace(str(value).lower(), " ").replace(str(unit).lower(), " ")
+        words = _WORDY.findall(text)
+        out = set()
+        for n in range(2, 7):
+            for i in range(len(words) - n + 1):
+                frag = " ".join(words[i:i + n])
+                if len(frag) >= 10:
+                    out.add(frag)
+        return out
+
+    frame_count = {}
+    frame_units = {}
+    for u in units:
+        seen = set()
+        for rel, idxs in val_hits[u["unit"]].items():
+            for i in idxs:
+                seen |= frames(lines_by_file[rel][i], u["value"], u["unit"])
+        for fr in seen:
+            frame_count[fr] = frame_count.get(fr, 0) + 1
+            frame_units.setdefault(fr, []).append(u["unit"])
+    frame_text, frame_n = max(frame_count.items(), key=lambda kv: kv[1]) if frame_count \
+        else ("", 0)
+
+    # no giveaway token within five lines of a value line in any unit's own file
+    own_clean = True
+    for u in units:
+        own = u["path"]
+        bans = sub_hits_any(vocab, lines_by_file.get(own, []))
+        for i in val_hits[u["unit"]].get(own, ()):
+            if any(abs(i - j) <= 5 for j in bans):
+                own_clean = False
+    return units, h1, h2, h3, frame_n, frame_text, own_clean
+
+
+def sub_hits_any(vocab, lines):
+    out = []
+    for i, ln in enumerate(lines):
+        if any(t in ln for t in vocab):
+            out.append(i)
+    return out
 
 
 def prompt(ctx):
@@ -445,23 +884,23 @@ def prompt(ctx):
 You are working in a checkout of the %(project)s repository; your current directory is the
 root of that checkout.
 
-This project once made its clients a compatibility promise about the deliveries its stages
-hold. The promise is stated in exactly one record in the repository, in the project's own
-words; it has never been amended, and no other file restates it. Find that record and treat
-it as the authoritative statement. Where a superseded note says something different, the
+This project once made its clients a compatibility promise concerning the deliveries its
+stages keep. The promise is written in exactly one record in the repository, in the project's
+own words; it has never been amended, and no other file restates it. Find that record and
+treat it as the authoritative source. Where a superseded note says something different, the
 superseded note is not the promise.
 
-Decide, from each component's own records, whether that component's evidence store has
-been cleared of a delivery whose protection under the promise had not yet run out. Every
+Work out, from each component's own records, whether that component's evidence store has
+been emptied of a delivery while its protection under the promise had yet to expire. Every
 component the manifest names is in scope.
 
 Write the report to a new file `%(deliv)s` in the root of the workspace. It must contain
-exactly these four lines, in this order:
+exactly these lines, in this order:
 
-    required_behavior: <the promise's term for how long an acknowledged delivery stays protected, quoted exactly as the record words it>
-    affected_components: <the components that do not meet the promise, alphabetical, separated by commas>
+    required_behavior: <the promise's term for the span an acknowledged delivery remains protected, quoted exactly as the record words it>
+    affected_components: <the components the promise rules out, alphabetical, separated by commas>
     authoritative_record: <the identifier of the record that carries the promise>
-    regression_evidence: <for every component in scope, in that same alphabetical order, separated by commas: the date its newest acknowledged delivery stopped being protected>
+    regression_evidence: <for every component in scope, in that same alphabetical order, separated by commas: the day its final acknowledged delivery stopped being protected>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 
@@ -487,21 +926,17 @@ def editable(ctx):
 
 
 # ---------------------------------------------------------------------------
-# harvest_units: one entry per component, the datum the answer uses per unit.
-#
-# The value is the component's protection horizon - the date its newest acknowledged
-# delivery stopped being protected under the promise. Both per-component outputs derive
-# from it: membership is this date compared against the component's recorded waterline,
-# and `regression_evidence` IS this date, for every component in scope. It is computed by
-# the reader out of the component's own records and is stated nowhere in the seed
-# (`facts()` fails the build if one ever is), so no grep can harvest it: research
-# section 2.2's mechanism, applied to every unit.
+# harvest_units: three entries per component — the derived horizon, the stated newest
+# acknowledgement, and the stated shelf-line through-date. The first build declared only
+# the horizon, which the re-review called dishonest: the two stated per-unit facts are
+# each one grep away and each decisive, and a unit with two decisive data is two entries
+# (r4/BRIEF section 4). The measures that bite on the two stated kinds are answered by
+# the record shapes above (bare log rows, per-component shelf-line prose), not by the
+# declaration; facts() computes the check's own measures over all 54 entries and asserts
+# them under the round's limits at build time.
 # ---------------------------------------------------------------------------
 def harvest_units(ctx):
-    f = ctx["facts"]
-    corpus = ctx["corpus"]
-    return [{"unit": n, "value": f["horizons"][n], "path": corpus.by_name[n]["doc"]}
-            for n in f["names"]]
+    return ctx["facts"]["units"]
 
 
 def sweep_paths(ctx):
@@ -528,8 +963,7 @@ def load_bearing(ctx):
          "why": "the list of components in scope; the prompt names the manifest, not the "
                 "answer"},
         {"path": README, "hop": "convention",
-         "why": "points at docs/releases/ and states the ack-table and waterline "
-                "conventions"},
+         "why": "points at docs/releases/ and states the log and shelf-line conventions"},
         {"path": CHANGELOG, "hop": "pointer",
          "why": "the release entries that make the rationale findable from the tree's own "
                 "index"},
@@ -544,10 +978,10 @@ def load_bearing(ctx):
     ]
     for s in corpus.stages:
         lb.append({"path": s["doc"], "hop": "ack-date",
-                   "why": "%s: its acknowledged deliveries, newest first - the dates the "
-                          "horizon is computed from" % s["name"]})
+                   "why": "%s: its signature log, oldest last - the dates the horizon is "
+                          "computed from" % s["name"]})
         lb.append({"path": s["src"], "hop": "waterline",
-                   "why": "%s: its sweep state - how far its store has been cleared"
+                   "why": "%s: its shelf line - how far its store has been emptied"
                           % s["name"]})
     return lb
 
@@ -572,7 +1006,7 @@ def probes(ctx):
     def _evidence(src, shift):
         return ", ".join(_plus_s(src[n], shift) for n in names)
 
-    # wrong 1: trusts the nearby sweep story - every cleared store is reported and the
+    # wrong 1: trusts the nearby sweep story - every emptied store is reported and the
     # term is never applied to the dates. The lawful cat-1 stages make this wrong.
     naive = sorted(n for n in names if waterlines[n] >= newest[n])
     assert naive != truth, "the forget-the-term course reaches the truth"
@@ -587,7 +1021,7 @@ def probes(ctx):
     wrong_b = _report((DECOY_PHRASE, ", ".join(decoy), DECOY_ID, _evidence(newest, 14)))
 
     # wrong 3: protection dated from the oldest acknowledged delivery instead of the
-    # newest - the reader who takes the table bottom-up.
+    # newest - the reader who takes the log's first row rather than its last.
     old_h = dict((n, _plus_s(oldest[n], TERM_DAYS)) for n in names)
     old_set = sorted(n for n in names if newest[n] <= waterlines[n] < old_h[n])
     assert old_set != truth, "the oldest-delivery course reaches the truth"
@@ -612,7 +1046,7 @@ def probes(ctx):
          "verdict": "correct", "score": full},
         {"name": "empty (untouched sandbox)", "verdict": "visibly_failed",
          "no_traceback": True},
-        {"name": "wrong: every cleared store, the term never applied",
+        {"name": "wrong: every emptied store, the term never applied",
          "files": {DELIVERABLE: wrong_a}, "verdict": "confidently_wrong"},
         {"name": "wrong: the superseded fourteen-day term",
          "files": {DELIVERABLE: wrong_b}, "verdict": "confidently_wrong"},
@@ -660,6 +1094,19 @@ def notes(ctx, m):
                          for p in m["load_bearing"])
     affected = ", ".join("`%s`" % a for a in f["affected"])
     sample = ", ".join("%s → %s" % (s, f["horizons"][s]) for s in f["names"][:3])
+    frame_txt = ("0 — no value-line frame is shared by any two of the %d units"
+                 % len(f["units"])) if f["frame_n"] < 2 else (
+        "the widest shared value-line frame reaches %d units (%.3f of %d, under the "
+        "one-quarter limit) — %r"
+        % (f["frame_n"], f["frame_n"] / float(len(f["units"])), len(f["units"]),
+           f["frame_text"][:60]))
+    cat2_runs = ", ".join(
+        "%s ran %s, %d day(s) before its horizon %s"
+        % (s, f["swept_on"][s],
+           (datetime.date(*[int(x) for x in f["horizons"][s].split("-")])
+            - datetime.date(*[int(x) for x in f["swept_on"][s].split("-")])).days,
+           f["horizons"][s])
+        for s in f["affected"][:3])
     return """# NOTES — %(slot)s (behaviour %(mode)d, rung 0)
 
 ## 1. Failure mode
@@ -671,7 +1118,7 @@ Mode 1: a requirement stated once, far from the code. The promise that decides t
 %(rlines)d**; `facts()` fails the build if the phrase appears in any other seed file, so
 "never repeated" is a measurement, not a wish. The tree's own neighbourhood — the
 operations and README story of a nightly sweep that empties stores, and every module's
-sweep block saying what was cleared — describes a fire-and-forget pipeline and never
+shelf line saying what was taken — describes a fire-and-forget pipeline and never
 mentions the promise. It measures whether a model reconciles the whole tree or answers
 from the files it happened to open.
 
@@ -682,67 +1129,83 @@ file the prompt's vocabulary can reach names it).
 
 ## 2. Rung 0: why the material is necessary
 
-The answer is an aggregate over **every** component of two facts that live in two
+The answer is an aggregate over **every** component of three facts that live in two
 different artifact kinds per component:
 
-- its acknowledged deliveries — a %(rows)d-row table, newest first, appended to the
+- its acknowledged deliveries — a %(rows)d-row log, oldest signature last, appended to the
   component's own page under `docs/`;
-- its sweep waterline — one line in the component's own module under `src/`, stating how
-  far the nightly sweep has cleared its store.
+- its sweep waterline and its last sweep run-date — the two dated lines of the shelf line
+  in the component's own module under `src/`.
 
 A component does not meet the promise exactly when its waterline has passed its newest
 acknowledgement while that acknowledgement's term — fixed only by the promise — had not
-run out. No file assembles the answer: `check_rung0.py` part B confirms it, the manifest
-names components and limits only, the rationale names no component, and each of the
-%(n)d components' facts is split across its page and its module. The prompt names no
-load-bearing file; the only pointer it gives is the manifest (declared
-`named_in_prompt`), which is the roster and not the answer.
+run out, and its own shelf line dates the run inside that window. No file assembles the
+answer: `check_rung0.py` part B confirms it, the manifest names components and limits
+only, the rationale names no component, and each of the %(n)d components' facts is split
+across its page and its module. The prompt names no load-bearing file; the only pointer
+it gives is the manifest (declared `named_in_prompt`), which is the roster and not the
+answer. The smallest assembly the answer needs is %(nasm)d files: the manifest, the
+rationale, and every component's page and module.
 
 The measured traversal — the manifest, the two pointers that make `docs/releases/`
 findable, the rationale, and every component page and module — is **%(sweep)d of
 %(tokens)d material tokens (%(sweeppct)s%%)**. The index-leak trap is designed out: the
-generator has never heard of waterlines or acknowledged-delivery tables, each is written
-once, in one artifact kind, and no index file lists either, so `check_index_leak.py` is
-told nothing because there is no `DECISIVE_CONSTANT` to leak — the decisive per-unit
-datum is not a module constant at all, it is a date the reader computes.
+generator has never heard of waterlines, shelf lines or signature logs, each is written
+once, in one artifact kind, and no index file lists any of them — asserted at build
+time: every waterline and run-date occurs in exactly one seed file, every horizon string
+in none, and each newest acknowledgement sits on the last row of its own page's log.
 
 ## 3. The harvest declaration, honestly
 
-`harvest_units()` declares **all %(n)d components**, one entry each: unit = the
-component's name, path = its page under `docs/`, value = its **protection horizon** —
-the date its newest acknowledged delivery stopped being protected, e.g. %(sample)s.
-That is the per-unit datum the answer uses, for both per-unit outputs: membership is
-this date compared against the component's waterline, and `regression_evidence` IS
-this date for every component in scope.
+`harvest_units()` declares **%(nunit)d entries — three per component** — because each
+component carries three decisive data, and the round's brief says a unit with two
+decisive data is two harvest-unit entries:
 
-**Every declared value is derived.** `facts()` scans every file under `seed/` and fails
-the build if any horizon string occurs anywhere: the value is computed by the reader
-from the component's table plus the term, and no grep can harvest a string that is
-nowhere. That is research section 2.2's mechanism — "grep returns raw transitions or
-ledger rows, possibly all of them, but no final state" — applied to every unit, which
-this round's brief calls the strongest answer and the one to reach for first. The check
-should report all %(n)d units derived and H1 = H2 = H3 = 0.0.
+- unit `<name>`, value = its **protection horizon** (its newest acknowledgement plus the
+  term), e.g. %(sample)s. Derived: `facts()` fails the build if any horizon string
+  occurs anywhere under `seed/`, so the full value is stated nowhere and no grep can
+  harvest it;
+- unit `<name> ack`, value = its **newest acknowledged date**, stated on the last row of
+  its page's log (measured: each sits on that last row, which is what the answer reads);
+- unit `<name> waterline`, value = its **shelf-line through-date**, stated in its module
+  (measured: exactly one file each).
 
-What IS stated, and why it does not hand the answer over: the raw records (ack dates in
-%(n)d pages, waterlines in %(n)d modules), the term, and the record id. A grepper can
-pull all of that onto one screen; it then holds every input and no answer — the horizon
-per component, the set, and even which comparison to run exist in no file. The two
-stated per-unit records are also single-source by construction: `facts()` asserts that
-"cleared through" occurs in exactly the %(n)d modules and the ack-table heading in
-exactly the %(n)d pages, and measures that each sweep-state comment sits at least
-%(gap)d lines from any line naming its own stage. The superseded fourteen-day note is
-the decoy for a solver that greps the term and finds two notes; the supersession marker
-and the rationale's "only statement" declaration rule it out.
+The first build declared only the horizon and left both stated facts undeclared — the
+re-review called that correctly dishonest, and it was right twice over, because the fixed
+`| delivery | acknowledged |` table header and the fixed `last sweep …, cleared through …`
+comment made one grep (`-C2 acknowledged`, `-C2 cleared`) — and, with no vocabulary at
+all, one shared frame, `sweep cleared through` — carry all eighteen of each record. Both
+fixed shapes are gone and `facts()` asserts them absent. The log rows are now bare
+`DLV-… <day>` pairs — no words at all on a page's value-bearing lines — under a heading
+each page picks for itself, and each module's two dates sit on their own labelled lines
+(`ran:` / `through:`) under a sentence in that component's own words — so no
+value-bearing line anywhere carries a two-word run for the frame harvest to match; no
+two components share a record template (asserted pairwise).
+
+The harvest measures are **computed at build time with the check's own rules** — same
+part splitting, same ±2/±5 windows, same frame rule — over all %(nunit)d declared units,
+so this section measures rather than predicts: widest single giveaway token reaches
+**%(h1pc)s** of the units at ±2 and **%(h3pc)s** at ±5; the roster regex reaches
+**%(h2pc)s**; the frame harvest reads %(frame_txt)s Every unit's own file is
+clean of giveaway tokens within five lines of a value line (asserted); the one remaining
+coincidence is the generated history entries' own `Date:` lines sitting two lines under
+their proposal titles, which the widest token reaches through the bare year alone. What
+IS stated anywhere — raw log rows, shelf lines, the term, the record id — yields every
+input and no answer: the horizons, the set, and which comparison to run exist in no file.
 
 ## 4. Distinguishing condition, and the wrong courses the material rules out
 
-Exactly **%(naff)d** components do not meet the promise: %(affected)s.
+Exactly **%(naff)d** components do not meet the promise: %(affected)s. The build asserts
+the ruling against each component's own recorded run-date, so no record contradicts it:
+every violating stage's sweep ran inside the term it broke (%(cat2runs)s), every lawful
+stage's run at or after its horizon, and every untouched stage's run before the oldest
+row its log still holds.
 
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |
-| report every cleared store (%(nnaive)d of %(n)d) | reads the README/operations sweep story and the module blocks, never finds the promise, applies no term | the promise fixes the term; %(nlawful)d components' waterlines passed their newest delivery's horizon, so their clearing was lawful |
+| report every emptied store (%(nnaive)d of %(n)d) | reads the README/operations sweep story and the shelf lines, never finds the promise, applies no term | the promise fixes the term; %(nlawful)d components' waterlines passed their newest delivery's horizon, so their clearing was lawful |
 | apply the %(decoyd)s | greps for the term, finds both release notes, takes the older one | REL-2031-02 is marked **superseded by REL-2032-11**, and the rationale declares itself the promise's only statement; the set comes out smaller (the +15-day stages were lawful under the old term) and every horizon is fourteen days short |
-| date the horizon from the oldest acknowledged delivery | reads each table bottom-up | the prompt defines the evidence as the newest acknowledged delivery's date; every horizon then predates its own waterline, so the set empties and every date moves |
+| date the horizon from the oldest acknowledged delivery | takes the log's first row instead of its last | the prompt defines the evidence as the final acknowledged delivery's date; every horizon then predates its own waterline, so the set empties and every date moves |
 | list evidence for the affected components only | skims the fourth key | the prompt says "for every component in scope, in that same alphabetical order" |
 | never find the rationale; answer from the nearest page | reads one component's page and its module, generalises | membership is a per-component comparison; the lawful and violating stages are interleaved in the manifest, so no local reading predicts the set |
 
@@ -801,20 +1264,24 @@ case is adjudicated as a legitimate failure (`confidently_wrong`), and it is.
 ## 10. Derivability
 
 Every value the reference asserts is measured from `seed/` at build time by this spec:
-the horizons by reading each page's table back and applying the term; the set by
-comparing each horizon against the waterline read back from its module; the term and
+the horizons by reading each page's log back and applying the term; the set by comparing
+each horizon against the waterline and run-date read back from its module; the term and
 the record id by locating the one file that carries them. Nothing is typed twice, and
-`facts()` fails the build on any disagreement between the design and the disk.
+`facts()` fails the build on any disagreement between the design and the disk — including
+the fairness invariants: a violating stage's recorded run must sit inside the term it
+broke, a lawful stage's at or after its horizon, an untouched stage's before its oldest
+table row.
 
 ## 11. Departures from the research idea (section 5, p01)
 
-- **Mechanism 2 instead of mechanism 1.** The research sketch varies per-unit prose
-  ("kept after receipt", "survives the acknowledgement") over eight components. Any
-  stated per-unit value sits somewhere in the seed, and its harvest exposure then
-  depends on line placement and vocabulary discipline for the life of the candidate.
-  This round's brief calls the derived mechanism the strongest and asks for it first,
-  so the per-unit values are computed dates and the "different vocabulary" lives in the
-  two raw record kinds (page tables, module sweep lines) instead.
+- **Mechanism 2 for the horizons, mechanism 1 for the two stated records.** The sketch
+  varies per-unit prose over eight components. Here the derived datum (the horizon) is
+  computed and stated nowhere — the brief's strongest answer — and the two stated raw
+  records (newest acknowledgement, waterline) are declared as their own harvest units and
+  defended the prose way: bare log rows under per-component headings, and two bare
+  labelled dates under a shelf-line sentence written in each component's own words. The
+  first build's fixed table header and fixed sweep comment were harvested 18/18 by one
+  frame; both are gone, asserted.
 - **The glossary hop is gone.** The sketch bridges prompt → glossary → release note →
   code. Here the promise is written in the rationale's own plain words, and the bridge
   is the discovery chain every repository already has: README and changelog point at
@@ -825,6 +1292,11 @@ the record id by locating the one file that carries them. Nothing is typed twice
   scope; the research left the key's content open. Defining it per-component-for-all is
   what makes every component page genuinely required, which is where most of the sweep
   lives.
+- **One generated-tree boilerplate reword.** The changelog's per-entry line "brought in
+  line with the module constants" sat two lines under the changelog's own unrelated
+  2034/2035 entry headings; with the giveaway token `module` in it, those headings were
+  one grep from every horizon's bare year. It now reads "brought in line with the
+  constants in code". No record, date or decision is touched.
 - **No departure on `TARGET_TOKENS`:** it is %(gen)d, the main band's table value. The
   overlay carries the material the rest of the way because it is fat by design — every
   page and module gains the per-component records the answer replays. Measured material:
@@ -833,9 +1305,17 @@ the record id by locating the one file that carries them. Nothing is typed twice
 """ % {
         "slot": SLOT, "mode": MODE, "term": TERM_PHRASE, "rationale": RATIONALE,
         "pline": f["promise_line"], "rlines": f["rationale_lines"], "rows": ROWS_PER_STAGE,
-        "n": n, "sweep": m["sweep_tokens"], "tokens": m["tokens"],
+        "n": n, "nasm": 2 * n + 2, "sweep": m["sweep_tokens"], "tokens": m["tokens"],
         "sweeppct": m["sweep_pct"], "naff": len(f["affected"]), "affected": affected,
-        "sample": sample, "gap": f["placement_gap"],
+        "sample": sample,
+        "nunit": len(f["units"]),
+        "h1pc": "%.3f" % f["h1_build"], "h2pc": "%.3f" % f["h2_build"],
+        "h3pc": "%.3f" % f["h3_build"],
+        "frame_n": f["frame_n"],
+        "frame_max": "%.3f" % (f["frame_n"] / float(len(f["units"]))),
+        "frame_ex": f["frame_text"][:60],
+        "frame_txt": frame_txt,
+        "cat2runs": cat2_runs,
         "nnaive": len([x for x in f["names"] if f["waterlines"][x] >= f["newest_acks"][x]]),
         "nlawful": len([x for x in f["names"]
                         if f["waterlines"][x] >= f["newest_acks"][x]
