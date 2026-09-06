@@ -28,7 +28,7 @@ MODE = 1
 PROJECT = "linnet-slack"
 PACKAGE = "linnet"
 CORPUS_SEED = 6207
-TARGET_TOKENS = 26000
+TARGET_TOKENS = 27400
 BAND = "main"
 DELIVERABLE = "recheck-report.txt"
 SCOPE_GATE = True
@@ -76,7 +76,7 @@ HANDOVER = "docs/recheck-handover.md"
 # MENTION — named in one bulletin's prose and amended by nothing, baiting grep-based
 #     membership ("a stage the series mentions is a stage the series amends" is false, and
 #     the precedents page says the table is the whole of a bulletin's effect).
-_R = (3, 8, 14, 19)
+_R = (3, 8, 14, 18)
 _O = (2, 10, 16)
 _S = (5, 12)
 _D = 6
@@ -91,7 +91,7 @@ _MENTION = 9
 _BULLETIN_PLAN = [
     (1, 3, "governing", "2034-09-03", "recheck-filing"),
     (2, 8, "superseded", "2034-02-11", "recheck-amendment"),
-    (3, 19, "governing", "2034-12-01", "recheck-revision"),
+    (3, 18, "governing", "2034-12-01", "recheck-revision"),
     (4, 10, "superseded", "2034-01-16", "recheck-adjustment"),
     (5, 5, "single", "2034-06-19", "recheck-filing"),
     (6, 8, "governing", "2034-03-27", "recheck-change"),
@@ -101,12 +101,12 @@ _BULLETIN_PLAN = [
     (10, 14, "confirmed", "2034-10-15", "recheck-confirmation"),
     (11, 10, "middle", "2034-08-21", "recheck-amendment"),
     (12, 12, "single", "2034-11-12", "recheck-change"),
-    (13, 8, "middle", "2034-11-20", "recheck-revision"),
+    (13, 8, "middle", "2034-03-02", "recheck-revision"),
     (14, 2, "governing", "2034-08-08", "recheck-adjustment"),
     (15, 16, "governing", "2034-12-19", "recheck-update"),
     (16, 14, "superseded", "2034-03-14", "recheck-note"),
-    (17, 19, "middle", "2034-09-26", "recheck-filing"),
-    (18, 19, "superseded", "2034-04-18", "recheck-amendment"),
+    (17, 18, "middle", "2034-09-26", "recheck-filing"),
+    (18, 18, "superseded", "2034-04-18", "recheck-amendment"),
     (19, 10, "governing", "2034-10-28", "recheck-revision"),
 ]
 
@@ -165,7 +165,9 @@ def _bulletin_value(role, idx, default):
 def overlay(ctx):
     corpus = ctx["corpus"]
     n = len(corpus.stages)
-    assert n >= 20, "corpus has %d stages; the plan indexes up to %d" % (n, max(_R + _O + _S))
+    assert n > max(_R + _O + _S) and _D < n and _MENTION < n, (
+        "corpus has %d stages; the plan indexes up to %d"
+        % (n, max(max(_R + _O + _S), _D, _MENTION)))
 
     # 1. the per-unit facts, written fresh for EVERY stage: the shipped interval as a module
     #    constant, the documented interval as a configuration row. The generator has never
@@ -318,8 +320,8 @@ def _precedents_sections():
             "A bulletin is never edited after it is recorded. A correction is a later bulletin",
             "that says so, and a withdrawal is a later bulletin that says that instead. In",
             "both cases the original file stays in the directory exactly as recorded, because",
-            "the series is append-only: a series whose past can change is a series nobody can",
-            "audit.",
+            "the series is append-only: a series whose past can change is a series whose past",
+            "nobody can trust.",
         ]),
         ("Who may file", [
             "Any team may request a bulletin through the mailroom. Capacity Planning records",
@@ -359,6 +361,76 @@ def _precedents_sections():
             "and proposes nothing; it is a reading of the series as it stands, and the series",
             "stays as it is underneath it.",
         ]),
+        ("Serials in references", [
+            "Other pages may cite a bulletin by its serial, and a citation is a pointer and",
+            "nothing more: citing `MB-014` does not make the bulletin the live one for a",
+            "stage, and a page that cites a serial without this page's rule is citing an",
+            "address, not a ruling. The quarterly report cites no serials at all, and the",
+            "citations in incident reviews are read back through this page like everything",
+            "else that touches the series.",
+        ]),
+        ("Archiving", [
+            "The directory only grows. A bulletin is never moved out of `docs/bulletins/`, is",
+            "never renamed, and is never renumbered, not even when its stage is retired: the",
+            "serials are the series' history, and a gap in the serials is a gap in the",
+            "record. Storage pressure is not a reason to shrink the series; the files are",
+            "small and the questions they settle are not.",
+        ]),
+        ("Renamed and retired stages", [
+            "The series names stages as they were named at recording time. No stage has been",
+            "renamed while the series existed, and the rule is written here for the day one",
+            "is: a renamed stage's older bulletins keep the old name, the report reads both",
+            "names back to the same stage, and nothing is re-filed to match. A retired",
+            "stage's bulletins stay exactly where they are; the stage stops appearing in the",
+            "report, not in the record.",
+        ]),
+        ("Refusals at filing", [
+            "The mailroom refuses a request, and files nothing, when the request carries a",
+            "setting the series does not hold, a table row with a stage's name missing, or a",
+            "number in a field that is not a number. A refused request is sent back with the",
+            "reason and is not logged in the series; the serial it would have taken goes to",
+            "the next bulletin that arrives.",
+        ]),
+        ("The mailroom log", [
+            "Alongside the directory the mailroom keeps a logbook of what it did and when it",
+            "did it: recordings, re-filings, refusals. The logbook is not part of the tree",
+            "and the report does not read it; the series is complete without it, and where",
+            "the logbook and the series disagree about anything, the series is what stands,",
+            "because the series is what the teams were shown.",
+        ]),
+        ("The quarterly reading", [
+            "Once a quarter the operations team reads every table in the directory and",
+            "sets it against every stage's module and document. The reading takes as",
+            "long as it takes, and it is done in full every time, because the one quarter it",
+            "is sampled is the quarter a stale interval becomes an incident. What the reading",
+            "produces is the report; what it does not produce is changes, which go back",
+            "through the mailroom like everything else.",
+        ]),
+        ("Between recordings", [
+            "A request that has been made but not yet recorded changes nothing: it is not in",
+            "the series, no table names it, and no stage runs differently because somebody",
+            "asked for it. The mailroom's pending folder is not a preview of the series, and",
+            "a stage whose request is still waiting runs exactly what the last recording left",
+            "it with.",
+        ]),
+        ("Wording", [
+            "This page's terms are written in lower case in ordinary prose and in bold where",
+            "they are defined. The quarterly report uses the terms the way this page defines",
+            "them, and so does every memo that quotes the report; a memo that invents its own",
+            "word for a thing this page has named is rewritten before it is circulated.",
+        ]),
+        ("Where questions go", [
+            "Questions about the series go to Capacity Planning, and the answer is always the",
+            "same two pointers: this page and the directory. Nobody answers a series question",
+            "from memory, and an answer that cannot cite one of the two pointers is not an",
+            "answer the teams may act on.",
+        ]),
+        ("Paper copies", [
+            "A printed or screenshotted bulletin is uncontrolled the moment it leaves the",
+            "room it was printed in. The directory is the only controlled copy of the",
+            "series, and a paper copy that disagrees with the directory is wrong by",
+            "definition; nobody sets the paper back into the record.",
+        ]),
         ("Handover notes and other leads", [
             "A shift handover's notes, a review slide, or a margin scribble may name stages",
             "and may guess at what the series did. None of it is evidence. The series is the",
@@ -394,7 +466,7 @@ _DECISIVE_RULE = [
         "for that stage in series order; that is, when a bulletin that names the stage stands",
         "after the governing one in the directory's order.",
         "",
-        "The report's `out_of_sequence` line lists exactly the stages that meet that",
+        "The report's out-of-sequence line lists exactly the stages that meet that",
         "description and nothing else. A stage with one bulletin is never out of sequence,",
         "and neither is a stage whose governing bulletin stands last. A stage may be reached",
         "by the series and still be in order; the report's other lines carry whatever else is",
@@ -413,8 +485,9 @@ def _write_precedents(ctx):
          "This page is the project's record of how the bulletin series is read. It exists",
          "because two quarters in a row turned on the same question, which of a stage's",
          "bulletins is the live one, and it was answered two different ways by two teams",
-         "reading the same directory. The policies under `docs/policy/` govern records,",
-         "retention and evidence; this page governs the series and the intervals it amends.",
+         "reading the same directory. The policies under `docs/policy/` govern records, their",
+         "keeping and the evidence they leave; this page governs the series and the intervals",
+         "it amends.",
          "Neither page answers the other's questions, and where a handover note or a review",
          "slide disagrees with this page, this page is what the report applies.",
          ""]
@@ -464,7 +537,7 @@ def _readme_addendum():
 # ---------------------------------------------------------------------------
 
 _BULLETIN_FILE = re.compile(r"^MB-(\d{3})-(.+)\.md$")
-_RECORDED = re.compile(r"^- Recorded: (\d{4}-\d{2}-\d{2})$")
+_RECORDED = re.compile(r"^- Recorded: (\d{4}-\d{2}-\d{2})$", re.M)
 _ROW = re.compile(r"^\| (\S+) \| (.+?) \|$")
 
 
@@ -580,6 +653,12 @@ def _single_source(ctx):
     for p, where in hits.items():
         assert where == [precedents_rel], (
             "the criterion has a second source: %r appears in %s" % (p, ", ".join(where)))
+    # and the deliverable's own key names appear nowhere in the seed: the prompt carries
+    # them, and a key that greps to its own definition page is a one-hop locator (rung-0 C2)
+    precedents_text = C.read(ctx["corpus"].path(PRECEDENTS))
+    for key in ("out_of_sequence", "stale_docs", "recheck_total"):
+        assert key not in precedents_text, (
+            "%s carries the deliverable key %r verbatim" % (PRECEDENTS, key))
     # and the precedents page names no stage at all: it is a standard, not a per-stage record
     text = C.read(ctx["corpus"].path(PRECEDENTS))
     for st in ctx["corpus"].stages:
@@ -641,8 +720,10 @@ def facts(ctx):
 
     assert oos == r_names, "out of sequence measured %s, planned %s" % (oos, r_names)
     assert len(oos) == 4, "out of sequence has %d members" % len(oos)
-    assert stale == sorted(_names(corpus, _R[:1] + _R[2:] + _O + _S) + [d_name]), \
-        "stale measured %s" % stale
+    # stale = the amended stages except R2 (whose document was carried along), plus D —
+    # the confirmed stage's document agrees with its shipped value, so it is stale nowhere.
+    stale_plan = sorted(_names(corpus, (_R[0], _R[3]) + _O + _S) + [d_name])
+    assert stale == stale_plan, "stale measured %s, planned %s" % (stale, stale_plan)
     assert len(stale) == 8 and d_name in stale, "the drifted document is not reported stale"
     assert stages[d_name]["effective"] == stages[d_name]["default"], \
         "the drifted stage must be effective-at-default"
@@ -657,7 +738,6 @@ def facts(ctx):
     r2 = _stage_for_index(corpus, 8)["name"]
     assert stages[r2]["documented"] == stages[r2]["effective"] and r2 not in stale
     # a stage the series only mentions is amended by nothing
-    assert all(mention_name not in [stages[n] and n] for n in oos + stale)
     assert not stages[mention_name]["bulletins"], "the mention-only stage acquired a bulletin"
     mentioned = [s for s in bulletins.values() if mention_name in s["stage"]]
     assert not mentioned, "the mention decoy became an amendment"
@@ -772,11 +852,7 @@ def sweep_paths(ctx):
     summed for the total), every stage's document (documented intervals), every bulletin
     (membership, dates, values), the precedents page (rule and terms), and the roster."""
     corpus = ctx["corpus"]
-    out = [PRECEDENTS, "config/manifest.json"]
-    for serial, _i, _r, _d, _s in _BULLETIN_PLAN:
-        for fn in _bulletin_files(ctx):
-            if _BULLETIN_FILE.match(os.path.basename(fn)).group(1) == "%03d" % serial:
-                out.append(fn)
+    out = [PRECEDENTS, "config/manifest.json"] + _bulletin_files(ctx)
     for st in corpus.stages:
         out += [st["src"], st["doc"]]
     return out
@@ -880,14 +956,13 @@ def probes(ctx):
     assert f["defaults_total"] != truth_total
 
     d_stage = corpus.stages[_D]
-    d_row = "| `recheck_s` | %d |" % d_stage and \
-        "| `recheck_s` | %d |" % corpus.doc_config_row(d_stage, "recheck_s")
-    repaired = C.read(corpus.path(d_stage["doc"])).replace(
-        d_row, "| `recheck_s` | %d |" % d_stage and
-        ("| `recheck_s` | %d |" % int(corpus.doc_config_row(d_stage, "recheck_s"))).replace(
-            corpus.doc_config_row(d_stage, "recheck_s"),
-            str(int(corpus.doc_config_row(d_stage, "recheck_s")))), 1)
-    assert repaired != C.read(corpus.path(d_stage["doc"]))
+    d_doc_val = corpus.doc_config_row(d_stage, "recheck_s")
+    d_eff_val = corpus.module_constant(d_stage, "RECHECK_S")
+    doc_text = C.read(corpus.path(d_stage["doc"]))
+    repaired = doc_text.replace("| `recheck_s` | %s |" % d_doc_val,
+                                "| `recheck_s` | %s |" % d_eff_val, 1)
+    assert d_doc_val != d_eff_val, "the drifted document already states the effective value"
+    assert repaired != doc_text, "the repair did not change the drifted document"
 
     cases = [
         {"name": "reference", "files": {DELIVERABLE: ref},
@@ -1098,7 +1173,7 @@ than let NOTES.md claim a placement the tree does not carry.
         "ruleline": f["rule_line"], "preclines": f["precedents_lines"],
         "nbulletins": 19, "nstages": len(ctx["corpus"].stages),
         "inversions": f["inversions"],
-        "sweep": "{:,}".format(m["sweep_tokens"]), "tokens": "{:,}".format(m["tokens"]),
+        "sweep": m["sweep_tokens"], "tokens": m["tokens"],
         "sweeppct": m["sweep_pct"],
         "noos": len(f["oos"]), "oos": ", ".join("`%s`" % n for n in f["oos"]),
         "nstale": len(f["stale"]), "stale": ", ".join("`%s`" % n for n in f["stale"]),
