@@ -1,15 +1,16 @@
 # v7 round five — admit what discriminates, and report a statistic with variance in it, 2026-09-10
+*Renamed 2026-09-06 from `v7/authoring-r5-2026-09-10.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 *Written by the round-five manager, an Opus subagent of the Fable control session. Read after
-`authoring-r4-2026-09-09.md` and `handoff-2026-09-09.md`. Decisions and their reasons:
-`decisions-r5-2026-09-10.md`. Plan of record: `plan-2026-09-07.md`, section 2.1 amended today.
+`authoring-r4-2026-09-06.md` and `handoff-r4-2026-09-06.md`. Decisions and their reasons:
+`decisions-r5-2026-09-06.md`. Plan of record: `plan-r3-2026-09-06.md`, section 2.1 amended today.
 Campaign dates continue the convention; the host clock reads 2026-09-06.*
 
 ## 1. The owner's ruling, and what this round did with it
 
 The material lever was exhausted at 96%. The ruling opened five lines in priority order: admit
 what already discriminates, report a statistic with variance in it, measure context pressure,
-and author new tasks on two shapes. `decisions-r5-2026-09-10.md` records it verbatim as its first
+and author new tasks on two shapes. `decisions-r5-2026-09-06.md` records it verbatim as its first
 entry, committed before anything else.
 
 **The headline is the second item, not the first.** The suite statistic is now pass probability
@@ -85,7 +86,7 @@ assumed.
 
 ## 3. The admission pass
 
-`decisions-r5-2026-09-10.md` has the full table and the reasoning. Three slots changed:
+`decisions-r5-2026-09-06.md` has the full table and the reasoning. Three slots changed:
 
 | mode / band | out | out p | in | in p | why |
 | --- | --- | ---: | --- | ---: | --- |
@@ -106,7 +107,7 @@ interpreter.
    **one** round of review, by clean-context agents rather than by the other two families, and
    section 8.1 records that their family labels are "the plan's slot assignments and not a claim
    about which model wrote the prose" — all nine were drafted by clean-context Sonnet subagents.
-   `plan-2026-09-07.md` section 3.1 requires two blind cross-family reviews, both passing. So the
+   `plan-r3-2026-09-06.md` section 3.1 requires two blind cross-family reviews, both passing. So the
    nine were one review short and their family labels, which is what the 40% cap is computed from,
    are nominal. **This is the round's one open question for the owner.**
 2. **Round three's slot numbers are its ten ideas, not the ten failure modes.** Read from each
@@ -166,7 +167,7 @@ every take-back the last line of its module) so `tail -n1 docs/*.md src/kestrel/
 of 40 with no token at all; and a second `rebase` that **cut the chain instead of lengthening it**,
 because a rebase *sets*, leaving `figure_final` dependent on 19 of 40 entries and each key an
 order-free sum after the nearest rebase. Two misses is a drop.
-`decisions-r5-2026-09-10.md` has the measurements and the three-item fix list. **Do not throw the
+`decisions-r5-2026-09-06.md` has the measurements and the three-item fix list. **Do not throw the
 spec away**: it is pickup 1 of the handoff.
 
 ### The pipeline, and the two pickups it closed
@@ -210,7 +211,7 @@ misses are `visibly_failed` and two carry `STOP=length`, against zero length sto
 ## 6. The 64k KV-cache rerun
 
 Run last, on the owner's instruction, to the method in `results/v5/kv-probe-plan-2026-09-03.md`.
-Full record and the org recommendation: **`results/v5/kv-64k-2026-09-10.md`**. In one line: **q8_0
+Full record and the org recommendation: **`results/v5/kv-64k-2026-09-06.md`**. In one line: **q8_0
 KV is not measurably better than q4_0 at 64k** — 120/128 against 118/128 on the one model where
 both cells completed, intervals overlapping — while on the other model q8_0 loaded to 15,315 MiB
 of a 16,303 MiB card and answered 1 of 32 needles before the 600 s cap, which is the plan's

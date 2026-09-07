@@ -1,4 +1,5 @@
 # Round-four manager decisions, with reasons
+*Renamed 2026-09-06 from `v7/decisions-r4-2026-09-09.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 **p03-main-luna — DROPPED after two revisions.** Second blind review reproduced the reference
 with **zero files opened** (three greps, byte-identical, `test.py` 8/8 PASS correct) and showed

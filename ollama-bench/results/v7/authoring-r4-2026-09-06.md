@@ -1,8 +1,9 @@
 # v7 round four — tasks whose facts a grep cannot harvest, and the measurement that says the coverage gate is pointed the wrong way, 2026-09-09
+*Renamed 2026-09-06 from `v7/authoring-r4-2026-09-09.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
-*Written by the round-four manager. Round three's record is `authoring-r3-2026-09-08.md`; the
-plan of record is `plan-2026-09-07.md`; the round's instrument finding has its own file,
-`coverage-instrument-2026-09-09.md`, and is summarised in section 7 here.*
+*Written by the round-four manager. Round three's record is `authoring-r3-2026-09-06.md`; the
+plan of record is `plan-r3-2026-09-06.md`; the round's instrument finding has its own file,
+`coverage-instrument-2026-09-06.md`, and is summarised in section 7 here.*
 
 ## 1. The brief, and the answer to it
 
@@ -12,7 +13,7 @@ in one screen. Round four's question was how to stop that **without** making any
 understand — the campaign's standing rule that a task may be hard to DO and never hard to
 UNDERSTAND.
 
-One Luna run answered it in `research-r4-2026-09-09.md` (4,524 words, sourced). Its finding, and
+One Luna run answered it in `research-r4-2026-09-06.md` (4,524 words, sourced). Its finding, and
 the round's design rule:
 
 > A fact that is **derived** — that occurs nowhere in `seed/` as a literal string, because it is
@@ -72,7 +73,7 @@ Ten slots across three families, authored blind, two cross-family reviews each, 
 | p09-main-luna | luna | 9 | main | revised twice (H4, then floor) |
 | p10-cheap-glm | glm | 10 | cheap24 | **withdrawn**, unauthored (lane budget) |
 
-Reasons are in `results/v7/decisions-r4-2026-09-09.md` and summarised: p03 was reproduced by a reviewer
+Reasons are in `results/v7/decisions-r4-2026-09-06.md` and summarised: p03 was reproduced by a reviewer
 **with zero files opened**, in three greps, and no longer exercised its mode at all; p06 hit mode
 6's known structural property — the traceback names the file holding the defect, and no rung
 reaches around that (D7-34) — at full score from two files; p07 and p10 were withdrawn for
@@ -144,7 +145,7 @@ Round four's own candidates, same cell, three trials each: p02 3/3, p05 **1/3**,
 
 ## 6. Step 7: round three at three trials, and the gate's sign
 
-`coverage-instrument-2026-09-09.md` is the full record; the two results the plan asked for:
+`coverage-instrument-2026-09-06.md` is the full record; the two results the plan asked for:
 
 1. **Round three's 10 of 10 was luck.** Thirty trials of the same ten candidates give **21 of 30
    (70%)** — main 13/21, cheap24 8/9 — and six of the ten tasks are not deterministic. No
@@ -246,7 +247,7 @@ material the task requires; admitting on it raises the pass rate and moves the s
 50% target. The two instruments the plan asks the manager to read together pull in opposite
 directions, and the plan must say which one yields.
 
-Three courses are set out in `coverage-instrument-2026-09-09.md` section "What this leaves for the
+Three courses are set out in `coverage-instrument-2026-09-06.md` section "What this leaves for the
 owner". **The manager's recommendation is course 2: demote coverage to a diagnostic** reported
 beside every row exactly as peak input is today, and admit on the reference arms and the
 cross-review alone — which is, in fact, what this round had to do, because no row of the campaign
@@ -276,17 +277,17 @@ its number, so whichever course the owner takes, the rows are already measured.
 
 | what | where |
 | --- | --- |
-| the round's research | `results/v7/research-r4-2026-09-09.md` |
+| the round's research | `results/v7/research-r4-2026-09-06.md` |
 | the instrument, its spec and its probe | `authoring/r4/check_harvest.py`, `r4/SPEC.md`, `r4/probe_harvest.py` |
 | author and review briefs | `authoring/r4/BRIEF.md`, `r4/REVIEW-BRIEF.md` |
 | every review report | `authoring/r4/reviews/` |
 | the candidates | `authoring/cand-{claude,glm,luna}/p0*`, staged at `authoring/r4/gate-suite/` |
 | the register | `authoring/roundtable.md`, "The register" and "Harvest round (v7r4)" |
-| drop and park decisions, with reasons | `results/v7/decisions-r4-2026-09-09.md` |
+| drop and park decisions, with reasons | `results/v7/decisions-r4-2026-09-06.md` |
 | acceptance cells | `results/v7r4-gate-*.json` |
 | the calibration | `results/v7r4cal-{IQ2_M,UDQ3KXL,Q2_K}-{main,cheap}.json` |
 | the coverage gate on every calibration row | `results/v7/coverage-r4-suite.json` |
 | round three at three trials | `results/v7r3-rep-{main,cheap}.json`, `results/v7/r3repeat.log` |
-| the instrument finding, in full | `results/v7/coverage-instrument-2026-09-09.md` |
+| the instrument finding, in full | `results/v7/coverage-instrument-2026-09-06.md` |
 | the reference arms | `authoring/sanity/{sonnet,haiku,luna,glm}/trial-r4/results.json` |
-| the handoff | `results/v7/handoff-2026-09-09.md` |
+| the handoff | `results/v7/handoff-r4-2026-09-06.md` |

@@ -1,4 +1,5 @@
 # v7 round three — ten tasks tuned for difficulty, and the first GPU acceptance sweep, 2026-09-08
+*Renamed 2026-09-06 from `v7/authoring-r3-2026-09-08.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 *Written by the Fable control session in WSL. Read after `authoring-2026-09-06.md` (round two)
 and `calibration-2026-09-06.md`. The register rows are in `authoring/roundtable.md` under
@@ -44,7 +45,7 @@ wrong course.
 | n09-cheap-luna | luna | cheap24 | the first complete answer is wrong | Claude PASS, GLM PASS | no | **yes** |
 | n10-cheap-claude | claude | cheap24 | precedence between failure kinds, in prose | GLM PASS, Luna REVISE (notes) fixed | no | no |
 
-Research: `research-r3-2026-09-08.md` (Opus, ten ideas with sources). Brief: `authoring/r3/BRIEF.md`.
+Research: `research-r3-2026-09-05.md` (Opus, ten ideas with sources). Brief: `authoring/r3/BRIEF.md`.
 Review brief and reports: `authoring/r3/REVIEW-BRIEF.md`, `authoring/r3/reviews/<slot>--<family>.md`.
 Specs: `authoring/r3/specs/`. Built candidates: `authoring/cand-<family>/<slot>/`. Staged for the
 gate: `authoring/r3/gate-suite/`.
@@ -223,7 +224,7 @@ is that instrument; round three's tasks should be measured by it before any are 
 | what | where |
 | --- | --- |
 | register rows and what review caught | `authoring/roundtable.md`, "Difficulty round (v7r3)" |
-| research | `results/v7/research-r3-2026-09-08.md` |
+| research | `results/v7/research-r3-2026-09-05.md` |
 | briefs | `authoring/r3/BRIEF.md`, `authoring/r3/REVIEW-BRIEF.md` |
 | reviews | `authoring/r3/reviews/` |
 | arm results | `authoring/sanity/{haiku,sonnet,luna,glm,fp8}/trial-r3/results.json`, and `trial-r2/` |

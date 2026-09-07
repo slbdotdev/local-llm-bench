@@ -1,7 +1,7 @@
 #!/bin/bash
 # run_gpu_round.sh [--go]
 #
-# Phase 3 of plan-2026-09-07.md section 7: the occupancy acceptance sweep for the nine
+# Phase 3 of plan-r3-2026-09-06.md section 7: the occupancy acceptance sweep for the nine
 # re-authored main-band candidates, and the live validation of `read_paths` that section 2.5
 # requires before any candidate may be gated on it.
 #

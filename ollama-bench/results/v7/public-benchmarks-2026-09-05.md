@@ -1,4 +1,5 @@
 # Public benchmark survey for the traversal axis
+*Renamed 2026-09-06 from `v7/public-benchmarks-2026-09-07.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 Scope: sources checked 2026-09-05. “Context” means the published task input or budget, not a
 model's advertised window. “Reuse” is a practical reading of the cited repository and data terms,

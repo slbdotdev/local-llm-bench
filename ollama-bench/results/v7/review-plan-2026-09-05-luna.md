@@ -1,4 +1,5 @@
 REVISE
+*Renamed 2026-09-06 from `v7/review-plan-2026-09-07-luna.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 1. [BLOCKING] Plan lines 101-116 assign m10-main to Claude, which is both its current main author and not a fresh author under the stated rule, even though the 7/7/6 arithmetic is otherwise correct. Fix m10-main to GLM and change the resulting share to Claude 6, GLM 8, Luna 6, or revise the rule explicitly.
 

@@ -3,7 +3,7 @@
 
     python3 results/v7/probe_read_paths.py [<candidate-dir>]
 
-plan-2026-09-07.md section 2.5 requires two things of `read_paths` and this covers the first:
+plan-r3-2026-09-06.md section 2.5 requires two things of `read_paths` and this covers the first:
 that the attribution itself is right — an exact file token is credited, a directory or glob
 token is credited only to the expanded upper bound, a flag is never a path, an absolute
 sandbox path is made relative, and a Windows backslash path is normalised. It feeds

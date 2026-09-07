@@ -6,7 +6,7 @@
     python3 results/v7/coverage_gate.py --tasks-dir DIR <tag>    # gate candidates, not the suite
     python3 results/v7/coverage_gate.py --json out.json <tag>
 
-plan-2026-09-07.md section 2.2, in full:
+plan-r3-2026-09-06.md section 2.2, in full:
 
   **Material coverage must reach 50% of the candidate's material**, and the trial must touch at
   least **five** of the paths the checker names load-bearing. Peak input is reported beside both

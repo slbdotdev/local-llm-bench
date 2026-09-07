@@ -1,4 +1,5 @@
 # The coverage gate measures reading style, not material consumed
+*Renamed 2026-09-06 from `v7/coverage-instrument-2026-09-09.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 *Written by the round-four manager from the round's own GPU rows, 2026-09-09. This is a finding
 about `results/v7/coverage_gate.py` and plan section 2.2, not about any candidate.*

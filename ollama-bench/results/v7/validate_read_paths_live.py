@@ -3,7 +3,7 @@
 
     python3 results/v7/validate_read_paths_live.py <tag> [--task m09-main-glm]
 
-plan-2026-09-07.md section 2.5 requires, before any candidate is gated on the new field:
+plan-r3-2026-09-06.md section 2.5 requires, before any candidate is gated on the new field:
 
   > one validation run reproduces a cell of `results/v7cal-IQ2_M-main.json` and checks the new
   > field against that record's `tools` histogram; the stored records hold no raw events, so

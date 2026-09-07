@@ -1,8 +1,8 @@
 # v7 round-2 authoring — the traversal axis, 2026-09-07
 
 *Written by the Opus manager subagent on FRACTAL, in WSL, executing the authoring half of
-`plan-2026-09-07.md` — the revision Luna reviewed to PASS in
-`review-plan-2026-09-07-luna-2.md`. The host clock reports `2026-09-05`; documents are dated by
+`plan-r3-2026-09-06.md` — the revision Luna reviewed to PASS in
+`review-plan-2026-09-05-luna-2.md`. The host clock reports `2026-09-05`; documents are dated by
 the campaign, as v5, v6, the v7 authoring round and the calibration all were. This page is the
 record of what was authored and what it was checked with; the reasoning behind each task is in
 its own `NOTES.md`.*

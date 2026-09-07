@@ -1,4 +1,5 @@
 PASS
+*Renamed 2026-09-06 from `v7/review-plan-2026-09-07-luna-2.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 1. Resolved: m10-main moves to GLM and the resulting family shares are stated. Plan lines 110-130.
 2. Resolved: phase 5 includes the fifth ZCode arm conditionally, with its estimate and owner decision explicit. Plan lines 245, 251-255.

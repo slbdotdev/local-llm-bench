@@ -1,4 +1,5 @@
 # Round-five manager decisions, with reasons
+*Renamed 2026-09-06 from `v7/decisions-r5-2026-09-10.md`: the campaign labelled rounds by planned campaign day, not by the calendar date they were written.*
 
 **Owner's ruling, 2026-09-06 (campaign 2026-09-10): the material lever is exhausted at 96%. Admit
 the staged round-two and round-three candidates that discriminate, slot for slot within the family
@@ -18,7 +19,7 @@ cross-family reviews". **They do not.** `results/v7/authoring-2026-09-06.md` sec
 in terms, that the nine round-two candidates got **one** round of review, by clean-context agents
 rather than by the other two families, and section 8.1 records that their family labels are "the
 plan's slot assignments and not a claim about which model wrote the prose" — all nine were drafted
-by clean-context Sonnet subagents. `plan-2026-09-07.md` section 3.1 requires two blind
+by clean-context Sonnet subagents. `plan-r3-2026-09-06.md` section 3.1 requires two blind
 cross-family reviews, both passing, before any candidate enters the suite. So the nine were one
 review short and their `glm`/`luna`/`claude` labels, which is what the 40% cap is computed from,
 are nominal.

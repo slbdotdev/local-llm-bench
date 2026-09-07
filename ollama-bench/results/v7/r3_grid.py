@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Per-task verdict grid for round three: the five reference arms and the workhorse GPU rows.
-Prints markdown; paste into authoring-r3-2026-09-08.md section 3. Run from ollama-bench/."""
+Prints markdown; paste into authoring-r3-2026-09-06.md section 3. Run from ollama-bench/."""
 import json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SAN = os.path.join(HERE, "authoring", "sanity")
