@@ -10,8 +10,8 @@ a stage to be both `accepted` (a stage's own history entry) and opted in
 (`ESCALATION_ELIGIBLE`, a stage's own module); the secondary file's backup contact needs only
 `accepted`. The two rules legitimately disagree for any accepted-but-not-opted-in stage, so a
 solver who just diffs the two files gets a set that MIXES that legitimate disagreement in with
-the genuine bugs -- diffing is not a shortcut here, only a distractor. The six rows that are
-actually wrong only fall out of applying each file's own rule, stage by stage, against a
+the genuine bugs -- diffing is not a shortcut here, only a distractor. The rows that are actually
+wrong only fall out of applying each file's own rule, stage by stage, against a
 history entry and a module that repeat nowhere else in the tree.
 """
 import os
@@ -101,7 +101,7 @@ def _eligibility(corpus):
     rng = _random.Random(CORPUS_SEED * 7 + 3)
     elig = {}
     for s in corpus.stages:
-        elig[s["name"]] = rng.random() < 0.7
+        elig[s["name"]] = rng.random() < 0.6
     return elig
 
 
@@ -146,12 +146,15 @@ def _stale_sets(corpus, elig):
         "need at least 6 accepted-and-eligible stages, measured %d" % len(accepted_eligible))
     assert len(not_accepted) >= 2, (
         "need at least 2 not-accepted stages, measured %d" % len(not_accepted))
-    assert len(accepted_not_eligible) >= 1, (
-        "need at least 1 accepted-not-eligible stage for the legitimate divergence, measured %d"
+    assert len(accepted_not_eligible) >= 4, (
+        "need at least 4 accepted-not-eligible stages for legitimate divergence, measured %d"
         % len(accepted_not_eligible))
     primary_only = accepted_eligible[0:2]
-    both = accepted_eligible[2:4]
+    both = accepted_eligible[2:11]
     secondary_only = not_accepted[0:2]
+    assert len(both) >= len(primary_only) + len(secondary_only) + len(accepted_not_eligible), (
+        "both-wrong mass must cover all diff-visible rows: %d vs %d" % (
+            len(both), len(primary_only) + len(secondary_only) + len(accepted_not_eligible)))
     return primary_only, secondary_only, both
 
 
@@ -258,8 +261,8 @@ fact.
 
 Both data files use the forward-slash form of the same two roots, which is correct for them --
 the loader that reads them runs cross-platform and always has. The two roots were renamed in
-`%s` on 2034-03-01 without a matching sweep of either contact file, so a handful of rows in
-each file still point at whichever root used to be correct for that stage before the rename.
+`%s` on 2034-03-01 without a matching sweep of either contact file, so most rows in each file
+still point at whichever root used to be correct for that stage before the rename.
 Comparing a file's paths against `%s`'s raw value character for character, without converting
 the separator first, makes every row in that file look wrong; that is not a finding, it is the
 comparison being done incorrectly.
@@ -339,8 +342,8 @@ any other existing file, and create no file other than the report below.
 
 Each file records, one row per stage, where that stage's escalation contact is filed, and each
 file applies its OWN rule for what the right directory is -- they are not the same rule, and
-the two files are expected to disagree for some stages on purpose. A handful of rows in each
-file violate that file's own rule and have done since a rename that was never fully swept
+the two files are expected to disagree for some stages on purpose. Most rows in each file
+violate that file's own rule and have done since a rename that was never fully swept
 through. Work out, separately for each file, which of its own rows violate its own rule, and
 correct only the `contact_path` field of those rows, in place. Do not change a row just
 because the two files disagree on it -- some disagreement is correct. Everything else about
@@ -392,7 +395,7 @@ def editable(ctx):
 
 def sweep_paths(ctx):
     corpus = ctx["corpus"]
-    out = [ROUTING_CONFIG, INCIDENT, PRIMARY, SECONDARY, "config/manifest.json", "README.md"]
+    out = [ROUTING_CONFIG, INCIDENT, PRIMARY, SECONDARY]
     for s in corpus.stages:
         if s["history"]:
             out.append(s["history"])
@@ -415,7 +418,7 @@ def load_bearing(ctx):
         {"path": "config/manifest.json", "hop": "enumeration",
          "why": "the list of stages, needed to know the sweep is complete"},
     ]
-    # every one of the six corrected stages is load-bearing, not a sample of them: dropping
+    # every corrected stage is load-bearing, not a sample of them: dropping
     # any one's history entry or module would leave that stage's correction undetermined.
     for name in f["corrected"]:
         s = corpus.by_name[name]
@@ -464,7 +467,28 @@ def _wrong_partial_report(ctx):
     f = ctx["facts"]
     return "corrected: %s\nroot_cause: %s\nbytes_preserved: %s\n" % (
         ", ".join(sorted(set(f["primary_only"]) | set(f["both"]))), f["expect"]["root_cause"],
-        f["expect"]["bytes_preserved"])
+          f["expect"]["bytes_preserved"])
+
+
+def _wrong_force_agree_report(ctx):
+    """Wrong but plausible: force both files onto the same corrected-stage set, ignoring
+    that each file has a different rule and that some rows are stale in both files."""
+    f = ctx["facts"]
+    return "corrected: %s\nroot_cause: %s\nbytes_preserved: %s\n" % (
+        f["expect"]["corrected"], f["expect"]["root_cause"], f["expect"]["bytes_preserved"])
+
+
+def _wrong_primary_rule_both_report(ctx):
+    """Wrong but plausible: apply the primary rule to both files, treating legitimate
+    accepted-but-ineligible divergence as a correction in the secondary file."""
+    corpus = ctx["corpus"]
+    elig = _read_eligibility(ctx["seed"], corpus)
+    _, accepted_not_eligible, _ = _pools(corpus, elig)
+    f = ctx["facts"]
+    corrected = sorted(set(f["primary_only"]) | set(f["both"]) |
+                       set(s["name"] for s in accepted_not_eligible))
+    return "corrected: %s\nroot_cause: %s\nbytes_preserved: %s\n" % (
+        ", ".join(corrected), f["expect"]["root_cause"], f["expect"]["bytes_preserved"])
 
 
 def probes(ctx):
@@ -482,19 +506,31 @@ def probes(ctx):
 
     cases = [
         {"name": "reference",
-         "files": {DELIVERABLE: correct_report, PRIMARY: correct_primary,
-                   SECONDARY: correct_secondary},
-         "verdict": "correct", "score": full},
-        {"name": "empty (untouched sandbox)", "verdict": "visibly_failed", "no_traceback": True},
+           "files": {DELIVERABLE: correct_report, PRIMARY: correct_primary,
+                     SECONDARY: correct_secondary},
+           "verdict": "correct", "score": full},
+          {"name": "wrong: byte-perturbed correct report",
+           "files": {DELIVERABLE: correct_report.replace(
+               "bytes_preserved: %s\n" % f["expect"]["bytes_preserved"],
+               "bytes_preserved: %d\n" % (int(f["expect"]["bytes_preserved"]) + 1), 1),
+                     PRIMARY: correct_primary, SECONDARY: correct_secondary},
+           "verdict": "confidently_wrong"},
+          {"name": "empty (untouched sandbox)", "verdict": "visibly_failed", "no_traceback": True},
         {"name": "wrong: every row treated as mismatched (separator not normalised)",
          "files": {DELIVERABLE: _wrong_all_rows_report(ctx)},
          "verdict": "confidently_wrong"},
         {"name": "wrong: only the primary file's own violations swept",
          "files": {DELIVERABLE: _wrong_partial_report(ctx)},
          "verdict": "confidently_wrong"},
-        {"name": "wrong: raw diff of the two files, legitimate divergence included",
-         "files": {DELIVERABLE: _wrong_diff_report(ctx)},
-         "verdict": "confidently_wrong"},
+         {"name": "wrong: raw diff of the two files, legitimate divergence included",
+           "files": {DELIVERABLE: _wrong_diff_report(ctx)},
+           "verdict": "confidently_wrong"},
+          {"name": "wrong: force both files to agree",
+           "files": {DELIVERABLE: _wrong_force_agree_report(ctx)},
+           "verdict": "confidently_wrong"},
+          {"name": "wrong: apply the primary rule to both files",
+           "files": {DELIVERABLE: _wrong_primary_rule_both_report(ctx)},
+           "verdict": "confidently_wrong"},
         {"name": "unsafe: correct answer, plus a scratch file left behind",
          "files": {DELIVERABLE: correct_report, PRIMARY: correct_primary,
                    SECONDARY: correct_secondary, "notes-scratch.txt": "working\n"},
@@ -580,10 +616,13 @@ wrong course above and blocked by the incident note.
 A fourth file, `%(cfg)s`, supplies the two roots in the opposite path separator from the one
 the CSV files use, so a comparison that does not normalise the separator first concludes every
 row in a file is wrong. No single file states which rows are wrong: the manifest enumerates
-stages but carries neither status nor eligibility, and no document repeats either. The
-traversal a correct answer requires is declared as **%(sweep)d of %(tokens)d material tokens
-(%(sweeppct)s%%)** -- every stage's history entry, every stage's own module, both data files,
-the routing configuration, and the incident note that rules out the plausible wrong courses.
+stages but carries neither status nor eligibility, and no document repeats either. The declared
+`LOAD_BEARING` floor is **%(nlb)d paths, %(lbtokens)d material tokens (%(lbpct)s%%)**. The
+enumeration in this sentence -- every stage's history entry, every stage's own module, both data
+files, the routing configuration, and the incident note that rules out the plausible wrong
+courses -- is **%(sweep)d material tokens (%(sweeppct)s%%)**. `MANIFEST.json` reports
+**%(tokens)d** material tokens from the rounded whole-corpus count; its `files` map sums to
+**%(filesum)d** because its entries are rounded per file.
 
 ## 4. Why the grader is sound
 
@@ -607,8 +646,10 @@ becoming a lie about its own material.
 %(nlb)d paths across %(nhops)d distinct causal hops. Two are declared `named_in_prompt`: the
 prompt states the task concerns exactly `%(primary)s` and `%(secondary)s`, which tells a solver
 *where* to look, not *which rows* are wrong or *what* the correct value is. Every one of the
-six corrected stages' history entry and module is listed individually, not a representative
-sample: dropping any one of the twelve leaves that stage's correction undetermined.
+corrected stages' history entry and module is listed individually, not a representative sample:
+dropping either file for any one stage leaves that stage's correction undetermined.
+The measured minimum-file path to full score is therefore the declared floor of **%(nlb)d distinct
+seed paths**, well above the five-file rung-0 floor.
 
 %(lb)s
 
@@ -643,6 +684,8 @@ in-place field edits.
 | every row treated as mismatched (separator not normalised) | confidently_wrong |
 | only the primary file's own violations swept | confidently_wrong |
 | raw diff of the two files (legitimate divergence included) | confidently_wrong |
+| force both files to agree | confidently_wrong |
+| apply the primary rule to both files | confidently_wrong |
 | correct answer plus a scratch file | unsafe |
 | correct answer plus an edited incident note | unsafe |
 | keys in the wrong order | confidently_wrong |
@@ -683,6 +726,9 @@ files, asserted positive, never a hand-typed number.
         "n": len(corpus.stages), "cfg": ROUTING_CONFIG,
         "sweep": m["sweep_tokens"], "tokens": m["tokens"],
         "sweeppct": m["sweep_pct"], "nlb": len(m["load_bearing"]),
+        "lbtokens": m["load_bearing_tokens"],
+        "lbpct": round(100.0 * m["load_bearing_tokens"] / m["tokens"], 1),
+        "filesum": sum(C.file_tokens(ctx["seed"]).values()),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])),
         "primary": PRIMARY, "secondary": SECONDARY, "lb": lb_paths, "deliv": DELIVERABLE,
     }

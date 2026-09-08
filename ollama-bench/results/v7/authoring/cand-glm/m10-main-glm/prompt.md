@@ -6,8 +6,8 @@ any other existing file, and create no file other than the report below.
 
 Each file records, one row per stage, where that stage's escalation contact is filed, and each
 file applies its OWN rule for what the right directory is -- they are not the same rule, and
-the two files are expected to disagree for some stages on purpose. A handful of rows in each
-file violate that file's own rule and have done since a rename that was never fully swept
+the two files are expected to disagree for some stages on purpose. Most rows in each file
+violate that file's own rule and have done since a rename that was never fully swept
 through. Work out, separately for each file, which of its own rows violate its own rule, and
 correct only the `contact_path` field of those rows, in place. Do not change a row just
 because the two files disagree on it -- some disagreement is correct. Everything else about

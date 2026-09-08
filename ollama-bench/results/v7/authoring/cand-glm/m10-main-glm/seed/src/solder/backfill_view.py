@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 24
 DEFAULT_BACKFILL_WINDOW_S = 15
-ESCALATION_ELIGIBLE = True
+ESCALATION_ELIGIBLE = False
 BACKFILL_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

@@ -12,7 +12,7 @@ throttle,Håkon Nwachukwu,notify/owners/throttle.md
 checkpoint,Bérénice Nwachukwu,notify/owners/checkpoint.md
 reconcile,Cristóbal Bergstrom,notify/escalation/reconcile.md
 shard,Amélie Villanueva,notify/escalation/shard.md
-backfill,Björk Nwachukwu,notify/escalation/backfill.md
+backfill,Björk Nwachukwu,notify/owners/backfill.md
 ingest,Inés Achterberg,notify/escalation/ingest.md
 envelope,Özge Ferreira,notify/escalation/envelope.md
 replay,Chloé Bergstrom,notify/escalation/replay.md

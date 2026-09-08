@@ -1,3 +1,3 @@
-corrected: attestation, checkpoint, dispatch, quota, retention, tenancy
+corrected: attestation, checkpoint, compaction, cursor, dispatch, envelope, ingest, quota, reconcile, replay, retention, shard, tenancy
 root_cause: config\routing.json
 bytes_preserved: 35

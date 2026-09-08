@@ -36,8 +36,8 @@ fact.
 
 Both data files use the forward-slash form of the same two roots, which is correct for them --
 the loader that reads them runs cross-platform and always has. The two roots were renamed in
-`config\routing.json` on 2034-03-01 without a matching sweep of either contact file, so a handful of rows in
-each file still point at whichever root used to be correct for that stage before the rename.
+`config\routing.json` on 2034-03-01 without a matching sweep of either contact file, so most rows in each file
+still point at whichever root used to be correct for that stage before the rename.
 Comparing a file's paths against `config\routing.json`'s raw value character for character, without converting
 the separator first, makes every row in that file look wrong; that is not a finding, it is the
 comparison being done incorrectly.

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 96
 DEFAULT_CHECKPOINT_WINDOW_S = 45
-ESCALATION_ELIGIBLE = True
+ESCALATION_ELIGIBLE = False
 CHECKPOINT_STATES = ("pending", "admitd", "settled", "abandoned")
 
 
