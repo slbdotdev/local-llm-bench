@@ -104,8 +104,8 @@ ingest,measured,2032-05-01,A. Villanueva,observed load sampled over 21 days
 ingest,reviewed,2032-05-22,D. Ferreira,platform review accepted the sampling as representative
 ingest,scheduled,2033-05-19,K. Sorensen,placed on the migration queue behind 5 other stages
 ingest,proposed,2033-05-24,A. Villanueva,ceiling re-derived from the measured load
-ingest,migrated,2033-11-15,A. Villanueva,ceiling migration applied to the module
-ingest,counter_signed,2033-11-22,K. Sorensen,countersigns the migration recorded on 2033-11-15
+ingest,migrated,2034-07-10,A. Villanueva,ceiling migration applied to the module
+ingest,counter_signed,2034-07-17,K. Sorensen,countersigns the migration recorded on 2034-07-10
 checkpoint,reviewed,2032-06-07,E. Thorsdottir,platform review accepted the sampling as representative
 checkpoint,measured,2032-06-08,E. Thorsdottir,observed load sampled over 28 days
 checkpoint,scheduled,2033-06-26,P. Ravindran,placed on the migration queue behind 6 other stages

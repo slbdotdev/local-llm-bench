@@ -3,8 +3,8 @@
  "family": "luna",
  "band": "main",
  "failure_mode": 9,
- "material_chars": 165928,
- "material_tokens": 35576,
+ "material_chars": 166138,
+ "material_tokens": 35621,
  "chars_per_token": 4.664,
  "seed_files": 87,
  "round": "v7r2-traversal",
@@ -96,6 +96,6 @@
   "tests/test_schema.py": 166,
   "tests/test_tenancy.py": 168,
   "tests/test_watermark.py": 174,
-  "tools/ledger_dump.py": 724
+  "tools/ledger_dump.py": 769
  }
 }

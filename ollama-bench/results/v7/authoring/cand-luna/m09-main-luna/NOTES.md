@@ -23,8 +23,10 @@ prints it:
   Both are properties this round wrote fresh, for every stage, precisely because the
   generator's own `limit` is echoed into five agreeing artifacts, two of which list every
   stage in one small file; a predicate over `limit` is answerable without opening a module,
-  and a predicate over these two is not. `r2/check_index_leak.py` is the mechanical check and
-  reports `ENFORCED_CEILING appears only in each stage's own module`;
+  and a predicate over these two is not. The checker-battery command
+  `python3 r2/check_index_leak.py m09-main-luna` is the mechanical trial check; its result is
+  evidence from that run, while the build-time inference is that `ENFORCED_CEILING` appears
+  only in each stage's own module;
 - the rule that makes the comparison the right one is in `docs/glossary.md`, entry 23 of 33,
   at **line 213** of a **276-line** file;
 - the rule that narrows the set is amendment A-4 at the very end of
@@ -34,9 +36,10 @@ prints it:
   counter-signature rule — stated in the glossary, applied by `tools/ledger_dump.py`.
 
 A solver that reads the two files the prompt's vocabulary points at gets nothing: the prompt
-names no file at all. The traversal a correct answer requires is **26775 of 35576
-material tokens (75.3%)** — every component document and every module, plus the four
-bridge artifacts. That is the number the acceptance gate of plan section 2.2 exists to read.
+names no file at all. The traversal a correct answer requires is **26820 of 35621
+material tokens (75.3%)** — every component document and every module, plus the five
+bridge artifacts, including `config/manifest.json`. That is the number the acceptance gate of
+plan section 2.2 exists to read.
 
 No single grep assembles it either. The declared ceilings are markdown table cells, the
 effective ceilings are Python assignments, the dates are CSV fields and the rule is prose;
@@ -69,9 +72,9 @@ claim the material does not support:
   so that the pairing of `ceiling` with `ENFORCED_CEILING` is a thing the glossary states
   rather than a thing the two names suggest. `facts()` asserts that the criterion's
   distinguishing phrases appear nowhere outside `docs/glossary.md`.
-- **The long output.** `python tools/ledger_dump.py` prints **185 lines, 13854
+- **The long output.** `python tools/ledger_dump.py` prints **185 lines, 13869
   characters**. Each stage's completed migration date is on its `-> migrated_on` line, and the
-  last qualifying stage's lands **13643 characters** into the output. `facts()` asserts
+  last qualifying stage's lands **13658 characters** into the output. `facts()` asserts
   that the deepest one is past character 6,000, so the fact is genuinely past the first screen
   and not merely in a file that happens to be long.
 
@@ -80,7 +83,7 @@ claim the material does not support:
   counter-signature rule itself; the dump is the sanctioned route and the easier one, not a
   gate. What is claimed, and asserted, is that *both* routes put the deciding dates past the
   first screen: the raw ledger is **10,584 characters** over 119 rows and
-  the resolved output is **13854**, and on either route the qualifying stages sit
+  the resolved output is **13869**, and on either route the qualifying stages sit
   towards the tail rather than at the head. A reviewer of the previous revision was right that
   a 1,468-character ledger made the long output decorative; `facts()` now asserts the ledger
   stays above 6,000 characters, so it cannot quietly shrink back.
@@ -88,15 +91,15 @@ claim the material does not support:
 **The truncation choice: placement, not narrowing.** The benchmark runtime middle-truncates a
 single tool output above 24,000 characters, keeping 8,000 from each end, so a fact in the exact
 middle of a very long output is unreachable rather than hard. This task therefore keeps the
-**whole** output under that threshold — 13854 characters against a 24,000-character
+**whole** output under that threshold — 13869 characters against a 24,000-character
 limit — so nothing is truncated at all and the model is **not** required to narrow the command.
 It may narrow it if it likes; `tools/ledger_dump.py` takes no arguments and a `grep` over its output works
 equally well. `facts()` asserts `len(output) < 24000`, so this paragraph cannot go stale
 against the tool: if a future edit made the ledger long enough to truncate, the build stops.
 
 The two facts are independent and both are necessary. Knowing the definition without the dates
-gives the 7-stage set, which is wrong; knowing the dates without the definition gives no
-set at all.
+gives the 7-stage set, which is wrong; applying the dates without the definition gives
+the 5-stage set (`compaction`, `drain`, `ingest`, `lineage`, `retention`), including conforming `ingest`, which is also wrong.
 
 ## 3. Distinguishing condition, and the five wrong courses the material rules out
 
@@ -165,10 +168,16 @@ least five of them.
 Not a mode-8 task. The reading is long and the writing is three lines; the reference answer is
 113 characters.
 
+`MANIFEST.json` uses two explicitly different rounding bases: `material_tokens` is the rounded
+aggregate character count, while the `files` map rounds each file independently. The rebuilt
+map sums to 35625 tokens versus aggregate `material_tokens` 35621; these are therefore
+not an arithmetic inconsistency or an unlabelled shared total.
+
 ## 8. Near-miss table
 
-Generated by `selfcheck.py` from `probes.json`, which is written from this spec's own reference
-and near-miss answers. Every perturbation of a correct answer that the prompt does not specify
+The near-miss table is generated by `selfcheck.py` from the inline cases returned by this
+spec's `probes()`; no `probes.json` file is present. Every perturbation of a correct answer that
+the prompt does not specify
 — no trailing newline, two trailing newlines, CRLF, a leading blank line, trailing spaces —
 must leave the verdict `correct`; the key **order** is stated in the prompt, so a swapped-order
 file must fail, and it does, as `confidently_wrong`. No perturbation is adjudicated as a

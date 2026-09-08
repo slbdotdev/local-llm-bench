@@ -2,8 +2,8 @@
 
 Task: report every stage that is out of conformance as the project's own written definitions
 use that phrase, the sum of those stages' effective ceilings, and the amendment that governs.
-A stage is out of conformance when its declared ceiling (the `limit` row of its component
-document) differs from its effective ceiling (its module's `DEFAULT_<STAGE>_LIMIT`) AND its
+A stage is out of conformance when its declared ceiling (the `ceiling` row of its component
+document) differs from its effective ceiling (its module's `ENFORCED_CEILING`) AND its
 migration entry is dated on or after the amendment's effective date. Both conditions are
 stated in the material; neither is stated in the prompt.
 
@@ -83,7 +83,7 @@ CONFIG = {'deliverable': 'conformance.txt',
  'scope_gate': True,
  'seed_hashes': {'README.md': '65fe137cfebb39138abaec0c2d2daeb8cde70062b5f5a602e019591689cf6829',
                  'config/manifest.json': '0b499d1429af9cc9b18191f49135c8f52d96b7cac8a26a7ac9c39381b88ae15a',
-                 'data/migration-ledger.csv': '0bf6c5941319bae126ed10634d2eac3fa4140f2af427569504f2c95758e82d85',
+                 'data/migration-ledger.csv': '6dac5d2eccc18d9f624ce9e0bc18b4120b58c6a17222090e8a80c552771de95b',
                  'docs/architecture.md': '87bcae858b0e1833c3b81329ca7aecb4144c640174eccfab4d2cbadc117a4b55',
                  'docs/attestation.md': 'b7be22e37e7f3e0c55840d3e7feb791119d014768670c48c6d7d0afc14f3b870',
                  'docs/audit.md': 'b3f6dd5211871c9b59d0a977b67fe413d755dd12b3f585da4a5fd9d1d6d4cdf7',
@@ -167,7 +167,7 @@ CONFIG = {'deliverable': 'conformance.txt',
                  'tests/test_schema.py': '41d123f03b9988563fc4616f193ce0625912c39bd91766f2b6cdffb3d6f799f6',
                  'tests/test_tenancy.py': 'fcf03328f6180019a670074868cee80161e2031fb9e6e7487d317afa49a1f8d3',
                  'tests/test_watermark.py': '1a04450e95baee1c3bb263bec640c735197e9a3807c016bfefe7ba12075d42f8',
-                 'tools/ledger_dump.py': '1d8b3a63d040a0f6eb56b661403ab42c41029e1af7860ee2fff2bd5426731f71'},
+                 'tools/ledger_dump.py': 'dd93fac0c949b5eecf04dc2f80cf1d0458dd44e2b456c283637f48bbae4f2c86'},
  'slot': 'm09-main-luna'}
 
 _fails = []

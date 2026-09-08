@@ -71,7 +71,10 @@ def main():
     print("not the date any ruling reads. Dates only: this ledger has never carried a ceiling.")
     for i, name in enumerate(order):
         print("")
-        print("[%02d/%02d] %s  (module %s)" % (i + 1, len(order), name, modules[name]))
+        # Keep the helper from printing the report's scored stage names as a harvestable list.
+        # The ordinal and module still identify each block without exposing the answer set.
+        print("[%02d/%02d] stage-%02d  (module %s)" %
+              (i + 1, len(order), i + 1, modules[name]))
         for r in by_stage.get(name, []):
             print("  %s  %-15s %-16s %s"
                   % (r["recorded_on"], r["event"], r["actor"], r["detail"]))

@@ -44,6 +44,25 @@ CASES = [{'files': {'conformance.txt': 'out_of_conformance: compaction, drain, l
                                'governing_amendment: A-4\n'},
   'name': 'wrong: annulled rows dropped, but an in-flight attempt counted',
   'verdict': 'confidently_wrong'},
+ {'files': {'conformance.txt': 'out_of_conformance: compaction, drain, ingest, lineage, '
+                               'retention\n'
+                               'effective_ceiling_total: 3198\n'
+                               'governing_amendment: A-4\n'},
+  'name': 'wrong: date filter applied, definition not',
+  'score': '5/7',
+  'verdict': 'confidently_wrong'},
+ {'files': {'conformance.txt': 'out_of_conformance: drain, lineage, quota, schema\n'
+                               'effective_ceiling_total: 907\n'
+                               'governing_amendment: A-4\n'},
+  'name': 'wrong: history dates used as migration dates',
+  'score': '5/7',
+  'verdict': 'confidently_wrong'},
+ {'files': {'conformance.txt': 'out_of_conformance: \n'
+                               'effective_ceiling_total: 0\n'
+                               'governing_amendment: A-4\n'},
+  'name': 'wrong: inverted legacy limit rule',
+  'score': '5/7',
+  'verdict': 'confidently_wrong'},
  {'files': {'conformance.txt': 'out_of_conformance: attestation, ingest, quota\n'
                                'effective_ceiling_total: 1159\n'
                                'governing_amendment: A-3\n'},
