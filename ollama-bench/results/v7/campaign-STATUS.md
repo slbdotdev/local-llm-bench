@@ -79,3 +79,32 @@ repository v7 harness, with the GPU load check first. GPU spend is recorded in G
   Combined measured rows: 10/20 correct, 7 confidently_wrong, 3 visibly_failed, 0 unsafe.
 - Final `/api/ps` was `{"models":[]}`. The corrected extension interval was 4901s and campaign
   accounted GPU time is 6560s (1h49m20s), including the predecessor's 1659s; no early budget stop.
+
+## Continuation: m05-main-claude to n=10 (2026-09-08)
+
+- The synchronized desktop clone ran the admitted `m05-main-claude` candidate at
+  `q27-IQ2_M-64k`, 65536 context, medium thinking, pi resilience, 900s timeout, and tag
+  `v7r6-accept-IQ2_M-main`.
+- Every trial row was recorded in `results/v7r6-accept-IQ2_M-main.json` and the generated
+  markdown report:
+
+  | slot | trial | verdict | stop | timeout | wall s |
+  |---|---:|---|---|---|---:|
+  | m05-main-claude | 0 | correct | stop | no | 85.9 |
+  | m05-main-claude | 1 | correct | stop | no | 50.1 |
+  | m05-main-claude | 2 | correct | stop | no | 109.7 |
+  | m05-main-claude | 3 | correct | stop | no | 59.8 |
+  | m05-main-claude | 4 | correct | stop | no | 93.8 |
+  | m05-main-claude | 5 | correct | stop | no | 131.7 |
+  | m05-main-claude | 6 | correct | stop | no | 102.2 |
+  | m05-main-claude | 7 | correct | stop | no | 59.4 |
+  | m05-main-claude | 8 | confidently_wrong | stop | no | 66.7 |
+  | m05-main-claude | 9 | correct | stop | no | 99.9 |
+
+- `tally_trials.py --tasks-dir results/v7/authoring/cand-claude --only-tags
+  v7r6-accept-IQ2_M-main --json results/v7/r6-accept-tally-m05.json`: exit 1 because other
+  candidate slots are unmeasured. The m05 row is 9/10 = 0.900, Wilson 95% [0.596, 0.982],
+  1 confidently_wrong, 0 visibly_failed, 0 unsafe. The pre-existing m02 row is 8/10 = 0.800,
+  Wilson 95% [0.490, 0.943], 2 confidently_wrong.
+- The m05 GPU interval was 896s (start 12:47:39Z, end 13:02:35Z), bringing campaign
+  accounting to 7456s (2h04m16s). Final Ollama `/api/ps` was `{"models":[]}`.
