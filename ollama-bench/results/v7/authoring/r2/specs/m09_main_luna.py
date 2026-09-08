@@ -41,8 +41,8 @@ CEILING_ROW = "ceiling"
 SUMMARY = """
 Task: report every stage that is out of conformance as the project's own written definitions
 use that phrase, the sum of those stages' effective ceilings, and the amendment that governs.
-A stage is out of conformance when its declared ceiling (the `limit` row of its component
-document) differs from its effective ceiling (its module's `DEFAULT_<STAGE>_LIMIT`) AND its
+A stage is out of conformance when its declared ceiling (the `ceiling` row of its component
+document) differs from its effective ceiling (its module's `ENFORCED_CEILING`) AND its
 migration entry is dated on or after the amendment's effective date. Both conditions are
 stated in the material; neither is stated in the prompt.
 """
@@ -159,8 +159,9 @@ def _base_dates(ctx, qualify, early):
     """Each stage's real, completed migration date, before the ledger is written.
 
     Qualifying stages migrated on or after the amendment's effective date; the `early` group
-    diverged too but migrated before it, so the amendment excludes them; every other stage
-    migrated during 2033 and is not divergent, so its date decides nothing.
+    diverged too but migrated before it, so the amendment excludes them; ingest is conforming
+    but deliberately migrated after the cutoff; every other stage migrated during 2033 and is
+    not divergent, so its date decides nothing.
     """
     corpus = ctx["corpus"]
     q = set(s["name"] for s in qualify)
@@ -171,6 +172,10 @@ def _base_dates(ctx, qualify, early):
             out[s["name"]] = "2034-%02d-%02d" % (6 + (i % 5), 1 + (i * 3) % 27)
         elif s["name"] in e:
             out[s["name"]] = "2034-%02d-%02d" % (1 + (i % 4), 2 + (i * 5) % 26)
+        elif s["name"] == "ingest":
+            # A conforming late stage makes the definition comparison load-bearing:
+            # a date-only reader sees ingest, but the glossary's comparison removes it.
+            out[s["name"]] = "2034-07-10"
         else:
             out[s["name"]] = "2033-%02d-%02d" % (7 + (i % 6), 1 + (i * 11) % 27)
     return out
@@ -329,7 +334,10 @@ def main():
     print("not the date any ruling reads. Dates only: this ledger has never carried a ceiling.")
     for i, name in enumerate(order):
         print("")
-        print("[%02d/%02d] %s  (module %s)" % (i + 1, len(order), name, modules[name]))
+        # Keep the helper from printing the report's scored stage names as a harvestable list.
+        # The ordinal and module still identify each block without exposing the answer set.
+        print("[%02d/%02d] stage-%02d  (module %s)" %
+              (i + 1, len(order), i + 1, modules[name]))
         for r in by_stage.get(name, []):
             print("  %s  %-15s %-16s %s"
                   % (r["recorded_on"], r["event"], r["actor"], r["detail"]))
@@ -851,6 +859,17 @@ def _resolved_dates(corpus):
     return out
 
 
+def _history_dates(corpus):
+    """The tempting history dates, measured from each stage's dated history artifact."""
+    out = {}
+    for s in corpus.stages:
+        text = C.read(corpus.path(s["history"]))
+        m = re.search(r"^- Date: (\d{4}-\d{2}-\d{2})", text, re.M)
+        assert m, "%s: no history date" % s["history"]
+        out[s["name"]] = m.group(1)
+    return out
+
+
 def _naive_dates(corpus, which):
     """What a reader who never reaches the counter-signature rule gets — measured, not imagined.
 
@@ -929,6 +948,28 @@ def facts(ctx):
     names = [s["name"] for s in q]
     total = sum(_enforced(corpus, s) for s in q)
 
+    # The generated grader docstring is itself a checked description of the materialized
+    # rule. Keep the two exact rule words aligned with the properties written below.
+    assert "`%s` row" % CEILING_ROW in SUMMARY
+    assert DECISIVE_CONSTANT in SUMMARY
+    assert "`limit` row" not in SUMMARY
+    assert "DEFAULT_<STAGE>_LIMIT" not in SUMMARY
+
+    dates = _resolved_dates(corpus)
+    date_only = sorted(s["name"] for s in corpus.stages
+                       if dates[s["name"]] >= EFFECTIVE_FROM)
+    assert date_only == sorted(names + ["ingest"]), (
+        "date-only set must add only the conforming late ingest stage: %s" % date_only)
+    assert _declared(corpus, corpus.by_name["ingest"]) == _enforced(
+        corpus, corpus.by_name["ingest"]), "ingest must be the conforming late stage"
+    assert dates["ingest"] == "2034-07-10", "ingest migration date moved unexpectedly"
+
+    seed_files, seed_chars = C.measure(ctx["seed"])
+    seed_tokens = int(round(seed_chars / C.CHARS_PER_TOKEN))
+    assert 29000 <= seed_tokens <= 36000, (
+        "seed material is outside the main band: %d tokens in %d files" %
+        (seed_tokens, seed_files))
+
     # -- behaviour 9's two placement claims, measured rather than asserted -----------------
     # The round-1 authoring of this slot claimed in NOTES.md that the deciding glossary entry
     # sat past line 200 of its file. It did not: the file was 106 lines long. That claim is
@@ -973,7 +1014,7 @@ def facts(ctx):
     marks = {}
     for s in q:
         needle = "-> migrated_on = %s" % _resolved_dates(corpus)[s["name"]]
-        block = dump.index("] %s  (module" % s["name"])
+        block = dump.index("(module %s)" % s["module"])
         at = dump.index(needle, block)
         marks[s["name"]] = at
     deepest = max(marks.values())
@@ -998,6 +1039,8 @@ def facts(ctx):
         ],
         "names": names,
         "total": total,
+        "date_only_names": date_only,
+        "date_only_total": sum(_enforced(corpus, corpus.by_name[n]) for n in date_only),
         # measured placement, quoted verbatim by NOTES.md
         "entry_line": entry_line,
         "glossary_lines": gloss_lines,
@@ -1057,7 +1100,8 @@ def sweep_paths(ctx):
     """The material a solver must actually traverse to answer, for the expected-coverage figure.
 
     Every stage's component document and every stage's module, because membership of the
-    answer set is a comparison between the two, plus the four bridge artifacts.
+    answer set is a comparison between the two, plus the five bridge artifacts (including
+    the manifest that enumerates the stages).
     """
     corpus = ctx["corpus"]
     out = [GLOSSARY, POLICY_REC, LEDGER, DUMP, "config/manifest.json"]
@@ -1140,6 +1184,25 @@ def probes(ctx):
 
     wrong_c, wrong_d, wrong_e = _answer(first), _answer(last), _answer(unvoided)
 
+    # The date-only near miss is intentionally wrong now: ingest is late but conforming.
+    resolved = _resolved_dates(corpus)
+    date_only = sorted(s["name"] for s in corpus.stages
+                       if resolved[s["name"]] >= EFFECTIVE_FROM)
+    assert date_only == sorted(truth | {"ingest"})
+    wrong_date_only = _answer(date_only)
+
+    # Two additional decoys are measured from the artifacts rather than typed. History dates
+    # are decision dates, not migration dates, and the legacy limit pair differs nowhere.
+    history_dates = _history_dates(corpus)
+    history_set = sorted(s["name"] for s in corpus.stages
+                         if _declared(corpus, s) != _enforced(corpus, s)
+                         and history_dates[s["name"]] >= EFFECTIVE_FROM)
+    wrong_history = _answer(history_set)
+    legacy_set = sorted(s["name"] for s in corpus.stages
+                        if corpus.doc_limit(s) != corpus.module_limit(s))
+    assert not legacy_set, "legacy limit decoy unexpectedly diverged: %s" % legacy_set
+    wrong_inverted = _answer(legacy_set)
+
     # wrong-but-plausible 3: the QA note's list, taken at face value.
     qa = sorted(corpus.stages[i % len(corpus.stages)]["name"] for i in _WINDOW)
     qa_total = sum(_enforced(corpus, corpus.by_name[n]) for n in qa)
@@ -1159,6 +1222,15 @@ def probes(ctx):
          "files": {DELIVERABLE: wrong_d}, "verdict": "confidently_wrong"},
         {"name": "wrong: annulled rows dropped, but an in-flight attempt counted",
          "files": {DELIVERABLE: wrong_e}, "verdict": "confidently_wrong"},
+        {"name": "wrong: date filter applied, definition not",
+         "files": {DELIVERABLE: wrong_date_only}, "verdict": "confidently_wrong",
+         "score": "5/7"},
+        {"name": "wrong: history dates used as migration dates",
+         "files": {DELIVERABLE: wrong_history}, "verdict": "confidently_wrong",
+         "score": "5/7"},
+        {"name": "wrong: inverted legacy limit rule",
+         "files": {DELIVERABLE: wrong_inverted}, "verdict": "confidently_wrong",
+         "score": "5/7"},
         {"name": "wrong: the QA note's list taken at face value",
          "files": {DELIVERABLE: wrong_b}, "verdict": "confidently_wrong"},
         {"name": "wrong: right set, sum of declared rather than effective ceilings",
@@ -1209,6 +1281,7 @@ def notes(ctx, m):
                  if corpus.doc_window(s) != corpus.module_window(s))
     lb_paths = "\n".join("- `%s` — %s (*%s*)" % (p["path"], p["why"], p["hop"])
                          for p in m["load_bearing"])
+    file_map_tokens = sum(C.file_tokens(ctx["seed"]).values())
     return """# NOTES — %(slot)s (behaviour %(mode)d, rung 0)
 
 ## 1. Failure mode
@@ -1234,8 +1307,10 @@ prints it:
   Both are properties this round wrote fresh, for every stage, precisely because the
   generator's own `limit` is echoed into five agreeing artifacts, two of which list every
   stage in one small file; a predicate over `limit` is answerable without opening a module,
-  and a predicate over these two is not. `r2/check_index_leak.py` is the mechanical check and
-  reports `ENFORCED_CEILING appears only in each stage's own module`;
+  and a predicate over these two is not. The checker-battery command
+  `python3 r2/check_index_leak.py m09-main-luna` is the mechanical trial check; its result is
+  evidence from that run, while the build-time inference is that `ENFORCED_CEILING` appears
+  only in each stage's own module;
 - the rule that makes the comparison the right one is in `docs/glossary.md`, entry 23 of 33,
   at **line %(entryline)d** of a **%(glosslines)d-line** file;
 - the rule that narrows the set is amendment %(amend)s at the very end of
@@ -1246,8 +1321,9 @@ prints it:
 
 A solver that reads the two files the prompt's vocabulary points at gets nothing: the prompt
 names no file at all. The traversal a correct answer requires is **%(sweep)d of %(tokens)d
-material tokens (%(sweeppct)s%%)** — every component document and every module, plus the four
-bridge artifacts. That is the number the acceptance gate of plan section 2.2 exists to read.
+material tokens (%(sweeppct)s%%)** — every component document and every module, plus the five
+bridge artifacts, including `config/manifest.json`. That is the number the acceptance gate of
+plan section 2.2 exists to read.
 
 No single grep assembles it either. The declared ceilings are markdown table cells, the
 effective ceilings are Python assignments, the dates are CSV fields and the rule is prose;
@@ -1306,8 +1382,8 @@ equally well. `facts()` asserts `len(output) < 24000`, so this paragraph cannot 
 against the tool: if a future edit made the ledger long enough to truncate, the build stops.
 
 The two facts are independent and both are necessary. Knowing the definition without the dates
-gives the %(ndiv)d-stage set, which is wrong; knowing the dates without the definition gives no
-set at all.
+gives the %(ndiv)d-stage set, which is wrong; applying the dates without the definition gives
+the %(ndate)d-stage set (%(datenames)s), including conforming `ingest`, which is also wrong.
 
 ## 3. Distinguishing condition, and the five wrong courses the material rules out
 
@@ -1364,10 +1440,16 @@ least five of them.
 Not a mode-8 task. The reading is long and the writing is three lines; the reference answer is
 %(reflen)d characters.
 
+`MANIFEST.json` uses two explicitly different rounding bases: `material_tokens` is the rounded
+aggregate character count, while the `files` map rounds each file independently. The rebuilt
+map sums to %(filemap)d tokens versus aggregate `material_tokens` %(tokens)d; these are therefore
+not an arithmetic inconsistency or an unlabelled shared total.
+
 ## 8. Near-miss table
 
-Generated by `selfcheck.py` from `probes.json`, which is written from this spec's own reference
-and near-miss answers. Every perturbation of a correct answer that the prompt does not specify
+The near-miss table is generated by `selfcheck.py` from the inline cases returned by this
+spec's `probes()`; no `probes.json` file is present. Every perturbation of a correct answer that
+the prompt does not specify
 — no trailing newline, two trailing newlines, CRLF, a leading blank line, trailing spaces —
 must leave the verdict `correct`; the key **order** is stated in the prompt, so a swapped-order
 file must fail, and it does, as `confidently_wrong`. No perturbation is adjudicated as a
@@ -1393,9 +1475,12 @@ typed twice.
         "ledgerchars": "{:,}".format(f["ledger_chars"]),
         "sweep": m["sweep_tokens"], "tokens": m["tokens"], "sweeppct": m["sweep_pct"],
         "nq": len(q), "names": ", ".join("`%s`" % n for n in f["names"]),
-        "ndiv": len(all_div), "nwin": len(win), "deliv": DELIVERABLE,
+        "ndiv": len(all_div), "nwin": len(win), "ndate": len(f["date_only_names"]),
+        "datenames": ", ".join("`%s`" % n for n in f["date_only_names"]),
+        "deliv": DELIVERABLE,
         "nlb": len(m["load_bearing"]),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])),
         "lb": lb_paths, "reflen": len(reference(ctx)[DELIVERABLE]),
+        "filemap": file_map_tokens,
         "specmod": "m09_main_luna",
     }

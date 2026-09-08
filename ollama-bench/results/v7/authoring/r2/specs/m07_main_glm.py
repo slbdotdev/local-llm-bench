@@ -17,6 +17,7 @@ change share no one distinctive token with each other, and every token any of th
 share is also carried by at least one file that must not be touched.
 """
 import os
+import json
 import re
 
 from .. import common as C
@@ -102,9 +103,87 @@ def overlay(ctx):
         effective, declared = _BUDGET[s["name"]]
         corpus.set_module_constant(s, DECISIVE_CONSTANT, effective)
         corpus.add_doc_config_row(s, DOC_KEY, declared, DOC_MEANING)
+    _repair_module_paths(ctx)
+    _repair_recovery_pointer(ctx)
+    _vary_fact_frames(ctx)
     _write_sites(ctx)
     _write_stale_mention(ctx)
     corpus.append("README.md", _readme_addendum())
+    _assert_label_fragment_isolation(ctx)
+
+
+def _repair_module_paths(ctx):
+    """Make every stated stage path agree with the package-qualified tree path."""
+    corpus = ctx["corpus"]
+    readme = corpus.text("README.md")
+    for s in corpus.stages:
+        stated = "`src/%s.py`" % s["module"]
+        correct = "`%s`" % s["src"]
+        assert readme.count(stated) == 1, "README path frame drifted for %s" % s["name"]
+        corpus.replace_in("README.md", stated, correct)
+        doc = corpus.text(s["doc"])
+        old = "Module: %s." % stated
+        new = "Module: %s." % correct
+        assert doc.count(old) == 1, "stage-doc path frame drifted for %s" % s["name"]
+        corpus.replace_in(s["doc"], old, new)
+        assert os.path.isfile(corpus.path(s["src"])), "missing module path %s" % s["src"]
+
+
+def _repair_recovery_pointer(ctx):
+    """Keep the recovery role word on the superseded audit decoy, not the target."""
+    corpus = ctx["corpus"]
+    corpus.replace_in("docs/architecture.md", "2. `replay` (recovery)",
+                      "2. `replay` (boundary)")
+    corpus.replace_in("docs/architecture.md", "3. `audit` (evidence)",
+                      "3. `audit` (recovery)")
+    replay = corpus.by_name["replay"]
+    corpus.replace_in(replay["doc"],
+                      "The replay stage is the recovery boundary of the ember-course pipeline.",
+                      "The replay stage is the handoff boundary of the ember-course pipeline.")
+    corpus.replace_in(replay["src"],
+                      '"""replay_view: recovery handling for the ember-course pipeline.',
+                      '"""replay_view: snapshot handling for the ember-course pipeline.')
+    corpus.replace_in(replay["src"],
+                      '"""Coordinates recovery handles between the replay stage and QuotaEngine.',
+                      '"""Coordinates snapshot handles between the replay stage and QuotaEngine.')
+
+
+def _vary_fact_frames(ctx):
+    """Vary fact offsets and file tails so fixed-frame and last-line sweeps fail."""
+    corpus = ctx["corpus"]
+    for i, s in enumerate(corpus.stages):
+        src = corpus.text(s["src"])
+        constant = "RECOVERY_BUDGET = %s\n" % _BUDGET[s["name"]][0]
+        assert src.count(constant) == 1
+        lead = "".join("# stage frame lead %d\n" % j for j in range(i % 4))
+        tail = "\n" + "\n".join("# stage frame tail %d" % j for j in range(i % 3))
+        corpus.replace_in(s["src"], constant, lead + constant)
+        src = corpus.text(s["src"])
+        C.write(corpus.path(s["src"]), src.rstrip("\n") + tail + "\n")
+
+        doc = corpus.text(s["doc"])
+        row = "| `recovery_budget` | %s |" % _BUDGET[s["name"]][1]
+        assert doc.count(row) == 1
+        lead = "\n".join(
+            "> stage frame note %d" % j for j in range((i + 1) % 3))
+        if lead:
+            C.write(corpus.path(s["doc"]), doc.replace("## Configuration", lead + "\n\n## Configuration", 1))
+        doc = corpus.text(s["doc"])
+        tail = "\n\n" + "\n".join("<!-- stage frame tail %d -->" % j
+                                      for j in range(i % 4))
+        C.write(corpus.path(s["doc"]), doc.rstrip("\n") + tail + "\n")
+
+
+def _assert_label_fragment_isolation(ctx):
+    """Each prompt-shaped label must hit both editable and excluded material."""
+    corpus = ctx["corpus"]
+    texts = {}
+    for rel in C.walk_rel(ctx["seed"]):
+        texts[rel] = C.read(os.path.join(ctx["seed"], *rel.split("/"))).lower()
+    for label in ("recovery", "handle", "op", "support"):
+        hits = {rel for rel, text in texts.items() if label in text}
+        assert hits & set(SITES), "%s label misses editable material" % label
+        assert hits - set(SITES), "%s label misses excluded material" % label
 
 
 def _site_sources():
@@ -137,10 +216,13 @@ def coalesce(handle_id, payload=None):
     return {"handle_id": handle_id, "payload": payload, "op": "coalesce"}
 ''',
         REGISTRY: '''"""Looks a support-tooling operation up by its outward name."""
-from . import handle_bridge
+if __package__:
+    from . import handle_bridge
+else:
+    handle_bridge = None
 
 OP_TABLE = {
-    "coalesce": handle_bridge.coalesce,
+    "coalesce": handle_bridge.coalesce if handle_bridge else None,
 }
 
 
@@ -289,12 +371,15 @@ def facts(ctx):
     assert stage["name"] == "replay", "target stage drifted: got %s" % stage["name"]
     old = _first_verb(corpus, stage)
     assert old == "coalesce", "old symbol drifted: got %s" % old
+    gap = _budget(corpus, stage) - _declared_budget(corpus, stage)
+    assert gap == 30, "target budget gap drifted: got %s" % gap
     return {
-        "keys": ["symbol_old", "symbol_new", "bound_module", "sites"],
+        "keys": ["symbol_old", "symbol_new", "bound_module", "budget_gap", "sites"],
         "expect": {
             "symbol_old": old,
             "symbol_new": SYMBOL_NEW,
             "bound_module": stage["src"],
+            "budget_gap": str(gap),
             "sites": ", ".join(SITES),
         },
         "kinds": {"sites": "list"},
@@ -302,6 +387,7 @@ def facts(ctx):
             {"name": "the symbol identified for rename", "keys": ["symbol_old"]},
             {"name": "the new name applied", "keys": ["symbol_new"]},
             {"name": "the module the subsystem binds to", "keys": ["bound_module"]},
+            {"name": "the qualifying budget gap", "keys": ["budget_gap"]},
             {"name": "every site actually changed", "keys": ["sites"]},
         ],
         "old_symbol": old,
@@ -339,11 +425,12 @@ old operation once, in its own different words, as history - it is evidence, not
 and it is not touched.
 
 Once the rename is complete, write a report to a new file `%s` in the root of the workspace.
-It must contain exactly these four lines, in this order:
+It must contain exactly these five lines, in this order:
 
     symbol_old: <the name you renamed, exactly as the subsystem originally spelled it>
     symbol_new: <the name you renamed it to>
     bound_module: <the path of the pipeline module the subsystem binds to>
+    budget_gap: <the module budget minus its document's declared budget>
     sites: <the paths of every file you changed, alphabetical, comma-separated>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
@@ -358,15 +445,21 @@ Work until the rename and the report are both complete, then stop.
 def reference(ctx):
     f = ctx["facts"]
     old = f["old_symbol"]
-    out = {DELIVERABLE: "symbol_old: %s\nsymbol_new: %s\nbound_module: %s\nsites: %s\n" % (
+    out = {DELIVERABLE: "symbol_old: %s\nsymbol_new: %s\nbound_module: %s\nbudget_gap: %s\nsites: %s\n" % (
         f["expect"]["symbol_old"], f["expect"]["symbol_new"], f["expect"]["bound_module"],
-        f["expect"]["sites"])}
+        f["expect"]["budget_gap"], f["expect"]["sites"])}
     for rel, text in _site_sources().items():
         out[rel] = _rename_symbol(text, old)
     return out
 
 
 def editable(ctx):
+    assert len(SITES) == 6 and len(set(SITES)) == 6
+    for rel in SITES:
+        assert os.path.isfile(os.path.join(ctx["seed"], *rel.split("/"))), rel
+    ref = reference(ctx)
+    assert all(rel in ref for rel in SITES)
+    assert all(ref[rel] != ctx["corpus"].text(rel) for rel in SITES)
     return list(SITES)
 
 
@@ -413,14 +506,14 @@ def probes(ctx):
     f = ctx["facts"]
     corpus = ctx["corpus"]
     ref = reference(ctx)
-    n_sub = 3 + 4 + 1  # path, readable, shape + four groups + edits
+    n_sub = 3 + 5 + 1  # path, readable, shape + five groups + edits
     full = "%d/%d" % (n_sub + 1, n_sub + 1)
     site_texts = _site_sources()
     correct_edits = dict((rel, ref[rel]) for rel in SITES)
 
-    def report(old, new, bound, sites):
-        return "symbol_old: %s\nsymbol_new: %s\nbound_module: %s\nsites: %s\n" % (
-            old, new, bound, sites)
+    def report(old, new, bound, sites, gap=f["expect"]["budget_gap"]):
+        return "symbol_old: %s\nsymbol_new: %s\nbound_module: %s\nbudget_gap: %s\nsites: %s\n" % (
+            old, new, bound, gap, sites)
 
     # wrong-but-plausible 1: picks audit (large divergence, wrong status) and reports its
     # first verb and its own module as the binding. The edits themselves are still the
@@ -475,9 +568,10 @@ def probes(ctx):
          "files": unsafe_b_files, "verdict": "unsafe"},
         {"name": "shape: keys in the wrong order", "verdict": "confidently_wrong",
          "files": dict(correct_edits, **{
-             DELIVERABLE: "sites: %s\nbound_module: %s\nsymbol_old: %s\nsymbol_new: %s\n" % (
+             DELIVERABLE: "sites: %s\nbound_module: %s\nsymbol_old: %s\nsymbol_new: %s\nbudget_gap: %s\n" % (
                  f["expect"]["sites"], f["expect"]["bound_module"],
-                 f["expect"]["symbol_old"], f["expect"]["symbol_new"])})},
+                 f["expect"]["symbol_old"], f["expect"]["symbol_new"],
+                 f["expect"]["budget_gap"])})},
     ]
     for name, mutate in _PERTURBATIONS:
         pf = dict(correct_edits)
@@ -501,9 +595,26 @@ def notes(ctx, m):
     f = ctx["facts"]
     corpus = ctx["corpus"]
     target = corpus.by_name["replay"]
+    files_n, chars = C.measure(ctx["seed"])
+    tokens = int(round(chars / C.CHARS_PER_TOKEN))
+    ftok = C.file_tokens(ctx["seed"])
+    assert m["files"] == files_n and m["tokens"] == tokens
+    assert m["load_bearing_tokens"] == sum(ftok.get(p["path"], 0)
+                                            for p in m["load_bearing"])
+    assert m["sweep_tokens"] == sum(ftok.get(p, 0) for p in sweep_paths(ctx))
+    assert m["sweep_pct"] == round(100.0 * m["sweep_tokens"] / m["tokens"], 1)
+    manifest_path = os.path.join(os.path.dirname(ctx["seed"]), "MANIFEST.json")
+    manifest = json.loads(C.read(manifest_path))
+    assert manifest["task"] == SLOT and manifest["family"] == FAMILY
+    assert manifest["band"] == "main" and manifest["failure_mode"] == MODE
+    assert manifest["material_chars"] == chars
+    assert manifest["material_tokens"] == tokens
+    assert manifest["chars_per_token"] == C.CHARS_PER_TOKEN
+    assert manifest["seed_files"] == files_n and manifest["files"] == ftok
+    assert manifest["round"] == "v7r2-traversal"
     lb_paths = "\n".join("- `%s` - %s (*%s*)" % (p["path"], p["why"], p["hop"])
                          for p in m["load_bearing"])
-    full = "%d/%d" % (3 + 4 + 1 + 1, 3 + 4 + 1 + 1)
+    full = "%d/%d" % (3 + 5 + 1 + 1, 3 + 5 + 1 + 1)
     bigdiv = (_budget(corpus, corpus.by_name["attestation"])
              - _declared_budget(corpus, corpus.by_name["attestation"]))
     smalldiv = (_budget(corpus, corpus.by_name["ingest"])
@@ -557,9 +668,8 @@ No single grep or filename glob reaches the edit set either: the prompt never us
 name (finding it is the task), the word it does use, `%(new)s`, appears nowhere in the
 unmodified tree, and the six sites' own names share no one distinctive token with each
 other - every token any one of them carries (`handle`, `recovery`, `op`, `support`) is also
-carried by at least one file that must NOT be touched, chiefly `%(target)s` itself, whose
-own docstring and variable names are full of "recovery" and "handle" because its own noun
-happens to be `handle`. `find -iname` or `grep -rl` for any single such token returns the
+carried by at least one file that must NOT be touched, including the target's own budget row
+and handle state vocabulary. `find -iname` or `grep -rl` for any single such token returns the
 edit set plus at least one file that must stay untouched, never the edit set alone (checked
 directly, the way the cross-reviewer checked the first draft).
 
@@ -588,11 +698,11 @@ scope-and-integrity subcheck.
 
 ## 5. Why the grader is sound
 
-Four independent value subchecks (`symbol_old`, `symbol_new`, `bound_module`, `sites`), one
+Five independent value subchecks (`symbol_old`, `symbol_new`, `bound_module`, `budget_gap`, `sites`), one
 edit subcheck (byte-exact against the reference for all six sites), and one integrity and
 scope subcheck:
 
-1. `%(deliv)s` exists, decodes as UTF-8, and has exactly the four keys in the prompt's order;
+1. `%(deliv)s` exists, decodes as UTF-8, and has exactly the five keys in the prompt's order;
 2. the reported old symbol is right;
 3. the reported new symbol is right;
 4. the reported bound module is right - this is the qualification rule's own scored fact;
@@ -619,7 +729,7 @@ against the plan's minimum of six paths and three hops.
 
 ## 7. Budget
 
-Not a mode-8 task. The reading is long; the writing is six small file edits and a four-line
+Not a mode-8 task. The reading is long; the writing is six small file edits and a five-line
 report. The reference report is %(reflen)d characters.
 
 ## 8. Near-miss table and perturbation adjudication
@@ -628,7 +738,7 @@ Generated by `selfcheck.py` from this spec's own reference and near-miss answers
 perturbations of AUTHORING-BRIEF section 9 (no trailing newline, two trailing newlines,
 CRLF, a leading blank line, trailing spaces) are applied **only to `%(deliv)s`**, holding all
 six sites at their exact reference bytes, and every one lands `correct` at full score,
-%(full)s: the prompt states no exact formatting for the report beyond its four keys and
+%(full)s: the prompt states no exact formatting for the report beyond its five keys and
 their order, so the grader must not depend on any of the five, and it does not.
 
 `probe_candidate.py`, run separately over this candidate, perturbs every file the reference
