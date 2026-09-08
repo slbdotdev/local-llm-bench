@@ -14,6 +14,10 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 24 | the largest number of receipts held before the stage refuses new work |
 | `window_s` | 30 | seconds a receipt may stay `pending` before it is reaped |
+| `window_note_00` | retained | contextual release annotation |
+| `window_note_01` | retained | contextual release annotation |
+| `window_note_02` | retained | contextual release annotation |
+| `window_note_03` | retained | contextual release annotation |
 | `enforced_window_s` | 2020 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
 
 Both are read from the `quota` section of the manifest by `build_quota`. A key that is

@@ -11,7 +11,17 @@ from __future__ import annotations
 
 DEFAULT_TENANCY_LIMIT = 96
 DEFAULT_TENANCY_WINDOW_S = 90
-ENFORCED_WINDOW_S = 2169
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+ACTIVE_WINDOW_S = 2272
 TENANCY_STATES = ("pending", "retired", "settled", "abandoned")
 
 

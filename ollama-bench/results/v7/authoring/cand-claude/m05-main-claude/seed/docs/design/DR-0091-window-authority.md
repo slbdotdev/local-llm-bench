@@ -5,8 +5,8 @@
 
 ## The rule
 
-Every stage's component document carries an `enforced_window_s` row in its configuration
-table. Where that number disagrees with the module's `ENFORCED_WINDOW_S`, the **module
+Every stage's component document carries a documented enforced-window setting in its
+configuration table. Where that number disagrees with the module's `ACTIVE_WINDOW_S`, the **module
 governs**: the document is what an operator was told and the module is what the
 code does, and a checklist against this record corrects the document's row to the
 module's number. The module is never changed to match a document.

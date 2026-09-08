@@ -11,7 +11,11 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 96
 DEFAULT_SHARD_WINDOW_S = 60
-ENFORCED_WINDOW_S = 2130
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+ACTIVE_WINDOW_S = 2214
 SHARD_STATES = ("pending", "expandd", "settled", "abandoned")
 
 

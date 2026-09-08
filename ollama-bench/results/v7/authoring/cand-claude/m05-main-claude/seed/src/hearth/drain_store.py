@@ -11,7 +11,14 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 960
 DEFAULT_DRAIN_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2221
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+ACTIVE_WINDOW_S = 2221
 DRAIN_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

@@ -11,7 +11,12 @@ from __future__ import annotations
 
 DEFAULT_ENVELOPE_LIMIT = 48
 DEFAULT_ENVELOPE_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2195
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+ACTIVE_WINDOW_S = 2143
 ENVELOPE_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

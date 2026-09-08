@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 32 | the largest number of windows held before the stage refuses new work |
 | `window_s` | 90 | seconds a window may stay `pending` before it is reaped |
-| `enforced_window_s` | 2000 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
+| `enforced_window_s` | 2087 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
 
 Both are read from the `retention` section of the manifest by `build_retention`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

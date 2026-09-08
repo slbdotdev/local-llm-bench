@@ -11,7 +11,20 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 480
 DEFAULT_WATERMARK_WINDOW_S = 60
-ENFORCED_WINDOW_S = 2208
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+# placement marker 10
+# placement marker 11
+# placement marker 12
+ACTIVE_WINDOW_S = 2189
 WATERMARK_STATES = ("pending", "retired", "settled", "abandoned")
 
 

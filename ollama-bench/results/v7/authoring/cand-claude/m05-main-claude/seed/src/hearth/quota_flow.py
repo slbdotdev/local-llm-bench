@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 24
 DEFAULT_QUOTA_WINDOW_S = 30
-ENFORCED_WINDOW_S = 2013
+ACTIVE_WINDOW_S = 2013
 QUOTA_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

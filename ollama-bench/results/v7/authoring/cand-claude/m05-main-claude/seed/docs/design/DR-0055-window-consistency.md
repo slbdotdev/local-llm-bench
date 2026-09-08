@@ -4,8 +4,9 @@
 
 ## The rule
 
+Every stage's component document carries an `enforced_window_s` row in its configuration table.
 A stage's component document is authoritative for its enforced window. Where the
-module's `ENFORCED_WINDOW_S` disagrees with the document, the module is what has drifted and is
+module's `ACTIVE_WINDOW_S` disagrees with the document, the module is what has drifted and is
 corrected to match the document at the next release.
 
 ## Status

@@ -11,7 +11,10 @@ from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 12
 DEFAULT_DISPATCH_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2039
+# placement marker 00
+# placement marker 01
+# placement marker 02
+ACTIVE_WINDOW_S = 2044
 DISPATCH_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

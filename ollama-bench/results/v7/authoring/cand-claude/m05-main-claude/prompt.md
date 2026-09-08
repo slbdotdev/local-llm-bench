@@ -3,13 +3,13 @@
 You are working in a checkout of the hearth-relay repository; your current directory is the root of
 that checkout.
 
-Every stage's component document carries an `enforced_window_s` row in its configuration
-table. Check it against the value the code actually uses, `ENFORCED_WINDOW_S` in the stage's own
-module. **Where the two disagree, the module governs**: the document is what an operator was
-told and the module is what the code does, and a corrected row reports the module's number,
-never the document's. Read the tree to find which design record currently rules this way and
+Every stage's component document carries an enforced-window setting in its configuration
+table. Check it against the value the code actually uses in the stage's own module.
+**Where the two disagree, the module governs**: the document is what an operator was told and
+the module is what the code does, and a corrected row reports the module's number, never the
+document's. Read the tree to find which design record currently rules this way and
 cite its identifier exactly as that record names itself (a short dashed code, for example
-`DR-0091`, case as written); an earlier record ruled the opposite way and was superseded, and
+`DR-xxxx`, case as written); an earlier record ruled the opposite way and was superseded, and
 citing it is wrong.
 
 Some stages are exempt from this comparison entirely: they were moved to a new enforced-window

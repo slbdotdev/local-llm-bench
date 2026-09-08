@@ -11,7 +11,25 @@ from __future__ import annotations
 
 DEFAULT_DIGEST_LIMIT = 64
 DEFAULT_DIGEST_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2182
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+# placement marker 10
+# placement marker 11
+# placement marker 12
+# placement marker 13
+# placement marker 14
+# placement marker 15
+# placement marker 16
+# placement marker 17
+ACTIVE_WINDOW_S = 2022
 DIGEST_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

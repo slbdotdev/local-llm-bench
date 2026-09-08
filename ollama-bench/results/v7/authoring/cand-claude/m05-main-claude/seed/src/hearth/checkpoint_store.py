@@ -11,7 +11,19 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 96
 DEFAULT_CHECKPOINT_WINDOW_S = 60
-ENFORCED_WINDOW_S = 2091
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+# placement marker 10
+# placement marker 11
+ACTIVE_WINDOW_S = 2091
 CHECKPOINT_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

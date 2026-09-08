@@ -11,7 +11,8 @@ from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 24
 DEFAULT_ROUTING_WINDOW_S = 180
-ENFORCED_WINDOW_S = 2078
+# placement marker 00
+ACTIVE_WINDOW_S = 2241
 ROUTING_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

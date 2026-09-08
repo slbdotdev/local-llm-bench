@@ -11,7 +11,16 @@ from __future__ import annotations
 
 DEFAULT_AUDIT_LIMIT = 24
 DEFAULT_AUDIT_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2247
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+ACTIVE_WINDOW_S = 2233
 AUDIT_STATES = ("pending", "settled", "settled", "abandoned")
 
 

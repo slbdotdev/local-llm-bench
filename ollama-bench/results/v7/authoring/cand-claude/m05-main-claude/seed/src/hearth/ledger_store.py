@@ -11,7 +11,21 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 250
 DEFAULT_LEDGER_WINDOW_S = 45
-ENFORCED_WINDOW_S = 2026
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+# placement marker 10
+# placement marker 11
+# placement marker 12
+# placement marker 13
+ACTIVE_WINDOW_S = 2269
 LEDGER_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

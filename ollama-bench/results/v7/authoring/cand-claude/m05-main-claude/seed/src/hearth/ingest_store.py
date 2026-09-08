@@ -11,7 +11,15 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 32
 DEFAULT_INGEST_WINDOW_S = 90
-ENFORCED_WINDOW_S = 2104
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+ACTIVE_WINDOW_S = 2031
 INGEST_STATES = ("pending", "settled", "settled", "abandoned")
 
 

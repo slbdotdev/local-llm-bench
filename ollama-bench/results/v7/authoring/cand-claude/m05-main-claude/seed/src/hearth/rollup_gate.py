@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_ROLLUP_LIMIT = 12
 DEFAULT_ROLLUP_WINDOW_S = 120
-ENFORCED_WINDOW_S = 2156
+# placement marker 00
+# placement marker 01
+ACTIVE_WINDOW_S = 2156
 ROLLUP_STATES = ("pending", "retired", "settled", "abandoned")
 
 

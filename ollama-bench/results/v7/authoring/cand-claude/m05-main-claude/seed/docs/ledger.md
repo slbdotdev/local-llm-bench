@@ -14,7 +14,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 250 | the largest number of slots held before the stage refuses new work |
 | `window_s` | 45 | seconds a slot may stay `pending` before it is reaped |
-| `enforced_window_s` | 2031 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
+| `window_note_00` | retained | contextual release annotation |
+| `enforced_window_s` | 2274 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
 
 Both are read from the `ledger` section of the manifest by `build_ledger`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

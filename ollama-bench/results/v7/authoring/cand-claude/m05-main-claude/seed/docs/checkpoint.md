@@ -14,6 +14,20 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 96 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 60 | seconds a frame may stay `pending` before it is reaped |
+| `window_note_00` | retained | contextual release annotation |
+| `window_note_01` | retained | contextual release annotation |
+| `window_note_02` | retained | contextual release annotation |
+| `window_note_03` | retained | contextual release annotation |
+| `window_note_04` | retained | contextual release annotation |
+| `window_note_05` | retained | contextual release annotation |
+| `window_note_06` | retained | contextual release annotation |
+| `window_note_07` | retained | contextual release annotation |
+| `window_note_08` | retained | contextual release annotation |
+| `window_note_09` | retained | contextual release annotation |
+| `window_note_10` | retained | contextual release annotation |
+| `window_note_11` | retained | contextual release annotation |
+| `window_note_12` | retained | contextual release annotation |
+| `window_note_13` | retained | contextual release annotation |
 | `enforced_window_s` | 2077 | the seconds this stage actually enforces, tracked outside the legacy window_s field |
 
 Both are read from the `checkpoint` section of the manifest by `build_checkpoint`. A key that is

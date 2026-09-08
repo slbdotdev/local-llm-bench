@@ -11,7 +11,13 @@ from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 64
 DEFAULT_BACKFILL_WINDOW_S = 15
-ENFORCED_WINDOW_S = 2065
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+ACTIVE_WINDOW_S = 2126
 BACKFILL_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

@@ -11,7 +11,22 @@ from __future__ import annotations
 
 DEFAULT_SCHEMA_LIMIT = 32
 DEFAULT_SCHEMA_WINDOW_S = 60
-ENFORCED_WINDOW_S = 2143
+# placement marker 00
+# placement marker 01
+# placement marker 02
+# placement marker 03
+# placement marker 04
+# placement marker 05
+# placement marker 06
+# placement marker 07
+# placement marker 08
+# placement marker 09
+# placement marker 10
+# placement marker 11
+# placement marker 12
+# placement marker 13
+# placement marker 14
+ACTIVE_WINDOW_S = 2068
 SCHEMA_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

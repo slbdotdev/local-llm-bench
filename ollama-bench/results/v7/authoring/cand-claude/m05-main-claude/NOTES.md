@@ -14,10 +14,10 @@ missed exemption - loses the pass even though every other line is right.
 
 ## 2. Rung 0: why the material is necessary
 
-`ENFORCED_WINDOW_S` (the module) and the `enforced_window_s` row (the document) are properties `make_corpus.py`
+`ACTIVE_WINDOW_S` (the module) and the `enforced_window_s` row (the document) are properties `make_corpus.py`
 has never heard of and writes nowhere else: not in `config/manifest.json`, not in
 `docs/operations.md`, not in a history entry, not in a test. `r2/check_index_leak.py` is clean
-on `ENFORCED_WINDOW_S` for this reason. An earlier revision of this task reused the generator's own
+on `ACTIVE_WINDOW_S` for this reason. An earlier revision of this task reused the generator's own
 `window_s`, and cross-review found that both `config/manifest.json` and `docs/operations.md`
 carry every stage's `window_s` beside the module's, so a solver could answer without opening a
 single module; this revision closes that route by putting the checked property nowhere the
@@ -36,8 +36,8 @@ them:
 
 A solver who reads only the files the prompt's own words name gets nothing: the prompt names no
 design record, no migration note and no test file, and it does not name `enforced_window_s` or
-`ENFORCED_WINDOW_S` as file content, only as the property to compare. The traversal a correct answer
-requires is **21919 of 30851 material tokens (71.0%)** - every component
+`ACTIVE_WINDOW_S` as file content, only as the property to compare. The traversal a correct answer
+requires is **25472 of 34400 material tokens (74.0%)** - every component
 document and every module, plus the four bridge artifacts and the manifest for row order.
 
 No single grep assembles it either: the current rule and the superseded one share almost every
@@ -76,7 +76,7 @@ Eight subchecks, each independent, so a near miss separates cleanly:
 4. every row that must read `MATCHES` does (one group, 16 rows, the atomic-checklist
    property RepoProbe names: any one wrong loses this group);
 5. every row that must read `CORRECTED <value>` does, value included (one group, 4 rows);
-6. `corrected_count` is right, parsed as an integer;
+6. `corrected_count` is the canonical plain non-negative decimal integer `4`;
 7. `authoritative_source` is right;
 8. every pre-existing file is byte-identical to the seed and no file exists the task did not
    ask for (the `unsafe` axis), `os.path.normcase` applied to both sides of every comparison.
@@ -86,8 +86,13 @@ and SCORE is printed independently of the verdict.
 
 ## 6. Load-bearing files, declared for the section 2.2 gate
 
-`test.py` declares `LOAD_BEARING` - 11 paths across 7 distinct causal hops, against
-the plan's minimum of six paths and three hops. `config/manifest.json` is declared
+`test.py` declares `LOAD_BEARING` - 47 paths covering 25653 material tokens
+(74.6%) across 9 distinct causal hops, against the plan's minimum of six paths
+and three hops. This declared floor is the complete required corpus: all 20 stage documents,
+all 20 `src/hearth` modules, both design records, the migration note, the exemption test, the
+manifest/order bridge, and two context files (one stage test and the package initializer). It is a
+declaration of necessary material, not a record of a trial's `read_paths`. The trial's full
+traversal is separately measured at 25472 material tokens (74.0%). `config/manifest.json` is declared
 `named_in_prompt`: the prompt says the checklist follows the manifest's own row order, which is
 a scope pointer, not the answer.
 
@@ -96,12 +101,48 @@ a scope pointer, not the answer.
 - `docs/migrations/MIG-0014-window-rebase.md` - explains the exemption and points at the test file, without naming stages (*pointer*)
 - `tests/test_window_migration_coverage.py` - the only place the exempt stage names actually appear (*enumeration*)
 - `config/manifest.json` - the checklist's own row order (*order*)
-- `docs/quota.md` - documented enforced window of a stage that must be corrected (*declared-value*)
-- `src/hearth/quota_flow.py` - the module value a corrected row must report (*effective-value*)
-- `docs/checkpoint.md` - documented enforced window of a stage that must be corrected (*declared-value*)
-- `src/hearth/checkpoint_store.py` - the module value a corrected row must report (*effective-value*)
-- `docs/ledger.md` - documented enforced window of an exempt stage, a disagreement that baits a correction (*declared-value*)
-- `src/hearth/ledger_store.py` - the module value of an exempt stage, correctly left uncorrected (*effective-value*)
+- `tests/test_audit.py` - stage-test context for the complete traversal (*test-context*)
+- `src/hearth/__init__.py` - package namespace context for the complete module traversal (*package-context*)
+- `docs/retention.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/retention_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/quota.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/quota_flow.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/ledger.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/ledger_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/dispatch.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/dispatch_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/throttle.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/throttle_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/backfill.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/backfill_view.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/routing.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/routing_flow.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/checkpoint.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/checkpoint_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/ingest.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/ingest_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/reconcile.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/reconcile_flow.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/shard.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/shard_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/schema.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/schema_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/rollup.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/rollup_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/tenancy.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/tenancy_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/digest.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/digest_core.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/envelope.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/envelope_core.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/watermark.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/watermark_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/drain.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/drain_store.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/replay.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/replay_gate.py` - the module value governing every stage's corrected row (*effective-value*)
+- `docs/audit.md` - the documented enforced-window row for every stage in the checklist (*declared-value*)
+- `src/hearth/audit_core.py` - the module value governing every stage's corrected row (*effective-value*)
 
 ## 7. Budget
 
@@ -124,6 +165,6 @@ closing the format-ambiguity gap a reviewer flagged against an earlier draft.
 Every value the reference asserts is measured from `seed/` at build time by
 `specs/m05_main_claude.py`: the exempt set by reading `MIGRATED_STAGES` out of `tests/test_window_migration_coverage.py`, the
 corrected set by comparing each remaining stage's `enforced_window_s` document row against its module's
-`ENFORCED_WINDOW_S`, the count by counting them, and the authority by reading the current design
+`ACTIVE_WINDOW_S`, the count by counting them, and the authority by reading the current design
 record's own identifier. `facts()` asserts both sets against the plan's own intent before either
 is written anywhere.
