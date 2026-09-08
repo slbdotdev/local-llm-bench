@@ -20,25 +20,20 @@ against two more facts that live in neither of them:
   SLA headroom - the `SLA_HEADROOM` constant in its own module - never the `sla_headroom` row in
   its document, which the contract itself says may lag the module by a quarter;
 - `docs/security/boundary.md` states the freeze, but by on-call **team**, never by stage name, so which
-  stages it reaches is a second lookup into `docs/operations.md`, the one table that records ownership
-  per stage;
+  stages it reaches is a second lookup into each stage document's authoritative ownership
+  statement;
 - `docs/issues/ISSUE-214-window-key-rename.md` states the change and says plainly that it does not decide who is in scope.
 
 `SLA_HEADROOM` is a fact the generator has never heard of: it is written once, per stage, into
 that stage's own module and nowhere else - never into `config/manifest.json`,
-`docs/operations.md`, a history entry or a test, all of which echo `limit`/`window_s` for
-every stage in one small file and would otherwise let the publication rule be answered from
-two files instead of the whole tree (a defect found in cross-review of an earlier draft of
-this task and of others, and checked mechanically by `r2/check_index_leak.py`). A solver
-that reads the issue and greps for `window_s`, or for `SLA_HEADROOM`'s value, finds nothing
-that assembles the in-scope set. The traversal a correct answer requires is **20984 of
-29879 material tokens (70.2%)** - every stage's document and module, because
-the publication rule cannot be evaluated for one stage without also being evaluated, or at
-least checked, for every other one: there is no table of which stages diverge between
-document and module, so ruling any one out safely means checking all of them. Two of the
-nineteen stages carry exactly such a divergence, on purpose, and neither is part of the
-answer - they exist to make trusting the document instead of the module a distinct,
-plausible, wrong course, not to change the answer itself.
+`docs/operations.md`, a history entry or a test. A solver that reads the issue and greps for
+`window_s`, or for `SLA_HEADROOM`'s value, finds nothing that assembles the in-scope set. The
+strict required traversal is **19729 measured tokens** across all nineteen stage
+documents and all nineteen modules. The declared load-bearing floor below adds the four
+ruling/bridge files. Two of the nineteen stages carry exactly such a divergence, on purpose,
+and both change the answer: trusting the document instead of the module adds checkpoint to
+`declined` and drops schema from `changed`, so each decoy produces a distinct, plausible,
+wrong course rather than a harmless difference.
 
 ## 3. Distinguishing condition, and the wrong courses the material rules out
 
@@ -47,7 +42,7 @@ and correctly declined: `attestation`, `digest`. The remaining **4** are changed
 
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |
-| rename every published stage | never reconciles the boundary against operations.md | SEC-CFG-4, in force, freezes Delivery Engineering's stages; the report exists precisely to record what it blocked |
+| rename every published stage | never reconciles the boundary against the per-stage ownership statements | SEC-CFG-4, in force, freezes Delivery Engineering's stages; the report exists precisely to record what it blocked |
 | trust each document's table | reads the `sla_headroom` row from `docs/<stage>.md` instead of the module | the contract states its rule is over effective values, and names the exact failure mode (a stale document) it is written to prevent |
 | cite a retired clause | applies SEC-CFG-2 or SEC-CFG-3 | both are marked superseded/withdrawn in `docs/security/boundary.md`, and only SEC-CFG-4 is in force |
 
@@ -88,23 +83,53 @@ runs or writes anything, so grading twice gives the same answer twice.
 
 ## 6. Load-bearing files, declared for the section 2.2 gate
 
-`test.py` declares `LOAD_BEARING` - 14 paths across 6 distinct causal hops,
-against the plan's minimum of six paths and three hops.
+`test.py` declares `LOAD_BEARING` - 42 paths across 6 distinct causal hops,
+against the plan's minimum of six paths and three hops. The declared floor is **21198
+measured tokens (70.4% of material)**: the four ruling/bridge files, all nineteen
+stage documents, and all nineteen stage modules.
 
 - `docs/issues/ISSUE-214-window-key-rename.md` - states the rename wanted and that the stage list is not here (*instruction*)
 - `docs/api/config-contract.md` - the numeric publication rule, over each stage's module constants (*criterion*)
 - `docs/security/boundary.md` - clause SEC-CFG-4, in force, freezes Delivery Engineering's stages (*ruling*)
-- `docs/operations.md` - the only table recording each stage's on-call team (*enumeration*)
-- `src/talus/attestation_store.py` - module constants that decide whether attestation is published (*effective-value*)
-- `src/talus/audit_flow.py` - module constants that decide whether audit is published (*effective-value*)
-- `src/talus/compaction_gate.py` - module constants that decide whether compaction is published (*effective-value*)
-- `src/talus/digest_flow.py` - module constants that decide whether digest is published (*effective-value*)
-- `src/talus/envelope_gate.py` - module constants that decide whether envelope is published (*effective-value*)
-- `src/talus/schema_flow.py` - module constants that decide whether schema is published (*effective-value*)
-- `docs/audit.md` - the document whose window_s row is renamed (*target*)
-- `docs/compaction.md` - the document whose window_s row is renamed (*target*)
-- `docs/envelope.md` - the document whose window_s row is renamed (*target*)
-- `docs/schema.md` - the document whose window_s row is renamed (*target*)
+- `docs/operations.md` - operational bridge document that points ownership back to stage documents (*bridge*)
+- `src/talus/attestation_store.py` - module constant that decides whether attestation is published (*effective-value*)
+- `docs/attestation.md` - authoritative ownership and configuration table for attestation (*stage-document*)
+- `src/talus/audit_flow.py` - module constant that decides whether audit is published (*effective-value*)
+- `docs/audit.md` - authoritative ownership and configuration table for audit (*stage-document*)
+- `src/talus/dispatch_gate.py` - module constant that decides whether dispatch is published (*effective-value*)
+- `docs/dispatch.md` - authoritative ownership and configuration table for dispatch (*stage-document*)
+- `src/talus/compaction_gate.py` - module constant that decides whether compaction is published (*effective-value*)
+- `docs/compaction.md` - authoritative ownership and configuration table for compaction (*stage-document*)
+- `src/talus/backfill_store.py` - module constant that decides whether backfill is published (*effective-value*)
+- `docs/backfill.md` - authoritative ownership and configuration table for backfill (*stage-document*)
+- `src/talus/reconcile_core.py` - module constant that decides whether reconcile is published (*effective-value*)
+- `docs/reconcile.md` - authoritative ownership and configuration table for reconcile (*stage-document*)
+- `src/talus/shard_flow.py` - module constant that decides whether shard is published (*effective-value*)
+- `docs/shard.md` - authoritative ownership and configuration table for shard (*stage-document*)
+- `src/talus/tenancy_view.py` - module constant that decides whether tenancy is published (*effective-value*)
+- `docs/tenancy.md` - authoritative ownership and configuration table for tenancy (*stage-document*)
+- `src/talus/cursor_gate.py` - module constant that decides whether cursor is published (*effective-value*)
+- `docs/cursor.md` - authoritative ownership and configuration table for cursor (*stage-document*)
+- `src/talus/throttle_view.py` - module constant that decides whether throttle is published (*effective-value*)
+- `docs/throttle.md` - authoritative ownership and configuration table for throttle (*stage-document*)
+- `src/talus/quota_flow.py` - module constant that decides whether quota is published (*effective-value*)
+- `docs/quota.md` - authoritative ownership and configuration table for quota (*stage-document*)
+- `src/talus/digest_flow.py` - module constant that decides whether digest is published (*effective-value*)
+- `docs/digest.md` - authoritative ownership and configuration table for digest (*stage-document*)
+- `src/talus/rollup_flow.py` - module constant that decides whether rollup is published (*effective-value*)
+- `docs/rollup.md` - authoritative ownership and configuration table for rollup (*stage-document*)
+- `src/talus/watermark_view.py` - module constant that decides whether watermark is published (*effective-value*)
+- `docs/watermark.md` - authoritative ownership and configuration table for watermark (*stage-document*)
+- `src/talus/schema_flow.py` - module constant that decides whether schema is published (*effective-value*)
+- `docs/schema.md` - authoritative ownership and configuration table for schema (*stage-document*)
+- `src/talus/ledger_flow.py` - module constant that decides whether ledger is published (*effective-value*)
+- `docs/ledger.md` - authoritative ownership and configuration table for ledger (*stage-document*)
+- `src/talus/envelope_gate.py` - module constant that decides whether envelope is published (*effective-value*)
+- `docs/envelope.md` - authoritative ownership and configuration table for envelope (*stage-document*)
+- `src/talus/lineage_gate.py` - module constant that decides whether lineage is published (*effective-value*)
+- `docs/lineage.md` - authoritative ownership and configuration table for lineage (*stage-document*)
+- `src/talus/checkpoint_core.py` - module constant that decides whether checkpoint is published (*effective-value*)
+- `docs/checkpoint.md` - authoritative ownership and configuration table for checkpoint (*stage-document*)
 
 ## 7. Budget
 
@@ -138,7 +163,7 @@ five land `correct` at full score, 8/8.
 Every value the reference asserts is measured from `seed/` at build time by
 `specs/m02_main_claude.py`: publication from comparing each stage's module constants against
 the contract's stated thresholds, the freeze from comparing each published stage's
-`docs/operations.md` team against the boundary's named team, and the changed/declined split
+component-document team against the boundary's named team, and the changed/declined split
 from set difference between the two. Nothing is typed twice; `facts()` asserts the expected
 cardinalities (6 published, 4 changed, 2 declined) against the actual measurement and fails
 the build if the generated corpus ever stops agreeing with them.
