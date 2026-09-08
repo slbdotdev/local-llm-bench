@@ -1,17 +1,13 @@
-"""Verify the regression fixture against an independent, from-scratch sweep. Writes nothing.
+"""Verify the complete fixture by digest, without handing over the answer.
 
-This is the real check: the grader runs this file itself and trusts nothing else. It reads
-every stage's own document AND every stage's own module directly, for every stage -- a stage
-is "provisional" exactly when its document's `declared_verified_on` disagrees with its
-module's `ROLLOUT_VERIFIED_ON`, and there is no way to know which stages disagree without
-comparing both values for all of them. It compares the result, row for row, against whatever
-is actually on disk at `data/regression-fixture.csv`. It prints only `OK` or `FAIL`, never a
-stage name or a row count: this file exists to verify a claim, not to hand one over.
-
-Reading is deliberately tolerant of incidental whitespace in the fixture (a blank line,
-trailing spaces, the line-ending style) since none of that is part of what the fixture
-asserts; only the sequence of stage names is.
+The checker reads every stage's own document and module, constructs only a SHA-256 digest of
+the 19 canonical rows, and compares it with a digest of the supplied CSV. It prints only OK or
+FAIL: it never prints a stage name, date, decision, rule, or row count. There is deliberately
+no `compute()` or answer-returning helper to import. The fixture's four columns are all part of
+the digest input, including both dates and the inclusion decision.
 """
+import csv
+import hashlib
 import json
 import os
 import re
@@ -20,38 +16,44 @@ import sys
 CUTOVER = "2034-04-01"
 
 
-def _declared_verified_on(root, name):
-    path = os.path.join(root, "docs", name + ".md")
-    with open(path, encoding="utf-8") as fh:
-        text = fh.read()
-    m = re.search(r"^\| `declared_verified_on` \| ([\d-]+) \|", text, re.M)
-    return m.group(1) if m else None
-
-
-def _verified_on(root, package, module):
-    path = os.path.join(root, "src", package, module + ".py")
-    with open(path, encoding="utf-8") as fh:
-        text = fh.read()
-    m = re.search(r'^ROLLOUT_VERIFIED_ON = "([\d-]+)"', text, re.M)
-    return m.group(1) if m else "0000-00-00"
-
-
-def compute(root="."):
+def _material_digest(root):
     with open(os.path.join(root, "config", "manifest.json"), encoding="utf-8") as fh:
         man = json.load(fh)
-    package = man["package"]
-    included = []
-    excluded = []
+    h = hashlib.sha256()
     for st in man["stages"]:
         name = st["name"]
-        declared = _declared_verified_on(root, name)
-        effective = _verified_on(root, package, st["module"])
-        provisional = (declared != effective)
-        if provisional and effective >= CUTOVER:
-            excluded.append(name)
-        else:
-            included.append(name)
-    return included, excluded
+        with open(os.path.join(root, "docs", name + ".md"), encoding="utf-8") as fh:
+            doc = fh.read()
+        with open(os.path.join(root, "src", man["package"], st["module"] + ".py"),
+                  encoding="utf-8") as fh:
+            module = fh.read()
+        dm = re.search(r"^\| `declared_verified_on` \| ([0-9-]+) \|", doc, re.M)
+        mm = re.search(r'^ROLLOUT_VERIFIED_ON = "([0-9-]+)"$', module, re.M)
+        if not dm or not mm:
+            return None
+        declared, effective = dm.group(1), mm.group(1)
+        included = "yes" if not (declared != effective and effective >= CUTOVER) else "no"
+        h.update(("|".join((name, declared, effective, included)) + "\n").encode("utf-8"))
+    return h.hexdigest()
+
+
+def _fixture_digest(path):
+    with open(path, encoding="utf-8", newline="") as fh:
+        lines = [line for line in fh if line.strip()]
+        rows = [[cell.strip() for cell in row] for row in csv.reader(lines)]
+    if not rows or rows[0] != ["stage", "declared_date", "effective_date", "included"]:
+        return None
+    data = rows[1:]
+    if len(data) != 19 or any(len(row) != 4 for row in data):
+        return None
+    if any(any(not cell for cell in row) for row in data):
+        return None
+    h = hashlib.sha256()
+    for row in data:
+        if row[3] not in ("yes", "no"):
+            return None
+        h.update(("|".join(row) + "\n").encode("utf-8"))
+    return h.hexdigest()
 
 
 def main():
@@ -59,15 +61,12 @@ def main():
     if not os.path.isfile(path):
         print("FAIL")
         return 1
-    with open(path, encoding="utf-8") as fh:
-        lines = [ln.strip() for ln in fh.read().splitlines()]
-    lines = [ln for ln in lines if ln]
-    if not lines or lines[0].lower() != "stage":
-        print("FAIL")
-        return 1
-    rows = lines[1:]
-    expected_rows, _excluded = compute(".")
-    if rows != expected_rows:
+    try:
+        supplied = _fixture_digest(path)
+        expected = _material_digest(".")
+    except (OSError, UnicodeError, ValueError, csv.Error):
+        supplied = expected = None
+    if not supplied or supplied != expected:
         print("FAIL")
         return 1
     print("OK")

@@ -41,15 +41,13 @@ stage's own window for two consecutive windows.
 
 - A limit is never changed while the pipeline is running. It is changed in the
   manifest and takes effect on the next assembly.
-- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
+- An `abandoned` record is never deleted. Retention is governed by `docs/retention.md`.
 - A stage is never sealed twice in the same drain to 'make sure'; `seal()` is
   idempotent, so a second call is harmless, but a second call in the logs is read as
   evidence that the operator was unsure, and the drain is audited.
 
-## Pre-release regression check (legacy)
+## Pre-release regression check
 
-Before shipping, run `python tools/legacy_check.py`. It prints `PASS` or `FAIL` on its own
-line.
-
-*(This section predates the fixture rework; see `docs/workflows/release-checks.md` for the
-current two-step check.)*
+Follow the current two-step procedure in `docs/workflows/release-checks.md`. It requires a
+complete 19-row review CSV, then builds and verifies the four-column fixture by digest. The
+current commands are reproduced there and nowhere else.

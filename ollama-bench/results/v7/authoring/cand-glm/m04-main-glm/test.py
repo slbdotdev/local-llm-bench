@@ -29,6 +29,7 @@ import threading
 TOTAL_TIMEOUT_S = 50.0
 
 LOAD_BEARING = [{'hop': 'definition',
+  'named_in_prompt': True,
   'path': 'docs/workflows/release-checks.md',
   'why': 'the current command sequence, the mismatch rule, and the review file format'},
  {'hop': 'mechanism',
@@ -36,14 +37,13 @@ LOAD_BEARING = [{'hop': 'definition',
   'why': "confirms the tool computes nothing itself and needs the solver's own review"},
  {'hop': 'verification',
   'path': 'tools/run_checks.py',
-  'why': 'the real check the grader runs; recomputes from the tree and trusts nothing on '
-         'disk'},
+  'why': 'the real check; traverses all pairs and compares only the fixture digest'},
  {'hop': 'enumeration',
   'path': 'config/manifest.json',
   'why': 'the list of stages in scope, in fixture order'},
  {'hop': 'distractor',
   'path': 'docs/operations.md',
-  'why': 'the stale legacy command a reader might trust instead'},
+  'why': 'operations navigation, which points to the current workflow'},
  {'hop': 'distractor',
   'path': 'tests/test_regression_checks.py',
   'why': 'a stale visible test beside the real hidden check, and fails on import'},
@@ -68,12 +68,12 @@ LOAD_BEARING = [{'hop': 'definition',
 
 CONFIG = {'deliverable': 'report.txt',
  'editable': {},
- 'expect': {'TESTS': 'pass', 'excluded_stage': 'dispatch', 'fixture_rows': '18'},
+ 'expect': {'TESTS': 'pass', 'excluded_stage': 'dispatch', 'fixture_rows': '19'},
  'groups': [{'keys': ['TESTS'], 'name': 'the checks really pass'},
             {'keys': ['fixture_rows'], 'name': 'the fixture row count'},
             {'keys': ['excluded_stage'], 'name': 'the excluded stage'}],
  'keys': ['TESTS', 'fixture_rows', 'excluded_stage'],
- 'kinds': {'fixture_rows': 'int'},
+ 'kinds': {'TESTS': 'ci', 'fixture_rows': 'int'},
  'must_not_exist': [],
  'permitted_new': ['data/regression-fixture.csv', 'data/provisional-review.csv'],
  'run_tests': {'args': ['tools/run_checks.py'],
@@ -81,7 +81,7 @@ CONFIG = {'deliverable': 'report.txt',
                'pass_word': 'pass',
                'timeout': 25},
  'scope_gate': True,
- 'seed_hashes': {'README.md': 'ad005fc9b5b6c090e6eb243a4943f6ee51eb800e7771f3f8477908479ae9174a',
+ 'seed_hashes': {'README.md': '3a140b5c91d97e01a617c9e9387967ac7c612bca0a75a3edbaeb9f37c0dbb371',
                  'config/manifest.json': '23726b1445cefe5bb8151cb8cd587b7d21569dd3b4197da3e38b72d4322af37a',
                  'docs/architecture.md': '89c7b0899179cb7091f059fa43a17a75334d354ee4673a8b057c5100d63f9dd4',
                  'docs/attestation.md': '6cf21ed2b43cec234133645046b87ade65266924f5254ec51b068384ad842850',
@@ -94,7 +94,7 @@ CONFIG = {'deliverable': 'report.txt',
                  'docs/drain.md': '7a54d0ca9e98aac6f02fd0092e047e4f5562c78a2253505cc85abdd1e214e340',
                  'docs/envelope.md': 'bed87e9c2c4508563366424d84d8b5dff6c08a628682ef6a043914046d4d9da3',
                  'docs/lineage.md': 'b63fc7f70a32e16edb1e4b3a2bbe75a81f1984b44fec564bb4ffc3b7a8da46d4',
-                 'docs/operations.md': '11e348558cf45dfbcc1878c4893054cb21a283e4b31dec063c7bce4dd5f91763',
+                 'docs/operations.md': '2038cd27a5f5f31691184742c62a6ce7749a82ff694078d937675e34155e2349',
                  'docs/quota.md': '561ab7de60902dcbdfefa29d2773d234275a07f542b9c04577a1bbf6c085fd07',
                  'docs/reconcile.md': 'e2cbcb5fb842514f1d2e3c6f97054c23f13ec74884464fabeca07e8ce44f0d80',
                  'docs/release-notes/2034-status.md': '4c3f7f219dedfef4754fd5259e91c94c907463e8093c3e71000dd48e998487a7',
@@ -105,7 +105,7 @@ CONFIG = {'deliverable': 'report.txt',
                  'docs/shard.md': 'f57b05afdf7001c0bc1f9dc83626192f7a6ac40a27053106694c121a3f5bf974',
                  'docs/tenancy.md': 'ebeb8a647af3370b79e71483aeb70fbaa03027606a67cd695ae4ce61f7c54dd6',
                  'docs/throttle.md': 'b54264da5c55acf0da434e48eaf0aec3f86e55e623b5784c8b19f44d5ce8a28f',
-                 'docs/workflows/release-checks.md': 'b2a9fe4efd7b03c9cca3ded5865c8566ce73428d77ede904e065bf12b4aa8f42',
+                 'docs/workflows/release-checks.md': 'a39b91d6ffed97a42c3a454732504aeeddefa58afdac23e6f62dc5dcfacc74b6',
                  'history/0000-envelope.md': '1d9ccaab652d91df1828299cfea851679d0b1f7d1558378fe68acd606f0b5c0b',
                  'history/0001-checkpoint.md': '55709b1fe967cf34eaf04a21c00842dc9cda7942273f81e7ddeb437c39617fb6',
                  'history/0002-schema.md': 'd6f43fb692b729662442b288bf7c3a21fb78bb73ae6e6e30090a8ce94b7252e4',
@@ -166,8 +166,8 @@ CONFIG = {'deliverable': 'report.txt',
                  'tests/test_shard.py': '5e075d84afb31a325c95711c9d009b4fa1c221baa2a28fcbfd2d23d3e15ff9fa',
                  'tests/test_tenancy.py': '15694ec27a3198bae137e803b08adf2be282f13c483e9ecb415816e86ce51337',
                  'tests/test_throttle.py': '006100db0862b9e52773153f8925be32c1cc3c7dda1182005abe33f367907c87',
-                 'tools/build_fixture.py': '93b9c0b1c152087549b0c86a6af31c66a60701213b758c3216ee6c7f5454b8cc',
-                 'tools/run_checks.py': '76a1f561b3e5f3682ce7258aa79fb39c19f5a6991e490b382845fb997cdea9e7'},
+                 'tools/build_fixture.py': 'd5cff112e86373e3ae12afa4677d0a2d8c38d90aac375ec8f60a2346a5a67f5a',
+                 'tools/run_checks.py': 'c3cd9036a62d5b2278e4bccbf7d3b66c0d1930697f89c9a25300d6c5d22b2609'},
  'slot': 'm04-main-glm'}
 
 _fails = []
@@ -216,7 +216,10 @@ def _parse_kv(raw):
     verdict (AUTHORING-BRIEF section 9).
     """
     pairs = []
-    for line in raw.split("\n"):
+    lines = raw.split("\n")
+    if lines and lines[-1] == "":
+        lines.pop()
+    for line in lines:
         if not line.strip():
             continue
         if ":" not in line:

@@ -3,14 +3,14 @@
  "family": "glm",
  "band": "main",
  "failure_mode": 4,
- "material_chars": 144695,
- "material_tokens": 31024,
+ "material_chars": 145160,
+ "material_tokens": 31123,
  "chars_per_token": 4.664,
  "seed_files": 87,
  "round": "v7r2-traversal",
  "band_note": "Corpus generated at 27,000 tokens and hand-overlaid to land inside the 29,000-36,000 main band.",
  "files": {
-  "README.md": 582,
+  "README.md": 619,
   "config/manifest.json": 729,
   "docs/architecture.md": 356,
   "docs/attestation.md": 390,
@@ -23,7 +23,7 @@
   "docs/drain.md": 386,
   "docs/envelope.md": 388,
   "docs/lineage.md": 389,
-  "docs/operations.md": 507,
+  "docs/operations.md": 512,
   "docs/quota.md": 386,
   "docs/reconcile.md": 390,
   "docs/release-notes/2034-status.md": 120,
@@ -34,7 +34,7 @@
   "docs/shard.md": 387,
   "docs/tenancy.md": 388,
   "docs/throttle.md": 388,
-  "docs/workflows/release-checks.md": 566,
+  "docs/workflows/release-checks.md": 547,
   "history/0000-envelope.md": 171,
   "history/0001-checkpoint.md": 174,
   "history/0002-schema.md": 166,
@@ -95,7 +95,7 @@
   "tests/test_shard.py": 164,
   "tests/test_tenancy.py": 169,
   "tests/test_throttle.py": 170,
-  "tools/build_fixture.py": 566,
-  "tools/run_checks.py": 591
+  "tools/build_fixture.py": 640,
+  "tools/run_checks.py": 595
  }
 }

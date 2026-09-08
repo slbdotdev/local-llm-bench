@@ -19,28 +19,26 @@ conditions have to hold for the same stage. Neither `tools/build_fixture.py` nor
 `tools/run_checks.py` will work this out for you: you have to read the stage documents and
 modules yourself.
 
-Write your findings to `data/provisional-review.csv`, header `stage,rollout_date`, one row per stage you have
-determined is provisional, with that stage's own module's effective rollout date. A stage you
-do not list is treated as not provisional.
+Write your complete findings to `data/provisional-review.csv`, with header
+`stage,declared_date,effective_date,included` and exactly one row for each of the 19 manifest
+stages. Copy both dates from that stage's own document and module. Set `included` to `no` only
+when the dates disagree and the effective date is on or after `2034-04-01`; otherwise set it to
+`yes`. Both dates and the inclusion decision are load-bearing and are covered by the fixture
+digest. Missing, extra, or reordered rows are invalid.
 
 ## The two commands, in order
 
     python tools/build_fixture.py data/provisional-review.csv
     python tools/run_checks.py
 
-The first only combines your review with the manifest's stage list and applies the cutover
-rule; it does not check your review against the tree, and it does not print which stage it
-excluded or how many rows it wrote. The second is the actual check: it recomputes the correct
-answer independently, from the real documents and modules, and compares it against whatever
-`data/regression-fixture.csv` holds. It prints only `OK` or `FAIL`. If your review named the
-wrong stage, or the right stage with the wrong date, the fixture it produces will not match,
-and `tools/run_checks.py` will say so.
+The first only checks the review's shape and combines its supplied 19 rows with the manifest's
+stage order; it reads no stage document or module and does not apply the rule itself. The second
+is the actual check: it traverses every real document and module, constructs an independent
+digest of all four row fields, and compares that digest with `data/regression-fixture.csv`. It
+prints only `OK` or `FAIL`. A wrong date, inclusion value, omitted row, or row order will fail.
 
 ## What this replaces
 
-`docs/operations.md`'s "Pre-release regression check (legacy)" section names
-`python tools/legacy_check.py`. That module was removed when the fixture rework landed; the
-section is stale and is kept only because nobody has gone back to delete it.
-`tests/test_regression_checks.py` is the same vintage and fails on import for the same reason.
-Neither is part of the current workflow. If a check command in this tree does not match the
-two lines above, it is out of date.
+`docs/operations.md` points back to this workflow for the current check. The visible
+`tests/test_regression_checks.py` is a superseded historical test and is not part of the
+current workflow; the two commands above are authoritative.
