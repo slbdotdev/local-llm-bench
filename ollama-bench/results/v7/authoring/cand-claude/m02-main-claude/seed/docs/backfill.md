@@ -1,6 +1,9 @@
 # backfill stage
 
-*Owner: S. Nwachukwu (Delivery Engineering). Module: `src/backfill_store.py`.*
+*Owner: S. Nwachukwu. Module: `src/backfill_store.py`.*
+*On-call team: **Delivery Engineering**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

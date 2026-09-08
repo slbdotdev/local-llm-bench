@@ -1,6 +1,9 @@
 # ledger stage
 
-*Owner: N. Oyelaran (Data Stewardship). Module: `src/ledger_flow.py`.*
+*Owner: N. Oyelaran. Module: `src/ledger_flow.py`.*
+*On-call team: **Data Stewardship**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

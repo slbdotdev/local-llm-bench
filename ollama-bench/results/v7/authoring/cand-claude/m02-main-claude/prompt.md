@@ -12,8 +12,8 @@ does not decide one. A stage is in scope for this rename only when both of these
   each stage's real, effective configuration, not what its own document happens to say;
 - nothing in the project's security rulings **freezes** that stage against this class of
   change. A freeze names an on-call team, not a stage, so finding which stages a freeze
-  reaches takes one more cross-reference, into whichever document records ownership per
-  stage.
+  reaches takes one more cross-reference, into the authoritative per-stage ownership
+  statement carried by each stage's own component document.
 
 For every stage that is in scope: open its component document under `docs/`, and in the
 configuration table only, rename the `window_s` row's key to `quiesce_s`. Do not change the

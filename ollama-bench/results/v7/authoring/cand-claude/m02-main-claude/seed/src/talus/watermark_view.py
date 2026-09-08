@@ -4,7 +4,7 @@ This module owns the watermark stage. It is called by attestation_store and call
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: D. Ferreira (Platform Reliability).
+Ownership: D. Ferreira.
 """
 
 from __future__ import annotations

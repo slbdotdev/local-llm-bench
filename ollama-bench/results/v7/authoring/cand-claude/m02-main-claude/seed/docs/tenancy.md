@@ -1,6 +1,9 @@
 # tenancy stage
 
-*Owner: A. Villanueva (Compliance Review). Module: `src/tenancy_view.py`.*
+*Owner: A. Villanueva. Module: `src/tenancy_view.py`.*
+*On-call team: **Compliance Review**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

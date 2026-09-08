@@ -1,6 +1,9 @@
 # digest stage
 
-*Owner: J. Maldonado (Delivery Engineering). Module: `src/digest_flow.py`.*
+*Owner: J. Maldonado. Module: `src/digest_flow.py`.*
+*On-call team: **Delivery Engineering**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

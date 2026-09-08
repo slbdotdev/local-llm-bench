@@ -21,16 +21,16 @@ an incident.
 
 ## SEC-CFG-4 (**in force**)
 
-A stage on-call to the **Delivery Engineering** team - see the on-call table in
-`docs/operations.md`, which is the only place that ownership is recorded per
-stage - is frozen against any rename of a key in its published configuration
+A stage on-call to the **Delivery Engineering** team - see that stage's component document, where
+the per-stage ownership statement is authoritative - is
+frozen against any rename of a key in its published configuration
 surface, including this one, until that team signs off in writing. The team's
 sign-off is not requested by filing the rename; it is a separate, later step
 and out of scope for whoever carries out ISSUE-214.
 
-A stage this clause freezes is correctly reported as declined, never as
-changed and never silently omitted: the report exists so the frozen team can
-see what it blocked.
+A stage this clause freezes belongs in the report's second field, never in the
+first and never silently omitted: the report exists so the frozen team can see
+what it blocked.
 
 ## What this boundary does not cover
 

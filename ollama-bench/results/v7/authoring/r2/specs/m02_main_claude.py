@@ -9,7 +9,8 @@ Rung 0: which stages are in scope for the rename is derivable only by reconcilin
 overlay documents - an issue, an API contract and a security boundary - against two more
 facts that live nowhere near any of them: each stage's *effective* SLA headroom (a fresh
 module constant the generator has never heard of, and never its document's table) and each
-stage's on-call ownership (the single table in `docs/operations.md`). No one file states the
+stage's on-call ownership (the authoritative statement in each stage component document).
+No one file states the
 in-scope set, and no grep over the issue's own words finds it either: the contract's rule is
 a numeric inequality over a module constant that appears nowhere else in the tree, the
 freeze is a team name, and the two combine only per stage.
@@ -35,8 +36,8 @@ the configuration table of every stage's component document - but only for a sta
 both currently published under the project's own API contract (a rule over each stage's
 EFFECTIVE SLA headroom, a fresh module constant unrelated to `limit`/`window_s` and never
 echoed in its document's table) and not frozen by the project's security boundary (which
-freezes an entire on-call team's stages against this class of change, named in
-`docs/operations.md`). Report the stages actually changed, the stages that qualified but
+freezes an entire on-call team's stages against this class of change, cross-referenced
+through each stage's component document). Report the stages actually changed, the stages that qualified but
 were correctly declined because they are frozen, and the boundary clause that froze them.
 """
 
@@ -96,10 +97,69 @@ def overlay(ctx):
         declared = _DECLARED_OVERRIDE.get(s["name"], effective)
         corpus.set_module_constant(s, DECISIVE_CONSTANT, effective)
         corpus.add_doc_config_row(s, DOC_KEY, declared, DOC_MEANING)
+        _write_stage_ownership(corpus, s)
+        _strip_module_ownership(corpus, s)
+    _rewrite_operations(corpus)
     _write_issue(ctx)
     _write_contract(ctx)
     _write_boundary(ctx)
     corpus.append("README.md", _readme_addendum())
+    _rewrite_readme(corpus)
+
+
+def _write_stage_ownership(corpus, stage):
+    text = corpus.text(stage["doc"])
+    pattern = r"^\*Owner: (.+?) \((.+?)\)\. (Module: `[^`]+`\.)\*$"
+    match = re.search(pattern, text, re.M)
+    assert match and match.group(1) == stage["owner"] and match.group(2) == stage["team"], (
+        "owner line not found exactly once for %s" % stage["name"])
+    new = ("*Owner: %s. %s*\n*On-call team: **%s**.*\n\n"
+           "This component document is the authoritative ownership record.") % (
+        stage["owner"], match.group(3), stage["team"])
+    C.write(corpus.path(stage["doc"]), re.sub(pattern, new, text, count=1, flags=re.M))
+
+
+def _strip_module_ownership(corpus, stage):
+    text = corpus.text(stage["src"])
+    pattern = r"^Ownership: (.+?) \((.+?)\)\.$"
+    match = re.search(pattern, text, re.M)
+    assert match and match.group(1) == stage["owner"] and match.group(2) == stage["team"], (
+        "module ownership line not found exactly once for %s" % stage["name"])
+    new = "Ownership: %s." % match.group(1)
+    C.write(corpus.path(stage["src"]), re.sub(pattern, new, text, count=1, flags=re.M))
+
+
+def _rewrite_operations(corpus):
+    text = corpus.text(OPERATIONS)
+    old_header = "| stage | limit | window (s) | on-call team |\n| --- | ---: | ---: | --- |"
+    new_header = ("On-call ownership is authoritative in each stage's component document; this "
+                  "operational table intentionally carries no stage-to-team index. Read the "
+                  "ownership statement from the relevant stage document.\n\n"
+                  "| stage | limit | window (s) |\n| --- | ---: | ---: |")
+    assert old_header in text, "operations ownership table header not found"
+    text = text.replace(old_header, new_header, 1)
+    for stage in corpus.stages:
+        old_row = "| %s | %s | %s | %s |" % (
+            stage["name"], stage["limit"], stage["window"], stage["team"])
+        new_row = "| %s | %s | %s |" % (
+            stage["name"], stage["limit"], stage["window"])
+        assert old_row in text, "operations ownership row not found for %s" % stage["name"]
+        text = text.replace(old_row, new_row, 1)
+    text = text.replace("stage", "component")
+    text = text.replace("Retention is governed by `docs/policy/`.",
+                        "Retention is governed by the current security rulings under `docs/security/`.")
+    C.write(corpus.path(OPERATIONS), text)
+
+
+def _rewrite_readme(corpus):
+    text = corpus.text("README.md")
+    text = text.replace("3. `docs/policy/` - the rules that outrank both of the above.",
+                        "3. `docs/security/` - the rules that govern configuration changes.")
+    text = text.replace("Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`\n"
+                        "  outranks everything else.",
+                        "Documentation under `docs/` outranks a history entry; current security rulings\n"
+                        "  under `docs/security/` govern configuration changes.")
+    C.write(corpus.path("README.md"), text)
 
 
 def _write_issue(ctx):
@@ -203,16 +263,16 @@ def _write_boundary(ctx):
          "",
          "## SEC-CFG-4 (**in force**)",
          "",
-         "A stage on-call to the **%s** team - see the on-call table in" % FROZEN_TEAM,
-         "`docs/operations.md`, which is the only place that ownership is recorded per",
-         "stage - is frozen against any rename of a key in its published configuration",
+         "A stage on-call to the **%s** team - see that stage's component document, where" % FROZEN_TEAM,
+         "the per-stage ownership statement is authoritative - is",
+         "frozen against any rename of a key in its published configuration",
          "surface, including this one, until that team signs off in writing. The team's",
          "sign-off is not requested by filing the rename; it is a separate, later step",
          "and out of scope for whoever carries out ISSUE-214.",
          "",
-         "A stage this clause freezes is correctly reported as declined, never as",
-         "changed and never silently omitted: the report exists so the frozen team can",
-         "see what it blocked.",
+         "A stage this clause freezes belongs in the report's second field, never in the",
+         "first and never silently omitted: the report exists so the frozen team can see",
+         "what it blocked.",
          "",
          "## What this boundary does not cover",
          "",
@@ -231,7 +291,8 @@ def _readme_addendum():
   published, and by what rule.
 - `docs/security/boundary.md` - clauses that freeze a team's stages against a class of
   change. Dated by clause number; superseded and withdrawn clauses are kept as evidence.
-- `docs/operations.md` - the on-call table a freeze clause cites.
+- Each stage component document carries the authoritative on-call team for that stage.
+- `docs/operations.md` - operational procedures and per-stage limits and windows.
 """
 
 
@@ -256,6 +317,37 @@ def _frozen_names(corpus):
     return set(s["name"] for s in corpus.stages if s["team"] == FROZEN_TEAM)
 
 
+def _stage_paths(corpus):
+    return [s["doc"] for s in corpus.stages] + [s["src"] for s in corpus.stages]
+
+
+def _strict_paths(corpus):
+    return [s["doc"] for s in corpus.stages] + [s["src"] for s in corpus.stages]
+
+
+def _assert_ownership_layout(corpus):
+    operations = corpus.text(OPERATIONS).lower()
+    assert "on-call team" not in operations, "operations.md retains an ownership column"
+    teams = set(s["team"] for s in corpus.stages)
+    for stage in corpus.stages:
+        text = corpus.text(stage["doc"])
+        marker = "*On-call team: **%s**.*" % stage["team"]
+        assert text.count(marker) == 1, "missing authoritative ownership for %s" % stage["name"]
+        module = corpus.text(stage["src"])
+        assert module.count("Ownership: %s." % stage["owner"]) == 1, (
+            "missing module ownership for %s" % stage["name"])
+        assert not any(team in module for team in teams), (
+            "module carries an on-call team for %s" % stage["name"])
+
+
+def _assert_traversal_floor(corpus):
+    paths = [ISSUE, CONTRACT, BOUNDARY, OPERATIONS] + _strict_paths(corpus)
+    measured_chars = sum(C._char_len(corpus.path(path)) for path in set(paths))
+    measured_tokens = measured_chars / C.CHARS_PER_TOKEN
+    assert measured_tokens >= 21002, (
+        "declared floor is %.1f measured tokens, below 21002" % measured_tokens)
+
+
 def _changed(corpus):
     froz = _frozen_names(corpus)
     return [s for s in _published(corpus) if s["name"] not in froz]
@@ -274,6 +366,8 @@ def _rename_key(text):
 
 def facts(ctx):
     corpus = ctx["corpus"]
+    _assert_ownership_layout(corpus)
+    _assert_traversal_floor(corpus)
     changed = _changed(corpus)
     declined = _declined(corpus)
     assert len(_published(corpus)) == 6, "expected 6 published stages, measured %d" % (
@@ -315,8 +409,8 @@ does not decide one. A stage is in scope for this rename only when both of these
   each stage's real, effective configuration, not what its own document happens to say;
 - nothing in the project's security rulings **freezes** that stage against this class of
   change. A freeze names an on-call team, not a stage, so finding which stages a freeze
-  reaches takes one more cross-reference, into whichever document records ownership per
-  stage.
+  reaches takes one more cross-reference, into the authoritative per-stage ownership
+  statement carried by each stage's own component document.
 
 For every stage that is in scope: open its component document under `docs/`, and in the
 configuration table only, rename the `window_s` row's key to `quiesce_s`. Do not change the
@@ -360,17 +454,12 @@ def editable(ctx):
 
 
 def sweep_paths(ctx):
-    """Every file a correct answer requires: the three ruling documents, the ownership
-    table, and - because the publication rule is over EFFECTIVE values and there is no
-    single table of who diverges from their module - every stage's document and every
-    stage's module, since a solver cannot know which pair to trust without checking each
-    one against the other.
+    """Every file a correct answer requires: the four ruling/bridge files, every stage
+    document and every stage module. The per-stage ownership and effective publication
+    facts are distributed across those surfaces, with no all-stage team index.
     """
     corpus = ctx["corpus"]
-    out = [ISSUE, CONTRACT, BOUNDARY, OPERATIONS]
-    for s in corpus.stages:
-        out += [s["doc"], s["src"]]
-    return out
+    return [ISSUE, CONTRACT, BOUNDARY, OPERATIONS] + _stage_paths(corpus)
 
 
 def load_bearing(ctx):
@@ -382,15 +471,14 @@ def load_bearing(ctx):
          "why": "the numeric publication rule, over each stage's module constants"},
         {"path": BOUNDARY, "hop": "ruling",
          "why": "clause SEC-CFG-4, in force, freezes %s's stages" % FROZEN_TEAM},
-        {"path": OPERATIONS, "hop": "enumeration",
-         "why": "the only table recording each stage's on-call team"},
+        {"path": OPERATIONS, "hop": "bridge",
+         "why": "operational bridge document that points ownership back to stage documents"},
     ]
-    for s in _published(corpus):
+    for s in corpus.stages:
         lb.append({"path": s["src"], "hop": "effective-value",
-                   "why": "module constants that decide whether %s is published" % s["name"]})
-    for s in _changed(corpus):
-        lb.append({"path": s["doc"], "hop": "target",
-                   "why": "the document whose window_s row is renamed"})
+                   "why": "module constant that decides whether %s is published" % s["name"]})
+        lb.append({"path": s["doc"], "hop": "stage-document",
+                   "why": "authoritative ownership and configuration table for %s" % s["name"]})
     return lb
 
 
@@ -451,6 +539,8 @@ def probes(ctx):
         {"name": "empty (untouched sandbox)", "verdict": "visibly_failed", "no_traceback": True},
         {"name": "wrong: every published stage, freeze never checked",
          "files": wrong_a_files, "verdict": "confidently_wrong"},
+        {"name": "wrong: old SLA_HEADROOM plus operations shortcut (not full score)",
+         "files": wrong_a_files, "verdict": "confidently_wrong", "score": "6/8"},
         {"name": "wrong: declared values trusted over effective values",
          "files": wrong_b_files, "verdict": "confidently_wrong"},
         {"name": "wrong: right sets, superseded clause cited",
@@ -488,6 +578,7 @@ def notes(ctx, m):
     changed = _changed(corpus)
     declined = _declined(corpus)
     published = _published(corpus)
+    strict_tokens = sum(C.file_tokens(ctx["seed"]).get(p, 0) for p in _strict_paths(corpus))
     lb_paths = "\n".join("- `%s` - %s (*%s*)" % (p["path"], p["why"], p["hop"])
                          for p in m["load_bearing"])
     return """# NOTES - %(slot)s (behaviour %(mode)d, rung 0)
@@ -512,25 +603,19 @@ against two more facts that live in neither of them:
   SLA headroom - the `%(const)s` constant in its own module - never the `%(dockey)s` row in
   its document, which the contract itself says may lag the module by a quarter;
 - `%(boundary)s` states the freeze, but by on-call **team**, never by stage name, so which
-  stages it reaches is a second lookup into `%(ops)s`, the one table that records ownership
-  per stage;
+  stages it reaches is a second lookup into each stage document's authoritative ownership
+  statement;
 - `%(issue)s` states the change and says plainly that it does not decide who is in scope.
 
 `%(const)s` is a fact the generator has never heard of: it is written once, per stage, into
 that stage's own module and nowhere else - never into `config/manifest.json`,
-`docs/operations.md`, a history entry or a test, all of which echo `limit`/`window_s` for
-every stage in one small file and would otherwise let the publication rule be answered from
-two files instead of the whole tree (a defect found in cross-review of an earlier draft of
-this task and of others, and checked mechanically by `r2/check_index_leak.py`). A solver
-that reads the issue and greps for `window_s`, or for `%(const)s`'s value, finds nothing
-that assembles the in-scope set. The traversal a correct answer requires is **%(sweep)d of
-%(tokens)d material tokens (%(sweeppct)s%%)** - every stage's document and module, because
-the publication rule cannot be evaluated for one stage without also being evaluated, or at
-least checked, for every other one: there is no table of which stages diverge between
-document and module, so ruling any one out safely means checking all of them. Two of the
-nineteen stages carry exactly such a divergence, on purpose, and neither is part of the
-answer - they exist to make trusting the document instead of the module a distinct,
-plausible, wrong course, not to change the answer itself.
+`docs/operations.md`, a history entry or a test. A solver that reads the issue and greps for
+`window_s`, or for `%(const)s`'s value, finds nothing that assembles the in-scope set. The
+strict required traversal is **%(strict)d measured tokens** across all nineteen stage
+documents and all nineteen modules. The declared load-bearing floor below adds the four
+ruling/bridge files. Two of the nineteen stages carry exactly such a divergence, on purpose,
+and neither is part of the answer - they exist to make trusting the document instead of the
+module a distinct, plausible, wrong course, not to change the answer itself.
 
 ## 3. Distinguishing condition, and the wrong courses the material rules out
 
@@ -539,7 +624,7 @@ and correctly declined: %(decnames)s. The remaining **%(nch)d** are changed: %(c
 
 | wrong course | what a solver that lacks the behaviour does | what rules it out |
 | --- | --- | --- |
-| rename every published stage | never reconciles the boundary against operations.md | SEC-CFG-4, in force, freezes %(team)s's stages; the report exists precisely to record what it blocked |
+| rename every published stage | never reconciles the boundary against the per-stage ownership statements | SEC-CFG-4, in force, freezes %(team)s's stages; the report exists precisely to record what it blocked |
 | trust each document's table | reads the `%(dockey)s` row from `docs/<stage>.md` instead of the module | the contract states its rule is over effective values, and names the exact failure mode (a stale document) it is written to prevent |
 | cite a retired clause | applies SEC-CFG-2 or SEC-CFG-3 | both are marked superseded/withdrawn in `%(boundary)s`, and only SEC-CFG-4 is in force |
 
@@ -581,7 +666,9 @@ runs or writes anything, so grading twice gives the same answer twice.
 ## 6. Load-bearing files, declared for the section 2.2 gate
 
 `test.py` declares `LOAD_BEARING` - %(nlb)d paths across %(nhops)d distinct causal hops,
-against the plan's minimum of six paths and three hops.
+against the plan's minimum of six paths and three hops. The declared floor is **%(declared)d
+measured tokens (%(floorpct)s%% of material)**: the four ruling/bridge files, all nineteen
+stage documents, and all nineteen stage modules.
 
 %(lb)s
 
@@ -617,20 +704,22 @@ five land `correct` at full score, %(full)s.
 Every value the reference asserts is measured from `seed/` at build time by
 `specs/m02_main_claude.py`: publication from comparing each stage's module constants against
 the contract's stated thresholds, the freeze from comparing each published stage's
-`docs/operations.md` team against the boundary's named team, and the changed/declined split
+component-document team against the boundary's named team, and the changed/declined split
 from set difference between the two. Nothing is typed twice; `facts()` asserts the expected
 cardinalities (6 published, 4 changed, 2 declined) against the actual measurement and fails
 the build if the generated corpus ever stops agreeing with them.
 """ % {
         "slot": SLOT, "mode": MODE, "contract": CONTRACT, "boundary": BOUNDARY,
         "ops": OPERATIONS, "issue": ISSUE, "const": DECISIVE_CONSTANT, "dockey": DOC_KEY,
-        "sweep": m["sweep_tokens"], "tokens": m["tokens"],
+        "sweep": m["sweep_tokens"], "tokens": m["tokens"], "strict": strict_tokens,
         "sweeppct": m["sweep_pct"], "npub": len(published),
         "pubnames": ", ".join("`%s`" % s["name"] for s in published),
         "ndec": len(declined), "decnames": ", ".join("`%s`" % s["name"] for s in declined),
         "nch": len(changed), "chnames": ", ".join("`%s`" % s["name"] for s in changed),
         "team": FROZEN_TEAM, "deliv": DELIVERABLE, "nlb": len(m["load_bearing"]),
         "nhops": len(set(p["hop"] for p in m["load_bearing"])), "lb": lb_paths,
+        "declared": m["load_bearing_tokens"],
+        "floorpct": round(100.0 * m["load_bearing_tokens"] / m["tokens"], 1),
         "reflen": len(reference(ctx)[DELIVERABLE]),
         "full": "%d/%d" % (3 + 3 + 1 + 1, 3 + 3 + 1 + 1),
     }

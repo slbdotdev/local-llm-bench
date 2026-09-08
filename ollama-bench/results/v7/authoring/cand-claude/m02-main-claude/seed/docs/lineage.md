@@ -1,6 +1,9 @@
 # lineage stage
 
-*Owner: P. Ravindran (Compliance Review). Module: `src/lineage_gate.py`.*
+*Owner: P. Ravindran. Module: `src/lineage_gate.py`.*
+*On-call team: **Compliance Review**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

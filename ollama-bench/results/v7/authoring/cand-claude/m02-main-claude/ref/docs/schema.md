@@ -1,6 +1,9 @@
 # schema stage
 
-*Owner: L. Achterberg (Platform Reliability). Module: `src/schema_flow.py`.*
+*Owner: L. Achterberg. Module: `src/schema_flow.py`.*
+*On-call team: **Platform Reliability**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

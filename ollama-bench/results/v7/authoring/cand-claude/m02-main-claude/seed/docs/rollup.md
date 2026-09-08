@@ -1,6 +1,9 @@
 # rollup stage
 
-*Owner: J. Maldonado (Platform Reliability). Module: `src/rollup_flow.py`.*
+*Owner: J. Maldonado. Module: `src/rollup_flow.py`.*
+*On-call team: **Platform Reliability**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

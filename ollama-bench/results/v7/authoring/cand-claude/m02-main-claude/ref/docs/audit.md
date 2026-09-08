@@ -1,6 +1,9 @@
 # audit stage
 
-*Owner: M. Lindqvist (Platform Reliability). Module: `src/audit_flow.py`.*
+*Owner: M. Lindqvist. Module: `src/audit_flow.py`.*
+*On-call team: **Platform Reliability**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

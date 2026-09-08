@@ -1,6 +1,9 @@
 # shard stage
 
-*Owner: S. Nwachukwu (Compliance Review). Module: `src/shard_flow.py`.*
+*Owner: S. Nwachukwu. Module: `src/shard_flow.py`.*
+*On-call team: **Compliance Review**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

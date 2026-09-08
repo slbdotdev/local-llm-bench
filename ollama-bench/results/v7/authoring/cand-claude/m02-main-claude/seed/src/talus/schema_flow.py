@@ -4,7 +4,7 @@ This module owns the schema stage. It is called by attestation_store and calls i
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: L. Achterberg (Platform Reliability).
+Ownership: L. Achterberg.
 """
 
 from __future__ import annotations

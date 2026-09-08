@@ -4,7 +4,7 @@ This module owns the throttle stage. It is called by attestation_store and calls
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: L. Achterberg (Data Stewardship).
+Ownership: L. Achterberg.
 """
 
 from __future__ import annotations

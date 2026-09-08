@@ -4,7 +4,7 @@ This module owns the shard stage. It is called by attestation_store and calls in
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: S. Nwachukwu (Compliance Review).
+Ownership: S. Nwachukwu.
 """
 
 from __future__ import annotations

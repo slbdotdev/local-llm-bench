@@ -1,6 +1,9 @@
 # envelope stage
 
-*Owner: M. Lindqvist (Client Integrations). Module: `src/envelope_gate.py`.*
+*Owner: M. Lindqvist. Module: `src/envelope_gate.py`.*
+*On-call team: **Client Integrations**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

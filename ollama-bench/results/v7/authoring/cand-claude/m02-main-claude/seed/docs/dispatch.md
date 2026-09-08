@@ -1,6 +1,9 @@
 # dispatch stage
 
-*Owner: R. Okonjo (Client Integrations). Module: `src/dispatch_gate.py`.*
+*Owner: R. Okonjo. Module: `src/dispatch_gate.py`.*
+*On-call team: **Client Integrations**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

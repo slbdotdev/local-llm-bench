@@ -4,7 +4,7 @@ This module owns the backfill stage. It is called by attestation_store and calls
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: S. Nwachukwu (Delivery Engineering).
+Ownership: S. Nwachukwu.
 """
 
 from __future__ import annotations

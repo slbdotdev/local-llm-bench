@@ -1,6 +1,9 @@
 # cursor stage
 
-*Owner: R. Okonjo (Client Integrations). Module: `src/cursor_gate.py`.*
+*Owner: R. Okonjo. Module: `src/cursor_gate.py`.*
+*On-call team: **Client Integrations**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

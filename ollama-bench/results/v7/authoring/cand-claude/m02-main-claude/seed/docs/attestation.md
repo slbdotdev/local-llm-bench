@@ -1,6 +1,9 @@
 # attestation stage
 
-*Owner: M. Lindqvist (Delivery Engineering). Module: `src/attestation_store.py`.*
+*Owner: M. Lindqvist. Module: `src/attestation_store.py`.*
+*On-call team: **Delivery Engineering**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

@@ -1,6 +1,9 @@
 # throttle stage
 
-*Owner: L. Achterberg (Data Stewardship). Module: `src/throttle_view.py`.*
+*Owner: L. Achterberg. Module: `src/throttle_view.py`.*
+*On-call team: **Data Stewardship**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

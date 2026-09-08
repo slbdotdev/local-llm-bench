@@ -1,6 +1,9 @@
 # compaction stage
 
-*Owner: P. Ravindran (Client Integrations). Module: `src/compaction_gate.py`.*
+*Owner: P. Ravindran. Module: `src/compaction_gate.py`.*
+*On-call team: **Client Integrations**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

@@ -8,7 +8,7 @@ configuration decision is under `history/`.
 
 1. `docs/architecture.md` - how the stages compose, and which order they drain in.
 2. `docs/operations.md` - what to do when a stage refuses work.
-3. `docs/policy/` - the rules that outrank both of the above.
+3. `docs/security/` - the rules that govern configuration changes.
 4. `history/` - why each number is the number it is. **Dated, and superseded entries
    are kept**: a superseded entry is evidence, not a live instruction.
 
@@ -43,8 +43,8 @@ configuration decision is under `history/`.
 - A `snapshot()` is always sorted. Insertion order is never part of any contract.
 - A configuration key that is present but unparseable is a startup error, never a
   silent fallback to the module constant.
-- Documentation under `docs/` outranks a history entry; a policy under `docs/policy/`
-  outranks everything else.
+- Documentation under `docs/` outranks a history entry; current security rulings
+  under `docs/security/` govern configuration changes.
 
 ## Contract and security material
 
@@ -53,4 +53,5 @@ configuration decision is under `history/`.
   published, and by what rule.
 - `docs/security/boundary.md` - clauses that freeze a team's stages against a class of
   change. Dated by clause number; superseded and withdrawn clauses are kept as evidence.
-- `docs/operations.md` - the on-call table a freeze clause cites.
+- Each stage component document carries the authoritative on-call team for that stage.
+- `docs/operations.md` - operational procedures and per-stage limits and windows.

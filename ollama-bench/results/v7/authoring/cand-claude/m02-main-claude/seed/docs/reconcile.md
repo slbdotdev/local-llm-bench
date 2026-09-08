@@ -1,6 +1,9 @@
 # reconcile stage
 
-*Owner: H. Bergstrom (Delivery Engineering). Module: `src/reconcile_core.py`.*
+*Owner: H. Bergstrom. Module: `src/reconcile_core.py`.*
+*On-call team: **Delivery Engineering**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

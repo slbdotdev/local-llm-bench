@@ -1,6 +1,9 @@
 # quota stage
 
-*Owner: R. Okonjo (Client Integrations). Module: `src/quota_flow.py`.*
+*Owner: R. Okonjo. Module: `src/quota_flow.py`.*
+*On-call team: **Client Integrations**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

@@ -4,7 +4,7 @@ This module owns the attestation stage. It is called by audit_flow and calls int
 neither of those may be imported at module scope, because the pipeline is
 assembled at run time from the manifest rather than at import time.
 
-Ownership: M. Lindqvist (Delivery Engineering).
+Ownership: M. Lindqvist.
 """
 
 from __future__ import annotations

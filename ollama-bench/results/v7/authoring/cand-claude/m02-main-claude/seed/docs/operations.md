@@ -1,39 +1,41 @@
 # Operations
 
-## When a stage refuses work
+## When a component refuses work
 
-Every stage refuses rather than queues above its `limit`. A refusal is normal and is
+Every component refuses rather than queues above its `limit`. A refusal is normal and is
 not an incident on its own. It becomes an incident when the shed count exceeds the
-stage's own window for two consecutive windows.
+component's own window for two consecutive windows.
 
-| stage | limit | window (s) | on-call team |
-| --- | ---: | ---: | --- |
-| attestation | 960 | 15 | Delivery Engineering |
-| audit | 480 | 30 | Platform Reliability |
-| dispatch | 24 | 180 | Client Integrations |
-| compaction | 250 | 15 | Client Integrations |
-| backfill | 48 | 180 | Delivery Engineering |
-| reconcile | 48 | 45 | Delivery Engineering |
-| shard | 96 | 45 | Compliance Review |
-| tenancy | 64 | 180 | Compliance Review |
-| cursor | 960 | 60 | Client Integrations |
-| throttle | 250 | 180 | Data Stewardship |
-| quota | 32 | 30 | Client Integrations |
-| digest | 120 | 15 | Delivery Engineering |
-| rollup | 960 | 120 | Platform Reliability |
-| watermark | 24 | 45 | Platform Reliability |
-| schema | 120 | 15 | Platform Reliability |
-| ledger | 120 | 120 | Data Stewardship |
-| envelope | 120 | 30 | Client Integrations |
-| lineage | 120 | 180 | Compliance Review |
-| checkpoint | 96 | 15 | Delivery Engineering |
+On-call ownership is authoritative in each component's component document; this operational table intentionally carries no component-to-team index. Read the ownership statement from the relevant component document.
+
+| component | limit | window (s) |
+| --- | ---: | ---: |
+| attestation | 960 | 15 |
+| audit | 480 | 30 |
+| dispatch | 24 | 180 |
+| compaction | 250 | 15 |
+| backfill | 48 | 180 |
+| reconcile | 48 | 45 |
+| shard | 96 | 45 |
+| tenancy | 64 | 180 |
+| cursor | 960 | 60 |
+| throttle | 250 | 180 |
+| quota | 32 | 30 |
+| digest | 120 | 15 |
+| rollup | 960 | 120 |
+| watermark | 24 | 45 |
+| schema | 120 | 15 |
+| ledger | 120 | 120 |
+| envelope | 120 | 30 |
+| lineage | 120 | 180 |
+| checkpoint | 96 | 15 |
 
 ## Restart procedure
 
 1. Seal in reverse manifest order (`docs/architecture.md`).
-2. Take a `snapshot()` of every stage and write it to the evidence store **before**
+2. Take a `snapshot()` of every component and write it to the evidence store **before**
    anything is restarted. A snapshot taken afterwards is not evidence.
-3. Restart the assembler, not the individual stages.
+3. Restart the assembler, not the individual components.
 4. Compare the new snapshot against the old one. Any record that changed state without
    passing through `pending` is a defect and is reported rather than corrected.
 
@@ -41,7 +43,7 @@ stage's own window for two consecutive windows.
 
 - A limit is never changed while the pipeline is running. It is changed in the
   manifest and takes effect on the next assembly.
-- An `abandoned` record is never deleted. Retention is governed by `docs/policy/`.
-- A stage is never sealed twice in the same drain to 'make sure'; `seal()` is
+- An `abandoned` record is never deleted. Retention is governed by the current security rulings under `docs/security/`.
+- A component is never sealed twice in the same drain to 'make sure'; `seal()` is
   idempotent, so a second call is harmless, but a second call in the logs is read as
   evidence that the operator was unsure, and the drain is audited.

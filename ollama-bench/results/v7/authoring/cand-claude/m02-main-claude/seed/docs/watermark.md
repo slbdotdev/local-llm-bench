@@ -1,6 +1,9 @@
 # watermark stage
 
-*Owner: D. Ferreira (Platform Reliability). Module: `src/watermark_view.py`.*
+*Owner: D. Ferreira. Module: `src/watermark_view.py`.*
+*On-call team: **Platform Reliability**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 

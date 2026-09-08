@@ -1,6 +1,9 @@
 # checkpoint stage
 
-*Owner: H. Bergstrom (Delivery Engineering). Module: `src/checkpoint_core.py`.*
+*Owner: H. Bergstrom. Module: `src/checkpoint_core.py`.*
+*On-call team: **Delivery Engineering**.*
+
+This component document is the authoritative ownership record.
 
 ## What it is for
 
