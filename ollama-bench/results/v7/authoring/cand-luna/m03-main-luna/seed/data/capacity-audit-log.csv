@@ -13,8 +13,8 @@ checkpoint,2034-03-03,D. Ferreira,no-exception
 envelope,2034-08-14,L. Achterberg,no-exception
 cursor,2034-01-25,T. Abarca,no-exception
 reconcile,2034-06-09,K. Sorensen,tracked-elsewhere
-throttle,2034-11-20,C. Batbayar,no-exception
+throttle,2034-11-20,C. Batbayar,open
 rollup,2034-04-04,J. Maldonado,no-exception
 backfill,2034-09-15,A. Villanueva,no-exception
-shard,2034-02-26,E. Thorsdottir,open
+shard,2034-02-26,E. Thorsdottir,no-exception
 audit,2034-07-10,R. Okonjo,no-exception

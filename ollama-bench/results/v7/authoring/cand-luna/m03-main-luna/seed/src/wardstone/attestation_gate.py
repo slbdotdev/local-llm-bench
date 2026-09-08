@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 32
 DEFAULT_ATTESTATION_WINDOW_S = 45
-DEFAULT_ATTESTATION_REVIEW_STAMP = "CR-08"
+# component header context: attestation
+# component header context: attestation
+DEFAULT_ATTESTATION_REVIEW_STAMP = "ea03b7302d28"
 ATTESTATION_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

@@ -8,10 +8,10 @@ Ownership: R. Okonjo (Delivery Engineering).
 """
 
 from __future__ import annotations
+DEFAULT_DIGEST_REVIEW_STAMP = "5be6e8c13836"
 
 DEFAULT_DIGEST_LIMIT = 64
 DEFAULT_DIGEST_WINDOW_S = 30
-DEFAULT_DIGEST_REVIEW_STAMP = "CR-09"
 DIGEST_STATES = ("pending", "retired", "settled", "abandoned")
 
 

@@ -10,8 +10,9 @@ Ownership: N. Oyelaran (Delivery Engineering).
 from __future__ import annotations
 
 DEFAULT_ROUTING_LIMIT = 64
+# component header context: routing
+DEFAULT_ROUTING_REVIEW_STAMP = "532f41551301"
 DEFAULT_ROUTING_WINDOW_S = 15
-DEFAULT_ROUTING_REVIEW_STAMP = "CR-07"
 ROUTING_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

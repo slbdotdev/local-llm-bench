@@ -10,8 +10,9 @@ Ownership: M. Lindqvist (Client Integrations).
 from __future__ import annotations
 
 DEFAULT_RECONCILE_LIMIT = 960
+# component header context: reconcile
+DEFAULT_RECONCILE_REVIEW_STAMP = "498c41e4de9a"
 DEFAULT_RECONCILE_WINDOW_S = 15
-DEFAULT_RECONCILE_REVIEW_STAMP = "CR-13"
 RECONCILE_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

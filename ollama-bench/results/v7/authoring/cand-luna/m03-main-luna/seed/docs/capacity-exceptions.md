@@ -12,9 +12,7 @@ A stage is a **capacity exception** exactly when its component document's declar
 `review_stamp` its own module actually confirms, `DEFAULT_<STAGE>_REVIEW_STAMP`. A
 mismatch in `limit` or `window_s` is not a capacity exception — both are unrelated,
 pipeline-level numbers, and every stage's document and module already agree on both;
-a manifest section that disagrees with a module is not one either, since the
-assembler falls back to the module constant and the section is read only as a human
-note.
+the manifest's human-readable `note` is advisory and is not the criterion.
 
 The `limit` a stage's own module enforces, `DEFAULT_<STAGE>_LIMIT`, is what
 'effective limit' means everywhere in this document and in any report drawn from it;

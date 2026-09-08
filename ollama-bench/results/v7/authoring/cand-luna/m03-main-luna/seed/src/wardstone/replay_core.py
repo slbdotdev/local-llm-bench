@@ -8,10 +8,10 @@ Ownership: C. Batbayar (Client Integrations).
 """
 
 from __future__ import annotations
+DEFAULT_REPLAY_REVIEW_STAMP = "f6fb3b61f183"
 
 DEFAULT_REPLAY_LIMIT = 32
 DEFAULT_REPLAY_WINDOW_S = 90
-DEFAULT_REPLAY_REVIEW_STAMP = "CR-03"
 REPLAY_STATES = ("pending", "admitd", "settled", "abandoned")
 
 

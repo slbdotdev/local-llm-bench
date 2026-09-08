@@ -10,12 +10,13 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 ## Configuration
 
+Configuration context is cross-checked against the stage history.
+
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 250 | the largest number of records held before the stage refuses new work |
 | `window_s` | 60 | seconds a record may stay `pending` before it is reaped |
-| `review_stamp` | "CR-01-STALE" | the capacity-review tag this stage's document currently promises |
-
+| `review_stamp` | "e605812c6aea" | the capacity-review tag this stage's document currently promises |
 Both are read from the `schema` section of the manifest by `build_schema`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
 startup error rather than a fallback, because a silently-defaulted limit has caused two

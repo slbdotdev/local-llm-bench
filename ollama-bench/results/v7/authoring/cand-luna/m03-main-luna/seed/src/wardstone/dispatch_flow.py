@@ -10,8 +10,9 @@ Ownership: N. Oyelaran (Platform Reliability).
 from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 96
+# component header context: dispatch
+DEFAULT_DISPATCH_REVIEW_STAMP = "6a43a18a8b0a"
 DEFAULT_DISPATCH_WINDOW_S = 60
-DEFAULT_DISPATCH_REVIEW_STAMP = "CR-04"
 DISPATCH_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

@@ -10,12 +10,15 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 ## Configuration
 
+Configuration context is cross-checked against the stage history.
+Operational notes below are descriptive and do not override defaults.
+The table records the values used by this component's own build path.
+
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 64 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 15 | seconds a frame may stay `pending` before it is reaped |
-| `review_stamp` | "CR-07" | the capacity-review tag this stage's document currently promises |
-
+| `review_stamp` | "532f41551301" | the capacity-review tag this stage's document currently promises |
 Both are read from the `routing` section of the manifest by `build_routing`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
 startup error rather than a fallback, because a silently-defaulted limit has caused two

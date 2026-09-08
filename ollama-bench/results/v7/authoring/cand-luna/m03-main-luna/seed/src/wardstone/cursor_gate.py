@@ -8,10 +8,10 @@ Ownership: D. Ferreira (Client Integrations).
 """
 
 from __future__ import annotations
+DEFAULT_CURSOR_REVIEW_STAMP = "e6da58990c9b"
 
 DEFAULT_CURSOR_LIMIT = 32
 DEFAULT_CURSOR_WINDOW_S = 90
-DEFAULT_CURSOR_REVIEW_STAMP = "CR-12"
 CURSOR_STATES = ("pending", "promoted", "settled", "abandoned")
 
 

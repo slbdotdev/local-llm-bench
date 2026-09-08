@@ -10,8 +10,9 @@ Ownership: E. Thorsdottir (Compliance Review).
 from __future__ import annotations
 
 DEFAULT_SCHEMA_LIMIT = 250
+# component header context: schema
+DEFAULT_SCHEMA_REVIEW_STAMP = "fe6a71902961"
 DEFAULT_SCHEMA_WINDOW_S = 60
-DEFAULT_SCHEMA_REVIEW_STAMP = "CR-01"
 SCHEMA_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

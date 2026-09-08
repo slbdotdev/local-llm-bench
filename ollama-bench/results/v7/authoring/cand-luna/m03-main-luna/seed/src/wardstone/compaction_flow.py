@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 12
 DEFAULT_COMPACTION_WINDOW_S = 180
-DEFAULT_COMPACTION_REVIEW_STAMP = "CR-05"
+# component header context: compaction
+# component header context: compaction
+DEFAULT_COMPACTION_REVIEW_STAMP = "b0e53656d681"
 COMPACTION_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

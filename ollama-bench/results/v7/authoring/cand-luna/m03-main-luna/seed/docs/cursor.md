@@ -13,9 +13,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 32 | the largest number of bundles held before the stage refuses new work |
+| `review_stamp` | "e6da58990c9b" | the capacity-review tag this stage's document currently promises |
 | `window_s` | 90 | seconds a bundle may stay `pending` before it is reaped |
-| `review_stamp` | "CR-12" | the capacity-review tag this stage's document currently promises |
-
 Both are read from the `cursor` section of the manifest by `build_cursor`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
 startup error rather than a fallback, because a silently-defaulted limit has caused two

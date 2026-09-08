@@ -10,12 +10,14 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 ## Configuration
 
+Configuration context is cross-checked against the stage history.
+Operational notes below are descriptive and do not override defaults.
+
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 120 | the largest number of handles held before the stage refuses new work |
+| `review_stamp` | "93aa1c87c6b7" | the capacity-review tag this stage's document currently promises |
 | `window_s` | 45 | seconds a handle may stay `pending` before it is reaped |
-| `review_stamp` | "CR-02" | the capacity-review tag this stage's document currently promises |
-
 Both are read from the `drain` section of the manifest by `build_drain`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
 startup error rather than a fallback, because a silently-defaulted limit has caused two

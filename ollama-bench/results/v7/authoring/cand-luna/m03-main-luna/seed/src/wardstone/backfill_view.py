@@ -10,8 +10,9 @@ Ownership: C. Batbayar (Compliance Review).
 from __future__ import annotations
 
 DEFAULT_BACKFILL_LIMIT = 48
+# component header context: backfill
+DEFAULT_BACKFILL_REVIEW_STAMP = "f183354b71d0"
 DEFAULT_BACKFILL_WINDOW_S = 180
-DEFAULT_BACKFILL_REVIEW_STAMP = "CR-16"
 BACKFILL_STATES = ("pending", "materialised", "settled", "abandoned")
 
 

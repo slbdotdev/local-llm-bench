@@ -13,9 +13,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 48 | the largest number of windows held before the stage refuses new work |
+| `review_stamp` | "f183354b71d0" | the capacity-review tag this stage's document currently promises |
 | `window_s` | 180 | seconds a window may stay `pending` before it is reaped |
-| `review_stamp` | "CR-16" | the capacity-review tag this stage's document currently promises |
-
 Both are read from the `backfill` section of the manifest by `build_backfill`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
 startup error rather than a fallback, because a silently-defaulted limit has caused two

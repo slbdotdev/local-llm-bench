@@ -10,6 +10,6 @@ The stages flagged that cycle:
 - `digest`
 - `reconcile`
 - `schema`
-- `shard`
+- `throttle`
 
 Policy applied at the time: LP-05.

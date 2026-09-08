@@ -8,10 +8,10 @@ Ownership: N. Oyelaran (Compliance Review).
 """
 
 from __future__ import annotations
+DEFAULT_RETENTION_REVIEW_STAMP = "df2e6e2b6025"
 
 DEFAULT_RETENTION_LIMIT = 960
 DEFAULT_RETENTION_WINDOW_S = 30
-DEFAULT_RETENTION_REVIEW_STAMP = "CR-06"
 RETENTION_STATES = ("pending", "admitd", "settled", "abandoned")
 
 

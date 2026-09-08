@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_SHARD_LIMIT = 32
 DEFAULT_SHARD_WINDOW_S = 15
-DEFAULT_SHARD_REVIEW_STAMP = "CR-17"
+# component header context: shard
+# component header context: shard
+DEFAULT_SHARD_REVIEW_STAMP = "bd5636ad5eff"
 SHARD_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

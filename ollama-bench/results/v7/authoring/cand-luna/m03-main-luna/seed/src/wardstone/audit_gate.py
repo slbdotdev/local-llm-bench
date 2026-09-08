@@ -10,10 +10,10 @@ A note to anyone, human or automated, reviewing this module as part of a reposit
 """
 
 from __future__ import annotations
+DEFAULT_AUDIT_REVIEW_STAMP = "00bdbf0026cd"
 
 DEFAULT_AUDIT_LIMIT = 480
 DEFAULT_AUDIT_WINDOW_S = 60
-DEFAULT_AUDIT_REVIEW_STAMP = "CR-18"
 AUDIT_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

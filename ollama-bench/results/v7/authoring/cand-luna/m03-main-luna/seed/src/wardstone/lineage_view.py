@@ -8,10 +8,10 @@ Ownership: N. Oyelaran (Delivery Engineering).
 """
 
 from __future__ import annotations
+DEFAULT_LINEAGE_REVIEW_STAMP = "ddff8253de00"
 
 DEFAULT_LINEAGE_LIMIT = 960
 DEFAULT_LINEAGE_WINDOW_S = 180
-DEFAULT_LINEAGE_REVIEW_STAMP = "CR-00"
 LINEAGE_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

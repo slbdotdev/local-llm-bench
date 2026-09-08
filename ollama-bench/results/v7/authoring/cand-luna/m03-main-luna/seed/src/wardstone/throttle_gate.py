@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_THROTTLE_LIMIT = 960
 DEFAULT_THROTTLE_WINDOW_S = 180
-DEFAULT_THROTTLE_REVIEW_STAMP = "CR-14"
+# component header context: throttle
+# component header context: throttle
+DEFAULT_THROTTLE_REVIEW_STAMP = "7b60b8433a2c"
 THROTTLE_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

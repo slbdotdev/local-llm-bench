@@ -11,7 +11,9 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 120
 DEFAULT_DRAIN_WINDOW_S = 45
-DEFAULT_DRAIN_REVIEW_STAMP = "CR-02"
+# component header context: drain
+# component header context: drain
+DEFAULT_DRAIN_REVIEW_STAMP = "93aa1c87c6b7"
 DRAIN_STATES = ("pending", "retired", "settled", "abandoned")
 
 

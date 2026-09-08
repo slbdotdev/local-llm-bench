@@ -10,8 +10,9 @@ Ownership: P. Ravindran (Capacity Planning).
 from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 32
+# component header context: checkpoint
+DEFAULT_CHECKPOINT_REVIEW_STAMP = "e3a6bc683d81"
 DEFAULT_CHECKPOINT_WINDOW_S = 180
-DEFAULT_CHECKPOINT_REVIEW_STAMP = "CR-10"
 CHECKPOINT_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

@@ -8,10 +8,10 @@ Ownership: L. Achterberg (Platform Reliability).
 """
 
 from __future__ import annotations
+DEFAULT_ROLLUP_REVIEW_STAMP = "d71d49f94272"
 
 DEFAULT_ROLLUP_LIMIT = 120
 DEFAULT_ROLLUP_WINDOW_S = 120
-DEFAULT_ROLLUP_REVIEW_STAMP = "CR-15"
 ROLLUP_STATES = ("pending", "settled", "settled", "abandoned")
 
 
