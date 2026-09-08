@@ -152,3 +152,18 @@ repository v7 harness, with the GPU load check first. GPU spend is recorded in G
   correct, 2 confidently_wrong, and 1 visibly_failed. GPU interval was 2317s
   (19:10:23Z–19:49:00Z), bringing campaign accounting to 16255s (4h30m55s), with 26945s
   (7h29m05s) remaining. Final Ollama `/api/ps` was `{"models":[]}`.
+
+## Provenance incident 20:10Z (auditor-found), correction in progress
+
+The accept rows file forked on 0a5778f: the m07/q09/m04 trial commits
+copied the /mnt/d result into `results/v7/v7r6-accept-IQ2_M-main.json`
+(one directory too deep) while the tracked canonical path is
+`results/v7r6-accept-IQ2_M-main.json`. The 20:05Z copy overwrote the
+worktree file that held the m09 and m03 rows (20 rows: final_text,
+grader, read_paths, per-trial nvidia peaks, token counts). The rows file
+at HEAD holds seven slots (m01 m02 m04 m05 m07 m10 q09 = 70 rows); the
+duplicate is deleted in this commit. m09 and m03 stand on their committed
+tallies (r6-accept-tally-m09/-m03.json) plus run ids
+wr-wsl-20260908T180737Z-87574fbb38e6 and wr-wsl-20260908T190543Z-b41d76b6b07c,
+whose harness logs carry the full per-trial console tables — pending
+re-run for true rows (in flight; this note is amended when they land).
