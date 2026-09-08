@@ -25,7 +25,7 @@ these three lines, in this order:
     stale_dwell: <the stage names, alphabetical, separated by commas>
     net_dwell_change: <the sum, in seconds, by which those stages' documented dwell exceeds
 their module's dwell constant, a plain integer>
-    authority: <the identifier of the note that governs which stages are in scope>
+    scope_note: <the identifier of the note that governs which stages are in scope>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.
 

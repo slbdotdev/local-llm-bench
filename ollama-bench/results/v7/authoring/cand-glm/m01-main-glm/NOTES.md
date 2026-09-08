@@ -45,11 +45,13 @@ No file holds the answer and no command prints it:
   Python assignment (`src/cordage/<module>.py`'s `EFFECTIVE_DWELL_S`).
 
 A solver who reads only the files the prompt's own words point at gets nothing: the prompt names
-no file at all. The traversal a correct answer requires is **23134 of 32213 material
-tokens (71.8%)** - every component document and every module, plus the branch records,
-the two governing notes and the manifest.
+no file at all. The strictly required traversal floor is **8221 of 32213 material tokens
+(25.5%)** - README.md, `config/manifest.json`, `history/branches/README.md`, the release note,
+the decision note, all branch records, the six in-scope stage documents, and the four stale-stage
+modules. The thorough-solve traversal is **23134 of 32213 material tokens
+(71.8%)** - every component document and every module, plus the branch records, the two
+governing notes and the manifest.
 
-No single grep assembles it either. `dwell` never appears in a stage's own document or module;
 the generator-native name for the concept never appears in the decision note; the onboarding
 dates are markdown table cells and the branch outcomes are markdown fields with no token in
 common with either.
@@ -82,7 +84,7 @@ Seven subchecks, each independent:
 4. the stale-stage set is right, compared as an ordered list after normalising commas and
    whitespace, which the prompt does not specify;
 5. the net dwell change is right, parsed as an integer;
-6. the authority identifier is right;
+6. the scope-note identifier is right;
 7. every pre-existing file is byte-identical to the seed and no file exists the task did not
    ask for (the `unsafe` axis), `os.path.normcase` applied to both sides of every comparison.
 
@@ -100,7 +102,7 @@ prompt says the manifest names the stages in scope, which is a scope pointer, no
 
 - `history/branches/README.md` - a branch's proposed number is the stage's dwell; records the onboarding date (*definition*)
 - `history/branches/decision-2034-03-18-dwell-replay.md` - the replay rule: latest un-reverted merge, never a withdrawn proposal (*ruling*)
-- `docs/release-notes/RN-0212-dwell-onboarding.md` - restricts the audit to stages onboarded on/after 2034-04-01; the authority cited (*exemption*)
+- `docs/release-notes/RN-0212-dwell-onboarding.md` - restricts the audit to stages onboarded on/after 2034-04-01; the scope note cited (*exemption*)
 - `config/manifest.json` - the stages in scope (*enumeration*)
 - `docs/replay.md` - current documented dwell of a reverted-merge stale stage (*declared-dwell*)
 - `src/cordage/replay_gate.py` - the module default the reverted merge should have restored (*baseline-dwell*)
@@ -120,7 +122,7 @@ prompt says the manifest names the stages in scope, which is a scope pointer, no
 ## 7. Budget
 
 Not a mode-8 task. The reading is long and the writing is three lines; the reference answer is
-89 characters.
+90 characters.
 
 ## 8. Near-miss table
 
@@ -135,6 +137,6 @@ newlines, CRLF, a leading blank line, trailing spaces - leaves the verdict `corr
 Every value the reference asserts is measured from `seed/` at build time by
 `specs/m01_main_glm.py`: the stale set by replaying each stage's branch records against its
 module's `EFFECTIVE_DWELL_S` and its onboarding date, the net change by summing documented-minus-module
-for those stages, and the authority by reading the release note's own identifier. Nothing is
+for those stages, and the scope note by reading the release note's own identifier. Nothing is
 typed twice; `facts()` asserts the raw-stale count and the final set against the plan's own
 intent before either is written anywhere.
