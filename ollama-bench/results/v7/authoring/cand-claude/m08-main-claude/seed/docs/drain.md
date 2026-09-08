@@ -1,6 +1,6 @@
 # drain stage
 
-*Owner: T. Abarca (Delivery Engineering). Module: `src/drain_core.py`.*
+*Owner: T. Abarca (Delivery Engineering). Module: `drain_core.py`.*
 
 ## What it is for
 
@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 12 | the largest number of cursors held before the stage refuses new work |
 | `window_s` | 45 | seconds a cursor may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-04" | the capacity-review code this stage's document currently cites |
+| `capacity_ack` | "CA-26" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `drain` section of the manifest by `build_drain`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

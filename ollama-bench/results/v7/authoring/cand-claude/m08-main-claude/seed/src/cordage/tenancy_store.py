@@ -10,8 +10,8 @@ Ownership: E. Thorsdottir (Delivery Engineering).
 from __future__ import annotations
 
 DEFAULT_TENANCY_LIMIT = 120
+DEFAULT_TENANCY_CAPACITY_ACK = "CA-13"
 DEFAULT_TENANCY_WINDOW_S = 45
-DEFAULT_TENANCY_CAPACITY_ACK = "CA-17"
 TENANCY_STATES = ("pending", "deferd", "settled", "abandoned")
 
 

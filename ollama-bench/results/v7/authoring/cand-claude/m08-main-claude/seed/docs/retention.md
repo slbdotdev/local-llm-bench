@@ -1,6 +1,6 @@
 # retention stage
 
-*Owner: M. Lindqvist (Capacity Planning). Module: `src/retention_gate.py`.*
+*Owner: M. Lindqvist (Capacity Planning). Module: `retention_gate.py`.*
 
 ## What it is for
 
@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 48 | the largest number of receipts held before the stage refuses new work |
 | `window_s` | 90 | seconds a receipt may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-18" | the capacity-review code this stage's document currently cites |
+| `capacity_ack` | "CA-38" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `retention` section of the manifest by `build_retention`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

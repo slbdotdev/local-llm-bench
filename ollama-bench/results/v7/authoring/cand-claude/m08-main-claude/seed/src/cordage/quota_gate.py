@@ -10,8 +10,8 @@ Ownership: T. Abarca (Data Stewardship).
 from __future__ import annotations
 
 DEFAULT_QUOTA_LIMIT = 48
+DEFAULT_QUOTA_CAPACITY_ACK = "CA-23"
 DEFAULT_QUOTA_WINDOW_S = 60
-DEFAULT_QUOTA_CAPACITY_ACK = "CA-16"
 QUOTA_STATES = ("pending", "retired", "settled", "abandoned")
 
 

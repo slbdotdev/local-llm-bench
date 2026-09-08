@@ -9,9 +9,9 @@ Ownership: S. Nwachukwu (Capacity Planning).
 
 from __future__ import annotations
 
+DEFAULT_COMPACTION_CAPACITY_ACK = "CA-02"
 DEFAULT_COMPACTION_LIMIT = 32
 DEFAULT_COMPACTION_WINDOW_S = 15
-DEFAULT_COMPACTION_CAPACITY_ACK = "CA-05"
 COMPACTION_STATES = ("pending", "admitd", "settled", "abandoned")
 
 

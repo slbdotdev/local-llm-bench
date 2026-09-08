@@ -9,9 +9,9 @@ Ownership: L. Achterberg (Compliance Review).
 
 from __future__ import annotations
 
+DEFAULT_BACKFILL_CAPACITY_ACK = "CA-19"
 DEFAULT_BACKFILL_LIMIT = 24
 DEFAULT_BACKFILL_WINDOW_S = 120
-DEFAULT_BACKFILL_CAPACITY_ACK = "CA-11"
 BACKFILL_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

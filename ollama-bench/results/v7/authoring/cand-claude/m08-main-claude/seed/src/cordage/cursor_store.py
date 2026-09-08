@@ -10,9 +10,9 @@ Ownership: L. Achterberg (Platform Reliability).
 from __future__ import annotations
 
 DEFAULT_CURSOR_LIMIT = 12
+DEFAULT_CURSOR_CAPACITY_ACK = "CA-14"
 DEFAULT_CURSOR_WINDOW_S = 60
-DEFAULT_CURSOR_CAPACITY_ACK = "CA-06"
-CURSOR_STATES = ("pending", "narrowd", "settled", "abandoned")
+CURSOR_STATES = ("pending", "narrowed", "settled", "abandoned")
 
 
 class CursorPlanner:
@@ -33,7 +33,7 @@ class CursorPlanner:
         if self._sealed:
             return None
         record = self._frames.setdefault(key, {"key": key, "state": "pending"})
-        record["state"] = "narrowd"
+        record["state"] = "narrowed"
         if payload is not None:
             record["payload"] = payload
         return record

@@ -1,6 +1,6 @@
 # digest stage
 
-*Owner: T. Abarca (Data Stewardship). Module: `src/digest_flow.py`.*
+*Owner: T. Abarca (Data Stewardship). Module: `digest_flow.py`.*
 
 ## What it is for
 
@@ -12,9 +12,9 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 | key | default | meaning |
 | --- | ---: | --- |
+| `capacity_ack` | "CA-09" | the capacity-review code this stage's document currently cites |
 | `limit` | 64 | the largest number of tokens held before the stage refuses new work |
 | `window_s` | 120 | seconds a token may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-03" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `digest` section of the manifest by `build_digest`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

@@ -1,6 +1,6 @@
 # tenancy stage
 
-*Owner: E. Thorsdottir (Delivery Engineering). Module: `src/tenancy_store.py`.*
+*Owner: E. Thorsdottir (Delivery Engineering). Module: `tenancy_store.py`.*
 
 ## What it is for
 
@@ -13,8 +13,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 120 | the largest number of batchs held before the stage refuses new work |
+| `capacity_ack` | "CA-13" | the capacity-review code this stage's document currently cites |
 | `window_s` | 45 | seconds a batch may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-17" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `tenancy` section of the manifest by `build_tenancy`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

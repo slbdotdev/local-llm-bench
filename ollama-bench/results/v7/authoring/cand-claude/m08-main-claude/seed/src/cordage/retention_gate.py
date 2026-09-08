@@ -9,9 +9,9 @@ Ownership: M. Lindqvist (Capacity Planning).
 
 from __future__ import annotations
 
+DEFAULT_RETENTION_CAPACITY_ACK = "CA-38"
 DEFAULT_RETENTION_LIMIT = 48
 DEFAULT_RETENTION_WINDOW_S = 90
-DEFAULT_RETENTION_CAPACITY_ACK = "CA-18"
 RETENTION_STATES = ("pending", "settled", "settled", "abandoned")
 
 

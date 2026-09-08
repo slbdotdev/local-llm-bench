@@ -9,9 +9,9 @@ Ownership: K. Sorensen (Data Stewardship).
 
 from __future__ import annotations
 
+DEFAULT_AUDIT_CAPACITY_ACK = "CA-11"
 DEFAULT_AUDIT_LIMIT = 96
 DEFAULT_AUDIT_WINDOW_S = 15
-DEFAULT_AUDIT_CAPACITY_ACK = "CA-13"
 AUDIT_STATES = ("pending", "advanced", "settled", "abandoned")
 
 

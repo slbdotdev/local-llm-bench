@@ -1,6 +1,6 @@
 # shard stage
 
-*Owner: J. Maldonado (Compliance Review). Module: `src/shard_core.py`.*
+*Owner: J. Maldonado (Compliance Review). Module: `shard_core.py`.*
 
 ## What it is for
 
@@ -13,8 +13,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 120 | the largest number of handles held before the stage refuses new work |
+| `capacity_ack` | "CA-28" | the capacity-review code this stage's document currently cites |
 | `window_s` | 45 | seconds a handle may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-08" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `shard` section of the manifest by `build_shard`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

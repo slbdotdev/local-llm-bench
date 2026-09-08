@@ -9,9 +9,9 @@ Ownership: K. Sorensen (Data Stewardship).
 
 from __future__ import annotations
 
+DEFAULT_ROUTING_CAPACITY_ACK = "CA-29"
 DEFAULT_ROUTING_LIMIT = 48
 DEFAULT_ROUTING_WINDOW_S = 30
-DEFAULT_ROUTING_CAPACITY_ACK = "CA-09"
 ROUTING_STATES = ("pending", "resolved", "settled", "abandoned")
 
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_LINEAGE_LIMIT = 32
 DEFAULT_LINEAGE_WINDOW_S = 60
-DEFAULT_LINEAGE_CAPACITY_ACK = "CA-15"
+DEFAULT_LINEAGE_CAPACITY_ACK = "CA-06"
 LINEAGE_STATES = ("pending", "expandd", "settled", "abandoned")
 
 

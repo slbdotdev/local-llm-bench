@@ -1,6 +1,6 @@
 # lineage stage
 
-*Owner: P. Ravindran (Delivery Engineering). Module: `src/lineage_store.py`.*
+*Owner: P. Ravindran (Delivery Engineering). Module: `lineage_store.py`.*
 
 ## What it is for
 
@@ -12,9 +12,9 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 | key | default | meaning |
 | --- | ---: | --- |
+| `capacity_ack` | "CA-06" | the capacity-review code this stage's document currently cites |
 | `limit` | 32 | the largest number of segments held before the stage refuses new work |
 | `window_s` | 60 | seconds a segment may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-15" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `lineage` section of the manifest by `build_lineage`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

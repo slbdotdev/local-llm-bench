@@ -9,9 +9,9 @@ Ownership: T. Abarca (Data Stewardship).
 
 from __future__ import annotations
 
+DEFAULT_DIGEST_CAPACITY_ACK = "CA-09"
 DEFAULT_DIGEST_LIMIT = 64
 DEFAULT_DIGEST_WINDOW_S = 120
-DEFAULT_DIGEST_CAPACITY_ACK = "CA-03"
 DIGEST_STATES = ("pending", "retired", "settled", "abandoned")
 
 

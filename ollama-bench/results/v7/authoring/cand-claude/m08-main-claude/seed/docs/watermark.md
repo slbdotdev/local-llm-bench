@@ -1,6 +1,6 @@
 # watermark stage
 
-*Owner: D. Ferreira (Data Stewardship). Module: `src/watermark_gate.py`.*
+*Owner: D. Ferreira (Data Stewardship). Module: `watermark_gate.py`.*
 
 ## What it is for
 
@@ -12,9 +12,9 @@ the reason the stage exists as a separate module rather than as a helper inside 
 
 | key | default | meaning |
 | --- | ---: | --- |
+| `capacity_ack` | "CA-37" | the capacity-review code this stage's document currently cites |
 | `limit` | 48 | the largest number of records held before the stage refuses new work |
 | `window_s` | 45 | seconds a record may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-07-PRIOR" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `watermark` section of the manifest by `build_watermark`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -32,6 +32,5 @@ repaired in flight.
 ## States
 
 - `pending` - accepted, not yet acted on; counts against `limit`
-- `settled` - durable, visible to the audit trail, immutable
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted

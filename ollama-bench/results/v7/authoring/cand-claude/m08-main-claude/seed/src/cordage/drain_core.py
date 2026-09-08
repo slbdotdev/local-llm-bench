@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 12
 DEFAULT_DRAIN_WINDOW_S = 45
-DEFAULT_DRAIN_CAPACITY_ACK = "CA-04"
+DEFAULT_DRAIN_CAPACITY_ACK = "CA-26"
 DRAIN_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 

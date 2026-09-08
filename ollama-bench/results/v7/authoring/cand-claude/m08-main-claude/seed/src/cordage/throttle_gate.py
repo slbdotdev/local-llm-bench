@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_THROTTLE_LIMIT = 12
 DEFAULT_THROTTLE_WINDOW_S = 180
-DEFAULT_THROTTLE_CAPACITY_ACK = "CA-02"
+DEFAULT_THROTTLE_CAPACITY_ACK = "CA-17"
 THROTTLE_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

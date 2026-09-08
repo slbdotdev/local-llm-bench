@@ -10,8 +10,8 @@ Ownership: A. Villanueva (Capacity Planning).
 from __future__ import annotations
 
 DEFAULT_ATTESTATION_LIMIT = 64
+DEFAULT_ATTESTATION_CAPACITY_ACK = "CA-04"
 DEFAULT_ATTESTATION_WINDOW_S = 60
-DEFAULT_ATTESTATION_CAPACITY_ACK = "CA-01"
 ATTESTATION_STATES = ("pending", "retired", "settled", "abandoned")
 
 

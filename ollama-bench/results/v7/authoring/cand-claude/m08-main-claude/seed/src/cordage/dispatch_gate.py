@@ -11,7 +11,7 @@ from __future__ import annotations
 
 DEFAULT_DISPATCH_LIMIT = 96
 DEFAULT_DISPATCH_WINDOW_S = 30
-DEFAULT_DISPATCH_CAPACITY_ACK = "CA-12"
+DEFAULT_DISPATCH_CAPACITY_ACK = "CA-34"
 DISPATCH_STATES = ("pending", "classifyd", "settled", "abandoned")
 
 

@@ -1,6 +1,6 @@
 # routing stage
 
-*Owner: K. Sorensen (Data Stewardship). Module: `src/routing_gate.py`.*
+*Owner: K. Sorensen (Data Stewardship). Module: `routing_gate.py`.*
 
 ## What it is for
 
@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 48 | the largest number of handles held before the stage refuses new work |
 | `window_s` | 30 | seconds a handle may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-09" | the capacity-review code this stage's document currently cites |
+| `capacity_ack` | "CA-29" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `routing` section of the manifest by `build_routing`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

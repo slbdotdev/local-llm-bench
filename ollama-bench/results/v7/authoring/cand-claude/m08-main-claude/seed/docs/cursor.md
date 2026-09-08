@@ -1,6 +1,6 @@
 # cursor stage
 
-*Owner: L. Achterberg (Platform Reliability). Module: `src/cursor_store.py`.*
+*Owner: L. Achterberg (Platform Reliability). Module: `cursor_store.py`.*
 
 ## What it is for
 
@@ -14,7 +14,7 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | --- | ---: | --- |
 | `limit` | 12 | the largest number of frames held before the stage refuses new work |
 | `window_s` | 60 | seconds a frame may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-06" | the capacity-review code this stage's document currently cites |
+| `capacity_ack` | "CA-14" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `cursor` section of the manifest by `build_cursor`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a
@@ -32,6 +32,6 @@ repaired in flight.
 ## States
 
 - `pending` - accepted, not yet acted on; counts against `limit`
-- `narrowd` - acted on by this stage and awaiting the downstream acknowledgement
+- `narrowed` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted

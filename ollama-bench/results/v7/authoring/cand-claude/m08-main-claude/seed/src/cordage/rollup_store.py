@@ -9,9 +9,9 @@ Ownership: P. Ravindran (Data Stewardship).
 
 from __future__ import annotations
 
+DEFAULT_ROLLUP_CAPACITY_ACK = "CA-27"
 DEFAULT_ROLLUP_LIMIT = 32
 DEFAULT_ROLLUP_WINDOW_S = 30
-DEFAULT_ROLLUP_CAPACITY_ACK = "CA-14"
 ROLLUP_STATES = ("pending", "reconciled", "settled", "abandoned")
 
 

@@ -493,3 +493,23 @@ docs+modules alone are 19,498/29,879 tokens = 65.3%, 70.3% with the four decisio
 NOTES' "20,984 (70.2%)" understates its own composition but clears the 50% bar under every
 reading. `selfcheck.py` run once: 13/13 declared verdicts, reference correct 8/8. No fleet
 validator exists; none was run.
+
+## m08-main-claude: SHELVED pending redesign (owner ruling, 2026-09-08 13:50Z, via auditor)
+
+Round-six history: glm r6 REVISE (capacity_ack harvest, 3-file shortcut) ->
+fix round 1 -> glm r6b PASS + opus r6b REVISE (six findings: primary_module
+path stated nowhere and contradicted twice; capacity_ack values are the
+0-based roster index, so a docs-only solve needs 32.1% vs the claimed
+68.8% floor; fixed-offset frames; NOTES arithmetic; docs/policy dangling;
+generator typos) -> fix round 2 (irregular codes CA-37/CA-21, varied
+offsets, no rooted paths, attack-proven) -> glm r6c PASS + opus r6c REVISE
+(the two tracking documents' left columns intersect at exactly
+{watermark}: 2 files + ls = 7/7, ~2% actual traversal).
+
+Owner ruling: shelve after two fix rounds and five reviews — each fix
+opened another rung-0 hole because the task's information structure is
+cheap, not because a fix was missed. Reviews attached:
+`r6/review-m08-opus-r6b.md`, `r6/review-m08-opus-r6c.md` (plus glm r6,
+r6b, r6c in `r6/`). The round-2 build is committed as evidence. If a slot
+is short at the end, m08 is a redesign from scratch and the owner's call
+then. The queue moves on: q09 re-author, then m03, m04, m07, m09.

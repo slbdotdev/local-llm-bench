@@ -1,6 +1,6 @@
 # backfill stage
 
-*Owner: L. Achterberg (Compliance Review). Module: `src/backfill_view.py`.*
+*Owner: L. Achterberg (Compliance Review). Module: `backfill_view.py`.*
 
 ## What it is for
 
@@ -13,8 +13,8 @@ the reason the stage exists as a separate module rather than as a helper inside 
 | key | default | meaning |
 | --- | ---: | --- |
 | `limit` | 24 | the largest number of records held before the stage refuses new work |
+| `capacity_ack` | "CA-19" | the capacity-review code this stage's document currently cites |
 | `window_s` | 120 | seconds a record may stay `pending` before it is reaped |
-| `capacity_ack` | "CA-11" | the capacity-review code this stage's document currently cites |
 
 Both are read from the `backfill` section of the manifest by `build_backfill`. A key that is
 absent falls back to the module constant; a key that is present but unparseable is a

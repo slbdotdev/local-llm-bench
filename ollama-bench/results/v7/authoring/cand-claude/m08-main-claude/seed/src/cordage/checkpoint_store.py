@@ -10,8 +10,8 @@ Ownership: P. Ravindran (Platform Reliability).
 from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 24
+DEFAULT_CHECKPOINT_CAPACITY_ACK = "CA-31"
 DEFAULT_CHECKPOINT_WINDOW_S = 120
-DEFAULT_CHECKPOINT_CAPACITY_ACK = "CA-00"
 CHECKPOINT_STATES = ("pending", "settled", "settled", "abandoned")
 
 

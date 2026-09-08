@@ -9,9 +9,9 @@ Ownership: J. Maldonado (Compliance Review).
 
 from __future__ import annotations
 
+DEFAULT_SHARD_CAPACITY_ACK = "CA-28"
 DEFAULT_SHARD_LIMIT = 120
 DEFAULT_SHARD_WINDOW_S = 45
-DEFAULT_SHARD_CAPACITY_ACK = "CA-08"
 SHARD_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

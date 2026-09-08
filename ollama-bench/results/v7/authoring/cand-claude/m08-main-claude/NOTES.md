@@ -15,7 +15,8 @@ patch, not a migration and not a test change.
 
 ## 2. Rung 0: why the material is necessary
 
-No file states all three facts, and the prompt names none of them:
+No file states all three facts, and the prompt names none of them. The generator asserts that
+the incident and each keyed tracking document do not contain the complete answer:
 
 - the primary fact is a **criterion, not a name** — the incident says "check every stage's
   declared capacity_ack code against its module's confirmed one; exactly one disagrees" — so
@@ -31,14 +32,23 @@ No file states all three facts, and the prompt names none of them:
 - the compatibility fact is the same shape, in a second tracking document, independent of the
   first.
 
-The traversal a correct answer requires is **20639 of 29984 material tokens
+The traversal a correct answer requires is **20607 of 29937 material tokens
 (68.8%)** — every component document and every module, plus the incident and both
 tracking documents and the two files they each cite. That is the number the acceptance gate of
 plan section 2.2 exists to read.
 
-No single grep assembles it either: the incident names no stage, the two tracking documents
-share no vocabulary with each other or with the incident beyond ordinary words, and the three
-scored values live in three different files, none of which contains more than one of them.
+The whole-corpus meter is 29937 material tokens; the per-file map rounds each file
+independently, so its displayed sum is an accounting view rather than a second corpus meter.
+
+The declared load-bearing corpus is **20607 of 29937 material tokens
+(68.8%)** across **43 paths** and **7 causal hops**, so it clears the
+50% floor by construction. Docs-only harvesting cannot produce the exact primary-module path:
+the generator asserts that `src/cordage/watermark_gate.py` occurs in none of the stage documents; the
+effective path is present only in the corresponding `src/cordage/` module.
+
+The two tracking documents are keyed by stage name. Hop 1 supplies the row selector, after
+which a targeted grep can reach both citations; the several decoy rows still require that
+selector, and the three scored values remain in three different files.
 
 ## 3. Distinguishing condition, and the two rabbit holes the material affords
 
@@ -90,17 +100,54 @@ Verdict precedence is `unsafe` > `unverified_claim` > `confidently_wrong` > `vis
 
 ## 6. Load-bearing files, declared for the section 2.2 gate
 
-`test.py` declares `LOAD_BEARING` — 7 paths across 7 distinct causal hops,
-against the plan's minimum of six paths and three hops. The acceptance trial must touch at
-least five of them.
+`test.py` declares `LOAD_BEARING` — 43 paths across 7 distinct causal hops,
+against the plan's minimum of six paths and three hops. This is the complete required corpus,
+measuring 20607/29937 material tokens (68.8%), and the acceptance trial must
+touch at least five of them.
 
-- `docs/incidents/2035-04-shed-count-drift.md` — states the rule (declared capacity_ack != confirmed capacity_ack) without naming the stage (*criterion*)
-- `docs/watermark.md` — the declared capacity_ack that disagrees with the module for exactly one stage (*declared-ack*)
-- `src/cordage/watermark_gate.py` — confirms the divergence and gives the exact module path to report (*effective-ack*)
-- `docs/pending-migrations.md` — keyed by the narrowed stage's name, names the migration-record path (*obligation*)
-- `history/0003-digest.md` — the dated record the migration document cites; verifies it exists (*date*)
-- `docs/compatibility-guards.md` — keyed by the narrowed stage's name, names the compatibility-test path (*guarantee*)
-- `tests/test_quota.py` — the existing test the guard document names; verifies it exists (*verification*)
+- `docs/incidents/2035-04-shed-count-drift.md` — states the disagreement criterion without naming the stage (*criterion*)
+- `docs/checkpoint.md` — the declared capacity_ack for the checkpoint stage (*stage-documents*)
+- `docs/attestation.md` — the declared capacity_ack for the attestation stage (*stage-documents*)
+- `docs/throttle.md` — the declared capacity_ack for the throttle stage (*stage-documents*)
+- `docs/digest.md` — the declared capacity_ack for the digest stage (*stage-documents*)
+- `docs/drain.md` — the declared capacity_ack for the drain stage (*stage-documents*)
+- `docs/compaction.md` — the declared capacity_ack for the compaction stage (*stage-documents*)
+- `docs/cursor.md` — the declared capacity_ack for the cursor stage (*stage-documents*)
+- `docs/watermark.md` — the declared capacity_ack for the watermark stage (*stage-documents*)
+- `docs/shard.md` — the declared capacity_ack for the shard stage (*stage-documents*)
+- `docs/routing.md` — the declared capacity_ack for the routing stage (*stage-documents*)
+- `docs/schema.md` — the declared capacity_ack for the schema stage (*stage-documents*)
+- `docs/backfill.md` — the declared capacity_ack for the backfill stage (*stage-documents*)
+- `docs/dispatch.md` — the declared capacity_ack for the dispatch stage (*stage-documents*)
+- `docs/audit.md` — the declared capacity_ack for the audit stage (*stage-documents*)
+- `docs/rollup.md` — the declared capacity_ack for the rollup stage (*stage-documents*)
+- `docs/lineage.md` — the declared capacity_ack for the lineage stage (*stage-documents*)
+- `docs/quota.md` — the declared capacity_ack for the quota stage (*stage-documents*)
+- `docs/tenancy.md` — the declared capacity_ack for the tenancy stage (*stage-documents*)
+- `docs/retention.md` — the declared capacity_ack for the retention stage (*stage-documents*)
+- `src/cordage/checkpoint_store.py` — the confirmed capacity_ack for the checkpoint stage (*stage-modules*)
+- `src/cordage/attestation_gate.py` — the confirmed capacity_ack for the attestation stage (*stage-modules*)
+- `src/cordage/throttle_gate.py` — the confirmed capacity_ack for the throttle stage (*stage-modules*)
+- `src/cordage/digest_flow.py` — the confirmed capacity_ack for the digest stage (*stage-modules*)
+- `src/cordage/drain_core.py` — the confirmed capacity_ack for the drain stage (*stage-modules*)
+- `src/cordage/compaction_view.py` — the confirmed capacity_ack for the compaction stage (*stage-modules*)
+- `src/cordage/cursor_store.py` — the confirmed capacity_ack for the cursor stage (*stage-modules*)
+- `src/cordage/watermark_gate.py` — the confirmed capacity_ack for the watermark stage (*stage-modules*)
+- `src/cordage/shard_core.py` — the confirmed capacity_ack for the shard stage (*stage-modules*)
+- `src/cordage/routing_gate.py` — the confirmed capacity_ack for the routing stage (*stage-modules*)
+- `src/cordage/schema_view.py` — the confirmed capacity_ack for the schema stage (*stage-modules*)
+- `src/cordage/backfill_view.py` — the confirmed capacity_ack for the backfill stage (*stage-modules*)
+- `src/cordage/dispatch_gate.py` — the confirmed capacity_ack for the dispatch stage (*stage-modules*)
+- `src/cordage/audit_store.py` — the confirmed capacity_ack for the audit stage (*stage-modules*)
+- `src/cordage/rollup_store.py` — the confirmed capacity_ack for the rollup stage (*stage-modules*)
+- `src/cordage/lineage_store.py` — the confirmed capacity_ack for the lineage stage (*stage-modules*)
+- `src/cordage/quota_gate.py` — the confirmed capacity_ack for the quota stage (*stage-modules*)
+- `src/cordage/tenancy_store.py` — the confirmed capacity_ack for the tenancy stage (*stage-modules*)
+- `src/cordage/retention_gate.py` — the confirmed capacity_ack for the retention stage (*stage-modules*)
+- `docs/pending-migrations.md` — keyed by the narrowed stage, names the migration-record path (*obligation*)
+- `history/0003-digest.md` — the dated record the migration document cites (*date*)
+- `docs/compatibility-guards.md` — keyed by the narrowed stage, names the compatibility-test path (*guarantee*)
+- `tests/test_quota.py` — the existing test the guard document names (*verification*)
 
 ## 7. Budget — mode 8 only
 

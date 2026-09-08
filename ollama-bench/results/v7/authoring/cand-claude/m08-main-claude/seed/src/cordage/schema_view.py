@@ -10,8 +10,8 @@ Ownership: C. Batbayar (Data Stewardship).
 from __future__ import annotations
 
 DEFAULT_SCHEMA_LIMIT = 250
+DEFAULT_SCHEMA_CAPACITY_ACK = "CA-05"
 DEFAULT_SCHEMA_WINDOW_S = 45
-DEFAULT_SCHEMA_CAPACITY_ACK = "CA-10"
 SCHEMA_STATES = ("pending", "narrowd", "settled", "abandoned")
 
 

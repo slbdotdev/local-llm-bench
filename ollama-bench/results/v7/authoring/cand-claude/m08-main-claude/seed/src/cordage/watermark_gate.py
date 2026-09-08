@@ -10,9 +10,9 @@ Ownership: D. Ferreira (Data Stewardship).
 from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 48
+DEFAULT_WATERMARK_CAPACITY_ACK = "CA-21"
 DEFAULT_WATERMARK_WINDOW_S = 45
-DEFAULT_WATERMARK_CAPACITY_ACK = "CA-07"
-WATERMARK_STATES = ("pending", "settled", "settled", "abandoned")
+WATERMARK_STATES = ("pending", "settled", "abandoned")
 
 
 class WatermarkPlanner:
@@ -47,7 +47,7 @@ class WatermarkPlanner:
         if self._sealed:
             return None
         record = self._records.setdefault(key, {"key": key, "state": "pending"})
-        record["state"] = "expandd"
+        record["state"] = "expanded"
         if payload is not None:
             record["payload"] = payload
         return record
