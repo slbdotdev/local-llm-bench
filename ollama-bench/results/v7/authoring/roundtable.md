@@ -430,3 +430,66 @@ measure when it was authored.
 Round shares: glm 4, claude 3, luna 3. If all ten are admitted the finished suite is claude 7,
 luna 6, glm 7 — every family inside the cap, and the two slots of every mode still written by
 different families.
+
+## Owner ruling (c) — cross-family review
+
+| date | marker | slot | reviewer | verdict | finding |
+| --- | --- | --- | --- | --- | --- |
+| 2026-09-07 | **cross-family-review** | m02-main-claude | luna | REVISE | MANIFEST `files` contains character counts rather than required token counts; rung-0 coverage is not independently evidenced and remains vulnerable to an `SLA_HEADROOM` search shortcut. |
+| 2026-09-07 | **cross-family-review** | m05-main-claude | luna | REVISE | `test.py:33-67` declares 11 load-bearing paths but only 4,591/30,851 material tokens (14.9%), below the >=50% floor; the necessary 21,919-token corpus is not declared. Also, `test.py:301-304` accepts comma-formatted `corrected_count` despite “plain integer.” |
+| 2026-09-07 | **cross-family-review** | m08-main-claude | luna | REVISE | `test.py` declares 7 load-bearing paths covering only 2209/29984 manifest tokens (7.37%), below the required >=50% material floor; the answer/checker are otherwise derivable and sound, but rung 0 remains vulnerable to targeted/two-file search. |
+| 2026-09-07 | **cross-family-review** | m09-main-luna | glm | PASS | Answer re-derived from `seed/` exactly (compaction/drain/lineage/retention, 2228, A-4; counter-signature rule re-implemented, all six wrong-course sums in `selfcheck.py` recomputed). Rung 0 structural: a correct answer must pair all 19 docs with all 19 modules (19,226 tokens, 54.0%) plus bridge artifacts before the set is known, so the >=50% floor is unavoidable; `ENFORCED_CEILING` values live only in the 19 modules; 13 load-bearing paths over 6 hops; checker sound and unsaturated (each wrong course loses its own group at 6/7), idempotent, hashes and MANIFEST reconcile (87 files, 165,928 chars / 35,576 tokens). Nits: NOTES' 26,775-token traversal counts `config/manifest.json` beyond the "four bridge artifacts" named, and the `files` map sums 35,580 vs 35,576 (per-file rounding). Grader not executed (no validator permitted); verified statically. |
+| 2026-09-07 | **cross-family-review** | m08-main-claude | glm | PASS | Answer re-derived blind from `seed/` (exactly one capacity_ack disagreement: watermark CA-07-PRIOR vs CA-07; `history/0003-digest.md`; `tests/test_quota.py` — matches `ref/closeout.txt`); no two files assemble it, the honest solve must sweep `docs/` + `src/cordage/` = 21,556/29,984 tokens (71.9%) so the >=50% read_paths floor holds by construction, and 7 load-bearing paths over 7 hops clear the >=6/>=3/>=5 rule; all 86 seed_hashes verify, all selfcheck cases trace statically (near-misses pass, decoys confidently_wrong, scratch file unsafe), grader idempotent. The 50% floor falls on trial read_paths, not on the load-bearing spine's 2,209 tokens; findings: docs-vs-tree `src/` path divergence and the dangling `docs/policy/` reference, neither verdict-changing. |
+| 2026-09-07 | **cross-family-review** | m03-main-luna | glm | PASS | Answer re-derived from `seed/` before grading (compaction, digest, shard; LP-07; 12+64+32=108); no two-file or grep path assembles it — the `-STALE` suffix is defined nowhere, so the module constants stay necessary; MANIFEST reconciles exactly (88/88 files, 140,971 chars / 30,225 tokens, 70.3% reconstructible); 10 load-bearing paths over 6 hops; checker normalizes all six near-misses and is idempotent. Nits: MANIFEST per-file entries are token estimates not char counts; NOTES §5 "scores 7/7" beside `unsafe` should be 6/7; NOTES cites a `probes.json` that is inlined. |
+
+## Cross-family review, 2026-09-07 — owner ruling (c)
+
+Blind cross-family review of the traversal-round candidate by the two families not its author,
+each reviewer reading only the candidate's own files and the plan sections, deriving the answer
+from `seed/` before reading any author claim. Rows record the reviewer's verdict as written.
+
+| slot | candidate | reviewed by | verdict | report |
+| --- | --- | --- | --- | --- |
+| m05-main-claude | cand-claude/m05-main-claude | glm (fixed label: claude) | PASS | `cand-claude/m05-main-claude/reviews/glm-2026-09-07.md` |
+| m04-main-glm | cand-glm/m04-main-glm | luna (fixed label: glm) | REVISE | **2026-09-07 cross-family-review:** `cand-glm/m04-main-glm/reviews/luna-2026-09-07.md` — parser accepts leading and extra blank lines despite the prompt's exact three-line/no-other-lines contract. |
+| m07-main-glm | cand-glm/m07-main-glm | luna (fixed label: glm) | PASS | **2026-09-07 cross-family-review:** `cand-glm/m07-main-glm/reviews/luna-2026-09-07.md`
+| m02-main-claude | cand-claude/m02-main-claude | glm (fixed label: claude) | PASS | **2026-09-07 cross-family-review:** `cand-claude/m02-main-claude/reviews/glm-2026-09-07.md` — 89-file manifest, 79.6% rung-0 material coverage, 12 load-bearing paths over five hops, sound checker and static idempotence. |
+| m02-main-claude | cand-claude/m02-main-claude | luna (fixed label: claude) | REVISE | **2026-09-07 cross-family-review:** `cand-claude/m02-main-claude/reviews/luna-2026-09-07.md` — MANIFEST per-file values use character counts instead of required token counts, and a short SLA_HEADROOM search can identify the answer below the claimed coverage floor. |
+| m03-main-luna | cand-luna/m03-main-luna | glm (fixed label: luna) | PASS | **2026-09-07 cross-family-review:** `cand-luna/m03-main-luna/reviews/glm-2026-09-07.md` — answer independently re-derived; MANIFEST reconciles 88/88 files, 70.3% reconstructible material, ten load-bearing paths over six hops, and sound/idempotent checker. |
+| m05-main-claude | cand-claude/m05-main-claude | luna (fixed label: claude) | REVISE | **2026-09-07 cross-family-review:** `cand-claude/m05-main-claude/reviews/luna-2026-09-07.md` — declared load-bearing paths cover only 14.9% versus the 50% floor; checker also accepts comma-formatted corrected_count despite the plain-integer requirement. |
+| m08-main-claude | cand-claude/m08-main-claude | luna (fixed label: claude) | REVISE | **2026-09-07 cross-family-review:** `cand-claude/m08-main-claude/reviews/luna-2026-09-07.md` — seven declared load-bearing paths cover only 7.37% versus the 50% floor, leaving a targeted/two-file rung-0 shortcut. |
+| m08-main-claude | cand-claude/m08-main-claude | glm (fixed label: claude) | PASS | **2026-09-07 cross-family-review:** `cand-claude/m08-main-claude/reviews/glm-2026-09-07.md` — unique watermark mismatch and tracking paths independently re-derived; docs+source sweep gives 71.9% coverage, with sound checker and idempotence. |
+| m09-main-luna | cand-luna/m09-main-luna | glm (fixed label: luna) | PASS | **2026-09-07 cross-family-review:** `cand-luna/m09-main-luna/reviews/glm-2026-09-07.md` — answer and six wrong-course sums independently re-derived; 19-doc/module sweep forces 54.0% coverage, with 13 load-bearing paths and sound/idempotent checker. |
+| m01-main-glm | cand-glm/m01-main-glm | opus | PASS | `cand-glm/m01-main-glm/reviews/opus-2026-09-07.md` — answer independently re-derived; checker is sound and idempotent, with only answer-neutral record and seed nits. |
+| m04-main-glm | cand-glm/m04-main-glm | opus | REVISE | `cand-glm/m04-main-glm/reviews/opus-2026-09-07.md` — three independent full-score rung-0 bypasses avoid all stage documents and modules, including the documented two-command workflow. |
+| m07-main-glm | cand-glm/m07-main-glm | opus | REVISE | `cand-glm/m07-main-glm/reviews/opus-2026-09-07.md` — `bound_module` is answerable by one grep, and the declared module paths contradict the tree. |
+| m10-main-glm | cand-glm/m10-main-glm | opus | PASS | `cand-glm/m10-main-glm/reviews/opus-2026-09-07.md` — no two-file bypass; answer and checker are sound, with three answer-neutral documentation nits. |
+| m03-main-luna | cand-luna/m03-main-luna | opus | REVISE | `cand-luna/m03-main-luna/reviews/opus-2026-09-07.md` — a CSV-only shortcut reaches 7/7 and bypasses the stage modules, failing rung 0. |
+| m09-main-luna | cand-luna/m09-main-luna | opus | REVISE | `cand-luna/m09-main-luna/reviews/opus-2026-09-07.md` — the headline answer can be copied from stage documents alone, so the definition hop is not load-bearing. |
+
+glm's PASS on m05-main-claude, checked rather than argued: the reviewer re-derived the full
+checklist from `seed/` before opening the grader and reproduced `ref/doc-checklist.txt` exactly
+(4 corrected — quota 2013, checkpoint 2091, rollup 2156, drain 2221; exempt five MATCHES;
+`DR-0091`); grep showed `enforced_window_s`/`ENFORCED_WINDOW_S` in no generator-written index
+(`config/manifest.json` carries only the small-scale `window_s`, 15–180) and `MIGRATED_STAGES`
+in exactly one file, so no two-file or grep shortcut exists; `test.py` declares 11 load-bearing
+paths over 7 hops and its four groups make any single wrong row lose, with the six brief
+near-misses normalized and the stated-order variation an adjudicated fail; MANIFEST reconciles
+to the byte (143,891 chars / 30,851 tokens, 90 files). No validator was run; none exists.
+
+glm's PASS on m02-main-claude, checked rather than argued: the reviewer re-derived the in-scope
+set from `seed/` before opening the grader (published = module `SLA_HEADROOM ≥ 45` →
+attestation, audit, compaction, digest, envelope, schema; Delivery Engineering freeze via
+`docs/operations.md` → declined attestation, digest; changed audit, compaction, envelope,
+schema; `SEC-CFG-4`) and reproduced `ref/scope-report.txt` exactly; `grep SLA_HEADROOM` finds
+no aggregated index outside the 19 modules and team ownership lives only in `docs/operations.md`,
+so no two-file or grep shortcut exists, and the two doc/module divergences (schema 41/53,
+checkpoint 46/44) are answer-neutral decoys; `test.py` declares 14 load-bearing paths over 6
+hops and its 8 subchecks leave every wrong course at 4–7/8 with `unsafe` ahead of `correct`,
+so a right report with an edited frozen doc or a scratch file cannot pass; the five report
+perturbations land 8/8 and the edited-document bytes are a written-down adjudication;
+MANIFEST reconciles (85 files, 139,356 chars, per-file values token counts summing to 29,879);
+docs+modules alone are 19,498/29,879 tokens = 65.3%, 70.3% with the four decision documents —
+NOTES' "20,984 (70.2%)" understates its own composition but clears the 50% bar under every
+reading. `selfcheck.py` run once: 13/13 declared verdicts, reference correct 8/8. No fleet
+validator exists; none was run.
