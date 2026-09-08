@@ -122,3 +122,33 @@ repository v7 harness, with the GPU load check first. GPU spend is recorded in G
   v7r6-accept-IQ2_M-main --json results/v7/r6-accept-tally-m09.json` exited 1 because 16 other
   Luna slots were unmeasured; m09-main-luna is 10/10 = 1.000, Wilson 95% [0.722, 1.000], with
   0 confidently_wrong, 0 visibly_failed, and 0 unsafe. Final Ollama `/api/ps` was `{"models":[]}`.
+
+## Continuation: m03-main-luna to n=10 (2026-09-08)
+
+- Ran the admitted m03-main-luna candidate locally synchronized with the desktop worktree at
+  `q27-IQ2_M-64k`, 65536 context, medium thinking, pi resilience, 900s timeout, and tag
+  `v7r6-accept-IQ2_M-main`. The desktop clone remained dirty and behind, so it was not
+  fast-forwarded or overwritten.
+- Every trial row was recorded in `results/v7r6-accept-IQ2_M-main.json` and the generated
+  markdown report:
+
+  | slot | trial | verdict | stop | timeout | wall s |
+  |---|---:|---|---|---|---:|
+  | m03-main-luna | 0 | confidently_wrong | stop | no | 171.7 |
+  | m03-main-luna | 1 | correct | stop | no | 98.7 |
+  | m03-main-luna | 2 | confidently_wrong | stop | no | 142.7 |
+  | m03-main-luna | 3 | correct | stop | no | 138.0 |
+  | m03-main-luna | 4 | correct | stop | no | 109.2 |
+  | m03-main-luna | 5 | correct | stop | no | 149.5 |
+  | m03-main-luna | 6 | visibly_failed | toolUse | yes | 900.1 |
+  | m03-main-luna | 7 | correct | stop | no | 231.8 |
+  | m03-main-luna | 8 | correct | stop | no | 189.1 |
+  | m03-main-luna | 9 | correct | stop | no | 134.9 |
+
+- `tally_trials.py --tasks-dir results/v7/authoring/cand-luna --only-tags
+  v7r6-accept-IQ2_M-main --json results/v7/r6-accept-tally-m03.json` exited 1 because 15 other
+  Luna slots were unmeasured. The m03 row is 7/10 = 0.700, Wilson 95% [0.397, 0.892], with
+  2 confidently_wrong, 1 visibly_failed, and 0 unsafe. The measured m03+m09 rows total 17/20
+  correct, 2 confidently_wrong, and 1 visibly_failed. GPU interval was 2317s
+  (19:10:23Z–19:49:00Z), bringing campaign accounting to 16255s (4h30m55s), with 26945s
+  (7h29m05s) remaining. Final Ollama `/api/ps` was `{"models":[]}`.

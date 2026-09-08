@@ -20,3 +20,6 @@ NOTE acceptance-m09-main-luna: trial GPU time=1055s; campaign accounted total=12
 STEP acceptance-m07-main-glm | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-glm | start=2026-09-08T18:34:15Z | end=2026-09-08T19:03:46Z
 END acceptance-m07-main-glm | end=2026-09-08T19:03:46Z | gpu_seconds=1771
 NOTE acceptance-m07-main-glm: trial GPU time=1771s; campaign accounted total=13938s (3h52m18s); remaining 12h budget=29262s (8h07m42s). Total includes prior accounted 12167s plus this m07 interval; the 0-second no-op remains excluded.
+STEP acceptance-m03-main-luna | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-luna | start=2026-09-08T19:10:23Z | end=PENDING
+END acceptance-m03-main-luna | end=2026-09-08T19:49:00Z | gpu_seconds=2317
+NOTE acceptance-m03-main-luna: trial GPU time=2317s; campaign accounted total=16255s (4h30m55s); remaining 12h budget=26945s (7h29m05s). Total includes prior accounted 13938s plus this m03 interval; no early budget stop.
