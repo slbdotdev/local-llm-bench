@@ -35,8 +35,9 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-A balance is minuted for this page at each closing review, and it sits here.
 
-For the close now in force that balance is **1820**, per the closing review's own note.
+
+[nfsb] For audit, the retained allotment stands at **6842** credits.
+
+

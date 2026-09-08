@@ -35,8 +35,57 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-This page keeps the balance its component opens the close with.
 
-Review minutes of 2036 set that balance at **1996**; take it as written.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[yfjms] The retained quota belonging to checkpoint is **4331** parcels.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

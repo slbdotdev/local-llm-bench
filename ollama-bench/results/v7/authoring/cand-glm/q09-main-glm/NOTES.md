@@ -5,8 +5,8 @@
 Mode 9, reading past the first screen, carrying a shape-A **long serial state**: the
 answer is a replay of **40 ordered steps**, each found only through the previous
 step's own output, and the deciding rules sit where a first screen never reaches — past
-line 204 of a 290-line procedure page, and past character 10135 of a
-10,198-character viewer output. It measures whether a model carries a dependent
+line 204 of a 293-line procedure page, and past character 10088 of a
+10,151-character viewer output. It measures whether a model carries a dependent
 computation to its fortieth step while reading material that is never on the first screen
 of anything.
 
@@ -20,16 +20,18 @@ Twice over, by design, and both times as a build-time measurement rather than a 
    column is a different, wrong order: `facts()` sorts the sealed rows by identifier,
    asserts the order differs from the link walk, and replays it — **8 of 8
    checkpoints miss**. The as-filed order fares the same (**8 of 8**). Filing
-   order is a stride permutation of the chain and the `sealed_on` dates are scattered;
-   `facts()` also asserts the chain's date sequence differs from date order. `previous` is
-   the only artifact of order the log carries, and the only thing that orders it.
+   order is a deterministic shuffle of the chain rows and the `sealed_on` dates are
+   scattered; `facts()` also asserts every single-field sort, position-modulo map and
+   tested affine row-index map misses the chain. `previous` is the link used to walk it.
 2. **State.** Each entry adjusts the running settlement figure the previous entry left:
-   a `carry` adds its stage's page balance, a `relief` subtracts its stage's module
-   take-back, and a `rebase` sets the figure to its stage's basis, its page balance plus
-   its module take-back. A second `rebase` sits at entry 22, mid-chain, between the 20th
-   and 25th checkpoints, so the replay's end is order-dependent: the order-free sum of
-   all forty contributions lands at 19,586, not the graded 9,920 — asserted at
-   build, along with the sorted-by-identifier and as-filed replays. The figures live in
+   a `carry` computes `2F + balance + remainder`, a `relief` computes
+   `3F - min(take-back, F)` and retains the unapplied take-back, and the one opening
+   `rebase` sets the figure to its stage's basis. In this replay, every relief has `F`
+   greater than its take-back, so `min(take-back, F)` always selects the take-back and
+   every retained remainder is zero. The order-free base sum still lands at 86,226,
+   not the graded 25,636,829,585,351,235,062: the non-commuting `2F + b` and `3F - t` transforms make
+   every contiguous segment's seeded shuffled replay miss — all asserted at build,
+   along with the sorted-by-identifier and as-filed replays. The figures live in
    the stages' own material — a balance line on each component page and a take-back
    constant in each module — and never in the log, so all 38 stage files are on the
    replay's path.
@@ -49,14 +51,14 @@ under `seed/` — `facts()` scans for each of the 40 as a bounded token and fail
 the build on a hit — so no single file and no single grep assembles them, and the grep-
 harvest measure is honest about why: see section 4.
 
-The expected sweep is 26112 of 34783 material tokens (**75.1%**): the
+The expected sweep is 25402 of 34073 material tokens (**74.6%**): the
 procedure page, the log, the viewer, the manifest, and both of every stage's two figure
 sources — 19 component documents and 19 modules, each visited by one carry
 and one relief entry.
 
 Both of behaviour 9's placements are build-time measurements, and each is asserted:
 
-- **Past line 200.** `docs/handbook/settlement-procedure.md` is **290 lines**. `## Replay rules` is at
+- **Past line 200.** `docs/handbook/settlement-procedure.md` is **293 lines**. `## Replay rules` is at
   line **204**; the first occurrence of each replay-rule phrase — the carry
   bullet, the relief bullet, the rebase rule — sits below it, asserted. Everything above
   the heading is the institution — what the settlement is, who runs it, filing, history,
@@ -64,44 +66,39 @@ Both of behaviour 9's placements are build-time measurements, and each is assert
   file outside the procedure pairs the two figure sources, so the rules have exactly one
   source.
 - **The long output.** `python tools/settlement_status.py` prints **269 lines,
-  10,198 characters**, under the runtime's 24,000-character truncation threshold, so
+  10,151 characters**, under the runtime's 24,000-character truncation threshold, so
   nothing is middle-truncated and no narrowing is required (placement, not narrowing). The
-  opening entry resolves at character **10135**, asserted past 6,000. The raw log is
-  no shortcut either: it is **5,948 characters over 43 rows**, and the
-  opening row sits at line 41, character 5387 — past the first screen on
+  opening entry resolves at character **10088**, asserted past 6,000. The raw log is
+  no shortcut either: it is **5,901 characters over 43 rows**, and the
+  opening row sits at line 40, character 5206 — past the first screen on
   both routes, with the figure sources and all 40 chain links still to find.
 
 ## 4. The grep-harvest declaration, and what it now measures
 
 `harvest_units()` declares the figure each entry APPLIES, one entry per datum: a carry's
-page balance, a relief's module take-back, and each rebase's settlement basis (page plus
-module, stated nowhere, and so measured as derived). 40 units over the
-40 entries — 38 stated in `seed/`, 2 derived — and `check_harvest.py` measures
+page balance, a relief's module take-back, and the opening rebase's settlement basis (page
+plus module, stated nowhere, and so measured as derived). 40 units over the
+40 entries — 39 stated in `seed/`, 1 derived — and `check_harvest.py` measures
 H1-H4 as numbers, not `vacuous`. Three build-time facts hold the measures down, each
 asserted in `facts()`:
 
-- **No giveaway token sits near a figure.** The vocabulary the checker derives from
-  `prompt.md`, the declared roster pointer, the deliverable and the keys is recomputed at
-  build, and every line within five of a figure's line is asserted free of it, so H1 and
-  H3 have no anchor to work from. This is why the balances are not rows of the
-  configuration tables: the tables' own `limit` and `window_s` rows are roster vocabulary,
-  and a figure two lines from one is harvested by it. Each figure instead sits on its own
-  line at its file's end, six or more lines past the last vocabulary line.
-- **No one token collects the figures.** The balance label is one of six, the module
-  constant name one of six, and the balance wording one of six, each assigned round-robin
-  with a prime stride, so the widest single token reaches 4 of 19
-  stages — the old two-grep attack (`carried` across docs/, `ABSORB_UNITS` across src/)
-  now returns nothing: the procedure names no token, and neither token exists on any
-  figure line.
-- **No shared frame.** The six wordings and six names rotate independently; `facts()`
-  recomputes the checker's own frame measure and asserts the widest shared run covers no
-  more than 7 of the 38 figure lines, under H4's quarter.
+- **Readable labels, measured harvest.** Each value is on a labelled English line in its
+  own source. The labels are deliberately not hidden from the checker: `check_harvest.py`
+  measures the resulting real-number H1-H4 attack, and the build checks the line shape
+  rather than claiming every nearby token is absent.
+- **No shared label fragment collects the figures.** Across all 19 page labels and 19
+  module constants, the build-time shared-substring measure is zero for every repeated
+  fragment of length two or more; single characters are the only possible overlap.
+- **No shared frame or fixed line.** `facts()` recomputes the checker's frame measure and
+  asserts the widest shared run covers no more than 2 of the 38 stated figure
+  lines. It also asserts all 38 offsets from the top and all 38 distances from EOF are
+  distinct; every value has real trailing material, so `tail -n1` cannot harvest one.
 
 The roster regex (H2) anchors on entry identifiers, which live in the log, while the
 figures never do, so H2 measures zero; the running figures the checkpoints score are
 computed sums, asserted absent from `seed/` by bounded scan. The checker's shape note
 (every stated value is four digits) is reported there and not gated, as that check itself
-says, and is why the measured minimum in section 9 needs two shape greps.
+says; it is a diagnostic rather than a chain solution.
 
 ## 5. Distinguishing condition: the five wrong courses the material rules out
 
@@ -113,8 +110,8 @@ says, and is why the measured minimum in section 9 needs two shape greps.
 | swap the sources | reads carry's figure from the module and relief's from the page | the rules assign each kind its source; every stage's two figures differ, so all 8 checkpoints move |
 | stop early | files the checkpoints it reached and quits | the deliverable's shape requires all eight keys; a short report is `confidently_wrong` at the floor score |
 | sort by identifier | numbers the entry column and applies it low to high | the identifiers are a shuffle: the sorted replay misses 8 of 8 checkpoints, measured |
-| apply the rows as filed | reads the log top to bottom and applies what it meets | filing order is a stride permutation with voids among the rows: misses 8 of 8, measured |
-| sum the contributions order-free | adds carries, subtracts reliefs, adds each basis | the mid-chain rebase resets instead of adding: the sum lands at 19,586, not 9,920, asserted |
+| apply the rows as filed | reads the log top to bottom and applies what it meets | filing order is a real shuffle with voids among the rows: misses 8 of 8, measured |
+| sum the contributions order-free | ignores the running-state multipliers and remainders | the order-free base sum lands at 86,226, not 25,636,829,585,351,235,062, asserted |
 
 Each wrong course produces a complete, well-formed, confident answer; `probes()` measures
 each from the log on disk and asserts it misses.
@@ -191,17 +188,13 @@ against the plan's minimum of six and three; the acceptance trial must touch at 
 
 ## 9. The fewest files a shortcut needs
 
-Measured against the revision, not estimated: **five files opened** — the procedure page
-(the rules, past line 204), the log (the chain), the manifest (the roster pointer
-the prompt itself gives), one component page and one module (to learn the two figure
-lines' shapes) — **plus two shape greps** (`grep -rnE '[0-9]{4}'` across `docs/` and
-`src/`), which `check_harvest.py` reports and does not gate. That is AT the five-file
-floor, no longer under it: per-token greps no longer collect across stages (the widest
-single token reaches 4 of 19 stages, asserted), the identifiers no
-longer order the chain, and the mid-chain rebase makes the replay order-dependent, so the
-greps' yield still has to be walked in the chain's own order to score anything. The
-task's difficulty was never lookup but the 40-step ordered replay; what the
-revision removed is the route that skipped the traversal.
+The prior five-file claim is no longer true. A shape grep such as
+`grep -rnE '[0-9]{4}'` reaches the independently drawn stated numbers, and
+`check_harvest.py` reports that diagnostic without gating it; it does not provide the
+kind of each row or the chain order. The procedure, log, roster and every stage source
+still have to be reconciled: identifiers are shuffled, row positions have no simple map,
+and state-dependent relief makes every contiguous shuffle miss. The task's difficulty is
+the 40-step ordered replay, not lookup.
 
 ## 10. Budget
 
@@ -221,6 +214,7 @@ rest traversal.
 | stale close summary trusted for the final figure | confidently_wrong, 11/12 |
 | walk stops after entry 25, report filed short | confidently_wrong, 3/12 |
 | keys in the wrong order | confidently_wrong, 3/12 |
+| one contiguous segment replayed in shuffled order | confidently_wrong, 6/12 |
 | correct report plus a scratch file | unsafe |
 | correct report plus an adjusted module constant | unsafe |
 | no trailing newline | correct, 12/12 |
@@ -234,8 +228,14 @@ rest traversal.
 Every value the reference asserts is measured from `seed/` at build time: the chain by
 walking the sealed rows' `previous` links from the one row that seals against nothing, the
 figures by reading each stage's balance line and module constant back off disk, the
-checkpoints by replaying. The wrong courses — date order, void rows, swapped sources,
-identifier order, as-filed order, the order-free sum — are replayed by the same code from
-the same log, and the harvest checker's own properties (its giveaway vocabulary, its
-frame measure, the one-source figure rule) are recomputed with the checker's own
-algorithms. Nothing is typed twice, and nothing rests on faith.
+checkpoints by replaying. The handbook is the authority for the arithmetic: it states
+`2F + balance + remainder`, `3F - min(take-back, F)`, and the unapplied-take-back
+remainder, while `_assert_documented_rule()` checks those phrases and that `_step` has no
+undocumented modulo term. The build-time assertion `expect == replay(seed)` then compares
+the key to that documented-rule disk replay, so a re-rolled figure cannot ship a stale key.
+The wrong courses —
+date order, void rows, swapped sources, identifier order, as-filed order, the order-free
+sum — are replayed by the same code from the same log, and the harvest checker's own
+properties (its giveaway vocabulary, its frame measure, the one-source figure rule) are
+recomputed with the checker's own algorithms. The key's arithmetic therefore rests on the
+handbook text, not on the generator; the assertion supplies staleness protection.

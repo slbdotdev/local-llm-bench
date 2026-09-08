@@ -1,8 +1,8 @@
-figure_after_05: 4658
-figure_after_10: 7710
-figure_after_15: 8040
-figure_after_20: 11064
-figure_after_25: 6084
-figure_after_30: 6822
-figure_after_35: 10034
-figure_final: 9920
+figure_after_05: 500546
+figure_after_10: 36349857
+figure_after_15: 3925794197
+figure_after_20: 282657526996
+figure_after_25: 30527012823280
+figure_after_30: 3296917384943872
+figure_after_35: 237378051716215318
+figure_final: 25636829585351235062

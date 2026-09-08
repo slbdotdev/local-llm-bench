@@ -234,12 +234,15 @@ An entry's row carries no figure, because a figure filed beside its entry goes s
 against the stage the day either changes. The figure an entry applies is read from the
 stage's own material, by the kind of the entry:
 
-a `carry` entry adds the balance the stage's own component page under `docs/` records
-for the close: each page states it once, in the page's own words, on a line of its own;
+a `carry` entry doubles the running figure, then adds the balance the stage's own
+component page under `docs/` records and the running remainder for this stage; in
+symbols, the new figure is `2F + balance + remainder`;
 
-a `relief` entry subtracts the take-back the stage's own module under `src/` records:
-each module names it as a constant, in the module's own terms, because capacity the code
-can give back is recorded where the code lives;
+a `relief` entry triples the running figure, then subtracts the smaller of the stage's
+take-back and the current figure; in symbols, the new figure is `3F - min(take-back,
+F)`, and the remainder retained for this stage is the unapplied take-back, `max(take-
+back - F, 0)`; the take-back is read from the stage's own module under `src/`, so the
+amount applied is state-dependent;
 
 a `rebase` entry does not adjust the figure but sets it: the figure becomes that stage's
 settlement basis, its page balance plus its module take-back, read like a carry's and a

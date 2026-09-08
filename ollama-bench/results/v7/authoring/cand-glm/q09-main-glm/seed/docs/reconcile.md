@@ -35,8 +35,48 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-What this page's component holds back at the close is stated just below.
 
-One 2036 review minute fixed it at **2172**, and no second copy of it exists.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[lbqyi] reconcile reports a banked portion equal to **6437** credits.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
