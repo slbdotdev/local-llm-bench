@@ -513,3 +513,41 @@ cheap, not because a fix was missed. Reviews attached:
 r6b, r6c in `r6/`). The round-2 build is committed as evidence. If a slot
 is short at the end, m08 is a redesign from scratch and the owner's call
 then. The queue moves on: q09 re-author, then m03, m04, m07, m09.
+
+## Round six — admissions and trials
+(2026-09-08)
+
+The round-six admissions, with both independent passing legs recorded:
+
+| slot | passing legs | admitting commit | what the fix rounds closed |
+| --- | --- | --- | --- |
+| m02-main-claude | glm — `r6/review-m02-glm-r6d.md`; opus — `r6/review-m02-opus-r6d.md` | `2261d86` | Removed the module-side ownership shortcut, corrected the token-count/rung-0 accounting, and kept the module-over-document rule explicit. |
+| m05-main-claude | glm — `r6/review-m05-glm-r6c.md`; opus — `r6/review-m05-opus-r6c.md` | `faf8d3d` | Closed the single-token/four-file harvest by separating the document and module names, varying values and offsets, and removing prompt wording that gave away the authority token. |
+| q09-main-glm | glm — `r6/review-q09-glm-r6d.md`; opus — `r6/review-q09-opus-r6e.md` | `0c4d7d2`; shelving lift `cd902fb` (was `d42ca4e`) | Closed the undocumented modulo rule, the `qzx` label-prefix harvest, and the four-file shortcut; the final r6e review left only two NOTES wording caveats. |
+| m03-main-luna | glm — `cand-luna/m03-main-luna/reviews/glm-2026-09-08.md`; opus — `cand-luna/m03-main-luna/reviews/opus-2026-09-08.md` | `4d42aa5` + `5bf00c8` (glm fixed-build) | Closed the CSV-only shortcut by re-rolling the legacy list and making the date-only bypass explicitly wrong; the fixed build passed the remaining leg. |
+| m04-main-glm | glm — `cand-glm/m04-main-glm/reviews/glm-2026-09-08.md`; opus — `cand-glm/m04-main-glm/reviews/opus-2026-09-08.md` | `403b2be` | Closed the three rung-0 bypasses and contradictory module paths, then brought the parser, fixture count, and reported near-miss behavior into agreement. |
+| m07-main-glm | glm — `cand-glm/m07-main-glm/reviews/glm-2026-09-08.md`; opus — `cand-glm/m07-main-glm/reviews/opus-2026-09-08.md` | `aad8cf8` + `522c5ca` (specs) | Closed the `bound_module` grep shortcut and the contradictory module paths by making the cross-file naming and history mapping consistent. |
+| m09-main-luna | glm — `cand-luna/m09-main-luna/reviews/glm-2026-09-08.md`; opus — `cand-luna/m09-main-luna/reviews/opus-2026-09-08.md` | `8f57a23` | Closed the stage-document shortcut by moving the definition to the glossary, extending the ledger past the first screen, adding the conforming date decoy. Fixed 17/14 frames stand; offset variation is banked as the opus leg's non-blocking suggestion. |
+| m08-main-claude | — | `8ac61e4` | **SHELVED (standing):** two fix rounds still left a two-file watermark shortcut; redesign from scratch. |
+
+The acceptance trials are below. Intervals are Wilson 95%, rounded to three decimals. `PENDING` is the state in the tally and `GPU_BUDGET.log`, not a zero-pass result.
+
+| slot | trials | passes | Wilson 95% | GPU seconds | status |
+| --- | ---: | ---: | --- | ---: | --- |
+| m01-main-glm | 10 | 5 | [0.237, 0.763] | shared 6,068† | committed tally |
+| m02-main-claude | 10 | 8 | [0.490, 0.943] | 560 | committed tally |
+| m03-main-luna | 10 target | — | — | — | **PENDING** (tally: 0 trials) |
+| m04-main-glm | 10 target | — | — | — | **PENDING** (tally: 0 trials) |
+| m05-main-claude | 10 | 9 | [0.596, 0.982] | 896 | committed tally |
+| m07-main-glm | 10 | 8 | [0.490, 0.943] | 1,771 | complete |
+| m09-main-luna | 10 | 10 | [0.722, 1.000] | 1,055 | complete |
+| m10-main-glm | 10 | 5 | [0.237, 0.763] | shared 6,068† | committed tally |
+| q09-main-glm | 10 | 6 | [0.313, 0.832] | 3,096 | complete |
+
+† The log accounts for m01/m10 jointly: 1,167 seconds for the initial workhorse step plus 4,901 seconds for the corrected extension. It does not split that 6,068-second total by slot. The campaign GPU total is **13,938 seconds (3h52m18s)**.
+
+Banked NOTES caveats for the next docs pass:
+
+- q09 r6e: `facts()`'s assertion-bound wording says “at most 9,” while 2 is the measured value.
+- q09 r6e: “real trailing material” overstates blank-line and `#` padding.
+- m04 opus: the near-miss label is a nit; the tested case is the wrong-row-count case.
