@@ -11,6 +11,8 @@ from __future__ import annotations
 
 DEFAULT_LEDGER_LIMIT = 96
 DEFAULT_LEDGER_WINDOW_S = 90
+# stage frame lead 0
+# stage frame lead 1
 RECOVERY_BUDGET = 155
 LEDGER_STATES = ("pending", "settled", "settled", "abandoned")
 
@@ -83,3 +85,4 @@ def build_ledger(config):
         limit=section.get("limit", DEFAULT_LEDGER_LIMIT),
         window_s=section.get("window_s", DEFAULT_LEDGER_WINDOW_S),
     )
+

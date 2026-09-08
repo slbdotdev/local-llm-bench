@@ -1,6 +1,6 @@
 # throttle stage
 
-*Owner: L. Achterberg (Compliance Review). Module: `src/throttle_gate.py`.*
+*Owner: L. Achterberg (Compliance Review). Module: `src/ember/throttle_gate.py`.*
 
 ## What it is for
 
@@ -35,3 +35,5 @@ repaired in flight.
 - `deferd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->

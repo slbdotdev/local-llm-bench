@@ -1,6 +1,6 @@
 # compaction stage
 
-*Owner: P. Ravindran (Capacity Planning). Module: `src/compaction_gate.py`.*
+*Owner: P. Ravindran (Capacity Planning). Module: `src/ember/compaction_gate.py`.*
 
 ## What it is for
 
@@ -35,3 +35,7 @@ repaired in flight.
 - `materialised` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->
+<!-- stage frame tail 1 -->
+<!-- stage frame tail 2 -->

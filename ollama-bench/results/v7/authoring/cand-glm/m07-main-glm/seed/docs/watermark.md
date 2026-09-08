@@ -1,6 +1,6 @@
 # watermark stage
 
-*Owner: T. Abarca (Delivery Engineering). Module: `src/watermark_core.py`.*
+*Owner: T. Abarca (Delivery Engineering). Module: `src/ember/watermark_core.py`.*
 
 ## What it is for
 
@@ -35,3 +35,6 @@ repaired in flight.
 - `admitd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->
+<!-- stage frame tail 1 -->

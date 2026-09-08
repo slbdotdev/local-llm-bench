@@ -11,6 +11,8 @@ from __future__ import annotations
 
 DEFAULT_DRAIN_LIMIT = 64
 DEFAULT_DRAIN_WINDOW_S = 30
+# stage frame lead 0
+# stage frame lead 1
 RECOVERY_BUDGET = 152
 DRAIN_STATES = ("pending", "coalesced", "settled", "abandoned")
 
@@ -83,3 +85,4 @@ def build_drain(config):
         limit=section.get("limit", DEFAULT_DRAIN_LIMIT),
         window_s=section.get("window_s", DEFAULT_DRAIN_WINDOW_S),
     )
+

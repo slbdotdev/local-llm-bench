@@ -11,6 +11,8 @@ from __future__ import annotations
 
 DEFAULT_AUDIT_LIMIT = 48
 DEFAULT_AUDIT_WINDOW_S = 45
+# stage frame lead 0
+# stage frame lead 1
 RECOVERY_BUDGET = 150
 AUDIT_STATES = ("pending", "admitd", "settled", "abandoned")
 
@@ -83,3 +85,5 @@ def build_audit(config):
         limit=section.get("limit", DEFAULT_AUDIT_LIMIT),
         window_s=section.get("window_s", DEFAULT_AUDIT_WINDOW_S),
     )
+# stage frame tail 0
+# stage frame tail 1

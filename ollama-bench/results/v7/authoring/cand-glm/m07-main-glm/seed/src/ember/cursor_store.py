@@ -11,6 +11,9 @@ from __future__ import annotations
 
 DEFAULT_CURSOR_LIMIT = 120
 DEFAULT_CURSOR_WINDOW_S = 15
+# stage frame lead 0
+# stage frame lead 1
+# stage frame lead 2
 RECOVERY_BUDGET = 168
 CURSOR_STATES = ("pending", "resolved", "settled", "abandoned")
 
@@ -83,3 +86,4 @@ def build_cursor(config):
         limit=section.get("limit", DEFAULT_CURSOR_LIMIT),
         window_s=section.get("window_s", DEFAULT_CURSOR_WINDOW_S),
     )
+

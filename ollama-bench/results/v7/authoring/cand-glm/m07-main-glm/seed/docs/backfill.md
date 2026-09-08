@@ -1,12 +1,15 @@
 # backfill stage
 
-*Owner: E. Thorsdottir (Capacity Planning). Module: `src/backfill_flow.py`.*
+*Owner: E. Thorsdottir (Capacity Planning). Module: `src/ember/backfill_flow.py`.*
 
 ## What it is for
 
 The backfill stage is the repair boundary of the ember-course pipeline. Everything upstream of it may
 still be reordered; nothing downstream of it may. That is the whole of its contract, and
 the reason the stage exists as a separate module rather than as a helper inside quota.
+
+> stage frame note 0
+> stage frame note 1
 
 ## Configuration
 
@@ -35,3 +38,5 @@ repaired in flight.
 - `retired` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+

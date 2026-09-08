@@ -11,6 +11,7 @@ from __future__ import annotations
 
 DEFAULT_RETENTION_LIMIT = 64
 DEFAULT_RETENTION_WINDOW_S = 15
+# stage frame lead 0
 RECOVERY_BUDGET = 170
 RETENTION_STATES = ("pending", "admitd", "settled", "abandoned")
 
@@ -83,3 +84,4 @@ def build_retention(config):
         limit=section.get("limit", DEFAULT_RETENTION_LIMIT),
         window_s=section.get("window_s", DEFAULT_RETENTION_WINDOW_S),
     )
+

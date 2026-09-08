@@ -83,3 +83,4 @@ def build_attestation(config):
         limit=section.get("limit", DEFAULT_ATTESTATION_LIMIT),
         window_s=section.get("window_s", DEFAULT_ATTESTATION_WINDOW_S),
     )
+# stage frame tail 0

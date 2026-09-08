@@ -1,12 +1,14 @@
 # retention stage
 
-*Owner: H. Bergstrom (Delivery Engineering). Module: `src/retention_core.py`.*
+*Owner: H. Bergstrom (Delivery Engineering). Module: `src/ember/retention_core.py`.*
 
 ## What it is for
 
 The retention stage is the lifecycle boundary of the ember-course pipeline. Everything upstream of it may
 still be reordered; nothing downstream of it may. That is the whole of its contract, and
 the reason the stage exists as a separate module rather than as a helper inside quota.
+
+> stage frame note 0
 
 ## Configuration
 
@@ -35,3 +37,5 @@ repaired in flight.
 - `admitd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->

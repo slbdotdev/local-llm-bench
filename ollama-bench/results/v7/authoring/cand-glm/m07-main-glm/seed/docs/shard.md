@@ -1,6 +1,6 @@
 # shard stage
 
-*Owner: S. Nwachukwu (Data Stewardship). Module: `src/shard_store.py`.*
+*Owner: S. Nwachukwu (Data Stewardship). Module: `src/ember/shard_store.py`.*
 
 ## What it is for
 
@@ -35,3 +35,5 @@ repaired in flight.
 - `classifyd` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+

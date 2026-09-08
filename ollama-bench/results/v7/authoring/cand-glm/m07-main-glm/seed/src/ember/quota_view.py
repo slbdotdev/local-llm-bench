@@ -83,3 +83,4 @@ def build_quota(config):
         limit=section.get("limit", DEFAULT_QUOTA_LIMIT),
         window_s=section.get("window_s", DEFAULT_QUOTA_WINDOW_S),
     )
+

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 DEFAULT_THROTTLE_LIMIT = 64
 DEFAULT_THROTTLE_WINDOW_S = 180
+# stage frame lead 0
 RECOVERY_BUDGET = 145
 THROTTLE_STATES = ("pending", "deferd", "settled", "abandoned")
 
@@ -83,3 +84,5 @@ def build_throttle(config):
         limit=section.get("limit", DEFAULT_THROTTLE_LIMIT),
         window_s=section.get("window_s", DEFAULT_THROTTLE_WINDOW_S),
     )
+# stage frame tail 0
+# stage frame tail 1

@@ -1,8 +1,11 @@
 """Looks a support-tooling operation up by its outward name."""
-from . import handle_bridge
+if __package__:
+    from . import handle_bridge
+else:
+    handle_bridge = None
 
 OP_TABLE = {
-    "coalesce": handle_bridge.coalesce,
+    "coalesce": handle_bridge.coalesce if handle_bridge else None,
 }
 
 

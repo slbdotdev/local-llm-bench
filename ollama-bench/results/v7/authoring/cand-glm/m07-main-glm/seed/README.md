@@ -16,25 +16,25 @@ configuration decision is under `history/`.
 
 | stage | module | doc | owner |
 | --- | --- | --- | --- |
-| quota | `src/quota_view.py` | `docs/quota.md` | S. Nwachukwu |
-| replay | `src/replay_view.py` | `docs/replay.md` | E. Thorsdottir |
-| audit | `src/audit_view.py` | `docs/audit.md` | C. Batbayar |
-| dispatch | `src/dispatch_core.py` | `docs/dispatch.md` | H. Bergstrom |
-| attestation | `src/attestation_view.py` | `docs/attestation.md` | N. Oyelaran |
-| throttle | `src/throttle_gate.py` | `docs/throttle.md` | L. Achterberg |
-| ledger | `src/ledger_view.py` | `docs/ledger.md` | R. Okonjo |
-| schema | `src/schema_flow.py` | `docs/schema.md` | K. Sorensen |
-| shard | `src/shard_store.py` | `docs/shard.md` | S. Nwachukwu |
-| retention | `src/retention_core.py` | `docs/retention.md` | H. Bergstrom |
-| ingest | `src/ingest_store.py` | `docs/ingest.md` | E. Thorsdottir |
-| compaction | `src/compaction_gate.py` | `docs/compaction.md` | P. Ravindran |
-| digest | `src/digest_store.py` | `docs/digest.md` | T. Abarca |
-| rollup | `src/rollup_view.py` | `docs/rollup.md` | C. Batbayar |
-| watermark | `src/watermark_core.py` | `docs/watermark.md` | T. Abarca |
-| cursor | `src/cursor_store.py` | `docs/cursor.md` | D. Ferreira |
-| backfill | `src/backfill_flow.py` | `docs/backfill.md` | E. Thorsdottir |
-| checkpoint | `src/checkpoint_view.py` | `docs/checkpoint.md` | T. Abarca |
-| drain | `src/drain_core.py` | `docs/drain.md` | R. Okonjo |
+| quota | `src/ember/quota_view.py` | `docs/quota.md` | S. Nwachukwu |
+| replay | `src/ember/replay_view.py` | `docs/replay.md` | E. Thorsdottir |
+| audit | `src/ember/audit_view.py` | `docs/audit.md` | C. Batbayar |
+| dispatch | `src/ember/dispatch_core.py` | `docs/dispatch.md` | H. Bergstrom |
+| attestation | `src/ember/attestation_view.py` | `docs/attestation.md` | N. Oyelaran |
+| throttle | `src/ember/throttle_gate.py` | `docs/throttle.md` | L. Achterberg |
+| ledger | `src/ember/ledger_view.py` | `docs/ledger.md` | R. Okonjo |
+| schema | `src/ember/schema_flow.py` | `docs/schema.md` | K. Sorensen |
+| shard | `src/ember/shard_store.py` | `docs/shard.md` | S. Nwachukwu |
+| retention | `src/ember/retention_core.py` | `docs/retention.md` | H. Bergstrom |
+| ingest | `src/ember/ingest_store.py` | `docs/ingest.md` | E. Thorsdottir |
+| compaction | `src/ember/compaction_gate.py` | `docs/compaction.md` | P. Ravindran |
+| digest | `src/ember/digest_store.py` | `docs/digest.md` | T. Abarca |
+| rollup | `src/ember/rollup_view.py` | `docs/rollup.md` | C. Batbayar |
+| watermark | `src/ember/watermark_core.py` | `docs/watermark.md` | T. Abarca |
+| cursor | `src/ember/cursor_store.py` | `docs/cursor.md` | D. Ferreira |
+| backfill | `src/ember/backfill_flow.py` | `docs/backfill.md` | E. Thorsdottir |
+| checkpoint | `src/ember/checkpoint_view.py` | `docs/checkpoint.md` | T. Abarca |
+| drain | `src/ember/drain_core.py` | `docs/drain.md` | R. Okonjo |
 
 ## Conventions
 

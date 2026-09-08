@@ -83,3 +83,4 @@ def build_digest(config):
         limit=section.get("limit", DEFAULT_DIGEST_LIMIT),
         window_s=section.get("window_s", DEFAULT_DIGEST_WINDOW_S),
     )
+

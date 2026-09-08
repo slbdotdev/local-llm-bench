@@ -9,8 +9,8 @@ Stages are sealed in **reverse manifest order**, so that no stage is sealed whil
 upstream stage can still hand it work. The order is:
 
 1. `quota` (limits)
-2. `replay` (recovery)
-3. `audit` (evidence)
+2. `replay` (boundary)
+3. `audit` (recovery)
 4. `dispatch` (fanout)
 5. `attestation` (signing)
 6. `throttle` (pacing)

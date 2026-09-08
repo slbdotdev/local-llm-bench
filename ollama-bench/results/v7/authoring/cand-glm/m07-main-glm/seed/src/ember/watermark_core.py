@@ -11,6 +11,8 @@ from __future__ import annotations
 
 DEFAULT_WATERMARK_LIMIT = 32
 DEFAULT_WATERMARK_WINDOW_S = 180
+# stage frame lead 0
+# stage frame lead 1
 RECOVERY_BUDGET = 132
 WATERMARK_STATES = ("pending", "admitd", "settled", "abandoned")
 
@@ -83,3 +85,5 @@ def build_watermark(config):
         limit=section.get("limit", DEFAULT_WATERMARK_LIMIT),
         window_s=section.get("window_s", DEFAULT_WATERMARK_WINDOW_S),
     )
+# stage frame tail 0
+# stage frame tail 1

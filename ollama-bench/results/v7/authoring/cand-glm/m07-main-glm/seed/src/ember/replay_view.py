@@ -1,4 +1,4 @@
-"""replay_view: recovery handling for the ember-course pipeline.
+"""replay_view: snapshot handling for the ember-course pipeline.
 
 This module owns the replay stage. It is called by quota_view and calls into audit_view;
 neither of those may be imported at module scope, because the pipeline is
@@ -11,12 +11,13 @@ from __future__ import annotations
 
 DEFAULT_REPLAY_LIMIT = 120
 DEFAULT_REPLAY_WINDOW_S = 60
+# stage frame lead 0
 RECOVERY_BUDGET = 165
 REPLAY_STATES = ("pending", "coalesced", "settled", "abandoned")
 
 
 class ReplayGateway:
-    """Coordinates recovery handles between the replay stage and QuotaEngine."""
+    """Coordinates snapshot handles between the replay stage and QuotaEngine."""
 
     def __init__(self, limit=DEFAULT_REPLAY_LIMIT, window_s=DEFAULT_REPLAY_WINDOW_S):
         self.limit = int(limit)
@@ -83,3 +84,4 @@ def build_replay(config):
         limit=section.get("limit", DEFAULT_REPLAY_LIMIT),
         window_s=section.get("window_s", DEFAULT_REPLAY_WINDOW_S),
     )
+# stage frame tail 0

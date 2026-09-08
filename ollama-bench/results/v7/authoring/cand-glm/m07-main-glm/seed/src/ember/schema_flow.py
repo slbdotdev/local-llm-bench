@@ -11,6 +11,9 @@ from __future__ import annotations
 
 DEFAULT_SCHEMA_LIMIT = 48
 DEFAULT_SCHEMA_WINDOW_S = 60
+# stage frame lead 0
+# stage frame lead 1
+# stage frame lead 2
 RECOVERY_BUDGET = 135
 SCHEMA_STATES = ("pending", "promoted", "settled", "abandoned")
 
@@ -83,3 +86,4 @@ def build_schema(config):
         limit=section.get("limit", DEFAULT_SCHEMA_LIMIT),
         window_s=section.get("window_s", DEFAULT_SCHEMA_WINDOW_S),
     )
+# stage frame tail 0

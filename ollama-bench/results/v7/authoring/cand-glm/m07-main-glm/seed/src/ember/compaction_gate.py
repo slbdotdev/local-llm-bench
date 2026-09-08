@@ -11,6 +11,9 @@ from __future__ import annotations
 
 DEFAULT_COMPACTION_LIMIT = 64
 DEFAULT_COMPACTION_WINDOW_S = 180
+# stage frame lead 0
+# stage frame lead 1
+# stage frame lead 2
 RECOVERY_BUDGET = 138
 COMPACTION_STATES = ("pending", "materialised", "settled", "abandoned")
 
@@ -83,3 +86,5 @@ def build_compaction(config):
         limit=section.get("limit", DEFAULT_COMPACTION_LIMIT),
         window_s=section.get("window_s", DEFAULT_COMPACTION_WINDOW_S),
     )
+# stage frame tail 0
+# stage frame tail 1

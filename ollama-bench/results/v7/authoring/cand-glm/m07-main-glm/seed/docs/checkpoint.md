@@ -1,6 +1,6 @@
 # checkpoint stage
 
-*Owner: T. Abarca (Capacity Planning). Module: `src/checkpoint_view.py`.*
+*Owner: T. Abarca (Capacity Planning). Module: `src/ember/checkpoint_view.py`.*
 
 ## What it is for
 
@@ -35,3 +35,5 @@ repaired in flight.
 - `resolved` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->

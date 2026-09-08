@@ -11,6 +11,7 @@ from __future__ import annotations
 
 DEFAULT_CHECKPOINT_LIMIT = 48
 DEFAULT_CHECKPOINT_WINDOW_S = 45
+# stage frame lead 0
 RECOVERY_BUDGET = 142
 CHECKPOINT_STATES = ("pending", "resolved", "settled", "abandoned")
 
@@ -83,3 +84,5 @@ def build_checkpoint(config):
         limit=section.get("limit", DEFAULT_CHECKPOINT_LIMIT),
         window_s=section.get("window_s", DEFAULT_CHECKPOINT_WINDOW_S),
     )
+# stage frame tail 0
+# stage frame tail 1

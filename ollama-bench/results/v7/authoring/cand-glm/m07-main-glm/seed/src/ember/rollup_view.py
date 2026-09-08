@@ -11,6 +11,7 @@ from __future__ import annotations
 
 DEFAULT_ROLLUP_LIMIT = 250
 DEFAULT_ROLLUP_WINDOW_S = 30
+# stage frame lead 0
 RECOVERY_BUDGET = 175
 ROLLUP_STATES = ("pending", "materialised", "settled", "abandoned")
 
@@ -83,3 +84,4 @@ def build_rollup(config):
         limit=section.get("limit", DEFAULT_ROLLUP_LIMIT),
         window_s=section.get("window_s", DEFAULT_ROLLUP_WINDOW_S),
     )
+# stage frame tail 0

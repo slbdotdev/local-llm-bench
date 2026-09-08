@@ -26,11 +26,12 @@ old operation once, in its own different words, as history - it is evidence, not
 and it is not touched.
 
 Once the rename is complete, write a report to a new file `rename-report.txt` in the root of the workspace.
-It must contain exactly these four lines, in this order:
+It must contain exactly these five lines, in this order:
 
     symbol_old: <the name you renamed, exactly as the subsystem originally spelled it>
     symbol_new: <the name you renamed it to>
     bound_module: <the path of the pipeline module the subsystem binds to>
+    budget_gap: <the module budget minus its document's declared budget>
     sites: <the paths of every file you changed, alphabetical, comma-separated>
 
 No header, no quotes, no explanation, no other lines. It may end with a newline or not.

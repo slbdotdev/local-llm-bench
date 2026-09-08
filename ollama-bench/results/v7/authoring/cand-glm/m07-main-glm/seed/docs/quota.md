@@ -1,12 +1,14 @@
 # quota stage
 
-*Owner: S. Nwachukwu (Platform Reliability). Module: `src/quota_view.py`.*
+*Owner: S. Nwachukwu (Platform Reliability). Module: `src/ember/quota_view.py`.*
 
 ## What it is for
 
 The quota stage is the limits boundary of the ember-course pipeline. Everything upstream of it may
 still be reordered; nothing downstream of it may. That is the whole of its contract, and
 the reason the stage exists as a separate module rather than as a helper inside replay.
+
+> stage frame note 0
 
 ## Configuration
 
@@ -35,3 +37,5 @@ repaired in flight.
 - `advanced` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+

@@ -1,12 +1,15 @@
 # replay stage
 
-*Owner: E. Thorsdottir (Data Stewardship). Module: `src/replay_view.py`.*
+*Owner: E. Thorsdottir (Data Stewardship). Module: `src/ember/replay_view.py`.*
 
 ## What it is for
 
-The replay stage is the recovery boundary of the ember-course pipeline. Everything upstream of it may
+The replay stage is the handoff boundary of the ember-course pipeline. Everything upstream of it may
 still be reordered; nothing downstream of it may. That is the whole of its contract, and
 the reason the stage exists as a separate module rather than as a helper inside quota.
+
+> stage frame note 0
+> stage frame note 1
 
 ## Configuration
 
@@ -35,3 +38,5 @@ repaired in flight.
 - `coalesced` - acted on by this stage and awaiting the downstream acknowledgement
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
+
+<!-- stage frame tail 0 -->

@@ -11,6 +11,8 @@ from __future__ import annotations
 
 DEFAULT_INGEST_LIMIT = 48
 DEFAULT_INGEST_WINDOW_S = 15
+# stage frame lead 0
+# stage frame lead 1
 RECOVERY_BUDGET = 150
 INGEST_STATES = ("pending", "advanced", "settled", "abandoned")
 
@@ -83,3 +85,4 @@ def build_ingest(config):
         limit=section.get("limit", DEFAULT_INGEST_LIMIT),
         window_s=section.get("window_s", DEFAULT_INGEST_WINDOW_S),
     )
+# stage frame tail 0
