@@ -12,3 +12,5 @@ RESOLUTION acceptance-extension-m01-m10: the 10:13:32Z entry was a no-op (zero t
 STEP acceptance-m02-main-claude | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-claude | start=2026-09-08T11:41:31Z | end=2026-09-08T11:50:51Z | gpu_seconds=560
 STEP acceptance-m05-main-claude | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-claude | start=2026-09-08T12:47:39Z | end=PENDING
 END acceptance-m05-main-claude | end=2026-09-08T13:02:35Z | gpu_seconds=896
+STEP acceptance-q09-main-glm | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-glm | start=2026-09-08T17:12:54Z | end=PENDING
+END acceptance-q09-main-glm | end=2026-09-08T18:04:30Z | gpu_seconds=3096
