@@ -1,3 +1,7 @@
+Report written to `ollama-bench/results/v7/authoring/r6/review-q09-glm-r6d.md`. Here it is whole.
+
+---
+
 verdict: REVISE
 fair: yes — I re-derived all eight figures from the handbook text alone, blind to `ref/`, and they matched it exactly; the procedure states every rule the replay needs.
 solved_it: yes — my blind replay matched `ref/` on all eight lines. I nearly went wrong on whether a `carry` consumes the running remainder it adds: the handbook says `2F + balance + remainder` and that a relief *retains* `max(take-back - F, 0)`, but never says a carry clears it. The point is inert here — the opening rebase sets F to 9538, above every take-back (max 3760), so every retained remainder is zero and both readings give identical figures. I computed both to confirm.
@@ -16,19 +20,18 @@ fix: re-roll the 19 component-page balance labels so they share no common substr
 
 ## What I checked, and the evidence
 
-Blind derivation, from `docs/handbook/settlement-procedure.md` alone, before opening `ref/`:
-chain = the sealed row whose `previous` is empty (`sc-102`), then each sealed row sealing
-against the one before; 43 rows, 3 void, 40 in the chain, none unreached.
+Blind derivation, from `docs/handbook/settlement-procedure.md` alone, before opening `ref/`: chain = the sealed row whose `previous` is empty (`sc-102`), then each sealed row sealing against the one before; 43 rows, 3 void, 40 in the chain, none unreached.
 
-    figure_after_05: 500546                 figure_after_25: 30527012823280
-    figure_after_10: 36349857               figure_after_30: 3296917384943872
-    figure_after_15: 3925794197             figure_after_35: 237378051716215318
-    figure_after_20: 282657526996           figure_final:    25636829585351235062
+```
+figure_after_05: 500546                 figure_after_25: 30527012823280
+figure_after_10: 36349857               figure_after_30: 3296917384943872
+figure_after_15: 3925794197             figure_after_35: 237378051716215318
+figure_after_20: 282657526996           figure_final:    25636829585351235062
+```
 
 Byte-identical to `ref/settlement-report.txt`.
 
-NOTES numeric claims verified against the tree, independently of the builder (`facts()` and
-`probes()` are not in the shipped candidate, so I measured each myself):
+NOTES numeric claims verified against the tree, independently of the builder (`facts()` and `probes()` are not in the shipped candidate, so I measured each myself):
 
 | claim | measured |
 | --- | --- |
@@ -45,44 +48,18 @@ NOTES numeric claims verified against the tree, independently of the builder (`f
 | sorted-by-identifier and as-filed both miss 8 of 8 | 8/8 and 8/8 ✓ |
 | "every figure-bearing label is stage-specific" | **fails** — `qzx` reaches 19 of 19 |
 
-Checker battery, run once each from the authoring directory, all exit 0:
-`selfcheck.py` all checks pass · `probe_candidate.py` CLEAN · `probe_idempotence.py` 0 not
-idempotent · `check_rung0.py` rung 0 clear · `check_index_leak.py` clean · 
-`check_load_bearing.py` complete · `check_harvest.py` harvest clear, H1=0.125 H2=0.000
-H3=0.150 H4=0.050 (real numbers, not `vacuous`) · `check_tools.py` tools clear.
+Checker battery, run once each from the authoring directory, all exit 0: `selfcheck.py` all checks pass · `probe_candidate.py` CLEAN · `probe_idempotence.py` 0 not idempotent · `check_rung0.py` rung 0 clear · `check_index_leak.py` clean · `check_load_bearing.py` complete · `check_harvest.py` harvest clear, H1=0.125 H2=0.000 H3=0.150 H4=0.050 (real numbers, not `vacuous`) · `check_tools.py` tools clear.
 
 ## Why this is REVISE and not PASS
 
-The task itself survives every attack I made on it: the chain is genuinely serial, no
-segment commutes, no sort or affine map reproduces the order, no step is dead, and the
-frame and fixed-line sweeps this round was meant to close are closed — measurably, 1 of 38
-from either end. Fairness holds; I re-derived the key from the handbook blind.
+The task itself survives every attack I made on it: the chain is genuinely serial, no segment commutes, no sort or affine map reproduces the order, no step is dead, and the frame and fixed-line sweeps this round was meant to close are closed — measurably, 1 of 38 from either end. Fairness holds; I re-derived the key from the handbook blind.
 
-What fails is narrower and specific to the check the cover brief added. The round's stated
-fix was "unique per-stage labels", and the labels are unique only as whole tokens. As
-substrings they share `qzx`, which is how a grep actually reads them, and one grep on it
-lifts all 19 page balances with their stage names and no noise. Under the method's standing
-property — a value a single grep can harvest across units is not material — that makes the
-19 component pages non-material, so §2's "all 38 stage files are on the replay's path" and
-the 74.6% sweep both overstate what a solver must traverse. The `qzx` prefix is not a prompt
-token, so it costs one page-read to discover; but the first page-read is compulsory anyway,
-and the label is on screen the moment it happens.
+What fails is narrower and specific to the check the cover brief added. The round's stated fix was "unique per-stage labels", and the labels are unique only as whole tokens. As substrings they share `qzx`, which is how a grep actually reads them, and one grep on it lifts all 19 page balances with their stage names and no noise. Under the method's standing property — a value a single grep can harvest across units is not material — that makes the 19 component pages non-material, so §2's "all 38 stage files are on the replay's path" and the 74.6% sweep both overstate what a solver must traverse. The `qzx` prefix is not a prompt token, so it costs one page-read to discover; but the first page-read is compulsory anyway, and the label is on screen the moment it happens.
 
-The fix is cheap and does not touch the key, the chain or the arithmetic: re-roll 19 label
-strings so they share nothing, and assert the property rather than claim it. The module side
-already shows the shape to copy — `MICA`, `CASK`, `EMBER` and the rest share no substring,
-and no low-noise literal reaches them.
+The fix is cheap and does not touch the key, the chain or the arithmetic: re-roll 19 label strings so they share nothing, and assert the property rather than claim it. The module side already shows the shape to copy — `MICA`, `CASK`, `EMBER` and the rest share no substring, and no low-noise literal reaches them.
 
 ## What remains uncertain
 
-- `facts()`, `probes()` and `_assert_documented_rule()` are named throughout `NOTES.md` but
-  live in the builder, outside the candidate, so I could not confirm that the assertions
-  described are the assertions run. I measured every claim from the tree instead, which is
-  the stronger check, but the builder-side claims in §12 are unverified from here.
-- The carry-consumes-remainder ambiguity is inert on this log, so it costs nothing today.
-  It would become a real fairness defect if the figures were ever re-rolled such that a
-  take-back exceeded the running figure at some relief. Worth pinning in the handbook
-  before any re-roll.
-- I sampled rather than exhausted segment shuffles longer than 6 entries (200 each). Nothing
-  in the transform structure suggests a long commuting segment where no short one exists,
-  but I did not prove it.
+- `facts()`, `probes()` and `_assert_documented_rule()` are named throughout `NOTES.md` but live in the builder, outside the candidate, so I could not confirm that the assertions described are the assertions run. I measured every claim from the tree instead, which is the stronger check, but the builder-side claims in §12 are unverified from here.
+- The carry-consumes-remainder ambiguity is inert on this log, so it costs nothing today. It would become a real fairness defect if the figures were ever re-rolled such that a take-back exceeded the running figure at some relief. Worth pinning in the handbook before any re-roll.
+- I sampled rather than exhausted segment shuffles longer than 6 entries (200 each). Nothing in the transform structure suggests a long commuting segment where no short one exists, but I did not prove it.

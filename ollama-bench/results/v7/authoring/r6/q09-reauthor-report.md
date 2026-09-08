@@ -55,3 +55,14 @@ literal grep collects 19/19 page-side figures (would-be H1 0.475 vs the
 can). Fix is small (re-roll 19 labels with no shared substring + a
 build-time shared-substring assertion + §4/§11 corrections) but the
 ruling's letter ends the round here. Unshelving is the auditor's call.
+
+## AMENDED 16:46Z (auditor, owner authority): shelving LIFTED
+
+The r6d defect is a generator slip (shared 'qzx' prefix on 19 labels),
+not the structural class the shelving rule targets; fair/solved/checker
+all sound. One bounded micro-fix: re-roll the 19 page-balance labels
+with no shared substring across stages + build-time assertion, nothing
+else; reference unchanged; then ONE Opus leg — not PASS shelves without
+further discussion. (Repair: review-q09-glm-r6d.md restored from run
+099d7bd0851e after the opus r6d run overwrote it via a cover-brief path
+slip; opus r6d copied from 04e8ead57913.)
