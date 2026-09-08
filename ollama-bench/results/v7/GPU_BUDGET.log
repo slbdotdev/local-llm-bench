@@ -10,3 +10,5 @@ STEP acceptance-extension-corrected-m01-m10 | process=pibench.py:v7r6-accept-IQ2
 NOTE corrected extension GPU time=4901s; campaign accounted total=6560s (1h49m20s); remaining 12h budget=36640s (10h10m40s).
 RESOLUTION acceptance-extension-m01-m10: the 10:13:32Z entry was a no-op (zero tasks, gpu_seconds=0); the GPU-holding step is the corrected cand-glm entry above.
 STEP acceptance-m02-main-claude | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-claude | start=2026-09-08T11:41:31Z | end=2026-09-08T11:50:51Z | gpu_seconds=560
+STEP acceptance-m05-main-claude | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-claude | start=2026-09-08T12:47:39Z | end=PENDING
+END acceptance-m05-main-claude | end=2026-09-08T13:02:35Z | gpu_seconds=896
