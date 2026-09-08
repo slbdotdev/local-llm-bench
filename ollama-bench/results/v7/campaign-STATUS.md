@@ -167,3 +167,24 @@ tallies (r6-accept-tally-m09/-m03.json) plus run ids
 wr-wsl-20260908T180737Z-87574fbb38e6 and wr-wsl-20260908T190543Z-b41d76b6b07c,
 whose harness logs carry the full per-trial console tables — pending
 re-run for true rows (in flight; this note is amended when they land).
+
+## Provenance correction complete: true m09 and m03 rows (2026-09-08)
+
+- Both slots were rerun on the RTX 5080 with the committed cell: `q27-IQ2_M-64k`,
+  65536 context, medium thinking, pi resilience, 900s timeout, tag
+  `v7r6-accept-IQ2_M-main`, and `authoring/cand-luna`. Pibench wrote true rows
+  to the tracked canonical `results/v7r6-accept-IQ2_M-main.json`; no log synthesis was used.
+- Canonical row count was 70 before and 90 after: m09 added 10 rows and m03 added
+  10 rows. The seven pre-existing slots remain m01, m02, m04, m05, m07, m10, and
+  q09, each with 10 rows.
+- `m09-main-luna`: 10/10 correct, 0 confidently_wrong, 0 visibly_failed, 0 unsafe;
+  trials 0–8 stopped normally and trial 9 passed with `stop=length` (362.1s, no
+  process timeout). Wilson 95% [0.722, 1.000].
+- `m03-main-luna`: 7/10 correct, 2 confidently_wrong, 1 visibly_failed, 0 unsafe;
+  trial 7 was `stop=toolUse` at the configured 900s timeout. Wilson 95% [0.397, 0.892].
+- `r6-accept-tally-m09.json` and `r6-accept-tally-m03.json` were regenerated from
+  the canonical-tagged rows. The tally command exits 1 because 15 other Luna slots
+  remain below the three-trial reporting minimum.
+- The rerun intervals added 1280s (m09) and 2315s (m03); accounted GPU time is now
+  20588s (5h43m08s), with 22612s (6h16m52s) remaining in the 12-hour budget. Final
+  `/api/ps` was empty; no early budget stop occurred.

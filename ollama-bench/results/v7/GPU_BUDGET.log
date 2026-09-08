@@ -24,3 +24,9 @@ STEP acceptance-m03-main-luna | process=pibench.py:v7r6-accept-IQ2_M-main:trials
 END acceptance-m03-main-luna | end=2026-09-08T19:49:00Z | gpu_seconds=2317
 NOTE acceptance-m03-main-luna: trial GPU time=2317s; campaign accounted total=16255s (4h30m55s); remaining 12h budget=26945s (7h29m05s). Total includes prior accounted 13938s plus this m03 interval; no early budget stop.
 STEP acceptance-m04-main-glm | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-glm | start=2026-09-08T19:52:03Z | end=2026-09-08T20:04:32Z | gpu_seconds=738
+STEP acceptance-rerun-m09-main-luna | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-luna | start=2026-09-08T20:14:20Z | end=2026-09-08T20:35:40Z
+END acceptance-rerun-m09-main-luna | end=2026-09-08T20:35:40Z | gpu_seconds=1280
+NOTE acceptance-rerun-m09-main-luna: trial GPU time=1280s; campaign accounted total=18273s (5h04m33s); remaining 12h budget=24927s (6h55m27s). No early budget stop.
+STEP acceptance-rerun-m03-main-luna | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-luna | start=2026-09-08T20:36:17Z | end=2026-09-08T21:14:52Z
+END acceptance-rerun-m03-main-luna | end=2026-09-08T21:14:52Z | gpu_seconds=2315
+NOTE acceptance-rerun-m03-main-luna: trial GPU time=2315s; campaign accounted total=20588s (5h43m08s); remaining 12h budget=22612s (6h16m52s). One trial hit the configured 900s timeout; no early budget stop.

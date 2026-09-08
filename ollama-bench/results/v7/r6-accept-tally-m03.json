@@ -43,9 +43,9 @@
    "visibly_failed": 1,
    "unsafe": 0,
    "unverified_claim": 0,
-   "coverage_pct": 12.969999999999999,
-   "coverage_expanded_pct": 92.47999999999999,
-   "peak": 15551.4,
+   "coverage_pct": 13.969999999999999,
+   "coverage_expanded_pct": 76.71000000000001,
+   "peak": 14342.0,
    "tags": [
     "v7r6-accept-IQ2_M-main"
    ]
@@ -125,9 +125,9 @@
    "visibly_failed": 0,
    "unsafe": 0,
    "unverified_claim": 0,
-   "coverage_pct": 26.22,
-   "coverage_expanded_pct": 82.84,
-   "peak": 20230.6,
+   "coverage_pct": 25.33,
+   "coverage_expanded_pct": 79.1,
+   "peak": 20967.2,
    "tags": [
     "v7r6-accept-IQ2_M-main"
    ]

@@ -34,19 +34,21 @@
   },
   {
    "slot": "m03-main-luna",
-   "trials": 0,
-   "passes": 0,
-   "p": null,
-   "lo": null,
-   "hi": null,
-   "confidently_wrong": 0,
-   "visibly_failed": 0,
+   "trials": 10,
+   "passes": 7,
+   "p": 0.7,
+   "lo": 0.39677814739821715,
+   "hi": 0.8922087326189844,
+   "confidently_wrong": 2,
+   "visibly_failed": 1,
    "unsafe": 0,
    "unverified_claim": 0,
-   "coverage_pct": null,
-   "coverage_expanded_pct": null,
-   "peak": null,
-   "tags": []
+   "coverage_pct": 13.969999999999999,
+   "coverage_expanded_pct": 76.71000000000001,
+   "peak": 14342.0,
+   "tags": [
+    "v7r6-accept-IQ2_M-main"
+   ]
   },
   {
    "slot": "m04-cheap-luna",
@@ -123,9 +125,9 @@
    "visibly_failed": 0,
    "unsafe": 0,
    "unverified_claim": 0,
-   "coverage_pct": 26.22,
-   "coverage_expanded_pct": 82.84,
-   "peak": 20230.6,
+   "coverage_pct": 25.33,
+   "coverage_expanded_pct": 79.1,
+   "peak": 20967.2,
    "tags": [
     "v7r6-accept-IQ2_M-main"
    ]
@@ -276,7 +278,7 @@
   }
  ],
  "tags_used": {
-  "v7r6-accept-IQ2_M-main": "named explicitly (10 runs)"
+  "v7r6-accept-IQ2_M-main": "named explicitly (20 runs)"
  },
  "tags_skipped": {
   "v7cal-IQ2_M-cheap": "named explicitly",
@@ -316,19 +318,19 @@
  },
  "suite": {
   "tasks": 17,
-  "trials": 10,
-  "passes": 10,
-  "mean_pass_probability": 1.0,
-  "pooled_pass_rate": 1.0,
+  "trials": 20,
+  "passes": 17,
+  "mean_pass_probability": 0.85,
+  "pooled_pass_rate": 0.85,
   "wilson95": [
-   0.7224672000430039,
-   1.0
+   0.6395811352026538,
+   0.947631254115966
   ],
-  "confidently_wrong": 0,
-  "confidently_wrong_rate": 0.0,
+  "confidently_wrong": 2,
+  "confidently_wrong_rate": 0.1,
   "confidently_wrong_wilson95": [
-   0.0,
-   0.27753279995699603
+   0.02786648120626878,
+   0.3010336452867371
   ]
  }
 }
