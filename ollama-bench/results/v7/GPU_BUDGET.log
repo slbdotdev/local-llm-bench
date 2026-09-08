@@ -1,0 +1,11 @@
+# v7 local validation and acceptance campaign — RTX 5080 (FRACTAL)
+# Append-only accounting; timestamps are UTC real clock.
+
+STEP gpuverify-six-tags | process=bash-results/v7/gpuverify.sh | start=2026-09-08T09:37:51Z | end=2026-09-08T09:46:03Z
+STEP acceptance-workhorse-m01-m10 | process=pibench.py:v7r6-accept-IQ2_M-main | start=2026-09-08T09:46:28Z | end=2026-09-08T10:05:55Z
+STEP acceptance-extension-m01-m10 | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10 | start=2026-09-08T10:13:32Z | end=PENDING
+NOTE acceptance-extension attempt at 10:13:53Z found zero tasks because the desktop candidate slots live under authoring/cand-glm; no model load or GPU work occurred.
+END acceptance-extension attempt | end=2026-09-08T10:13:55Z | gpu_seconds=0 | superseded by corrected candidate-dir run below.
+STEP acceptance-extension-corrected-m01-m10 | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-glm | start=2026-09-08T10:15:03Z | end=2026-09-08T11:36:44Z
+NOTE corrected extension GPU time=4901s; campaign accounted total=6560s (1h49m20s); remaining 12h budget=36640s (10h10m40s).
+RESOLUTION acceptance-extension-m01-m10: the 10:13:32Z entry was a no-op (zero tasks, gpu_seconds=0); the GPU-holding step is the corrected cand-glm entry above.
