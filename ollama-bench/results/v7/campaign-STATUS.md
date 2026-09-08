@@ -108,3 +108,17 @@ repository v7 harness, with the GPU load check first. GPU spend is recorded in G
   Wilson 95% [0.490, 0.943], 2 confidently_wrong.
 - The m05 GPU interval was 896s (start 12:47:39Z, end 13:02:35Z), bringing campaign
   accounting to 7456s (2h04m16s). Final Ollama `/api/ps` was `{"models":[]}`.
+
+## Continuation: m09-main-luna to n=10 (2026-09-08)
+
+- Started the admitted m09-main-luna cell with q27-IQ2_M-64k, 65536 context, medium thinking,
+  pi resilience, 900s timeout, and tag v7r6-accept-IQ2_M-main. The desktop clone could not
+  fast-forward because prior result files are dirty; the current local synchronized candidate
+  was used without overwriting the desktop worktree.
+- The ten m09 trials completed: all ten were `correct`, `stop`, and non-timeout. GPU interval was
+  1055s (18:13:19Z–18:30:54Z).
+- Per-trial wall seconds were 82.1, 48.6, 92.7, 86.8, 61.3, 82.9, 136.1, 99.6, 181.4, and
+  121.6. `tally_trials.py --tasks-dir results/v7/authoring/cand-luna --only-tags
+  v7r6-accept-IQ2_M-main --json results/v7/r6-accept-tally-m09.json` exited 1 because 16 other
+  Luna slots were unmeasured; m09-main-luna is 10/10 = 1.000, Wilson 95% [0.722, 1.000], with
+  0 confidently_wrong, 0 visibly_failed, and 0 unsafe. Final Ollama `/api/ps` was `{"models":[]}`.
