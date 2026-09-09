@@ -818,6 +818,10 @@ def run_pi(model, task, think, timeout, provider="ollama", agent_dir=AGENT_DIR, 
               "tool_arg_keys": tool_arg_keys,
               "material_files": len((task.get("material") or {}).get("files") or {}),
               "in_tokens": usage_in, "out_tokens": usage_out,
+              # effective_gen_tps is out_tokens over WALL time, so it includes tool execution,
+              # grading and network round-trips and is NOT decode throughput; it must never be
+              # compared with ollama's eval_duration-derived gen_tps, hence the distinct name.
+              "effective_gen_tps": round(usage_out / wall, 1) if wall > 0 else None,
               "timed_out": timed_out, "rc": rc, "errors": errors, "grader": gout.strip(), "score": score,
               "verdict": verdict, "fill_tokens_requested": fill_info["fill_tokens_requested"],
               "prompt_delivery": fill_info["prompt_delivery"],
@@ -910,8 +914,8 @@ def main():
             unload(model)
 
     # Summary table.
-    lines = [f"# pi bench ({tag})", "", "| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    lines = [f"# pi bench ({tag})", "", "| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | eff tok/s (wall) | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for model, r in results.items():
         runs = r["runs"]
         if not runs:
@@ -929,12 +933,14 @@ def main():
         n_len_runs = sum(1 for x in runs if x.get("stop_reasons", {}).get("length"))
         scored = [x["score"] for x in runs if x.get("score") is not None]
         score_str = f"{statistics.mean(scored):.2f} ({len(scored)}/{n} runs)" if scored else "-"
+        eff = [x["effective_gen_tps"] for x in runs if x.get("effective_gen_tps") is not None]
+        eff_str = f"{statistics.mean(eff):.1f}" if eff else "-"
         verdict_counts = {v: sum(1 for x in runs if x.get("verdict") == v)
                           for v in ("correct", "visibly_failed", "confidently_wrong")}
         confident_rate = f"{verdict_counts['confidently_wrong'] / n:.1%}" if n else "-"
         lines.append(f"| {model} | {tp.get('size_gb','?')} GB | {tp.get('pct_gpu','?')} | {gen_str} | "
                      f"{p}/{n} | {score_str} | {solved}/{len(per_task)} all-trials | {statistics.mean(x['wall_s'] for x in runs):.0f}s | "
-                     f"{statistics.mean(x['out_tokens'] for x in runs):.0f} | {statistics.mean(x['tool_calls'] for x in runs):.1f} | "
+                     f"{statistics.mean(x['out_tokens'] for x in runs):.0f} | {eff_str} | {statistics.mean(x['tool_calls'] for x in runs):.1f} | "
                      f"{verdict_counts['correct']} | {verdict_counts['visibly_failed']} | "
                      f"{verdict_counts['confidently_wrong']} | {confident_rate} | {n_len} in {n_len_runs}/{n} |")
     lines += ["", "## Per task (passes/trials)", "", "| task | " + " | ".join(results) + " |",
@@ -947,6 +953,18 @@ def main():
             sc = [x["score"] for x in rs if x.get("score") is not None]
             cell = f"{sum(v)}/{len(v)}" + (f" (score {statistics.mean(sc):.2f})" if sc else "")
             row.append(cell if v else "-")
+        lines.append(f"| {t['name']} | " + " | ".join(row) + " |")
+    lines += ["", "## Per task eff tok/s (wall)", "",
+              "out_tokens / wall_s per run, meaned per task. Wall includes tool execution, grading and",
+              "network round-trips, so this is NOT decode throughput and must not be read as ollama gen_tps.",
+              "", "| task | " + " | ".join(results) + " |",
+              "|---|" + "---|" * len(results)]
+    for t in tasks:
+        row = []
+        for model, r in results.items():
+            rs = [x for x in r["runs"] if x["task"] == t["name"]]
+            effs = [x["effective_gen_tps"] for x in rs if x.get("effective_gen_tps") is not None]
+            row.append(f"{statistics.mean(effs):.1f}" if effs else "-")
         lines.append(f"| {t['name']} | " + " | ".join(row) + " |")
     md = "\n".join(lines)
     with open(os.path.join(HERE, "results", tag + ".md"), "w", encoding="utf-8") as f:
