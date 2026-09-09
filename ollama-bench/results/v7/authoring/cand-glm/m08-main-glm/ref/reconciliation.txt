@@ -1,0 +1,6 @@
+opening: 271828
+checkpoint_05: 970686
+checkpoint_10: 159440
+checkpoint_15: 623445
+checkpoint_20: 940009
+final: 940009

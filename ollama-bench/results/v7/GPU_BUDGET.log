@@ -30,3 +30,6 @@ NOTE acceptance-rerun-m09-main-luna: trial GPU time=1280s; campaign accounted to
 STEP acceptance-rerun-m03-main-luna | process=pibench.py:v7r6-accept-IQ2_M-main:trials-10:cand-luna | start=2026-09-08T20:36:17Z | end=2026-09-08T21:14:52Z
 END acceptance-rerun-m03-main-luna | end=2026-09-08T21:14:52Z | gpu_seconds=2315
 NOTE acceptance-rerun-m03-main-luna: trial GPU time=2315s; campaign accounted total=20588s (5h43m08s); remaining 12h budget=22612s (6h16m52s). One trial hit the configured 900s timeout; no early budget stop.
+STEP acceptance-extension-m01-m10-n20 | process=pibench.py:v7r6-accept-IQ2_M-main:trials-20:cand-glm | start=2026-09-08T22:24:08Z | end=2026-09-08T23:20:47Z | gpu_seconds=3399
+NOTE acceptance-extension-m01-m10-n20: Windows pi subprocess stalled during m10 trial 10 after m01 trials 10-19 completed; interrupted cleanly. Accounted interval uses wall-clock GPU hold estimate; resume below.
+STEP acceptance-extension-m10-n20-resume | process=pibench.py:v7r6-accept-IQ2_M-main:trials-20:cand-glm | start=2026-09-08T23:21:11Z | end=PENDING
