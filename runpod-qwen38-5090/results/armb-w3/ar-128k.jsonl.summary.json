@@ -1,0 +1,15 @@
+{
+  "label": "ar-128k",
+  "context_tokens_requested": 131000,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    130932
+  ],
+  "rows": 1,
+  "median_output_tps": 2.0162669828010373,
+  "max_output_tps": 2.0162669828010373,
+  "dispersion": 0,
+  "median_prefill_tps": 4448.836868251042,
+  "spec_metrics_before": {},
+  "spec_metrics_after": {}
+}

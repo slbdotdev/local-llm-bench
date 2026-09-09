@@ -1,0 +1,16 @@
+{
+  "label": "ar-8k-ctx",
+  "context_tokens_requested": 8192,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    8203,
+    8230
+  ],
+  "rows": 4,
+  "median_output_tps": 56.97188400769623,
+  "max_output_tps": 64.29892129695013,
+  "dispersion": 3.5308165191613785,
+  "median_prefill_tps": 5725.76418857603,
+  "spec_metrics_before": {},
+  "spec_metrics_after": {}
+}

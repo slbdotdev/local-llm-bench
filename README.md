@@ -41,3 +41,25 @@ Full taker transcripts, pi overseer JSONL transcripts, llama-server logs,
 and ollama pull logs were dropped.
 The findings extracted from them live in the ansible-slb repo at
 `org/bench-v4-carryover-2026-09-03.md`.
+
+## Second directory: runpod-qwen38-5090
+
+[`runpod-qwen38-5090/`](runpod-qwen38-5090/) is the Runpod RTX 5090
+single-stream throughput campaign of 2026-09-08 — a hosted-GPU campaign
+rather than a local harness, kept here because it is benchmark evidence and
+had no other home in version control.
+
+It holds the pinned build (`build/`, `manifests/`), the measurement scripts
+(`scripts/`, `artifacts/harness/`), the fixed prompt set (`prompts/`), the
+worker briefs (`briefs/`), and the per-round results (`results/`, including
+round two's `row-*` streams). `STATUS.md` and `STATUS.attempt1.md` are the
+run logs.
+
+Five pages in the ansible-slb repo cite this directory and carry the
+analysis: `org/runpod-5090-300tps-plan-2026-09-08.md`,
+`org/runpod-5090-300tps-run-2026-09-08.md`,
+`org/runpod-5090-round2-plan-2026-09-08.md`,
+`org/runpod-5090-round2-run-2026-09-08.md`, and
+`org/glm-seat-audit-2-notes.md`. Moved in 2026-09-09; before that it lived
+outside git at `/home/slb/runpod-qwen38-5090`, which is why those pages'
+older revisions cite an absolute path.

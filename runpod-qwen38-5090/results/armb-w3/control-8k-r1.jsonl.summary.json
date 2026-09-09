@@ -1,0 +1,16 @@
+{
+  "label": "control-8k-r1",
+  "context_tokens_requested": 8192,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    8203,
+    8230
+  ],
+  "rows": 4,
+  "median_output_tps": 29.356450799045508,
+  "max_output_tps": 61.20111835534774,
+  "dispersion": 28.09037022176336,
+  "median_prefill_tps": 5956.162434333829,
+  "spec_metrics_before": {},
+  "spec_metrics_after": {}
+}

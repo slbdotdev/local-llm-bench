@@ -1,0 +1,16 @@
+{
+  "label": "ar-64k",
+  "context_tokens_requested": 65536,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    65517,
+    65548
+  ],
+  "rows": 2,
+  "median_output_tps": 10.365116645836537,
+  "max_output_tps": 10.394100279832532,
+  "dispersion": 0.02898363399599635,
+  "median_prefill_tps": 6333.5803733654775,
+  "spec_metrics_before": {},
+  "spec_metrics_after": {}
+}

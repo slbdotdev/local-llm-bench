@@ -1,0 +1,20 @@
+{
+  "label": "sc-mmzero-8k",
+  "context_tokens_requested": 8192,
+  "prompt_tokens_measured": [
+    8198,
+    8203,
+    8232,
+    8234
+  ],
+  "completion_tokens_seen": [
+    7,
+    256
+  ],
+  "rows": 4,
+  "rows_used_for_decode": 3,
+  "median_decode_tps": 77.7061236404156,
+  "max_decode_tps": 77.74168862640308,
+  "median_ttft_s": 1.3402765714999987,
+  "median_prefill_tps": 6138.101783816446
+}

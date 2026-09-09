@@ -1,0 +1,2 @@
+{"ttft_s": 11.06572053101263, "total_s": 11.754359559010481, "chunks": 33, "completion_tokens": 128, "prompt_tokens": 65511, "decode_s": 0.6886390279978514, "decode_tps": 184.42172870921897, "end_to_end_tps": 10.889576701937765, "label": "sc-mtp3-64k", "prompt_id": "audit", "trial": 0}
+{"ttft_s": 11.959155691001797, "total_s": 12.646461119002197, "chunks": 33, "completion_tokens": 128, "prompt_tokens": 65548, "decode_s": 0.6873054280003998, "decode_tps": 184.7795678981981, "end_to_end_tps": 10.121408573950463, "label": "sc-mtp3-64k", "prompt_id": "code", "trial": 0}

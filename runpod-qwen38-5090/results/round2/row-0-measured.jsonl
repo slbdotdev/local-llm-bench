@@ -1,0 +1,1 @@
+{"row":0,"status":"boot-pass-measured-on-pod","pod":"nspp0yrdmsctii","template":"s4p1doethh","context":8192,"trials":12,"decode_tps_median":48.77059339547925,"accepted_tokens":2049,"draft_tokens":1032,"tau":2.98546511627907,"sanity":"not-run","proxy":"not-used"}

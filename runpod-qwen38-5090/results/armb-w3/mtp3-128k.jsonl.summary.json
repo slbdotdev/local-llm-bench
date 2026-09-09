@@ -1,0 +1,33 @@
+{
+  "label": "mtp3-128k",
+  "context_tokens_requested": 131000,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    130932
+  ],
+  "rows": 1,
+  "median_output_tps": 1.824422986204215,
+  "max_output_tps": 1.824422986204215,
+  "dispersion": 0,
+  "median_prefill_tps": 3793.4517189204535,
+  "spec_metrics_before": {
+    "vllm:spec_decode_num_drafts_total": 754.0,
+    "vllm:spec_decode_num_drafts_created": 1788835308.0680776,
+    "vllm:spec_decode_num_draft_tokens_total": 2262.0,
+    "vllm:spec_decode_num_draft_tokens_created": 1788835308.0680938,
+    "vllm:spec_decode_num_accepted_tokens_total": 1546.0,
+    "vllm:spec_decode_num_accepted_tokens_created": 1788835308.0681026,
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1546.0,
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created": 5366505924.204357
+  },
+  "spec_metrics_after": {
+    "vllm:spec_decode_num_drafts_total": 770.0,
+    "vllm:spec_decode_num_drafts_created": 1788835308.0680776,
+    "vllm:spec_decode_num_draft_tokens_total": 2310.0,
+    "vllm:spec_decode_num_draft_tokens_created": 1788835308.0680938,
+    "vllm:spec_decode_num_accepted_tokens_total": 1594.0,
+    "vllm:spec_decode_num_accepted_tokens_created": 1788835308.0681026,
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total": 1594.0,
+    "vllm:spec_decode_num_accepted_tokens_per_pos_created": 5366505924.204357
+  }
+}

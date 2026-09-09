@@ -1,0 +1,1 @@
+{"ttft_s": 29.30265019298531, "total_s": 30.25440086898743, "chunks": 64, "completion_tokens": 64, "prompt_tokens": 130935, "decode_s": 0.9517506760021206, "decode_tps": 66.19380641223692, "end_to_end_tps": 2.1153947247920493, "label": "sc-briefed-128k", "prompt_id": "audit", "trial": 0}

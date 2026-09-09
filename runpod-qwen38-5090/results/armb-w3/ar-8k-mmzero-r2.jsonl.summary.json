@@ -1,0 +1,16 @@
+{
+  "label": "ar-8k-mmzero-r2",
+  "context_tokens_requested": 8192,
+  "tokens_per_pad_block": 37.02,
+  "prompt_tokens_measured": [
+    8203,
+    8231
+  ],
+  "rows": 4,
+  "median_output_tps": 5.014516703430354,
+  "max_output_tps": 9.466867884819978,
+  "dispersion": 3.959945755694786,
+  "median_prefill_tps": 5468.608101109478,
+  "spec_metrics_before": {},
+  "spec_metrics_after": {}
+}

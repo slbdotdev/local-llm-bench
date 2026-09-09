@@ -1,0 +1,4 @@
+{"id":"audit","prompt":"Audit this deployment change for correctness, safety, rollback, and observability. Explain each finding with evidence and a concise remediation."}
+{"id":"code","prompt":"Review this Python function for correctness, concurrency, resource lifetime, and error handling. Return numbered findings followed by a corrected implementation plan.\ndef worker(items, cache={}):\n    for item in items:\n        cache[item.key] = process(item)\n    return cache"}
+{"id":"tool_json","prompt":"Given this tool request, validate the schema, identify unsafe operations, and return a corrected JSON request plus a short explanation. {\"tool\":\"deploy\",\"args\":{\"environment\":\"prod\",\"replicas\":0,\"rollback\":false}}"}
+{"id":"diff","prompt":"Review this unified diff as a senior maintainer. Identify behavioral regressions, test gaps, and security concerns, then rank the issues by severity. --- a/service.py +++ b/service.py @@ - timeout = 30 + timeout = None"}

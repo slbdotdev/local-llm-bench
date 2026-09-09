@@ -1,0 +1,2 @@
+{"ttft_s": 9.945230813988019, "total_s": 11.723688928002957, "chunks": 128, "completion_tokens": 128, "prompt_tokens": 65512, "decode_s": 1.7784581140149385, "decode_tps": 71.41017210312171, "end_to_end_tps": 10.918065191431504, "label": "sc-briefed-64k", "prompt_id": "audit", "trial": 0}
+{"ttft_s": 10.578387264016783, "total_s": 12.359357133012963, "chunks": 128, "completion_tokens": 128, "prompt_tokens": 65544, "decode_s": 1.7809698689961806, "decode_tps": 71.30946020528793, "end_to_end_tps": 10.356525717514902, "label": "sc-briefed-64k", "prompt_id": "code", "trial": 0}

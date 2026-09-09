@@ -1,0 +1,22 @@
+{
+  "source_commit": "06d9b9a8a020cd38f6ed9c7726d7d94c1ed8f5b4",
+  "image": {
+    "repository": "vllm/vllm-openai",
+    "tag": "v0.28.0-cu129",
+    "digest": "sha256:50509e700235cea487715cedeb501d20a1cd15fa6a54ce93688284bd0d96995d",
+    "platform": "linux/amd64",
+    "deviation": "official immutable image substituted for custom build; v0.28.0-cu130 tag unavailable"
+  },
+  "cuda": "12.9",
+  "target": {
+    "repo":"doth4580/Qwen3.8-27B-NVFP4-FULL",
+    "revision":"1b49c1e2ad0b7621e9a991bc4e2dd10380cfc175",
+    "files":{"model-00001.safetensors":12917640204,"model-00002.safetensors":3375840012}
+  },
+  "drafter": {
+    "repo":"lued/Qwen3.8-27B-DFlash2-W8",
+    "revision":"f454fa8e6a84387bf006f849584f72541cc29118",
+    "files":{"model.safetensors":2172742656}
+  },
+  "runtime": {"kv_cache_dtype":"fp8","max_model_len":262144,"working_context":131072,"num_speculative_tokens":7}
+}

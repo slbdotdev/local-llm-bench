@@ -1,0 +1,1 @@
+{"row":0,"status":"boot-pass-measurement-blocked","pod":"g709ddi0orhygb","template":"sltwyzfbiu","disk_gb":100,"cuda":"13.0","checkpoint_gib":19.15,"model_load_gib":18.65,"http_minimal_curl":200,"harness_padded_request":403,"decode_tps":null,"tau":null,"sanity":null}

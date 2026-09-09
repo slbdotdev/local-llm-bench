@@ -1,0 +1,20 @@
+{
+  "label": "sc-briefed-8k",
+  "context_tokens_requested": 8192,
+  "prompt_tokens_measured": [
+    8201,
+    8205,
+    8232,
+    8234
+  ],
+  "completion_tokens_seen": [
+    92,
+    256
+  ],
+  "rows": 4,
+  "rows_used_for_decode": 4,
+  "median_decode_tps": 77.24761077233036,
+  "max_decode_tps": 77.42454340549162,
+  "median_ttft_s": 1.345776548012509,
+  "median_prefill_tps": 6111.443640539026
+}

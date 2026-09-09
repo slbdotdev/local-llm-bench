@@ -1,0 +1,17 @@
+{
+  "label": "sc-briefed-64k",
+  "context_tokens_requested": 65536,
+  "prompt_tokens_measured": [
+    65512,
+    65544
+  ],
+  "completion_tokens_seen": [
+    128
+  ],
+  "rows": 2,
+  "rows_used_for_decode": 2,
+  "median_decode_tps": 71.35981615420482,
+  "max_decode_tps": 71.41017210312171,
+  "median_ttft_s": 10.2618090390024,
+  "median_prefill_tps": 6391.653763921469
+}

@@ -1,0 +1,19 @@
+{
+  "label": "sc-mtp3-8k",
+  "context_tokens_requested": 8192,
+  "prompt_tokens_measured": [
+    8206,
+    8232
+  ],
+  "completion_tokens_seen": [
+    19,
+    35,
+    256
+  ],
+  "rows": 4,
+  "rows_used_for_decode": 4,
+  "median_decode_tps": 184.32009232604895,
+  "max_decode_tps": 194.47361565604024,
+  "median_ttft_s": 1.6003159979882184,
+  "median_prefill_tps": 5170.008016888973
+}

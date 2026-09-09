@@ -1,0 +1,17 @@
+{
+  "label": "sc-mtp3-64k",
+  "context_tokens_requested": 65536,
+  "prompt_tokens_measured": [
+    65511,
+    65548
+  ],
+  "completion_tokens_seen": [
+    128
+  ],
+  "rows": 2,
+  "rows_used_for_decode": 2,
+  "median_decode_tps": 184.60064830370854,
+  "max_decode_tps": 184.7795678981981,
+  "median_ttft_s": 11.512438111007214,
+  "median_prefill_tps": 5700.581874512798
+}

@@ -1,0 +1,23 @@
+{
+  "pod_id": "nuhw6uryhl6g94",
+  "template_id": "uef0s3i84i",
+  "cuda_version": "13.0",
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "cloud": "SECURE",
+  "row_count": 12,
+  "per_row_validity": ["all 12 rows completion_tokens=256; no early-EOS exclusions"],
+  "median_decode_tps": 149.04233143870985,
+  "measurement": "results/round2/row-0-resumed.jsonl",
+  "producer": "salt + 8192-token padding + instruction; usage-only completion_tokens; chunks recorded separately",
+  "blocking_issue": null,
+  "baseline_void": false,
+  "served_argv": ["vllm", "serve", "sakamakismile/Qwen3.8-27B-MTP-NVFP4", "--served-model-name", "qwen38", "--quantization", "compressed-tensors", "--kv-cache-dtype", "fp8", "--enable-prefix-caching", "--max-model-len", "131072", "--skip-mm-profiling", "--max-num-seqs", "4", "--max-num-batched-tokens", "4096", "--limit-mm-per-prompt", "{\"image\":0,\"video\":0}", "--speculative-config", "{\"method\":\"qwen3_5_mtp\",\"num_speculative_tokens\":3}"],
+  "speculative_counters": {"accepted_tokens": null, "drafts": null, "status": "unrecoverable; baseline pod metrics were not recorded before deletion"},
+  "rung_provenance": {
+    "baseline": {"served_argv": "same as top-level served_argv", "speculative_counters": {"accepted_tokens": null, "drafts": null, "status": "unrecoverable"}},
+    "row-0": {"served_argv": "same n=3 argv as baseline", "speculative_counters": {"accepted_tokens": 1558, "drafts": 884}},
+    "row-1a-n5": {"served_argv": "same argv with num_speculative_tokens=5", "speculative_counters": {"accepted_tokens": 2080, "drafts": 908}},
+    "row-1b-n7": {"served_argv": "same argv with num_speculative_tokens=7", "speculative_counters": {"accepted_tokens": 2128, "drafts": 823}},
+    "row-2-graphs": {"served_argv": "same n=3 argv plus --compilation-config {\"cudagraph_mode\":\"FULL_DECODE_ONLY\"}", "speculative_counters": {"accepted_tokens": 2019, "drafts": 1057}}
+  }
+}

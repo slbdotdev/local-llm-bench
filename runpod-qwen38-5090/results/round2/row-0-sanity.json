@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "id": "multiply",
+      "trial": 0,
+      "output": "\n\n391",
+      "needle": "391",
+      "pass": true
+    },
+    {
+      "id": "multiply",
+      "trial": 1,
+      "output": "\n\n391",
+      "needle": "391",
+      "pass": true
+    },
+    {
+      "id": "fib",
+      "trial": 0,
+      "output": "\n\nThe line you provided is a Python function that calculates the Fibonacci number for a given input `n`. The function uses a recursive approach to compute the Fibonacci sequence. Here's the complete function:\n\n```python\ndef fib(n):\n    return n if n < 2 else fib(n-1) + fib(n-2)\n```\n\n### Explanation:\n- **Base Case**: If `n` is less than 2, the function returns `n` (i.e., `fib(0) = 0` and `fib(1) = 1`).\n- **Recursive Case**: For `n",
+      "needle": "fib(n-1) + fib(n-2)",
+      "pass": true
+    },
+    {
+      "id": "fib",
+      "trial": 1,
+      "output": "\n\nThe line you provided is a Python function that calculates the Fibonacci number for a given input `n`. The function uses a recursive approach to compute the Fibonacci sequence. Here's the complete function:\n\n```python\ndef fib(n):\n    return n if n < 2 else fib(n-1) + fib(n-2)\n```\n\n### Explanation:\n- **Base Case**: If `n` is less than 2, the function returns `n` (i.e., `fib(0) = 0` and `fib(1) = 1`).\n- **Recursive Case**: For `n",
+      "needle": "fib(n-1) + fib(n-2)",
+      "pass": true
+    },
+    {
+      "id": "capital",
+      "trial": 0,
+      "output": " Canberra, not Sydney, which is a common misconception. Canberra was purpose-built as the capital, serving as a compromise between Sydney and Melbourne. It is located in the Australian Capital Territory (ACT), which is a self-governing territory, not a state. The ACT is the smallest state/territory in Australia, with a population of around 400,000.\n\nCanberra is a planned city, designed by Walter Burley Griffin, and is known for its green spaces, with 40% of the city being parks and gardens. It is home to the Australian Parliament House, the National Gallery of Australia",
+      "needle": "Canberra",
+      "pass": true
+    },
+    {
+      "id": "capital",
+      "trial": 1,
+      "output": " Canberra, not Sydney, which is a common misconception. Canberra was purpose-built as the capital, serving as a compromise between Sydney and Melbourne. It is located in the Australian Capital Territory (ACT), which is a self-governing territory, not a state. The ACT is the smallest state/territory in Australia, with a population of around 400,000.\n\nCanberra is a planned city, designed by Walter Burley Griffin, and is known for its green spaces, with 40% of the city being parks and gardens. It is home to the Australian Parliament House, the National Gallery of Australia",
+      "needle": "Canberra",
+      "pass": true
+    },
+    {
+      "id": "json",
+      "trial": 0,
+      "output": "\n\n{\"a\": 1, \"b\": 2}",
+      "needle": "\"b\": 2",
+      "pass": true
+    },
+    {
+      "id": "json",
+      "trial": 1,
+      "output": "\n\n{\"a\": 1, \"b\": 2}",
+      "needle": "\"b\": 2",
+      "pass": true
+    },
+    {
+      "id": "leap",
+      "trial": 0,
+      "output": "\n\n366",
+      "needle": "366",
+      "pass": true
+    },
+    {
+      "id": "leap",
+      "trial": 1,
+      "output": "\n\n366",
+      "needle": "366",
+      "pass": true
+    }
+  ],
+  "passed": 10,
+  "case_passes": 5,
+  "five_of_five": true
+}

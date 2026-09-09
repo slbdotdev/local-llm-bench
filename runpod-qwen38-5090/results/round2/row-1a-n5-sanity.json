@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "id": "multiply",
+      "trial": 0,
+      "output": "\n\n391",
+      "needle": "391",
+      "pass": true
+    },
+    {
+      "id": "multiply",
+      "trial": 1,
+      "output": "\n\n391",
+      "needle": "391",
+      "pass": true
+    },
+    {
+      "id": "fib",
+      "trial": 0,
+      "output": "\n\nThe line you provided is a Python function that calculates the Fibonacci number at position `n`. The function uses a recursive approach to compute the result. Here's the complete function:\n\n```python\ndef fib(n):\n    return n if n < 2 else fib(n - 1) + fib(n - 2)\n```\n\n### Explanation:\n- **Base Case**: If `n` is less than 2, the function returns `n` (i.e., `fib(0) = 0` and `fib(1) = 1`).\n- **Recursive Case**: For `n >=",
+      "needle": "fib(n-1) + fib(n-2)",
+      "pass": true
+    },
+    {
+      "id": "fib",
+      "trial": 1,
+      "output": "\n\nThe line you provided is a Python function that calculates the Fibonacci number at position `n`. The function uses a recursive approach to compute the result. Here's the complete function:\n\n```python\ndef fib(n):\n    return n if n < 2 else fib(n - 1) + fib(n - 2)\n```\n\n### Explanation:\n- **Base Case**: If `n` is less than 2, the function returns `n` (i.e., `fib(0) = 0` and `fib(1) = 1`).\n- **Recursive Case**: For `n >=",
+      "needle": "fib(n-1) + fib(n-2)",
+      "pass": true
+    },
+    {
+      "id": "capital",
+      "trial": 0,
+      "output": " Canberra, a city that was purpose-built to serve as the nation's seat of government. This decision was made in 1908, with the city's construction commencing in 1913. The choice of Canberra as the capital was a compromise between Sydney and Melbourne, the two largest cities in Australia, which had both vied for the honor. The city was designed by Walter Burley, an American architect, and its layout reflects a blend of classical and modern architectural styles. Canberra is home to the Parliament House, the High Court, and numerous government offices, making it the political heart of Australia.\n\nIn the",
+      "needle": "Canberra",
+      "pass": true
+    },
+    {
+      "id": "capital",
+      "trial": 1,
+      "output": " Canberra, a city that was purpose-built to serve as the nation's seat of government. This decision was made in 1908, with the city's construction commencing in 1913. The choice of Canberra as the capital was a compromise between Sydney and Melbourne, the two largest cities in Australia, which had both vied for the honor. The city was designed by Walter Burley, an American architect, and its layout reflects a blend of classical and modern architectural styles. Canberra is home to the Parliament House, the High Court, and numerous government offices, making it the political heart of Australia.\n\nIn the",
+      "needle": "Canberra",
+      "pass": true
+    },
+    {
+      "id": "json",
+      "trial": 0,
+      "output": "\n\n{\"a\": 1, \"b\": 2}",
+      "needle": "\"b\": 2",
+      "pass": true
+    },
+    {
+      "id": "json",
+      "trial": 1,
+      "output": "\n\n{\"a\": 1, \"b\": 2}",
+      "needle": "\"b\": 2",
+      "pass": true
+    },
+    {
+      "id": "leap",
+      "trial": 0,
+      "output": "\n\n366",
+      "needle": "366",
+      "pass": true
+    },
+    {
+      "id": "leap",
+      "trial": 1,
+      "output": "\n\n366",
+      "needle": "366",
+      "pass": true
+    }
+  ],
+  "passed": 10,
+  "case_passes": 5,
+  "five_of_five": true
+}
