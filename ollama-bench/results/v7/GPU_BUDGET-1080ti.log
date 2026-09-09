@@ -1,0 +1,26 @@
+STEP acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:20:45Z | end=PENDING
+END acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | end=2026-09-08T19:21:06Z | rc=0
+STEP acceptance-claude-m02-m05 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:21:06Z | end=PENDING
+END acceptance-claude-m02-m05 | end=2026-09-08T19:21:12Z | rc=0
+NOTE 2026-09-08T19:21:12Z configuration: qwen3:8b Q4_K_M; Vulkan scratch server 127.0.0.1:11435; q8_0 KV; flash attention; num_ctx=32768; node=/usr/bin/node; pi=/home/slb/.local/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js
+NOTE 2026-09-08T19:21:12Z result=/home/slb/local-llm-bench/ollama-bench/results/v7r6-accept-qwen3-8b-1080ti.json
+STEP acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:21:44Z | end=PENDING
+STEP acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:25:43Z | end=PENDING
+END acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | end=2026-09-08T19:27:22Z | rc=0
+STEP acceptance-claude-m02-m05 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:27:22Z | end=PENDING
+END acceptance-claude-m02-m05 | end=2026-09-08T19:32:48Z | rc=0
+NOTE 2026-09-08T19:32:48Z configuration: qwen3:8b Q4_K_M; Vulkan scratch server 127.0.0.1:11435; q8_0 KV; flash attention; num_ctx=32768; node=/usr/bin/node; pi=/home/slb/.local/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js
+NOTE 2026-09-08T19:32:48Z result=/home/slb/local-llm-bench/ollama-bench/results/v7r6-accept-qwen3-8b-1080ti.json
+NOTE 2026-09-08T19:32:56Z resuming existing /home/slb/local-llm-bench/ollama-bench/results/v7r6-accept-qwen3-8b-1080ti.json
+STEP acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T19:32:57Z | end=PENDING
+END acceptance-glm-m01-m03-m04-m07-m09-m10-q09 | end=2026-09-08T21:18:19Z | rc=130 | interrupted wrong-candidate run; no acceptance credit
+NOTE 2026-09-08T21:18:19Z VOID: m03-main-glm (10 rows) and m09-main-glm (2 rows) used cand-glm but admitted roster requires cand-luna/m03-main-luna and cand-luna/m09-main-luna; rows retained with void=true and acceptance_valid=false; no acceptance credit.
+NOTE 2026-09-08T21:18:39Z resuming existing /home/slb/local-llm-bench/ollama-bench/results/v7r6-accept-qwen3-8b-1080ti.json
+STEP acceptance-glm-m01-m04-m07-m10-q09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T21:18:46Z | end=PENDING
+END acceptance-glm-m01-m04-m07-m10-q09 | end=2026-09-08T22:18:10Z | rc=0
+STEP acceptance-luna-m03-m09 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T22:18:10Z | end=PENDING
+END acceptance-luna-m03-m09 | end=2026-09-08T23:23:23Z | rc=0
+STEP acceptance-claude-m02-m05 | process=pibench.py:v7r6-accept-qwen3-8b-1080ti | start=2026-09-08T23:23:23Z | end=PENDING
+END acceptance-claude-m02-m05 | end=2026-09-09T00:03:01Z | rc=0
+NOTE 2026-09-09T00:03:01Z configuration: qwen3:8b Q4_K_M; Vulkan scratch server 127.0.0.1:11435; q8_0 KV; flash attention; num_ctx=32768; node=/usr/bin/node; pi=/home/slb/.local/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js
+NOTE 2026-09-09T00:03:01Z result=/home/slb/local-llm-bench/ollama-bench/results/v7r6-accept-qwen3-8b-1080ti.json
