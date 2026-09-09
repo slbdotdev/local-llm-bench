@@ -24,14 +24,14 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 TASKS_DIR = os.path.join(HERE, "tasks")  # overridden by --tasks-dir
 AGENT_DIR = os.path.join(HERE, "pi-agent")
-OLLAMA = "http://localhost:11434"
+OLLAMA = os.environ.get("PIBENCH_OLLAMA", "http://localhost:11434")
 os.environ["PYTHONUTF8"] = "1"
 os.environ["PYTHONIOENCODING"] = "utf-8"
-NODE_BIN = os.path.expanduser("~/scoop/apps/nodejs-lts/current")
+NODE_BIN = os.environ.get("PIBENCH_NODE_BIN", os.path.expanduser("~/scoop/apps/nodejs-lts/current"))
 # Call node + cli.js directly: launching pi.cmd goes through cmd.exe, which truncates
 # argv at the first newline, so multi-line prompts would arrive as their first line only.
-NODE_EXE = os.path.join(NODE_BIN, "node.exe")
-PI_CLI = os.path.expanduser("~/scoop/persist/nodejs-lts/bin/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js")
+NODE_EXE = os.environ.get("PIBENCH_NODE_EXE", os.path.join(NODE_BIN, "node.exe"))
+PI_CLI = os.environ.get("PIBENCH_PI_CLI", os.path.expanduser("~/scoop/persist/nodejs-lts/bin/node_modules/@earendil-works/pi-coding-agent/dist/bundle/cli.js"))
 
 
 def post(path, body, timeout=900):
