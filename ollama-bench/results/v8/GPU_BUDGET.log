@@ -1,0 +1,5 @@
+# v8 campaign — RTX 5080 (FRACTAL). Append-only accounting; timestamps are UTC real clock.
+# Budget granted by the owner 2026-09-11: 20 h = 72,000 s of GPU-holding time.
+# Committed plan 41,900 s; reserve 30,100 s. Hard stop and report at 18 h (64,800 s) accounted.
+# Format follows results/v7/GPU_BUDGET.log: STEP / END / NOTE / RESOLUTION lines.
+# No GPU time spent as of this header. Phase 0 and phase 1 are CPU-only by plan.
