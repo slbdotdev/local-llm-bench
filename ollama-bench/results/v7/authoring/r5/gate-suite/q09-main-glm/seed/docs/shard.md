@@ -35,8 +35,42 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-The review of the closing paperwork fixed the balance this page opens with.
 
-As minuted: **1772**. One source, one close, no second copy anywhere.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[xkxty] shard keeps a deferred packet totaling **6553** counts.
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -35,8 +35,39 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-This page keeps the balance its component opens the close with.
 
-Review minutes of 2036 set that balance at **2308**; take it as written.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[cfzyh] The stored reserve at compaction comes to **6778** tallies.
+
+
+
+
+
+
+
+
+
+
+
+

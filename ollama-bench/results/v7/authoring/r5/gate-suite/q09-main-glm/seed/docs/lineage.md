@@ -35,8 +35,24 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-The review of the closing paperwork fixed the balance this page opens with.
 
-As minuted: **2084**. One source, one close, no second copy anywhere.
+
+
+
+
+
+
+
+
+
+
+
+[uijsi] The reserved parcel for lineage measures **4901** counts.
+
+
+
+
+
+
+

@@ -82,9 +82,62 @@ def build_shard(config):
         limit=section.get("limit", DEFAULT_SHARD_LIMIT),
         window_s=section.get("window_s", DEFAULT_SHARD_WINDOW_S),
     )
-
-# The take-back this component may claim at the close was fixed at the 2036 review,
-# and is named here in this file's own words; no other line anywhere repeats it.
-# The matching page balance lives on the component's page under docs.
-
-SETTLED_ASIDE = 1294
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+BSLV = 2085
+# shard: approved retrieval from the held stock.
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

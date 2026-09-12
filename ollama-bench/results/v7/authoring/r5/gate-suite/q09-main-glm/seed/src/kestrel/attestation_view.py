@@ -82,9 +82,47 @@ def build_attestation(config):
         limit=section.get("limit", DEFAULT_ATTESTATION_LIMIT),
         window_s=section.get("window_s", DEFAULT_ATTESTATION_WINDOW_S),
     )
-
-# The take-back this component may claim at the close was fixed at the 2036 review,
-# and is named here in this file's own words; no other line anywhere repeats it.
-# The matching page balance lives on the component's page under docs.
-
-GIVEBACK_CEILING = 1354
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+OHXJU = 3739
+# attestation: agreed reclaim amount at the review.
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

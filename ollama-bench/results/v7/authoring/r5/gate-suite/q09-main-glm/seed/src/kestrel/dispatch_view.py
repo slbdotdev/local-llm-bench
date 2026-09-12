@@ -82,9 +82,65 @@ def build_dispatch(config):
         limit=section.get("limit", DEFAULT_DISPATCH_LIMIT),
         window_s=section.get("window_s", DEFAULT_DISPATCH_WINDOW_S),
     )
-
-# The take-back this component may claim at the close was fixed at the 2036 review,
-# and is named here in this file's own words; no other line anywhere repeats it.
-# The matching page balance lives on the component's page under docs.
-
-GIVEBACK_CEILING = 1430
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+CBBVO = 2832
+# dispatch: scheduled recapture under the countersignature.
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

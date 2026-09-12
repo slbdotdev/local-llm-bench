@@ -82,9 +82,53 @@ def build_drain(config):
         limit=section.get("limit", DEFAULT_DRAIN_LIMIT),
         window_s=section.get("window_s", DEFAULT_DRAIN_WINDOW_S),
     )
-
-# The take-back this component may claim at the close was fixed at the 2036 review,
-# and is named here in this file's own words; no other line anywhere repeats it.
-# The matching page balance lives on the component's page under docs.
-
-HOLD_ASIDE = 1250
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+JNNJ = 1951
+# drain: authorized reduction before closeout.
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

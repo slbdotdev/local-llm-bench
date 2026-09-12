@@ -35,8 +35,33 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-The closing review left this page with one balance to open the close with.
 
-Minuted at the closing review: **1908**; this page's number moves only at a review.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[lzjhp] The drain reserve is recorded as **6178** points.
+
+
+
+
+
+
+
+
+
+

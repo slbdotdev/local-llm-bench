@@ -35,8 +35,54 @@ repaired in flight.
 - `settled` - durable, visible to the audit trail, immutable
 - `abandoned` - reaped after `window_s`; retained for evidence, never deleted
 
-## Balance at the review
 
-Once per close, the review minute fixes what this page opens with.
 
-This close it is **1796**, and it moves only at a review.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[pkhdt] ingest has a stored parcel of **6791** points.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
