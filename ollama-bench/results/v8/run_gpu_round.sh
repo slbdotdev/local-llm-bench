@@ -60,8 +60,10 @@ say "preflight"
 # documented command string and scored a passing item as failing.
 echo "  phase-1 gate verdicts, from GATES.json:"
 for item in item1 item2 item3; do
+  # item 1 records its verdict beside its gate entrypoint; items 2 and 3 at the item root.
   j=$V8/$item/GATES.json
-  if [ ! -f "$j" ]; then echo "    MISSING $j — phase 1 has not recorded a machine-readable verdict for $item"; fail=1; continue; fi
+  [ -f "$j" ] || j=$V8/$item/gates/GATES.json
+  if [ ! -f "$j" ]; then echo "    MISSING GATES.json for $item — phase 1 recorded no machine-readable verdict"; fail=1; continue; fi
   read -r ok passed failed when plat <<EOJ
 $(python3 -c "
 import json
