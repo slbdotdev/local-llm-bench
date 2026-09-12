@@ -1,5 +1,6 @@
 # git log --name-status over the range, oldest commit first.
-# Every commit in the range is here, whatever path it touched.
+# Every commit in the range is here, and each one lists every file it changed,
+# including files outside the path you will be asked about.
 
 commit aac8e939056c437063d7c7ab5488c735d3705dd3
 Date: 2026-09-06

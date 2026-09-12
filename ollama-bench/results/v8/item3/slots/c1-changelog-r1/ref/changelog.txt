@@ -12,3 +12,10 @@
 - 9d3cd505: roundtable glm review record
 - 4062e75c: v7: phase2 rows 108, m08 candidate, budget evidence
 - fcb35750: v7: m08 review record, rebuild report, q08 staging
+questions:
+- Q1: 2026-09-11
+- Q2: ollama-bench/results/v7/GPU_BUDGET.log
+- Q3: 0a5778f22273e75fc0b4ded315ee1ba879409205
+- Q4: INSUFFICIENT
+- Q5: INSUFFICIENT
+- Q6: INSUFFICIENT

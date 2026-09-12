@@ -4,27 +4,38 @@
     python3 render_prompt.py slots/a1-summarise-r1            # to stdout
     python3 render_prompt.py slots/a1-summarise-r1 --measure   # chars/tokens only
 
-## Why this exists, and when to use which mode
+## This is the mode of record for every item 3 cell
 
-An item-3 slot can be run two ways, and they measure different things.
+Decided by the control session on 2026-09-12: **item 3 cells run single-shot, through this
+program.** Phase 2 starts here.
 
-**Agentic mode** (`pibench.py`): the seed is copied into a sandbox, the model reads it with tools
-and writes the deliverable as a file. This is the v7 task format and the mode the six slots are
-authored for. Its occupancy is whatever the model chose to read, which is exactly the effect
-D7-32 named — "the model now sets the material aside by never opening it" — so a trial's
-`peak_prompt` here is a finding about the model's reading, not a property of the cell.
+Two reasons, and both are about what the cell is for.
 
-**Single-shot mode** (this renderer): the prompt carries every seed file inline, in a
-deterministic order, and the answer is the model's text. Occupancy is then guaranteed by
-construction, `peak_prompt` is comparable with item 2's rungs, and the v8 plan's void rule
-(section 4: a cell is void if it misses its rung by more than 15%) becomes applicable to this
-family. `batch_cell.py` and `escalate.py` both use this mode, the first because fifty small jobs
-back to back cannot each afford an agentic loop, the second because a hosted arm has to be
-handed the same material the local arm saw.
+It is the mode the production use actually has. Use A is a worker transcript handed to a leaf to
+summarise; use B is a draft and a record handed to it to reconcile; use C is a commit range
+handed to it to write up. None of those is a repository handed to an agent to explore.
+
+And it is the only mode in which the v8 plan's ±15% occupancy void rule (section 4) means
+anything. With the material on disk, a trial's `peak_prompt` measures what the model chose to
+open rather than what it was given — D7-32's own finding, "the model now sets the material aside
+by never opening it" — so an occupancy figure from an agentic run is a fact about the model's
+reading and not about the cell. Rendered here, every seed file is in the prompt in a
+deterministic order, occupancy is guaranteed by construction, and the figure is comparable with
+item 2's rungs.
+
+The slots keep the v7 on-disk layout anyway, for two narrower purposes: `pibench.py` can still
+run them agentically as a side experiment, and the graders can be gated in a real sandbox with a
+real integrity check, which is where the `unsafe` verdict comes from. An agentic run's occupancy
+is not comparable with anything here and should be reported as what it is.
+
+`batch_cell.py` and `escalate.py` both use this renderer, the first because fifty jobs back to
+back cannot each afford an agentic loop, the second because a hosted arm has to be handed the
+same material the local arm saw.
 
 The deliverable instruction is rewritten for the mode: there is no filesystem to write to, so the
-answer is the file's contents between two fences. Everything else in `prompt.md` is passed
-through byte for byte, so the two modes cannot drift apart on the task itself.
+answer is the file's contents between two fences — **including its `questions:` block**, which is
+part of the same deliverable. Everything else in `prompt.md` is passed through byte for byte, so
+the two modes cannot drift apart on the task itself.
 """
 import argparse
 import json
@@ -38,10 +49,10 @@ of the material is below, under `## Material`, with each file named by the path 
 in the workspace.
 
 The task is stated next, exactly as it is given in the file-based form of this job. Follow it in
-full, with one change: instead of writing the deliverable to a file, print the deliverable — and
-nothing else — between a line containing only `===BEGIN {deliverable}===` and a line containing
-only `===END {deliverable}===`. Write no commentary, no preamble and no reasoning outside those
-two markers.
+full, with one change: instead of writing the deliverable to a file, print the deliverable — all
+of it, including its `questions:` block, and nothing else — between a line containing only
+`===BEGIN {deliverable}===` and a line containing only `===END {deliverable}===`. Write no
+commentary, no preamble and no reasoning outside those two markers.
 
 ---
 
@@ -101,6 +112,26 @@ def extract_answer(text, deliverable):
     j = low.find(end, i)
     body = low[i:] if j < 0 else low[i:j]
     return body.strip("\n") + "\n"
+
+
+def reference_questions(config):
+    """The correct `questions:` block for a slot, for offline fixtures only.
+
+    `batch_cell.py` and `escalate.py` build wrong-answer fixtures that should fail on the
+    enumeration axis alone; without a correct question block they would also fail the abstention
+    subchecks and the fixture would stop proving what it is there to prove.
+    """
+    qs = config.get("questions") or []
+    if not qs:
+        return ""
+    token = (config.get("abstention") or {}).get("token", "INSUFFICIENT")
+    out = ["questions:"]
+    for q in qs:
+        if q["kind"] == "answerable":
+            out.append("- %s: %s" % (q["id"], " ".join(str(t) for t in q["any_of"][0])))
+        else:
+            out.append("- %s: %s" % (q["id"], token))
+    return "\n".join(out) + "\n"
 
 
 def main():

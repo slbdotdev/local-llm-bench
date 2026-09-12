@@ -31,3 +31,22 @@ Do not modify or delete any file under `authority/` or `draft/`. Create no file 
 `contradictions.txt`.
 
 Work until the list is complete, then stop.
+
+## Then answer these six questions
+
+After the contradictions above, write a line containing only `questions:`, and then one line
+per question, in the form `- <id>: <your answer>`.
+
+- **Q1.** What weight size, in GiB, does the record give for `q27-Q2_K`?
+- **Q2.** What did mrIQ3M score on the 32-needle probe, as a percentage?
+- **Q3.** How much margin, in GiB, does the record give mrIQ3M at 32k?
+- **Q4.** What is the desktop card's rated power draw, in watts?
+- **Q5.** What is that card's memory clock, in MHz?
+- **Q6.** Is the fair-weather resident line 14.2 GB or 14.2 GiB?
+
+**Some of these questions cannot be answered from the material.** The fact may simply not be
+there, or the material may support two incompatible answers without saying which is right. When
+that is so, answer `INSUFFICIENT` for that question and write nothing else on the line.
+
+`INSUFFICIENT` is always an available answer and it is **never** scored as a wrong answer. A confident
+answer the material does not support is. Answer every one of the six, one line each.

@@ -25,3 +25,10 @@
 - 59bf9083: roundtable: glm review fix
 - 9d3cd505: roundtable glm review record
 - 4062e75c: v7: phase2 rows 108, m08 candidate, budget evidence
+questions:
+- Q1: 2026-09-08
+- Q2: ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/MANIFEST.json
+- Q3: 7df88f62923525dc9f9091fb9574013cba7908ea
+- Q4: INSUFFICIENT
+- Q5: INSUFFICIENT
+- Q6: INSUFFICIENT

@@ -146,10 +146,17 @@ def load_jobs(names):
 
 
 def _wrong_answer(cfg):
-    """The plausible wrong answer for the dry run: carries every penalty item."""
+    """The plausible wrong answer for the dry run: carries every penalty item.
+
+    It carries a *correct* question block, so the fixture fails on the enumeration axis alone and
+    the abstention axis is not what is being measured here.
+    """
     if cfg["family"] == "C":
-        return "".join("- %s: changed something\n" % s[:8] for s in cfg["off_path_commits"])
-    return "".join("- %s\n" % " ".join(str(t) for t in p["any_of"][0]) for p in cfg["penalty"])
+        body = "".join("- %s: changed something\n" % s[:8] for s in cfg["off_path_commits"])
+    else:
+        body = "".join("- %s\n" % " ".join(str(t) for t in p["any_of"][0])
+                       for p in cfg["penalty"])
+    return body + render_prompt.reference_questions(cfg)
 
 
 def grade_one(cfg, reply_text):

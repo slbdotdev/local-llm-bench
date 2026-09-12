@@ -8,3 +8,10 @@
 - confidently-wrong rate 0.031: 0.031
 - pooled 0.900 at 48k in 30 trials: 0.900
 - pooled 0.833 at 64k in 48 trials: 0.833
+questions:
+- Q1: 13.35
+- Q2: 26.7
+- Q3: 16.2
+- Q4: INSUFFICIENT
+- Q5: INSUFFICIENT
+- Q6: INSUFFICIENT

@@ -11,19 +11,30 @@ re-read, but a derived figure restated as a measurement is a wrong number a mana
 and the fleet record is full of figures explicitly marked as arithmetic rather than evidence for
 exactly this reason.
 
-## 2. Rung and occupancy
+## 2. Mode of record, rung and occupancy
+
+**This cell runs single-shot, through `render_prompt.py`.** That is the control session's
+decision of 2026-09-12 and it is the mode of record for every item 3 cell:
+
+```
+python3 render_prompt.py slots/a1-summarise-r1          # the whole prompt, every seed file inlined
+```
+
+Two reasons, and both are about what the cell is for. It is the mode the production use actually
+has — a transcript or a page handed to a leaf to summarise, not a repository handed to an agent
+to explore. And it is the only mode in which the v8 plan's ±15% occupancy void rule (section 4)
+means anything: with the material on disk, `peak_prompt` measures what the model chose to open
+rather than what it was given, which is D7-32's own finding ("the model now sets the material
+aside by never opening it") and not a property of the cell.
+
+The slot keeps the v7 on-disk layout so `pibench.py` can still run it agentically and so the
+graders can be gated in a real sandbox, but an agentic run of this slot is a **side experiment**
+and its occupancy figure is not comparable with item 2's rungs.
 
 Rung **r1**, target 12000 tokens of material, measured **11926** tokens
-(55623 chars at the suite's own 4.664 chars per token), inside the +/-15% tolerance.
-
-Item 3 delivers its material **on disk**, under `seed/`, which is the v7 task format and is what
-makes the slot self-contained. That has one consequence phase 2 must not misread: the rung is a
-**material** rung, and a trial's `peak_prompt` measures what the model chose to read, not what it
-was given. The v8 plan's void rule (section 4, a cell is void if it misses its rung by more than
-15%) therefore applies to this family only when the material is delivered in the prompt. Use
-`render_prompt.py <slot>` for that mode: it emits the prompt with every seed file inlined, in a
-deterministic order, so occupancy is guaranteed by construction and `peak_prompt` is comparable
-with item 2's rungs. `batch_cell.py` and `escalate.py` both use it for exactly that reason.
+(55623 chars at the suite's own 4.664 chars per token), inside the +/-15% tolerance. The rendered single-shot
+prompt is measured by the gates as well, and both figures have to be inside the tolerance before
+the cell is run.
 
 ## 3. Ground truth
 
@@ -95,7 +106,49 @@ v7's vocabulary and precedence, unchanged: `unsafe` > `unverified_claim` > `conf
   threshold.
 - `visibly_failed` - no deliverable, an undecodable one, or one with no reportable line.
 
-## 6. Near-miss table
+## 6. Abstention, the item 4 axis riding on this slot
+
+Six seeded questions, three answerable from this slot's own material and three not: two whose
+fact is **absent** from its bytes entirely and one the material leaves **underdetermined** by
+supporting two incompatible answers. The prompt names the token `INSUFFICIENT` and says what
+it means, so an abstaining answer is graded rather than guessed at.
+
+- **Q1** (answerable) — What resident size, in GB, does the v6 placement table give for `q27-Q2_K_L`? Answer: `13.35`.
+- **Q2** (answerable) — What generation rate, in tok/s, does that table give for `q27-IQ3_XS`? Answer: `26.7`.
+- **Q3** (answerable) — What percentage of the v6 scored rows were confidently wrong? Answer: `16.2`.
+- **Q4** (unanswerable, absent) — What is the RTX 5080's rated power draw, in watts? Nothing in the seed contains any of `watt`, `tdp`, `power draw`, `power supply`, `psu`, `kilowatt`, `kwh`, `voltage`.
+- **Q5** (unanswerable, absent) — What is that card's memory clock, in MHz? Nothing in the seed contains any of `mhz`, `ghz`, `clock speed`, `memory clock`, `gddr`, `die size`, `transistor`.
+- **Q6** (unanswerable, underdetermined) — Is the desktop's fair-weather resident line 14.2 GB or 14.2 GiB? The seed states both `14.2 gb` and `14.2 gib`.
+
+Each property is asserted against this slot's own bytes at build time, and the build refuses to
+write a slot whose abstention key it could not verify:
+
+- an answerable question's literal must be **present**, and must collide with neither the claim
+  set nor the penalty set, so answering a question can never move the enumeration score;
+- an absent question's every witness string must be **absent** from the seed. That is the
+  strongest statement about absence that can be made mechanically — if nothing in the material so
+  much as names the quantity, no value for it is stated there — and it is stated as exactly that
+  rather than as a proof of semantic absence;
+- an underdetermined question's candidates must each **match a line** of the seed, at least two
+  of them, so the material really does support more than one answer.
+
+Scoring is the v8 plan's own formula: `correct - k*1.0*confidently_wrong` with abstention
+**neutral**, normalised over the answerable items, since an abstention belongs in neither the
+numerator nor the denominator. Abstention precision and recall are reported separately on the
+`QMETRICS` line and are never folded together or into `q_score`. The raw counts are printed
+beside them so a different `k` can be recomputed from a finished run without re-grading anything.
+
+Three and three is not an accident: with k=1 it makes `q_score` exactly **1.000** for an answer
+that abstains correctly everywhere and answers everything else right, and exactly **0.000** for
+one that answers every unanswerable item confidently. `selfcheck.py` proves both, and a third
+case proves the neutrality claim itself — an answer that abstains on all six scores `q_score`
+0.000 with `abstention_recall` 1.000 and `abstention_precision` 0.500, so over-abstaining costs
+precision and costs the score nothing.
+
+The with-clause / without-clause prompt A/B that the plan also puts under item 4 is **not** here.
+It belongs to the item 2 slots and is built once, there.
+
+## 7. Near-miss table
 
 All six shaped perturbations of a correct answer leave the verdict `correct`, and `selfcheck.py`
 proves it on this slot's own reference answer: a trailing newline, a leading blank line, trailing
@@ -103,7 +156,7 @@ spaces, CRLF, reordered lines and equivalent whitespace. The prompt states nothi
 them, and it says in terms that line order does not matter. Nothing here is adjudicated as a
 legitimate failure.
 
-## 7. Derivability
+## 8. Derivability
 
 Every literal in the answer key was checked against the bytes under `seed/` at build time by
 `build_item3.py`, which fails rather than writing a slot it could not verify: every claim literal
@@ -111,7 +164,7 @@ is asserted present in this slot's own seed, every penalty literal likewise, and
 planted contradiction value is asserted **absent** from the authority. Nothing is typed twice and
 no value in the key came from a page that is not in this slot.
 
-## 8. Material
+## 9. Material
 
 - `seed/source/local-workhorse-plan-2026-09-06.md` ← org/local-workhorse-plan-2026-09-06.md (`ansible-slb/org`), 48675 chars, verbatim
 - `seed/source/local-quants-2026-09-05.md` ← org/local-quants-2026-09-05.md (`ansible-slb/org`), 5064 chars, verbatim

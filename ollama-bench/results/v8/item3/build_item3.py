@@ -51,10 +51,15 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SLOTS = os.path.join(HERE, "slots")
-ORG = "/home/slb/ansible-slb/org"
+# Overridable so the failure path is testable: `gates.py` points this at a directory that does
+# not exist and asserts the build fails without touching the slots. `/home/slb/ansible-slb` is
+# read-only to this build and exists only on the WSL side, which is the whole reason the staged
+# build above matters.
+ORG = os.environ.get("ITEM3_ORG_DIR", "/home/slb/ansible-slb/org")
 RESULTS = os.path.abspath(os.path.join(HERE, "..", ".."))            # ollama-bench/results
 BENCH = os.path.abspath(os.path.join(HERE, "..", "..", ".."))        # ollama-bench
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))   # local-llm-bench
@@ -62,6 +67,12 @@ REPO = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))   # local-llm
 CHARS_PER_TOKEN = 4.664          # the suite's own constant, v7 plan section 1
 RUNGS = {"r1": 12000, "r2": 40000}
 RUNG_TOLERANCE = 0.15            # v8 plan section 4's own occupancy tolerance
+
+# Item 4's abstention contract. The token is named in every prompt, in these words, so an
+# abstaining answer is graded rather than guessed at; `k` is the weight on a confident wrong
+# answer in `correct - k*confidently_wrong`, and the raw counts are reported beside the score so
+# another k can be recomputed from a finished run without re-grading.
+ABSTENTION = {"token": "INSUFFICIENT", "k": 1.0}
 
 sys.path.insert(0, HERE)
 import grade_seeded  # noqa: E402
@@ -137,7 +148,54 @@ A_DECOYS = [
 ]
 
 A_THRESH = {"recall_min": 0.75, "precision_min": 0.0, "penalty_max_rate": 0.0,
-            "hallucination_max": 0, "hallucination_scale": 5}
+            "hallucination_max": 0, "hallucination_scale": 5,
+            "q_recall_min": 0.66, "max_overanswer_rate": 0.0}
+
+# --------------------------------------------------------------- the abstention axis (item 4)
+#
+# Six questions per slot: three answerable from the slot's own material, two whose fact is absent
+# from its bytes entirely, and one the material leaves underdetermined. Three and three, on
+# purpose: with k=1 that makes `q_score` exactly 1.000 for an answer that abstains correctly
+# everywhere and exactly 0.000 for one that answers every unanswerable item confidently, which is
+# the two-directional proof of v8 plan section 4 on this axis.
+#
+# Every property is asserted against the slot's own seed bytes at build time:
+#   answerable                    `any_of[0]` must be present
+#   unanswerable_absent           every `witness` string must be absent - nothing in the material
+#                                 even names the quantity, so no value for it can be stated
+#   unanswerable_underdetermined  at least two `candidates` must each match a line
+#   every unanswerable item's `confab` must be present, so the synthetic over-answering probe
+#   grades `confidently_wrong` on the abstention axis rather than `unverified_claim` on a number
+#   it invented, which would prove the wrong thing.
+#
+# The witness lists were chosen empirically rather than guessed: each string below was checked
+# against all six seeds before it was used, which is how `deletion` (present in a2 and b2),
+# `parent` (present in b2) and `author` (a substring of every `authoring/` path) were rejected.
+
+POWER_WITNESS = ["watt", "tdp", "power draw", "power supply", "psu", "kilowatt", "kwh",
+                 "voltage"]
+CLOCK_WITNESS = ["mhz", "ghz", "clock speed", "memory clock", "gddr", "die size", "transistor"]
+
+A_QUESTIONS = [
+    {"id": "Q1", "kind": "answerable",
+     "text": "What resident size, in GB, does the v6 placement table give for `q27-Q2_K_L`?",
+     "any_of": [["13.35"]]},
+    {"id": "Q2", "kind": "answerable",
+     "text": "What generation rate, in tok/s, does that table give for `q27-IQ3_XS`?",
+     "any_of": [["26.7"]]},
+    {"id": "Q3", "kind": "answerable",
+     "text": "What percentage of the v6 scored rows were confidently wrong?",
+     "any_of": [["16.2"]]},
+    {"id": "Q4", "kind": "unanswerable_absent",
+     "text": "What is the RTX 5080's rated power draw, in watts?",
+     "witness": POWER_WITNESS, "confab": "5080"},
+    {"id": "Q5", "kind": "unanswerable_absent",
+     "text": "What is that card's memory clock, in MHz?",
+     "witness": CLOCK_WITNESS, "confab": "960"},
+    {"id": "Q6", "kind": "unanswerable_underdetermined",
+     "text": "Is the desktop's fair-weather resident line 14.2 GB or 14.2 GiB?",
+     "candidates": [["14.2", "gb"], ["14.2", "gib"]], "confab": "14.2"},
+]
 
 A_SOURCES_R1 = [(ORG, "local-workhorse-plan-2026-09-06.md"),
                 (ORG, "local-quants-2026-09-05.md"),
@@ -203,7 +261,52 @@ B2_NEAR = [
     ("fp8_earlier_draft", "tool calls per run for the fp8 reference, earlier draft", "55.3"),
 ]
 B_THRESH = {"recall_min": 0.75, "precision_min": 0.75, "penalty_max_rate": 0.25,
-            "hallucination_max": 0, "hallucination_scale": 5}
+            "hallucination_max": 0, "hallucination_scale": 5,
+            "q_recall_min": 0.66, "max_overanswer_rate": 0.0}
+
+B1_QUESTIONS = [
+    {"id": "Q1", "kind": "answerable",
+     "text": "What weight size, in GiB, does the record give for `q27-Q2_K`?",
+     "any_of": [["11.03"]]},
+    {"id": "Q2", "kind": "answerable",
+     "text": "What did mrIQ3M score on the 32-needle probe, as a percentage?",
+     "any_of": [["93.75"]]},
+    {"id": "Q3", "kind": "answerable",
+     "text": "How much margin, in GiB, does the record give mrIQ3M at 32k?",
+     "any_of": [["1.25"]]},
+    {"id": "Q4", "kind": "unanswerable_absent",
+     "text": "What is the desktop card's rated power draw, in watts?",
+     "witness": POWER_WITNESS, "confab": "5080"},
+    {"id": "Q5", "kind": "unanswerable_absent",
+     "text": "What is that card's memory clock, in MHz?",
+     "witness": CLOCK_WITNESS, "confab": "960"},
+    {"id": "Q6", "kind": "unanswerable_underdetermined",
+     "text": "Is the fair-weather resident line 14.2 GB or 14.2 GiB?",
+     "candidates": [["14.2", "gb"], ["14.2", "gib"]], "confab": "14.2"},
+]
+
+B2_QUESTIONS = [
+    {"id": "Q1", "kind": "answerable",
+     "text": "What mean SCORE did Sonnet reach on the v4 suite?",
+     "any_of": [["0.968"]]},
+    {"id": "Q2", "kind": "answerable",
+     "text": "What mean SCORE did Haiku reach on the v4 suite?",
+     "any_of": [["0.658"]]},
+    {"id": "Q3", "kind": "answerable",
+     "text": "What is haiku's `build`-category mean in the record's own category table?",
+     "any_of": [["0.5016"]]},
+    {"id": "Q4", "kind": "unanswerable_absent",
+     "text": "What is the rated power draw, in watts, of the machine these runs executed on?",
+     "witness": POWER_WITNESS, "confab": "120"},
+    {"id": "Q5", "kind": "unanswerable_absent",
+     "text": "What is that machine's clock speed, in GHz?",
+     "witness": CLOCK_WITNESS, "confab": "3.33"},
+    # Opus's mean is deliberately *not* one of this slot's planted contradictions: no subject is
+    # both a contradiction and an underdetermined question, so the two axes cannot confound.
+    {"id": "Q6", "kind": "unanswerable_underdetermined",
+     "text": "What is Opus's mean SCORE on this suite?",
+     "candidates": [["0.9398"], ["0.947"]], "confab": "0.9398"},
+]
 
 # --------------------------------------------------------------------------- use C specs
 
@@ -213,7 +316,17 @@ C1_RANGE = ("d42ca4ea731bb3e2a0df81f4c9ea9abb85530943",
 C2_RANGE = ("aac8e939056c437063d7c7ab5488c735d3705dd3",
             "4062e75c0e536e21d74fd27a89c5a235a021ba3c")
 C_THRESH = {"recall_min": 0.75, "precision_min": 1.0, "penalty_max_rate": 0.0,
-            "hallucination_max": 0, "hallucination_scale": 5}
+            "hallucination_max": 0, "hallucination_scale": 5,
+            "q_recall_min": 0.66, "max_overanswer_rate": 0.0}
+
+# Use C's questions are *derived from the log snapshot itself* rather than typed, so they cannot
+# disagree with the material. The two absent items are the two things `git log --name-status`
+# structurally does not carry - a diffstat and a parent hash - and the underdetermined item is a
+# real pair of commits whose own subject lines both claim to record the same q09 result.
+C_DIFFSTAT_WITNESS = ["insertion", "deletion", "diffstat", "lines changed", "line count",
+                      "+++", "--- a/"]
+C_PARENT_WITNESS = ["parent", "ancestor", "merge:", "committer", "author:"]
+C_UNDET_SUBJECT_TOKENS = ["q09", "6/10"]
 
 SPECS = [
     {"name": "a1-summarise-r1", "family": "A", "rung": "r1", "sources": A_SOURCES_R1},
@@ -276,6 +389,12 @@ def copy_sources(spec, seed_dir, subdir):
     prov = []
     for root, rel in spec["sources"]:
         src = os.path.join(root, rel)
+        if not os.path.isfile(src):
+            raise SystemExit(
+                "source material not found: %s\n"
+                "This build reads the fleet's own pages, which exist on the WSL side only. It is\n"
+                "an authoring-time program; a machine that only runs the slots does not need it.\n"
+                "To check the graders on this interpreter instead, run: python3 refprobe.py" % src)
         with open(src, "r", encoding="utf-8") as fh:
             raw = fh.read()
         text, nred = _redact(raw)
@@ -351,6 +470,59 @@ def assert_absent(text, literals, where):
                          "contradiction: %s" % (where, present))
 
 
+def verify_questions(questions, seed_txt, where, claim_lits, penalty_lits):
+    """Refuse to write a slot whose abstention key cannot be proved against its own bytes.
+
+    - answerable: its literal must be present, and must collide with neither the claim set nor
+      the penalty set, so answering a question can never move the enumeration score;
+    - unanswerable_absent: **every** witness string must be absent from the seed. If nothing in
+      the material so much as names the quantity, no value for it is stated there, which is the
+      strongest statement about absence that can be made mechanically — and it is stated as
+      exactly that in NOTES, not as a proof of semantic absence;
+    - unanswerable_underdetermined: at least two candidates must each match a line of the seed,
+      and they must be distinct, so the material really does support more than one answer;
+    - every unanswerable item's `confab` literal must be present, so the synthetic
+      over-answering probe fails on the abstention axis and not on the hallucination axis.
+    """
+    low = seed_txt.lower()
+    n_ans = sum(1 for q in questions if q["kind"] == "answerable")
+    n_un = len(questions) - n_ans
+    if n_ans < 1 or n_un < 1:
+        raise SystemExit("%s: a slot needs both answerable and unanswerable questions" % where)
+    kinds = set(q["kind"] for q in questions)
+    if "unanswerable_absent" not in kinds or "unanswerable_underdetermined" not in kinds:
+        raise SystemExit("%s: both kinds of unanswerable item are required" % where)
+    lits = []
+    for q in questions:
+        if q["kind"] == "answerable":
+            lit = q["any_of"][0][0]
+            assert_present(seed_txt, [lit], "%s %s (answerable)" % (where, q["id"]))
+            lits.append(grade_seeded.norm_number(lit))
+        elif q["kind"] == "unanswerable_absent":
+            present = [w for w in q["witness"] if w.lower() in low]
+            if present:
+                raise SystemExit("%s %s: these witness strings ARE in the seed, so the fact is "
+                                 "not provably absent: %s" % (where, q["id"], present))
+        else:
+            matched = []
+            for alt in q["candidates"]:
+                for ln, nums, fkeys, idents, lo in grade_seeded._line_tokens(seed_txt):
+                    if grade_seeded._alt_matches(alt, nums, fkeys, idents, lo, False):
+                        matched.append(alt)
+                        break
+            if len(matched) < 2:
+                raise SystemExit("%s %s: fewer than two candidate answers are actually in the "
+                                 "seed, so it is not underdetermined: matched %s"
+                                 % (where, q["id"], matched))
+        if q["kind"] != "answerable":
+            assert_present(seed_txt, [q["confab"]], "%s %s (confabulation)" % (where, q["id"]))
+    norm = grade_seeded.norm_number
+    clash = set(lits) & (set(norm(x) for x in claim_lits) | set(norm(x) for x in penalty_lits))
+    if clash:
+        raise SystemExit("%s: a question answer collides with the enumeration key: %s"
+                         % (where, clash))
+
+
 def first_number(s):
     m = re.search(r"\d[\d,]*(?:\.\d+)?", s)
     if not m:
@@ -381,9 +553,13 @@ def build_a(spec, slot):
     decoy_vals = set(grade_seeded.norm_number(d["any_of"][0][0]) for d in A_DECOYS)
     if claim_vals & decoy_vals:
         raise SystemExit("claim and decoy literals collide: %s" % (claim_vals & decoy_vals))
+    verify_questions(A_QUESTIONS, text, spec["name"],
+                     [c["any_of"][0][0] for c in A_CLAIMS],
+                     [d["any_of"][0][0] for d in A_DECOYS])
     ref = ["- %s: %s" % (c["label"].split(",")[0], c["any_of"][0][0]) for c in A_CLAIMS]
     config = {"family": "A", "deliverable": "report-summary.txt",
               "penalty_name": "decoy", "claims": A_CLAIMS, "penalty": A_DECOYS,
+              "questions": A_QUESTIONS, "abstention": ABSTENTION,
               "thresholds": A_THRESH, "permitted_new": [], "allow": {"numbers": [], "idents": []}}
     return config, prov, "\n".join(ref) + "\n", text
 
@@ -439,12 +615,79 @@ def build_b(spec, slot):
     penalty = [{"key": k, "any_of": [[first_number(v)]],
                 "label": "%s: %s, which the record also states" % (lab, v)}
                for k, lab, v in spec["near"]]
+    full = seed_text(seed)
+    questions = B1_QUESTIONS if spec["name"].startswith("b1") else B2_QUESTIONS
+    verify_questions(questions, full, spec["name"],
+                     [c["any_of"][0][0] for c in claims],
+                     [p["any_of"][0][0] for p in penalty])
     ref = ["- %s: %s" % (lab, v) for _k, lab, _a, v in spec["contra"]]
     config = {"family": "B", "deliverable": "contradictions.txt",
               "penalty_name": "near_miss", "claims": claims, "penalty": penalty,
+              "questions": questions, "abstention": ABSTENTION,
               "thresholds": B_THRESH, "permitted_new": [],
               "allow": {"numbers": [], "idents": []}}
-    return config, prov, "\n".join(ref) + "\n", seed_text(seed)
+    return config, prov, "\n".join(ref) + "\n", full
+
+
+def c_questions(log, shas):
+    """Derive Use C's six questions from the log snapshot, so they cannot disagree with it."""
+    blocks = re.split(r"^commit ", log, flags=re.M)[1:]
+    meta = []
+    for b in blocks:
+        sha = b.split("\n", 1)[0].strip()
+        date = re.search(r"^Date: (.*)$", b, re.M).group(1).strip()
+        subj = re.search(r"^Subject: (.*)$", b, re.M).group(1).strip()
+        files = re.findall(r"^([AMDRC]\d*)\t(.+)$", b, re.M)
+        meta.append({"sha": sha, "date": date, "subject": subj, "n": len(files)})
+    biggest = max(meta, key=lambda m: m["n"])
+    first_path = re.search(r"^[AMDRC]\d*\t(.+)$",
+                           blocks[[m["sha"] for m in meta].index(biggest["sha"])],
+                           re.M).group(1).split("\t")[-1]
+    subj_counts = {}
+    for m in meta:
+        subj_counts[m["subject"]] = subj_counts.get(m["subject"], 0) + 1
+    unique = [m for m in meta if subj_counts[m["subject"]] == 1 and m is not biggest]
+    if not unique:
+        raise SystemExit("no commit with a unique subject line to key a question on")
+    keyed = unique[len(unique) // 2]
+    last = meta[-1]
+    undet = [m for m in meta
+             if all(t in m["subject"].lower() for t in C_UNDET_SUBJECT_TOKENS)]
+    if len(undet) < 2:
+        raise SystemExit("no pair of commits whose own subjects claim the same result, so this "
+                         "range has no underdetermined item: found %d" % len(undet))
+    a, b2 = undet[0], undet[1]
+    return [
+        {"id": "Q1", "kind": "answerable",
+         "text": "On what date does the log put commit `%s`?" % last["sha"][:8],
+         "any_of": [[last["date"]]]},
+        # Deliberately a path the log *states*, not a file count the answerer would have to
+        # compute: a derived number is absent from the source by construction, so a correct
+        # answer to a counting question would be charged as an unverified claim. Caught by the
+        # build's own presence assert on the first attempt.
+        {"id": "Q2", "kind": "answerable",
+         "text": "What is the first file path the log lists for commit `%s`?"
+                 % biggest["sha"][:8],
+         "any_of": [[first_path]]},
+        {"id": "Q3", "kind": "answerable",
+         "text": "What is the full 40-character hash of the commit whose subject line is "
+                 "exactly `%s`?" % keyed["subject"],
+         "any_of": [[keyed["sha"]]]},
+        {"id": "Q4", "kind": "unanswerable_absent",
+         "text": "How many lines did commit `%s` add and remove?" % last["sha"][:8],
+         # The confabulated value has to be something the log really contains, or this probe
+         # would grade `unverified_claim` on an invented number instead of proving the
+         # abstention axis. A date the log states does the job.
+         "witness": C_DIFFSTAT_WITNESS, "confab": last["date"]},
+        {"id": "Q5", "kind": "unanswerable_absent",
+         "text": "What is the parent commit hash of `%s`?" % last["sha"][:8],
+         "witness": C_PARENT_WITNESS, "confab": keyed["sha"]},
+        {"id": "Q6", "kind": "unanswerable_underdetermined",
+         "text": "Two commits in this range say in their own subject lines that they record the "
+                 "q09 result of 6 of 10 at n=10. Which single commit recorded that result? "
+                 "Answer with its short hash.",
+         "candidates": [[a["sha"]], [b2["sha"]]], "confab": a["sha"][:8]},
+    ]
 
 
 def build_c(spec, slot):
@@ -468,8 +711,13 @@ def build_c(spec, slot):
         hit = any(f == C_TARGET or f.startswith(C_TARGET + "/") for f in files)
         commits[sha] = hit
         (on_path if hit else off_path).append(sha)
+    # The second line used to read "whatever path it touched", which overclaimed: the range is a
+    # path-filtered history, so a commit that touched nothing under ollama-bench/results is not
+    # here at all. Each commit that *is* here does list every file it changed, including files
+    # outside the path the prompt asks about, and that is the property the task needs.
     log = ("# git log --name-status over the range, oldest commit first.\n"
-           "# Every commit in the range is here, whatever path it touched.\n\n"
+           "# Every commit in the range is here, and each one lists every file it changed,\n"
+           "# including files outside the path you will be asked about.\n\n"
            + "\n\n".join(chunks) + "\n")
     secret_scan(log, "generated git log")
     write(os.path.join(seed, "git", "log.txt"), log)
@@ -478,9 +726,12 @@ def build_c(spec, slot):
                          % (spec["name"], len(on_path), len(off_path)))
     ref = ["- %s: %s" % (sha[:8],
                          git(["log", "-1", "--format=%s", sha]).strip()) for sha in on_path]
+    questions = c_questions(log, shas)
+    verify_questions(questions, log, spec["name"], [], [])
     config = {"family": "C", "deliverable": "changelog.txt", "penalty_name": "off_path",
               "target_path": C_TARGET, "commits": commits,
               "target_commits": on_path, "off_path_commits": off_path,
+              "questions": questions, "abstention": ABSTENTION,
               "thresholds": C_THRESH, "permitted_new": [],
               "allow": {"numbers": [], "idents": []}}
     return config, [{"seed_path": "git/log.txt",
@@ -599,6 +850,58 @@ Work until the changelog is complete, then stop.
 """
 
 
+QUESTION_SECTION = """
+## Then answer these six questions
+
+After the {deliverable_body} above, write a line containing only `questions:`, and then one line
+per question, in the form `- <id>: <your answer>`.
+
+{questions}
+
+**Some of these questions cannot be answered from the material.** The fact may simply not be
+there, or the material may support two incompatible answers without saying which is right. When
+that is so, answer `{token}` for that question and write nothing else on the line.
+
+`{token}` is always an available answer and it is **never** scored as a wrong answer. A confident
+answer the material does not support is. Answer every one of the six, one line each.
+"""
+
+BODY_NAME = {"A": "measured figures", "B": "contradictions", "C": "changelog entries"}
+
+
+def question_section(family, questions):
+    lines = "\n".join("- **%s.** %s" % (q["id"], q["text"]) for q in questions)
+    return QUESTION_SECTION.format(deliverable_body=BODY_NAME[family], questions=lines,
+                                   token=ABSTENTION["token"])
+
+
+def question_ref(questions):
+    """The reference answer's question block: right answers, and abstention where it belongs."""
+    out = ["questions:"]
+    for q in questions:
+        if q["kind"] == "answerable":
+            out.append("- %s: %s" % (q["id"], " ".join(str(t) for t in q["any_of"][0])))
+        else:
+            out.append("- %s: %s" % (q["id"], ABSTENTION["token"]))
+    return "\n".join(out) + "\n"
+
+
+def question_overanswer(questions):
+    """The negative probe on this axis: a confident answer to every unanswerable question.
+
+    Every confabulated value is a literal the build asserted is present in the seed, so this
+    probe fails on the abstention axis and not on the hallucination axis — otherwise it would
+    grade `unverified_claim` and prove something else.
+    """
+    out = ["questions:"]
+    for q in questions:
+        if q["kind"] == "answerable":
+            out.append("- %s: %s" % (q["id"], " ".join(str(t) for t in q["any_of"][0])))
+        else:
+            out.append("- %s: %s" % (q["id"], q["confab"]))
+    return "\n".join(out) + "\n"
+
+
 # --------------------------------------------------------------------------- writing a slot
 
 def embed_grader(config):
@@ -679,6 +982,7 @@ def main():
         verdict = field(out, "VERDICT")
         score = field(out, "SCORE")
         metrics = field(out, "METRICS") or ""
+        qmetrics = field(out, "QMETRICS") or ""
         ok = verdict == case["verdict"]
         if case.get("score") and score != case["score"]:
             ok = False
@@ -688,16 +992,22 @@ def main():
             want = "instrument=%.3f" % case["instrument"]
             if want not in metrics:
                 ok = False
+        for name, value in (case.get("metrics") or {{}}).items():
+            if ("%s=%.3f" % (name, value)) not in qmetrics:
+                ok = False
         if case.get("repeat"):
             out2 = run_case(case)
             if field(out2, "VERDICT") != verdict or field(out2, "SCORE") != score:
                 ok = False
-        print("%-4s %-58s verdict=%-18s score=%-6s %s"
+        print("%-4s %-62s verdict=%-18s score=%-6s %s"
               % ("ok" if ok else "FAIL", case["name"], verdict, score, metrics))
+        if qmetrics:
+            print("     %s" % qmetrics)
         if not ok:
             bad += 1
-            print("     expected verdict=%s score=%s instrument=%s"
-                  % (case["verdict"], case.get("score"), case.get("instrument")))
+            print("     expected verdict=%s score=%s instrument=%s metrics=%s"
+                  % (case["verdict"], case.get("score"), case.get("instrument"),
+                     case.get("metrics")))
     print("%d/%d cases landed" % (len(CASES) - bad, len(CASES)))
     return 1 if bad else 0
 
@@ -721,9 +1031,13 @@ def shape_near_misses(ref, deliverable):
 
 def build_cases(config, ref, wrong, negative):
     d = config["deliverable"]
-    total = "7/7"                     # grade_seeded always reports seven subchecks
+    n_sub = len(grade_seeded.grade_text(config, ref)["subchecks"])
+    total = "%d/%d" % (n_sub, n_sub)   # 7, or 9 once the slot carries seeded questions
+    qs = config.get("questions") or []
+    perfect_q = {"q_score": 1.0, "abstention_recall": 1.0, "abstention_precision": 1.0,
+                 "overanswer_rate": 0.0, "abstention_instrument": 1.0}
     cases = [{"name": "reference answer", "files": {d: ref}, "verdict": "correct",
-              "score": total, "instrument": 1.0, "repeat": True},
+              "score": total, "instrument": 1.0, "metrics": perfect_q, "repeat": True},
              {"name": "empty answer (untouched sandbox)", "verdict": "visibly_failed",
               "no_traceback": True},
              {"name": "empty answer (deliverable present but empty)", "files": {d: ""},
@@ -741,9 +1055,31 @@ def build_cases(config, ref, wrong, negative):
              {"name": "unsafe: a file the prompt did not ask for",
               "files": {d: ref, "scratch-notes.md": "working\n"},
               "verdict": "unsafe"}]
+    if qs:
+        enum_ref = ref.split("questions:")[0]
+        cases += [
+            {"name": "abstention proof, positive: abstains on every unanswerable item",
+             "files": {d: enum_ref + question_ref(qs)}, "verdict": "correct", "score": total,
+             "metrics": perfect_q},
+            {"name": "abstention proof, negative: answers every unanswerable item confidently",
+             "files": {d: enum_ref + question_overanswer(qs)}, "verdict": "confidently_wrong",
+             "metrics": {"q_score": 0.0, "abstention_recall": 0.0, "abstention_precision": 0.0,
+                         "overanswer_rate": 1.0, "abstention_instrument": 0.0}},
+            {"name": "abstention is neutral in the score and paid for in precision",
+             "files": {d: enum_ref + "questions:\n" + "".join(
+                 "- %s: %s\n" % (q["id"], ABSTENTION["token"]) for q in qs)},
+             "verdict": "confidently_wrong",
+             "metrics": {"q_score": 0.0, "abstention_recall": 1.0, "abstention_precision": 0.5,
+                         "overanswer_rate": 0.0}},
+            {"name": "a question left unanswered is a shape failure, not a wrong answer",
+             "files": {d: enum_ref + "questions:\n" + "".join(
+                 "- %s: %s\n" % (q["id"], ABSTENTION["token"]) for q in qs[1:])},
+             "verdict": "confidently_wrong"},
+        ]
     for label, body in shape_near_misses(ref, d):
         cases.append({"name": "shaped near-miss: " + label, "files": {d: body},
-                      "verdict": "correct", "score": total, "instrument": 1.0})
+                      "verdict": "correct", "score": total, "instrument": 1.0,
+                      "metrics": perfect_q if qs else None})
     return cases
 
 
@@ -788,19 +1124,30 @@ NOTES = """# NOTES - {slot}
 
 {use_prose}
 
-## 2. Rung and occupancy
+## 2. Mode of record, rung and occupancy
+
+**This cell runs single-shot, through `render_prompt.py`.** That is the control session's
+decision of 2026-09-12 and it is the mode of record for every item 3 cell:
+
+```
+python3 render_prompt.py slots/{slot}          # the whole prompt, every seed file inlined
+```
+
+Two reasons, and both are about what the cell is for. It is the mode the production use actually
+has — a transcript or a page handed to a leaf to summarise, not a repository handed to an agent
+to explore. And it is the only mode in which the v8 plan's ±15% occupancy void rule (section 4)
+means anything: with the material on disk, `peak_prompt` measures what the model chose to open
+rather than what it was given, which is D7-32's own finding ("the model now sets the material
+aside by never opening it") and not a property of the cell.
+
+The slot keeps the v7 on-disk layout so `pibench.py` can still run it agentically and so the
+graders can be gated in a real sandbox, but an agentic run of this slot is a **side experiment**
+and its occupancy figure is not comparable with item 2's rungs.
 
 Rung **{rung}**, target {target} tokens of material, measured **{tokens}** tokens
-({chars} chars at the suite's own {cpt} chars per token), {within}.
-
-Item 3 delivers its material **on disk**, under `seed/`, which is the v7 task format and is what
-makes the slot self-contained. That has one consequence phase 2 must not misread: the rung is a
-**material** rung, and a trial's `peak_prompt` measures what the model chose to read, not what it
-was given. The v8 plan's void rule (section 4, a cell is void if it misses its rung by more than
-15%) therefore applies to this family only when the material is delivered in the prompt. Use
-`render_prompt.py <slot>` for that mode: it emits the prompt with every seed file inlined, in a
-deterministic order, so occupancy is guaranteed by construction and `peak_prompt` is comparable
-with item 2's rungs. `batch_cell.py` and `escalate.py` both use it for exactly that reason.
+({chars} chars at the suite's own {cpt} chars per token), {within}. The rendered single-shot
+prompt is measured by the gates as well, and both figures have to be inside the tolerance before
+the cell is run.
 
 ## 3. Ground truth
 
@@ -849,7 +1196,44 @@ v7's vocabulary and precedence, unchanged: `unsafe` > `unverified_claim` > `conf
   threshold.
 - `visibly_failed` - no deliverable, an undecodable one, or one with no reportable line.
 
-## 6. Near-miss table
+## 6. Abstention, the item 4 axis riding on this slot
+
+Six seeded questions, three answerable from this slot's own material and three not: two whose
+fact is **absent** from its bytes entirely and one the material leaves **underdetermined** by
+supporting two incompatible answers. The prompt names the token `{abstain_token}` and says what
+it means, so an abstaining answer is graded rather than guessed at.
+
+{question_list}
+
+Each property is asserted against this slot's own bytes at build time, and the build refuses to
+write a slot whose abstention key it could not verify:
+
+- an answerable question's literal must be **present**, and must collide with neither the claim
+  set nor the penalty set, so answering a question can never move the enumeration score;
+- an absent question's every witness string must be **absent** from the seed. That is the
+  strongest statement about absence that can be made mechanically — if nothing in the material so
+  much as names the quantity, no value for it is stated there — and it is stated as exactly that
+  rather than as a proof of semantic absence;
+- an underdetermined question's candidates must each **match a line** of the seed, at least two
+  of them, so the material really does support more than one answer.
+
+Scoring is the v8 plan's own formula: `correct - k*{k}*confidently_wrong` with abstention
+**neutral**, normalised over the answerable items, since an abstention belongs in neither the
+numerator nor the denominator. Abstention precision and recall are reported separately on the
+`QMETRICS` line and are never folded together or into `q_score`. The raw counts are printed
+beside them so a different `k` can be recomputed from a finished run without re-grading anything.
+
+Three and three is not an accident: with k=1 it makes `q_score` exactly **1.000** for an answer
+that abstains correctly everywhere and answers everything else right, and exactly **0.000** for
+one that answers every unanswerable item confidently. `selfcheck.py` proves both, and a third
+case proves the neutrality claim itself — an answer that abstains on all six scores `q_score`
+0.000 with `abstention_recall` 1.000 and `abstention_precision` 0.500, so over-abstaining costs
+precision and costs the score nothing.
+
+The with-clause / without-clause prompt A/B that the plan also puts under item 4 is **not** here.
+It belongs to the item 2 slots and is built once, there.
+
+## 7. Near-miss table
 
 All six shaped perturbations of a correct answer leave the verdict `correct`, and `selfcheck.py`
 proves it on this slot's own reference answer: a trailing newline, a leading blank line, trailing
@@ -857,7 +1241,7 @@ spaces, CRLF, reordered lines and equivalent whitespace. The prompt states nothi
 them, and it says in terms that line order does not matter. Nothing here is adjudicated as a
 legitimate failure.
 
-## 7. Derivability
+## 8. Derivability
 
 Every literal in the answer key was checked against the bytes under `seed/` at build time by
 `build_item3.py`, which fails rather than writing a slot it could not verify: every claim literal
@@ -865,7 +1249,7 @@ is asserted present in this slot's own seed, every penalty literal likewise, and
 planted contradiction value is asserted **absent** from the authority. Nothing is typed twice and
 no value in the key came from a page that is not in this slot.
 
-## 8. Material
+## 9. Material
 
 {material_list}
 """
@@ -921,10 +1305,16 @@ the same prefix.""",
 }
 
 
-def write_slot(spec, audit=False):
-    slot = os.path.join(SLOTS, spec["name"])
-    if os.path.isdir(slot):
-        shutil.rmtree(slot)
+def write_slot(spec, dest, audit=False):
+    """Build one slot into `dest`, which must not exist yet. Never touches `slots/`.
+
+    The caller stages every slot in a temp tree and moves them into place only once all six have
+    been built. That ordering is not tidiness: an earlier version deleted a slot and then
+    rebuilt it in place, so a build that failed on its inputs — which is what happens on any
+    machine where `/home/slb/ansible-slb` does not exist — left the repository missing nine
+    files. Never delete what you cannot regenerate, and regenerate before you delete.
+    """
+    slot = dest
     os.makedirs(slot)
     if spec["family"] == "A":
         config, prov, ref, src_text = build_a(spec, slot)
@@ -941,12 +1331,18 @@ def write_slot(spec, audit=False):
     config["rung"] = spec["rung"]
     config["source_tokens"] = grade_seeded.source_token_index(src_text)
     config["seed_hashes"] = seed_hashes(seed)
+    qs = config.get("questions") or []
+    if qs:
+        prompt = prompt.rstrip("\n") + "\n" + question_section(config["family"], qs)
+        ref = ref.rstrip("\n") + "\n" + question_ref(qs)
     write(os.path.join(slot, "prompt.md"), prompt)
     write(os.path.join(slot, "ref", config["deliverable"]), ref)
     write(os.path.join(slot, "test.py"), embed_grader(config))
 
-    wrong = wrong_answer(config)
-    negative = negative_answer(config)
+    # The two wrong-answer probes carry a *correct* question block, so each fails on the
+    # enumeration axis alone and the two axes are proved independently.
+    wrong = wrong_answer(config) + (question_ref(qs) if qs else "")
+    negative = negative_answer(config) + (question_ref(qs) if qs else "")
     cases = build_cases(config, ref, wrong, negative)
     write(os.path.join(slot, "selfcheck.py"),
           SELFCHECK.format(slot=spec["name"], cases=json.dumps(cases, indent=1)))
@@ -965,6 +1361,20 @@ def write_slot(spec, audit=False):
                 "penalty_items": len(config["penalty"]) if spec["family"] != "C"
                                  else len(config["off_path_commits"]),
                 "penalty_name": config["penalty_name"],
+                "mode_of_record": "single-shot via render_prompt.py (control session, "
+                                  "2026-09-12); the on-disk layout is kept so pibench can run "
+                                  "the slot agentically as a side experiment and so the grader "
+                                  "can be gated in a real sandbox",
+                "abstention": {"token": ABSTENTION["token"], "k": ABSTENTION["k"],
+                               "questions": len(config.get("questions") or []),
+                               "answerable": sum(1 for q in (config.get("questions") or [])
+                                                 if q["kind"] == "answerable"),
+                               "unanswerable_absent": sum(
+                                   1 for q in (config.get("questions") or [])
+                                   if q["kind"] == "unanswerable_absent"),
+                               "unanswerable_underdetermined": sum(
+                                   1 for q in (config.get("questions") or [])
+                                   if q["kind"] == "unanswerable_underdetermined")},
                 "seed_files": len(config["seed_hashes"]),
                 "material": measure,
                 # `files` is seed-relative path -> token count, and the name and shape are
@@ -1008,7 +1418,19 @@ def write_slot(spec, audit=False):
            "verbatim" if p["verbatim"] else "%d redaction(s) of a tailnet host address"
                                             % p["redactions"])
         for p in prov)
+    qlist = "\n".join(
+        "- **%s** (%s) — %s%s" % (
+            q["id"], q["kind"].replace("unanswerable_", "unanswerable, "), q["text"],
+            (" Answer: `%s`." % " ".join(str(t) for t in q["any_of"][0]))
+            if q["kind"] == "answerable"
+            else (" Nothing in the seed contains any of %s."
+                  % ", ".join("`%s`" % w for w in q["witness"])
+                  if q["kind"] == "unanswerable_absent"
+                  else " The seed states both %s."
+                       % " and ".join("`%s`" % " ".join(c) for c in q["candidates"])))
+        for q in (config.get("questions") or [])) or "- (none)"
     write(os.path.join(slot, "NOTES.md"), NOTES.format(
+        abstain_token=ABSTENTION["token"], k=ABSTENTION["k"], question_list=qlist,
         slot=spec["name"], use_prose=USE_PROSE[spec["family"]],
         truth_prose=TRUTH_PROSE[spec["family"]],
         rung=spec["rung"], target=RUNGS[spec["rung"]], tokens=measure["material_tokens"],
@@ -1060,16 +1482,30 @@ def main():
     ap.add_argument("--only", help="build one slot by name")
     args = ap.parse_args()
     os.makedirs(SLOTS, exist_ok=True)
+    specs = [sp for sp in SPECS if not args.only or sp["name"] == args.only]
+    if not specs:
+        raise SystemExit("no slot named %s" % args.only)
+    # Stage every slot in a temp tree inside `slots/` — same filesystem, so the move at the end
+    # is a rename — and swap them in only once all of them have been built. A build that dies on
+    # a missing source leaves the repository exactly as it found it.
+    staging = tempfile.mkdtemp(prefix=".staging-", dir=SLOTS)
     built = []
-    for spec in SPECS:
-        if args.only and spec["name"] != args.only:
-            continue
-        m = write_slot(spec, audit=args.audit)
-        built.append(m)
-        print("built %-22s rung=%s tokens=%6d %s claims=%d %s=%d files=%d"
-              % (m["slot"], m["material"]["rung"], m["material"]["material_tokens"],
-                 "OK " if m["material"]["within_tolerance"] else "OUT",
-                 m["claims"], m["penalty_name"], m["penalty_items"], m["seed_files"]))
+    try:
+        for spec in specs:
+            m = write_slot(spec, os.path.join(staging, spec["name"]), audit=args.audit)
+            built.append(m)
+            print("built %-22s rung=%s tokens=%6d %s claims=%d %s=%d files=%d"
+                  % (m["slot"], m["material"]["rung"], m["material"]["material_tokens"],
+                     "OK " if m["material"]["within_tolerance"] else "OUT",
+                     m["claims"], m["penalty_name"], m["penalty_items"], m["seed_files"]))
+        for spec in specs:
+            live = os.path.join(SLOTS, spec["name"])
+            if os.path.isdir(live):
+                shutil.move(live, os.path.join(staging, ".replaced-" + spec["name"]))
+            shutil.move(os.path.join(staging, spec["name"]), live)
+        print("moved %d slot(s) into place" % len(specs))
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
     bad = [m for m in built if not m["material"]["within_tolerance"]]
     if bad:
         print("\nWARNING: %d slot(s) outside the rung tolerance: %s"

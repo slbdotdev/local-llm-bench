@@ -5,3 +5,10 @@
 - pooled pass probability over 98 v7 trials: 0.871
 - num_ctx of the 96k tag: 98,034
 - KV per 1,024 tokens at q8_0: 36.5 MiB
+questions:
+- Q1: 11.03
+- Q2: 93.75
+- Q3: 1.25
+- Q4: INSUFFICIENT
+- Q5: INSUFFICIENT
+- Q6: INSUFFICIENT

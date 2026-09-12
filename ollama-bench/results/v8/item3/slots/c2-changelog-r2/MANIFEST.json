@@ -11,23 +11,34 @@
   "precision_min": 1.0,
   "penalty_max_rate": 0.0,
   "hallucination_max": 0,
-  "hallucination_scale": 5
+  "hallucination_scale": 5,
+  "q_recall_min": 0.66,
+  "max_overanswer_rate": 0.0
  },
  "claims": 27,
  "penalty_items": 18,
  "penalty_name": "off_path",
+ "mode_of_record": "single-shot via render_prompt.py (control session, 2026-09-12); the on-disk layout is kept so pibench can run the slot agentically as a side experiment and so the grader can be gated in a real sandbox",
+ "abstention": {
+  "token": "INSUFFICIENT",
+  "k": 1.0,
+  "questions": 6,
+  "answerable": 3,
+  "unanswerable_absent": 2,
+  "unanswerable_underdetermined": 1
+ },
  "seed_files": 1,
  "material": {
   "rung": "r2",
   "rung_target_tokens": 40000,
-  "material_chars": 198261,
-  "material_tokens": 42509,
+  "material_chars": 198337,
+  "material_tokens": 42525,
   "chars_per_token": 4.664,
   "within_tolerance": true,
   "tolerance": 0.15
  },
  "files": {
-  "git/log.txt": 42509
+  "git/log.txt": 42525
  },
  "provenance": [
   {
@@ -35,8 +46,8 @@
    "source": "git log --name-status aac8e939056c..4062e75c0e53 (inclusive of both), path-filtered to ollama-bench/results",
    "source_root": "local-llm-bench git history",
    "source_sha256": null,
-   "seed_sha256": "aa0679f5e1236d9b462932b52bb87326f713a36d47c7a384f6c864544412daed",
-   "chars": 198261,
+   "seed_sha256": "d1da9be57cae8924f7dc90c0eb72cef39f60f3a500f556b4bcdce1a05007655b",
+   "chars": 198337,
    "redactions": 0,
    "verbatim": true,
    "commits": 45,

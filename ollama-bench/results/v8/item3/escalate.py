@@ -189,12 +189,17 @@ def load_family(name, n):
     cfg = grade_seeded.load_slot_config(slot)
     with open(os.path.join(slot, "ref", cfg["deliverable"]), "r", encoding="utf-8") as fh:
         ref = fh.read()
+    # The wrong draft carries a correct question block, so the ledger measures the enumeration
+    # axis and not the abstention axis, which has its own gates.
     if cfg["family"] == "C":
-        wrong = "".join("- %s: changed something\n" % s[:8]
-                        for s in cfg["target_commits"] + cfg["off_path_commits"])
+        wrong = ("".join("- %s: changed something\n" % s[:8]
+                         for s in cfg["target_commits"] + cfg["off_path_commits"])
+                 + render_prompt.reference_questions(cfg))
     else:
-        wrong = (ref + "".join("- %s\n" % " ".join(str(t) for t in p["any_of"][0])
-                               for p in cfg["penalty"]))
+        wrong = (ref.split("questions:")[0]
+                 + "".join("- %s\n" % " ".join(str(t) for t in p["any_of"][0])
+                           for p in cfg["penalty"])
+                 + render_prompt.reference_questions(cfg))
     return {"slot": name, "config": cfg, "prompt": render_prompt.render(slot), "ref": ref,
             "wrong": wrong, "deliverable": cfg["deliverable"], "n": n}
 

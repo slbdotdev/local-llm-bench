@@ -1,0 +1,202 @@
+{
+ "passed": 38,
+ "failed": 0,
+ "when": "2026-09-12T06:38:42.110957+00:00",
+ "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+ "platform": "linux",
+ "skipped": 0,
+ "rebuilt": false,
+ "executable": "/usr/bin/python3",
+ "gates": [
+  {
+   "name": "a build that cannot find its source material fails and deletes nothing",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a1-summarise-r1: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a1-summarise-r1: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a1-summarise-r1: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a1-summarise-r1: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a1-summarise-r1: rung r1 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a2-summarise-r2: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a2-summarise-r2: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a2-summarise-r2: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a2-summarise-r2: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "a2-summarise-r2: rung r2 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b1-contradiction-r1: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b1-contradiction-r1: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b1-contradiction-r1: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b1-contradiction-r1: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b1-contradiction-r1: rung r1 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b2-contradiction-r2: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b2-contradiction-r2: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b2-contradiction-r2: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b2-contradiction-r2: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "b2-contradiction-r2: rung r2 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c1-changelog-r1: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c1-changelog-r1: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c1-changelog-r1: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c1-changelog-r1: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c1-changelog-r1: rung r1 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c2-changelog-r2: on-disk slot is whole and self-consistent",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c2-changelog-r2: all 18 gate cases",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c2-changelog-r2: abstention instrument proved in both directions",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c2-changelog-r2: grading twice in one sandbox gives the same verdict",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "c2-changelog-r2: rung r2 occupancy, material and rendered prompt both inside +/-15%",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "refprobe: every reference answer grades correct on this interpreter",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 5: pass@deadline arithmetic, offline",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 5: pass@deadline reads a real pibench results file",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 5: batch-cell accounting, offline, accuracy over threshold",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 5: batch-cell threshold decides no-go as well as go",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 6: escalation ledger, offline, draft quality 'bad'",
+   "ok": true,
+   "skipped": false
+  },
+  {
+   "name": "item 6: escalation ledger, offline, draft quality 'rescue'",
+   "ok": true,
+   "skipped": false
+  }
+ ]
+}

@@ -6,3 +6,10 @@
 - haiku's mean on `texture-budget`: 0.871
 - output tokens per run for the fp8 reference: 52,703
 - the worst single-run cost on `toggle-default-on`: USD 16.40
+questions:
+- Q1: 0.968
+- Q2: 0.658
+- Q3: 0.5016
+- Q4: INSUFFICIENT
+- Q5: INSUFFICIENT
+- Q6: INSUFFICIENT

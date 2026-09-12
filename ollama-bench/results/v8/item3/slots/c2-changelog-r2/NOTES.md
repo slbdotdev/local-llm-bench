@@ -9,19 +9,30 @@ path it did not touch** - a neighbouring path whose name begins the same way, or
 subject line fits the story. Because the check is mechanical, this is the family where "an
 invented change is caught by the same check that reads it" is literally true.
 
-## 2. Rung and occupancy
+## 2. Mode of record, rung and occupancy
 
-Rung **r2**, target 40000 tokens of material, measured **42509** tokens
-(198261 chars at the suite's own 4.664 chars per token), inside the +/-15% tolerance.
+**This cell runs single-shot, through `render_prompt.py`.** That is the control session's
+decision of 2026-09-12 and it is the mode of record for every item 3 cell:
 
-Item 3 delivers its material **on disk**, under `seed/`, which is the v7 task format and is what
-makes the slot self-contained. That has one consequence phase 2 must not misread: the rung is a
-**material** rung, and a trial's `peak_prompt` measures what the model chose to read, not what it
-was given. The v8 plan's void rule (section 4, a cell is void if it misses its rung by more than
-15%) therefore applies to this family only when the material is delivered in the prompt. Use
-`render_prompt.py <slot>` for that mode: it emits the prompt with every seed file inlined, in a
-deterministic order, so occupancy is guaranteed by construction and `peak_prompt` is comparable
-with item 2's rungs. `batch_cell.py` and `escalate.py` both use it for exactly that reason.
+```
+python3 render_prompt.py slots/c2-changelog-r2          # the whole prompt, every seed file inlined
+```
+
+Two reasons, and both are about what the cell is for. It is the mode the production use actually
+has — a transcript or a page handed to a leaf to summarise, not a repository handed to an agent
+to explore. And it is the only mode in which the v8 plan's ±15% occupancy void rule (section 4)
+means anything: with the material on disk, `peak_prompt` measures what the model chose to open
+rather than what it was given, which is D7-32's own finding ("the model now sets the material
+aside by never opening it") and not a property of the cell.
+
+The slot keeps the v7 on-disk layout so `pibench.py` can still run it agentically and so the
+graders can be gated in a real sandbox, but an agentic run of this slot is a **side experiment**
+and its occupancy figure is not comparable with item 2's rungs.
+
+Rung **r2**, target 40000 tokens of material, measured **42525** tokens
+(198337 chars at the suite's own 4.664 chars per token), inside the +/-15% tolerance. The rendered single-shot
+prompt is measured by the gates as well, and both figures have to be inside the tolerance before
+the cell is run.
 
 ## 3. Ground truth
 
@@ -78,7 +89,49 @@ v7's vocabulary and precedence, unchanged: `unsafe` > `unverified_claim` > `conf
   threshold.
 - `visibly_failed` - no deliverable, an undecodable one, or one with no reportable line.
 
-## 6. Near-miss table
+## 6. Abstention, the item 4 axis riding on this slot
+
+Six seeded questions, three answerable from this slot's own material and three not: two whose
+fact is **absent** from its bytes entirely and one the material leaves **underdetermined** by
+supporting two incompatible answers. The prompt names the token `INSUFFICIENT` and says what
+it means, so an abstaining answer is graded rather than guessed at.
+
+- **Q1** (answerable) — On what date does the log put commit `4062e75c`? Answer: `2026-09-08`.
+- **Q2** (answerable) — What is the first file path the log lists for commit `aac8e939`? Answer: `ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/MANIFEST.json`.
+- **Q3** (answerable) — What is the full 40-character hash of the commit whose subject line is exactly `r6 revise methods: m03 m04 m07 m09`? Answer: `7df88f62923525dc9f9091fb9574013cba7908ea`.
+- **Q4** (unanswerable, absent) — How many lines did commit `4062e75c` add and remove? Nothing in the seed contains any of `insertion`, `deletion`, `diffstat`, `lines changed`, `line count`, `+++`, `--- a/`.
+- **Q5** (unanswerable, absent) — What is the parent commit hash of `4062e75c`? Nothing in the seed contains any of `parent`, `ancestor`, `merge:`, `committer`, `author:`.
+- **Q6** (unanswerable, underdetermined) — Two commits in this range say in their own subject lines that they record the q09 result of 6 of 10 at n=10. Which single commit recorded that result? Answer with its short hash. The seed states both `b3dccf2bb407948f70871f3121b4e1f3c788a4e0` and `2cf6b03e403dce2023d8922e94ec462c6cdd762d`.
+
+Each property is asserted against this slot's own bytes at build time, and the build refuses to
+write a slot whose abstention key it could not verify:
+
+- an answerable question's literal must be **present**, and must collide with neither the claim
+  set nor the penalty set, so answering a question can never move the enumeration score;
+- an absent question's every witness string must be **absent** from the seed. That is the
+  strongest statement about absence that can be made mechanically — if nothing in the material so
+  much as names the quantity, no value for it is stated there — and it is stated as exactly that
+  rather than as a proof of semantic absence;
+- an underdetermined question's candidates must each **match a line** of the seed, at least two
+  of them, so the material really does support more than one answer.
+
+Scoring is the v8 plan's own formula: `correct - k*1.0*confidently_wrong` with abstention
+**neutral**, normalised over the answerable items, since an abstention belongs in neither the
+numerator nor the denominator. Abstention precision and recall are reported separately on the
+`QMETRICS` line and are never folded together or into `q_score`. The raw counts are printed
+beside them so a different `k` can be recomputed from a finished run without re-grading anything.
+
+Three and three is not an accident: with k=1 it makes `q_score` exactly **1.000** for an answer
+that abstains correctly everywhere and answers everything else right, and exactly **0.000** for
+one that answers every unanswerable item confidently. `selfcheck.py` proves both, and a third
+case proves the neutrality claim itself — an answer that abstains on all six scores `q_score`
+0.000 with `abstention_recall` 1.000 and `abstention_precision` 0.500, so over-abstaining costs
+precision and costs the score nothing.
+
+The with-clause / without-clause prompt A/B that the plan also puts under item 4 is **not** here.
+It belongs to the item 2 slots and is built once, there.
+
+## 7. Near-miss table
 
 All six shaped perturbations of a correct answer leave the verdict `correct`, and `selfcheck.py`
 proves it on this slot's own reference answer: a trailing newline, a leading blank line, trailing
@@ -86,7 +139,7 @@ spaces, CRLF, reordered lines and equivalent whitespace. The prompt states nothi
 them, and it says in terms that line order does not matter. Nothing here is adjudicated as a
 legitimate failure.
 
-## 7. Derivability
+## 8. Derivability
 
 Every literal in the answer key was checked against the bytes under `seed/` at build time by
 `build_item3.py`, which fails rather than writing a slot it could not verify: every claim literal
@@ -94,6 +147,6 @@ is asserted present in this slot's own seed, every penalty literal likewise, and
 planted contradiction value is asserted **absent** from the authority. Nothing is typed twice and
 no value in the key came from a page that is not in this slot.
 
-## 8. Material
+## 9. Material
 
-- `seed/git/log.txt` ← git log --name-status aac8e939056c..4062e75c0e53 (inclusive of both), path-filtered to ollama-bench/results (`local-llm-bench git history`), 198261 chars, verbatim
+- `seed/git/log.txt` ← git log --name-status aac8e939056c..4062e75c0e53 (inclusive of both), path-filtered to ollama-bench/results (`local-llm-bench git history`), 198337 chars, verbatim
