@@ -29,6 +29,9 @@ HARD_STOP=64800          # 18 h; the last 2 h of the 20 h grant are never planne
 # The managed route, not localhost: from WSL, localhost:11434 is a different and empty
 # ollama, and a preflight that asks it anything gets a meaningless answer.
 OLLAMA=${OLLAMA_HOST_URL:-http://fractal.wyvern-temperature.ts.net:11434}
+# pibench.py:27 reads PIBENCH_OLLAMA and otherwise defaults to localhost, which the Windows
+# interpreter cannot reach. Export it once here so no runner is left guessing.
+export PIBENCH_OLLAMA="$OLLAMA"
 GO=0; OWNER=0; CELLS=$V8/cells.tsv
 
 for a in "$@"; do
@@ -42,7 +45,12 @@ done
 say() { echo "== $(date -u +%H:%M:%SZ) $*"; }
 
 # accounted() sums gpu_seconds already booked in the budget log.
-accounted() { grep -oE 'gpu_seconds=[0-9]+' "$BUDGET" 2>/dev/null | cut -d= -f2 | paste -sd+ | bc 2>/dev/null || echo 0; }
+# Sum gpu_seconds only AFTER the last RESET line. The log is append-only, so a voided run is
+# retired by appending a RESET rather than by deleting its history.
+accounted() {
+  awk '/^RESET/{buf=""} {buf = buf $0 ORS} END{printf "%s", buf}' "$BUDGET" 2>/dev/null \
+    | grep -oE 'gpu_seconds=[0-9]+' | cut -d= -f2 | paste -sd+ | bc 2>/dev/null || echo 0
+}
 
 say "v8 GPU round — $( [ "$GO" = 1 ] && echo 'ARMED' || echo 'DRY RUN, nothing will run')"
 
@@ -108,20 +116,30 @@ fi
 echo "  windows interpreter present (the grader is verified on the interpreter that runs it, D7-31):"
 if [ -x "$PY" ]; then echo "    $PY ok"; else echo "    MISSING $PY"; fail=1; fi
 
-echo "  endpoint catalog (metadata only, loads no model, costs no GPU):"
-if curl -sf -m 10 $OLLAMA/api/tags -o /tmp/v8-tags.json; then
-  echo "    $(python3 -c "import json;print(', '.join(m['name'] for m in json.load(open('/tmp/v8-tags.json'))['models'])[:200])" 2>/dev/null)"
-else
-  echo "    endpoint $OLLAMA not reachable from here"
-  [ "$GO" = 1 ] && fail=1
+echo "  endpoint reachable FROM THE WINDOWS INTERPRETER at $OLLAMA:"
+# Checked with $PY, not curl. A bash curl from WSL proves only that WSL can reach it, and that is
+# exactly how a round was launched against an endpoint no runner could use: ollama binds to the
+# Tailscale address, so 127.0.0.1 is refused on the Windows side.
+if "$PY" -c "
+import json,sys,urllib.request
+d=json.load(urllib.request.urlopen('$OLLAMA/api/tags',timeout=15))
+ns=[m['name'] for m in d['models']]
+print('     %d models; %s' % (len(ns), 'scored tag present' if 'q27-IQ2_M-96k:latest' in ns else 'SCORED TAG MISSING'))
+sys.exit(0 if 'q27-IQ2_M-96k:latest' in ns else 1)
+" 2>/tmp/v8-ep.txt; then :; else
+  echo "    UNREACHABLE from $PY, or the scored tag is absent"; tail -3 /tmp/v8-ep.txt | sed 's/^/      /'; fail=1
 fi
 
-echo "  card idle before the round (/api/ps must be empty):"
-if curl -sf -m 10 $OLLAMA/api/ps -o /tmp/v8-ps.json; then
-  if grep -q '"models":\[\]' /tmp/v8-ps.json; then echo "    empty, ok"; else
-    echo "    A MODEL IS RESIDENT: $(cat /tmp/v8-ps.json | head -c 200)"
-    echo "    unload with keep_alive:0 before starting; a leftover makes the first cell's placement another tag's"
-    [ "$GO" = 1 ] && fail=1; fi
+echo "  card idle before the round, same interpreter:"
+if "$PY" -c "
+import json,sys,urllib.request
+d=json.load(urllib.request.urlopen('$OLLAMA/api/ps',timeout=15))
+m=d.get('models',[])
+print('     empty, ok' if not m else '     RESIDENT: '+', '.join(x.get('name','?') for x in m))
+sys.exit(0 if not m else 1)
+" 2>/dev/null; then :; else
+  echo "    unload with keep_alive:0 first; a leftover makes the first cell's placement another tag's"
+  [ "$GO" = 1 ] && fail=1
 fi
 
 if [ "$fail" != "0" ]; then
@@ -151,13 +169,19 @@ fi
 # ---------------------------------------------------------------------------
 # 1. the GPU, proved by a real load
 # ---------------------------------------------------------------------------
-say "step 1: GPU by a real load on q27-IQ2_M-96k"
+say "step 1: GPU by a real load on q27-IQ2_M-96k at $OLLAMA"
 t0=$(date -u +%s)
-echo "STEP gpuverify-IQ2_M-96k | process=v5/gpu_verify.py | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
-"$PY" results/v5/gpu_verify.py q27-IQ2_M-96k 2>&1 | tee "$V8/gpuverify.log"
-"$PY" -c "import json,urllib.request;urllib.request.urlopen(urllib.request.Request('http://localhost:11434/api/generate',data=json.dumps({'model':'q27-IQ2_M-96k','keep_alive':0}).encode(),headers={'Content-Type':'application/json'}),timeout=60).read()" >> "$V8/gpuverify.log" 2>&1
+echo "STEP gpuverify-IQ2_M-96k | process=v8/gpu_verify8.py | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
+"$PY" "$V8/gpu_verify8.py" "$OLLAMA" q27-IQ2_M-96k 2>&1 | tee "$V8/gpuverify.log"
+gv_rc=${PIPESTATUS[0]}
 t1=$(date -u +%s)
-echo "END gpuverify-IQ2_M-96k | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((t1-t0))" >> "$BUDGET"
+echo "END gpuverify-IQ2_M-96k | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((t1-t0)) | rc=$gv_rc" >> "$BUDGET"
+if [ "$gv_rc" != "0" ]; then
+  say "GPU VERIFICATION FAILED (rc=$gv_rc). Nothing further runs. Read $V8/gpuverify.log."
+  echo "NOTE gpuverify failed rc=$gv_rc; round stopped before any cell." >> "$BUDGET"
+  exit 1
+fi
+say "step 1 done in $((t1-t0))s — $(grep -E 'gen_tok_s|resident' "$V8/gpuverify.log" | head -2 | tr '\n' ' ')"
 touch "$V8/.cell-gpuverify-done"
 say "step 1 done in $((t1-t0))s — read $V8/gpuverify.log for the processor split and the"\
 "generation rate on this quant's known curve. A version string is not a verification."
@@ -174,20 +198,38 @@ say "step 1 done in $((t1-t0))s — read $V8/gpuverify.log for the processor spl
 say "step 1b: tool-call smoke gate on t1 (about 60 s)"
 s0=$(date -u +%s)
 echo "STEP smoke-toolcalls | process=item1/leafloop.py:t1 | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
-"$PY" "$V8/item1/leafloop.py" --api native --model q27-IQ2_M-96k --num-ctx 98304 \
-  --tasks-dir "$V8/item1/tasks" --task t1 --max-wall 120 \
-  --transcript "$V8/smoke-toolcalls.jsonl" > "$V8/smoke-toolcalls.log" 2>&1
+rm -rf "$V8/smoke-sandbox"; rm -f "$V8/smoke-toolcalls.jsonl"
+# leafloop takes the slot DIRECTORY as --task, and requires --sandbox and --transcript.
+"$PY" "$V8/item1/leafloop.py" \
+  --task "$V8/item1/tasks/t1-locate-report" \
+  --sandbox "$V8/smoke-sandbox" \
+  --transcript "$V8/smoke-toolcalls.jsonl" \
+  --endpoint "$OLLAMA" --api native --model q27-IQ2_M-96k --num-ctx 98304 \
+  --wall-s 180 > "$V8/smoke-toolcalls.log" 2>&1
+smoke_rc=$?
 s1=$(date -u +%s)
-echo "END smoke-toolcalls | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((s1-s0))" >> "$BUDGET"
+echo "END smoke-toolcalls | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((s1-s0)) | rc=$smoke_rc" >> "$BUDGET"
 
-ncalls=$(grep -c '"tool_calls"' "$V8/smoke-toolcalls.jsonl" 2>/dev/null || echo 0)
-say "step 1b done in $((s1-s0))s — $ncalls response(s) carried tool_calls"
-if [ "${ncalls:-0}" -lt 1 ]; then
-  echo "NOTE smoke-toolcalls: model emitted NO tool_calls; item 1 cells skipped as void by design." >> "$BUDGET"
-  say "ITEM 1 IS VOID: the model emitted no tool call. Skipping every item1 cell; the rest of"\
-"the round continues. Read $V8/smoke-toolcalls.log before re-planning item 1."
+# A crashed runner and a model that cannot emit tool calls both produce zero tool_calls. They are
+# not the same finding, and reading one as the other voided item 1 once already on a usage error.
+ncalls=0
+[ -f "$V8/smoke-toolcalls.jsonl" ] && ncalls=$(grep -c '"tool_calls"' "$V8/smoke-toolcalls.jsonl" 2>/dev/null || echo 0)
+nresp=0
+[ -f "$V8/smoke-toolcalls.jsonl" ] && nresp=$(grep -c '"role": *"assistant"' "$V8/smoke-toolcalls.jsonl" 2>/dev/null || echo 0)
+say "step 1b done in $((s1-s0))s — rc=$smoke_rc, $nresp assistant response(s), $ncalls carrying tool_calls"
+
+if [ ! -s "$V8/smoke-toolcalls.jsonl" ] || [ "${nresp:-0}" -lt 1 ]; then
+  echo "NOTE smoke-toolcalls INCONCLUSIVE: the runner produced no assistant response (rc=$smoke_rc). Item 1 is NOT void; the question is unanswered." >> "$BUDGET"
+  say "SMOKE GATE INCONCLUSIVE — the runner did not reach the model (rc=$smoke_rc). This is NOT"\
+"a finding about the model. Stopping: fix the runner, do not spend the round on a guess."
+  say "Read $V8/smoke-toolcalls.log."
+  exit 1
+elif [ "${ncalls:-0}" -lt 1 ]; then
+  echo "NOTE smoke-toolcalls: $nresp assistant response(s), none carrying tool_calls; item 1 void by design." >> "$BUDGET"
+  say "ITEM 1 IS VOID: the model answered but emitted no tool call. Skipping every item1 cell."
   SKIP_ITEM1=1
 else
+  say "tool calls confirmed — item 1 stands."
   SKIP_ITEM1=0
 fi
 touch "$V8/.cell-smoke-done"
@@ -214,9 +256,18 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
   echo "STEP $cid | process=pibench.py:$cid | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
   case "$runner" in
     leafloop)
-      "$PY" "$V8/item1/leafloop.py" --api native --model q27-IQ2_M-96k --num-ctx "$nctx" \
-        --tasks-dir "$tdir" --task "$task" --trials "$trials" --max-wall 900 \
-        --transcript "$V8/$cid.jsonl" >> "$V8/$cid.log" 2>&1 ;;
+      # leafloop runs ONE trial per invocation and takes the slot directory; the loop is ours.
+      rc=0
+      for t in $(seq 1 "$trials"); do
+        rm -rf "$V8/sandbox-$cid-$t"
+        "$PY" "$V8/item1/leafloop.py" \
+          --task "$tdir/$task" \
+          --sandbox "$V8/sandbox-$cid-$t" \
+          --transcript "$V8/$cid-trial$t.jsonl" \
+          --endpoint "$OLLAMA" --api native --model q27-IQ2_M-96k --num-ctx "$nctx" \
+          --wall-s 900 >> "$V8/$cid.log" 2>&1 || rc=$?
+      done
+      ( exit $rc ) ;;
     batch)
       "$PY" "$V8/item3/batch_cell.py" --model q27-IQ2_M-96k --num-ctx "$nctx" \
         >> "$V8/$cid.log" 2>&1 ;;
