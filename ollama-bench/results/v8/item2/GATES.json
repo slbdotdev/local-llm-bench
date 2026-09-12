@@ -1,0 +1,195 @@
+{
+ "ab_pairs": 6,
+ "executable": "/usr/bin/python3",
+ "failed": 0,
+ "failed_units": [],
+ "gates": [
+  "G1 reference full score",
+  "G2 untouched/empty visibly_failed",
+  "G3 plausible wrong confidently_wrong",
+  "G4 six shaped near-misses",
+  "G5 graded twice",
+  "G6 two-directional instrument proof",
+  "G7 occupancy within 15%",
+  "G8 A/B differs in exactly the clause",
+  "G9 whole corpus re-solved independently",
+  "G10 worked example re-solved",
+  "G11 extra probes",
+  "G12 non-destructive to tracked files"
+ ],
+ "item": 2,
+ "occupancy": {
+  "agg-20k-abst": {
+   "error_pct": 0.44,
+   "realised": 20088,
+   "rung": 20000
+  },
+  "agg-20k-noabst": {
+   "error_pct": 0.0,
+   "realised": 20000,
+   "rung": 20000
+  },
+  "agg-50k-abst": {
+   "error_pct": 0.184,
+   "realised": 50092,
+   "rung": 50000
+  },
+  "agg-50k-noabst": {
+   "error_pct": 0.01,
+   "realised": 50005,
+   "rung": 50000
+  },
+  "agg-80k-abst": {
+   "error_pct": 0.171,
+   "realised": 80137,
+   "rung": 80000
+  },
+  "agg-80k-noabst": {
+   "error_pct": 0.062,
+   "realised": 80050,
+   "rung": 80000
+  },
+  "recon-20k-abst": {
+   "error_pct": 0.405,
+   "realised": 20081,
+   "rung": 20000
+  },
+  "recon-20k-noabst": {
+   "error_pct": -0.035,
+   "realised": 19993,
+   "rung": 20000
+  },
+  "recon-50k-abst": {
+   "error_pct": 0.224,
+   "realised": 50112,
+   "rung": 50000
+  },
+  "recon-50k-noabst": {
+   "error_pct": 0.05,
+   "realised": 50025,
+   "rung": 50000
+  },
+  "recon-80k-abst": {
+   "error_pct": 0.096,
+   "realised": 80077,
+   "rung": 80000
+  },
+  "recon-80k-noabst": {
+   "error_pct": -0.014,
+   "realised": 79989,
+   "rung": 80000
+  }
+ },
+ "passed": 21,
+ "platform": "linux",
+ "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+ "slots": 12,
+ "units": [
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-20k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-20k-noabst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-50k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-50k-noabst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-80k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "agg-80k-noabst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-20k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-20k-noabst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-50k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-50k-noabst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-80k-abst"
+  },
+  {
+   "kind": "slot",
+   "passed": true,
+   "unit": "recon-80k-noabst"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "agg-20k"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "agg-50k"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "agg-80k"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "recon-20k"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "recon-50k"
+  },
+  {
+   "kind": "ab_pair",
+   "passed": true,
+   "unit": "recon-80k"
+  },
+  {
+   "kind": "probe",
+   "passed": true,
+   "unit": "probe_extra.py"
+  },
+  {
+   "kind": "probe",
+   "passed": true,
+   "unit": "refprobe.py"
+  },
+  {
+   "kind": "probe",
+   "passed": true,
+   "unit": "probe_nondestructive.py"
+  }
+ ],
+ "when": "2026-09-12T06:38:19Z"
+}

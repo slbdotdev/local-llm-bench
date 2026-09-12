@@ -52,33 +52,50 @@ say "v8 GPU round — $( [ "$GO" = 1 ] && echo 'ARMED' || echo 'DRY RUN, nothing
 fail=0
 say "preflight"
 
-echo "  phase-1 instrument gates, RE-RUN rather than read:"
-# Reading GATES.md was wrong: the prose contains the word FAILED inside a documented command
-# string, so a grep scores a passing item as failing. The gate is a script; run it.
-gate_entry() {
-  case "$1" in
-    item1) echo "gates/run_gates.py" ;;
-    item2|item3) echo "gates.py" ;;
-  esac
-}
+# Phase-1 gates are AUTHORING-TIME instruments: they regenerate corpora from the fleet's own
+# pages, which exist on the WSL side only. Running them here wiped a slot and 89 report files
+# once already. D7-31 asks only that the GRADER be verified on the interpreter that runs it,
+# which is what refprobe.py does. So: read each item's machine-readable verdict, then probe the
+# graders. GATES.md is prose and is never parsed — a grep for FAIL matched the word inside a
+# documented command string and scored a passing item as failing.
+echo "  phase-1 gate verdicts, from GATES.json:"
 for item in item1 item2 item3; do
-  d=$V8/$item; e=$(gate_entry "$item")
-  if [ ! -f "$d/$e" ]; then echo "    MISSING $d/$e — phase 1 is not done for $item"; fail=1; continue; fi
-  if ( cd "$d" && "$PY" "$e" > /tmp/v8-gates-$item.txt 2>&1 ); then
-    echo "    $item ok — $(grep -oE '[0-9]+/[0-9]+ gates?( ok| passed)?|0 failures' /tmp/v8-gates-$item.txt | tail -1)"
+  j=$V8/$item/GATES.json
+  if [ ! -f "$j" ]; then echo "    MISSING $j — phase 1 has not recorded a machine-readable verdict for $item"; fail=1; continue; fi
+  read -r ok passed failed when plat <<EOJ
+$(python3 -c "
+import json
+d=json.load(open('$j'))
+print(int(d.get('failed',1)==0), d.get('passed','?'), d.get('failed','?'), d.get('when','?'), d.get('platform','?'))
+" 2>/dev/null)
+EOJ
+  if [ "${ok:-0}" = "1" ]; then
+    echo "    $item ok — $passed passed, $failed failed, $when on $plat"
   else
-    echo "    $item GATES FAILED under $PY — see /tmp/v8-gates-$item.txt"
-    tail -3 /tmp/v8-gates-$item.txt | sed 's/^/      /'
-    fail=1
+    echo "    $item GATES RECORD $failed FAILURE(S) — rerun its gates on the WSL side"; fail=1
+  fi
+  # the two-directional instrument proof, read from the gate NAMES in structured data
+  if ! python3 -c "
+import json,sys
+d=json.load(open('$j'))
+names=' '.join(g.get('name','') for g in d.get('gates',[])).lower()
+sys.exit(0 if ('instrument' in names or 'direction' in names) else 1)
+" 2>/dev/null; then
+    echo "    $item records no two-directional instrument gate — plan section 4 forbids trusting it"; fail=1
   fi
 done
 
-echo "  two-directional instrument proof recorded (a perfect answer 1.0 AND a decoy answer 0):"
+echo "  graders probed on THIS interpreter, rebuilding nothing (D7-31):"
 for item in item1 item2 item3; do
-  g=$V8/$item/GATES.md
-  [ -f "$g" ] || continue
-  if grep -qi 'two-direction' "$g"; then echo "    $item ok"; else
-    echo "    $item does not record it — plan section 4 forbids trusting the instrument"; fail=1; fi
+  r=$V8/$item/refprobe.py
+  if [ ! -f "$r" ]; then echo "    MISSING $r"; fail=1; continue; fi
+  if ( cd "$V8/$item" && "$PY" refprobe.py > /tmp/v8-refprobe-$item.txt 2>&1 ); then
+    echo "    $item ok — $(grep -oE '[0-9]+/[0-9]+ references? graded correct' /tmp/v8-refprobe-$item.txt | tail -1)"
+  else
+    echo "    $item REFPROBE FAILED under $PY — see /tmp/v8-refprobe-$item.txt"
+    tail -3 /tmp/v8-refprobe-$item.txt | sed 's/^/      /'
+    fail=1
+  fi
 done
 
 echo "  cell inventory:"

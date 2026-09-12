@@ -815,17 +815,16 @@ def main():
                 notes=_notes(name, rung, realised, built, pr, arm, cpt),
                 manifest=_manifest(name, rung, realised, prompt, built, pr, arm, cpt,
                                    items),
-                here=HERE)
-            with open(os.path.join(slot, "ref", "statements.json"), "w",
-                      encoding="utf-8", newline="\n") as fh:
-                json.dump({"statements": built["statements"],
-                           "asked": built["assigned"]["asked"],
-                           "interval_param": built["assigned"]["interval_param"],
-                           "intervals": [dict(iv, source=b["source"])
-                                         for b in built["blocks"]
-                                         for iv in b["intervals"]]},
-                          fh, indent=1, sort_keys=True)
-                fh.write("\n")
+                here=HERE,
+                # written inside the atomic slot build, so a slot is never on disk
+                # complete but for the table `selfcheck.py` re-solves the corpus from
+                extra_ref={"statements.json": {
+                    "statements": built["statements"],
+                    "asked": built["assigned"]["asked"],
+                    "interval_param": built["assigned"]["interval_param"],
+                    "intervals": [dict(iv, source=b["source"])
+                                  for b in built["blocks"]
+                                  for iv in b["intervals"]]}})
             summary.append((name, realised, rung, 100.0 * (realised - rung) / rung))
     w = max(len(s[0]) for s in summary)
     for name, realised, rung, pct in summary:

@@ -766,20 +766,19 @@ def main():
                 plausible_answer=built["answers"]["plausible"],
                 notes=_notes(name, rung, realised, built, pr, arm, cpt),
                 manifest=man,
-                here=HERE)
-            with open(os.path.join(slot, "ref", "entries.json"), "w",
-                      encoding="utf-8", newline="\n") as fh:
-                json.dump({"tier_threshold": TIER_THRESHOLD,
-                           "entries": built["entries"],
-                           "asked": {
-                               "calibration_offset": built["assigned"]["calib_code"],
-                               "absent_station_load": ABSENT_CODE,
-                               "conflicting_station_load": built["assigned"]["u1_code"],
-                               "earliest_governing_station": "(a two-way date tie)"},
-                           "tie_codes": built["assigned"]["tie_codes"],
-                           "tie_date": built["assigned"]["tie_date"]},
-                          fh, indent=1, sort_keys=True)
-                fh.write("\n")
+                here=HERE,
+                # written inside the atomic slot build, so a slot is never on disk
+                # complete but for the table `selfcheck.py` re-solves the corpus from
+                extra_ref={"entries.json": {
+                    "tier_threshold": TIER_THRESHOLD,
+                    "entries": built["entries"],
+                    "asked": {
+                        "calibration_offset": built["assigned"]["calib_code"],
+                        "absent_station_load": ABSENT_CODE,
+                        "conflicting_station_load": built["assigned"]["u1_code"],
+                        "earliest_governing_station": "(a two-way date tie)"},
+                    "tie_codes": built["assigned"]["tie_codes"],
+                    "tie_date": built["assigned"]["tie_date"]}})
             summary.append((name, realised, rung, round(100.0 * (realised - rung) / rung, 2)))
     w = max(len(s[0]) for s in summary)
     for name, realised, rung, pct in summary:

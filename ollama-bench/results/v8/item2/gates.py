@@ -32,8 +32,20 @@ G11  three probes the per-slot selfcheck does not cover, from `probe_extra.py`: 
      confident on every unanswerable question grades `confidently_wrong` and scores
      above zero at k=1 and zero at k=2.
 
-G1-G5, G9 and G10 are run by each slot's own `selfcheck.py`; G6, G7, G8 and G11 are run
+G12  nothing in item 2 can damage a tracked file, from `probe_nondestructive.py`: a
+     `write_slot` that fails partway leaves the slot byte-for-byte as it was and leaves no
+     staging directory, a failed swap puts the committed slot back, `write_text_atomic`
+     keeps the original bytes when it fails, and every subprocess this file launches
+     changes not one byte under `item2/`.
+
+G1-G5, G9 and G10 are run by each slot's own `selfcheck.py`; G6, G7, G8, G11 and G12 are run
 here.
+
+This file writes `GATES.md` and `GATES.json` and nothing else, both through
+`common.write_text_atomic`, so an interrupted gate run cannot leave either one truncated.
+`GATES.json` is the machine-readable record an automated preflight should read: grepping the
+prose record for `FAIL` matches the word FAILED inside a documented command below and scores
+a passing item as failing.
 """
 import difflib
 import json
@@ -123,12 +135,16 @@ def main():
     oc = {s: occupancy(s) for s in slots}
     ab = {p: ab_diff(p) for p in pairs}
     xrc, xout = run([sys.executable, "probe_extra.py"], HERE)
+    rrc, rout = run([sys.executable, "refprobe.py"], HERE)
+    nrc, nout = run([sys.executable, "probe_nondestructive.py"], HERE)
 
     failed = ([s for s in slots if sc[s]["rc"] != 0]
               + [s for s in slots if not ip[s]["pass"]]
               + [s for s in slots if not oc[s]["pass"]]
               + [p for p in pairs if not ab[p]["pass"]]
-              + (["probe_extra.py"] if xrc != 0 else []))
+              + (["probe_extra.py"] if xrc != 0 else [])
+              + (["refprobe.py"] if rrc != 0 else [])
+              + (["probe_nondestructive.py"] if nrc != 0 else []))
 
     out = [_header(started, slots, pairs, failed),
            _occupancy_table(slots, oc),
@@ -136,16 +152,59 @@ def main():
            _gate_table(slots, sc, ip),
            _extra_table(xrc, xout),
            _ab_table(pairs, ab),
+           _durability_table(rrc, rout, nrc, nout),
            _commands(slots, pairs),
            _appendix(slots, sc, ab, pairs)]
-    text = "\n".join(out)
-    with open(os.path.join(HERE, "GATES.md"), "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(text)
-    print("GATES.md written: %d slots, %d A/B pairs, %d failures"
+    # Both records are replaced atomically: a crash between truncating a tracked file and
+    # writing it is how item 1 lost 89 tracked reports in this same phase.
+    common.write_text_atomic(os.path.join(HERE, "GATES.md"), "\n".join(out))
+
+    # A unit is one slot (all of its gates together), one A/B pair, or the extra-probe run.
+    units = ([{"unit": s, "kind": "slot",
+               "passed": sc[s]["rc"] == 0 and ip[s]["pass"] and oc[s]["pass"]}
+              for s in slots]
+             + [{"unit": p, "kind": "ab_pair", "passed": ab[p]["pass"]} for p in pairs]
+             + [{"unit": "probe_extra.py", "kind": "probe", "passed": xrc == 0},
+                {"unit": "refprobe.py", "kind": "probe", "passed": rrc == 0},
+                {"unit": "probe_nondestructive.py", "kind": "probe", "passed": nrc == 0}])
+    summary = {
+        # the four fields the phase-2 preflight reads; everything else is detail
+        "passed": sum(1 for u in units if u["passed"]),
+        "failed": sum(1 for u in units if not u["passed"]),
+        "when": _utc_now(),
+        "python": sys.version,
+        "platform": sys.platform,
+        # detail
+        "item": 2,
+        "slots": len(slots),
+        "ab_pairs": len(pairs),
+        "units": units,
+        "failed_units": [u["unit"] for u in units if not u["passed"]],
+        "executable": sys.executable,
+        "gates": ["G1 reference full score", "G2 untouched/empty visibly_failed",
+                  "G3 plausible wrong confidently_wrong", "G4 six shaped near-misses",
+                  "G5 graded twice", "G6 two-directional instrument proof",
+                  "G7 occupancy within 15%", "G8 A/B differs in exactly the clause",
+                  "G9 whole corpus re-solved independently",
+                  "G10 worked example re-solved", "G11 extra probes",
+                  "G12 non-destructive to tracked files"],
+        "occupancy": {s: {"rung": oc[s]["target"], "realised": oc[s]["realised"],
+                          "error_pct": oc[s]["err"]} for s in slots},
+    }
+    common.write_text_atomic(os.path.join(HERE, "GATES.json"),
+                             json.dumps(summary, indent=1, sort_keys=True) + "\n")
+
+    print("GATES.md and GATES.json written: %d slots, %d A/B pairs, %d failures"
           % (len(slots), len(pairs), len(failed)))
     for f in failed:
         print("  FAILED: %s" % f)
     return 1 if failed else 0
+
+
+def _utc_now():
+    import datetime
+    return (datetime.datetime.now(datetime.timezone.utc)
+            .replace(microsecond=0).isoformat().replace("+00:00", "Z"))
 
 
 def _header(started, slots, pairs, failed):
@@ -160,10 +219,28 @@ Scope: item 2 (near-window input with occupancy guaranteed by construction) and 
 
 {n} candidate slots, {p} A/B pairs, **{f} failures**.
 
-Regenerate everything and re-run every gate:
+**Do not grep this file for a pass or a fail.** `gates.py` writes `GATES.json` beside it on
+every run, and that is what an automated preflight reads:
+
+    {{"passed": N, "failed": M, "when": "<UTC ISO8601>", "python": ..., "platform": ...}}
+
+`failed` is 0 exactly when every gate passed. This file is prose and quotes the word FAILED
+inside a documented shell command in section "The command for each gate", so a grep over it
+reports a passing item as failing.
+
+Re-run every gate, rebuilding nothing:
 
     cd results/v8/item2
+    python3 gates.py
+
+Regenerate the slots as well -- only needed after a change to a generator, or to
+re-converge the rungs on a measured tokenizer constant:
+
     python3 gen_aggregate.py && python3 gen_contradiction.py && python3 gates.py
+
+The cheapest check of all, and the only one the phase-2 preflight needs to run on the
+desktop side, is `python3 refprobe.py`: it grades each slot's reference answer through that
+slot's own `test.py` and rebuilds nothing.
 """.format(started=started, n=len(slots), p=len(pairs), f=len(failed))
 
 
@@ -336,6 +413,52 @@ The clause, verbatim:
 """.format(rows=rows, clause=common.ABSTENTION_CLAUSE.strip())
 
 
+def _durability_table(rrc, rout, nrc, nout):
+    return """
+## G1 alone, the cheapest check -- and G12, durability
+
+### `python3 refprobe.py` (exit {rrc})
+
+Grades each slot's reference answer through that slot's own `test.py` and expects `correct`
+at full score. It **rebuilds nothing and regenerates no corpus**: the only inputs are files
+already in the checkout, so it is safe on a clone that has just been pulled and cannot
+re-derive anything. It imports nothing from this directory -- standard library only -- so it
+still runs when a generator or `common.py` is mid-edit. `--json` emits
+`{{"passed": N, "failed": M, ...}}` for a preflight.
+
+This is the only item-2 check the phase-2 preflight needs on the desktop side.
+
+```
+{rout}
+```
+
+### `python3 probe_nondestructive.py` (exit {nrc})
+
+Item 1's gate run cleared 89 tracked report files when it crashed midway and item 3's wiped
+a slot it could not then rebuild, which makes "non-destructive" a claim to measure rather
+than assert. Five checks, with failures injected rather than hoped against:
+
+  * `write_slot` builds every byte in a sibling staging directory and moves the finished
+    slot into place in one step. Made to fail on its first write and again after the `ref/`
+    files are written, the slot on disk is byte-for-byte as it was and no staging directory
+    is left behind.
+  * made to fail on the move itself, the committed slot is renamed back.
+  * `write_text_atomic` writes to a temp file in the same directory and `os.replace`s it,
+    so a failure leaves the original bytes -- the case plain `open(path, "w")` gets wrong,
+    because it truncates before it writes. That is not theoretical: during authoring,
+    `open(path, "w", newline="\\\\n")` truncated `gen_contradiction.py` to zero bytes
+    *before* rejecting its own `newline` argument.
+  * `refprobe.py`, `selfcheck.py`, `score_abstention.py` and `probe_extra.py` each change
+    not one byte anywhere under `item2/`. Those are every subprocess `gates.py` launches,
+    so the only writes left in `gates.py` are `GATES.md` and `GATES.json`, both through the
+    `write_text_atomic` proven above.
+
+```
+{nout}
+```
+""".format(rrc=rrc, rout=rout.rstrip(), nrc=nrc, nout=nout.rstrip())
+
+
 def _commands(slots, pairs):
     ex = slots[0]
     return """
@@ -353,6 +476,11 @@ Run from `results/v8/item2`.
 | G7 occupancy | `python3 -c "import json;m=json.load(open('slots/{ex}/MANIFEST.json'));print(m['rung_target_tokens'],m['realised_prompt_tokens'],m['rung_error_pct'])"` |
 | G8 A/B diff | `diff slots/{p}-noabst/prompt.md slots/{p}-abst/prompt.md` |
 | G11 extra probes | `python3 probe_extra.py` |
+| G1 alone, cheapest, rebuilds nothing | `python3 refprobe.py` |
+| G1 alone, machine-readable | `python3 refprobe.py --json` |
+| G12 durability | `python3 probe_nondestructive.py` |
+| the machine-readable result of this file | `python3 -c "import json;print(json.load(open('GATES.json'))['failed'])"` |
+| the same, under the interpreter phase 2 will use | `/mnt/c/Users/slb/scoop/apps/python/current/python.exe refprobe.py` |
 | everything, and rewrite this file | `python3 gates.py` |
 | regenerate the slots | `python3 gen_aggregate.py && python3 gen_contradiction.py` |
 | re-converge on a measured constant | `python3 gen_aggregate.py --chars-per-token 4.2 && python3 gen_contradiction.py --chars-per-token 4.2` |

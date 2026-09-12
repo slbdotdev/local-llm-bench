@@ -1,6 +1,6 @@
 # v8 item 2 and item 4 -- gate record
 
-Run 2026-09-12 00:23:33 by the phase-0 worker, entirely on CPU. **No GPU time was spent and the
+Run 2026-09-12 00:38:08 by the phase-0 worker, entirely on CPU. **No GPU time was spent and the
 Ollama endpoint was not contacted.** Every gate below is a grader run against a synthetic
 answer, a diff, or a character count.
 
@@ -9,10 +9,28 @@ Scope: item 2 (near-window input with occupancy guaranteed by construction) and 
 
 12 candidate slots, 6 A/B pairs, **0 failures**.
 
-Regenerate everything and re-run every gate:
+**Do not grep this file for a pass or a fail.** `gates.py` writes `GATES.json` beside it on
+every run, and that is what an automated preflight reads:
+
+    {"passed": N, "failed": M, "when": "<UTC ISO8601>", "python": ..., "platform": ...}
+
+`failed` is 0 exactly when every gate passed. This file is prose and quotes the word FAILED
+inside a documented shell command in section "The command for each gate", so a grep over it
+reports a passing item as failing.
+
+Re-run every gate, rebuilding nothing:
 
     cd results/v8/item2
+    python3 gates.py
+
+Regenerate the slots as well -- only needed after a change to a generator, or to
+re-converge the rungs on a measured tokenizer constant:
+
     python3 gen_aggregate.py && python3 gen_contradiction.py && python3 gates.py
+
+The cheapest check of all, and the only one the phase-2 preflight needs to run on the
+desktop side, is `python3 refprobe.py`: it grades each slot's reference answer through that
+slot's own `test.py` and rebuilds nothing.
 
 
 ## G7 -- occupancy validity
@@ -381,6 +399,74 @@ so use it only where the material genuinely does not decide.
 ```
 
 
+## G1 alone, the cheapest check -- and G12, durability
+
+### `python3 refprobe.py` (exit 0)
+
+Grades each slot's reference answer through that slot's own `test.py` and expects `correct`
+at full score. It **rebuilds nothing and regenerates no corpus**: the only inputs are files
+already in the checkout, so it is safe on a clone that has just been pulled and cannot
+re-derive anything. It imports nothing from this directory -- standard library only -- so it
+still runs when a generator or `common.py` is mid-edit. `--json` emits
+`{"passed": N, "failed": M, ...}` for a preflight.
+
+This is the only item-2 check the phase-2 preflight needs on the desktop side.
+
+```
+agg-20k-abst       correct    13/13    exit 0    ok
+agg-20k-noabst     correct    13/13    exit 0    ok
+agg-50k-abst       correct    13/13    exit 0    ok
+agg-50k-noabst     correct    13/13    exit 0    ok
+agg-80k-abst       correct    13/13    exit 0    ok
+agg-80k-noabst     correct    13/13    exit 0    ok
+recon-20k-abst     correct    16/16    exit 0    ok
+recon-20k-noabst   correct    16/16    exit 0    ok
+recon-50k-abst     correct    16/16    exit 0    ok
+recon-50k-noabst   correct    16/16    exit 0    ok
+recon-80k-abst     correct    16/16    exit 0    ok
+recon-80k-noabst   correct    16/16    exit 0    ok
+
+12 of 12 references graded correct at full score on linux
+ALL CLEAR
+```
+
+### `python3 probe_nondestructive.py` (exit 0)
+
+Item 1's gate run cleared 89 tracked report files when it crashed midway and item 3's wiped
+a slot it could not then rebuild, which makes "non-destructive" a claim to measure rather
+than assert. Five checks, with failures injected rather than hoped against:
+
+  * `write_slot` builds every byte in a sibling staging directory and moves the finished
+    slot into place in one step. Made to fail on its first write and again after the `ref/`
+    files are written, the slot on disk is byte-for-byte as it was and no staging directory
+    is left behind.
+  * made to fail on the move itself, the committed slot is renamed back.
+  * `write_text_atomic` writes to a temp file in the same directory and `os.replace`s it,
+    so a failure leaves the original bytes -- the case plain `open(path, "w")` gets wrong,
+    because it truncates before it writes. That is not theoretical: during authoring,
+    `open(path, "w", newline="\\n")` truncated `gen_contradiction.py` to zero bytes
+    *before* rejecting its own `newline` argument.
+  * `refprobe.py`, `selfcheck.py`, `score_abstention.py` and `probe_extra.py` each change
+    not one byte anywhere under `item2/`. Those are every subprocess `gates.py` launches,
+    so the only writes left in `gates.py` are `GATES.md` and `GATES.json`, both through the
+    `write_text_atomic` proven above.
+
+```
+  ok   N1 write_slot fails on its first write
+  ok   N1 write_slot fails after the ref files are written
+  ok   N2 _swap_dir fails and the committed slot is put back
+  ok   N3 write_text_atomic fails and the original bytes survive
+  ok   N3 write_text_atomic replaces the file when it succeeds
+  ok   N4 refprobe.py leaves every file under item2/ untouched
+  ok   N5 probe_extra.py leaves every file under item2/ untouched
+  ok   N5 score_abstention.py leaves every file under item2/ untouched
+  ok   N5 selfcheck.py leaves every file under item2/ untouched
+
+the slot used for the injection tests, agg-20k-abst, is byte-identical to its committed state: True
+ALL CLEAR -- nothing in item 2 can damage a tracked file
+```
+
+
 ## The command for each gate
 
 Run from `results/v8/item2`.
@@ -395,6 +481,11 @@ Run from `results/v8/item2`.
 | G7 occupancy | `python3 -c "import json;m=json.load(open('slots/agg-20k-abst/MANIFEST.json'));print(m['rung_target_tokens'],m['realised_prompt_tokens'],m['rung_error_pct'])"` |
 | G8 A/B diff | `diff slots/agg-20k-noabst/prompt.md slots/agg-20k-abst/prompt.md` |
 | G11 extra probes | `python3 probe_extra.py` |
+| G1 alone, cheapest, rebuilds nothing | `python3 refprobe.py` |
+| G1 alone, machine-readable | `python3 refprobe.py --json` |
+| G12 durability | `python3 probe_nondestructive.py` |
+| the machine-readable result of this file | `python3 -c "import json;print(json.load(open('GATES.json'))['failed'])"` |
+| the same, under the interpreter phase 2 will use | `/mnt/c/Users/slb/scoop/apps/python/current/python.exe refprobe.py` |
 | everything, and rewrite this file | `python3 gates.py` |
 | regenerate the slots | `python3 gen_aggregate.py && python3 gen_contradiction.py` |
 | re-converge on a measured constant | `python3 gen_aggregate.py --chars-per-token 4.2 && python3 gen_contradiction.py --chars-per-token 4.2` |
