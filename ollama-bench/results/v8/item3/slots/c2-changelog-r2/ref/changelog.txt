@@ -1,0 +1,27 @@
+- aac8e939: both shape candidates dropped
+- c5d949d7: context pressure cell at 48k
+- 865a0a8b: round five handoff
+- ef9d9f83: q09 dropped and round five closed
+- 3898370f: round-two nine cross-family reviews
+- d3c9c4f7: round-six revision briefs
+- f6e38425: m01 revised, both reviews pass
+- 0157b148: m10 phrase fix, both r6b reviews pass
+- 340499cd: m10 revised surfaces
+- 9a2366f6: m02 notes accuracy fix
+- 2261d868: m02 r6c-r6d revision, both reviews pass
+- faf8d3db: m05 restructured, both r6c reviews pass
+- 8ac61e46: m08 shelved pending redesign
+- 7afe68fd: m08 evidence, trial tallies, status
+- d42ca4ea: q09 shelved: opus r6d revise, qzx prefix
+- cd902fb9: q09: repair glm r6d report, lift shelving
+- 0c4d7d20: q09 admitted: label isolation fix, dual pass
+- 7df88f62: r6 revise methods: m03 m04 m07 m09
+- 8f57a237: m09 admitted: revision, dual pass
+- aad8cf8d: m07 admitted: revision, dual pass
+- 522c5ca3: m07 m09: revision generator specs
+- 4d42aa57: m03 admitted: shortcut fix, dual pass
+- 5bf00c84: m03: glm pass on fixed build
+- 403b2beb: m04 admitted: record fix, dual pass
+- 59bf9083: roundtable: glm review fix
+- 9d3cd505: roundtable glm review record
+- 4062e75c: v7: phase2 rows 108, m08 candidate, budget evidence

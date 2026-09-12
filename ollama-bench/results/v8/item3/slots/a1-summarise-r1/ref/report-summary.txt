@@ -1,0 +1,10 @@
+- 13.27 GB resident: 13.27
+- 41.9 generation tok/s at 96k: 41.9
+- 10.13 GiB of weights: 10.13
+- num_ctx 98304: 98304
+- 10.07 s of wall for two concurrent requests served one after the other: 10.07
+- 32.6 tok/s aggregate across the two serialized requests: 32.6
+- pooled pass probability 0.898 over 98 v7 trials: 0.898
+- confidently-wrong rate 0.031: 0.031
+- pooled 0.900 at 48k in 30 trials: 0.900
+- pooled 0.833 at 64k in 48 trials: 0.833

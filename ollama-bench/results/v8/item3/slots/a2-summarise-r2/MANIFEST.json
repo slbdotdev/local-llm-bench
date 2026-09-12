@@ -1,0 +1,155 @@
+{
+ "slot": "a2-summarise-r2",
+ "item": 3,
+ "family": "A",
+ "use": "report summarisation",
+ "deliverable": "report-summary.txt",
+ "harness_version": "v8",
+ "model_under_test": "q27-IQ2_M-96k at num_ctx 98304",
+ "thresholds": {
+  "recall_min": 0.75,
+  "precision_min": 0.0,
+  "penalty_max_rate": 0.0,
+  "hallucination_max": 0,
+  "hallucination_scale": 5
+ },
+ "claims": 10,
+ "penalty_items": 5,
+ "penalty_name": "decoy",
+ "seed_files": 11,
+ "material": {
+  "rung": "r2",
+  "rung_target_tokens": 40000,
+  "material_chars": 189957,
+  "material_tokens": 40728,
+  "chars_per_token": 4.664,
+  "within_tolerance": true,
+  "tolerance": 0.15
+ },
+ "files": {
+  "source/README.md": 5757,
+  "source/cachy-1080ti-options-2026-09-08.md": 1912,
+  "source/cachy-headless-2026-09-09.md": 655,
+  "source/calibration-2026-09-06.md": 8992,
+  "source/local-llm-bench-desaturation-2026-09-05.md": 828,
+  "source/local-ollama-route-2026-09-11.md": 404,
+  "source/local-quants-2026-09-05.md": 1086,
+  "source/local-workhorse-plan-2026-09-06.md": 10436,
+  "source/models.md": 2009,
+  "source/pending.md": 4503,
+  "source/zai-flash-campaign-2026-09-06.md": 4146
+ },
+ "provenance": [
+  {
+   "seed_path": "source/local-workhorse-plan-2026-09-06.md",
+   "source": "org/local-workhorse-plan-2026-09-06.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "seed_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "chars": 48675,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/local-quants-2026-09-05.md",
+   "source": "org/local-quants-2026-09-05.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "602cace8b13051b5dae3b29309b1eb75b59914e5f6ffa5138d1b76f43d35dfc3",
+   "seed_sha256": "602cace8b13051b5dae3b29309b1eb75b59914e5f6ffa5138d1b76f43d35dfc3",
+   "chars": 5064,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/local-ollama-route-2026-09-11.md",
+   "source": "org/local-ollama-route-2026-09-11.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "a2a206245787ac35a2d6c1317523a9aad17ed62b330564b385583fe1a77a3720",
+   "seed_sha256": "ee424727730c00ef89fe50fe8229a54adc67753a37321071a858e55fe994209b",
+   "chars": 1884,
+   "redactions": 3,
+   "verbatim": false
+  },
+  {
+   "seed_path": "source/local-llm-bench-desaturation-2026-09-05.md",
+   "source": "org/local-llm-bench-desaturation-2026-09-05.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "08f7872825c98a2829aacbeae2988b3db050023d674e707d8e2e0e0aba06843f",
+   "seed_sha256": "08f7872825c98a2829aacbeae2988b3db050023d674e707d8e2e0e0aba06843f",
+   "chars": 3862,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/cachy-headless-2026-09-09.md",
+   "source": "org/cachy-headless-2026-09-09.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "6367a474b186575de0ab8f7a3d137fdb8d9e6b54e48b3dceed952a816f1b503f",
+   "seed_sha256": "6367a474b186575de0ab8f7a3d137fdb8d9e6b54e48b3dceed952a816f1b503f",
+   "chars": 3057,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/cachy-1080ti-options-2026-09-08.md",
+   "source": "org/cachy-1080ti-options-2026-09-08.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "1172ff0e4bcde997401ac0d4065a3ccb6cc1282aecb72e0782e506eebbef71e8",
+   "seed_sha256": "1172ff0e4bcde997401ac0d4065a3ccb6cc1282aecb72e0782e506eebbef71e8",
+   "chars": 8919,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/models.md",
+   "source": "org/models.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "c29f16d497a8ebfdac3ce2b79aefa42d8612e8ef6e21d91082b92ce3037ff90a",
+   "seed_sha256": "c29f16d497a8ebfdac3ce2b79aefa42d8612e8ef6e21d91082b92ce3037ff90a",
+   "chars": 9368,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/README.md",
+   "source": "org/README.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "0c8e2defd0046e259bfe43d55ef282961a762f9f15e4db545f5881d0650daedf",
+   "seed_sha256": "bc3626e30da1ade6fab2aaa4d49a7582be10c2c788c0aeaf450c424ba7c0ebb9",
+   "chars": 26852,
+   "redactions": 2,
+   "verbatim": false
+  },
+  {
+   "seed_path": "source/pending.md",
+   "source": "org/pending.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "a780e59487b38a840ff5c1e563334e60bb285bef4e3c9f13dd270ab091cf78d3",
+   "seed_sha256": "a780e59487b38a840ff5c1e563334e60bb285bef4e3c9f13dd270ab091cf78d3",
+   "chars": 21000,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/zai-flash-campaign-2026-09-06.md",
+   "source": "org/zai-flash-campaign-2026-09-06.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "7583bc7fcc95e5fffad08243496ff3a20736edd1a63756816d1704c6641bdffd",
+   "seed_sha256": "7583bc7fcc95e5fffad08243496ff3a20736edd1a63756816d1704c6641bdffd",
+   "chars": 19338,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/calibration-2026-09-06.md",
+   "source": "ollama-bench/results/v7/calibration-2026-09-06.md",
+   "source_root": "local-llm-bench",
+   "source_sha256": "d6fa84350796d6494700da3ce741ae5e585957235fb7618304bcb2ea1eb1b17e",
+   "seed_sha256": "d6fa84350796d6494700da3ce741ae5e585957235fb7618304bcb2ea1eb1b17e",
+   "chars": 41938,
+   "redactions": 0,
+   "verbatim": true
+  }
+ ],
+ "build": "python3 build_item3.py"
+}

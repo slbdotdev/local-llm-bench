@@ -1,0 +1,57 @@
+{
+ "slot": "c2-changelog-r2",
+ "item": 3,
+ "family": "C",
+ "use": "changelog from a git range",
+ "deliverable": "changelog.txt",
+ "harness_version": "v8",
+ "model_under_test": "q27-IQ2_M-96k at num_ctx 98304",
+ "thresholds": {
+  "recall_min": 0.75,
+  "precision_min": 1.0,
+  "penalty_max_rate": 0.0,
+  "hallucination_max": 0,
+  "hallucination_scale": 5
+ },
+ "claims": 27,
+ "penalty_items": 18,
+ "penalty_name": "off_path",
+ "seed_files": 1,
+ "material": {
+  "rung": "r2",
+  "rung_target_tokens": 40000,
+  "material_chars": 198261,
+  "material_tokens": 42509,
+  "chars_per_token": 4.664,
+  "within_tolerance": true,
+  "tolerance": 0.15
+ },
+ "files": {
+  "git/log.txt": 42509
+ },
+ "provenance": [
+  {
+   "seed_path": "git/log.txt",
+   "source": "git log --name-status aac8e939056c..4062e75c0e53 (inclusive of both), path-filtered to ollama-bench/results",
+   "source_root": "local-llm-bench git history",
+   "source_sha256": null,
+   "seed_sha256": "aa0679f5e1236d9b462932b52bb87326f713a36d47c7a384f6c864544412daed",
+   "chars": 198261,
+   "redactions": 0,
+   "verbatim": true,
+   "commits": 45,
+   "on_path": 27,
+   "off_path": 18
+  }
+ ],
+ "build": "python3 build_item3.py",
+ "git_range": {
+  "base_inclusive": "aac8e939056c437063d7c7ab5488c735d3705dd3",
+  "head_inclusive": "4062e75c0e536e21d74fd27a89c5a235a021ba3c",
+  "path_filter": "ollama-bench/results",
+  "target_path": "ollama-bench/results/v7/authoring",
+  "commits": 45,
+  "on_path": 27,
+  "off_path": 18
+ }
+}

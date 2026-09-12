@@ -1,0 +1,67 @@
+{
+ "slot": "a1-summarise-r1",
+ "item": 3,
+ "family": "A",
+ "use": "report summarisation",
+ "deliverable": "report-summary.txt",
+ "harness_version": "v8",
+ "model_under_test": "q27-IQ2_M-96k at num_ctx 98304",
+ "thresholds": {
+  "recall_min": 0.75,
+  "precision_min": 0.0,
+  "penalty_max_rate": 0.0,
+  "hallucination_max": 0,
+  "hallucination_scale": 5
+ },
+ "claims": 10,
+ "penalty_items": 5,
+ "penalty_name": "decoy",
+ "seed_files": 3,
+ "material": {
+  "rung": "r1",
+  "rung_target_tokens": 12000,
+  "material_chars": 55623,
+  "material_tokens": 11926,
+  "chars_per_token": 4.664,
+  "within_tolerance": true,
+  "tolerance": 0.15
+ },
+ "files": {
+  "source/local-ollama-route-2026-09-11.md": 404,
+  "source/local-quants-2026-09-05.md": 1086,
+  "source/local-workhorse-plan-2026-09-06.md": 10436
+ },
+ "provenance": [
+  {
+   "seed_path": "source/local-workhorse-plan-2026-09-06.md",
+   "source": "org/local-workhorse-plan-2026-09-06.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "seed_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "chars": 48675,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/local-quants-2026-09-05.md",
+   "source": "org/local-quants-2026-09-05.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "602cace8b13051b5dae3b29309b1eb75b59914e5f6ffa5138d1b76f43d35dfc3",
+   "seed_sha256": "602cace8b13051b5dae3b29309b1eb75b59914e5f6ffa5138d1b76f43d35dfc3",
+   "chars": 5064,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "source/local-ollama-route-2026-09-11.md",
+   "source": "org/local-ollama-route-2026-09-11.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "a2a206245787ac35a2d6c1317523a9aad17ed62b330564b385583fe1a77a3720",
+   "seed_sha256": "ee424727730c00ef89fe50fe8229a54adc67753a37321071a858e55fe994209b",
+   "chars": 1884,
+   "redactions": 3,
+   "verbatim": false
+  }
+ ],
+ "build": "python3 build_item3.py"
+}

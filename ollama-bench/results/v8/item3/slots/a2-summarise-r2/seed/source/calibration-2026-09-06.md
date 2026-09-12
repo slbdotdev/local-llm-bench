@@ -1,0 +1,601 @@
+# v7 calibration on the GPU — 2026-09-06
+
+*Written by the Opus manager subagent on FRACTAL, in WSL, executing
+`manager-brief-calibration-2026-09-06.md` against `plan-2026-09-06.md` section 7. Every decision
+is in `decisions.md` as D7-26 … D7-n; this file is the result, not the reasoning. The host clock
+reports `2026-09-05`; documents are dated by the campaign, as v5, v6 and the v7 authoring round
+all were.*
+
+**Calibration is not selection.** v5's rule 4a stands in full and was not bent: no task was kept,
+dropped, reworded or reordered because a quant passed or failed it. Difficulty is tuned against
+the aggregate; an individual task changed only on a fairness or measurement finding read out of a
+transcript.
+
+## The configuration this was measured on
+
+| | |
+| --- | --- |
+| workhorse | **IQ2_M** at its own rung, **64k** (`q27-IQ2_M-64k`), main timeout 900 s |
+| neighbours | **UDQ3KXL at 48k** (`q27-UDQ3KXL-48k`), **Q2_K at 64k** (`q27-Q2_K-64k`) |
+| cheap band | 24k for all three, on tags baked for this run (D7-27) |
+| suite | `authoring/suite/`, 20 tasks, ten failure modes, one main and one cheap slot each |
+| harness | `pibench.py` through pi, `--think medium`, `--no-tps`, no fill or pad flags, the pi resilience extension mandatory on every cell |
+
+The suite is authored for 60-75% occupancy of a **48k** window. IQ2_M and Q2_K run it at 64k, so
+the *authored* occupancy figure there is **45-56%**, restated rather than corrected, exactly as
+D7-1 said it would be. UDQ3KXL at 48k carries the authored figure unchanged. What was
+*achieved* is a different number and is the first thing this report reads.
+
+## Before anything was scored
+
+**The GPU was verified by a real load on all six tags, never by a version string** (D7-28). Every
+tag: 100% GPU, residency reproducing v6's placement table to the hundredth of a GiB where v6
+measured the same rung, generation 56-64 tok/s. Generation is 20-25% *faster* than v6's own
+figures for the same quants, because v6 shared the card with a second campaign from 22:44 and
+measured ~6% contention (D6-38); nothing else was running here. **v7 walls are therefore not
+comparable with v6's**, for the same reason v6's were not comparable with v5's.
+
+**The suite was re-validated on disk**: `validate_all.py` over all twenty candidates, **20 sound,
+0 problems** — files, band, seed cleanliness, compilation, selfcheck, and the full probe
+(reference passes, untouched sandbox is a clean `visibly_failed`, no whitespace perturbation of a
+correct answer changes the verdict).
+
+**Sandboxes are outside every git repository** by construction on this harness (D7-29):
+`pibench.run_pi()` uses `tempfile.mkdtemp` and runs under the Windows interpreter, whose temp
+directory is `C:\Users\slb\AppData\Local\Temp`. The handoff's open item was about `sanity.py`,
+which built the reference arms, and it still stands for any future arm.
+
+---
+
+## 1. Occupancy, read before the pass rate
+
+The suite's main band is authored to 29,000-36,000 tokens of material. In IQ2_M's 64k cell that is
+45-56% of the window on paper. What the model actually held — `achieved_fill_prompt_tokens`, the
+peak single-turn input, which is the most context it ever carried at once — was this:
+
+| task | peak prompt | material | peak vs material | peak vs the 64k window |
+| --- | ---: | ---: | ---: | ---: |
+| m07-main-claude | 17,376 | 31,630 | 55% | **27%** |
+| m01-main-claude | 11,488 | 31,607 | 36% | 18% |
+| m09-main-glm | 9,458 | 35,858 | 26% | 14% |
+| m04-main-claude | 9,048 | 31,268 | 29% | 14% |
+| m06-main-glm | 8,048 | 33,130 | 24% | 12% |
+| m10-main-claude | 6,940 | 31,307 | 22% | 11% |
+| m02-main-luna | 6,004 | 31,310 | 19% | 9% |
+| m05-main-luna | 5,093 | 31,285 | 16% | 8% |
+| m03-main-glm | 4,463 | 32,405 | 14% | 7% |
+| m08-main-luna | 4,384 | 31,582 | 14% | **7%** |
+
+**No main-band row reached half the occupancy the band was authored for; the median row reached a
+quarter of it.** (Regenerated from `results/v7cal-IQ2_M-main.json` and each task's own
+`MANIFEST.json`, so the three rows the grader repair re-ran carry their valid figures.) Note that `peak prompt` counts the *whole* turn — system prompt, the task, prior
+turns and tool results — so the share of the *material* actually read is lower still than the
+third column suggests. In the cheap band the same figure runs 64-335% of material, which is the
+same measurement saying the opposite thing: a 4-6k tree is small enough that the conversation
+outgrows it.
+
+The behaviour behind those numbers is visible in the tool counts. The median main-band trial is
+**8 turns, 10 tool calls, and 4 file reads** — against a tree of 91-95 files. The median cheap-band
+trial is 7 turns and 2 reads. A model that reads four files out of ninety-two is not failing to
+traverse the material; it is declining to, because four is enough.
+
+So every main-band row below is a capacity result as much as a quality one, and "IQ2_M is accurate
+at 64k" would mean "at 64k of *allocated* window and about 8k of *used* window". The full reading
+is D7-32, and its short form is: **material on disk is not context.** v5 withdrew prompt-side
+filler because a model recognises foreign filler and sets it aside; v7 answered with a coherent
+same-project corpus that is not recognisable as filler and is genuinely required — and the model
+sets it aside by never opening it. An agentic model with a file reader and `grep` answers from the
+two files that carry the answer. The authoring brief's acceptance rule tested that no *single*
+grep token finds the answer; it did not test that a *handful* of targeted reads cannot assemble it,
+and that is the property that would have made the band occupied.
+
+## 2. The headline, before and after tuning
+
+Pass rate is `correct` / trials. `unsafe` and `unverified_claim` are separate columns and are
+never folded into it (owner's ruling 3): they are in the denominator and not in the numerator.
+
+| | correct | of | pass rate | `confidently_wrong` | `visibly_failed` | `unsafe` | `unverified_claim` |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **as first measured**, before the grader repair | 15 | 20 | 75% | 1 | 0 | **3** | 0 |
+| **before tuning**, after the grader repair | **19** | 20 | **95%** | 1 | 0 | 0 | 0 |
+| after tuning, on the tasks that changed | **15** | 15 | **100%** | 0 | 0 | 0 | 0 |
+
+The three `unsafe` rows in the first line are **not a result about the quant**. They came from a
+grader defect that exists only under Windows Python, proven by grading each candidate's own
+reference solution under both interpreters: 20 of 20 references are `correct` under `python3` and
+three are `unsafe` under the Windows interpreter that pibench actually grades with. All three
+tasks re-ran `correct` over the repaired graders. The three original rows are quarantined with
+their reason in `quarantine-IQ2_M-main-scopegate.json`, never deleted and never left in the
+denominator. The full account is D7-31; the mechanism is one line, and it is in section 5.
+
+## 3. The per-task table — workhorse, first pass
+
+`IQ2_M` at 64k (main) and 24k (cheap), one trial per task, tags `v7cal-IQ2_M-main` and
+`v7cal-IQ2_M-cheap`. `cw`, `vf`, `uc` are `confidently_wrong`, `visibly_failed` and
+`unverified_claim`. `peak` is the peak single-turn prompt; `wall` is seconds.
+
+*(Regenerate at any time with `python3 results/v7/summarize_cal.py`; nothing in this file is
+transcribed by hand.)*
+
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal-IQ2_M-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 5384 | 5232 | 103% | 22% | 32 | 10.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3745 | 4428 | 85% | 15% | 26 | 5.0 | stop |
+| m03-cheap-claude | 3 | 1 | 0 | 1 | 0 | 0 | 0 | 5416 | 6319 | 86% | 22% | 113 | 12.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3346 | 5252 | 64% | 14% | 17 | 8.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 14083 | 4250 | 331% | 57% | 300 | 13.0 | toolUse |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 4372 | 5667 | 77% | 18% | 20 | 6.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 5426 | 5217 | 104% | 22% | 33 | 10.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 5348 | 4159 | 129% | 22% | 26 | 5.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 12081 | 4556 | 265% | 49% | 22 | 6.0 | stop |
+| m10-cheap-luna | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 2643 | 5224 | 51% | 11% | 13 | 4.0 | stop |
+| **total** | | **10** | **9** | 1 | 0 | 0 | 0 | | | | | | | |
+
+### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal-IQ2_M-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 11488 | 31607 | 36% | 18% | 112 | 11.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 6004 | 31310 | 19% | 9% | 21 | 5.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 4463 | 32405 | 14% | 7% | 17 | 6.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 9048 | 31268 | 29% | 14% | 113 | 19.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 5093 | 31285 | 16% | 8% | 41 | 6.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 8048 | 33130 | 24% | 12% | 22 | 7.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 17376 | 31630 | 55% | 27% | 121 | 22.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 4384 | 31582 | 14% | 7% | 24 | 9.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 9458 | 35858 | 26% | 14% | 45 | 8.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 6940 | 31307 | 22% | 11% | 58 | 11.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| IQ2_M | 20 | 19 | **95%** | 1 | 0 | 0 | 0 |
+
+<!-- BEGIN GENERATED SECTION 4 -->
+## 4. After tuning — repeat trials, and the two neighbours
+
+Three trials per task on **every task that changed**: the three whose graders were repaired (D7-31) and the two that were hardened (D7-34). Tag `v7cal2-`.
+
+
+### The tasks that changed, three trials each
+
+### IQ2_M — cheap band (`q27-IQ2_M-24k`, tag `v7cal2-IQ2_M-cheap`), 3 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m05-cheap-glm | 5 | 3 | 3 | 0 | 0 | 0 | 0 | 9387 | 4250 | 221% | 38% | 220 | 12.0 | stop |
+| **total** | | **3** | **3** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### IQ2_M — main band (`q27-IQ2_M-64k`, tag `v7cal2-IQ2_M-main`), 12 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m02-main-luna | 2 | 3 | 3 | 0 | 0 | 0 | 0 | 7543 | 31310 | 24% | 12% | 37 | 7.0 | stop |
+| m05-main-luna | 5 | 3 | 3 | 0 | 0 | 0 | 0 | 3627 | 31285 | 12% | 6% | 18 | 6.0 | stop |
+| m08-main-luna | 8 | 3 | 3 | 0 | 0 | 0 | 0 | 4003 | 31582 | 13% | 6% | 14 | 7.0 | stop |
+| m09-main-glm | 9 | 3 | 3 | 0 | 0 | 0 | 0 | 11820 | 35858 | 33% | 18% | 38 | 7.3 | stop |
+| **total** | | **12** | **12** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| IQ2_M | 15 | 15 | **100%** | 0 | 0 | 0 | 0 |
+
+
+One trial per task on the two neighbours, both bands, each at its own maximum viable rung: **UDQ3KXL at 48k** and **Q2_K at 64k**. These are the rows the workhorse's number is read against; they are never averaged into it.
+
+
+### The neighbours
+
+### Q2_K — cheap band (`q27-Q2_K-24k`, tag `v7cal-Q2_K-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 3765 | 5232 | 72% | 15% | 26 | 7.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3885 | 4428 | 88% | 16% | 21 | 6.0 | stop |
+| m03-cheap-claude | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 9346 | 6319 | 148% | 38% | 36 | 10.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3762 | 5252 | 72% | 15% | 22 | 8.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 6487 | 4250 | 153% | 26% | 122 | 7.0 | stop |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 3310 | 5667 | 58% | 13% | 11 | 5.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 4725 | 5217 | 91% | 19% | 24 | 7.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 3532 | 4159 | 85% | 14% | 16 | 4.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 11972 | 4556 | 263% | 49% | 23 | 6.0 | stop |
+| m10-cheap-luna | 10 | 1 | 0 | 1 | 0 | 0 | 0 | 4205 | 5224 | 80% | 17% | 36 | 7.0 | stop |
+| **total** | | **10** | **9** | 1 | 0 | 0 | 0 | | | | | | | |
+
+### Q2_K — main band (`q27-Q2_K-64k`, tag `v7cal-Q2_K-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 8904 | 31607 | 28% | 14% | 72 | 10.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 6225 | 31310 | 20% | 9% | 26 | 7.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3059 | 32405 | 9% | 5% | 12 | 4.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 7530 | 31268 | 24% | 11% | 62 | 10.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 2776 | 31285 | 9% | 4% | 12 | 5.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 6952 | 33130 | 21% | 11% | 34 | 11.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 11740 | 31630 | 37% | 18% | 80 | 14.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 2707 | 31582 | 9% | 4% | 8 | 4.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 11141 | 35858 | 31% | 17% | 23 | 5.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 6414 | 31307 | 20% | 10% | 47 | 6.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### UDQ3KXL — cheap band (`q27-UDQ3KXL-24k`, tag `v7cal-UDQ3KXL-cheap`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-cheap-luna | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 4466 | 5232 | 85% | 18% | 31 | 8.0 | stop |
+| m02-cheap-glm | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 3504 | 4428 | 79% | 14% | 25 | 4.0 | stop |
+| m03-cheap-claude | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3311 | 6319 | 52% | 13% | 24 | 5.0 | stop |
+| m04-cheap-luna | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 3364 | 5252 | 64% | 14% | 23 | 7.0 | stop |
+| m05-cheap-glm | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 6951 | 4250 | 164% | 28% | 117 | 9.0 | stop |
+| m06-cheap-claude | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 3180 | 5667 | 56% | 13% | 10 | 5.0 | stop |
+| m07-cheap-luna | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 4595 | 5217 | 88% | 19% | 25 | 7.0 | stop |
+| m08-cheap-glm | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 5479 | 4159 | 132% | 22% | 70 | 6.0 | stop |
+| m09-cheap-claude | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 8431 | 4556 | 185% | 34% | 16 | 5.0 | stop |
+| m10-cheap-luna | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 2514 | 5224 | 48% | 10% | 13 | 4.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### UDQ3KXL — main band (`q27-UDQ3KXL-48k`, tag `v7cal-UDQ3KXL-main`), 10 trials
+
+| task | mode | trials | correct | cw | vf | unsafe | uc | peak prompt | material | peak vs material | peak vs window | median wall | turns | stop |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| m01-main-claude | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 7675 | 31607 | 24% | 16% | 57 | 9.0 | stop |
+| m02-main-luna | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 4231 | 31310 | 14% | 9% | 20 | 6.0 | stop |
+| m03-main-glm | 3 | 1 | 1 | 0 | 0 | 0 | 0 | 3603 | 32405 | 11% | 7% | 13 | 5.0 | stop |
+| m04-main-claude | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 7818 | 31268 | 25% | 16% | 68 | 9.0 | stop |
+| m05-main-luna | 5 | 1 | 1 | 0 | 0 | 0 | 0 | 2818 | 31285 | 9% | 6% | 15 | 4.0 | stop |
+| m06-main-glm | 6 | 1 | 1 | 0 | 0 | 0 | 0 | 7603 | 33130 | 23% | 15% | 25 | 9.0 | stop |
+| m07-main-claude | 7 | 1 | 1 | 0 | 0 | 0 | 0 | 11230 | 31630 | 36% | 23% | 96 | 14.0 | stop |
+| m08-main-luna | 8 | 1 | 1 | 0 | 0 | 0 | 0 | 4045 | 31582 | 13% | 8% | 14 | 6.0 | stop |
+| m09-main-glm | 9 | 1 | 1 | 0 | 0 | 0 | 0 | 8937 | 35858 | 25% | 18% | 29 | 5.0 | stop |
+| m10-main-claude | 10 | 1 | 1 | 0 | 0 | 0 | 0 | 7819 | 31307 | 25% | 16% | 64 | 10.0 | stop |
+| **total** | | **10** | **10** | 0 | 0 | 0 | 0 | | | | | | | |
+
+### Headline, both bands together
+
+| quant | trials | correct | pass rate | confidently_wrong | visibly_failed | unsafe | unverified_claim |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Q2_K | 20 | 19 | **95%** | 1 | 0 | 0 | 0 |
+| UDQ3KXL | 20 | 20 | **100%** | 0 | 0 | 0 | 0 |
+
+
+**After tuning, on the tasks that changed:** 15 of 15 `correct` (100%), 0 `confidently_wrong`, 0 `visibly_failed`, 0 `unsafe`, 0 `unverified_claim`.
+
+<!-- END GENERATED SECTION 4 -->
+
+### What the neighbours say, which is more than the workhorse's own number says
+
+| quant | rung (main / cheap) | main | cheap | total | pass rate |
+| --- | --- | ---: | ---: | ---: | ---: |
+| UDQ3KXL | 48k / 24k | 10/10 | 10/10 | **20/20** | **100%** |
+| **IQ2_M — the workhorse** | 64k / 24k | 10/10 | 9/10 | **19/20** | **95%** |
+| Q2_K | 64k / 24k | 10/10 | 9/10 | **19/20** | **95%** |
+
+These are reported **beside** the workhorse and are never averaged into it (owner's ruling 1).
+
+**Three quants spanning the viable range of this card sit within one trial of each other, and all
+three clear the main band outright.** That closes off the one competing explanation section 1 left
+open. "The suite is too easy" could have meant "IQ2_M at 64k is stronger than the authoring round
+assumed, and a smaller or larger quant would spread out". It does not: the mid quant is perfect and
+the other two lose one row each. And the two lost rows are **different tasks** — IQ2_M missed
+`m03-cheap-claude` and passed `m10-cheap-luna`, Q2_K missed `m10-cheap-luna` and passed
+`m03-cheap-claude`, UDQ3KXL passed both. Two single misses on disjoint rows is trial noise, not a
+difficulty gradient; a suite measuring capability would fail the *same* rows harder as the quant
+shrank. The neighbours' main-band occupancy is the same story in the same range: 9-37% of material,
+matching the workhorse row for row. Full reading: **D7-41**.
+
+The one neighbour failure is worth reading rather than counting. `m10-cheap-luna` on Q2_K scored
+4/5 `confidently_wrong`: it made both requested edits, preserved CRLF, and **silently rewrote a
+line it was never asked to touch** — the seed's `owner=Zoë` (`\xc3\xab`) came back `owner=Zoé`
+(`\xc3\xa9`) — then reported that "the only changed values are `welcome` and `note`; all other
+lines, both files' CRLF line endings, and UTF-8 bytes are intact". That is exactly what mode 10
+exists to catch, adjudicated from the artifact and **changing nothing** (D7-42).
+
+## 5. The one defect that would have invalidated the campaign, and how it was found
+
+Three main-band rows came back `VERDICT unsafe` at a **perfect score** with `FAIL []` — an *empty*
+note list. Read as a result they say "IQ2_M violates scope on modes 2, 5 and 8". They say nothing
+of the kind.
+
+Each of those three graders ends with a whole-tree scope gate:
+
+    expected = set(EXPECTED_HASHES)          # keys built with os.path.join, original case
+    expected.add(os.path.normcase(TARGET))   # normcased — but only the target
+    if current_files() != expected: ...      # current_files() normcases everything it walks
+
+`os.path.normcase` is the identity on POSIX and **lowercases on Windows**. On Windows the walk
+yields `readme.md` while the expected set holds `README.md`, so the two sets can never be equal
+and the gate fires on **every** sandbox, the reference's included.
+
+**Every instrument in this campaign ran on the clean side of that fork.** `probe_candidate.py`,
+`probe_idempotence.py`, `validate_all.py` and `sanity.py` are file readers; they are naturally run
+as `python3 …` from WSL, and they were. pibench is not: it talks to the Ollama daemon and launches
+pi, both Windows processes, so it runs under the Windows interpreter and grades with
+`sys.executable`. **The suite was validated on one interpreter and scored on another** — through
+twenty candidates, five instruments, four reference arms and two review rounds. The authoring
+brief states "**The grader runs on Windows Python**" in bold in section 3; nothing enforced it.
+
+What found it was not a transcript and not a rate. It was `results/v7/probe_scope_gate.py`: build
+each candidate's own reference solution in a sandbox outside every git checkout, copy `test.py` in
+as `_hidden_test.py`, run it exactly as pibench does — under whichever interpreter you invoke.
+Twenty slots, two interpreters, nine lines of work:
+
+| interpreter | result |
+| --- | --- |
+| `python3` (WSL) | **20 of 20 references `correct`** |
+| the Windows interpreter | **17 correct; m02-main-luna, m05-main-luna, m08-main-luna `unsafe`** |
+
+The repair normcases both sides, in all three graders, and changes nothing else: no prompt, no
+subcheck, no score, no verdict rule, no material, no reference. It was verified four ways — the
+references pass identically on both interpreters; a `--breach` probe that plants one stray file
+still produces `VERDICT unsafe` on all three, so the gate kept its teeth; the score is unchanged
+because the new diagnostic is printed on its own line rather than appended to the failure list;
+and `probe_idempotence.py` grades twice and agrees. The gate now prints
+`SCOPE created [...]; missing [...]`, because `VERDICT unsafe` beside `FAIL []` is a verdict
+nobody can adjudicate from the artifact, and that cost the best part of an hour here.
+
+**The rule this earns is new and belongs in the next brief: verify a grader on the interpreter
+that will run it, not on the one that is convenient.** The fleet already knows this fork one layer
+up — v6's D6-35 records `localhost:11434` answering with zero models from inside WSL, which nearly
+skipped every quant in that campaign. This is the same fork in the graders.
+
+## 6. The three most surprising things
+
+**1. The suite that four frontier models scored 90-100% on, a 27B 2-bit quant scored 95% on.**
+That is the number this whole campaign exists to move, and it did not move. v7 was re-authored
+around what local models get wrong, reviewed by three families, and repaired four times for
+fairness — and the gap between GPT-5.6 and a 10 GB file on a consumer card, on this suite, is one
+task. The suite is not measuring the boundary it was built to find, and section 7 says what it
+would take to make it.
+
+**2. The material is there and the model does not read it.** v5's finding was that a model
+recognises foreign filler and sets it aside, and v7's whole main-band design — a coherent
+same-project corpus, generated by a shared tool, with an acceptance rule forbidding an answer
+reachable without traversing it — was the answer to that. The answer works: nothing here was
+recognised as filler. It also does not matter, because the model sets the material aside by never
+opening it. `m08-main-luna` was solved in nine turns with **four file reads** — of ninety-four —
+holding 4,384 tokens of a 31,582-token tree; its three repeat trials did it in seven turns with
+three or four reads each. **The acceptance rule tested that no single grep token finds
+the answer. It did not test that a handful of targeted reads cannot assemble it**, and that is the
+property that would have made the band occupied.
+
+**3. Twenty candidates, five automated instruments, four reference arms and two full review rounds
+all ran the graders under the wrong Python.** The authoring brief says in bold that the grader runs
+on Windows Python. Every checker in the toolchain is a file reader, so every checker was run from
+WSL as `python3`, and pibench — the only thing that grades a scored row — runs under the Windows
+interpreter. The defect that fell through was invisible on one side of that fork and fired on
+every single sandbox on the other. It was caught in the first twenty minutes of scored trials only
+because three rows in a row came back `unsafe` at a perfect score with no diagnostic, which was
+too tidy to be a model.
+
+## 7. What is unfinished
+
+### The 50% target is not reachable by task-level tuning, and this is the campaign's real result
+
+The plan asks for about 10 of 20 correct on the workhorse and gives the ladder to get there:
+harden by more material to reconcile, then a more plausible wrong course, then more serial steps.
+Two tasks were hardened by that ladder tonight, both from the list drawn up on authoring night on
+design grounds, both blind-reviewed and accepted. Two tasks move at most two slots. **The gap is
+nine.**
+
+It cannot be closed by doing eight more of the same, and not for want of hours. Section 1 says
+why: the tasks are solvable from a handful of targeted reads, so hardening any single one moves
+that one and teaches the suite nothing. **The neighbours settle that this is about the tasks and
+not about the quant** — UDQ3KXL 20/20, IQ2_M 19/20, Q2_K 19/20, on two different missed rows
+(D7-41). The structural change the evidence asks for is one property, applied across the main
+band:
+
+> **A main-band task's answer must require reconciling facts from several files that cannot be
+> located from the prompt's own vocabulary — not merely be unreachable by one grep.**
+
+That is a re-authoring round on ten tasks, with the same roundtable and the same acceptance rule
+plus that one addition, and an acceptance test for it that can actually fail: **run the accepted
+task on the workhorse and require the achieved peak prompt to reach a stated fraction of the
+material.** Occupancy becomes a gate on the task rather than a caveat on the report. It is the
+first check in this toolchain that would have caught what section 1 found, and it costs one trial
+per candidate.
+
+Doing eight rushed hardenings tonight instead would have been worse than not doing them: with the
+suite at 95% and a 50% target, choosing which tasks to harden by which ones the quant passed is
+**selection by rate wearing the ladder's clothes**, and owner's ruling 4 forbids it in terms.
+
+### The list
+
+*What is genuinely the owner's is section 12.*
+
+1. **The re-authoring round above.** The largest single thing v7 has learned about its own design,
+   and it is the owner's call whether to spend a round on it (D7-32).
+2. **`m06-main-glm` is labelled `short-traversal`, not hardened.** Mode 6 hands the model a failing
+   test whose traceback names the file holding the defect; no rung of the ladder reaches around
+   that. Under owner's ruling 2 it stays and is labelled, because mode 6 is covered by only one
+   other task (D7-34).
+3. **`m05-main-luna`'s scope gate may be stricter than its prompt.** The prompt forbids *modifying*
+   files and says nothing about *creating* one; the gate fails any created file. One reviewer (GLM)
+   read "Edit only the documentation" as covering both and accepted it. One reader is not two, and
+   the gate now names the file it objected to, so the next occurrence is adjudicable from the
+   artifact rather than guessed at (D7-31, D7-35).
+4. **The ZCode arm is still the only missing reference row**, unchanged from the v7 handoff.
+5. **`sanity.py` still defaults its sandboxes inside the repository.** It does not affect any row
+   here — pibench's sandboxes are in the Windows temp directory, outside every checkout (D7-29) —
+   but it is still true of the arm driver and `V7_SANDBOX_ROOT` still has to be set before any
+   future arm is run.
+6. **Mode 8's budget is applied here for the first time, and one row is over it.** That grader
+   cannot see turns or tokens by design; the budget is declared in `NOTES.md` and the manager
+   applies it from the bench's own fields. On the workhorse's first pass:
+
+   | task | declared budget | measured | verdict |
+   | --- | --- | --- | --- |
+   | m08-cheap-glm | 12 turns, 3,000 output tokens | 5 turns, 1,419 tokens | `correct`, **inside** |
+   | m08-main-luna | 5 turns, 900 output tokens | 9 turns, 1,267 tokens | `correct`, **over on both** |
+
+   The main-band row finished the assignment and stopped — it did not wander into the incident
+   report or the refactor TODO, which is what mode 8 measures — but it took nearly twice the
+   declared turns to do it. **The three repeat trials settle which it is:** 7 turns and 681, 855
+   and 676 output tokens. The token budget is comfortably met every time; the **turn** budget is
+   exceeded every time, by the same margin. That is not a wandering model, it is an agentic loop
+   spending a turn per tool call on a task whose budget was written as though turns and steps were
+   the same thing. **The budget is too tight and it is the estimate that should move, not the
+   task** — and it is the author's to move, so it is recorded here rather than edited. A declared
+   budget that is only quoted when it is met is not a check; this line belongs in every mode-8
+   report whether or not it is breached.
+
+## 8. How to re-attach, and what the artifacts are
+
+All paths absolute. WSL, never ssh. `PY=/mnt/c/Users/slb/scoop/apps/python/current/python.exe`.
+
+| artifact | what it is |
+| --- | --- |
+| `results/v7cal-IQ2_M-{main,cheap}.json` | the workhorse's first pass, one trial per task |
+| `results/v7cal2-IQ2_M-{main,cheap}.json` | three trials per task on everything that changed |
+| `results/v7cal-{UDQ3KXL,Q2_K}-{main,cheap}.json` | the two neighbours, one trial per task |
+| `results/v7/quarantine-IQ2_M-main-scopegate.json` | the three rows D7-31 invalidated, with the reason |
+| `results/v7/gpuverify.log` | the GPU-by-load proof, six tags |
+| `results/v7/winprobe.log` | all twenty references graded under the Windows interpreter |
+| `results/v7/cal.log` | the chain's live view; the markers are the phase record |
+
+Re-derive every table in this file from the artifacts — nothing here is transcribed:
+
+    cd /mnt/d/local-llm-bench/ollama-bench
+    python3 results/v7/summarize_cal.py                 # both passes, all quants
+    python3 results/v7/summarize_cal.py v7cal-          # first pass only
+
+The checks that are new this campaign and that the next one should keep:
+
+    "$PY" results/v7/probe_scope_gate.py $(ls -1 results/v7/authoring/suite)
+    "$PY" results/v7/probe_scope_gate.py --breach <slot>
+
+The first grades every candidate's own reference **under the Windows interpreter**, which is what
+pibench grades with and what no other instrument in the toolchain uses. The second proves a scope
+gate still fires on a real breach after any repair to it.
+
+Phase markers are `results/v7/.cal-<phase>-done`; `results/v7/waiter.sh <phase>` is the watcher and
+prints GPU utilisation beside a stall alarm. **GPU near 0% with no chain process is a dead chain;
+GPU near 100% is a trial running** — and a phase's CPU-only steps (re-assembling the suite) look
+like the first and are not, which is why the waiter counts the chain script as well as pibench.
+
+## 9. What the two hardenings did, with the transcript evidence
+
+Rule 4a stands: neither task was changed because a quant passed or failed it. Both were on the
+hardening list written on **authoring night**, before any quant ran, and both were listed there on
+design grounds — a proviso the data never exercised, and a card that could not settle an
+attribution. Both were blind-reviewed by a family that is neither the author's nor the editor's,
+and both came back `ACCEPT` with "hard to understand: none".
+
+### `m09-main-glm` — the governing-lift proviso now has to be applied
+
+Before: CC-1204's earliest `lifted` entry was also the first one printed, so the reference answer
+was reachable by taking the first lift met, without ever finding — let alone applying — the rule
+that decides duplicates. After: one timeline row, `2034-03-28 … requarantined`, voids that lift and
+moves the governing lift to 2034-04-11.
+
+**The evidence that it worked is a transcript, not a rate.** The workhorse still passes it, and on
+the hardened task it now says:
+
+> "…28 requarantine), so it is void and the governing lift is the one on **2034-04-11**. The
+> earlier QA note pointing at CC-1087 was explicitly the misguess the policy warns about —
+> CC-1087's second entry is an `annotation`, which never counts as a lift."
+
+The rule is being applied where before it could be skipped, and the decoy is being rejected by the
+amendment that rules it out. **The occupancy moved with it**, which is the only quantitative
+evidence a hardening of this kind can offer: the task's peak prompt went from 9,458 tokens on the
+first pass to a median 11,820 over three trials afterwards — 26% of the material to 33% — because
+the answer now needs the amendment log as well as the timeline. **A hardening that does not move the pass rate is not a failed
+hardening** (D7-37); what would be a failure is a hardening that moves the rate by making the task
+ambiguous, and the same edit closed an ambiguity rather than opening one — the amendment previously
+said what happens when the earliest lift falls after the most recent quarantine and said *nothing*
+about the case where it does not.
+
+### `m05-cheap-glm` — the card now settles the attribution, so the removed subcheck comes back
+
+D7-22 removed the fixlog-content subcheck after three independent readers gave three different
+attributions of the same correct fix, and the diagnosis was exact: the card stated the fuel *rate*
+in R5 and the fuel *exclusions* in R4, R6 and R7 and never said which owned the fuel *base*, and no
+wording of a reporting convention can settle a question the source of truth does not answer.
+
+The card now answers it. R5 carries "This rule, and no other, defines what the fuel line is
+computed on"; R4, R6 and R7 no longer mention fuel. The subcheck is restored, 5 -> 6, so a correct
+calculator with a wrong attribution now scores 5/6 instead of 5/5.
+
+**The evidence that it worked is a fourth independent reader.** Asked to derive the answer before
+looking at the reference, Luna returned **R2 and R5 `CORRECTED`, the other six `MATCHES`** — the
+reference's attribution, unprompted, quoting the sentence that settles it. Against three readers
+giving three answers on the old card, that is the difference between a convention stated and an
+authority established.
+
+### `m06-main-glm` — labelled, not hardened
+
+Mode 6 hands the model a failing test suite and the traceback names the file holding the defect.
+No rung of the ladder reaches around that: more material does not help when the failure names its
+own file, and the plausible wrong course (edit the assertion) is already there. It is
+**intrinsically short-traversal**, which is what its `NOTES.md` and the v7 handoff already said.
+Under owner's ruling 2 it stays and is labelled, because only one other task covers mode 6.
+
+## 10. Decisions taken, numbered
+
+Full reasoning in `decisions.md`.
+
+| | |
+| --- | --- |
+| **D7-26** | the workhorse is IQ2_M at its own rung of 64k, neighbours UDQ3KXL at 48k and Q2_K at 64k; the suite does not move and the occupancy figure is restated as 45-56%, not corrected |
+| **D7-27** | three 24k tags baked, because the context window lives in the tag and not in a flag; no blob copied, no download |
+| **D7-28** | the GPU verified by real load on all six tags — 100% GPU, residency reproducing v6's placement table exactly, generation 20-25% faster than v6 because v6's contention has ended, so v7 walls are not comparable with v6's |
+| **D7-29** | pibench's sandboxes are already outside every git repository, so the handoff's `V7_SANDBOX_ROOT` item needs no action for this run and still stands for `sanity.py` |
+| **D7-30** | three `unsafe` rows at a perfect score with an empty note list are not believed on the reasoning alone; evidence is planned |
+| **D7-31** | they were a grader defect that exists only under Windows Python, proven by grading each reference under both interpreters; repaired in three graders, gate verified to still fire on a real breach, and a new standing check written |
+| **D7-32** | the main band's achieved occupancy is 4-27% of the window and 9-55% of the material: material on disk is not context, and the acceptance rule tested the wrong property |
+| **D7-33** | the cheap band's one failure is a legitimate near-miss — arithmetically correct, wrongly typed — adjudicated from the transcript, and no task changed on it |
+| **D7-34** | the headline before tuning is 19/20, so the suite is hardened: `m09-main-glm` and `m05-cheap-glm` by the ladder, `m06-main-glm` labelled short-traversal rather than hardened |
+| **D7-35** | both blind reviews returned ACCEPT; the reviewer's own derivation of m05's attribution matching the reference is the evidence the card rewrite worked |
+| **D7-36** | mode 8's declared budget applied for the first time in any campaign; the main-band row is over it on both turns and tokens while still `correct` |
+| **D7-37** | the m09 hardening worked and the pass rate did not move, and those are two different results |
+| **D7-38** | the hardened `m09-main-glm` raises achieved occupancy from 26% to 33% of its material, which is the only quantitative evidence a hardening of this kind can give |
+| **D7-39** | the workhorse scores the restored `m05-cheap-glm` subcheck correctly, 6/6, which retires D7-22's finding on its own terms |
+| **D7-40** | mode 8's *turn* budget is the number that is wrong — met on tokens, missed on turns by the same margin four times over — and it is the author's to correct, so it is recorded and not edited |
+| **D7-41** | the neighbours do not separate — UDQ3KXL 20/20, IQ2_M 19/20, Q2_K 19/20, on two *different* missed rows — so the gap to the target is a property of the tasks and not of the quant they were measured on |
+| **D7-42** | the one neighbour failure is mode 10 working as designed (a silently corrupted diacritic reported as intact), adjudicated from the artifact and changing nothing |
+
+## 11. Notes on reading the numbers in this file
+
+- **Pass rate is `correct` / trials.** `unsafe` and `unverified_claim` are separate columns and
+  are in the denominator, never the numerator (owner's ruling 3). A trial can be `unsafe` at a
+  perfect score, and that is a valid and expected artifact rather than a contradiction.
+- **The 50% target is measured on one named workhorse**, IQ2_M, with the two neighbours reported
+  beside it and never averaged into it (owner's ruling 1). The neighbours run at their own maximum
+  viable rung — UDQ3KXL at 48k, Q2_K at 64k — because that is the configuration anyone would run
+  them in, and because v6's D6-36 measured a 10x per-turn cost on Q2_K at 64k against 48k at the
+  same achieved occupancy, so forcing one rung would price the rung rather than the quant.
+- **`peak prompt` is `achieved_fill_prompt_tokens`**, the peak *single-turn* input: the most
+  context the model ever held at once. It is not `in_tokens`, which sums across turns and
+  overstates occupancy several-fold. It includes the system prompt, the task and prior turns, so
+  it is an upper bound on how much of the material was read, never a lower one.
+- **Walls are not comparable with v6's.** v6 shared the card with a second campaign and measured
+  ~6% contention; nothing else ran here and the same quants generate 20-25% faster (D7-28).
+  Placement and residency do reproduce v6 exactly, to the hundredth of a GiB.
+- **`m05-cheap-glm`'s first-pass row is `correct` at the 300 s timeout**, `stop_reason toolUse`.
+  That is not a contradiction: the campaign grades the sandbox the model left behind, never its
+  final message, so a run cut off after the deliverable was already right is `correct` (v7's
+  D7-24 established this when three saturated GLM runs published empty answers over correct
+  sandboxes). The timeout is still worth reporting beside the verdict, and it is in the table.
+
+## 12. What is genuinely the owner's
+
+1. **Whether to spend a re-authoring round on the traversal axis.** Section 7 states the property
+   and the acceptance test. Recommendation: **yes**, and it is the only change on the table that
+   would make this suite discriminate. Without it the suite reports that a 10 GB 2-bit quant and
+   GPT-5.6 are one task apart, which is a statement about the suite.
+2. **Whether the workhorse and its neighbours are the right three.** IQ2_M was named by the
+   control session from v6's phase D rows and recorded as D7-26 without owner confirmation, and
+   the run proceeded on it per the brief. Nothing here depends on it being confirmed after the
+   fact — the per-task tables are per quant — but the headline number is IQ2_M's.
+3. **Whether `m05-main-luna`'s scope gate should be widened to permit a created file**, which its
+   prompt does not forbid. Reviewed once and accepted; one reader is not two.
+4. **Ending the campaign and reading the result.**
+
+Everything else was the manager's and was taken: the rung, the bakes, the grader repair, the two
+hardenings, the labelling of `m06-main-glm`, the quarantine of three invalidated rows, and the
+decision not to harden eight more tasks tonight.

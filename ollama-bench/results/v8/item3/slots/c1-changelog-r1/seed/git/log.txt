@@ -1,0 +1,756 @@
+# git log --name-status over the range, oldest commit first.
+# Every commit in the range is here, whatever path it touched.
+
+commit d42ca4ea731bb3e2a0df81f4c9ea9abb85530943
+Date: 2026-09-08
+Subject: q09 shelved: opus r6d revise, qzx prefix
+
+
+A	ollama-bench/results/v7/authoring/r6/q09-reauthor-report.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-glm-r6.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-glm-r6c.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-glm-r6d.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-opus-r6b.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-opus-r6c.md
+A	ollama-bench/results/v7/authoring/r6/review-q09-opus-r6d.md
+
+commit cd902fb9270dfceb5ce991a6a65f9df69ad639f3
+Date: 2026-09-08
+Subject: q09: repair glm r6d report, lift shelving
+
+
+M	ollama-bench/results/v7/authoring/r6/q09-reauthor-report.md
+M	ollama-bench/results/v7/authoring/r6/review-q09-glm-r6d.md
+M	ollama-bench/results/v7/authoring/r6/review-q09-opus-r6d.md
+
+commit 0c4d7d20c1918d2d659c8ff6c266f3abeab06c02
+Date: 2026-09-08
+Subject: q09 admitted: label isolation fix, dual pass
+
+
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/MANIFEST.json
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/NOTES.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/ref/settlement-report.txt
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/data/settlement-log.csv
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/attestation.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/audit.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/backfill.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/checkpoint.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/compaction.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/digest.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/dispatch.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/drain.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/envelope.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/handbook/settlement-procedure.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/ingest.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/ledger.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/lineage.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/reconcile.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/replay.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/rollup.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/routing.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/schema.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/shard.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/docs/watermark.md
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/attestation_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/audit_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/backfill_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/checkpoint_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/compaction_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/digest_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/dispatch_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/drain_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/envelope_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/ingest_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/ledger_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/lineage_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/reconcile_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/replay_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/rollup_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/routing_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/schema_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/shard_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/seed/src/kestrel/watermark_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/selfcheck.py
+M	ollama-bench/results/v7/authoring/cand-glm/q09-main-glm/test.py
+M	ollama-bench/results/v7/authoring/r5/specs/q09_main_glm.py
+A	ollama-bench/results/v7/authoring/r6/review-q09-opus-r6e.md
+
+commit 7df88f62923525dc9f9091fb9574013cba7908ea
+Date: 2026-09-08
+Subject: r6 revise methods: m03 m04 m07 m09
+
+
+A	ollama-bench/results/v7/authoring/r6/BRIEF-m03-revise.md
+A	ollama-bench/results/v7/authoring/r6/BRIEF-m04-revise.md
+A	ollama-bench/results/v7/authoring/r6/BRIEF-m07-revise.md
+A	ollama-bench/results/v7/authoring/r6/BRIEF-m09-revise.md
+
+commit 8f57a2370be2240717c85984cd4ce94135a314e1
+Date: 2026-09-08
+Subject: m09 admitted: revision, dual pass
+
+
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/MANIFEST.json
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/NOTES.md
+A	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/reviews/glm-2026-09-08.md
+A	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/reviews/opus-2026-09-08.md
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/seed/data/migration-ledger.csv
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/seed/tools/ledger_dump.py
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/selfcheck.py
+M	ollama-bench/results/v7/authoring/cand-luna/m09-main-luna/test.py
+
+commit aad8cf8da641b896c6598404930f80d8e004b01d
+Date: 2026-09-08
+Subject: m07 admitted: revision, dual pass
+
+
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/MANIFEST.json
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/NOTES.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/prompt.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/ref/rename-report.txt
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/ref/src/ember/ext/op_table.py
+A	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/reviews/glm-2026-09-08.md
+A	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/reviews/opus-2026-09-08.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/README.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/architecture.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/attestation.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/audit.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/backfill.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/checkpoint.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/compaction.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/cursor.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/digest.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/dispatch.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/drain.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/ingest.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/ledger.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/quota.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/replay.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/retention.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/rollup.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/schema.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/shard.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/throttle.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/docs/watermark.md
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/attestation_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/audit_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/backfill_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/checkpoint_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/compaction_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/cursor_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/digest_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/dispatch_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/drain_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/ext/op_table.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/ingest_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/ledger_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/quota_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/replay_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/retention_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/rollup_view.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/schema_flow.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/shard_store.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/throttle_gate.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/seed/src/ember/watermark_core.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/selfcheck.py
+M	ollama-bench/results/v7/authoring/cand-glm/m07-main-glm/test.py
+
+commit 522c5ca30e68471bbb15c98e76cc86e6c6300963
+Date: 2026-09-08
+Subject: m07 m09: revision generator specs
+
+
+M	ollama-bench/results/v7/authoring/r2/specs/m07_main_glm.py
+M	ollama-bench/results/v7/authoring/r2/specs/m09_main_luna.py
+
+commit b3dccf2bb407948f70871f3121b4e1f3c788a4e0
+Date: 2026-09-08
+Subject: q09 trials: 6/10 at n=10
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+
+commit 2cf6b03e403dce2023d8922e94ec462c6cdd762d
+Date: 2026-09-08
+Subject: q09 accept rows: n=10, 6/10
+
+
+A	ollama-bench/results/v7/v7r6-accept-IQ2_M-main.json
+
+commit 4d42aa571a02ca857e351c9a292e02c5cad68bec
+Date: 2026-09-08
+Subject: m03 admitted: shortcut fix, dual pass
+
+
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/MANIFEST.json
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/NOTES.md
+A	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/reviews/opus-2026-09-08.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/data/capacity-audit-log.csv
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/attestation.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/audit.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/backfill.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/capacity-exceptions.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/checkpoint.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/compaction.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/cursor.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/digest.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/dispatch.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/drain.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/envelope.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/legacy-capacity-list.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/lineage.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/reconcile.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/replay.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/retention.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/rollup.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/routing.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/schema.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/shard.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/docs/throttle.md
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/attestation_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/audit_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/backfill_view.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/checkpoint_core.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/compaction_flow.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/cursor_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/digest_core.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/dispatch_flow.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/drain_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/envelope_store.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/lineage_view.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/reconcile_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/replay_core.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/retention_flow.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/rollup_core.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/routing_core.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/schema_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/shard_flow.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/seed/src/wardstone/throttle_gate.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/selfcheck.py
+M	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/test.py
+
+commit 5bf00c84f7a0949b31f94621157f7c29ec8b92c3
+Date: 2026-09-08
+Subject: m03: glm pass on fixed build
+
+
+A	ollama-bench/results/v7/authoring/cand-luna/m03-main-luna/reviews/glm-2026-09-08.md
+
+commit 75af4ead607bcb497c648aad88b941360a48e337
+Date: 2026-09-08
+Subject: m09 trials: 10/10 at n=10
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+A	ollama-bench/results/v7/r6-accept-tally-m09.json
+
+commit 403b2beb70d42cb95a1de29da8909c2ad5f59152
+Date: 2026-09-08
+Subject: m04 admitted: record fix, dual pass
+
+
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/MANIFEST.json
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/NOTES.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/prompt.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/ref/data/provisional-review.csv
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/ref/data/regression-fixture.csv
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/ref/report.txt
+A	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/reviews/glm-2026-09-08.md
+A	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/reviews/opus-2026-09-08.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/seed/README.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/seed/docs/operations.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/seed/docs/workflows/release-checks.md
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/seed/tools/build_fixture.py
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/seed/tools/run_checks.py
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/selfcheck.py
+M	ollama-bench/results/v7/authoring/cand-glm/m04-main-glm/test.py
+M	ollama-bench/results/v7/authoring/r2/specs/m04_main_glm.py
+
+commit 0a5778f22273e75fc0b4ded315ee1ba879409205
+Date: 2026-09-08
+Subject: m07 trials: 8/10 at n=10
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+M	ollama-bench/results/v7/campaign-STATUS.md
+A	ollama-bench/results/v7/r6-accept-tally-m07.json
+M	ollama-bench/results/v7/v7r6-accept-IQ2_M-main.json
+
+commit 59bf9083adf6e74904eaff7734f0226a7fcd2318
+Date: 2026-09-08
+Subject: roundtable: glm review fix
+
+
+M	ollama-bench/results/v7/authoring/roundtable.md
+
+commit 9d3cd50555d37dbfccd181d6e4d58f23151f4bc3
+Date: 2026-09-08
+Subject: roundtable glm review record
+
+
+A	ollama-bench/results/v7/authoring/review-roundtable-r6-glm.md
+
+commit 5277c79f4d2ecef8d5c47c52fc0b9e69a9cf602f
+Date: 2026-09-08
+Subject: m03 trials: 7/10 at n=10
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+M	ollama-bench/results/v7/campaign-STATUS.md
+A	ollama-bench/results/v7/r6-accept-tally-m03.json
+
+commit d2f76c2c95a0e4408f58567b8aafe8d954737d26
+Date: 2026-09-08
+Subject: m04 trials: 7/10 at n=10, all slots measured
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+A	ollama-bench/results/v7/r6-accept-tally-m04.json
+M	ollama-bench/results/v7/v7r6-accept-IQ2_M-main.json
+
+commit 4c80a8c3fa32e6d6cc53b52c59b590a796e1e6cf
+Date: 2026-09-08
+Subject: rows fork fix: dedupe, provenance note
+
+
+M	ollama-bench/results/v7/campaign-STATUS.md
+D	ollama-bench/results/v7/v7r6-accept-IQ2_M-main.json
+
+commit e2aa60ee2459dcaaccd1de3bd068eaa66325aa71
+Date: 2026-09-08
+Subject: v7 rows: seven slots on the canonical path
+
+
+M	ollama-bench/results/v7r6-accept-IQ2_M-main.json
+M	ollama-bench/results/v7r6-accept-IQ2_M-main.md
+
+commit 9a83b899e655679b8495b6a0f3a7bcbd59501f6d
+Date: 2026-09-08
+Subject: m09 m03 rows re-run: 90 rows, nine slots
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+M	ollama-bench/results/v7/campaign-STATUS.md
+M	ollama-bench/results/v7/r6-accept-tally-m03.json
+M	ollama-bench/results/v7/r6-accept-tally-m09.json
+M	ollama-bench/results/v7r6-accept-IQ2_M-main.json
+
+commit 40799300fd6d056a78c75677b25b8c52c692904c
+Date: 2026-09-08
+Subject: m04 trials markdown
+
+
+M	ollama-bench/results/v7r6-accept-IQ2_M-main.md
+
+commit 6868344d60e3809b34b8d061f578d842b97ec63e
+Date: 2026-09-08
+Subject: v7: 1080ti campaign rows, 90 valid 12 void
+
+
+A	ollama-bench/results/v7/GPU_BUDGET-1080ti.log
+A	ollama-bench/results/v7/v7r6-accept-qwen3-8b-1080ti.json
+
+commit 6d0055e9545f858db2b1893f50771034a4b8f11a
+Date: 2026-09-08
+Subject: pibench: 1080ti portability env overrides
+
+
+M	ollama-bench/pibench.py
+A	ollama-bench/results/v7/PORTABILITY-REVIEW-glm.md
+
+commit 4062e75c0e536e21d74fd27a89c5a235a021ba3c
+Date: 2026-09-08
+Subject: v7: phase2 rows 108, m08 candidate, budget evidence
+
+
+M	ollama-bench/results/v7/GPU_BUDGET.log
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/MANIFEST.json
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/NOTES.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/prompt.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/ref/reconciliation.txt
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/README.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/config/manifest.json
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/decisions/emberledger-reconciliation.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/architecture.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/attestation.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/audit.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/backfill.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/checkpoint.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/compaction.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/cursor.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/digest.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/dispatch.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/drain.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/envelope.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/ingest.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/ledger.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/lineage.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/operations.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/reconcile.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/replay.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/routing.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/docs/shard.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/handbook/reconciliation-procedure.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0000-digest.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0001-routing.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0002-envelope.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0003-shard.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0004-backfill.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0005-checkpoint.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0006-ledger.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0007-ingest.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0008-dispatch.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0009-replay.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0010-cursor.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0011-compaction.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0012-attestation.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0013-audit.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0014-drain.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0015-reconcile.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/0016-lineage.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/history/CHANGELOG.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/cvdxhlj.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/dbwpzgn.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/ftfqfnl.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/hhhvlbq.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/hsdzvmw.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/hxrnkcl.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/jlfvqwc.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/lrscgfw.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/mgwwdfb.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/mqgttvc.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/mxnpstn.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/qnwkjdk.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/qqxlsgm.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/rdgdqzp.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/sbjfgqk.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/shgzblp.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/vgvggsr.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/wzxppnq.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/xcwtzsv.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/folios/xvbxdhd.md
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/records/sequence.csv
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/__init__.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/attestation_flow.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/audit_core.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/backfill_core.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/checkpoint_store.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/compaction_flow.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/cursor_view.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/digest_store.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/dispatch_store.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/drain_gate.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/envelope_view.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/ingest_core.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/ledger_view.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/lineage_core.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/reconcile_view.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/replay_view.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/routing_store.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/src/emberledger_core/shard_gate.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_attestation.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_audit.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_backfill.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_checkpoint.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_compaction.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_cursor.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_digest.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_dispatch.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_drain.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_envelope.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_ingest.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_ledger.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_lineage.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_reconcile.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_replay.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_routing.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/seed/tests/test_shard.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/selfcheck.py
+A	ollama-bench/results/v7/authoring/cand-glm/m08-main-glm/test.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/.corpus.json
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/README.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/config/manifest.json
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/architecture.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/attestation.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/audit.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/backfill.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/compaction.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/cursor.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/digest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/dispatch.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/drain.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/envelope.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/ingest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/ledger.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/lineage.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/operations.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/reconcile.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/replay.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/routing.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/docs/shard.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0000-digest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0001-routing.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0002-envelope.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0003-shard.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0004-backfill.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0005-checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0006-ledger.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0007-ingest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0008-dispatch.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0009-replay.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0010-cursor.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0011-compaction.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0012-attestation.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0013-audit.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0014-drain.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0015-reconcile.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/0016-lineage.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/history/CHANGELOG.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/__init__.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/attestation_flow.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/audit_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/backfill_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/checkpoint_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/compaction_flow.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/cursor_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/digest_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/dispatch_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/drain_gate.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/envelope_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/ingest_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/ledger_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/lineage_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/reconcile_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/replay_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/routing_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/src/emberledger_core/shard_gate.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_attestation.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_audit.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_backfill.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_checkpoint.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_compaction.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_cursor.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_digest.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_dispatch.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_drain.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_envelope.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_ingest.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_ledger.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_lineage.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_reconcile.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_replay.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_routing.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-24500/tests/test_shard.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/.corpus.json
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/README.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/config/manifest.json
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/architecture.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/attestation.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/audit.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/backfill.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/compaction.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/cursor.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/digest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/dispatch.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/drain.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/envelope.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/ingest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/ledger.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/lineage.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/operations.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/reconcile.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/replay.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/retention.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/routing.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/shard.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/docs/tenancy.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0000-digest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0001-routing.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0002-envelope.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0003-shard.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0004-backfill.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0005-checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0006-ledger.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0007-ingest.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0008-dispatch.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0009-replay.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0010-cursor.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0011-compaction.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0012-attestation.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0013-audit.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0014-drain.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0015-reconcile.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0016-lineage.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0017-tenancy.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/0018-retention.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/history/CHANGELOG.md
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/__init__.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/attestation_flow.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/audit_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/backfill_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/checkpoint_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/compaction_flow.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/cursor_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/digest_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/dispatch_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/drain_gate.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/envelope_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/ingest_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/ledger_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/lineage_core.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/reconcile_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/replay_view.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/retention_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/routing_store.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/shard_gate.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/src/emberledger_core/tenancy_gate.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_attestation.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_audit.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_backfill.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_checkpoint.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_compaction.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_cursor.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_digest.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_dispatch.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_drain.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_envelope.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_ingest.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_ledger.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_lineage.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_reconcile.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_replay.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_retention.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_routing.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_shard.py
+A	ollama-bench/results/v7/authoring/r5/.corpus-cache/emberledger-emberledger_core-908173-27000/tests/test_tenancy.py
+A	ollama-bench/results/v7/authoring/r5/specs/m08_main_glm.py
+M	ollama-bench/results/v7r6-accept-IQ2_M-main.json
+
+commit fcb35750fc8bd166dca31015fa3b7d3180a03560
+Date: 2026-09-08
+Subject: v7: m08 review record, rebuild report, q08 staging
+
+
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/MANIFEST.json
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/NOTES.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/prompt.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/ref/handoff.txt
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/README.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/config/manifest.json
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/architecture.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/attestation.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/audit.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/backfill.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/compaction.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/cursor.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/dispatch.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/drain.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/envelope.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/ingest.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/ledger.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/lineage.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/operations.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/quota.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/reconcile.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/retention.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/rollup.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/routing.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/schema.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/shard.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/tenancy.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/throttle.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/docs/watermark.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0000-attestation.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0001-audit.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0002-backfill.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0003-ledger.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0004-cursor.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0005-shard.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0006-ingest.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0007-compaction.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0008-drain.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0009-envelope.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0010-lineage.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0011-quota.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0012-throttle.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0013-dispatch.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0014-schema.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0015-routing.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0016-rollup.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0017-checkpoint.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0018-retention.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0019-watermark.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0020-tenancy.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/0021-reconcile.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/history/CHANGELOG.md
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/__init__.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/attestation_view.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/audit_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/backfill_gate.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/checkpoint_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/compaction_view.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/cursor_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/dispatch_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/drain_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/envelope_gate.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/ingest_flow.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/ledger_gate.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/lineage_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/quota_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/reconcile_store.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/retention_flow.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/rollup_gate.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/routing_view.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/schema_store.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/shard_view.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/tenancy_core.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/throttle_flow.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/src/orison/watermark_view.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_attestation.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_audit.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_backfill.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_checkpoint.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_compaction.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_cursor.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_dispatch.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_drain.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_envelope.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_ingest.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_ledger.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_lineage.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_quota.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_reconcile.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_retention.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_rollup.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_routing.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_schema.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_shard.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_tenancy.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_throttle.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/seed/tests/test_watermark.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/selfcheck.py
+A	ollama-bench/results/v7/authoring/r5/gate-suite/q08-main-luna/test.py
+A	ollama-bench/results/v7/authoring/r6/BRIEF-m08-rebuild-report.md
+A	ollama-bench/results/v7/authoring/r6/review-m08-glm-r7.md
+
+commit 8a89f3fa6feee931177e6a3a59272d62a0d2485f
+Date: 2026-09-09
+Subject: deepseek preview bench pass
+
+
+M	ollama-bench/pibench.py
+A	ollama-bench/results/deepseek-v41-preview-2026-09-09-NOTES.md
+A	ollama-bench/results/deepseek-v41-preview-2026-09-09.json
+A	ollama-bench/results/deepseek-v41-preview-2026-09-09.md
+
+commit 58f6feea9c892b3895614b6847d11a1fec529b0e
+Date: 2026-09-11
+Subject: v8 plan and gpu budget
+
+
+A	ollama-bench/results/v8/GPU_BUDGET.log
+A	ollama-bench/results/v8/plan-2026-09-11.md

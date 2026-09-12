@@ -1,0 +1,57 @@
+{
+ "slot": "b2-contradiction-r2",
+ "item": 3,
+ "family": "B",
+ "use": "contradiction hunt",
+ "deliverable": "contradictions.txt",
+ "harness_version": "v8",
+ "model_under_test": "q27-IQ2_M-96k at num_ctx 98304",
+ "thresholds": {
+  "recall_min": 0.75,
+  "precision_min": 0.75,
+  "penalty_max_rate": 0.25,
+  "hallucination_max": 0,
+  "hallucination_scale": 5
+ },
+ "claims": 8,
+ "penalty_items": 8,
+ "penalty_name": "near_miss",
+ "seed_files": 3,
+ "material": {
+  "rung": "r2",
+  "rung_target_tokens": 40000,
+  "material_chars": 187763,
+  "material_tokens": 40258,
+  "chars_per_token": 4.664,
+  "within_tolerance": true,
+  "tolerance": 0.15
+ },
+ "files": {
+  "authority/plan-2026-09-03.md": 33829,
+  "authority/questions.md": 6126,
+  "draft/handoff.md": 303
+ },
+ "provenance": [
+  {
+   "seed_path": "authority/plan-2026-09-03.md",
+   "source": "ollama-bench/results/v5/plan-2026-09-03.md",
+   "source_root": "local-llm-bench",
+   "source_sha256": "f14547e9412a1cae8ea18e7b50decaec93600dd2f08f256299ffa3b0836e2ae3",
+   "seed_sha256": "f14547e9412a1cae8ea18e7b50decaec93600dd2f08f256299ffa3b0836e2ae3",
+   "chars": 157777,
+   "redactions": 0,
+   "verbatim": true
+  },
+  {
+   "seed_path": "authority/questions.md",
+   "source": "ollama-bench/results/v5/questions.md",
+   "source_root": "local-llm-bench",
+   "source_sha256": "a687bc74f99b74aee6c465ab3c69713e4cc4a5728bbdc5481dafbf657de831b3",
+   "seed_sha256": "a687bc74f99b74aee6c465ab3c69713e4cc4a5728bbdc5481dafbf657de831b3",
+   "chars": 28571,
+   "redactions": 0,
+   "verbatim": true
+  }
+ ],
+ "build": "python3 build_item3.py"
+}

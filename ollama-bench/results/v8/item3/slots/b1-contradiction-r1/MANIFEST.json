@@ -1,0 +1,46 @@
+{
+ "slot": "b1-contradiction-r1",
+ "item": 3,
+ "family": "B",
+ "use": "contradiction hunt",
+ "deliverable": "contradictions.txt",
+ "harness_version": "v8",
+ "model_under_test": "q27-IQ2_M-96k at num_ctx 98304",
+ "thresholds": {
+  "recall_min": 0.75,
+  "precision_min": 0.75,
+  "penalty_max_rate": 0.25,
+  "hallucination_max": 0,
+  "hallucination_scale": 5
+ },
+ "claims": 7,
+ "penalty_items": 7,
+ "penalty_name": "near_miss",
+ "seed_files": 2,
+ "material": {
+  "rung": "r1",
+  "rung_target_tokens": 12000,
+  "material_chars": 49920,
+  "material_tokens": 10703,
+  "chars_per_token": 4.664,
+  "within_tolerance": true,
+  "tolerance": 0.15
+ },
+ "files": {
+  "authority/local-workhorse-plan-2026-09-06.md": 10436,
+  "draft/handoff.md": 267
+ },
+ "provenance": [
+  {
+   "seed_path": "authority/local-workhorse-plan-2026-09-06.md",
+   "source": "org/local-workhorse-plan-2026-09-06.md",
+   "source_root": "ansible-slb/org",
+   "source_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "seed_sha256": "12821ea1143e438596d2764c35c1c2db1325ba486ece5adfe5405df91ac9383f",
+   "chars": 48675,
+   "redactions": 0,
+   "verbatim": true
+  }
+ ],
+ "build": "python3 build_item3.py"
+}

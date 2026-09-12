@@ -1,0 +1,7 @@
+- IQ2_M resident at 96k: 13.92 GB
+- IQ2_M generation rate at 96k: 37.4 tok/s
+- IQ2_M weights, exact blob size: 10.71 GiB
+- confidently-wrong rate over the v7 evidence: 0.047
+- pooled pass probability over 98 v7 trials: 0.871
+- num_ctx of the 96k tag: 98,034
+- KV per 1,024 tokens at q8_0: 36.5 MiB

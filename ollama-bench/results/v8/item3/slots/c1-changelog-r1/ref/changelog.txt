@@ -1,0 +1,14 @@
+- d42ca4ea: q09 shelved: opus r6d revise, qzx prefix
+- cd902fb9: q09: repair glm r6d report, lift shelving
+- 0c4d7d20: q09 admitted: label isolation fix, dual pass
+- 7df88f62: r6 revise methods: m03 m04 m07 m09
+- 8f57a237: m09 admitted: revision, dual pass
+- aad8cf8d: m07 admitted: revision, dual pass
+- 522c5ca3: m07 m09: revision generator specs
+- 4d42aa57: m03 admitted: shortcut fix, dual pass
+- 5bf00c84: m03: glm pass on fixed build
+- 403b2beb: m04 admitted: record fix, dual pass
+- 59bf9083: roundtable: glm review fix
+- 9d3cd505: roundtable glm review record
+- 4062e75c: v7: phase2 rows 108, m08 candidate, budget evidence
+- fcb35750: v7: m08 review record, rebuild report, q08 staging
