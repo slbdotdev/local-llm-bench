@@ -76,15 +76,6 @@ EOJ
   else
     echo "    $item GATES RECORD $failed FAILURE(S) — rerun its gates on the WSL side"; fail=1
   fi
-  # the two-directional instrument proof, read from the gate NAMES in structured data
-  if ! python3 -c "
-import json,sys
-d=json.load(open('$j'))
-names=' '.join(g.get('name','') for g in d.get('gates',[])).lower()
-sys.exit(0 if ('instrument' in names or 'direction' in names) else 1)
-" 2>/dev/null; then
-    echo "    $item records no two-directional instrument gate — plan section 4 forbids trusting it"; fail=1
-  fi
 done
 
 echo "  graders probed on THIS interpreter, rebuilding nothing (D7-31):"
@@ -92,7 +83,7 @@ for item in item1 item2 item3; do
   r=$V8/$item/refprobe.py
   if [ ! -f "$r" ]; then echo "    MISSING $r"; fail=1; continue; fi
   if ( cd "$V8/$item" && "$PY" refprobe.py > /tmp/v8-refprobe-$item.txt 2>&1 ); then
-    echo "    $item ok — $(grep -oE '[0-9]+/[0-9]+ references? graded correct' /tmp/v8-refprobe-$item.txt | tail -1)"
+    echo "    $item ok — $(grep -oiE '([0-9]+ of [0-9]+|[0-9]+/[0-9]+) referenc[e s]* ?(answers? )?graded correct' /tmp/v8-refprobe-$item.txt | tail -1)"
   else
     echo "    $item REFPROBE FAILED under $PY — see /tmp/v8-refprobe-$item.txt"
     tail -3 /tmp/v8-refprobe-$item.txt | sed 's/^/      /'

@@ -60,3 +60,24 @@ schemas are a snapshot and a later slbh commit invalidates them.
    about 3,100 s. It is the only shape that has separated this model from the
    frontier arms: 1 of 3 with two confidently-wrong against four arms at 12/12.
    Recommended.
+
+**D8-7 — the two-directional instrument proof is verified once, here, and not
+re-derived by the round runner.** All three items carry it; the runner's
+attempt to confirm it by matching gate *names* failed two items that pass,
+because the three workers produced three different `GATES.json` shapes: item 1
+has no `gates` key at all, item 2's is a list of plain strings, item 3's a list
+of objects. Only `passed`, `failed`, `when` and `platform` are common, and the
+preflight now reads only those. The evidence, checked directly:
+
+- **item 1** — `GATES.md` layer 3: `perfect_1.0` and `allerrors_0.0` both `ok`
+  across all six tasks; the reference scores 1.0 and the all-errors answer
+  scores exactly 0.0.
+- **item 2** — `G6 two-directional instrument proof`, perfect **1.0** and
+  all-decoy **0.0**, 12 of 12 slots.
+- **item 3** — `<slot>: abstention instrument proved in both directions` for
+  each of the six slots, with `instrument=1.000` positive and `0.000` negative.
+
+The rule this follows, having now broken it twice: **do not infer a property
+from a label.** Grepping prose scored a passing item as failing once; matching
+gate names did it again. A property is either checked against the evidence, or
+recorded as checked — never guessed from a string.
