@@ -239,7 +239,7 @@ touch "$V8/.cell-smoke-done"
 # ---------------------------------------------------------------------------
 # 2. the cells, cheapest first
 # ---------------------------------------------------------------------------
-sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item runner tdir task nctx trials estimate; do
+while IFS=$'\t' read -r cid item runner tdir task nctx trials estimate <&3; do
   [ -z "${cid:-}" ] && continue
   if [ "$item" = "item1" ] && [ "${SKIP_ITEM1:-0}" = "1" ]; then
     say "skipping $cid — item 1 voided by the smoke gate"; continue
@@ -267,12 +267,12 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
           --sandbox "$V8/sandbox-$cid-$t" \
           --transcript "$V8/$cid-trial$t.jsonl" \
           --endpoint "$OLLAMA" --api native --model q27-IQ2_M-96k --num-ctx "$nctx" \
-          --wall-s 900 >> "$V8/$cid.log" 2>&1 || rc=$?
+          --wall-s 900 < /dev/null >> "$V8/$cid.log" 2>&1 || rc=$?
       done
       ( exit $rc ) ;;
     batch)
       "$PY" "$V8/item3/batch_cell.py" --model q27-IQ2_M-96k --num-ctx "$nctx" \
-        >> "$V8/$cid.log" 2>&1 ;;
+        < /dev/null >> "$V8/$cid.log" 2>&1 ;;
     escalate)
       # Only the local-draft arm holds the GPU; the hosted arm is API-billed tokens.
       # A plan-bound harness reports no usage field and so cannot produce a ledger.
@@ -285,7 +285,8 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
       # context window would both be unverifiable on that path.
       "$PY" pibench.py --models q27-IQ2_M-96k --tasks "$task" --tasks-dir "$tdir" \
         --trials "$trials" --num-ctx "$nctx" --tag "$cid" --timeout 900 --no-tps \
-        >> "$V8/$cid.log" 2>&1 ;;
+        --agent-dir "$V8/pi-agent" \
+        < /dev/null >> "$V8/$cid.log" 2>&1 ;;
   esac
   rc=$?
   c1=$(date -u +%s)
@@ -316,7 +317,7 @@ for f in glob.glob('results/$cid.json'):
             for k2,v2 in v.items():
                 if isinstance(v2,list):
                     for r in v2:
-                        t=r.get('achieved_fill_prompt_tokens') or r.get('peak_prompt') or r.get('prompt_tokens')
+                        t=r.get('in_tokens') or r.get('achieved_fill_prompt_tokens') or r.get('peak_prompt') or r.get('prompt_tokens')
                         if t: rows.append(t)
 print(max(rows) if rows else 0)
 " 2>/dev/null)
@@ -335,7 +336,7 @@ print(max(rows) if rows else 0)
       say "item2 calibration: could not read achieved prompt tokens from results/$cid.json"
     fi
   fi
-done
+done 3< <(grep -v '^#' "$CELLS" | sort -t$'\t' -k8 -n)
 
 # ---------------------------------------------------------------------------
 # 3. leave the card as it was found
