@@ -32,6 +32,11 @@ OLLAMA=${OLLAMA_HOST_URL:-http://fractal.wyvern-temperature.ts.net:11434}
 # pibench.py:27 reads PIBENCH_OLLAMA and otherwise defaults to localhost, which the Windows
 # interpreter cannot reach. Export it once here so no runner is left guessing.
 export PIBENCH_OLLAMA="$OLLAMA"
+# pibench passes --agent-dir straight into PI_CODING_AGENT_DIR, and its own default is ABSOLUTE.
+# A relative POSIX path handed to the Windows process is not found, pi then has no ollama
+# provider at all, and the failure reads "Model not found" -- which looks like a model problem
+# and is not one. Absolute Windows path, always.
+AGENT_DIR_WIN=${AGENT_DIR_WIN:-'D:\local-llm-bench\ollama-bench\results\v8\pi-agent'}
 GO=0; OWNER=0; CELLS=$V8/cells.tsv
 
 for a in "$@"; do
@@ -285,7 +290,7 @@ while IFS=$'\t' read -r cid item runner tdir task nctx trials estimate <&3; do
       # context window would both be unverifiable on that path.
       "$PY" pibench.py --models q27-IQ2_M-96k --tasks "$task" --tasks-dir "$tdir" \
         --trials "$trials" --num-ctx "$nctx" --tag "$cid" --timeout 900 --no-tps \
-        --agent-dir "$V8/pi-agent" \
+        --agent-dir "$AGENT_DIR_WIN" \
         < /dev/null >> "$V8/$cid.log" 2>&1 ;;
   esac
   rc=$?
