@@ -38,3 +38,4 @@ v8-item5-batch	item5	batch	results/v8/item3	batch50	98304	50	1800
 v8-item6-a-summarise	item6	escalate	results/v8/item3/slots	a-summarise	98304	10	1800
 v8-item6-b-contradiction	item6	escalate	results/v8/item3/slots	b-contradiction	98304	10	1800
 v8-item6-c-changelog	item6	escalate	results/v8/item3/slots	c-changelog	98304	10	1800
+v8-itemA-q09-serial	itemA	pibench	results/v7/authoring/r5/gate-suite	q09-main-glm	98304	10	3100
