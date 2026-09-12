@@ -1,0 +1,1035 @@
+{
+ "abstention_clause_present": true,
+ "answerable_items": 8,
+ "arm": "abst",
+ "asked": {
+  "gov_a": "replay_floor_kb",
+  "gov_b": "lease_width_count",
+  "gov_c": "retry_attempts_pct",
+  "gov_d": "flush_interval_ms",
+  "gov_e": "prefetch_span_kb",
+  "gov_f": "warm_timeout_s",
+  "gov_g": "purge_interval"
+ },
+ "campaign": "v8",
+ "chars_per_token": 4.664,
+ "conflicts": [
+  {
+   "key": "gov_a",
+   "param": "replay_floor_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1077",
+     "status": "ratified",
+     "value": 790
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-22.2",
+     "status": null,
+     "value": 451
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-117",
+     "status": null,
+     "value": 701
+    }
+   ],
+   "shape": "cr_spec_rb",
+   "strata": [
+    0.1,
+    0.5,
+    0.9
+   ]
+  },
+  {
+   "key": "gov_b",
+   "param": "lease_width_count",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1104",
+     "status": "ratified",
+     "value": 417
+    },
+    {
+     "kind": "record",
+     "source": "CR-1126",
+     "status": "ratified",
+     "value": 987
+    }
+   ],
+   "shape": "two_cr_same_date",
+   "strata": [
+    0.3,
+    0.9
+   ]
+  },
+  {
+   "key": "gov_c",
+   "param": "retry_attempts_pct",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1164",
+     "status": "ratified",
+     "value": 350
+    },
+    {
+     "kind": "record",
+     "source": "CR-1165",
+     "status": "ratified",
+     "value": 462
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-23.1",
+     "status": null,
+     "value": 139
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.3,
+    0.7,
+    0.1
+   ]
+  },
+  {
+   "key": "gov_e",
+   "param": "prefetch_span_kb",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-7.8",
+     "status": null,
+     "value": 972
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-13.2",
+     "status": null,
+     "value": 612
+    }
+   ],
+   "shape": "two_spec",
+   "strata": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "key": "gov_f",
+   "param": "warm_timeout_s",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1026",
+     "status": "proposed",
+     "value": 339
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-7.9",
+     "status": null,
+     "value": 982
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-14",
+     "status": null,
+     "value": 793
+    }
+   ],
+   "shape": "proposed_cr_spec_rb",
+   "strata": [
+    0.5,
+    0.9,
+    0.3
+   ]
+  },
+  {
+   "key": "gov_g",
+   "param": "purge_interval",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-23.3",
+     "status": null,
+     "value": 118
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-181",
+     "status": null,
+     "value": 461
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.1,
+    0.7
+   ]
+  },
+  {
+   "key": null,
+   "param": "replay_interval_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1113",
+     "status": "withdrawn",
+     "value": 207
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-22.5",
+     "status": null,
+     "value": 232
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-136",
+     "status": null,
+     "value": 899
+    }
+   ],
+   "shape": "withdrawn_cr_spec_rb",
+   "strata": [
+    0.7,
+    0.3,
+    0.9
+   ]
+  },
+  {
+   "key": null,
+   "param": "lease_batch_ms",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1162",
+     "status": "withdrawn",
+     "value": 665
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-16.3",
+     "status": null,
+     "value": 162
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-177",
+     "status": null,
+     "value": 361
+    }
+   ],
+   "shape": "withdrawn_cr_spec_rb",
+   "strata": [
+    0.1,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "key": null,
+   "param": "drain_batch_s",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1112",
+     "status": "ratified",
+     "value": 392
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-204",
+     "status": null,
+     "value": 146
+    }
+   ],
+   "shape": "cr_rb",
+   "strata": [
+    0.9,
+    0.3
+   ]
+  },
+  {
+   "key": null,
+   "param": "spill_margin_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1079",
+     "status": "ratified",
+     "value": 248
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-22",
+     "status": null,
+     "value": 294
+    }
+   ],
+   "shape": "cr_rb",
+   "strata": [
+    0.5,
+    0.1
+   ]
+  },
+  {
+   "key": null,
+   "param": "throttle_batch_rows",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-22.7",
+     "status": null,
+     "value": 522
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-46",
+     "status": null,
+     "value": 582
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.7,
+    0.3
+   ]
+  },
+  {
+   "key": null,
+   "param": "checkpoint_horizon_s",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-7.2",
+     "status": null,
+     "value": 515
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-36",
+     "status": null,
+     "value": 662
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.9,
+    0.5
+   ]
+  },
+  {
+   "key": null,
+   "param": "compact_width_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1054",
+     "status": "ratified",
+     "value": 124
+    },
+    {
+     "kind": "record",
+     "source": "CR-1044",
+     "status": "ratified",
+     "value": 544
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-17.2",
+     "status": null,
+     "value": 470
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.1,
+    0.9,
+    0.5
+   ]
+  },
+  {
+   "key": null,
+   "param": "purge_capacity_pct",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1028",
+     "status": "ratified",
+     "value": 506
+    },
+    {
+     "kind": "record",
+     "source": "CR-1068",
+     "status": "ratified",
+     "value": 356
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-21.4",
+     "status": null,
+     "value": 580
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.7,
+    0.1,
+    0.3
+   ]
+  }
+ ],
+ "corpus_blocks": 606,
+ "frame": {
+  "lines_repeated": 0,
+  "max_line_repeats": 1,
+  "substantive_lines": 4568,
+  "worst_examples": []
+ },
+ "generator": "gen_contradiction.py",
+ "harness_overhead_note": "results/accept-64k.json: prompt_chars 265879 (57,004 tokens at 4.664) came back as achieved_fill_prompt_tokens 57871 at turns 1, so pi's system prompt and tool schemas cost about 867 tokens on top of prompt.md. results/calib-six.json at 20,007 prompt tokens over 4-6 turns read 21,462-23,459, so each turn adds roughly 300-700 more. At the 80k rung that leaves about 17k of the 98,304 window for tool results and output.",
+ "interval_param": "lease_timeout_pct",
+ "item": 2,
+ "items": [
+  {
+   "key": "conflict_count",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "reconciled_total",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "top_five",
+   "kind": "answerable",
+   "type": "list_str"
+  },
+  {
+   "key": "superseded_records",
+   "kind": "answerable",
+   "type": "list_str_set"
+  },
+  {
+   "key": "gov_a",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_b",
+   "kind": "underdetermined",
+   "type": "triple"
+  },
+  {
+   "key": "gov_c",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_d",
+   "kind": "absent",
+   "type": "triple"
+  },
+  {
+   "key": "gov_e",
+   "kind": "underdetermined",
+   "type": "triple"
+  },
+  {
+   "key": "gov_f",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_g",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "review_interval",
+   "kind": "absent",
+   "type": "int"
+  }
+ ],
+ "model_under_test": "q27-IQ2_M-96k",
+ "needles": [
+  {
+   "kind": "record",
+   "params": [
+    "lease_batch_ms",
+    "ingest_quorum_mb",
+    "drain_margin_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0971,
+   "pos_in_prompt": 0.113,
+   "source": "CR-1162",
+   "status": "withdrawn",
+   "stratum_target": 0.1,
+   "token_offset": 9036
+  },
+  {
+   "kind": "record",
+   "params": [
+    "replay_floor_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0993,
+   "pos_in_prompt": 0.1151,
+   "source": "CR-1077",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 9210
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "spill_margin_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1015,
+   "pos_in_prompt": 0.1173,
+   "source": "RB-22",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 9381
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "retry_attempts_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1054,
+   "pos_in_prompt": 0.1211,
+   "source": "SPEC-23.1",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 9685
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "purge_interval",
+    "purge_width",
+    "settle_timeout_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1071,
+   "pos_in_prompt": 0.1228,
+   "source": "SPEC-23.3",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 9824
+  },
+  {
+   "kind": "record",
+   "params": [
+    "compact_width_kb",
+    "replay_reserve_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.111,
+   "pos_in_prompt": 0.1266,
+   "source": "CR-1054",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 10124
+  },
+  {
+   "kind": "record",
+   "params": [
+    "purge_capacity_pct",
+    "ingest_stride_count",
+    "compact_horizon_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1128,
+   "pos_in_prompt": 0.1284,
+   "source": "CR-1068",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 10269
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "drain_batch_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.2929,
+   "pos_in_prompt": 0.3052,
+   "source": "RB-204",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 24413
+  },
+  {
+   "kind": "record",
+   "params": [
+    "lease_width_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3005,
+   "pos_in_prompt": 0.3126,
+   "source": "CR-1104",
+   "status": "ratified",
+   "stratum_target": 0.3,
+   "token_offset": 25006
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "warm_timeout_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3022,
+   "pos_in_prompt": 0.3144,
+   "source": "RB-14",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 25146
+  },
+  {
+   "kind": "record",
+   "params": [
+    "retry_attempts_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3034,
+   "pos_in_prompt": 0.3155,
+   "source": "CR-1164",
+   "status": "ratified",
+   "stratum_target": 0.3,
+   "token_offset": 25237
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "purge_capacity_pct",
+    "prefetch_interval_pct",
+    "evict_capacity_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3051,
+   "pos_in_prompt": 0.3172,
+   "source": "SPEC-21.4",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 25372
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "replay_interval_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3092,
+   "pos_in_prompt": 0.3212,
+   "source": "SPEC-22.5",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 25690
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "throttle_batch_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.317,
+   "pos_in_prompt": 0.3289,
+   "source": "RB-46",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 26309
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "lease_batch_ms",
+    "quiesce_capacity",
+    "flush_backlog_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.484,
+   "pos_in_prompt": 0.4928,
+   "source": "SPEC-16.3",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 39422
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "prefetch_span_kb",
+    "compact_margin_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4895,
+   "pos_in_prompt": 0.4982,
+   "source": "SPEC-7.8",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 39851
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "checkpoint_horizon_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4919,
+   "pos_in_prompt": 0.5006,
+   "source": "RB-36",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 40044
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "compact_width_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4983,
+   "pos_in_prompt": 0.5069,
+   "source": "SPEC-17.2",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 40549
+  },
+  {
+   "kind": "record",
+   "params": [
+    "warm_timeout_s",
+    "checkpoint_stride_kb",
+    "quiesce_grace_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.5008,
+   "pos_in_prompt": 0.5093,
+   "source": "CR-1026",
+   "status": "proposed",
+   "stratum_target": 0.5,
+   "token_offset": 40740
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "handoff_ceiling_count",
+    "audit_window_pct",
+    "prefetch_width_rows"
+   ],
+   "parked": "flush_interval_ms",
+   "pos_in_corpus": 0.5032,
+   "pos_in_prompt": 0.5117,
+   "source": "SPEC-11.5",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 40928
+  },
+  {
+   "kind": "record",
+   "params": [
+    "spill_margin_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.5066,
+   "pos_in_prompt": 0.515,
+   "source": "CR-1079",
+   "status": "ratified",
+   "stratum_target": 0.5,
+   "token_offset": 41197
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "replay_floor_kb",
+    "commit_holdoff",
+    "ingest_retries_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.5084,
+   "pos_in_prompt": 0.5168,
+   "source": "SPEC-22.2",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 41339
+  },
+  {
+   "kind": "record",
+   "params": [
+    "purge_capacity_pct"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6889,
+   "pos_in_prompt": 0.694,
+   "source": "CR-1028",
+   "status": "ratified",
+   "stratum_target": 0.7,
+   "token_offset": 55516
+  },
+  {
+   "kind": "record",
+   "params": [
+    "retry_attempts_pct",
+    "evict_width_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6911,
+   "pos_in_prompt": 0.6962,
+   "source": "CR-1165",
+   "status": "ratified",
+   "stratum_target": 0.7,
+   "token_offset": 55690
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "lease_batch_ms",
+    "sweep_floor",
+    "prefetch_capacity_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6925,
+   "pos_in_prompt": 0.6976,
+   "source": "RB-177",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 55797
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "throttle_batch_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6998,
+   "pos_in_prompt": 0.7047,
+   "source": "SPEC-22.7",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 56371
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "prefetch_span_kb",
+    "spill_quorum_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7065,
+   "pos_in_prompt": 0.7113,
+   "source": "SPEC-13.2",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 56897
+  },
+  {
+   "kind": "record",
+   "params": [
+    "replay_interval_kb",
+    "lease_span_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7087,
+   "pos_in_prompt": 0.7135,
+   "source": "CR-1113",
+   "status": "withdrawn",
+   "stratum_target": 0.7,
+   "token_offset": 57073
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "purge_interval"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7119,
+   "pos_in_prompt": 0.7166,
+   "source": "RB-181",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 57322
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "warm_timeout_s",
+    "purge_fanout",
+    "escalate_floor_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8881,
+   "pos_in_prompt": 0.8896,
+   "source": "SPEC-7.9",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 71158
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "replay_interval_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8926,
+   "pos_in_prompt": 0.8941,
+   "source": "RB-136",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 71516
+  },
+  {
+   "kind": "record",
+   "params": [
+    "lease_width_count",
+    "shard_quorum_ms",
+    "quota_depth"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8943,
+   "pos_in_prompt": 0.8957,
+   "source": "CR-1126",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 71650
+  },
+  {
+   "kind": "record",
+   "params": [
+    "drain_batch_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8966,
+   "pos_in_prompt": 0.8979,
+   "source": "CR-1112",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 71825
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "checkpoint_horizon_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.9022,
+   "pos_in_prompt": 0.9035,
+   "source": "SPEC-7.2",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 72269
+  },
+  {
+   "kind": "record",
+   "params": [
+    "compact_width_kb",
+    "rollup_width_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.911,
+   "pos_in_prompt": 0.9121,
+   "source": "CR-1044",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 72962
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "replay_floor_kb",
+    "flush_holdoff_pct",
+    "vacuum_threshold_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.913,
+   "pos_in_prompt": 0.914,
+   "source": "RB-117",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 73113
+  }
+ ],
+ "num_ctx": 98304,
+ "prompt_chars": 373477,
+ "proofs": {
+  "decoy_field_multi_source_agreeing": 201,
+  "decoy_keys_differing": 12,
+  "leave_one_out_disagreed_changed": 24,
+  "leave_one_out_disagreed_total": 35,
+  "leave_one_out_governing_changed": 12,
+  "leave_one_out_governing_total": 12,
+  "median_depth_separation": 0.5859,
+  "min_depth_separation": 0.217,
+  "parameters_in_disagreement": 14,
+  "parameters_total": 347,
+  "parameters_undetermined": 2,
+  "plausible_keys_differing": 6,
+  "statements_total": 652
+ },
+ "realised_prompt_tokens": 80077,
+ "reference_answer": {
+  "conflict_count": 14,
+  "gov_a": {
+   "rule": "ratified_record_governs",
+   "source": "CR-1077",
+   "value": 790
+  },
+  "gov_b": "INSUFFICIENT",
+  "gov_c": {
+   "rule": "superseded_by_later_record",
+   "source": "CR-1165",
+   "value": 462
+  },
+  "gov_d": "INSUFFICIENT",
+  "gov_e": "INSUFFICIENT",
+  "gov_f": {
+   "rule": "record_does_not_govern",
+   "source": "SPEC-7.9",
+   "value": 982
+  },
+  "gov_g": {
+   "rule": "specification_governs",
+   "source": "SPEC-23.3",
+   "value": 118
+  },
+  "reconciled_total": 5323,
+  "review_interval": "INSUFFICIENT",
+  "superseded_records": [
+   "CR-1028",
+   "CR-1054",
+   "CR-1164"
+  ],
+  "top_five": [
+   "warm_timeout_s",
+   "replay_floor_kb",
+   "compact_width_kb",
+   "throttle_batch_rows",
+   "checkpoint_horizon_s"
+  ]
+ },
+ "rung_error_pct": 0.096,
+ "rung_target_tokens": 80000,
+ "shape": "three-source-contradiction-reconciliation",
+ "strata": [
+  0.1,
+  0.3,
+  0.5,
+  0.7,
+  0.9
+ ],
+ "task": "recon-80k-abst",
+ "token_method": "pibench.py FILL_CHARS_PER_TOKEN, inverted: tokens = round(chars / 4.664)",
+ "unanswerable_items": 4,
+ "void_threshold_pct": 15
+}

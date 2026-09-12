@@ -1,0 +1,17 @@
+{
+ "absent_station_load": 418,
+ "calibration_offset": 12,
+ "conflicting_station_load": 486,
+ "earliest_governing_station": "S-0131",
+ "governing_count": 20,
+ "governing_total": 11705,
+ "sequence_total": 13154,
+ "superseded_codes": [],
+ "top_five": [
+  "S-0186",
+  "S-0109",
+  "S-0187",
+  "S-0186",
+  "S-0168"
+ ]
+}

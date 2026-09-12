@@ -1,0 +1,52 @@
+{
+ "conflict_count": 14,
+ "gov_a": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1077",
+  "value": 790
+ },
+ "gov_b": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_c": {
+  "rule": "superseded_by_later_record",
+  "source": "CR-1165",
+  "value": 462
+ },
+ "gov_d": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_e": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_f": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1026",
+  "value": 339
+ },
+ "gov_g": {
+  "rule": "specification_governs",
+  "source": "SPEC-23.3",
+  "value": 118
+ },
+ "reconciled_total": 4680,
+ "review_interval": 14,
+ "superseded_records": [
+  "CR-1028",
+  "CR-1054",
+  "CR-1164"
+ ],
+ "top_five": [
+  "warm_timeout_s",
+  "replay_floor_kb",
+  "compact_width_kb",
+  "throttle_batch_rows",
+  "checkpoint_horizon_s"
+ ]
+}

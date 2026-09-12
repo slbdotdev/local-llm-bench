@@ -1,0 +1,48 @@
+{
+ "conflict_count": 132,
+ "gov_a": {
+  "rule": "runbook_governs",
+  "source": "RB-116",
+  "value": 892
+ },
+ "gov_b": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1097",
+  "value": 626
+ },
+ "gov_c": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1004",
+  "value": 726
+ },
+ "gov_d": {
+  "rule": "specification_governs",
+  "source": "SPEC-1.1",
+  "value": 300
+ },
+ "gov_e": {
+  "rule": "specification_governs",
+  "source": "SPEC-9.7",
+  "value": 392
+ },
+ "gov_f": {
+  "rule": "specification_governs",
+  "source": "SPEC-14.4",
+  "value": 941
+ },
+ "gov_g": {
+  "rule": "runbook_governs",
+  "source": "RB-134",
+  "value": 718
+ },
+ "reconciled_total": 77184,
+ "review_interval": 30,
+ "superseded_records": [],
+ "top_five": [
+  "drain_span_ms",
+  "replay_batch_kb",
+  "retry_holdoff_mb",
+  "settle_limit",
+  "settle_floor_s"
+ ]
+}

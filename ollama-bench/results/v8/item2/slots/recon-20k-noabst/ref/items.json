@@ -1,0 +1,100 @@
+[
+ {
+  "expect": 14,
+  "key": "conflict_count",
+  "kind": "answerable",
+  "type": "int"
+ },
+ {
+  "expect": 5960,
+  "key": "reconciled_total",
+  "kind": "answerable",
+  "type": "int"
+ },
+ {
+  "expect": [
+   "retry_backlog_count",
+   "spill_stride_mb",
+   "probe_capacity_kb",
+   "compact_horizon_mb",
+   "quota_attempts_rows"
+  ],
+  "key": "top_five",
+  "kind": "answerable",
+  "type": "list_str"
+ },
+ {
+  "expect": [
+   "CR-1005",
+   "CR-1018",
+   "CR-1047"
+  ],
+  "key": "superseded_records",
+  "kind": "answerable",
+  "type": "list_str_set"
+ },
+ {
+  "expect": {
+   "rule": "ratified_record_governs",
+   "source": "CR-1031",
+   "value": 621
+  },
+  "key": "gov_a",
+  "kind": "answerable",
+  "type": "triple"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "gov_b",
+  "kind": "underdetermined",
+  "type": "triple"
+ },
+ {
+  "expect": {
+   "rule": "superseded_by_later_record",
+   "source": "CR-1003",
+   "value": 134
+  },
+  "key": "gov_c",
+  "kind": "answerable",
+  "type": "triple"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "gov_d",
+  "kind": "absent",
+  "type": "triple"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "gov_e",
+  "kind": "underdetermined",
+  "type": "triple"
+ },
+ {
+  "expect": {
+   "rule": "record_does_not_govern",
+   "source": "SPEC-5.7",
+   "value": 822
+  },
+  "key": "gov_f",
+  "kind": "answerable",
+  "type": "triple"
+ },
+ {
+  "expect": {
+   "rule": "specification_governs",
+   "source": "SPEC-4.1",
+   "value": 489
+  },
+  "key": "gov_g",
+  "kind": "answerable",
+  "type": "triple"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "review_interval",
+  "kind": "absent",
+  "type": "int"
+ }
+]

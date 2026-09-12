@@ -1,0 +1,52 @@
+{
+ "conflict_count": 14,
+ "gov_a": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1031",
+  "value": 621
+ },
+ "gov_b": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_c": {
+  "rule": "superseded_by_later_record",
+  "source": "CR-1003",
+  "value": 134
+ },
+ "gov_d": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_e": {
+  "rule": "runbook_governs",
+  "source": "RB-11",
+  "value": 250
+ },
+ "gov_f": {
+  "rule": "ratified_record_governs",
+  "source": "CR-1041",
+  "value": 493
+ },
+ "gov_g": {
+  "rule": "specification_governs",
+  "source": "SPEC-4.1",
+  "value": 489
+ },
+ "reconciled_total": 5631,
+ "review_interval": 14,
+ "superseded_records": [
+  "CR-1005",
+  "CR-1018",
+  "CR-1047"
+ ],
+ "top_five": [
+  "retry_backlog_count",
+  "spill_stride_mb",
+  "probe_capacity_kb",
+  "compact_horizon_mb",
+  "quota_attempts_rows"
+ ]
+}

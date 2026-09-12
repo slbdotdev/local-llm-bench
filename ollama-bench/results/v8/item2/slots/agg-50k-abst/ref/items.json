@@ -1,0 +1,66 @@
+[
+ {
+  "expect": 15,
+  "key": "governing_count",
+  "kind": "answerable",
+  "type": "int"
+ },
+ {
+  "expect": 9769,
+  "key": "governing_total",
+  "kind": "answerable",
+  "type": "int"
+ },
+ {
+  "expect": [
+   "S-0231",
+   "S-0333",
+   "S-0180",
+   "S-0276",
+   "S-0326"
+  ],
+  "key": "top_five",
+  "kind": "answerable",
+  "type": "list_str"
+ },
+ {
+  "expect": 9657,
+  "key": "sequence_total",
+  "kind": "answerable",
+  "type": "int"
+ },
+ {
+  "expect": [
+   "S-0174",
+   "S-0225",
+   "S-0326"
+  ],
+  "key": "superseded_codes",
+  "kind": "answerable",
+  "type": "list_str_set"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "calibration_offset",
+  "kind": "absent",
+  "type": "int"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "absent_station_load",
+  "kind": "absent",
+  "type": "int"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "conflicting_station_load",
+  "kind": "underdetermined",
+  "type": "int"
+ },
+ {
+  "expect": "INSUFFICIENT",
+  "key": "earliest_governing_station",
+  "kind": "underdetermined",
+  "type": "str"
+ }
+]

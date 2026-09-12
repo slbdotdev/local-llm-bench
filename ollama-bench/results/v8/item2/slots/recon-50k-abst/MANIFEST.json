@@ -1,0 +1,1031 @@
+{
+ "abstention_clause_present": true,
+ "answerable_items": 8,
+ "arm": "abst",
+ "asked": {
+  "gov_a": "handoff_interval_count",
+  "gov_b": "escalate_fanout_s",
+  "gov_c": "drain_limit_s",
+  "gov_d": "rollup_batch_mb",
+  "gov_e": "drain_grace_pct",
+  "gov_f": "ingest_quorum_kb",
+  "gov_g": "lease_batch"
+ },
+ "campaign": "v8",
+ "chars_per_token": 4.664,
+ "conflicts": [
+  {
+   "key": "gov_a",
+   "param": "handoff_interval_count",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1072",
+     "status": "ratified",
+     "value": 721
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-7.9",
+     "status": null,
+     "value": 921
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-116",
+     "status": null,
+     "value": 892
+    }
+   ],
+   "shape": "cr_spec_rb",
+   "strata": [
+    0.1,
+    0.5,
+    0.9
+   ]
+  },
+  {
+   "key": "gov_b",
+   "param": "escalate_fanout_s",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1058",
+     "status": "ratified",
+     "value": 416
+    },
+    {
+     "kind": "record",
+     "source": "CR-1097",
+     "status": "ratified",
+     "value": 626
+    }
+   ],
+   "shape": "two_cr_same_date",
+   "strata": [
+    0.3,
+    0.9
+   ]
+  },
+  {
+   "key": "gov_c",
+   "param": "drain_limit_s",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1112",
+     "status": "ratified",
+     "value": 711
+    },
+    {
+     "kind": "record",
+     "source": "CR-1004",
+     "status": "ratified",
+     "value": 726
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-11.3",
+     "status": null,
+     "value": 691
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.3,
+    0.7,
+    0.1
+   ]
+  },
+  {
+   "key": "gov_e",
+   "param": "drain_grace_pct",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-7.6",
+     "status": null,
+     "value": 484
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-9.7",
+     "status": null,
+     "value": 392
+    }
+   ],
+   "shape": "two_spec",
+   "strata": [
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "key": "gov_f",
+   "param": "ingest_quorum_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1007",
+     "status": "proposed",
+     "value": 854
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-14.4",
+     "status": null,
+     "value": 941
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-52",
+     "status": null,
+     "value": 612
+    }
+   ],
+   "shape": "proposed_cr_spec_rb",
+   "strata": [
+    0.5,
+    0.9,
+    0.3
+   ]
+  },
+  {
+   "key": "gov_g",
+   "param": "lease_batch",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-11.7",
+     "status": null,
+     "value": 115
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-134",
+     "status": null,
+     "value": 718
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.1,
+    0.7
+   ]
+  },
+  {
+   "key": null,
+   "param": "commit_limit_kb",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1077",
+     "status": "withdrawn",
+     "value": 285
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-7.5",
+     "status": null,
+     "value": 329
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-48",
+     "status": null,
+     "value": 752
+    }
+   ],
+   "shape": "withdrawn_cr_spec_rb",
+   "strata": [
+    0.7,
+    0.3,
+    0.9
+   ]
+  },
+  {
+   "key": null,
+   "param": "compact_batch_s",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1078",
+     "status": "withdrawn",
+     "value": 889
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-1.6",
+     "status": null,
+     "value": 807
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-80",
+     "status": null,
+     "value": 933
+    }
+   ],
+   "shape": "withdrawn_cr_spec_rb",
+   "strata": [
+    0.1,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "key": null,
+   "param": "rollup_timeout_ms",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1124",
+     "status": "ratified",
+     "value": 667
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-20",
+     "status": null,
+     "value": 790
+    }
+   ],
+   "shape": "cr_rb",
+   "strata": [
+    0.9,
+    0.3
+   ]
+  },
+  {
+   "key": null,
+   "param": "audit_width_pct",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1063",
+     "status": "ratified",
+     "value": 416
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-120",
+     "status": null,
+     "value": 621
+    }
+   ],
+   "shape": "cr_rb",
+   "strata": [
+    0.5,
+    0.1
+   ]
+  },
+  {
+   "key": null,
+   "param": "compact_slice_mb",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-14.7",
+     "status": null,
+     "value": 727
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-46",
+     "status": null,
+     "value": 418
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.7,
+    0.3
+   ]
+  },
+  {
+   "key": null,
+   "param": "handoff_margin_pct",
+   "placed": [
+    {
+     "kind": "specification",
+     "source": "SPEC-12.8",
+     "status": null,
+     "value": 562
+    },
+    {
+     "kind": "runbook",
+     "source": "RB-41",
+     "status": null,
+     "value": 819
+    }
+   ],
+   "shape": "spec_rb",
+   "strata": [
+    0.9,
+    0.5
+   ]
+  },
+  {
+   "key": null,
+   "param": "backoff_interval_ms",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1050",
+     "status": "ratified",
+     "value": 205
+    },
+    {
+     "kind": "record",
+     "source": "CR-1125",
+     "status": "ratified",
+     "value": 708
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-6.9",
+     "status": null,
+     "value": 329
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.1,
+    0.9,
+    0.5
+   ]
+  },
+  {
+   "key": null,
+   "param": "evict_limit_count",
+   "placed": [
+    {
+     "kind": "record",
+     "source": "CR-1096",
+     "status": "ratified",
+     "value": 365
+    },
+    {
+     "kind": "record",
+     "source": "CR-1108",
+     "status": "ratified",
+     "value": 338
+    },
+    {
+     "kind": "specification",
+     "source": "SPEC-13.9",
+     "status": null,
+     "value": 252
+    }
+   ],
+   "shape": "two_cr_and_spec",
+   "strata": [
+    0.7,
+    0.1,
+    0.3
+   ]
+  }
+ ],
+ "corpus_blocks": 373,
+ "frame": {
+  "lines_repeated": 0,
+  "max_line_repeats": 1,
+  "substantive_lines": 2859,
+  "worst_examples": []
+ },
+ "generator": "gen_contradiction.py",
+ "harness_overhead_note": "results/accept-64k.json: prompt_chars 265879 (57,004 tokens at 4.664) came back as achieved_fill_prompt_tokens 57871 at turns 1, so pi's system prompt and tool schemas cost about 867 tokens on top of prompt.md. results/calib-six.json at 20,007 prompt tokens over 4-6 turns read 21,462-23,459, so each turn adds roughly 300-700 more. At the 80k rung that leaves about 17k of the 98,304 window for tool results and output.",
+ "interval_param": "lease_span",
+ "item": 2,
+ "items": [
+  {
+   "key": "conflict_count",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "reconciled_total",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "top_five",
+   "kind": "answerable",
+   "type": "list_str"
+  },
+  {
+   "key": "superseded_records",
+   "kind": "answerable",
+   "type": "list_str_set"
+  },
+  {
+   "key": "gov_a",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_b",
+   "kind": "underdetermined",
+   "type": "triple"
+  },
+  {
+   "key": "gov_c",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_d",
+   "kind": "absent",
+   "type": "triple"
+  },
+  {
+   "key": "gov_e",
+   "kind": "underdetermined",
+   "type": "triple"
+  },
+  {
+   "key": "gov_f",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "gov_g",
+   "kind": "answerable",
+   "type": "triple"
+  },
+  {
+   "key": "review_interval",
+   "kind": "absent",
+   "type": "int"
+  }
+ ],
+ "model_under_test": "q27-IQ2_M-96k",
+ "needles": [
+  {
+   "kind": "runbook",
+   "params": [
+    "audit_width_pct",
+    "handoff_attempts_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0841,
+   "pos_in_prompt": 0.1098,
+   "source": "RB-120",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 5495
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "drain_limit_s",
+    "flush_depth_rows",
+    "shard_retries_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0887,
+   "pos_in_prompt": 0.1143,
+   "source": "SPEC-11.3",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 5715
+  },
+  {
+   "kind": "record",
+   "params": [
+    "handoff_interval_count",
+    "rollup_width_rows",
+    "escalate_limit"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0924,
+   "pos_in_prompt": 0.1178,
+   "source": "CR-1072",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 5893
+  },
+  {
+   "kind": "record",
+   "params": [
+    "evict_limit_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0963,
+   "pos_in_prompt": 0.1217,
+   "source": "CR-1108",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 6086
+  },
+  {
+   "kind": "record",
+   "params": [
+    "backoff_interval_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.0994,
+   "pos_in_prompt": 0.1246,
+   "source": "CR-1050",
+   "status": "ratified",
+   "stratum_target": 0.1,
+   "token_offset": 6234
+  },
+  {
+   "kind": "record",
+   "params": [
+    "compact_batch_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1078,
+   "pos_in_prompt": 0.1328,
+   "source": "CR-1078",
+   "status": "withdrawn",
+   "stratum_target": 0.1,
+   "token_offset": 6645
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "lease_batch",
+    "retry_limit_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.1132,
+   "pos_in_prompt": 0.138,
+   "source": "SPEC-11.7",
+   "status": null,
+   "stratum_target": 0.1,
+   "token_offset": 6906
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "compact_slice_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.2812,
+   "pos_in_prompt": 0.3011,
+   "source": "RB-46",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 15065
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "rollup_timeout_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.2836,
+   "pos_in_prompt": 0.3035,
+   "source": "RB-20",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 15182
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "ingest_quorum_kb",
+    "shard_batch_kb",
+    "spill_quorum_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.2894,
+   "pos_in_prompt": 0.3092,
+   "source": "RB-52",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 15467
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "commit_limit_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.2945,
+   "pos_in_prompt": 0.3141,
+   "source": "SPEC-7.5",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 15714
+  },
+  {
+   "kind": "record",
+   "params": [
+    "escalate_fanout_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3007,
+   "pos_in_prompt": 0.3201,
+   "source": "CR-1058",
+   "status": "ratified",
+   "stratum_target": 0.3,
+   "token_offset": 16014
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "evict_limit_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3031,
+   "pos_in_prompt": 0.3225,
+   "source": "SPEC-13.9",
+   "status": null,
+   "stratum_target": 0.3,
+   "token_offset": 16133
+  },
+  {
+   "kind": "record",
+   "params": [
+    "drain_limit_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.3057,
+   "pos_in_prompt": 0.325,
+   "source": "CR-1112",
+   "status": "ratified",
+   "stratum_target": 0.3,
+   "token_offset": 16256
+  },
+  {
+   "kind": "record",
+   "params": [
+    "audit_width_pct",
+    "retry_batch_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4743,
+   "pos_in_prompt": 0.4887,
+   "source": "CR-1063",
+   "status": "ratified",
+   "stratum_target": 0.5,
+   "token_offset": 24446
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "drain_grace_pct",
+    "drain_horizon_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4856,
+   "pos_in_prompt": 0.4997,
+   "source": "SPEC-7.6",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 24996
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "compact_batch_s",
+    "evict_ceiling"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4905,
+   "pos_in_prompt": 0.5044,
+   "source": "SPEC-1.6",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 25235
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "handoff_interval_count",
+    "settle_margin",
+    "evict_retries_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4935,
+   "pos_in_prompt": 0.5074,
+   "source": "SPEC-7.9",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 25381
+  },
+  {
+   "kind": "record",
+   "params": [
+    "ingest_quorum_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.4987,
+   "pos_in_prompt": 0.5123,
+   "source": "CR-1007",
+   "status": "proposed",
+   "stratum_target": 0.5,
+   "token_offset": 25630
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "handoff_margin_pct",
+    "prefetch_span_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.5042,
+   "pos_in_prompt": 0.5177,
+   "source": "RB-41",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 25899
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "backoff_interval_ms",
+    "rollup_margin"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.5067,
+   "pos_in_prompt": 0.5202,
+   "source": "SPEC-6.9",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 26021
+  },
+  {
+   "kind": "specification",
+   "params": [],
+   "parked": "rollup_batch_mb",
+   "pos_in_corpus": 0.5226,
+   "pos_in_prompt": 0.5356,
+   "source": "SPEC-2.5",
+   "status": null,
+   "stratum_target": 0.5,
+   "token_offset": 26792
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "compact_batch_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.683,
+   "pos_in_prompt": 0.6914,
+   "source": "RB-80",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 34585
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "lease_batch"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6857,
+   "pos_in_prompt": 0.694,
+   "source": "RB-134",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 34718
+  },
+  {
+   "kind": "record",
+   "params": [
+    "drain_limit_s",
+    "retry_holdoff_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6887,
+   "pos_in_prompt": 0.6969,
+   "source": "CR-1004",
+   "status": "ratified",
+   "stratum_target": 0.7,
+   "token_offset": 34864
+  },
+  {
+   "kind": "record",
+   "params": [
+    "evict_limit_count",
+    "prefetch_fanout_count"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.6942,
+   "pos_in_prompt": 0.7023,
+   "source": "CR-1096",
+   "status": "ratified",
+   "stratum_target": 0.7,
+   "token_offset": 35130
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "drain_grace_pct",
+    "dispatch_width_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7006,
+   "pos_in_prompt": 0.7084,
+   "source": "SPEC-9.7",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 35438
+  },
+  {
+   "kind": "record",
+   "params": [
+    "commit_limit_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7036,
+   "pos_in_prompt": 0.7113,
+   "source": "CR-1077",
+   "status": "withdrawn",
+   "stratum_target": 0.7,
+   "token_offset": 35584
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "compact_slice_mb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.7063,
+   "pos_in_prompt": 0.714,
+   "source": "SPEC-14.7",
+   "status": null,
+   "stratum_target": 0.7,
+   "token_offset": 35719
+  },
+  {
+   "kind": "record",
+   "params": [
+    "escalate_fanout_s",
+    "shard_budget_ms",
+    "retry_floor_s"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.889,
+   "pos_in_prompt": 0.8914,
+   "source": "CR-1097",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 44592
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "commit_limit_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8928,
+   "pos_in_prompt": 0.8951,
+   "source": "RB-48",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 44777
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "ingest_quorum_kb",
+    "sweep_slice_s",
+    "reap_window_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8966,
+   "pos_in_prompt": 0.8988,
+   "source": "SPEC-14.4",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 44961
+  },
+  {
+   "kind": "record",
+   "params": [
+    "rollup_timeout_ms",
+    "prefetch_span_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.8997,
+   "pos_in_prompt": 0.9018,
+   "source": "CR-1124",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 45113
+  },
+  {
+   "kind": "runbook",
+   "params": [
+    "handoff_interval_count",
+    "escalate_reserve_count",
+    "lease_reserve_kb"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.9026,
+   "pos_in_prompt": 0.9046,
+   "source": "RB-116",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 45252
+  },
+  {
+   "kind": "specification",
+   "params": [
+    "handoff_margin_pct",
+    "backoff_backlog_ms"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.9059,
+   "pos_in_prompt": 0.9079,
+   "source": "SPEC-12.8",
+   "status": null,
+   "stratum_target": 0.9,
+   "token_offset": 45416
+  },
+  {
+   "kind": "record",
+   "params": [
+    "backoff_interval_ms",
+    "compact_horizon_kb",
+    "purge_depth_rows"
+   ],
+   "parked": null,
+   "pos_in_corpus": 0.92,
+   "pos_in_prompt": 0.9215,
+   "source": "CR-1125",
+   "status": "ratified",
+   "stratum_target": 0.9,
+   "token_offset": 46100
+  }
+ ],
+ "num_ctx": 98304,
+ "prompt_chars": 233724,
+ "proofs": {
+  "decoy_field_multi_source_agreeing": 118,
+  "decoy_keys_differing": 12,
+  "leave_one_out_disagreed_changed": 24,
+  "leave_one_out_disagreed_total": 35,
+  "leave_one_out_governing_changed": 12,
+  "leave_one_out_governing_total": 12,
+  "median_depth_separation": 0.5979,
+  "min_depth_separation": 0.215,
+  "parameters_in_disagreement": 14,
+  "parameters_total": 219,
+  "parameters_undetermined": 2,
+  "plausible_keys_differing": 6,
+  "statements_total": 403
+ },
+ "realised_prompt_tokens": 50112,
+ "reference_answer": {
+  "conflict_count": 14,
+  "gov_a": {
+   "rule": "ratified_record_governs",
+   "source": "CR-1072",
+   "value": 721
+  },
+  "gov_b": "INSUFFICIENT",
+  "gov_c": {
+   "rule": "superseded_by_later_record",
+   "source": "CR-1004",
+   "value": 726
+  },
+  "gov_d": "INSUFFICIENT",
+  "gov_e": "INSUFFICIENT",
+  "gov_f": {
+   "rule": "record_does_not_govern",
+   "source": "SPEC-14.4",
+   "value": 941
+  },
+  "gov_g": {
+   "rule": "specification_governs",
+   "source": "SPEC-11.7",
+   "value": 115
+  },
+  "reconciled_total": 7057,
+  "review_interval": "INSUFFICIENT",
+  "superseded_records": [
+   "CR-1050",
+   "CR-1096",
+   "CR-1112"
+  ],
+  "top_five": [
+   "ingest_quorum_kb",
+   "compact_batch_s",
+   "compact_slice_mb",
+   "drain_limit_s",
+   "handoff_interval_count"
+  ]
+ },
+ "rung_error_pct": 0.224,
+ "rung_target_tokens": 50000,
+ "shape": "three-source-contradiction-reconciliation",
+ "strata": [
+  0.1,
+  0.3,
+  0.5,
+  0.7,
+  0.9
+ ],
+ "task": "recon-50k-abst",
+ "token_method": "pibench.py FILL_CHARS_PER_TOKEN, inverted: tokens = round(chars / 4.664)",
+ "unanswerable_items": 4,
+ "void_threshold_pct": 15
+}

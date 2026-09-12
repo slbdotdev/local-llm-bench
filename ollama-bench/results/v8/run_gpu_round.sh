@@ -174,6 +174,9 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
   if [ "$item" = "item1" ] && [ "${SKIP_ITEM1:-0}" = "1" ]; then
     say "skipping $cid — item 1 voided by the smoke gate"; continue
   fi
+  if [ "$item" = "item2" ] && [ "${SKIP_ITEM2:-0}" = "1" ]; then
+    say "skipping $cid — item 2 halted by the occupancy calibration checkpoint"; continue
+  fi
   acc=$(accounted)
   if [ "$((acc+estimate))" -gt "$HARD_STOP" ]; then
     say "STOPPING before $cid: ${acc}s accounted + ${estimate}s estimate crosses ${HARD_STOP}s."
@@ -191,6 +194,12 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
     batch)
       "$PY" "$V8/item3/batch_cell.py" --model q27-IQ2_M-96k --num-ctx "$nctx" \
         >> "$V8/$cid.log" 2>&1 ;;
+    escalate)
+      # Only the local-draft arm holds the GPU; the hosted arm is API-billed tokens.
+      # A plan-bound harness reports no usage field and so cannot produce a ledger.
+      "$PY" "$V8/item3/escalate.py" --family "$task" --slots-dir "$tdir" \
+        --local-model q27-IQ2_M-96k --num-ctx "$nctx" --trials "$trials" \
+        --ledger "$V8/$cid-ledger.json" >> "$V8/$cid.log" 2>&1 ;;
     *)
       # --api native: /v1/chat/completions IGNORES options.num_ctx and reports
       # usage.prompt_tokens rather than prompt_eval_count, so the occupancy rung and the
@@ -204,6 +213,49 @@ sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item r
   echo "END $cid | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((c1-c0)) | rc=$rc" >> "$BUDGET"
   touch "$V8/.cell-$cid-done"
   say "cell $cid done in $((c1-c0))s rc=$rc"
+
+  # -------------------------------------------------------------------------
+  # Item 2's occupancy calibration checkpoint.
+  #
+  # The rungs were sized with pibench's FILL_CHARS_PER_TOKEN = 4.664, which was measured on
+  # v5's FILLER, not on prose carrying identifiers. If the real ratio is nearer 4.0 the 80k
+  # rung arrives at about 93k tokens: still inside the 98,304 window, but +17% on its rung
+  # and therefore VOID under plan section 4. Cells run cheapest-first, so the first item2
+  # cell is a 20k rung and costs the least to learn this from. Read it, and if the ratio
+  # disagrees, stop item 2 rather than paying for five more cells of void data.
+  # -------------------------------------------------------------------------
+  if [ "$item" = "item2" ] && [ "${ITEM2_CALIBRATED:-0}" = "0" ]; then
+    ITEM2_CALIBRATED=1
+    target=$(echo "$cid" | grep -oE '[0-9]+k' | head -1 | tr -d k)
+    achieved=$("$PY" -c "
+import json,sys,glob
+rows=[]
+for f in glob.glob('results/$cid.json'):
+    d=json.load(open(f))
+    for tag,v in d.items():
+        if isinstance(v,dict):
+            for k2,v2 in v.items():
+                if isinstance(v2,list):
+                    for r in v2:
+                        t=r.get('achieved_fill_prompt_tokens') or r.get('peak_prompt') or r.get('prompt_tokens')
+                        if t: rows.append(t)
+print(max(rows) if rows else 0)
+" 2>/dev/null)
+    if [ "${achieved:-0}" -gt 0 ] && [ "${target:-0}" -gt 0 ]; then
+      err=$(( (achieved - target*1000) * 100 / (target*1000) ))
+      say "item2 calibration: rung ${target}k target=$((target*1000)) achieved=$achieved error=${err}%"
+      echo "NOTE item2-calibration $cid: target=$((target*1000)) achieved=$achieved error=${err}%" >> "$BUDGET"
+      if [ "${err#-}" -gt 15 ]; then
+        say "ITEM 2 OCCUPANCY IS OUT OF BAND (${err}%). Remaining item2 cells would be VOID."
+        say "Re-converge, then re-run:  cd $V8/item2 && python3 gen_aggregate.py --chars-per-token <measured>"\
+"&& python3 gen_contradiction.py --chars-per-token <measured> && python3 gates.py"
+        echo "NOTE item2 halted after $cid: occupancy ${err}% outside the +/-15% void rule." >> "$BUDGET"
+        SKIP_ITEM2=1
+      fi
+    else
+      say "item2 calibration: could not read achieved prompt tokens from results/$cid.json"
+    fi
+  fi
 done
 
 # ---------------------------------------------------------------------------

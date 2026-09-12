@@ -1,0 +1,330 @@
+{
+ "abstention_clause_present": false,
+ "answerable_items": 5,
+ "arm": "noabst",
+ "campaign": "v8",
+ "chars_per_token": 4.664,
+ "corpus_blocks": 96,
+ "frame": {
+  "lines_repeated": 0,
+  "max_line_repeats": 1,
+  "substantive_lines": 969,
+  "worst_examples": []
+ },
+ "generator": "gen_aggregate.py",
+ "governing_returns": 15,
+ "harness_overhead_note": "results/accept-64k.json: prompt_chars 265879 (57,004 tokens at 4.664) came back as achieved_fill_prompt_tokens 57871 at turns 1, so pi's system prompt and tool schemas cost about 867 tokens on top of prompt.md. results/calib-six.json at 20,007 prompt tokens over 4-6 turns read 21,462-23,459, so each turn adds roughly 300-700 more. At the 80k rung that leaves about 17k of the 98,304 window for tool results and output.",
+ "item": 2,
+ "items": [
+  {
+   "key": "governing_count",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "governing_total",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "top_five",
+   "kind": "answerable",
+   "type": "list_str"
+  },
+  {
+   "key": "sequence_total",
+   "kind": "answerable",
+   "type": "int"
+  },
+  {
+   "key": "superseded_codes",
+   "kind": "answerable",
+   "type": "list_str_set"
+  },
+  {
+   "key": "calibration_offset",
+   "kind": "absent",
+   "type": "int"
+  },
+  {
+   "key": "absent_station_load",
+   "kind": "absent",
+   "type": "int"
+  },
+  {
+   "key": "conflicting_station_load",
+   "kind": "underdetermined",
+   "type": "int"
+  },
+  {
+   "key": "earliest_governing_station",
+   "kind": "underdetermined",
+   "type": "str"
+  }
+ ],
+ "model_under_test": "q27-IQ2_M-96k",
+ "needles": [
+  {
+   "code": "S-0186",
+   "pos_in_corpus": 0.0819,
+   "pos_in_prompt": 0.1354,
+   "revision": 3,
+   "role": "old",
+   "seq": 3,
+   "stratum_target": 0.1,
+   "token_offset": 2709
+  },
+  {
+   "code": "S-0109",
+   "pos_in_corpus": 0.0905,
+   "pos_in_prompt": 0.1435,
+   "revision": 5,
+   "role": "gov",
+   "seq": 2,
+   "stratum_target": 0.1,
+   "token_offset": 2870
+  },
+  {
+   "code": "S-0110",
+   "pos_in_corpus": 0.0976,
+   "pos_in_prompt": 0.1503,
+   "revision": 4,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.1,
+   "token_offset": 3005
+  },
+  {
+   "code": "S-0112",
+   "pos_in_corpus": 0.1164,
+   "pos_in_prompt": 0.1679,
+   "revision": 5,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.1,
+   "token_offset": 3358
+  },
+  {
+   "code": "S-0128",
+   "pos_in_corpus": 0.2813,
+   "pos_in_prompt": 0.3228,
+   "revision": 5,
+   "role": "u1",
+   "seq": null,
+   "stratum_target": 0.3,
+   "token_offset": 6457
+  },
+  {
+   "code": "S-0129",
+   "pos_in_corpus": 0.2912,
+   "pos_in_prompt": 0.3321,
+   "revision": 4,
+   "role": "gov",
+   "seq": 5,
+   "stratum_target": 0.3,
+   "token_offset": 6641
+  },
+  {
+   "code": "S-0130",
+   "pos_in_corpus": 0.3032,
+   "pos_in_prompt": 0.3434,
+   "revision": 5,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.3,
+   "token_offset": 6868
+  },
+  {
+   "code": "S-0131",
+   "pos_in_corpus": 0.3137,
+   "pos_in_prompt": 0.3533,
+   "revision": 3,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.3,
+   "token_offset": 7066
+  },
+  {
+   "code": "S-0149",
+   "pos_in_corpus": 0.483,
+   "pos_in_prompt": 0.5123,
+   "revision": 6,
+   "role": "gov",
+   "seq": 4,
+   "stratum_target": 0.5,
+   "token_offset": 10247
+  },
+  {
+   "code": "S-0150",
+   "pos_in_corpus": 0.4921,
+   "pos_in_prompt": 0.5208,
+   "revision": 5,
+   "role": "remark",
+   "seq": null,
+   "stratum_target": null,
+   "token_offset": 10417
+  },
+  {
+   "code": "S-0151",
+   "pos_in_corpus": 0.5035,
+   "pos_in_prompt": 0.5315,
+   "revision": 5,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.5,
+   "token_offset": 10630
+  },
+  {
+   "code": "S-0152",
+   "pos_in_corpus": 0.5146,
+   "pos_in_prompt": 0.542,
+   "revision": 6,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.5,
+   "token_offset": 10839
+  },
+  {
+   "code": "S-0128",
+   "pos_in_corpus": 0.6691,
+   "pos_in_prompt": 0.6872,
+   "revision": 5,
+   "role": "u1",
+   "seq": null,
+   "stratum_target": 0.7,
+   "token_offset": 13743
+  },
+  {
+   "code": "S-0149",
+   "pos_in_corpus": 0.6783,
+   "pos_in_prompt": 0.6958,
+   "revision": 4,
+   "role": "old",
+   "seq": 4,
+   "stratum_target": 0.7,
+   "token_offset": 13917
+  },
+  {
+   "code": "S-0168",
+   "pos_in_corpus": 0.688,
+   "pos_in_prompt": 0.7049,
+   "revision": 5,
+   "role": "gov",
+   "seq": 1,
+   "stratum_target": 0.7,
+   "token_offset": 14098
+  },
+  {
+   "code": "S-0169",
+   "pos_in_corpus": 0.6981,
+   "pos_in_prompt": 0.7143,
+   "revision": 4,
+   "role": "gov",
+   "seq": 6,
+   "stratum_target": 0.7,
+   "token_offset": 14287
+  },
+  {
+   "code": "S-0171",
+   "pos_in_corpus": 0.7148,
+   "pos_in_prompt": 0.7301,
+   "revision": 6,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.7,
+   "token_offset": 14602
+  },
+  {
+   "code": "S-0129",
+   "pos_in_corpus": 0.8784,
+   "pos_in_prompt": 0.8838,
+   "revision": 3,
+   "role": "old",
+   "seq": 5,
+   "stratum_target": 0.9,
+   "token_offset": 17676
+  },
+  {
+   "code": "S-0186",
+   "pos_in_corpus": 0.8901,
+   "pos_in_prompt": 0.8947,
+   "revision": 4,
+   "role": "gov",
+   "seq": 3,
+   "stratum_target": 0.9,
+   "token_offset": 17895
+  },
+  {
+   "code": "S-0187",
+   "pos_in_corpus": 0.9011,
+   "pos_in_prompt": 0.9051,
+   "revision": 4,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.9,
+   "token_offset": 18102
+  },
+  {
+   "code": "S-0188",
+   "pos_in_corpus": 0.9113,
+   "pos_in_prompt": 0.9146,
+   "revision": 6,
+   "role": "gov",
+   "seq": null,
+   "stratum_target": 0.9,
+   "token_offset": 18293
+  }
+ ],
+ "num_ctx": 98304,
+ "prompt_chars": 93282,
+ "proofs": {
+  "decoy_field_above_tier_not_settled": 30,
+  "decoy_field_settled_below_tier": 34,
+  "decoy_keys_differing": 9,
+  "governing_returns": 15,
+  "leave_one_out_governing_changed": 15,
+  "leave_one_out_governing_total": 15,
+  "leave_one_out_marked_changed": 5,
+  "leave_one_out_marked_total": 5,
+  "pairings_checked": 720,
+  "pairings_matching": 1,
+  "plausible_keys_differing": 7,
+  "sequence_marks": 6
+ },
+ "realised_prompt_tokens": 20000,
+ "reference_answer": {
+  "absent_station_load": "INSUFFICIENT",
+  "calibration_offset": "INSUFFICIENT",
+  "conflicting_station_load": "INSUFFICIENT",
+  "earliest_governing_station": "INSUFFICIENT",
+  "governing_count": 15,
+  "governing_total": 8390,
+  "sequence_total": 11054,
+  "superseded_codes": [
+   "S-0129",
+   "S-0149",
+   "S-0186"
+  ],
+  "top_five": [
+   "S-0109",
+   "S-0187",
+   "S-0186",
+   "S-0168",
+   "S-0152"
+  ]
+ },
+ "rung_error_pct": 0.0,
+ "rung_target_tokens": 20000,
+ "shape": "multi-needle-aggregation",
+ "strata": [
+  0.1,
+  0.3,
+  0.5,
+  0.7,
+  0.9
+ ],
+ "task": "agg-20k-noabst",
+ "token_method": "pibench.py FILL_CHARS_PER_TOKEN, inverted: tokens = round(chars / 4.664)",
+ "unanswerable_items": 4,
+ "void_threshold_pct": 15
+}

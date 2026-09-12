@@ -1,0 +1,21 @@
+{
+ "absent_station_load": "INSUFFICIENT",
+ "calibration_offset": "INSUFFICIENT",
+ "conflicting_station_load": "INSUFFICIENT",
+ "earliest_governing_station": "INSUFFICIENT",
+ "governing_count": 15,
+ "governing_total": 9074,
+ "sequence_total": 9890,
+ "superseded_codes": [
+  "S-0221",
+  "S-0303",
+  "S-0467"
+ ],
+ "top_five": [
+  "S-0230",
+  "S-0138",
+  "S-0313",
+  "S-0472",
+  "S-0225"
+ ]
+}

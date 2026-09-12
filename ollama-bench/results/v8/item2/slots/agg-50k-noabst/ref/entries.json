@@ -1,0 +1,2566 @@
+{
+ "asked": {
+  "absent_station_load": "S-0990",
+  "calibration_offset": "S-0124",
+  "conflicting_station_load": "S-0175",
+  "earliest_governing_station": "(a two-way date tie)"
+ },
+ "entries": [
+  {
+   "calibration": null,
+   "code": "S-0101",
+   "date": "2034-12-17",
+   "load": 604,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0102",
+   "date": "2034-10-12",
+   "load": 382,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0103",
+   "date": "2034-09-27",
+   "load": 150,
+   "revision": 1,
+   "seq": null,
+   "status": "open",
+   "tier": 4
+  },
+  {
+   "calibration": 32,
+   "code": "S-0104",
+   "date": "2034-10-14",
+   "load": 766,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0105",
+   "date": "2034-06-23",
+   "load": 429,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0106",
+   "date": "2034-06-21",
+   "load": 137,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0107",
+   "date": "2034-03-14",
+   "load": 127,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0108",
+   "date": "2034-09-12",
+   "load": 781,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0109",
+   "date": "2034-09-28",
+   "load": 924,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0110",
+   "date": "2034-10-11",
+   "load": 287,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0111",
+   "date": "2034-02-02",
+   "load": 562,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0112",
+   "date": "2034-01-12",
+   "load": 439,
+   "revision": 1,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 9
+  },
+  {
+   "calibration": -31,
+   "code": "S-0113",
+   "date": "2034-01-25",
+   "load": 235,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0114",
+   "date": "2034-12-10",
+   "load": 841,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0115",
+   "date": "2034-06-28",
+   "load": 449,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0116",
+   "date": "2034-05-18",
+   "load": 856,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0117",
+   "date": "2034-04-07",
+   "load": 274,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0118",
+   "date": "2034-03-13",
+   "load": 870,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0119",
+   "date": "2034-06-21",
+   "load": 900,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -18,
+   "code": "S-0120",
+   "date": "2034-07-20",
+   "load": 855,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": 38,
+   "code": "S-0121",
+   "date": "2034-04-06",
+   "load": 307,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0122",
+   "date": "2034-02-13",
+   "load": 610,
+   "revision": 2,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0326",
+   "date": "2034-06-12",
+   "load": 999,
+   "revision": 3,
+   "seq": 3,
+   "status": "settled",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0124",
+   "date": "2034-04-26",
+   "load": 328,
+   "revision": 4,
+   "seq": 2,
+   "status": "settled",
+   "tier": 5
+  },
+  {
+   "calibration": -37,
+   "code": "S-0125",
+   "date": "2034-06-14",
+   "load": 408,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0126",
+   "date": "2034-04-26",
+   "load": 686,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 6
+  },
+  {
+   "calibration": -13,
+   "code": "S-0127",
+   "date": "2034-06-19",
+   "load": 611,
+   "revision": 1,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0128",
+   "date": "2034-09-14",
+   "load": 293,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0129",
+   "date": "2034-06-28",
+   "load": 441,
+   "revision": 2,
+   "seq": null,
+   "status": "open",
+   "tier": 3
+  },
+  {
+   "calibration": 3,
+   "code": "S-0130",
+   "date": "2034-05-03",
+   "load": 346,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 7
+  },
+  {
+   "calibration": -28,
+   "code": "S-0131",
+   "date": "2034-07-25",
+   "load": 602,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0132",
+   "date": "2034-08-09",
+   "load": 309,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": 40,
+   "code": "S-0133",
+   "date": "2034-10-28",
+   "load": 946,
+   "revision": 1,
+   "seq": null,
+   "status": "provisional",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0134",
+   "date": "2034-06-27",
+   "load": 874,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -40,
+   "code": "S-0135",
+   "date": "2034-12-12",
+   "load": 169,
+   "revision": 2,
+   "seq": null,
+   "status": "returned",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0136",
+   "date": "2034-01-28",
+   "load": 385,
+   "revision": 2,
+   "seq": null,
+   "status": "returned",
+   "tier": 1
+  },
+  {
+   "calibration": -2,
+   "code": "S-0137",
+   "date": "2034-07-10",
+   "load": 719,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0138",
+   "date": "2034-03-16",
+   "load": 917,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0139",
+   "date": "2034-01-04",
+   "load": 799,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0140",
+   "date": "2034-08-08",
+   "load": 591,
+   "revision": 3,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0141",
+   "date": "2034-10-05",
+   "load": 173,
+   "revision": 2,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0142",
+   "date": "2034-12-23",
+   "load": 443,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0143",
+   "date": "2034-06-04",
+   "load": 607,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 39,
+   "code": "S-0144",
+   "date": "2034-02-02",
+   "load": 432,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0145",
+   "date": "2034-07-07",
+   "load": 177,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0146",
+   "date": "2034-06-10",
+   "load": 362,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0147",
+   "date": "2034-07-17",
+   "load": 412,
+   "revision": 2,
+   "seq": null,
+   "status": "provisional",
+   "tier": 9
+  },
+  {
+   "calibration": 7,
+   "code": "S-0148",
+   "date": "2034-12-11",
+   "load": 914,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0149",
+   "date": "2034-09-10",
+   "load": 528,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0150",
+   "date": "2034-10-26",
+   "load": 899,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0151",
+   "date": "2034-10-21",
+   "load": 293,
+   "revision": 1,
+   "seq": null,
+   "status": "returned",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0152",
+   "date": "2034-10-20",
+   "load": 702,
+   "revision": 6,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0153",
+   "date": "2034-03-14",
+   "load": 470,
+   "revision": 2,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 6
+  },
+  {
+   "calibration": -29,
+   "code": "S-0154",
+   "date": "2034-11-27",
+   "load": 528,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 24,
+   "code": "S-0155",
+   "date": "2034-07-13",
+   "load": 447,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0156",
+   "date": "2034-11-10",
+   "load": 680,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": -17,
+   "code": "S-0157",
+   "date": "2034-01-11",
+   "load": 438,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0158",
+   "date": "2034-03-09",
+   "load": 437,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": 19,
+   "code": "S-0159",
+   "date": "2034-04-25",
+   "load": 406,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0160",
+   "date": "2034-07-10",
+   "load": 212,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0161",
+   "date": "2034-02-24",
+   "load": 620,
+   "revision": 6,
+   "seq": null,
+   "status": "returned",
+   "tier": 4
+  },
+  {
+   "calibration": 17,
+   "code": "S-0162",
+   "date": "2034-01-19",
+   "load": 125,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 3
+  },
+  {
+   "calibration": 38,
+   "code": "S-0163",
+   "date": "2034-10-24",
+   "load": 114,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0164",
+   "date": "2034-05-06",
+   "load": 679,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0165",
+   "date": "2034-11-26",
+   "load": 376,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": -28,
+   "code": "S-0166",
+   "date": "2034-08-10",
+   "load": 987,
+   "revision": 2,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0167",
+   "date": "2034-03-28",
+   "load": 138,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0168",
+   "date": "2034-07-14",
+   "load": 318,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0169",
+   "date": "2034-08-09",
+   "load": 288,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -6,
+   "code": "S-0170",
+   "date": "2034-02-18",
+   "load": 752,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 1,
+   "code": "S-0171",
+   "date": "2034-08-10",
+   "load": 874,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0172",
+   "date": "2034-03-16",
+   "load": 505,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0173",
+   "date": "2034-07-08",
+   "load": 640,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0174",
+   "date": "2034-01-02",
+   "load": 419,
+   "revision": 4,
+   "seq": 5,
+   "status": "settled",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0175",
+   "date": "2034-03-03",
+   "load": 486,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0176",
+   "date": "2034-07-07",
+   "load": 621,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0177",
+   "date": "2034-01-02",
+   "load": 246,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 8
+  },
+  {
+   "calibration": 21,
+   "code": "S-0178",
+   "date": "2034-04-09",
+   "load": 250,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -13,
+   "code": "S-0179",
+   "date": "2034-09-19",
+   "load": 623,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0180",
+   "date": "2034-05-19",
+   "load": 950,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0181",
+   "date": "2034-11-24",
+   "load": 808,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0182",
+   "date": "2034-12-01",
+   "load": 570,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0183",
+   "date": "2034-12-22",
+   "load": 829,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0184",
+   "date": "2034-04-21",
+   "load": 790,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0185",
+   "date": "2034-03-26",
+   "load": 787,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 6
+  },
+  {
+   "calibration": -24,
+   "code": "S-0186",
+   "date": "2034-08-12",
+   "load": 196,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0187",
+   "date": "2034-12-27",
+   "load": 334,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0188",
+   "date": "2034-05-27",
+   "load": 345,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0189",
+   "date": "2034-09-04",
+   "load": 260,
+   "revision": 1,
+   "seq": null,
+   "status": "open",
+   "tier": 5
+  },
+  {
+   "calibration": 11,
+   "code": "S-0190",
+   "date": "2034-07-15",
+   "load": 933,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0191",
+   "date": "2034-12-27",
+   "load": 524,
+   "revision": 5,
+   "seq": null,
+   "status": "returned",
+   "tier": 2
+  },
+  {
+   "calibration": -17,
+   "code": "S-0192",
+   "date": "2034-10-15",
+   "load": 136,
+   "revision": 2,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0193",
+   "date": "2034-12-01",
+   "load": 215,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0194",
+   "date": "2034-12-20",
+   "load": 242,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0195",
+   "date": "2034-03-07",
+   "load": 469,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": -19,
+   "code": "S-0196",
+   "date": "2034-02-04",
+   "load": 743,
+   "revision": 6,
+   "seq": null,
+   "status": "returned",
+   "tier": 7
+  },
+  {
+   "calibration": 35,
+   "code": "S-0197",
+   "date": "2034-08-08",
+   "load": 232,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0198",
+   "date": "2034-12-02",
+   "load": 686,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -6,
+   "code": "S-0199",
+   "date": "2034-07-11",
+   "load": 492,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0200",
+   "date": "2034-02-20",
+   "load": 981,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0201",
+   "date": "2034-02-14",
+   "load": 688,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0202",
+   "date": "2034-11-18",
+   "load": 118,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0203",
+   "date": "2034-03-28",
+   "load": 387,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0204",
+   "date": "2034-07-07",
+   "load": 530,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0205",
+   "date": "2034-09-04",
+   "load": 203,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": 7,
+   "code": "S-0206",
+   "date": "2034-08-18",
+   "load": 851,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0207",
+   "date": "2034-12-09",
+   "load": 921,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0208",
+   "date": "2034-12-02",
+   "load": 345,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0209",
+   "date": "2034-05-19",
+   "load": 560,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0210",
+   "date": "2034-08-05",
+   "load": 528,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0211",
+   "date": "2034-12-01",
+   "load": 190,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0212",
+   "date": "2034-06-12",
+   "load": 487,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0213",
+   "date": "2034-01-15",
+   "load": 169,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0214",
+   "date": "2034-01-02",
+   "load": 740,
+   "revision": 4,
+   "seq": null,
+   "status": "returned",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0215",
+   "date": "2034-04-27",
+   "load": 365,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 2
+  },
+  {
+   "calibration": -39,
+   "code": "S-0216",
+   "date": "2034-02-09",
+   "load": 753,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 21,
+   "code": "S-0217",
+   "date": "2034-10-18",
+   "load": 378,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 2
+  },
+  {
+   "calibration": -12,
+   "code": "S-0218",
+   "date": "2034-12-23",
+   "load": 992,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0219",
+   "date": "2034-11-04",
+   "load": 476,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0220",
+   "date": "2034-10-02",
+   "load": 990,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0221",
+   "date": "2034-10-13",
+   "load": 942,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0222",
+   "date": "2034-04-21",
+   "load": 425,
+   "revision": 4,
+   "seq": null,
+   "status": "returned",
+   "tier": 5
+  },
+  {
+   "calibration": -6,
+   "code": "S-0223",
+   "date": "2034-06-20",
+   "load": 616,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": -32,
+   "code": "S-0224",
+   "date": "2034-10-23",
+   "load": 798,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0225",
+   "date": "2034-04-05",
+   "load": 549,
+   "revision": 3,
+   "seq": 4,
+   "status": "settled",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0226",
+   "date": "2034-10-25",
+   "load": 507,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0227",
+   "date": "2034-10-21",
+   "load": 851,
+   "revision": 5,
+   "seq": null,
+   "status": "open",
+   "tier": 6
+  },
+  {
+   "calibration": -14,
+   "code": "S-0228",
+   "date": "2034-07-11",
+   "load": 819,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0229",
+   "date": "2034-11-05",
+   "load": 523,
+   "revision": 1,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0230",
+   "date": "2034-02-08",
+   "load": 652,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0231",
+   "date": "2034-03-08",
+   "load": 988,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0232",
+   "date": "2034-05-06",
+   "load": 434,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0233",
+   "date": "2034-03-18",
+   "load": 194,
+   "revision": 4,
+   "seq": null,
+   "status": "open",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0234",
+   "date": "2034-12-07",
+   "load": 402,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0235",
+   "date": "2034-12-07",
+   "load": 510,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0236",
+   "date": "2034-11-01",
+   "load": 490,
+   "revision": 2,
+   "seq": null,
+   "status": "provisional",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0237",
+   "date": "2034-06-22",
+   "load": 273,
+   "revision": 4,
+   "seq": null,
+   "status": "returned",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0238",
+   "date": "2034-09-27",
+   "load": 670,
+   "revision": 6,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 3
+  },
+  {
+   "calibration": -31,
+   "code": "S-0239",
+   "date": "2034-05-05",
+   "load": 865,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0240",
+   "date": "2034-03-10",
+   "load": 854,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": -37,
+   "code": "S-0241",
+   "date": "2034-10-08",
+   "load": 503,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": -2,
+   "code": "S-0242",
+   "date": "2034-03-16",
+   "load": 409,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0243",
+   "date": "2034-03-15",
+   "load": 539,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0244",
+   "date": "2034-10-09",
+   "load": 871,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0245",
+   "date": "2034-08-12",
+   "load": 517,
+   "revision": 2,
+   "seq": null,
+   "status": "returned",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0246",
+   "date": "2034-01-21",
+   "load": 769,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0247",
+   "date": "2034-11-03",
+   "load": 458,
+   "revision": 1,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0248",
+   "date": "2034-01-25",
+   "load": 487,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0249",
+   "date": "2034-03-12",
+   "load": 432,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": -14,
+   "code": "S-0250",
+   "date": "2034-09-28",
+   "load": 680,
+   "revision": 6,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0251",
+   "date": "2034-06-25",
+   "load": 477,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0252",
+   "date": "2034-08-10",
+   "load": 709,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0253",
+   "date": "2034-07-18",
+   "load": 643,
+   "revision": 5,
+   "seq": null,
+   "status": "open",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0254",
+   "date": "2034-07-17",
+   "load": 569,
+   "revision": 5,
+   "seq": null,
+   "status": "returned",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0255",
+   "date": "2034-06-08",
+   "load": 381,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0256",
+   "date": "2034-06-18",
+   "load": 247,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 3
+  },
+  {
+   "calibration": -5,
+   "code": "S-0257",
+   "date": "2034-08-20",
+   "load": 576,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0258",
+   "date": "2034-12-15",
+   "load": 786,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0259",
+   "date": "2034-03-08",
+   "load": 120,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0260",
+   "date": "2034-06-22",
+   "load": 877,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 6
+  },
+  {
+   "calibration": 31,
+   "code": "S-0261",
+   "date": "2034-08-26",
+   "load": 597,
+   "revision": 6,
+   "seq": null,
+   "status": "returned",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0262",
+   "date": "2034-12-26",
+   "load": 864,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": -22,
+   "code": "S-0263",
+   "date": "2034-04-15",
+   "load": 132,
+   "revision": 4,
+   "seq": null,
+   "status": "returned",
+   "tier": 6
+  },
+  {
+   "calibration": -36,
+   "code": "S-0264",
+   "date": "2034-11-21",
+   "load": 383,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0265",
+   "date": "2034-04-07",
+   "load": 843,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0266",
+   "date": "2034-03-05",
+   "load": 858,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0267",
+   "date": "2034-11-14",
+   "load": 139,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0268",
+   "date": "2034-12-17",
+   "load": 638,
+   "revision": 2,
+   "seq": null,
+   "status": "provisional",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0269",
+   "date": "2034-02-04",
+   "load": 379,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0270",
+   "date": "2034-11-25",
+   "load": 166,
+   "revision": 3,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0271",
+   "date": "2034-03-20",
+   "load": 378,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0272",
+   "date": "2034-09-10",
+   "load": 364,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0273",
+   "date": "2034-09-17",
+   "load": 715,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 12,
+   "code": "S-0274",
+   "date": "2034-03-27",
+   "load": 282,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0225",
+   "date": "2034-01-05",
+   "load": 670,
+   "revision": 1,
+   "seq": 4,
+   "status": "settled",
+   "tier": 8
+  },
+  {
+   "calibration": -9,
+   "code": "S-0276",
+   "date": "2034-12-25",
+   "load": 876,
+   "revision": 6,
+   "seq": 1,
+   "status": "settled",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0175",
+   "date": "2034-10-18",
+   "load": 531,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0278",
+   "date": "2034-04-19",
+   "load": 390,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0279",
+   "date": "2034-06-02",
+   "load": 222,
+   "revision": 3,
+   "seq": 6,
+   "status": "settled",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0280",
+   "date": "2034-03-21",
+   "load": 146,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0281",
+   "date": "2034-04-12",
+   "load": 373,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0282",
+   "date": "2034-02-11",
+   "load": 768,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0283",
+   "date": "2034-09-16",
+   "load": 514,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0284",
+   "date": "2034-03-22",
+   "load": 691,
+   "revision": 1,
+   "seq": null,
+   "status": "returned",
+   "tier": 7
+  },
+  {
+   "calibration": -13,
+   "code": "S-0285",
+   "date": "2034-10-01",
+   "load": 972,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0286",
+   "date": "2034-01-12",
+   "load": 406,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0287",
+   "date": "2034-08-23",
+   "load": 394,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0288",
+   "date": "2034-06-20",
+   "load": 158,
+   "revision": 6,
+   "seq": null,
+   "status": "open",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0289",
+   "date": "2034-04-03",
+   "load": 427,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0290",
+   "date": "2034-03-11",
+   "load": 783,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 4
+  },
+  {
+   "calibration": 22,
+   "code": "S-0291",
+   "date": "2034-12-19",
+   "load": 897,
+   "revision": 3,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0292",
+   "date": "2034-10-03",
+   "load": 712,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0293",
+   "date": "2034-05-10",
+   "load": 311,
+   "revision": 2,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0294",
+   "date": "2034-08-06",
+   "load": 935,
+   "revision": 5,
+   "seq": null,
+   "status": "returned",
+   "tier": 5
+  },
+  {
+   "calibration": null,
+   "code": "S-0295",
+   "date": "2034-06-15",
+   "load": 779,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0296",
+   "date": "2034-10-19",
+   "load": 800,
+   "revision": 5,
+   "seq": null,
+   "status": "open",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0297",
+   "date": "2034-04-16",
+   "load": 132,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 12,
+   "code": "S-0298",
+   "date": "2034-02-27",
+   "load": 493,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": -31,
+   "code": "S-0299",
+   "date": "2034-08-18",
+   "load": 557,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0300",
+   "date": "2034-03-09",
+   "load": 454,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": -15,
+   "code": "S-0301",
+   "date": "2034-05-12",
+   "load": 811,
+   "revision": 1,
+   "seq": null,
+   "status": "open",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0302",
+   "date": "2034-12-27",
+   "load": 289,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0303",
+   "date": "2034-04-23",
+   "load": 369,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0304",
+   "date": "2034-01-08",
+   "load": 513,
+   "revision": 1,
+   "seq": null,
+   "status": "open",
+   "tier": 9
+  },
+  {
+   "calibration": 29,
+   "code": "S-0305",
+   "date": "2034-10-08",
+   "load": 418,
+   "revision": 6,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0306",
+   "date": "2034-09-20",
+   "load": 254,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0307",
+   "date": "2034-01-16",
+   "load": 415,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": 4,
+   "code": "S-0308",
+   "date": "2034-09-14",
+   "load": 627,
+   "revision": 3,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 6
+  },
+  {
+   "calibration": 15,
+   "code": "S-0309",
+   "date": "2034-08-01",
+   "load": 688,
+   "revision": 3,
+   "seq": null,
+   "status": "returned",
+   "tier": 7
+  },
+  {
+   "calibration": -3,
+   "code": "S-0310",
+   "date": "2034-12-16",
+   "load": 348,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 21,
+   "code": "S-0311",
+   "date": "2034-02-23",
+   "load": 957,
+   "revision": 5,
+   "seq": null,
+   "status": "provisional",
+   "tier": 1
+  },
+  {
+   "calibration": 8,
+   "code": "S-0312",
+   "date": "2034-04-08",
+   "load": 808,
+   "revision": 3,
+   "seq": null,
+   "status": "open",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0313",
+   "date": "2034-04-01",
+   "load": 445,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0314",
+   "date": "2034-06-17",
+   "load": 406,
+   "revision": 1,
+   "seq": null,
+   "status": "returned",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0315",
+   "date": "2034-08-01",
+   "load": 349,
+   "revision": 3,
+   "seq": null,
+   "status": "open",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0316",
+   "date": "2034-08-05",
+   "load": 843,
+   "revision": 2,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": -13,
+   "code": "S-0317",
+   "date": "2034-04-21",
+   "load": 418,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": 4,
+   "code": "S-0318",
+   "date": "2034-08-19",
+   "load": 899,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0319",
+   "date": "2034-05-02",
+   "load": 477,
+   "revision": 1,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 8
+  },
+  {
+   "calibration": -26,
+   "code": "S-0320",
+   "date": "2034-08-09",
+   "load": 642,
+   "revision": 3,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0321",
+   "date": "2034-05-24",
+   "load": 184,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -2,
+   "code": "S-0322",
+   "date": "2034-03-05",
+   "load": 989,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -30,
+   "code": "S-0323",
+   "date": "2034-02-26",
+   "load": 236,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": 18,
+   "code": "S-0324",
+   "date": "2034-05-15",
+   "load": 431,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0325",
+   "date": "2034-05-04",
+   "load": 822,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0326",
+   "date": "2034-07-12",
+   "load": 834,
+   "revision": 4,
+   "seq": 3,
+   "status": "settled",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0174",
+   "date": "2034-01-22",
+   "load": 643,
+   "revision": 2,
+   "seq": 5,
+   "status": "settled",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0328",
+   "date": "2034-06-01",
+   "load": 246,
+   "revision": 1,
+   "seq": null,
+   "status": "returned",
+   "tier": 3
+  },
+  {
+   "calibration": 26,
+   "code": "S-0329",
+   "date": "2034-07-04",
+   "load": 763,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0330",
+   "date": "2034-02-18",
+   "load": 823,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 1
+  },
+  {
+   "calibration": null,
+   "code": "S-0331",
+   "date": "2034-04-09",
+   "load": 403,
+   "revision": 4,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 9
+  },
+  {
+   "calibration": 37,
+   "code": "S-0332",
+   "date": "2034-12-18",
+   "load": 298,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0333",
+   "date": "2034-03-28",
+   "load": 975,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0334",
+   "date": "2034-02-28",
+   "load": 231,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  },
+  {
+   "calibration": -7,
+   "code": "S-0335",
+   "date": "2034-03-06",
+   "load": 913,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 6
+  },
+  {
+   "calibration": null,
+   "code": "S-0336",
+   "date": "2034-07-13",
+   "load": 599,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0337",
+   "date": "2034-10-19",
+   "load": 590,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0338",
+   "date": "2034-07-24",
+   "load": 410,
+   "revision": 5,
+   "seq": null,
+   "status": "settled",
+   "tier": 2
+  },
+  {
+   "calibration": null,
+   "code": "S-0339",
+   "date": "2034-02-24",
+   "load": 153,
+   "revision": 6,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": 24,
+   "code": "S-0340",
+   "date": "2034-06-03",
+   "load": 374,
+   "revision": 1,
+   "seq": null,
+   "status": "returned",
+   "tier": 4
+  },
+  {
+   "calibration": -9,
+   "code": "S-0341",
+   "date": "2034-08-09",
+   "load": 387,
+   "revision": 5,
+   "seq": null,
+   "status": "returned",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0342",
+   "date": "2034-12-15",
+   "load": 380,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0343",
+   "date": "2034-12-09",
+   "load": 222,
+   "revision": 3,
+   "seq": null,
+   "status": "provisional",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0344",
+   "date": "2034-08-22",
+   "load": 904,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0345",
+   "date": "2034-09-04",
+   "load": 514,
+   "revision": 1,
+   "seq": null,
+   "status": "settled",
+   "tier": 3
+  },
+  {
+   "calibration": null,
+   "code": "S-0346",
+   "date": "2034-03-09",
+   "load": 292,
+   "revision": 4,
+   "seq": null,
+   "status": "returned",
+   "tier": 8
+  },
+  {
+   "calibration": null,
+   "code": "S-0347",
+   "date": "2034-07-07",
+   "load": 649,
+   "revision": 6,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -26,
+   "code": "S-0348",
+   "date": "2034-07-10",
+   "load": 898,
+   "revision": 4,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -39,
+   "code": "S-0349",
+   "date": "2034-06-08",
+   "load": 192,
+   "revision": 2,
+   "seq": null,
+   "status": "open",
+   "tier": 7
+  },
+  {
+   "calibration": null,
+   "code": "S-0350",
+   "date": "2034-11-23",
+   "load": 330,
+   "revision": 4,
+   "seq": null,
+   "status": "provisional",
+   "tier": 5
+  },
+  {
+   "calibration": 34,
+   "code": "S-0351",
+   "date": "2034-02-09",
+   "load": 414,
+   "revision": 5,
+   "seq": null,
+   "status": "withdrawn",
+   "tier": 9
+  },
+  {
+   "calibration": null,
+   "code": "S-0352",
+   "date": "2034-05-06",
+   "load": 716,
+   "revision": 4,
+   "seq": null,
+   "status": "provisional",
+   "tier": 4
+  },
+  {
+   "calibration": null,
+   "code": "S-0353",
+   "date": "2034-10-01",
+   "load": 933,
+   "revision": 3,
+   "seq": null,
+   "status": "open",
+   "tier": 4
+  },
+  {
+   "calibration": -19,
+   "code": "S-0354",
+   "date": "2034-04-25",
+   "load": 767,
+   "revision": 3,
+   "seq": null,
+   "status": "settled",
+   "tier": 4
+  },
+  {
+   "calibration": -2,
+   "code": "S-0355",
+   "date": "2034-11-17",
+   "load": 236,
+   "revision": 2,
+   "seq": null,
+   "status": "settled",
+   "tier": 1
+  }
+ ],
+ "tie_codes": [
+  "S-0174",
+  "S-0177"
+ ],
+ "tie_date": "2034-01-02",
+ "tier_threshold": 5
+}

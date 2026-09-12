@@ -1,0 +1,4 @@
+This workspace holds no material for the task.
+
+Everything the task needs is in the prompt you were given. Write your answer to a new
+file `answer.json` in this directory. Do not modify or delete this file.

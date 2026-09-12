@@ -1,0 +1,40 @@
+# v8 cell inventory. Tab-separated: cell_id, item, runner, tasks_dir, task, num_ctx, trials, est_gpu_s
+# Read by results/v8/run_gpu_round.sh, which runs cells in ASCENDING est_gpu_s so a harness
+# fault is found on a cheap cell. Estimates come from v7's measured 10-trial cells
+# (results/v7/GPU_BUDGET.log, 560-3,399 s); item 2's are prefill-dominated and lower.
+#
+# Two cells can void their whole item and both are checked early by the runner:
+#   - item 1 rests on the model emitting tool_calls at all (D8-3), proved by the ~60 s smoke gate.
+#   - item 2 rests on 4.664 chars/token, measured on v5's filler not on prose (D8-7); the first
+#     item2 cell is a 20k rung and the runner reads its achieved occupancy before paying for more.
+#
+# Item 6's hosted arm must be API-billed, not plan-bound: a plan harness reports no usage field
+# and cannot produce a ledger. GLM 5.3 Flash over OpenRouter is the approved API-billed arm.
+v8-item1-t1	item1	leafloop	results/v8/item1/tasks	t1	98304	10	1800
+v8-item1-t2	item1	leafloop	results/v8/item1/tasks	t2	98304	10	1800
+v8-item1-t3	item1	leafloop	results/v8/item1/tasks	t3	98304	10	1800
+v8-item1-t4	item1	leafloop	results/v8/item1/tasks	t4	98304	10	1800
+v8-item1-t5	item1	leafloop	results/v8/item1/tasks	t5	98304	10	1800
+v8-item1-t6	item1	leafloop	results/v8/item1/tasks	t6	98304	10	1800
+v8-item2-agg-20k-noabst	item2	pibench	results/v8/item2/slots	agg-20k-noabst	98304	10	600
+v8-item2-agg-20k-abst	item2	pibench	results/v8/item2/slots	agg-20k-abst	98304	10	600
+v8-item2-agg-50k-noabst	item2	pibench	results/v8/item2/slots	agg-50k-noabst	98304	10	1100
+v8-item2-agg-50k-abst	item2	pibench	results/v8/item2/slots	agg-50k-abst	98304	10	1100
+v8-item2-agg-80k-noabst	item2	pibench	results/v8/item2/slots	agg-80k-noabst	98304	10	1700
+v8-item2-agg-80k-abst	item2	pibench	results/v8/item2/slots	agg-80k-abst	98304	10	1700
+v8-item2-recon-20k-noabst	item2	pibench	results/v8/item2/slots	recon-20k-noabst	98304	10	600
+v8-item2-recon-20k-abst	item2	pibench	results/v8/item2/slots	recon-20k-abst	98304	10	600
+v8-item2-recon-50k-noabst	item2	pibench	results/v8/item2/slots	recon-50k-noabst	98304	10	1100
+v8-item2-recon-50k-abst	item2	pibench	results/v8/item2/slots	recon-50k-abst	98304	10	1100
+v8-item2-recon-80k-noabst	item2	pibench	results/v8/item2/slots	recon-80k-noabst	98304	10	1700
+v8-item2-recon-80k-abst	item2	pibench	results/v8/item2/slots	recon-80k-abst	98304	10	1700
+v8-item3-a1-summarise-r1	item3	pibench	results/v8/item3/slots	a1-summarise-r1	98304	10	1800
+v8-item3-a2-summarise-r2	item3	pibench	results/v8/item3/slots	a2-summarise-r2	98304	10	1800
+v8-item3-b1-contradiction-r1	item3	pibench	results/v8/item3/slots	b1-contradiction-r1	98304	10	1800
+v8-item3-b2-contradiction-r2	item3	pibench	results/v8/item3/slots	b2-contradiction-r2	98304	10	1800
+v8-item3-c1-changelog-r1	item3	pibench	results/v8/item3/slots	c1-changelog-r1	98304	10	1800
+v8-item3-c2-changelog-r2	item3	pibench	results/v8/item3/slots	c2-changelog-r2	98304	10	1800
+v8-item5-batch	item5	batch	results/v8/item3	batch50	98304	50	1800
+v8-item6-a-summarise	item6	escalate	results/v8/item3/slots	a-summarise	98304	10	1800
+v8-item6-b-contradiction	item6	escalate	results/v8/item3/slots	b-contradiction	98304	10	1800
+v8-item6-c-changelog	item6	escalate	results/v8/item3/slots	c-changelog	98304	10	1800

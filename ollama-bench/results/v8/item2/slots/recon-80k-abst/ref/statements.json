@@ -1,0 +1,6169 @@
+{
+ "asked": {
+  "gov_a": "replay_floor_kb",
+  "gov_b": "lease_width_count",
+  "gov_c": "retry_attempts_pct",
+  "gov_d": "flush_interval_ms",
+  "gov_e": "prefetch_span_kb",
+  "gov_f": "warm_timeout_s",
+  "gov_g": "purge_interval"
+ },
+ "interval_param": "lease_timeout_pct",
+ "intervals": [
+  {
+   "days": 180,
+   "param": "evict_reserve_count",
+   "source": "CR-1022"
+  },
+  {
+   "days": 7,
+   "param": "reap_ceiling_rows",
+   "source": "SPEC-3.9"
+  },
+  {
+   "days": 30,
+   "param": "compact_attempts_ms",
+   "source": "SPEC-9.3"
+  },
+  {
+   "days": 14,
+   "param": "lease_threshold_count",
+   "source": "CR-1156"
+  },
+  {
+   "days": 14,
+   "param": "ingest_attempts_count",
+   "source": "RB-179"
+  },
+  {
+   "days": 28,
+   "param": "throttle_horizon_s",
+   "source": "SPEC-20.9"
+  },
+  {
+   "days": 180,
+   "param": "commit_span",
+   "source": "SPEC-11.2"
+  },
+  {
+   "days": 7,
+   "param": "commit_span",
+   "source": "CR-1193"
+  },
+  {
+   "days": 30,
+   "param": "retry_window_count",
+   "source": "RB-149"
+  },
+  {
+   "days": 28,
+   "param": "replay_reserve_ms",
+   "source": "RB-48"
+  },
+  {
+   "days": 14,
+   "param": "quota_holdoff_count",
+   "source": "SPEC-22.3"
+  },
+  {
+   "days": 90,
+   "param": "lease_span_kb",
+   "source": "SPEC-5.8"
+  },
+  {
+   "days": 28,
+   "param": "drain_timeout_ms",
+   "source": "SPEC-5.9"
+  },
+  {
+   "days": 7,
+   "param": "purge_stride_kb",
+   "source": "RB-15"
+  },
+  {
+   "days": 30,
+   "param": "purge_budget_ms",
+   "source": "CR-1005"
+  },
+  {
+   "days": 14,
+   "param": "purge_quorum",
+   "source": "RB-201"
+  },
+  {
+   "days": 14,
+   "param": "replay_retries_s",
+   "source": "RB-39"
+  },
+  {
+   "days": 28,
+   "param": "purge_fanout",
+   "source": "CR-1023"
+  },
+  {
+   "days": 28,
+   "param": "compact_backlog_count",
+   "source": "RB-47"
+  },
+  {
+   "days": 14,
+   "param": "audit_slice_mb",
+   "source": "RB-128"
+  },
+  {
+   "days": 7,
+   "param": "purge_slice",
+   "source": "SPEC-5.5"
+  },
+  {
+   "days": 30,
+   "param": "warm_timeout_mb",
+   "source": "RB-58"
+  },
+  {
+   "days": 7,
+   "param": "quiesce_batch_pct",
+   "source": "SPEC-20.1"
+  },
+  {
+   "days": 180,
+   "param": "throttle_margin_count",
+   "source": "CR-1082"
+  },
+  {
+   "days": 28,
+   "param": "ingest_window_mb",
+   "source": "CR-1025"
+  },
+  {
+   "days": 28,
+   "param": "sweep_reserve_s",
+   "source": "CR-1015"
+  },
+  {
+   "days": 180,
+   "param": "compact_ceiling",
+   "source": "SPEC-19.4"
+  },
+  {
+   "days": 90,
+   "param": "throttle_horizon_s",
+   "source": "RB-154"
+  },
+  {
+   "days": 7,
+   "param": "checkpoint_horizon_s",
+   "source": "RB-36"
+  },
+  {
+   "days": 90,
+   "param": "compact_width_kb",
+   "source": "SPEC-17.2"
+  },
+  {
+   "days": 180,
+   "param": "spill_margin_kb",
+   "source": "CR-1079"
+  },
+  {
+   "days": 90,
+   "param": "vacuum_attempts_s",
+   "source": "SPEC-22.6"
+  },
+  {
+   "days": 60,
+   "param": "rollup_reserve_s",
+   "source": "SPEC-2.9"
+  },
+  {
+   "days": 30,
+   "param": "prefetch_threshold_rows",
+   "source": "SPEC-17.6"
+  },
+  {
+   "days": 60,
+   "param": "handoff_timeout_count",
+   "source": "CR-1105"
+  },
+  {
+   "days": 30,
+   "param": "rollup_holdoff_count",
+   "source": "SPEC-11.4"
+  },
+  {
+   "days": 60,
+   "param": "checkpoint_margin_kb",
+   "source": "RB-132"
+  },
+  {
+   "days": 7,
+   "param": "checkpoint_capacity",
+   "source": "RB-161"
+  },
+  {
+   "days": 7,
+   "param": "purge_capacity_pct",
+   "source": "CR-1028"
+  },
+  {
+   "days": 60,
+   "param": "throttle_batch_rows",
+   "source": "SPEC-22.7"
+  },
+  {
+   "days": 90,
+   "param": "commit_window_kb",
+   "source": "CR-1003"
+  },
+  {
+   "days": 90,
+   "param": "replay_interval_kb",
+   "source": "CR-1113"
+  },
+  {
+   "days": 90,
+   "param": "evict_width_count",
+   "source": "CR-1123"
+  },
+  {
+   "days": 180,
+   "param": "probe_threshold_s",
+   "source": "RB-17"
+  },
+  {
+   "days": 7,
+   "param": "probe_horizon",
+   "source": "CR-1016"
+  },
+  {
+   "days": 30,
+   "param": "lease_retries_pct",
+   "source": "RB-119"
+  },
+  {
+   "days": 180,
+   "param": "handoff_depth_rows",
+   "source": "RB-182"
+  },
+  {
+   "days": 7,
+   "param": "replay_depth_kb",
+   "source": "SPEC-4.9"
+  },
+  {
+   "days": 30,
+   "param": "purge_margin_pct",
+   "source": "SPEC-7.1"
+  },
+  {
+   "days": 90,
+   "param": "probe_timeout_pct",
+   "source": "CR-1131"
+  },
+  {
+   "days": 7,
+   "param": "audit_ceiling",
+   "source": "CR-1148"
+  },
+  {
+   "days": 7,
+   "param": "rollup_reserve_s",
+   "source": "CR-1098"
+  },
+  {
+   "days": 14,
+   "param": "retry_window_count",
+   "source": "CR-1042"
+  },
+  {
+   "days": 28,
+   "param": "replay_floor_kb",
+   "source": "RB-117"
+  },
+  {
+   "days": 7,
+   "param": "purge_stride_kb",
+   "source": "SPEC-16.4"
+  },
+  {
+   "days": 60,
+   "param": "audit_window_pct",
+   "source": "RB-60"
+  },
+  {
+   "days": 7,
+   "param": "prefetch_interval_mb",
+   "source": "CR-1041"
+  }
+ ],
+ "statements": [
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 0,
+   "param": "escalate_margin_ms",
+   "source": "SPEC-7.3",
+   "status": null,
+   "value": 735
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 0,
+   "param": "lease_limit_s",
+   "source": "SPEC-7.3",
+   "status": null,
+   "value": 190
+  },
+  {
+   "date": "2034-01-04",
+   "kind": "record",
+   "order": 3,
+   "param": "drain_timeout_ms",
+   "source": "CR-1060",
+   "status": "ratified",
+   "value": 790
+  },
+  {
+   "date": "2034-01-04",
+   "kind": "record",
+   "order": 3,
+   "param": "throttle_attempts_mb",
+   "source": "CR-1060",
+   "status": "ratified",
+   "value": 324
+  },
+  {
+   "date": "2034-01-04",
+   "kind": "record",
+   "order": 3,
+   "param": "backoff_timeout_kb",
+   "source": "CR-1060",
+   "status": "ratified",
+   "value": 573
+  },
+  {
+   "date": "2034-11-07",
+   "kind": "record",
+   "order": 5,
+   "param": "commit_grace_pct",
+   "source": "CR-1027",
+   "status": "ratified",
+   "value": 562
+  },
+  {
+   "date": "2034-11-07",
+   "kind": "record",
+   "order": 5,
+   "param": "prefetch_budget_rows",
+   "source": "CR-1027",
+   "status": "ratified",
+   "value": 654
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 6,
+   "param": "probe_timeout_pct",
+   "source": "SPEC-8.3",
+   "status": null,
+   "value": 773
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 6,
+   "param": "compact_backlog_count",
+   "source": "SPEC-8.3",
+   "status": null,
+   "value": 557
+  },
+  {
+   "date": "2034-12-15",
+   "kind": "record",
+   "order": 7,
+   "param": "evict_reserve_count",
+   "source": "CR-1022",
+   "status": "ratified",
+   "value": 440
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 9,
+   "param": "ingest_quorum_mb",
+   "source": "RB-91",
+   "status": null,
+   "value": 610
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 9,
+   "param": "prefetch_interval_mb",
+   "source": "RB-91",
+   "status": null,
+   "value": 320
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 10,
+   "param": "reap_ceiling_rows",
+   "source": "SPEC-3.9",
+   "status": null,
+   "value": 598
+  },
+  {
+   "date": "2034-07-10",
+   "kind": "record",
+   "order": 11,
+   "param": "spill_attempts",
+   "source": "CR-1147",
+   "status": "ratified",
+   "value": 691
+  },
+  {
+   "date": "2034-07-10",
+   "kind": "record",
+   "order": 11,
+   "param": "checkpoint_span_count",
+   "source": "CR-1147",
+   "status": "ratified",
+   "value": 840
+  },
+  {
+   "date": "2034-07-10",
+   "kind": "record",
+   "order": 11,
+   "param": "lease_fanout_count",
+   "source": "CR-1147",
+   "status": "ratified",
+   "value": 827
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 15,
+   "param": "rollup_grace_s",
+   "source": "SPEC-21.2",
+   "status": null,
+   "value": 114
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 15,
+   "param": "evict_budget_kb",
+   "source": "SPEC-21.2",
+   "status": null,
+   "value": 735
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 16,
+   "param": "purge_width",
+   "source": "RB-209",
+   "status": null,
+   "value": 283
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 16,
+   "param": "settle_timeout_pct",
+   "source": "RB-209",
+   "status": null,
+   "value": 155
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 17,
+   "param": "purge_stride_s",
+   "source": "RB-170",
+   "status": null,
+   "value": 334
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 17,
+   "param": "warm_stride_pct",
+   "source": "RB-170",
+   "status": null,
+   "value": 276
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 18,
+   "param": "compact_attempts_ms",
+   "source": "SPEC-9.3",
+   "status": null,
+   "value": 156
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 18,
+   "param": "quota_span_pct",
+   "source": "SPEC-9.3",
+   "status": null,
+   "value": 191
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 20,
+   "param": "vacuum_limit_kb",
+   "source": "RB-167",
+   "status": null,
+   "value": 916
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 20,
+   "param": "backoff_timeout_kb",
+   "source": "RB-167",
+   "status": null,
+   "value": 573
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 21,
+   "param": "escalate_margin_ms",
+   "source": "RB-150",
+   "status": null,
+   "value": 735
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 23,
+   "param": "ingest_batch",
+   "source": "RB-186",
+   "status": null,
+   "value": 907
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 25,
+   "param": "vacuum_batch_ms",
+   "source": "RB-75",
+   "status": null,
+   "value": 495
+  },
+  {
+   "date": "2034-07-07",
+   "kind": "record",
+   "order": 29,
+   "param": "quiesce_horizon_count",
+   "source": "CR-1045",
+   "status": "ratified",
+   "value": 225
+  },
+  {
+   "date": "2034-11-03",
+   "kind": "record",
+   "order": 30,
+   "param": "lease_threshold_count",
+   "source": "CR-1156",
+   "status": "proposed",
+   "value": 173
+  },
+  {
+   "date": "2034-11-03",
+   "kind": "record",
+   "order": 30,
+   "param": "lease_window_ms",
+   "source": "CR-1156",
+   "status": "proposed",
+   "value": 335
+  },
+  {
+   "date": "2034-11-03",
+   "kind": "record",
+   "order": 30,
+   "param": "throttle_window_kb",
+   "source": "CR-1156",
+   "status": "proposed",
+   "value": 525
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 31,
+   "param": "probe_horizon_rows",
+   "source": "RB-30",
+   "status": null,
+   "value": 930
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 32,
+   "param": "ingest_attempts_count",
+   "source": "RB-179",
+   "status": null,
+   "value": 871
+  },
+  {
+   "date": "2034-09-19",
+   "kind": "record",
+   "order": 34,
+   "param": "probe_budget_s",
+   "source": "CR-1055",
+   "status": "ratified",
+   "value": 281
+  },
+  {
+   "date": "2034-09-19",
+   "kind": "record",
+   "order": 34,
+   "param": "drain_threshold_count",
+   "source": "CR-1055",
+   "status": "ratified",
+   "value": 820
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 36,
+   "param": "compact_timeout_mb",
+   "source": "RB-194",
+   "status": null,
+   "value": 171
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 36,
+   "param": "throttle_window_kb",
+   "source": "RB-194",
+   "status": null,
+   "value": 525
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 37,
+   "param": "prefetch_interval_pct",
+   "source": "RB-51",
+   "status": null,
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 37,
+   "param": "handoff_batch_ms",
+   "source": "RB-51",
+   "status": null,
+   "value": 135
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 37,
+   "param": "probe_holdoff_s",
+   "source": "RB-51",
+   "status": null,
+   "value": 276
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 38,
+   "param": "throttle_horizon_s",
+   "source": "SPEC-20.9",
+   "status": null,
+   "value": 724
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 38,
+   "param": "lease_window_ms",
+   "source": "SPEC-20.9",
+   "status": null,
+   "value": 335
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 38,
+   "param": "reap_window_mb",
+   "source": "SPEC-20.9",
+   "status": null,
+   "value": 112
+  },
+  {
+   "date": "2034-02-15",
+   "kind": "record",
+   "order": 39,
+   "param": "purge_grace_ms",
+   "source": "CR-1149",
+   "status": "ratified",
+   "value": 804
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 43,
+   "param": "purge_stride_s",
+   "source": "SPEC-18.5",
+   "status": null,
+   "value": 334
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 43,
+   "param": "warm_timeout_mb",
+   "source": "SPEC-18.5",
+   "status": null,
+   "value": 875
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 43,
+   "param": "evict_limit_ms",
+   "source": "SPEC-18.5",
+   "status": null,
+   "value": 455
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 45,
+   "param": "warm_holdoff_ms",
+   "source": "RB-127",
+   "status": null,
+   "value": 352
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 48,
+   "param": "lease_window_ms",
+   "source": "RB-70",
+   "status": null,
+   "value": 335
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 48,
+   "param": "prefetch_width_rows",
+   "source": "RB-70",
+   "status": null,
+   "value": 713
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 49,
+   "param": "commit_span",
+   "source": "SPEC-11.2",
+   "status": null,
+   "value": 371
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 49,
+   "param": "shard_ceiling_ms",
+   "source": "SPEC-11.2",
+   "status": null,
+   "value": 742
+  },
+  {
+   "date": "2034-11-06",
+   "kind": "record",
+   "order": 50,
+   "param": "commit_span",
+   "source": "CR-1193",
+   "status": "proposed",
+   "value": 371
+  },
+  {
+   "date": "2034-11-06",
+   "kind": "record",
+   "order": 50,
+   "param": "handoff_threshold_count",
+   "source": "CR-1193",
+   "status": "proposed",
+   "value": 574
+  },
+  {
+   "date": "2034-05-22",
+   "kind": "record",
+   "order": 51,
+   "param": "lease_timeout_pct",
+   "source": "CR-1161",
+   "status": "withdrawn",
+   "value": 274
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 53,
+   "param": "ingest_batch",
+   "source": "SPEC-1.7",
+   "status": null,
+   "value": 907
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 53,
+   "param": "retry_ceiling_mb",
+   "source": "SPEC-1.7",
+   "status": null,
+   "value": 611
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 53,
+   "param": "handoff_timeout_pct",
+   "source": "SPEC-1.7",
+   "status": null,
+   "value": 419
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 54,
+   "param": "retry_window_count",
+   "source": "RB-149",
+   "status": null,
+   "value": 910
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 54,
+   "param": "flush_width_mb",
+   "source": "RB-149",
+   "status": null,
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 54,
+   "param": "rollup_ceiling_count",
+   "source": "RB-149",
+   "status": null,
+   "value": 708
+  },
+  {
+   "date": "2034-01-22",
+   "kind": "record",
+   "order": 58,
+   "param": "lease_batch_ms",
+   "source": "CR-1162",
+   "status": "withdrawn",
+   "value": 665
+  },
+  {
+   "date": "2034-01-22",
+   "kind": "record",
+   "order": 58,
+   "param": "ingest_quorum_mb",
+   "source": "CR-1162",
+   "status": "withdrawn",
+   "value": 610
+  },
+  {
+   "date": "2034-01-22",
+   "kind": "record",
+   "order": 58,
+   "param": "drain_margin_pct",
+   "source": "CR-1162",
+   "status": "withdrawn",
+   "value": 783
+  },
+  {
+   "date": "2034-02-23",
+   "kind": "record",
+   "order": 59,
+   "param": "replay_floor_kb",
+   "source": "CR-1077",
+   "status": "ratified",
+   "value": 790
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 60,
+   "param": "spill_margin_kb",
+   "source": "RB-22",
+   "status": null,
+   "value": 294
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 61,
+   "param": "replay_reserve_ms",
+   "source": "RB-48",
+   "status": null,
+   "value": 943
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 61,
+   "param": "vacuum_batch_pct",
+   "source": "RB-48",
+   "status": null,
+   "value": 537
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 62,
+   "param": "retry_attempts_pct",
+   "source": "SPEC-23.1",
+   "status": null,
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 63,
+   "param": "purge_interval",
+   "source": "SPEC-23.3",
+   "status": null,
+   "value": 118
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 63,
+   "param": "purge_width",
+   "source": "SPEC-23.3",
+   "status": null,
+   "value": 283
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 63,
+   "param": "settle_timeout_pct",
+   "source": "SPEC-23.3",
+   "status": null,
+   "value": 155
+  },
+  {
+   "date": "2034-01-06",
+   "kind": "record",
+   "order": 65,
+   "param": "compact_width_kb",
+   "source": "CR-1054",
+   "status": "ratified",
+   "value": 124
+  },
+  {
+   "date": "2034-01-06",
+   "kind": "record",
+   "order": 65,
+   "param": "replay_reserve_ms",
+   "source": "CR-1054",
+   "status": "ratified",
+   "value": 943
+  },
+  {
+   "date": "2034-08-17",
+   "kind": "record",
+   "order": 66,
+   "param": "purge_capacity_pct",
+   "source": "CR-1068",
+   "status": "ratified",
+   "value": 356
+  },
+  {
+   "date": "2034-08-17",
+   "kind": "record",
+   "order": 66,
+   "param": "ingest_stride_count",
+   "source": "CR-1068",
+   "status": "ratified",
+   "value": 259
+  },
+  {
+   "date": "2034-08-17",
+   "kind": "record",
+   "order": 66,
+   "param": "compact_horizon_kb",
+   "source": "CR-1068",
+   "status": "ratified",
+   "value": 455
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 67,
+   "param": "replay_attempts_s",
+   "source": "SPEC-6.1",
+   "status": null,
+   "value": 895
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 67,
+   "param": "probe_span_s",
+   "source": "SPEC-6.1",
+   "status": null,
+   "value": 851
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 68,
+   "param": "quota_holdoff_count",
+   "source": "SPEC-22.3",
+   "status": null,
+   "value": 701
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 68,
+   "param": "warm_budget_pct",
+   "source": "SPEC-22.3",
+   "status": null,
+   "value": 643
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 69,
+   "param": "shard_quorum_ms",
+   "source": "RB-33",
+   "status": null,
+   "value": 577
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 69,
+   "param": "replay_margin_kb",
+   "source": "RB-33",
+   "status": null,
+   "value": 631
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 69,
+   "param": "quiesce_capacity_rows",
+   "source": "RB-33",
+   "status": null,
+   "value": 127
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 70,
+   "param": "evict_window_mb",
+   "source": "RB-35",
+   "status": null,
+   "value": 424
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 71,
+   "param": "spill_attempts",
+   "source": "SPEC-3.6",
+   "status": null,
+   "value": 691
+  },
+  {
+   "date": "2034-08-24",
+   "kind": "record",
+   "order": 72,
+   "param": "purge_horizon_count",
+   "source": "CR-1144",
+   "status": "ratified",
+   "value": 751
+  },
+  {
+   "date": "2034-08-24",
+   "kind": "record",
+   "order": 72,
+   "param": "prefetch_threshold_rows",
+   "source": "CR-1144",
+   "status": "ratified",
+   "value": 748
+  },
+  {
+   "date": "2034-08-24",
+   "kind": "record",
+   "order": 72,
+   "param": "evict_holdoff",
+   "source": "CR-1144",
+   "status": "ratified",
+   "value": 931
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 73,
+   "param": "backoff_margin_kb",
+   "source": "SPEC-6.3",
+   "status": null,
+   "value": 278
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 73,
+   "param": "settle_holdoff_count",
+   "source": "SPEC-6.3",
+   "status": null,
+   "value": 438
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 75,
+   "param": "retry_interval_rows",
+   "source": "RB-190",
+   "status": null,
+   "value": 529
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 79,
+   "param": "handoff_timeout_count",
+   "source": "SPEC-1.4",
+   "status": null,
+   "value": 691
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 79,
+   "param": "compact_batch_ms",
+   "source": "SPEC-1.4",
+   "status": null,
+   "value": 350
+  },
+  {
+   "date": "2034-01-03",
+   "kind": "record",
+   "order": 80,
+   "param": "backoff_reserve_count",
+   "source": "CR-1132",
+   "status": "withdrawn",
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 81,
+   "param": "purge_horizon_count",
+   "source": "SPEC-9.9",
+   "status": null,
+   "value": 751
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 81,
+   "param": "warm_backlog_rows",
+   "source": "SPEC-9.9",
+   "status": null,
+   "value": 866
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 81,
+   "param": "replay_width_kb",
+   "source": "SPEC-9.9",
+   "status": null,
+   "value": 406
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 83,
+   "param": "audit_grace_rows",
+   "source": "SPEC-14.1",
+   "status": null,
+   "value": 135
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 84,
+   "param": "prefetch_threshold_rows",
+   "source": "RB-101",
+   "status": null,
+   "value": 748
+  },
+  {
+   "date": "2034-06-04",
+   "kind": "record",
+   "order": 85,
+   "param": "prefetch_width_rows",
+   "source": "CR-1155",
+   "status": "ratified",
+   "value": 713
+  },
+  {
+   "date": "2034-09-22",
+   "kind": "record",
+   "order": 88,
+   "param": "throttle_batch_pct",
+   "source": "CR-1119",
+   "status": "ratified",
+   "value": 844
+  },
+  {
+   "date": "2034-09-22",
+   "kind": "record",
+   "order": 88,
+   "param": "audit_horizon_kb",
+   "source": "CR-1119",
+   "status": "ratified",
+   "value": 637
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 93,
+   "param": "vacuum_limit_kb",
+   "source": "CR-1057",
+   "status": "withdrawn",
+   "value": 916
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 93,
+   "param": "warm_grace_pct",
+   "source": "CR-1057",
+   "status": "withdrawn",
+   "value": 263
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 93,
+   "param": "commit_threshold_kb",
+   "source": "CR-1057",
+   "status": "withdrawn",
+   "value": 869
+  },
+  {
+   "date": "2034-12-17",
+   "kind": "record",
+   "order": 96,
+   "param": "handoff_span_mb",
+   "source": "CR-1185",
+   "status": "ratified",
+   "value": 381
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 98,
+   "param": "lease_span_kb",
+   "source": "SPEC-5.8",
+   "status": null,
+   "value": 170
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 98,
+   "param": "commit_batch_mb",
+   "source": "SPEC-5.8",
+   "status": null,
+   "value": 346
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 98,
+   "param": "escalate_timeout_s",
+   "source": "SPEC-5.8",
+   "status": null,
+   "value": 574
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 99,
+   "param": "drain_timeout_ms",
+   "source": "SPEC-5.9",
+   "status": null,
+   "value": 790
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 99,
+   "param": "throttle_attempts_mb",
+   "source": "SPEC-5.9",
+   "status": null,
+   "value": 324
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 99,
+   "param": "flush_budget_kb",
+   "source": "SPEC-5.9",
+   "status": null,
+   "value": 946
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 100,
+   "param": "throttle_width_pct",
+   "source": "RB-31",
+   "status": null,
+   "value": 133
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 100,
+   "param": "spill_batch",
+   "source": "RB-31",
+   "status": null,
+   "value": 588
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 101,
+   "param": "handoff_timeout_count",
+   "source": "RB-64",
+   "status": null,
+   "value": 691
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 101,
+   "param": "compact_interval_kb",
+   "source": "RB-64",
+   "status": null,
+   "value": 642
+  },
+  {
+   "date": "2034-10-05",
+   "kind": "record",
+   "order": 103,
+   "param": "evict_stride_rows",
+   "source": "CR-1071",
+   "status": "ratified",
+   "value": 921
+  },
+  {
+   "date": "2034-01-03",
+   "kind": "record",
+   "order": 104,
+   "param": "purge_holdoff_pct",
+   "source": "CR-1020",
+   "status": "ratified",
+   "value": 892
+  },
+  {
+   "date": "2034-01-03",
+   "kind": "record",
+   "order": 104,
+   "param": "sweep_floor_rows",
+   "source": "CR-1020",
+   "status": "ratified",
+   "value": 206
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 105,
+   "param": "replay_budget_s",
+   "source": "RB-93",
+   "status": null,
+   "value": 554
+  },
+  {
+   "date": "2034-10-03",
+   "kind": "record",
+   "order": 109,
+   "param": "shard_stride_kb",
+   "source": "CR-1035",
+   "status": "withdrawn",
+   "value": 914
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 110,
+   "param": "purge_stride_kb",
+   "source": "RB-15",
+   "status": null,
+   "value": 542
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 110,
+   "param": "dispatch_retries_count",
+   "source": "RB-15",
+   "status": null,
+   "value": 884
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 110,
+   "param": "purge_budget_count",
+   "source": "RB-15",
+   "status": null,
+   "value": 576
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 111,
+   "param": "spill_horizon_s",
+   "source": "RB-88",
+   "status": null,
+   "value": 539
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 111,
+   "param": "evict_fanout_ms",
+   "source": "RB-88",
+   "status": null,
+   "value": 381
+  },
+  {
+   "date": "2034-01-14",
+   "kind": "record",
+   "order": 112,
+   "param": "probe_fanout",
+   "source": "CR-1100",
+   "status": "ratified",
+   "value": 321
+  },
+  {
+   "date": "2034-01-14",
+   "kind": "record",
+   "order": 112,
+   "param": "escalate_floor_rows",
+   "source": "CR-1100",
+   "status": "ratified",
+   "value": 379
+  },
+  {
+   "date": "2034-07-20",
+   "kind": "record",
+   "order": 113,
+   "param": "dispatch_attempts_pct",
+   "source": "CR-1065",
+   "status": "ratified",
+   "value": 567
+  },
+  {
+   "date": "2034-07-20",
+   "kind": "record",
+   "order": 113,
+   "param": "sweep_holdoff_kb",
+   "source": "CR-1065",
+   "status": "ratified",
+   "value": 669
+  },
+  {
+   "date": "2034-02-26",
+   "kind": "record",
+   "order": 116,
+   "param": "ingest_retries_mb",
+   "source": "CR-1128",
+   "status": "ratified",
+   "value": 432
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 118,
+   "param": "replay_attempts_s",
+   "source": "RB-139",
+   "status": null,
+   "value": 895
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 118,
+   "param": "vacuum_floor_rows",
+   "source": "RB-139",
+   "status": null,
+   "value": 644
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 118,
+   "param": "quota_fanout",
+   "source": "RB-139",
+   "status": null,
+   "value": 913
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 122,
+   "param": "purge_attempts",
+   "source": "RB-105",
+   "status": null,
+   "value": 893
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 122,
+   "param": "settle_threshold_mb",
+   "source": "RB-105",
+   "status": null,
+   "value": 239
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 122,
+   "param": "drain_stride_ms",
+   "source": "RB-105",
+   "status": null,
+   "value": 657
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 123,
+   "param": "ingest_slice_s",
+   "source": "RB-92",
+   "status": null,
+   "value": 201
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 123,
+   "param": "quota_floor_kb",
+   "source": "RB-92",
+   "status": null,
+   "value": 119
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 127,
+   "param": "escalate_threshold_rows",
+   "source": "SPEC-9.8",
+   "status": null,
+   "value": 273
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 129,
+   "param": "handoff_holdoff_ms",
+   "source": "SPEC-13.8",
+   "status": null,
+   "value": 525
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 129,
+   "param": "evict_reserve_count",
+   "source": "SPEC-13.8",
+   "status": null,
+   "value": 440
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 129,
+   "param": "throttle_window_rows",
+   "source": "SPEC-13.8",
+   "status": null,
+   "value": 614
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 132,
+   "param": "shard_ceiling_count",
+   "source": "SPEC-12.9",
+   "status": null,
+   "value": 171
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 132,
+   "param": "flush_floor_rows",
+   "source": "SPEC-12.9",
+   "status": null,
+   "value": 284
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 133,
+   "param": "sweep_floor_mb",
+   "source": "RB-207",
+   "status": null,
+   "value": 606
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 133,
+   "param": "rollup_window_mb",
+   "source": "RB-207",
+   "status": null,
+   "value": 360
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 139,
+   "param": "prefetch_budget_s",
+   "source": "SPEC-8.5",
+   "status": null,
+   "value": 399
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 139,
+   "param": "throttle_backlog_kb",
+   "source": "SPEC-8.5",
+   "status": null,
+   "value": 745
+  },
+  {
+   "date": "2034-08-25",
+   "kind": "record",
+   "order": 141,
+   "param": "audit_grace_rows",
+   "source": "CR-1070",
+   "status": "ratified",
+   "value": 135
+  },
+  {
+   "date": "2034-04-11",
+   "kind": "record",
+   "order": 142,
+   "param": "purge_budget_ms",
+   "source": "CR-1005",
+   "status": "ratified",
+   "value": 196
+  },
+  {
+   "date": "2034-04-11",
+   "kind": "record",
+   "order": 142,
+   "param": "quiesce_attempts_count",
+   "source": "CR-1005",
+   "status": "ratified",
+   "value": 664
+  },
+  {
+   "date": "2034-04-11",
+   "kind": "record",
+   "order": 142,
+   "param": "probe_floor_ms",
+   "source": "CR-1005",
+   "status": "ratified",
+   "value": 553
+  },
+  {
+   "date": "2034-07-12",
+   "kind": "record",
+   "order": 143,
+   "param": "replay_batch",
+   "source": "CR-1051",
+   "status": "proposed",
+   "value": 264
+  },
+  {
+   "date": "2034-07-12",
+   "kind": "record",
+   "order": 143,
+   "param": "prefetch_interval_s",
+   "source": "CR-1051",
+   "status": "proposed",
+   "value": 189
+  },
+  {
+   "date": "2034-07-12",
+   "kind": "record",
+   "order": 143,
+   "param": "purge_fanout_s",
+   "source": "CR-1051",
+   "status": "proposed",
+   "value": 163
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 144,
+   "param": "commit_window_kb",
+   "source": "SPEC-7.6",
+   "status": null,
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 144,
+   "param": "checkpoint_capacity",
+   "source": "SPEC-7.6",
+   "status": null,
+   "value": 682
+  },
+  {
+   "date": "2034-11-03",
+   "kind": "record",
+   "order": 145,
+   "param": "quota_holdoff_count",
+   "source": "CR-1103",
+   "status": "ratified",
+   "value": 701
+  },
+  {
+   "date": "2034-11-03",
+   "kind": "record",
+   "order": 145,
+   "param": "throttle_holdoff_count",
+   "source": "CR-1103",
+   "status": "ratified",
+   "value": 706
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 147,
+   "param": "prefetch_ceiling_ms",
+   "source": "RB-165",
+   "status": null,
+   "value": 384
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 147,
+   "param": "checkpoint_depth_ms",
+   "source": "RB-165",
+   "status": null,
+   "value": 177
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 151,
+   "param": "checkpoint_stride_kb",
+   "source": "RB-200",
+   "status": null,
+   "value": 815
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 151,
+   "param": "quiesce_grace_rows",
+   "source": "RB-200",
+   "status": null,
+   "value": 155
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 151,
+   "param": "commit_budget_mb",
+   "source": "RB-200",
+   "status": null,
+   "value": 587
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 152,
+   "param": "purge_quorum",
+   "source": "RB-201",
+   "status": null,
+   "value": 553
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 155,
+   "param": "replay_retries_s",
+   "source": "RB-39",
+   "status": null,
+   "value": 519
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 156,
+   "param": "handoff_grace_pct",
+   "source": "RB-23",
+   "status": null,
+   "value": 238
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 156,
+   "param": "reap_span",
+   "source": "RB-23",
+   "status": null,
+   "value": 675
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 157,
+   "param": "evict_width_count",
+   "source": "RB-114",
+   "status": null,
+   "value": 500
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 157,
+   "param": "commit_batch_mb",
+   "source": "RB-114",
+   "status": null,
+   "value": 346
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 157,
+   "param": "throttle_window_rows",
+   "source": "RB-114",
+   "status": null,
+   "value": 614
+  },
+  {
+   "date": "2034-06-23",
+   "kind": "record",
+   "order": 163,
+   "param": "purge_fanout",
+   "source": "CR-1023",
+   "status": "ratified",
+   "value": 869
+  },
+  {
+   "date": "2034-06-23",
+   "kind": "record",
+   "order": 163,
+   "param": "audit_width_kb",
+   "source": "CR-1023",
+   "status": "ratified",
+   "value": 948
+  },
+  {
+   "date": "2034-06-23",
+   "kind": "record",
+   "order": 163,
+   "param": "throttle_window_rows",
+   "source": "CR-1023",
+   "status": "ratified",
+   "value": 614
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 164,
+   "param": "compact_backlog_count",
+   "source": "RB-47",
+   "status": null,
+   "value": 557
+  },
+  {
+   "date": "2034-04-27",
+   "kind": "record",
+   "order": 166,
+   "param": "flush_floor",
+   "source": "CR-1078",
+   "status": "ratified",
+   "value": 861
+  },
+  {
+   "date": "2034-04-27",
+   "kind": "record",
+   "order": 166,
+   "param": "rollup_grace_s",
+   "source": "CR-1078",
+   "status": "ratified",
+   "value": 114
+  },
+  {
+   "date": "2034-04-27",
+   "kind": "record",
+   "order": 166,
+   "param": "vacuum_window_kb",
+   "source": "CR-1078",
+   "status": "ratified",
+   "value": 229
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 167,
+   "param": "ingest_budget_s",
+   "source": "RB-205",
+   "status": null,
+   "value": 365
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 167,
+   "param": "escalate_backlog_pct",
+   "source": "RB-205",
+   "status": null,
+   "value": 585
+  },
+  {
+   "date": "2034-09-23",
+   "kind": "record",
+   "order": 168,
+   "param": "backoff_depth_s",
+   "source": "CR-1061",
+   "status": "ratified",
+   "value": 239
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 169,
+   "param": "probe_timeout_pct",
+   "source": "RB-120",
+   "status": null,
+   "value": 773
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 169,
+   "param": "lease_stride_mb",
+   "source": "RB-120",
+   "status": null,
+   "value": 649
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 169,
+   "param": "lease_threshold_mb",
+   "source": "RB-120",
+   "status": null,
+   "value": 227
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 171,
+   "param": "audit_slice_mb",
+   "source": "RB-128",
+   "status": null,
+   "value": 809
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 172,
+   "param": "escalate_quorum_rows",
+   "source": "SPEC-13.1",
+   "status": null,
+   "value": 501
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 172,
+   "param": "replay_margin_kb",
+   "source": "SPEC-13.1",
+   "status": null,
+   "value": 631
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 172,
+   "param": "quiesce_capacity_rows",
+   "source": "SPEC-13.1",
+   "status": null,
+   "value": 127
+  },
+  {
+   "date": "2034-07-23",
+   "kind": "record",
+   "order": 173,
+   "param": "spill_floor",
+   "source": "CR-1191",
+   "status": "ratified",
+   "value": 559
+  },
+  {
+   "date": "2034-07-23",
+   "kind": "record",
+   "order": 173,
+   "param": "audit_capacity_rows",
+   "source": "CR-1191",
+   "status": "ratified",
+   "value": 276
+  },
+  {
+   "date": "2034-07-23",
+   "kind": "record",
+   "order": 173,
+   "param": "quota_holdoff_mb",
+   "source": "CR-1191",
+   "status": "ratified",
+   "value": 734
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 174,
+   "param": "quiesce_fanout_rows",
+   "source": "SPEC-22.8",
+   "status": null,
+   "value": 447
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 174,
+   "param": "compact_timeout_count",
+   "source": "SPEC-22.8",
+   "status": null,
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 175,
+   "param": "drain_batch_s",
+   "source": "RB-204",
+   "status": null,
+   "value": 146
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 176,
+   "param": "probe_holdoff_s",
+   "source": "SPEC-19.3",
+   "status": null,
+   "value": 276
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 176,
+   "param": "flush_attempts_ms",
+   "source": "SPEC-19.3",
+   "status": null,
+   "value": 641
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 179,
+   "param": "evict_stride_rows",
+   "source": "RB-143",
+   "status": null,
+   "value": 921
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 179,
+   "param": "commit_horizon_ms",
+   "source": "RB-143",
+   "status": null,
+   "value": 234
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 179,
+   "param": "settle_floor_kb",
+   "source": "RB-143",
+   "status": null,
+   "value": 654
+  },
+  {
+   "date": "2034-07-15",
+   "kind": "record",
+   "order": 180,
+   "param": "lease_width_count",
+   "source": "CR-1104",
+   "status": "ratified",
+   "value": 417
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 181,
+   "param": "warm_timeout_s",
+   "source": "RB-14",
+   "status": null,
+   "value": 793
+  },
+  {
+   "date": "2034-01-06",
+   "kind": "record",
+   "order": 182,
+   "param": "retry_attempts_pct",
+   "source": "CR-1164",
+   "status": "ratified",
+   "value": 350
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 183,
+   "param": "purge_capacity_pct",
+   "source": "SPEC-21.4",
+   "status": null,
+   "value": 580
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 183,
+   "param": "prefetch_interval_pct",
+   "source": "SPEC-21.4",
+   "status": null,
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 183,
+   "param": "evict_capacity_rows",
+   "source": "SPEC-21.4",
+   "status": null,
+   "value": 874
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 185,
+   "param": "replay_interval_kb",
+   "source": "SPEC-22.5",
+   "status": null,
+   "value": 232
+  },
+  {
+   "date": "2034-09-25",
+   "kind": "record",
+   "order": 186,
+   "param": "lease_stride_rows",
+   "source": "CR-1183",
+   "status": "withdrawn",
+   "value": 142
+  },
+  {
+   "date": "2034-09-25",
+   "kind": "record",
+   "order": 186,
+   "param": "vacuum_batch_pct",
+   "source": "CR-1183",
+   "status": "withdrawn",
+   "value": 537
+  },
+  {
+   "date": "2034-03-17",
+   "kind": "record",
+   "order": 187,
+   "param": "quota_fanout_ms",
+   "source": "CR-1047",
+   "status": "ratified",
+   "value": 127
+  },
+  {
+   "date": "2034-03-17",
+   "kind": "record",
+   "order": 187,
+   "param": "prefetch_capacity_rows",
+   "source": "CR-1047",
+   "status": "ratified",
+   "value": 893
+  },
+  {
+   "date": "2034-03-17",
+   "kind": "record",
+   "order": 187,
+   "param": "lease_margin_ms",
+   "source": "CR-1047",
+   "status": "ratified",
+   "value": 738
+  },
+  {
+   "date": "2034-05-16",
+   "kind": "record",
+   "order": 188,
+   "param": "commit_batch_count",
+   "source": "CR-1153",
+   "status": "ratified",
+   "value": 214
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 189,
+   "param": "throttle_batch_rows",
+   "source": "RB-46",
+   "status": null,
+   "value": 582
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 191,
+   "param": "escalate_reserve_pct",
+   "source": "SPEC-22.4",
+   "status": null,
+   "value": 814
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 193,
+   "param": "ingest_horizon_s",
+   "source": "RB-20",
+   "status": null,
+   "value": 727
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 194,
+   "param": "compact_margin_pct",
+   "source": "RB-84",
+   "status": null,
+   "value": 278
+  },
+  {
+   "date": "2034-09-07",
+   "kind": "record",
+   "order": 195,
+   "param": "spill_attempts_count",
+   "source": "CR-1092",
+   "status": "ratified",
+   "value": 320
+  },
+  {
+   "date": "2034-09-07",
+   "kind": "record",
+   "order": 195,
+   "param": "replay_horizon_mb",
+   "source": "CR-1092",
+   "status": "ratified",
+   "value": 619
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 196,
+   "param": "warm_grace_pct",
+   "source": "RB-73",
+   "status": null,
+   "value": 263
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 197,
+   "param": "purge_slice",
+   "source": "SPEC-5.5",
+   "status": null,
+   "value": 147
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 199,
+   "param": "probe_grace_s",
+   "source": "SPEC-4.6",
+   "status": null,
+   "value": 628
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 201,
+   "param": "throttle_attempts_mb",
+   "source": "RB-212",
+   "status": null,
+   "value": 324
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 202,
+   "param": "checkpoint_span_count",
+   "source": "SPEC-12.1",
+   "status": null,
+   "value": 840
+  },
+  {
+   "date": "2034-08-02",
+   "kind": "record",
+   "order": 203,
+   "param": "probe_horizon_rows",
+   "source": "CR-1064",
+   "status": "ratified",
+   "value": 930
+  },
+  {
+   "date": "2034-08-02",
+   "kind": "record",
+   "order": 203,
+   "param": "flush_window_rows",
+   "source": "CR-1064",
+   "status": "ratified",
+   "value": 250
+  },
+  {
+   "date": "2034-08-02",
+   "kind": "record",
+   "order": 203,
+   "param": "compact_margin_pct",
+   "source": "CR-1064",
+   "status": "ratified",
+   "value": 278
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 204,
+   "param": "spill_grace_mb",
+   "source": "SPEC-15.4",
+   "status": null,
+   "value": 691
+  },
+  {
+   "date": "2034-03-14",
+   "kind": "record",
+   "order": 206,
+   "param": "commit_width_mb",
+   "source": "CR-1192",
+   "status": "ratified",
+   "value": 172
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 207,
+   "param": "warm_timeout_mb",
+   "source": "RB-58",
+   "status": null,
+   "value": 875
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 207,
+   "param": "escalate_timeout_s",
+   "source": "RB-58",
+   "status": null,
+   "value": 574
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 210,
+   "param": "quiesce_batch_pct",
+   "source": "SPEC-20.1",
+   "status": null,
+   "value": 364
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 210,
+   "param": "commit_horizon_ms",
+   "source": "SPEC-20.1",
+   "status": null,
+   "value": 234
+  },
+  {
+   "date": "2034-09-23",
+   "kind": "record",
+   "order": 212,
+   "param": "checkpoint_slice_pct",
+   "source": "CR-1173",
+   "status": "ratified",
+   "value": 586
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 217,
+   "param": "sweep_width_kb",
+   "source": "RB-166",
+   "status": null,
+   "value": 815
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 217,
+   "param": "commit_attempts_pct",
+   "source": "RB-166",
+   "status": null,
+   "value": 627
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 219,
+   "param": "drain_reserve_mb",
+   "source": "SPEC-13.7",
+   "status": null,
+   "value": 906
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 220,
+   "param": "vacuum_limit_kb",
+   "source": "SPEC-5.2",
+   "status": null,
+   "value": 916
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 220,
+   "param": "warm_grace_pct",
+   "source": "SPEC-5.2",
+   "status": null,
+   "value": 263
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 220,
+   "param": "commit_threshold_kb",
+   "source": "SPEC-5.2",
+   "status": null,
+   "value": 869
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 222,
+   "param": "backoff_timeout_kb",
+   "source": "SPEC-14.2",
+   "status": null,
+   "value": 573
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 223,
+   "param": "quiesce_grace_rows",
+   "source": "SPEC-10.2",
+   "status": null,
+   "value": 155
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 223,
+   "param": "commit_budget_mb",
+   "source": "SPEC-10.2",
+   "status": null,
+   "value": 587
+  },
+  {
+   "date": "2034-03-24",
+   "kind": "record",
+   "order": 226,
+   "param": "throttle_margin_count",
+   "source": "CR-1082",
+   "status": "ratified",
+   "value": 387
+  },
+  {
+   "date": "2034-03-24",
+   "kind": "record",
+   "order": 226,
+   "param": "shard_holdoff_ms",
+   "source": "CR-1082",
+   "status": "ratified",
+   "value": 443
+  },
+  {
+   "date": "2034-03-24",
+   "kind": "record",
+   "order": 226,
+   "param": "throttle_backlog_kb",
+   "source": "CR-1082",
+   "status": "ratified",
+   "value": 745
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 227,
+   "param": "quota_fanout",
+   "source": "SPEC-6.5",
+   "status": null,
+   "value": 913
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 232,
+   "param": "quota_fanout_ms",
+   "source": "SPEC-1.6",
+   "status": null,
+   "value": 127
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 232,
+   "param": "lease_margin_ms",
+   "source": "SPEC-1.6",
+   "status": null,
+   "value": 738
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 234,
+   "param": "flush_reserve_pct",
+   "source": "SPEC-9.7",
+   "status": null,
+   "value": 522
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 234,
+   "param": "purge_quorum_s",
+   "source": "SPEC-9.7",
+   "status": null,
+   "value": 236
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 236,
+   "param": "purge_holdoff_pct",
+   "source": "SPEC-18.3",
+   "status": null,
+   "value": 892
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 236,
+   "param": "compact_horizon_kb",
+   "source": "SPEC-18.3",
+   "status": null,
+   "value": 455
+  },
+  {
+   "date": "2034-09-07",
+   "kind": "record",
+   "order": 237,
+   "param": "dispatch_depth_rows",
+   "source": "CR-1009",
+   "status": "ratified",
+   "value": 262
+  },
+  {
+   "date": "2034-09-07",
+   "kind": "record",
+   "order": 237,
+   "param": "ingest_timeout_kb",
+   "source": "CR-1009",
+   "status": "ratified",
+   "value": 255
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 239,
+   "param": "commit_threshold_pct",
+   "source": "RB-196",
+   "status": null,
+   "value": 799
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 239,
+   "param": "evict_limit_ms",
+   "source": "RB-196",
+   "status": null,
+   "value": 455
+  },
+  {
+   "date": "2034-02-08",
+   "kind": "record",
+   "order": 241,
+   "param": "ingest_window_mb",
+   "source": "CR-1025",
+   "status": "proposed",
+   "value": 547
+  },
+  {
+   "date": "2034-06-06",
+   "kind": "record",
+   "order": 242,
+   "param": "sweep_reserve_s",
+   "source": "CR-1015",
+   "status": "ratified",
+   "value": 638
+  },
+  {
+   "date": "2034-06-06",
+   "kind": "record",
+   "order": 242,
+   "param": "reap_batch",
+   "source": "CR-1015",
+   "status": "ratified",
+   "value": 536
+  },
+  {
+   "date": "2034-06-06",
+   "kind": "record",
+   "order": 242,
+   "param": "compact_backlog_count",
+   "source": "CR-1015",
+   "status": "ratified",
+   "value": 557
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 245,
+   "param": "compact_ceiling",
+   "source": "SPEC-19.4",
+   "status": null,
+   "value": 894
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 247,
+   "param": "throttle_span_pct",
+   "source": "SPEC-15.1",
+   "status": null,
+   "value": 556
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 247,
+   "param": "evict_width_s",
+   "source": "SPEC-15.1",
+   "status": null,
+   "value": 395
+  },
+  {
+   "date": "2034-12-14",
+   "kind": "record",
+   "order": 248,
+   "param": "vacuum_batch_ms",
+   "source": "CR-1094",
+   "status": "withdrawn",
+   "value": 495
+  },
+  {
+   "date": "2034-12-14",
+   "kind": "record",
+   "order": 248,
+   "param": "escalate_threshold_rows",
+   "source": "CR-1094",
+   "status": "withdrawn",
+   "value": 273
+  },
+  {
+   "date": "2034-12-14",
+   "kind": "record",
+   "order": 248,
+   "param": "handoff_timeout_pct",
+   "source": "CR-1094",
+   "status": "withdrawn",
+   "value": 419
+  },
+  {
+   "date": "2034-08-09",
+   "kind": "record",
+   "order": 251,
+   "param": "spill_budget",
+   "source": "CR-1116",
+   "status": "proposed",
+   "value": 129
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 252,
+   "param": "checkpoint_margin_kb",
+   "source": "SPEC-15.9",
+   "status": null,
+   "value": 971
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 252,
+   "param": "settle_ceiling_rows",
+   "source": "SPEC-15.9",
+   "status": null,
+   "value": 484
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 256,
+   "param": "commit_window_count",
+   "source": "RB-195",
+   "status": null,
+   "value": 685
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 256,
+   "param": "retry_ceiling_ms",
+   "source": "RB-195",
+   "status": null,
+   "value": 736
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 256,
+   "param": "audit_holdoff_mb",
+   "source": "RB-195",
+   "status": null,
+   "value": 657
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 258,
+   "param": "commit_window_count",
+   "source": "SPEC-5.4",
+   "status": null,
+   "value": 685
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 258,
+   "param": "retry_ceiling_ms",
+   "source": "SPEC-5.4",
+   "status": null,
+   "value": 736
+  },
+  {
+   "date": "2034-10-04",
+   "kind": "record",
+   "order": 259,
+   "param": "ingest_batch",
+   "source": "CR-1073",
+   "status": "ratified",
+   "value": 907
+  },
+  {
+   "date": "2034-10-04",
+   "kind": "record",
+   "order": 259,
+   "param": "quota_floor_kb",
+   "source": "CR-1073",
+   "status": "ratified",
+   "value": 119
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 260,
+   "param": "compact_grace_mb",
+   "source": "RB-198",
+   "status": null,
+   "value": 393
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 260,
+   "param": "drain_reserve",
+   "source": "RB-198",
+   "status": null,
+   "value": 273
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 261,
+   "param": "probe_fanout",
+   "source": "RB-180",
+   "status": null,
+   "value": 321
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 261,
+   "param": "escalate_floor_rows",
+   "source": "RB-180",
+   "status": null,
+   "value": 379
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 263,
+   "param": "lease_fanout_s",
+   "source": "RB-155",
+   "status": null,
+   "value": 490
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 263,
+   "param": "ingest_backlog_s",
+   "source": "RB-155",
+   "status": null,
+   "value": 231
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 264,
+   "param": "spill_budget",
+   "source": "RB-87",
+   "status": null,
+   "value": 129
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 267,
+   "param": "vacuum_batch_rows",
+   "source": "RB-193",
+   "status": null,
+   "value": 949
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 268,
+   "param": "ingest_quorum_ms",
+   "source": "SPEC-18.6",
+   "status": null,
+   "value": 483
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 273,
+   "param": "throttle_horizon_s",
+   "source": "RB-154",
+   "status": null,
+   "value": 724
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 274,
+   "param": "spill_horizon_ms",
+   "source": "SPEC-18.1",
+   "status": null,
+   "value": 795
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 274,
+   "param": "shard_retries_rows",
+   "source": "SPEC-18.1",
+   "status": null,
+   "value": 382
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 274,
+   "param": "checkpoint_margin",
+   "source": "SPEC-18.1",
+   "status": null,
+   "value": 439
+  },
+  {
+   "date": "2034-05-28",
+   "kind": "record",
+   "order": 284,
+   "param": "vacuum_stride",
+   "source": "CR-1115",
+   "status": "ratified",
+   "value": 929
+  },
+  {
+   "date": "2034-05-28",
+   "kind": "record",
+   "order": 284,
+   "param": "probe_width",
+   "source": "CR-1115",
+   "status": "ratified",
+   "value": 224
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 285,
+   "param": "retry_budget_count",
+   "source": "SPEC-20.5",
+   "status": null,
+   "value": 693
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 286,
+   "param": "settle_batch_count",
+   "source": "RB-147",
+   "status": null,
+   "value": 260
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 286,
+   "param": "shard_quorum",
+   "source": "RB-147",
+   "status": null,
+   "value": 232
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 286,
+   "param": "compact_timeout_count",
+   "source": "RB-147",
+   "status": null,
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 288,
+   "param": "quiesce_reserve_mb",
+   "source": "SPEC-17.3",
+   "status": null,
+   "value": 950
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 288,
+   "param": "drain_floor_count",
+   "source": "SPEC-17.3",
+   "status": null,
+   "value": 503
+  },
+  {
+   "date": "2034-12-15",
+   "kind": "record",
+   "order": 289,
+   "param": "purge_width",
+   "source": "CR-1141",
+   "status": "withdrawn",
+   "value": 283
+  },
+  {
+   "date": "2034-12-15",
+   "kind": "record",
+   "order": 289,
+   "param": "settle_timeout_pct",
+   "source": "CR-1141",
+   "status": "withdrawn",
+   "value": 155
+  },
+  {
+   "date": "2034-12-15",
+   "kind": "record",
+   "order": 289,
+   "param": "backoff_reserve_kb",
+   "source": "CR-1141",
+   "status": "withdrawn",
+   "value": 689
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 290,
+   "param": "shard_fanout_pct",
+   "source": "RB-199",
+   "status": null,
+   "value": 979
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 292,
+   "param": "lease_batch_ms",
+   "source": "SPEC-16.3",
+   "status": null,
+   "value": 162
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 292,
+   "param": "quiesce_capacity",
+   "source": "SPEC-16.3",
+   "status": null,
+   "value": 116
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 292,
+   "param": "flush_backlog_mb",
+   "source": "SPEC-16.3",
+   "status": null,
+   "value": 426
+  },
+  {
+   "date": "2034-02-19",
+   "kind": "record",
+   "order": 293,
+   "param": "commit_holdoff",
+   "source": "CR-1135",
+   "status": "ratified",
+   "value": 526
+  },
+  {
+   "date": "2034-02-19",
+   "kind": "record",
+   "order": 293,
+   "param": "lease_limit_s",
+   "source": "CR-1135",
+   "status": "ratified",
+   "value": 190
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 295,
+   "param": "prefetch_span_kb",
+   "source": "SPEC-7.8",
+   "status": null,
+   "value": 972
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 295,
+   "param": "compact_margin_pct",
+   "source": "SPEC-7.8",
+   "status": null,
+   "value": 278
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 296,
+   "param": "checkpoint_horizon_s",
+   "source": "RB-36",
+   "status": null,
+   "value": 662
+  },
+  {
+   "date": "2034-05-17",
+   "kind": "record",
+   "order": 297,
+   "param": "warm_stride_pct",
+   "source": "CR-1021",
+   "status": "ratified",
+   "value": 276
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 299,
+   "param": "compact_width_kb",
+   "source": "SPEC-17.2",
+   "status": null,
+   "value": 470
+  },
+  {
+   "date": "2034-02-28",
+   "kind": "record",
+   "order": 300,
+   "param": "warm_timeout_s",
+   "source": "CR-1026",
+   "status": "proposed",
+   "value": 339
+  },
+  {
+   "date": "2034-02-28",
+   "kind": "record",
+   "order": 300,
+   "param": "checkpoint_stride_kb",
+   "source": "CR-1026",
+   "status": "proposed",
+   "value": 815
+  },
+  {
+   "date": "2034-02-28",
+   "kind": "record",
+   "order": 300,
+   "param": "quiesce_grace_rows",
+   "source": "CR-1026",
+   "status": "proposed",
+   "value": 155
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 301,
+   "param": "handoff_ceiling_count",
+   "source": "SPEC-11.5",
+   "status": null,
+   "value": 304
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 301,
+   "param": "audit_window_pct",
+   "source": "SPEC-11.5",
+   "status": null,
+   "value": 195
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 301,
+   "param": "prefetch_width_rows",
+   "source": "SPEC-11.5",
+   "status": null,
+   "value": 713
+  },
+  {
+   "date": "2034-02-05",
+   "kind": "record",
+   "order": 303,
+   "param": "spill_margin_kb",
+   "source": "CR-1079",
+   "status": "ratified",
+   "value": 248
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 304,
+   "param": "replay_floor_kb",
+   "source": "SPEC-22.2",
+   "status": null,
+   "value": 451
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 304,
+   "param": "commit_holdoff",
+   "source": "SPEC-22.2",
+   "status": null,
+   "value": 526
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 304,
+   "param": "ingest_retries_mb",
+   "source": "SPEC-22.2",
+   "status": null,
+   "value": 432
+  },
+  {
+   "date": "2034-11-01",
+   "kind": "record",
+   "order": 305,
+   "param": "compact_attempts_ms",
+   "source": "CR-1050",
+   "status": "ratified",
+   "value": 156
+  },
+  {
+   "date": "2034-11-01",
+   "kind": "record",
+   "order": 305,
+   "param": "probe_grace_mb",
+   "source": "CR-1050",
+   "status": "ratified",
+   "value": 469
+  },
+  {
+   "date": "2034-11-01",
+   "kind": "record",
+   "order": 305,
+   "param": "quota_span_pct",
+   "source": "CR-1050",
+   "status": "ratified",
+   "value": 191
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 308,
+   "param": "replay_depth_kb",
+   "source": "RB-146",
+   "status": null,
+   "value": 577
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 308,
+   "param": "flush_reserve_pct",
+   "source": "RB-146",
+   "status": null,
+   "value": 522
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 308,
+   "param": "purge_quorum_s",
+   "source": "RB-146",
+   "status": null,
+   "value": 236
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 309,
+   "param": "audit_reserve_rows",
+   "source": "RB-26",
+   "status": null,
+   "value": 263
+  },
+  {
+   "date": "2034-02-18",
+   "kind": "record",
+   "order": 310,
+   "param": "prefetch_horizon",
+   "source": "CR-1046",
+   "status": "ratified",
+   "value": 317
+  },
+  {
+   "date": "2034-02-18",
+   "kind": "record",
+   "order": 310,
+   "param": "checkpoint_ceiling_mb",
+   "source": "CR-1046",
+   "status": "ratified",
+   "value": 126
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 312,
+   "param": "probe_slice_mb",
+   "source": "RB-61",
+   "status": null,
+   "value": 313
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 312,
+   "param": "commit_holdoff",
+   "source": "RB-61",
+   "status": null,
+   "value": 526
+  },
+  {
+   "date": "2034-02-15",
+   "kind": "record",
+   "order": 313,
+   "param": "spill_horizon_s",
+   "source": "CR-1176",
+   "status": "ratified",
+   "value": 539
+  },
+  {
+   "date": "2034-08-18",
+   "kind": "record",
+   "order": 315,
+   "param": "handoff_grace_pct",
+   "source": "CR-1174",
+   "status": "ratified",
+   "value": 238
+  },
+  {
+   "date": "2034-08-18",
+   "kind": "record",
+   "order": 315,
+   "param": "ingest_backlog_count",
+   "source": "CR-1174",
+   "status": "ratified",
+   "value": 739
+  },
+  {
+   "date": "2034-08-18",
+   "kind": "record",
+   "order": 315,
+   "param": "purge_attempts_mb",
+   "source": "CR-1174",
+   "status": "ratified",
+   "value": 665
+  },
+  {
+   "date": "2034-12-02",
+   "kind": "record",
+   "order": 316,
+   "param": "shard_ceiling_count",
+   "source": "CR-1002",
+   "status": "ratified",
+   "value": 171
+  },
+  {
+   "date": "2034-12-02",
+   "kind": "record",
+   "order": 316,
+   "param": "sweep_width_s",
+   "source": "CR-1002",
+   "status": "ratified",
+   "value": 813
+  },
+  {
+   "date": "2034-12-02",
+   "kind": "record",
+   "order": 316,
+   "param": "vacuum_capacity_kb",
+   "source": "CR-1002",
+   "status": "ratified",
+   "value": 247
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 318,
+   "param": "shard_ceiling_ms",
+   "source": "RB-29",
+   "status": null,
+   "value": 742
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 318,
+   "param": "checkpoint_backlog_ms",
+   "source": "RB-29",
+   "status": null,
+   "value": 463
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 319,
+   "param": "checkpoint_span_count",
+   "source": "RB-164",
+   "status": null,
+   "value": 840
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 319,
+   "param": "handoff_threshold_count",
+   "source": "RB-164",
+   "status": null,
+   "value": 574
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 320,
+   "param": "sweep_reserve_s",
+   "source": "SPEC-17.1",
+   "status": null,
+   "value": 638
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 320,
+   "param": "reap_batch",
+   "source": "SPEC-17.1",
+   "status": null,
+   "value": 536
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 321,
+   "param": "probe_budget_s",
+   "source": "SPEC-20.8",
+   "status": null,
+   "value": 281
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 321,
+   "param": "drain_threshold_count",
+   "source": "SPEC-20.8",
+   "status": null,
+   "value": 820
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 328,
+   "param": "vacuum_attempts_s",
+   "source": "SPEC-22.6",
+   "status": null,
+   "value": 494
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 328,
+   "param": "drain_reserve",
+   "source": "SPEC-22.6",
+   "status": null,
+   "value": 273
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 328,
+   "param": "warm_span",
+   "source": "SPEC-22.6",
+   "status": null,
+   "value": 478
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 329,
+   "param": "spill_budget",
+   "source": "SPEC-10.1",
+   "status": null,
+   "value": 129
+  },
+  {
+   "date": "2034-09-23",
+   "kind": "record",
+   "order": 330,
+   "param": "lease_width_s",
+   "source": "CR-1167",
+   "status": "proposed",
+   "value": 415
+  },
+  {
+   "date": "2034-09-23",
+   "kind": "record",
+   "order": 330,
+   "param": "replay_width_kb",
+   "source": "CR-1167",
+   "status": "proposed",
+   "value": 406
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 334,
+   "param": "replay_margin",
+   "source": "RB-133",
+   "status": null,
+   "value": 719
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 334,
+   "param": "checkpoint_limit",
+   "source": "RB-133",
+   "status": null,
+   "value": 554
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 334,
+   "param": "sweep_floor_count",
+   "source": "RB-133",
+   "status": null,
+   "value": 175
+  },
+  {
+   "date": "2034-11-23",
+   "kind": "record",
+   "order": 335,
+   "param": "shard_ceiling_ms",
+   "source": "CR-1117",
+   "status": "proposed",
+   "value": 742
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 338,
+   "param": "evict_threshold_s",
+   "source": "RB-141",
+   "status": null,
+   "value": 214
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 338,
+   "param": "backoff_interval_kb",
+   "source": "RB-141",
+   "status": null,
+   "value": 805
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 338,
+   "param": "checkpoint_slice_pct",
+   "source": "RB-141",
+   "status": null,
+   "value": 586
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 339,
+   "param": "rollup_reserve_s",
+   "source": "SPEC-2.9",
+   "status": null,
+   "value": 623
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 339,
+   "param": "retry_limit_s",
+   "source": "SPEC-2.9",
+   "status": null,
+   "value": 689
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 339,
+   "param": "replay_depth_ms",
+   "source": "SPEC-2.9",
+   "status": null,
+   "value": 646
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 340,
+   "param": "probe_attempts_s",
+   "source": "RB-104",
+   "status": null,
+   "value": 539
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 341,
+   "param": "probe_span_s",
+   "source": "RB-94",
+   "status": null,
+   "value": 851
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 343,
+   "param": "probe_horizon",
+   "source": "RB-210",
+   "status": null,
+   "value": 202
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 343,
+   "param": "commit_depth_mb",
+   "source": "RB-210",
+   "status": null,
+   "value": 372
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 343,
+   "param": "probe_depth_mb",
+   "source": "RB-210",
+   "status": null,
+   "value": 453
+  },
+  {
+   "date": "2034-01-19",
+   "kind": "record",
+   "order": 344,
+   "param": "purge_stride_s",
+   "source": "CR-1043",
+   "status": "ratified",
+   "value": 334
+  },
+  {
+   "date": "2034-01-19",
+   "kind": "record",
+   "order": 344,
+   "param": "escalate_timeout_s",
+   "source": "CR-1043",
+   "status": "ratified",
+   "value": 574
+  },
+  {
+   "date": "2034-05-14",
+   "kind": "record",
+   "order": 345,
+   "param": "escalate_quorum_rows",
+   "source": "CR-1011",
+   "status": "ratified",
+   "value": 501
+  },
+  {
+   "date": "2034-05-14",
+   "kind": "record",
+   "order": 345,
+   "param": "replay_margin_kb",
+   "source": "CR-1011",
+   "status": "ratified",
+   "value": 631
+  },
+  {
+   "date": "2034-05-14",
+   "kind": "record",
+   "order": 345,
+   "param": "purge_quorum_s",
+   "source": "CR-1011",
+   "status": "ratified",
+   "value": 236
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 347,
+   "param": "audit_slice_mb",
+   "source": "SPEC-4.8",
+   "status": null,
+   "value": 809
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 347,
+   "param": "spill_attempts_count",
+   "source": "SPEC-4.8",
+   "status": null,
+   "value": 320
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 347,
+   "param": "replay_horizon_mb",
+   "source": "SPEC-4.8",
+   "status": null,
+   "value": 619
+  },
+  {
+   "date": "2034-10-05",
+   "kind": "record",
+   "order": 348,
+   "param": "escalate_attempts_count",
+   "source": "CR-1177",
+   "status": "ratified",
+   "value": 392
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 349,
+   "param": "prefetch_interval_s",
+   "source": "RB-78",
+   "status": null,
+   "value": 189
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 351,
+   "param": "retry_window_count",
+   "source": "SPEC-6.9",
+   "status": null,
+   "value": 910
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 351,
+   "param": "checkpoint_depth_ms",
+   "source": "SPEC-6.9",
+   "status": null,
+   "value": 177
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 353,
+   "param": "rollup_ceiling_count",
+   "source": "SPEC-19.9",
+   "status": null,
+   "value": 708
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 354,
+   "param": "throttle_span_pct",
+   "source": "RB-131",
+   "status": null,
+   "value": 556
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 355,
+   "param": "escalate_attempts_count",
+   "source": "RB-191",
+   "status": null,
+   "value": 392
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 355,
+   "param": "ingest_timeout_kb",
+   "source": "RB-191",
+   "status": null,
+   "value": 255
+  },
+  {
+   "date": "2034-12-03",
+   "kind": "record",
+   "order": 356,
+   "param": "settle_threshold_mb",
+   "source": "CR-1087",
+   "status": "ratified",
+   "value": 239
+  },
+  {
+   "date": "2034-12-03",
+   "kind": "record",
+   "order": 356,
+   "param": "drain_stride_ms",
+   "source": "CR-1087",
+   "status": "ratified",
+   "value": 657
+  },
+  {
+   "date": "2034-12-03",
+   "kind": "record",
+   "order": 356,
+   "param": "audit_quorum_s",
+   "source": "CR-1087",
+   "status": "ratified",
+   "value": 111
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 358,
+   "param": "prefetch_threshold_rows",
+   "source": "SPEC-17.6",
+   "status": null,
+   "value": 748
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 358,
+   "param": "evict_holdoff",
+   "source": "SPEC-17.6",
+   "status": null,
+   "value": 931
+  },
+  {
+   "date": "2034-12-16",
+   "kind": "record",
+   "order": 362,
+   "param": "rollup_interval_s",
+   "source": "CR-1013",
+   "status": "ratified",
+   "value": 229
+  },
+  {
+   "date": "2034-12-16",
+   "kind": "record",
+   "order": 362,
+   "param": "ingest_stride_ms",
+   "source": "CR-1013",
+   "status": "ratified",
+   "value": 388
+  },
+  {
+   "date": "2034-12-22",
+   "kind": "record",
+   "order": 364,
+   "param": "dispatch_batch_pct",
+   "source": "CR-1120",
+   "status": "ratified",
+   "value": 942
+  },
+  {
+   "date": "2034-12-22",
+   "kind": "record",
+   "order": 364,
+   "param": "probe_threshold_s",
+   "source": "CR-1120",
+   "status": "ratified",
+   "value": 532
+  },
+  {
+   "date": "2034-12-22",
+   "kind": "record",
+   "order": 364,
+   "param": "reap_slice_s",
+   "source": "CR-1120",
+   "status": "ratified",
+   "value": 611
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 366,
+   "param": "checkpoint_limit",
+   "source": "SPEC-5.3",
+   "status": null,
+   "value": 554
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 366,
+   "param": "sweep_floor_count",
+   "source": "SPEC-5.3",
+   "status": null,
+   "value": 175
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 367,
+   "param": "flush_floor",
+   "source": "RB-19",
+   "status": null,
+   "value": 861
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 367,
+   "param": "reap_holdoff",
+   "source": "RB-19",
+   "status": null,
+   "value": 938
+  },
+  {
+   "date": "2034-12-18",
+   "kind": "record",
+   "order": 368,
+   "param": "shard_batch",
+   "source": "CR-1129",
+   "status": "ratified",
+   "value": 112
+  },
+  {
+   "date": "2034-12-18",
+   "kind": "record",
+   "order": 368,
+   "param": "spill_timeout_rows",
+   "source": "CR-1129",
+   "status": "ratified",
+   "value": 877
+  },
+  {
+   "date": "2034-12-18",
+   "kind": "record",
+   "order": 368,
+   "param": "settle_span_kb",
+   "source": "CR-1129",
+   "status": "ratified",
+   "value": 641
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 369,
+   "param": "probe_horizon",
+   "source": "SPEC-15.2",
+   "status": null,
+   "value": 202
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 369,
+   "param": "probe_depth_mb",
+   "source": "SPEC-15.2",
+   "status": null,
+   "value": 453
+  },
+  {
+   "date": "2034-03-26",
+   "kind": "record",
+   "order": 372,
+   "param": "handoff_timeout_count",
+   "source": "CR-1105",
+   "status": "ratified",
+   "value": 691
+  },
+  {
+   "date": "2034-03-26",
+   "kind": "record",
+   "order": 372,
+   "param": "compact_interval_kb",
+   "source": "CR-1105",
+   "status": "ratified",
+   "value": 642
+  },
+  {
+   "date": "2034-03-26",
+   "kind": "record",
+   "order": 372,
+   "param": "compact_batch_ms",
+   "source": "CR-1105",
+   "status": "ratified",
+   "value": 350
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 373,
+   "param": "ingest_quorum_ms",
+   "source": "RB-55",
+   "status": null,
+   "value": 483
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 373,
+   "param": "audit_horizon_kb",
+   "source": "RB-55",
+   "status": null,
+   "value": 637
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 373,
+   "param": "settle_attempts_ms",
+   "source": "RB-55",
+   "status": null,
+   "value": 592
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 374,
+   "param": "audit_quorum_s",
+   "source": "RB-49",
+   "status": null,
+   "value": 111
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 375,
+   "param": "prefetch_floor_pct",
+   "source": "RB-68",
+   "status": null,
+   "value": 939
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 376,
+   "param": "drain_backlog_s",
+   "source": "SPEC-8.4",
+   "status": null,
+   "value": 270
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 376,
+   "param": "prefetch_horizon",
+   "source": "SPEC-8.4",
+   "status": null,
+   "value": 317
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 376,
+   "param": "checkpoint_ceiling_mb",
+   "source": "SPEC-8.4",
+   "status": null,
+   "value": 126
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 377,
+   "param": "vacuum_floor_rows",
+   "source": "SPEC-13.9",
+   "status": null,
+   "value": 644
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 377,
+   "param": "vacuum_threshold_kb",
+   "source": "SPEC-13.9",
+   "status": null,
+   "value": 936
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 378,
+   "param": "quiesce_attempts_count",
+   "source": "SPEC-16.1",
+   "status": null,
+   "value": 664
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 381,
+   "param": "compact_horizon_kb",
+   "source": "RB-34",
+   "status": null,
+   "value": 455
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 381,
+   "param": "backoff_retries_s",
+   "source": "RB-34",
+   "status": null,
+   "value": 669
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 382,
+   "param": "audit_quorum_s",
+   "source": "SPEC-2.2",
+   "status": null,
+   "value": 111
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 387,
+   "param": "flush_backlog_mb",
+   "source": "RB-163",
+   "status": null,
+   "value": 426
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 388,
+   "param": "quota_depth",
+   "source": "RB-106",
+   "status": null,
+   "value": 406
+  },
+  {
+   "date": "2034-12-26",
+   "kind": "record",
+   "order": 389,
+   "param": "flush_reserve_pct",
+   "source": "CR-1127",
+   "status": "ratified",
+   "value": 522
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 392,
+   "param": "rollup_holdoff_count",
+   "source": "SPEC-11.4",
+   "status": null,
+   "value": 428
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 395,
+   "param": "retry_timeout_rows",
+   "source": "RB-173",
+   "status": null,
+   "value": 282
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 397,
+   "param": "checkpoint_margin_kb",
+   "source": "RB-132",
+   "status": null,
+   "value": 971
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 397,
+   "param": "escalate_batch",
+   "source": "RB-132",
+   "status": null,
+   "value": 637
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 398,
+   "param": "evict_width_count",
+   "source": "SPEC-18.9",
+   "status": null,
+   "value": 500
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 398,
+   "param": "replay_retries_s",
+   "source": "SPEC-18.9",
+   "status": null,
+   "value": 519
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 400,
+   "param": "checkpoint_capacity",
+   "source": "RB-161",
+   "status": null,
+   "value": 682
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 401,
+   "param": "spill_attempts_count",
+   "source": "RB-160",
+   "status": null,
+   "value": 320
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 401,
+   "param": "quota_span_pct",
+   "source": "RB-160",
+   "status": null,
+   "value": 191
+  },
+  {
+   "date": "2034-04-14",
+   "kind": "record",
+   "order": 402,
+   "param": "vacuum_batch_mb",
+   "source": "CR-1170",
+   "status": "withdrawn",
+   "value": 399
+  },
+  {
+   "date": "2034-04-14",
+   "kind": "record",
+   "order": 402,
+   "param": "settle_quorum_kb",
+   "source": "CR-1170",
+   "status": "withdrawn",
+   "value": 308
+  },
+  {
+   "date": "2034-04-14",
+   "kind": "record",
+   "order": 402,
+   "param": "escalate_batch",
+   "source": "CR-1170",
+   "status": "withdrawn",
+   "value": 637
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 405,
+   "param": "escalate_batch",
+   "source": "SPEC-4.4",
+   "status": null,
+   "value": 637
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 410,
+   "param": "warm_fanout_s",
+   "source": "RB-169",
+   "status": null,
+   "value": 156
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 411,
+   "param": "compact_batch_ms",
+   "source": "RB-172",
+   "status": null,
+   "value": 350
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 413,
+   "param": "quota_holdoff_count",
+   "source": "RB-174",
+   "status": null,
+   "value": 701
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 413,
+   "param": "warm_budget_pct",
+   "source": "RB-174",
+   "status": null,
+   "value": 643
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 414,
+   "param": "probe_interval_s",
+   "source": "RB-153",
+   "status": null,
+   "value": 797
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 414,
+   "param": "audit_capacity_rows",
+   "source": "RB-153",
+   "status": null,
+   "value": 276
+  },
+  {
+   "date": "2034-03-19",
+   "kind": "record",
+   "order": 415,
+   "param": "purge_capacity_pct",
+   "source": "CR-1028",
+   "status": "ratified",
+   "value": 506
+  },
+  {
+   "date": "2034-03-26",
+   "kind": "record",
+   "order": 417,
+   "param": "retry_attempts_pct",
+   "source": "CR-1165",
+   "status": "ratified",
+   "value": 462
+  },
+  {
+   "date": "2034-03-26",
+   "kind": "record",
+   "order": 417,
+   "param": "evict_width_kb",
+   "source": "CR-1165",
+   "status": "ratified",
+   "value": 345
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 418,
+   "param": "lease_batch_ms",
+   "source": "RB-177",
+   "status": null,
+   "value": 361
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 418,
+   "param": "sweep_floor",
+   "source": "RB-177",
+   "status": null,
+   "value": 631
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 418,
+   "param": "prefetch_capacity_rows",
+   "source": "RB-177",
+   "status": null,
+   "value": 893
+  },
+  {
+   "date": "2034-03-09",
+   "kind": "record",
+   "order": 421,
+   "param": "warm_span",
+   "source": "CR-1058",
+   "status": "withdrawn",
+   "value": 478
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 423,
+   "param": "throttle_batch_rows",
+   "source": "SPEC-22.7",
+   "status": null,
+   "value": 522
+  },
+  {
+   "date": "2034-11-05",
+   "kind": "record",
+   "order": 424,
+   "param": "commit_window_kb",
+   "source": "CR-1003",
+   "status": "proposed",
+   "value": 991
+  },
+  {
+   "date": "2034-11-05",
+   "kind": "record",
+   "order": 424,
+   "param": "checkpoint_capacity",
+   "source": "CR-1003",
+   "status": "proposed",
+   "value": 682
+  },
+  {
+   "date": "2034-11-05",
+   "kind": "record",
+   "order": 424,
+   "param": "probe_holdoff_s",
+   "source": "CR-1003",
+   "status": "proposed",
+   "value": 276
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 425,
+   "param": "retry_budget_mb",
+   "source": "SPEC-9.4",
+   "status": null,
+   "value": 698
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 425,
+   "param": "quota_timeout_mb",
+   "source": "SPEC-9.4",
+   "status": null,
+   "value": 201
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 425,
+   "param": "drain_margin_count",
+   "source": "SPEC-9.4",
+   "status": null,
+   "value": 630
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 427,
+   "param": "prefetch_span_kb",
+   "source": "SPEC-13.2",
+   "status": null,
+   "value": 612
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 427,
+   "param": "spill_quorum_count",
+   "source": "SPEC-13.2",
+   "status": null,
+   "value": 835
+  },
+  {
+   "date": "2034-01-17",
+   "kind": "record",
+   "order": 428,
+   "param": "replay_interval_kb",
+   "source": "CR-1113",
+   "status": "withdrawn",
+   "value": 207
+  },
+  {
+   "date": "2034-01-17",
+   "kind": "record",
+   "order": 428,
+   "param": "lease_span_kb",
+   "source": "CR-1113",
+   "status": "withdrawn",
+   "value": 170
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 430,
+   "param": "purge_interval",
+   "source": "RB-181",
+   "status": null,
+   "value": 461
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 432,
+   "param": "probe_slice_mb",
+   "source": "SPEC-4.7",
+   "status": null,
+   "value": 313
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 432,
+   "param": "compact_holdoff_ms",
+   "source": "SPEC-4.7",
+   "status": null,
+   "value": 255
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 432,
+   "param": "backoff_reserve_count",
+   "source": "SPEC-4.7",
+   "status": null,
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 433,
+   "param": "ingest_backlog_kb",
+   "source": "SPEC-8.2",
+   "status": null,
+   "value": 731
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 433,
+   "param": "backoff_reserve_kb",
+   "source": "SPEC-8.2",
+   "status": null,
+   "value": 689
+  },
+  {
+   "date": "2034-10-13",
+   "kind": "record",
+   "order": 436,
+   "param": "sweep_floor_mb",
+   "source": "CR-1099",
+   "status": "ratified",
+   "value": 606
+  },
+  {
+   "date": "2034-10-13",
+   "kind": "record",
+   "order": 436,
+   "param": "shard_retries_rows",
+   "source": "CR-1099",
+   "status": "ratified",
+   "value": 382
+  },
+  {
+   "date": "2034-10-13",
+   "kind": "record",
+   "order": 436,
+   "param": "flush_backlog_mb",
+   "source": "CR-1099",
+   "status": "ratified",
+   "value": 426
+  },
+  {
+   "date": "2034-04-15",
+   "kind": "record",
+   "order": 439,
+   "param": "purge_stride_kb",
+   "source": "CR-1198",
+   "status": "ratified",
+   "value": 542
+  },
+  {
+   "date": "2034-04-15",
+   "kind": "record",
+   "order": 439,
+   "param": "probe_span_s",
+   "source": "CR-1198",
+   "status": "ratified",
+   "value": 851
+  },
+  {
+   "date": "2034-07-27",
+   "kind": "record",
+   "order": 442,
+   "param": "evict_width_count",
+   "source": "CR-1123",
+   "status": "ratified",
+   "value": 500
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 445,
+   "param": "dispatch_budget_mb",
+   "source": "RB-54",
+   "status": null,
+   "value": 640
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 445,
+   "param": "quota_capacity_pct",
+   "source": "RB-54",
+   "status": null,
+   "value": 871
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 445,
+   "param": "drain_floor_count",
+   "source": "RB-54",
+   "status": null,
+   "value": 503
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 446,
+   "param": "quiesce_stride_rows",
+   "source": "RB-159",
+   "status": null,
+   "value": 190
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 446,
+   "param": "rollup_holdoff_count",
+   "source": "RB-159",
+   "status": null,
+   "value": 428
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 446,
+   "param": "backoff_reserve_kb",
+   "source": "RB-159",
+   "status": null,
+   "value": 689
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 447,
+   "param": "prefetch_budget",
+   "source": "RB-21",
+   "status": null,
+   "value": 968
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 449,
+   "param": "probe_threshold_s",
+   "source": "RB-17",
+   "status": null,
+   "value": 532
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 449,
+   "param": "reap_quorum_ms",
+   "source": "RB-17",
+   "status": null,
+   "value": 688
+  },
+  {
+   "date": "2034-07-07",
+   "kind": "record",
+   "order": 450,
+   "param": "replay_depth_kb",
+   "source": "CR-1007",
+   "status": "ratified",
+   "value": 577
+  },
+  {
+   "date": "2034-07-07",
+   "kind": "record",
+   "order": 450,
+   "param": "checkpoint_limit_rows",
+   "source": "CR-1007",
+   "status": "ratified",
+   "value": 237
+  },
+  {
+   "date": "2034-07-07",
+   "kind": "record",
+   "order": 450,
+   "param": "retry_interval_rows",
+   "source": "CR-1007",
+   "status": "ratified",
+   "value": 529
+  },
+  {
+   "date": "2034-01-16",
+   "kind": "record",
+   "order": 451,
+   "param": "prefetch_interval_pct",
+   "source": "CR-1189",
+   "status": "ratified",
+   "value": 991
+  },
+  {
+   "date": "2034-01-16",
+   "kind": "record",
+   "order": 451,
+   "param": "handoff_batch_ms",
+   "source": "CR-1189",
+   "status": "ratified",
+   "value": 135
+  },
+  {
+   "date": "2034-01-16",
+   "kind": "record",
+   "order": 451,
+   "param": "purge_slice",
+   "source": "CR-1189",
+   "status": "ratified",
+   "value": 147
+  },
+  {
+   "date": "2034-05-26",
+   "kind": "record",
+   "order": 452,
+   "param": "lease_retries_pct",
+   "source": "CR-1095",
+   "status": "ratified",
+   "value": 591
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 453,
+   "param": "quiesce_horizon_count",
+   "source": "RB-95",
+   "status": null,
+   "value": 225
+  },
+  {
+   "date": "2034-05-07",
+   "kind": "record",
+   "order": 456,
+   "param": "reap_ceiling_rows",
+   "source": "CR-1114",
+   "status": "ratified",
+   "value": 598
+  },
+  {
+   "date": "2034-05-07",
+   "kind": "record",
+   "order": 456,
+   "param": "dispatch_capacity_s",
+   "source": "CR-1114",
+   "status": "ratified",
+   "value": 150
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 457,
+   "param": "lease_threshold_count",
+   "source": "RB-42",
+   "status": null,
+   "value": 173
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 459,
+   "param": "quota_floor_kb",
+   "source": "SPEC-13.6",
+   "status": null,
+   "value": 119
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 459,
+   "param": "prefetch_budget_rows",
+   "source": "SPEC-13.6",
+   "status": null,
+   "value": 654
+  },
+  {
+   "date": "2034-09-24",
+   "kind": "record",
+   "order": 460,
+   "param": "probe_horizon",
+   "source": "CR-1016",
+   "status": "ratified",
+   "value": 202
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 461,
+   "param": "evict_holdoff_pct",
+   "source": "SPEC-1.5",
+   "status": null,
+   "value": 938
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 461,
+   "param": "warm_retries_mb",
+   "source": "SPEC-1.5",
+   "status": null,
+   "value": 133
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 461,
+   "param": "ingest_fanout_pct",
+   "source": "SPEC-1.5",
+   "status": null,
+   "value": 865
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 464,
+   "param": "purge_margin_pct",
+   "source": "RB-123",
+   "status": null,
+   "value": 450
+  },
+  {
+   "date": "2034-08-11",
+   "kind": "record",
+   "order": 465,
+   "param": "purge_fanout_pct",
+   "source": "CR-1159",
+   "status": "ratified",
+   "value": 798
+  },
+  {
+   "date": "2034-12-13",
+   "kind": "record",
+   "order": 466,
+   "param": "commit_window_count",
+   "source": "CR-1090",
+   "status": "withdrawn",
+   "value": 685
+  },
+  {
+   "date": "2034-12-13",
+   "kind": "record",
+   "order": 466,
+   "param": "backoff_window_mb",
+   "source": "CR-1090",
+   "status": "withdrawn",
+   "value": 690
+  },
+  {
+   "date": "2034-05-05",
+   "kind": "record",
+   "order": 470,
+   "param": "settle_attempts_ms",
+   "source": "CR-1031",
+   "status": "ratified",
+   "value": 592
+  },
+  {
+   "date": "2034-05-05",
+   "kind": "record",
+   "order": 470,
+   "param": "lease_holdoff_rows",
+   "source": "CR-1031",
+   "status": "ratified",
+   "value": 294
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 471,
+   "param": "purge_fanout_pct",
+   "source": "SPEC-12.8",
+   "status": null,
+   "value": 798
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 471,
+   "param": "flush_width_mb",
+   "source": "SPEC-12.8",
+   "status": null,
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 473,
+   "param": "compact_backlog_s",
+   "source": "RB-122",
+   "status": null,
+   "value": 748
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 473,
+   "param": "rollup_grace_s",
+   "source": "RB-122",
+   "status": null,
+   "value": 114
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 473,
+   "param": "vacuum_window_kb",
+   "source": "RB-122",
+   "status": null,
+   "value": 229
+  },
+  {
+   "date": "2034-12-19",
+   "kind": "record",
+   "order": 474,
+   "param": "ingest_horizon_s",
+   "source": "CR-1199",
+   "status": "ratified",
+   "value": 727
+  },
+  {
+   "date": "2034-12-19",
+   "kind": "record",
+   "order": 474,
+   "param": "prefetch_ceiling_ms",
+   "source": "CR-1199",
+   "status": "ratified",
+   "value": 384
+  },
+  {
+   "date": "2034-12-19",
+   "kind": "record",
+   "order": 474,
+   "param": "sweep_window_mb",
+   "source": "CR-1199",
+   "status": "ratified",
+   "value": 591
+  },
+  {
+   "date": "2034-05-10",
+   "kind": "record",
+   "order": 475,
+   "param": "dispatch_budget_mb",
+   "source": "CR-1024",
+   "status": "withdrawn",
+   "value": 640
+  },
+  {
+   "date": "2034-05-10",
+   "kind": "record",
+   "order": 475,
+   "param": "quota_capacity_pct",
+   "source": "CR-1024",
+   "status": "withdrawn",
+   "value": 871
+  },
+  {
+   "date": "2034-05-10",
+   "kind": "record",
+   "order": 475,
+   "param": "drain_floor_count",
+   "source": "CR-1024",
+   "status": "withdrawn",
+   "value": 503
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 478,
+   "param": "checkpoint_reserve_kb",
+   "source": "SPEC-15.8",
+   "status": null,
+   "value": 432
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 478,
+   "param": "throttle_width_pct",
+   "source": "SPEC-15.8",
+   "status": null,
+   "value": 133
+  },
+  {
+   "date": "2034-11-07",
+   "kind": "record",
+   "order": 479,
+   "param": "sweep_interval_mb",
+   "source": "CR-1066",
+   "status": "ratified",
+   "value": 326
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 481,
+   "param": "lease_timeout_pct",
+   "source": "RB-138",
+   "status": null,
+   "value": 274
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 481,
+   "param": "reap_ceiling_rows",
+   "source": "RB-138",
+   "status": null,
+   "value": 598
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 481,
+   "param": "purge_slice",
+   "source": "RB-138",
+   "status": null,
+   "value": 147
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 482,
+   "param": "evict_batch_s",
+   "source": "RB-77",
+   "status": null,
+   "value": 707
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 482,
+   "param": "sweep_interval_mb",
+   "source": "RB-77",
+   "status": null,
+   "value": 326
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 483,
+   "param": "shard_ceiling_count",
+   "source": "RB-202",
+   "status": null,
+   "value": 171
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 483,
+   "param": "compact_fanout_ms",
+   "source": "RB-202",
+   "status": null,
+   "value": 743
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 483,
+   "param": "vacuum_capacity_kb",
+   "source": "RB-202",
+   "status": null,
+   "value": 247
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 487,
+   "param": "checkpoint_backlog_mb",
+   "source": "CR-1180",
+   "status": "ratified",
+   "value": 149
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 487,
+   "param": "vacuum_floor_rows",
+   "source": "CR-1180",
+   "status": "ratified",
+   "value": 644
+  },
+  {
+   "date": "2034-10-14",
+   "kind": "record",
+   "order": 487,
+   "param": "vacuum_threshold_kb",
+   "source": "CR-1180",
+   "status": "ratified",
+   "value": 936
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 488,
+   "param": "lease_retries_pct",
+   "source": "RB-119",
+   "status": null,
+   "value": 591
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 490,
+   "param": "retry_budget_mb",
+   "source": "RB-28",
+   "status": null,
+   "value": 698
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 491,
+   "param": "checkpoint_span_s",
+   "source": "SPEC-9.6",
+   "status": null,
+   "value": 595
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 491,
+   "param": "shard_stride_kb",
+   "source": "SPEC-9.6",
+   "status": null,
+   "value": 914
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 492,
+   "param": "vacuum_batch_mb",
+   "source": "SPEC-19.7",
+   "status": null,
+   "value": 399
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 492,
+   "param": "sweep_stride_mb",
+   "source": "SPEC-19.7",
+   "status": null,
+   "value": 123
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 492,
+   "param": "ingest_fanout_count",
+   "source": "SPEC-19.7",
+   "status": null,
+   "value": 524
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 494,
+   "param": "dispatch_attempts_pct",
+   "source": "SPEC-7.7",
+   "status": null,
+   "value": 567
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 494,
+   "param": "settle_ceiling_ms",
+   "source": "SPEC-7.7",
+   "status": null,
+   "value": 521
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 494,
+   "param": "sweep_holdoff_kb",
+   "source": "SPEC-7.7",
+   "status": null,
+   "value": 669
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 495,
+   "param": "commit_depth_mb",
+   "source": "SPEC-13.4",
+   "status": null,
+   "value": 372
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 496,
+   "param": "audit_budget_pct",
+   "source": "RB-108",
+   "status": null,
+   "value": 115
+  },
+  {
+   "date": "2034-05-11",
+   "kind": "record",
+   "order": 497,
+   "param": "audit_holdoff_mb",
+   "source": "CR-1150",
+   "status": "proposed",
+   "value": 657
+  },
+  {
+   "date": "2034-02-10",
+   "kind": "record",
+   "order": 498,
+   "param": "vacuum_width_mb",
+   "source": "CR-1186",
+   "status": "ratified",
+   "value": 227
+  },
+  {
+   "date": "2034-02-10",
+   "kind": "record",
+   "order": 498,
+   "param": "flush_width_mb",
+   "source": "CR-1186",
+   "status": "ratified",
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 499,
+   "param": "purge_horizon_count",
+   "source": "RB-12",
+   "status": null,
+   "value": 751
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 500,
+   "param": "handoff_depth_rows",
+   "source": "RB-182",
+   "status": null,
+   "value": 268
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 500,
+   "param": "evict_width_s",
+   "source": "RB-182",
+   "status": null,
+   "value": 395
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 500,
+   "param": "sweep_holdoff_kb",
+   "source": "RB-182",
+   "status": null,
+   "value": 669
+  },
+  {
+   "date": "2034-12-02",
+   "kind": "record",
+   "order": 501,
+   "param": "retry_budget_count",
+   "source": "CR-1001",
+   "status": "ratified",
+   "value": 693
+  },
+  {
+   "date": "2034-12-02",
+   "kind": "record",
+   "order": 501,
+   "param": "quiesce_capacity_rows",
+   "source": "CR-1001",
+   "status": "ratified",
+   "value": 127
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 502,
+   "param": "prefetch_ceiling_ms",
+   "source": "SPEC-3.7",
+   "status": null,
+   "value": 384
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 502,
+   "param": "sweep_window_mb",
+   "source": "SPEC-3.7",
+   "status": null,
+   "value": 591
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 503,
+   "param": "spill_floor",
+   "source": "SPEC-2.5",
+   "status": null,
+   "value": 559
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 503,
+   "param": "audit_capacity_rows",
+   "source": "SPEC-2.5",
+   "status": null,
+   "value": 276
+  },
+  {
+   "date": "2034-06-15",
+   "kind": "record",
+   "order": 506,
+   "param": "backoff_retries_s",
+   "source": "CR-1010",
+   "status": "ratified",
+   "value": 669
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 510,
+   "param": "handoff_fanout_s",
+   "source": "SPEC-8.7",
+   "status": null,
+   "value": 556
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 510,
+   "param": "dispatch_window_kb",
+   "source": "SPEC-8.7",
+   "status": null,
+   "value": 734
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 511,
+   "param": "replay_batch",
+   "source": "SPEC-22.9",
+   "status": null,
+   "value": 264
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 511,
+   "param": "prefetch_interval_s",
+   "source": "SPEC-22.9",
+   "status": null,
+   "value": 189
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 511,
+   "param": "shard_margin_pct",
+   "source": "SPEC-22.9",
+   "status": null,
+   "value": 740
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 512,
+   "param": "replay_depth_kb",
+   "source": "SPEC-4.9",
+   "status": null,
+   "value": 577
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 512,
+   "param": "reap_horizon_kb",
+   "source": "SPEC-4.9",
+   "status": null,
+   "value": 544
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 512,
+   "param": "purge_grace_ms",
+   "source": "SPEC-4.9",
+   "status": null,
+   "value": 804
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 513,
+   "param": "drain_reserve_mb",
+   "source": "RB-137",
+   "status": null,
+   "value": 906
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 513,
+   "param": "commit_window_rows",
+   "source": "RB-137",
+   "status": null,
+   "value": 826
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 513,
+   "param": "handoff_timeout_pct",
+   "source": "RB-137",
+   "status": null,
+   "value": 419
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 514,
+   "param": "vacuum_batch_mb",
+   "source": "RB-157",
+   "status": null,
+   "value": 399
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 514,
+   "param": "sweep_stride_mb",
+   "source": "RB-157",
+   "status": null,
+   "value": 123
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 515,
+   "param": "purge_margin_pct",
+   "source": "SPEC-7.1",
+   "status": null,
+   "value": 450
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 515,
+   "param": "ingest_timeout_kb",
+   "source": "SPEC-7.1",
+   "status": null,
+   "value": 255
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 515,
+   "param": "probe_capacity_kb",
+   "source": "SPEC-7.1",
+   "status": null,
+   "value": 759
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 521,
+   "param": "retry_depth_mb",
+   "source": "RB-16",
+   "status": null,
+   "value": 442
+  },
+  {
+   "date": "2034-11-09",
+   "kind": "record",
+   "order": 523,
+   "param": "probe_timeout_pct",
+   "source": "CR-1131",
+   "status": "withdrawn",
+   "value": 773
+  },
+  {
+   "date": "2034-11-09",
+   "kind": "record",
+   "order": 523,
+   "param": "lease_stride_mb",
+   "source": "CR-1131",
+   "status": "withdrawn",
+   "value": 649
+  },
+  {
+   "date": "2034-11-09",
+   "kind": "record",
+   "order": 523,
+   "param": "lease_threshold_mb",
+   "source": "CR-1131",
+   "status": "withdrawn",
+   "value": 227
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 526,
+   "param": "spill_horizon_s",
+   "source": "SPEC-5.1",
+   "status": null,
+   "value": 539
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 526,
+   "param": "commit_grace_pct",
+   "source": "SPEC-5.1",
+   "status": null,
+   "value": 562
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 526,
+   "param": "quiesce_horizon_count",
+   "source": "SPEC-5.1",
+   "status": null,
+   "value": 225
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 528,
+   "param": "spill_margin",
+   "source": "SPEC-8.1",
+   "status": null,
+   "value": 914
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 528,
+   "param": "compact_fanout_ms",
+   "source": "SPEC-8.1",
+   "status": null,
+   "value": 743
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 528,
+   "param": "settle_attempts_ms",
+   "source": "SPEC-8.1",
+   "status": null,
+   "value": 592
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 529,
+   "param": "ingest_stride_count",
+   "source": "SPEC-3.8",
+   "status": null,
+   "value": 259
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 530,
+   "param": "checkpoint_stride_kb",
+   "source": "SPEC-19.6",
+   "status": null,
+   "value": 815
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 530,
+   "param": "retry_interval_mb",
+   "source": "SPEC-19.6",
+   "status": null,
+   "value": 602
+  },
+  {
+   "date": "2034-01-11",
+   "kind": "record",
+   "order": 532,
+   "param": "audit_ceiling",
+   "source": "CR-1148",
+   "status": "withdrawn",
+   "value": 346
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 533,
+   "param": "prefetch_capacity_rows",
+   "source": "SPEC-14.7",
+   "status": null,
+   "value": 893
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 533,
+   "param": "quota_holdoff_mb",
+   "source": "SPEC-14.7",
+   "status": null,
+   "value": 734
+  },
+  {
+   "date": "2034-09-12",
+   "kind": "record",
+   "order": 534,
+   "param": "rollup_reserve_s",
+   "source": "CR-1098",
+   "status": "ratified",
+   "value": 623
+  },
+  {
+   "date": "2034-09-12",
+   "kind": "record",
+   "order": 534,
+   "param": "replay_depth_ms",
+   "source": "CR-1098",
+   "status": "ratified",
+   "value": 646
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 535,
+   "param": "warm_timeout_s",
+   "source": "SPEC-7.9",
+   "status": null,
+   "value": 982
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 535,
+   "param": "purge_fanout",
+   "source": "SPEC-7.9",
+   "status": null,
+   "value": 869
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 535,
+   "param": "escalate_floor_rows",
+   "source": "SPEC-7.9",
+   "status": null,
+   "value": 379
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 536,
+   "param": "audit_stride_pct",
+   "source": "RB-76",
+   "status": null,
+   "value": 590
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 536,
+   "param": "throttle_span_count",
+   "source": "RB-76",
+   "status": null,
+   "value": 356
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 536,
+   "param": "checkpoint_ceiling_mb",
+   "source": "RB-76",
+   "status": null,
+   "value": 126
+  },
+  {
+   "date": "2034-12-22",
+   "kind": "record",
+   "order": 537,
+   "param": "retry_window_count",
+   "source": "CR-1042",
+   "status": "ratified",
+   "value": 910
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 538,
+   "param": "replay_interval_kb",
+   "source": "RB-136",
+   "status": null,
+   "value": 899
+  },
+  {
+   "date": "2034-07-15",
+   "kind": "record",
+   "order": 539,
+   "param": "lease_width_count",
+   "source": "CR-1126",
+   "status": "ratified",
+   "value": 987
+  },
+  {
+   "date": "2034-07-15",
+   "kind": "record",
+   "order": 539,
+   "param": "shard_quorum_ms",
+   "source": "CR-1126",
+   "status": "ratified",
+   "value": 577
+  },
+  {
+   "date": "2034-07-15",
+   "kind": "record",
+   "order": 539,
+   "param": "quota_depth",
+   "source": "CR-1126",
+   "status": "ratified",
+   "value": 406
+  },
+  {
+   "date": "2034-02-02",
+   "kind": "record",
+   "order": 540,
+   "param": "drain_batch_s",
+   "source": "CR-1112",
+   "status": "ratified",
+   "value": 392
+  },
+  {
+   "date": "2034-06-18",
+   "kind": "record",
+   "order": 541,
+   "param": "purge_timeout_kb",
+   "source": "CR-1006",
+   "status": "ratified",
+   "value": 764
+  },
+  {
+   "date": "2034-06-18",
+   "kind": "record",
+   "order": 541,
+   "param": "compact_timeout_count",
+   "source": "CR-1006",
+   "status": "ratified",
+   "value": 139
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 544,
+   "param": "checkpoint_horizon_s",
+   "source": "SPEC-7.2",
+   "status": null,
+   "value": 515
+  },
+  {
+   "date": "2034-02-04",
+   "kind": "record",
+   "order": 549,
+   "param": "compact_width_kb",
+   "source": "CR-1044",
+   "status": "ratified",
+   "value": 544
+  },
+  {
+   "date": "2034-02-04",
+   "kind": "record",
+   "order": 549,
+   "param": "rollup_width_mb",
+   "source": "CR-1044",
+   "status": "ratified",
+   "value": 112
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 550,
+   "param": "replay_floor_kb",
+   "source": "RB-117",
+   "status": null,
+   "value": 701
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 550,
+   "param": "flush_holdoff_pct",
+   "source": "RB-117",
+   "status": null,
+   "value": 518
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 550,
+   "param": "vacuum_threshold_kb",
+   "source": "RB-117",
+   "status": null,
+   "value": 936
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 551,
+   "param": "handoff_holdoff_ms",
+   "source": "RB-171",
+   "status": null,
+   "value": 525
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 557,
+   "param": "purge_horizon_kb",
+   "source": "SPEC-21.5",
+   "status": null,
+   "value": 373
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 559,
+   "param": "purge_stride_rows",
+   "source": "SPEC-16.6",
+   "status": null,
+   "value": 461
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 563,
+   "param": "audit_reserve_rows",
+   "source": "SPEC-19.8",
+   "status": null,
+   "value": 263
+  },
+  {
+   "date": "2034-08-28",
+   "kind": "record",
+   "order": 565,
+   "param": "ingest_quorum_ms",
+   "source": "CR-1118",
+   "status": "ratified",
+   "value": 483
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 566,
+   "param": "replay_reserve_ms",
+   "source": "SPEC-6.4",
+   "status": null,
+   "value": 943
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 566,
+   "param": "lease_stride_rows",
+   "source": "SPEC-6.4",
+   "status": null,
+   "value": 142
+  },
+  {
+   "date": "2034-01-21",
+   "kind": "record",
+   "order": 569,
+   "param": "warm_width",
+   "source": "CR-1125",
+   "status": "ratified",
+   "value": 927
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 571,
+   "param": "flush_interval_count",
+   "source": "RB-43",
+   "status": null,
+   "value": 361
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 571,
+   "param": "shard_holdoff_ms",
+   "source": "RB-43",
+   "status": null,
+   "value": 443
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 572,
+   "param": "vacuum_attempts_s",
+   "source": "RB-71",
+   "status": null,
+   "value": 494
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 572,
+   "param": "rollup_timeout_kb",
+   "source": "RB-71",
+   "status": null,
+   "value": 358
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 577,
+   "param": "quiesce_reserve_mb",
+   "source": "RB-11",
+   "status": null,
+   "value": 950
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 581,
+   "param": "lease_grace_mb",
+   "source": "SPEC-9.1",
+   "status": null,
+   "value": 163
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 582,
+   "param": "purge_budget_ms",
+   "source": "RB-102",
+   "status": null,
+   "value": 196
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 582,
+   "param": "quiesce_attempts_count",
+   "source": "RB-102",
+   "status": null,
+   "value": 664
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 582,
+   "param": "probe_floor_ms",
+   "source": "RB-102",
+   "status": null,
+   "value": 553
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 583,
+   "param": "escalate_reserve_pct",
+   "source": "RB-62",
+   "status": null,
+   "value": 814
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 585,
+   "param": "compact_holdoff_ms",
+   "source": "RB-13",
+   "status": null,
+   "value": 255
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 585,
+   "param": "backoff_reserve_count",
+   "source": "RB-13",
+   "status": null,
+   "value": 991
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 587,
+   "param": "drain_margin_pct",
+   "source": "SPEC-4.2",
+   "status": null,
+   "value": 783
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 588,
+   "param": "purge_stride_kb",
+   "source": "SPEC-16.4",
+   "status": null,
+   "value": 542
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 588,
+   "param": "lease_stride_mb",
+   "source": "SPEC-16.4",
+   "status": null,
+   "value": 649
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 588,
+   "param": "lease_threshold_mb",
+   "source": "SPEC-16.4",
+   "status": null,
+   "value": 227
+  },
+  {
+   "date": "2034-10-19",
+   "kind": "record",
+   "order": 590,
+   "param": "drain_margin_count",
+   "source": "CR-1017",
+   "status": "ratified",
+   "value": 630
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 591,
+   "param": "audit_window_pct",
+   "source": "RB-60",
+   "status": null,
+   "value": 195
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 591,
+   "param": "shard_stride_kb",
+   "source": "RB-60",
+   "status": null,
+   "value": 914
+  },
+  {
+   "date": "2034-06-10",
+   "kind": "record",
+   "order": 593,
+   "param": "rollup_holdoff_count",
+   "source": "CR-1143",
+   "status": "ratified",
+   "value": 428
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 594,
+   "param": "replay_batch",
+   "source": "RB-72",
+   "status": null,
+   "value": 264
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 594,
+   "param": "purge_horizon_kb",
+   "source": "RB-72",
+   "status": null,
+   "value": 373
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 594,
+   "param": "ingest_retries_mb",
+   "source": "RB-72",
+   "status": null,
+   "value": 432
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 597,
+   "param": "warm_width_kb",
+   "source": "RB-134",
+   "status": null,
+   "value": 173
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 597,
+   "param": "purge_timeout_kb",
+   "source": "RB-134",
+   "status": null,
+   "value": 764
+  },
+  {
+   "date": "2034-07-18",
+   "kind": "record",
+   "order": 600,
+   "param": "audit_slice_mb",
+   "source": "CR-1152",
+   "status": "withdrawn",
+   "value": 809
+  },
+  {
+   "date": "2034-07-18",
+   "kind": "record",
+   "order": 600,
+   "param": "flush_holdoff_pct",
+   "source": "CR-1152",
+   "status": "withdrawn",
+   "value": 518
+  },
+  {
+   "date": "2034-10-27",
+   "kind": "record",
+   "order": 601,
+   "param": "prefetch_interval_mb",
+   "source": "CR-1041",
+   "status": "withdrawn",
+   "value": 320
+  },
+  {
+   "date": null,
+   "kind": "specification",
+   "order": 602,
+   "param": "quota_capacity_pct",
+   "source": "SPEC-12.3",
+   "status": null,
+   "value": 871
+  },
+  {
+   "date": null,
+   "kind": "runbook",
+   "order": 603,
+   "param": "warm_backlog_rows",
+   "source": "RB-57",
+   "status": null,
+   "value": 866
+  },
+  {
+   "date": "2034-05-21",
+   "kind": "record",
+   "order": 604,
+   "param": "warm_budget_pct",
+   "source": "CR-1083",
+   "status": "ratified",
+   "value": 643
+  }
+ ]
+}
