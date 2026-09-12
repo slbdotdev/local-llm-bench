@@ -67,11 +67,11 @@ done
 
 echo "  cell inventory:"
 if [ ! -f "$CELLS" ]; then
-  echo "    MISSING $CELLS (tab-separated: cell_id, item, tasks_dir, task, num_ctx, trials, est_gpu_s)"
+  echo "    MISSING $CELLS (tab-separated: cell_id, item, runner, tasks_dir, task, num_ctx, trials, est_gpu_s)"
   fail=1
 else
-  est=$(awk -F'\t' '!/^#/ && NF>=7 {s+=$7} END{print s+0}' "$CELLS")
-  n=$(awk -F'\t' '!/^#/ && NF>=7' "$CELLS" | wc -l)
+  est=$(awk -F'\t' '!/^#/ && NF>=8 {s+=$8} END{print s+0}' "$CELLS")
+  n=$(awk -F'\t' '!/^#/ && NF>=8' "$CELLS" | wc -l)
   echo "    $n cells, estimate ${est}s ($(echo "scale=2;$est/3600"|bc) h)"
   acc=$(accounted)
   echo "    already accounted ${acc}s; hard stop ${HARD_STOP}s"
@@ -136,11 +136,44 @@ touch "$V8/.cell-gpuverify-done"
 say "step 1 done in $((t1-t0))s — read $V8/gpuverify.log for the processor split and the"\
 "generation rate on this quant's known curve. A version string is not a verification."
 
+
+# ---------------------------------------------------------------------------
+# 1b. the tool-call smoke gate — the cheapest question that can void item 1
+#
+# Nothing offline could prove q27-IQ2_M-96k emits tool_calls on this endpoint at all, and
+# item 1's 10,800 s all rest on it. One short trial answers it. If the model never emits a
+# valid tool call, item 1 is void as designed and the round skips it rather than spending
+# three hours discovering the same thing.
+# ---------------------------------------------------------------------------
+say "step 1b: tool-call smoke gate on t1 (about 60 s)"
+s0=$(date -u +%s)
+echo "STEP smoke-toolcalls | process=item1/leafloop.py:t1 | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
+"$PY" "$V8/item1/leafloop.py" --api native --model q27-IQ2_M-96k --num-ctx 98304 \
+  --tasks-dir "$V8/item1/tasks" --task t1 --max-wall 120 \
+  --transcript "$V8/smoke-toolcalls.jsonl" > "$V8/smoke-toolcalls.log" 2>&1
+s1=$(date -u +%s)
+echo "END smoke-toolcalls | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((s1-s0))" >> "$BUDGET"
+
+ncalls=$(grep -c '"tool_calls"' "$V8/smoke-toolcalls.jsonl" 2>/dev/null || echo 0)
+say "step 1b done in $((s1-s0))s — $ncalls response(s) carried tool_calls"
+if [ "${ncalls:-0}" -lt 1 ]; then
+  echo "NOTE smoke-toolcalls: model emitted NO tool_calls; item 1 cells skipped as void by design." >> "$BUDGET"
+  say "ITEM 1 IS VOID: the model emitted no tool call. Skipping every item1 cell; the rest of"\
+"the round continues. Read $V8/smoke-toolcalls.log before re-planning item 1."
+  SKIP_ITEM1=1
+else
+  SKIP_ITEM1=0
+fi
+touch "$V8/.cell-smoke-done"
+
 # ---------------------------------------------------------------------------
 # 2. the cells, cheapest first
 # ---------------------------------------------------------------------------
-sort -t$'\t' -k7 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item tdir task nctx trials estimate; do
+sort -t$'\t' -k8 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item runner tdir task nctx trials estimate; do
   [ -z "${cid:-}" ] && continue
+  if [ "$item" = "item1" ] && [ "${SKIP_ITEM1:-0}" = "1" ]; then
+    say "skipping $cid — item 1 voided by the smoke gate"; continue
+  fi
   acc=$(accounted)
   if [ "$((acc+estimate))" -gt "$HARD_STOP" ]; then
     say "STOPPING before $cid: ${acc}s accounted + ${estimate}s estimate crosses ${HARD_STOP}s."
@@ -150,9 +183,22 @@ sort -t$'\t' -k7 -n "$CELLS" | grep -v '^#' | while IFS=$'\t' read -r cid item t
   say "cell $cid ($item, $task, num_ctx=$nctx, trials=$trials, est ${estimate}s)"
   c0=$(date -u +%s)
   echo "STEP $cid | process=pibench.py:$cid | start=$(date -u +%Y-%m-%dT%H:%M:%SZ) | end=PENDING" >> "$BUDGET"
-  "$PY" pibench.py --models q27-IQ2_M-96k --tasks "$task" --tasks-dir "$tdir" \
-    --trials "$trials" --num-ctx "$nctx" --tag "$cid" --timeout 900 --no-tps \
-    >> "$V8/$cid.log" 2>&1
+  case "$runner" in
+    leafloop)
+      "$PY" "$V8/item1/leafloop.py" --api native --model q27-IQ2_M-96k --num-ctx "$nctx" \
+        --tasks-dir "$tdir" --task "$task" --trials "$trials" --max-wall 900 \
+        --transcript "$V8/$cid.jsonl" >> "$V8/$cid.log" 2>&1 ;;
+    batch)
+      "$PY" "$V8/item3/batch_cell.py" --model q27-IQ2_M-96k --num-ctx "$nctx" \
+        >> "$V8/$cid.log" 2>&1 ;;
+    *)
+      # --api native: /v1/chat/completions IGNORES options.num_ctx and reports
+      # usage.prompt_tokens rather than prompt_eval_count, so the occupancy rung and the
+      # context window would both be unverifiable on that path.
+      "$PY" pibench.py --models q27-IQ2_M-96k --tasks "$task" --tasks-dir "$tdir" \
+        --trials "$trials" --num-ctx "$nctx" --tag "$cid" --timeout 900 --no-tps \
+        >> "$V8/$cid.log" 2>&1 ;;
+  esac
   rc=$?
   c1=$(date -u +%s)
   echo "END $cid | end=$(date -u +%Y-%m-%dT%H:%M:%SZ) | gpu_seconds=$((c1-c0)) | rc=$rc" >> "$BUDGET"
