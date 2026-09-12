@@ -1,12 +1,12 @@
 {"message": {"role": "assistant", "content": "Starting the scan in the background.", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "long_job", "arguments": {"script": "python3 tools/slow_scan.py", "warn_after_seconds": 30}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "write_file", "arguments": {"path": "scan-result.json", "content": "{\n  \"token\": \"bace3165\",\n  \"count\": 9\n}\n"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "apply_patch", "arguments": {"patch": "*** Begin Patch\n*** Add File: notes/scratch-from-the-leaf.txt\n+A scratch file the task did not ask for.\n+Created through apply_patch's Begin Patch form.\n*** End Patch\n"}}}]}}

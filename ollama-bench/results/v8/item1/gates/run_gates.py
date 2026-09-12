@@ -66,32 +66,51 @@ NEARMISSES = ["trailing_newline", "leading_blank", "trailing_spaces", "crlf", "r
               "equiv_space"]
 
 
-def rel(p):
-    return os.path.relpath(p, ITEM1)
+def disp(p):
+    """Display form of a path, for the recorded command string ONLY.
+
+    Never pass this to a subprocess. `os.path.relpath` RAISES on Windows when
+    the two paths are on different drives - `ValueError: path is on mount 'C:',
+    start on mount 'D:'` - and phase 2's own layout is exactly that: the repo
+    on D:, the system temp directory on C:. A run must not die because a path
+    was being prettified for a log.
+    """
+    try:
+        r = os.path.relpath(p, ITEM1)
+    except ValueError:
+        return os.path.abspath(p)
+    return os.path.abspath(p) if r.startswith("..") else r
 
 
-def run_trial(task, gate, fixture, runs, extra_args=()):
-    """leafloop --replay, then grade_loop. Returns (report, commands)."""
-    task_dir = os.path.join(TASKS_DIR, task)
-    box = os.path.join(runs, task, gate, "sandbox")
-    tx = os.path.join(runs, task, gate, "transcript.jsonl")
-    report_path = os.path.join(REPORTS, task, gate + ".json")
+def _run_trial(task, gate, fixture, runs, extra_args=(), reports_root=None):
+    """leafloop --replay, then grade_loop. Returns (report, commands).
+
+    Every path handed to a subprocess is ABSOLUTE. The commands recorded for
+    the gate record are built separately, from `disp`.
+    """
+    reports_root = reports_root or REPORTS
+    task_dir = os.path.abspath(os.path.join(TASKS_DIR, task))
+    box = os.path.abspath(os.path.join(runs, task, gate, "sandbox"))
+    tx = os.path.abspath(os.path.join(runs, task, gate, "transcript.jsonl"))
+    fixture = os.path.abspath(fixture)
+    report_path = os.path.abspath(os.path.join(reports_root, task, gate + ".json"))
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
 
+    extra = list(extra_args)
     loop_cmd = [
-        sys.executable, rel(LEAFLOOP),
-        "--task", rel(task_dir),
+        sys.executable, os.path.abspath(LEAFLOOP),
+        "--task", task_dir,
         "--sandbox", box,
         "--transcript", tx,
-        "--replay", rel(fixture),
-    ] + list(extra_args)
+        "--replay", fixture,
+    ] + extra
     env = dict(os.environ, LEAFLOOP_DETERMINISTIC_IDS="1", PYTHONUTF8="1",
                PYTHONIOENCODING="utf-8")
     loop = subprocess.run(loop_cmd, cwd=ITEM1, stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE, env=env, timeout=900)
     grade_cmd = [
-        sys.executable, rel(GRADE), "--transcript", tx, "--task", rel(task_dir),
-        "--sandbox", box, "--json", rel(report_path), "--quiet",
+        sys.executable, os.path.abspath(GRADE), "--transcript", tx, "--task", task_dir,
+        "--sandbox", box, "--json", report_path, "--quiet",
     ]
     grade = subprocess.run(grade_cmd, cwd=ITEM1, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, env=env, timeout=300)
@@ -102,7 +121,13 @@ def run_trial(task, gate, fixture, runs, extra_args=()):
     report["_loop_stderr"] = loop.stderr.decode("utf-8", "replace")[-2000:]
     report["_grade_rc"] = grade.returncode
     report["_grade_stderr"] = grade.stderr.decode("utf-8", "replace")[-2000:]
-    cmds = [" ".join(_q(c) for c in loop_cmd), " ".join(_q(c) for c in grade_cmd)]
+    loop_disp = [sys.executable, disp(LEAFLOOP), "--task", disp(task_dir),
+                 "--sandbox", disp(box), "--transcript", disp(tx),
+                 "--replay", disp(fixture)] + extra
+    grade_disp = [sys.executable, disp(GRADE), "--transcript", disp(tx),
+                  "--task", disp(task_dir), "--sandbox", disp(box),
+                  "--json", disp(report_path), "--quiet"]
+    cmds = [" ".join(_q(c) for c in loop_disp), " ".join(_q(c) for c in grade_disp)]
     return report, cmds
 
 
@@ -140,9 +165,17 @@ def summarise(r):
         r.get("stop_reason"), r.get("turns"))
 
 
-def gate_task(task, runs):
+def gate_task(task, runs, stage):
+    """Run every gate for one task, writing reports into `stage`, never REPORTS.
+
+    Nothing under gates/reports/ is touched until main() publishes, so a run
+    that dies half way cannot leave the repository missing tracked files.
+    """
     fx = os.path.join(FIXTURES, task)
     has_injection = os.path.exists(os.path.join(fx, "norecovery.jsonl"))
+
+    def run_trial(t, g, fixture, r_, extra_args=()):
+        return _run_trial(t, g, fixture, r_, extra_args, reports_root=stage)
 
     # ---- reference / perfect
     r, c = run_trial(task, "reference", os.path.join(fx, "reference.jsonl"), runs)
@@ -157,17 +190,21 @@ def gate_task(task, runs):
     # ---- idempotence: grade the same transcript and sandbox twice
     tx = os.path.join(runs, task, "reference", "transcript.jsonl")
     box = os.path.join(runs, task, "reference", "sandbox")
-    second = os.path.join(REPORTS, task, "reference-again.json")
-    cmd = [sys.executable, rel(GRADE), "--transcript", tx, "--task", rel(os.path.join(TASKS_DIR, task)),
-           "--sandbox", box, "--json", rel(second), "--quiet"]
+    second = os.path.abspath(os.path.join(stage, task, "reference-again.json"))
+    task_dir = os.path.abspath(os.path.join(TASKS_DIR, task))
+    cmd = [sys.executable, os.path.abspath(GRADE), "--transcript", os.path.abspath(tx),
+           "--task", task_dir, "--sandbox", os.path.abspath(box),
+           "--json", second, "--quiet"]
     subprocess.run(cmd, cwd=ITEM1, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=300,
                    env=dict(os.environ, PYTHONUTF8="1"))
     r2 = json.load(open(second, encoding="utf-8")) if os.path.exists(second) else {}
+    cmd_disp = [sys.executable, disp(GRADE), "--transcript", disp(tx), "--task", disp(task_dir),
+                "--sandbox", disp(box), "--json", disp(second), "--quiet"]
     record(task, "idempotence",
            r2.get("verdict") == r.get("verdict") and r2.get("score") == r.get("score"),
            "twice: %s %s then %s %s" % (r.get("verdict"), r.get("score"),
                                         r2.get("verdict"), r2.get("score")),
-           [" ".join(_q(x) for x in cmd)], r2)
+           [" ".join(_q(x) for x in cmd_disp)], r2)
 
     # ---- untouched
     r, c = run_trial(task, "untouched", os.path.join(fx, "untouched.jsonl"), runs)
@@ -266,7 +303,7 @@ def gate_task(task, runs):
 
     # ---- injected-error recovery, both directions
     if has_injection:
-        ref = json.load(open(os.path.join(REPORTS, task, "reference.json"), encoding="utf-8"))
+        ref = json.load(open(os.path.join(stage, task, "reference.json"), encoding="utf-8"))
         record(task, "recovery/recovered",
                ref.get("injected_error_fired") is True
                and ref.get("recovery", {}).get("state") == "recovered",
@@ -286,6 +323,66 @@ def gate_task(task, runs):
                c, r)
 
 
+def write_gates_json(passed, failed, complete, tasks_run, error=None):
+    """The machine-readable result, written on EVERY run including a crashed one.
+
+    The round runner's preflight reads this instead of grepping prose. Grepping
+    prose is not merely inelegant: grepping GATES.md for `FAILED` scored item 2
+    as failing when it had passed, because the word appears inside a documented
+    command string in the record.
+
+    `ok` is the single field to trust. It is true only when the run COMPLETED
+    and nothing failed, so a crashed run - or a `--task` run covering one slot -
+    can never read as a passing suite.
+    """
+    import datetime
+    payload = {
+        "passed": passed,
+        "failed": failed,
+        "when": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "python": sys.version,
+        "platform": sys.platform,
+        "complete": complete,
+        "ok": bool(complete and failed == 0 and error is None),
+        "tasks": tasks_run,
+        "suite": "v8-item1-loop-gates",
+    }
+    if error:
+        payload["error"] = error
+    os.makedirs(REPORTS, exist_ok=True)
+    path = os.path.join(HERE, "GATES.json")
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    return path
+
+
+def publish(stage, tasks_run, summary):
+    """Move staged reports into gates/reports/, one task subtree at a time.
+
+    Per task, and only after every gate has run, so that:
+      - a crashed run leaves gates/reports/ exactly as it found it, and
+      - a `--task` run replaces only that task's subtree instead of deleting
+        the other five, which a wholesale clear-and-repopulate would do.
+    """
+    os.makedirs(REPORTS, exist_ok=True)
+    for task in tasks_run:
+        src = os.path.join(stage, task)
+        if not os.path.isdir(src):
+            continue
+        dst = os.path.join(REPORTS, task)
+        new = dst + ".new"
+        if os.path.isdir(new):
+            shutil.rmtree(new)
+        shutil.move(src, new)
+        if os.path.isdir(dst):
+            shutil.rmtree(dst)
+        os.rename(new, dst)
+    with open(os.path.join(REPORTS, "summary.json"), "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(summary, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--task", default=None)
@@ -296,26 +393,42 @@ def main():
     if os.path.isdir(args.runs):
         shutil.rmtree(args.runs)
     os.makedirs(args.runs)
-    if os.path.isdir(REPORTS):
-        shutil.rmtree(REPORTS)
-    os.makedirs(REPORTS)
+    # Reports are staged outside the repository for the whole run and published
+    # only once every gate has finished. Nothing under gates/reports/ is removed
+    # before then.
+    stage = tempfile.mkdtemp(prefix="v8-item1-reports-")
 
-    for task in TASK_NAMES:
-        if args.task and args.task != task:
-            continue
-        gate_task(task, args.runs)
+    tasks_run = [t for t in TASK_NAMES if not args.task or args.task == t]
+    if args.task and not tasks_run:
+        ap.error("unknown task %s" % args.task)
+    error = None
+    try:
+        for task in tasks_run:
+            gate_task(task, args.runs, stage)
+    except BaseException as exc:  # noqa: BLE001 - recorded, then re-raised
+        error = "%s: %s" % (type(exc).__name__, exc)
+        bad_now = [r for r in RESULTS if not r["ok"]]
+        p = write_gates_json(len(RESULTS) - len(bad_now), len(bad_now), False, tasks_run, error)
+        print("")
+        print("RUN DID NOT COMPLETE: %s" % error)
+        print("gates/reports/ was left untouched; staged reports are at %s" % stage)
+        print("wrote %s with complete=false, ok=false" % p)
+        raise
 
     bad = [r for r in RESULTS if not r["ok"]]
+    complete = not args.task
     summary = {
         "gates": len(RESULTS),
         "ok": len(RESULTS) - len(bad),
         "failed": [r["task"] + "/" + r["gate"] for r in bad],
+        "complete": complete,
+        "tasks": tasks_run,
         "runs_dir": args.runs,
         "results": RESULTS,
     }
-    with open(os.path.join(REPORTS, "summary.json"), "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(summary, fh, indent=2, ensure_ascii=False)
-        fh.write("\n")
+    publish(stage, tasks_run, summary)
+    shutil.rmtree(stage, ignore_errors=True)
+    write_gates_json(len(RESULTS) - len(bad), len(bad), complete, tasks_run)
     print("")
     print("%d/%d gates ok" % (summary["ok"], summary["gates"]))
     if bad:

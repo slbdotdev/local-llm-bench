@@ -6,7 +6,7 @@
   "model": "replay",
   "endpoint": null,
   "num_ctx": 0,
-  "replay": "../../../../../../../tmp/v8-item1-gates/t3-command-output/exhaust.jsonl",
+  "replay": "/tmp/v8-item1-gates/t3-command-output/exhaust.jsonl",
   "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
   "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
   "stop_reason": "replay_exhausted",

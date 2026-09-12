@@ -56,6 +56,48 @@ The prompt is silent about all six, so all six are normalised; the prompt is exp
 what it does state, and there the grader stays strict. For the byte-exact task the strictness
 is about the **source file**, not the deliverable, so the two do not collide.
 
+## 5b. A platform trap this slot found, which the next phase must settle
+
+**On Windows, slbh's unified-diff `apply_patch` route rewrites the whole file
+to CRLF, and the model has done nothing wrong.**
+
+slbh's `apply_patch` sends a unified diff to `git apply --unsafe-paths
+--whitespace=nowarn` (`tools.go:462`). Git for Windows ships
+`core.autocrlf=true` in its **system** config, so that conversion happens even
+outside a repository. Running this slot's gates under the Windows interpreter
+caught it, with the byte-fidelity assertion naming the line exactly as it was
+built to:
+
+    SCORE 5/7
+    NOTE non-ascii line 12 was rewritten:
+      b'# maintainer: Zo\xc3\xab Hartmann <...> \xe2\x80\x94 rotation 3'
+      -> b'# maintainer: Zo\xc3\xab Hartmann <...> \xe2\x80\x94 rotation 3\r'
+
+Every line gained a `\r`. The instrument worked; the route changed the bytes.
+
+The `*** Begin Patch` form goes through slbh's own `applyAnthropicPatch`
+(`tools.go:473-587`) with no git involved, and is byte-exact on both platforms.
+The reference fixture therefore uses that form.
+
+**This is a validity condition on the slot, not a detail.** If phase 2 runs
+`leafloop.py` under the Windows interpreter, a leaf that emits a unified diff -
+the commoner shape by far - fails this slot through the platform rather than
+through its own byte discipline, and the slot then measures patch-format choice
+instead of byte fidelity. Three ways out, for the control session to choose:
+
+1. Run `leafloop.py` under Linux. The deployed slbh leaf runs in WSL anyway, so
+   this is also the faithful option; only the grader needs the Windows
+   interpreter, and `refprobe.py` covers that.
+2. Set `core.autocrlf=false` for the sandbox before the round. This diverges
+   from the deployed slbh's own environment, so it should be recorded.
+3. Score this slot only on the `*** Begin Patch` route and say so in the prompt,
+   which narrows what it measures.
+
+Not chosen here: making `leafloop.py` pass `-c core.autocrlf=false` to
+`git apply`. That would make the harness better behaved than slbh and hide a
+real slbh property on Windows, which is the opposite of what a fidelity
+instrument is for.
+
 ## 6. Gates
 
 `python3 selfcheck.py` runs the grader-only gates; `../../gates/run_gates.py` runs the

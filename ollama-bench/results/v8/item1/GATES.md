@@ -374,6 +374,7 @@ Stated plainly, because these are the risks phase 2 inherits.
 
 | path | what |
 | --- | --- |
+| `gates/GATES.json` | the machine-readable result the preflight reads |
 | `gates/fixtures/<slot>/*.jsonl` | every replay fixture, generated, regenerable |
 | `gates/reports/<slot>/<gate>.json` | one full `grade_loop` report per gate |
 | `gates/reports/summary.json` | every gate, its result and the exact commands |
@@ -382,3 +383,119 @@ Stated plainly, because these are the risks phase 2 inherits.
 
 Sandboxes and transcripts are not kept: each sandbox is a full corpus copy, and
 every one of them is reproducible from the fixture plus the seed.
+
+## 10. Portability — the interpreter phase 2 actually uses
+
+Phase 2 runs from WSL against the desktop clone on `D:` with the Windows
+interpreter at `/mnt/c/Users/slb/scoop/apps/python/current/python.exe`. That is
+v7's D7-31 rule: **the grader is verified on the interpreter that will run it.**
+The repo is on `D:` and the system temp directory is on `C:`, and that pairing
+is what this section is about.
+
+### `gates/GATES.json` — read this, never the prose
+
+Written on **every** run of `gates/run_gates.py`, including a crashed one:
+
+```json
+{"passed": 112, "failed": 0, "when": "2026-09-12T06:39:30Z",
+ "python": "3.14.4 ...", "platform": "linux",
+ "complete": true, "ok": true, "tasks": [...], "suite": "v8-item1-loop-gates"}
+```
+
+**`ok` is the only field a preflight should branch on.** It is true only when
+the run *completed* and nothing failed. `failed == 0` on its own is not enough:
+a run that dies during task 2 records `passed: 18, failed: 0` truthfully, and a
+`--task` run covers one slot. `complete` is false in both cases, so `ok` is
+false in both cases.
+
+This exists because grepping prose is not merely inelegant — grepping `GATES.md`
+for `FAILED` scored item 2 as failing when it had passed, the word appearing
+inside a documented command string in the record. This very document contains
+the string several times, so the same grep would mis-score item 1 too.
+
+### `refprobe.py` — the narrow check that runs everywhere
+
+```sh
+python3 refprobe.py                                              # linux
+/mnt/c/Users/slb/scoop/apps/python/current/python.exe refprobe.py  # windows
+```
+
+For each slot it copies `seed/` to a temp sandbox, runs `ref/solve.py` there,
+removes it, and grades with that slot's own `test.py`, expecting `SCORE n/n`,
+`PASS`, `VERDICT correct`, exit 0. It **rebuilds nothing and regenerates no
+corpus** — `build_tasks.py` and `make_corpus.py` are neither imported nor
+invoked — so it is safe against a checkout whose only inputs are the repository,
+and it assumes nothing under `/home/slb/` exists. It writes only inside its own
+temporary directory. Exit is non-zero if any slot's reference fails.
+
+| interpreter | platform | result |
+| --- | --- | --- |
+| `/usr/bin/python3` 3.14.4 | linux | 6/6 correct, REFPROBE OK |
+| `…scoop/apps/python/3.14.7/python.exe` | win32, repo `D:`, temp `C:` | 6/6 correct, REFPROBE OK |
+
+`t2` scores 7/7 under Windows, which is the result worth naming: the
+byte-fidelity subchecks — the embedded base64 of the expected post-edit file and
+the raw-byte comparison of the `Zoë`/em-dash line — hold on a Windows checkout.
+They hold because the repo's `.gitattributes` sets `* -text`, disabling all
+newline conversion, so the sha256 values embedded in every `test.py` stay valid
+on both platforms. Had `core.autocrlf` been in force, every one of them would
+have failed.
+
+### The two defects fixed
+
+**Cross-drive `relpath`.** `gates/run_gates.py`'s `rel()` relativised paths
+against the item tree purely to make the recorded command strings readable, and
+`ntpath.relpath` *raises* `ValueError: path is on mount 'C:', start on mount
+'D:'` when handed a temp path on `C:` against an item tree on `D:`. It died on
+t1's `replay_exhausted` case, whose fixture is written into the scratch
+directory. Now every path handed to a subprocess is absolute, and a separate
+`disp()` builds the display form — returning the absolute path when a relative
+one is not expressible instead of raising. A run must not die because a path was
+being prettified for a log.
+
+**Destructive cleanup.** `main()` cleared `gates/reports/` up front and
+repopulated it per task, so the crash left 89 tracked files deleted. Reports are
+now staged in a temp directory for the whole run and published only after every
+gate has finished, one task subtree at a time. Publishing per subtree also fixes
+the same bug in `--task` mode, where a wholesale clear would have deleted the
+five slots that run did not touch.
+
+Proved, not asserted. A driver that injects a crash into task 2 of a real run:
+
+```
+report files before: 105
+RUN DID NOT COMPLETE: RuntimeError: deliberate crash to prove reports survive
+gates/reports/ was left untouched; staged reports are at /tmp/v8-item1-reports-cq4hmaor
+report files after:  105
+IDENTICAL SET: True
+IDENTICAL SIZES: True
+summary.json unchanged: True
+GATES.json: {"passed": 18, "failed": 0, "complete": false, "ok": false}
+```
+
+### One fixture change for portability
+
+`t4`'s poll waits were `quick_bash {"script": "sleep 4"}`. slbh's shell is
+`bash -lc` on Linux and `cmd.exe /d /c` on Windows (`shell_linux.go` /
+`shell_other.go`), and **cmd.exe has no `sleep`**. They are now
+`quick_py {"script": "import time; time.sleep(4)"}`, which runs the managed
+interpreter on both and is inside `t4`'s acceptable tool set. Nothing is lost:
+the wait is not what `t4` measures, the poll is.
+
+### Platform facts established, so the next phase need not re-derive them
+
+| fact | verified |
+| --- | --- |
+| `python3 <file>.py` resolves under `cmd.exe` | yes, via the scoop `python3.exe` shim — so `t3`/`t4`/`t6`'s seed scripts and prompts need no change |
+| `sleep` resolves under `cmd.exe` | **no** — `'sleep' is not recognized` |
+| `.gitattributes` keeps bytes identical across platforms | yes, `* -text`; the graders' embedded sha256 values depend on it |
+| `os.fchmod`, used by `leafloop`'s atomic replace, works on Windows | yes on Python 3.14.7; it is Windows-supported only from 3.13, so a downgraded desktop interpreter would break `edit_file` and the `*** Begin Patch` update path |
+| `verify_schemas.py` / `verify_executor.py` off the dev box | they now print `SKIP` and exit 2 when there is no Go toolchain or no slbh checkout, rather than failing confusingly. They are dev-box checks; `refprobe.py` is the one that runs everywhere |
+
+### A trap for whoever writes the preflight
+
+Arguments handed to the Windows interpreter must be **Windows** paths. Invoking
+`python.exe refprobe.py --json /mnt/d/scratch/out.json` from WSL silently wrote
+to `D:\mnt\d\scratch\out.json`: the interpreter has no idea what `/mnt/d` means
+and resolved it against the current drive. Either `cd` into the directory and
+pass a relative path, or translate with `wslpath -w`.

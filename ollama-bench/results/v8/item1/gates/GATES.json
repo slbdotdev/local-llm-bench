@@ -1,0 +1,18 @@
+{
+  "passed": 112,
+  "failed": 0,
+  "when": "2026-09-12T06:47:13Z",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "platform": "linux",
+  "complete": true,
+  "ok": true,
+  "tasks": [
+    "t1-locate-report",
+    "t2-apply-patch-bytes",
+    "t3-command-output",
+    "t4-long-job-poll",
+    "t5-error-recovery",
+    "t6-multifile-consistency"
+  ],
+  "suite": "v8-item1-loop-gates"
+}

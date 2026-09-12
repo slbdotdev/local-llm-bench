@@ -87,6 +87,15 @@ def main():
     if not shutil.which("go"):
         print("SKIP no go toolchain; cannot verify against slbh's source")
         return 2
+    if not os.path.isdir(SLBH):
+        # This verifier needs slbh's own source and the Go toolchain, so it is
+        # a Linux-side, dev-box-side check. On a clone that has only the
+        # repository - the desktop D: checkout phase 2 grades from - there is
+        # nothing to compare against and that is not a failure. Set SLBH_REPO
+        # to point at a checkout elsewhere. `refprobe.py` is the probe that
+        # runs everywhere.
+        print("SKIP no slbh checkout at %s (set SLBH_REPO to override)" % SLBH)
+        return 2
     head = subprocess.run(["git", "-C", SLBH, "rev-parse", "HEAD"],
                           stdout=subprocess.PIPE, check=True).stdout.decode().strip()
     dirty = subprocess.run(["git", "-C", SLBH, "status", "--porcelain"],

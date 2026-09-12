@@ -1,12 +1,12 @@
 {"message": {"role": "assistant", "content": "Starting the scan in the background.", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "long_job", "arguments": {"script": "python3 tools/slow_scan.py", "warn_after_seconds": 30}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
-{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_bash", "arguments": {"script": "sleep 4"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "quick_py", "arguments": {"script": "import time; time.sleep(4)"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_job", "arguments": {"job_id": "job-00000001"}}}]}}
 {"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "write_file", "arguments": {"path": "scan-result.json", "content": "{\n  \"token\": \"f841cb3b\",\n  \"count\": 4\n}\n"}}}]}}
 {"message": {"role": "assistant", "content": "Done."}}

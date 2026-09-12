@@ -1780,7 +1780,7 @@ The prompt is silent about all six, so all six are normalised; the prompt is exp
 what it does state, and there the grader stays strict. For the byte-exact task the strictness
 is about the **source file**, not the deliverable, so the two do not collide.
 
-## 6. Gates
+%(platform_note)s## 6. Gates
 
 `python3 selfcheck.py` runs the grader-only gates; `../../gates/run_gates.py` runs the
 loop-level gates through `leafloop.py --replay`. Both are offline. Results are recorded in
@@ -1799,6 +1799,7 @@ Measured, never estimated, at the suite's constant of %(cpt)s chars/token. See M
         "denom": manifest["score_denominator"],
         "nkeys": len(spec["answer_keys"]),
         "nedits": sum(len(e["subchecks"]) for e in spec.get("edits", [])),
+        "platform_note": spec.get("platform_note", ""),
         "adjudications": ("Adjudications: " + "; ".join("%s - %s" % (k, v) for k, v in adj.items()))
         if adj else "No adjudications: nothing in any prompt here states a whitespace or "
                     "ordering requirement for the deliverable.",

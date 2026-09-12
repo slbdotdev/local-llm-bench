@@ -103,13 +103,24 @@ def as_tool_calls(task, task_dir, edits):
     """The gatespec declares every edit as `edit_file`, because that is the
     cheapest unambiguous way to state an end state. For t2 the PROMPT demands
     apply_patch, and `edit_file` is deliberately outside t2's acceptable tool
-    set, so the declared edits are converted into the single unified diff a
-    leaf would emit. Every other task's edits pass through unchanged.
+    set, so the declared edits are converted into a patch. Every other task's
+    edits pass through unchanged.
+
+    The patch uses apply_patch's `*** Begin Patch` form and NOT a unified diff,
+    and that is not a style choice. slbh's apply_patch sends a unified diff to
+    `git apply` (tools.go:462), and Git for Windows ships `core.autocrlf=true`
+    in its SYSTEM config, so on Windows `git apply` rewrites the whole file to
+    CRLF even outside a repository. The `*** Begin Patch` form is handled by
+    slbh's own applyAnthropicPatch (tools.go:473-587) with no git involved, so
+    it is byte-exact on both platforms. A byte-exactness gate has to be graded
+    through a route that does not itself change the bytes. The unified-diff
+    route keeps its coverage in verify_executor.py, which compares it against
+    slbh's real runtime.
     """
     if not edits:
         return []
     if task == "t2-apply-patch-bytes":
-        return [call("apply_patch", patch=unified_diff_for(task_dir, edits))]
+        return [call("apply_patch", patch=anthropic_patch_for(task_dir, edits))]
     return [call(e["name"], **e["arguments"]) for e in edits]
 
 
@@ -182,6 +193,32 @@ def unified_diff_for(task_dir, edits):
     return "".join(diff)
 
 
+def anthropic_patch_for(task_dir, edits):
+    """One `*** Begin Patch` document carrying every edit, as slbh parses it.
+
+    Zero-context hunks: slbh's findLines (tools.go:589-610) requires the
+    old-lines block to occur EXACTLY once and returns -2 for an ambiguous
+    match, so each edit's `old` is asserted to be a unique whole line and is
+    emitted on its own. Zero context also means the hunks cannot interfere with
+    each other as they are applied in sequence.
+    """
+    rels = {e["arguments"]["path"] for e in edits}
+    assert len(rels) == 1, "one file per patch here: %s" % rels
+    rel = rels.pop()
+    src = open(os.path.join(task_dir, "seed", *rel.split("/")), encoding="utf-8").read()
+    lines = src.split("\n")
+    out = ["*** Begin Patch", "*** Update File: %s" % rel]
+    for e in edits:
+        old, new = e["arguments"]["old"], e["arguments"]["new"]
+        assert "\n" not in old, "zero-context hunks take a single line: %r" % old[:60]
+        assert lines.count(old) == 1, (
+            "hunk old line must be unique in %s, found %d: %r"
+            % (rel, lines.count(old), old[:60]))
+        out += ["@@", "-" + old, "+" + new]
+    out += ["*** End Patch", ""]
+    return "\n".join(out)
+
+
 def route_t1(task_dir, spec, gs):
     note = [c for c in gs["ref_calls"] if c["name"] == "read_file"][0]["arguments"]["path"]
     return [
@@ -218,8 +255,14 @@ def route_t4(task_dir, spec, gs):
     # Real time has to pass between polls, and slbh's foreground timeout is
     # five seconds, so each wait is four. The scan takes about nine seconds;
     # four waits give sixteen, which is margin and not a coincidence.
+    #
+    # The wait uses quick_py and not `quick_bash sleep 4`: slbh's shell is
+    # `bash -lc` on Linux and `cmd.exe /d /c` on Windows (shell_linux.go /
+    # shell_other.go), and cmd.exe has no `sleep`. quick_py runs the managed
+    # interpreter on both, and is in t4's acceptable tool set. The wait is not
+    # what t4 measures - the poll is - so nothing is lost by making it portable.
     for _ in range(4):
-        steps.append(step("", [call("quick_bash", script="sleep 4")]))
+        steps.append(step("", [call("quick_py", script="import time; time.sleep(4)")]))
         steps.append(step("", [call("read_job", job_id=job)]))
     return steps
 

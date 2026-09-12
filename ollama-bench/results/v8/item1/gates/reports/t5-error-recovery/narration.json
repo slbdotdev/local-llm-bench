@@ -6,7 +6,7 @@
   "model": "replay",
   "endpoint": null,
   "num_ctx": 0,
-  "replay": "gates/fixtures/t5-error-recovery/narration.jsonl",
+  "replay": "/home/slb/local-llm-bench/ollama-bench/results/v8/item1/gates/fixtures/t5-error-recovery/narration.jsonl",
   "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
   "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
   "stop_reason": "done",
