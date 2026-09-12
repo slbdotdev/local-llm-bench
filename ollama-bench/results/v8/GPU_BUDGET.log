@@ -3,3 +3,25 @@
 # Committed plan 41,900 s; reserve 30,100 s. Hard stop and report at 18 h (64,800 s) accounted.
 # Format follows results/v7/GPU_BUDGET.log: STEP / END / NOTE / RESOLUTION lines.
 # No GPU time spent as of this header. Phase 0 and phase 1 are CPU-only by plan.
+STEP gpuverify-IQ2_M-96k | process=v5/gpu_verify.py | start=2026-09-12T21:28:49Z | end=PENDING
+END gpuverify-IQ2_M-96k | end=2026-09-12T21:28:56Z | gpu_seconds=7
+STEP smoke-toolcalls | process=item1/leafloop.py:t1 | start=2026-09-12T21:28:56Z | end=PENDING
+END smoke-toolcalls | end=2026-09-12T21:28:56Z | gpu_seconds=0
+NOTE smoke-toolcalls: model emitted NO tool_calls; item 1 cells skipped as void by design.
+STEP v8-item2-agg-20k-abst | process=pibench.py:v8-item2-agg-20k-abst | start=2026-09-12T21:28:56Z | end=PENDING
+NOTE STOP SENTINEL 2026-09-12T21:31Z: the round is being halted deliberately. The runners reach
+NOTE the endpoint at 127.0.0.1:11434, which the Windows interpreter cannot use — Ollama binds to
+NOTE the Tailscale address only (org/local-ollama-route-2026-09-11.md). Every cell after the
+NOTE gpuverify step failed on ConnectionRefused and no GPU was held. The next line's figure is a
+NOTE sentinel, not measured time: it pushes accounted past the hard stop so the cell loop breaks
+NOTE cleanly at its next boundary. It is removed before the real run. gpu_seconds=64800
+END v8-item2-agg-20k-abst | end=2026-09-12T21:30:47Z | gpu_seconds=111 | rc=0
+RESOLUTION 2026-09-12T21:35Z: the 21:28Z run is VOID and measured nothing. Every runner reached
+RESOLUTION 127.0.0.1:11434, which the Windows interpreter cannot use — ollama binds to the
+RESOLUTION Tailscale address only (org/local-ollama-route-2026-09-11.md). gpu_verify failed on
+RESOLUTION ConnectionRefused; the smoke gate never ran leafloop at all (a usage error, --sandbox
+RESOLUTION missing) and its zero tool_calls was a crashed runner, NOT a finding about the model.
+RESOLUTION Item 1 is NOT void and the tool-call question is still unanswered. The one cell that
+RESOLUTION ran, v8-item2-agg-20k-abst, produced only connection failures and is quarantined.
+RESOLUTION No GPU was held at any point; the 7 s and 111 s figures are wall time on failures.
+RESET 2026-09-12T21:35Z accounting restarts here; lines above this point are the void run.
