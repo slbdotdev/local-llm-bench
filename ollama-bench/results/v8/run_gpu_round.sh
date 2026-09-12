@@ -153,8 +153,10 @@ DRY RUN — nothing was run; every preflight check above passed.
 
 Steps --go would take, in ascending cost so a harness bug is found before a heavy cell pays:
   1. the GPU proved by a REAL LOAD on q27-IQ2_M-96k, never a version string
-       $PY results/v5/gpu_verify.py q27-IQ2_M-96k
-     then unload with keep_alive:0 and confirm /api/ps empty.
+       $PY $V8/gpu_verify8.py $OLLAMA q27-IQ2_M-96k
+     which loads the model, reports the processor split and generation rate, then unloads with
+     keep_alive:0 and confirms /api/ps empty. It FAILS the round on a bad split: a broken
+     upgrade serves every model on the CPU silently, so a pass rate measured then is worthless.
   2. each cell of $CELLS in ascending est_gpu_s, each bracketed by a STEP/END pair in
      $BUDGET carrying its measured gpu_seconds.
   3. stop before any cell that would cross ${HARD_STOP}s accounted, and report.
