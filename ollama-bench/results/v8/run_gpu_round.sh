@@ -26,6 +26,9 @@ V8=results/v8
 PY=/mnt/c/Users/slb/scoop/apps/python/current/python.exe
 BUDGET=$V8/GPU_BUDGET.log
 HARD_STOP=64800          # 18 h; the last 2 h of the 20 h grant are never planned work
+# The managed route, not localhost: from WSL, localhost:11434 is a different and empty
+# ollama, and a preflight that asks it anything gets a meaningless answer.
+OLLAMA=${OLLAMA_HOST_URL:-http://fractal.wyvern-temperature.ts.net:11434}
 GO=0; OWNER=0; CELLS=$V8/cells.tsv
 
 for a in "$@"; do
@@ -49,12 +52,25 @@ say "v8 GPU round — $( [ "$GO" = 1 ] && echo 'ARMED' || echo 'DRY RUN, nothing
 fail=0
 say "preflight"
 
-echo "  phase-1 instrument gates recorded and passing:"
+echo "  phase-1 instrument gates, RE-RUN rather than read:"
+# Reading GATES.md was wrong: the prose contains the word FAILED inside a documented command
+# string, so a grep scores a passing item as failing. The gate is a script; run it.
+gate_entry() {
+  case "$1" in
+    item1) echo "gates/run_gates.py" ;;
+    item2|item3) echo "gates.py" ;;
+  esac
+}
 for item in item1 item2 item3; do
-  g=$V8/$item/GATES.md
-  if [ ! -f "$g" ]; then echo "    MISSING $g — phase 1 is not done for $item"; fail=1; continue; fi
-  if grep -qiE '\b(FAIL|FAILED)\b' "$g"; then echo "    $g records a FAIL"; fail=1; else
-    echo "    $g ok ($(grep -ciE '\bpass(ed)?\b' "$g") pass lines)"; fi
+  d=$V8/$item; e=$(gate_entry "$item")
+  if [ ! -f "$d/$e" ]; then echo "    MISSING $d/$e — phase 1 is not done for $item"; fail=1; continue; fi
+  if ( cd "$d" && "$PY" "$e" > /tmp/v8-gates-$item.txt 2>&1 ); then
+    echo "    $item ok — $(grep -oE '[0-9]+/[0-9]+ gates?( ok| passed)?|0 failures' /tmp/v8-gates-$item.txt | tail -1)"
+  else
+    echo "    $item GATES FAILED under $PY — see /tmp/v8-gates-$item.txt"
+    tail -3 /tmp/v8-gates-$item.txt | sed 's/^/      /'
+    fail=1
+  fi
 done
 
 echo "  two-directional instrument proof recorded (a perfect answer 1.0 AND a decoy answer 0):"
@@ -83,15 +99,15 @@ echo "  windows interpreter present (the grader is verified on the interpreter t
 if [ -x "$PY" ]; then echo "    $PY ok"; else echo "    MISSING $PY"; fail=1; fi
 
 echo "  endpoint catalog (metadata only, loads no model, costs no GPU):"
-if curl -sf -m 10 http://localhost:11434/api/tags -o /tmp/v8-tags.json; then
+if curl -sf -m 10 $OLLAMA/api/tags -o /tmp/v8-tags.json; then
   echo "    $(python3 -c "import json;print(', '.join(m['name'] for m in json.load(open('/tmp/v8-tags.json'))['models'])[:200])" 2>/dev/null)"
 else
-  echo "    endpoint not reachable from here; on the desktop it is localhost:11434"
+  echo "    endpoint $OLLAMA not reachable from here"
   [ "$GO" = 1 ] && fail=1
 fi
 
 echo "  card idle before the round (/api/ps must be empty):"
-if curl -sf -m 10 http://localhost:11434/api/ps -o /tmp/v8-ps.json; then
+if curl -sf -m 10 $OLLAMA/api/ps -o /tmp/v8-ps.json; then
   if grep -q '"models":\[\]' /tmp/v8-ps.json; then echo "    empty, ok"; else
     echo "    A MODEL IS RESIDENT: $(cat /tmp/v8-ps.json | head -c 200)"
     echo "    unload with keep_alive:0 before starting; a leftover makes the first cell's placement another tag's"
@@ -262,6 +278,6 @@ done
 # 3. leave the card as it was found
 # ---------------------------------------------------------------------------
 "$PY" -c "import json,urllib.request;urllib.request.urlopen(urllib.request.Request('http://localhost:11434/api/generate',data=json.dumps({'model':'q27-IQ2_M-96k','keep_alive':0}).encode(),headers={'Content-Type':'application/json'}),timeout=60).read()" >/dev/null 2>&1
-curl -sf -m 10 http://localhost:11434/api/ps | tee -a "$V8/gpu-round.log"
+curl -sf -m 10 $OLLAMA/api/ps | tee -a "$V8/gpu-round.log"
 touch "$V8/.round-done"
 say "ROUND COMPLETE. Accounted total now $(accounted)s of ${HARD_STOP}s planned."
