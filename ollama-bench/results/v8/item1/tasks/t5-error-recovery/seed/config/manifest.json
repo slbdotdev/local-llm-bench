@@ -1,0 +1,62 @@
+{
+  "project": "earing-mesh",
+  "package": "earing",
+  "stages": [
+    {
+      "name": "lineage",
+      "module": "lineage_core",
+      "class": "LineageEngine",
+      "limit": 48,
+      "window_s": 180,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyEngine",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "quota",
+      "module": "quota_store",
+      "class": "QuotaLedger",
+      "limit": 12,
+      "window_s": 120,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_store",
+      "class": "ThrottleLedger",
+      "limit": 64,
+      "window_s": 180,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_store",
+      "class": "WatermarkEngine",
+      "limit": 480,
+      "window_s": 15,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerPlanner",
+      "limit": 12,
+      "window_s": 15,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "routing",
+      "module": "routing_view",
+      "class": "RoutingRegistry",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "P. Ravindran"
+    }
+  ]
+}

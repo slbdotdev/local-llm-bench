@@ -1,0 +1,55 @@
+{
+  "transcript": "/tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/transcript.jsonl",
+  "task": "t3-command-output",
+  "task_dir": "/home/slb/local-llm-bench/ollama-bench/results/v8/item1/tasks/t3-command-output",
+  "sandbox": "/tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/sandbox",
+  "model": "replay",
+  "endpoint": null,
+  "num_ctx": 0,
+  "replay": "gates/fixtures/t3-command-output/nearmiss-leading_blank.jsonl",
+  "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
+  "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
+  "stop_reason": "done",
+  "turns": 3,
+  "turns_to_done": 3,
+  "wall_s": 0.028,
+  "prompt_tokens": 0,
+  "output_tokens": 0,
+  "peak_prompt": 0,
+  "calls_total": 2,
+  "calls_valid": 2,
+  "valid_call_rate": 1.0,
+  "schema_violations": 0,
+  "schema_violations_by_kind": {},
+  "extra_property_calls": 0,
+  "tools_used": {
+    "quick_bash": 1,
+    "write_file": 1
+  },
+  "wrong_tool_calls": [],
+  "wrong_tool_rate": 0.0,
+  "narration_turns": [],
+  "narration_turn_count": 0,
+  "empty_turns": [],
+  "ended_with_narration": false,
+  "recovery": {
+    "state": "na",
+    "detail": "no injected error fired"
+  },
+  "injected_error_fired": false,
+  "changed_paths": [
+    "audit-report.txt"
+  ],
+  "task_success": true,
+  "score": [
+    3,
+    3
+  ],
+  "score_fraction": 1.0,
+  "test_verdict": "correct",
+  "loop_verdict": null,
+  "verdict": "correct",
+  "test_ran": true,
+  "grader_defect": false,
+  "test_stdout": "SCORE 3/3\nPASS\nVERDICT correct\n"
+}

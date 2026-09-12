@@ -1,0 +1,60 @@
+{
+  "task": "t4-long-job-poll",
+  "deliverable": "scan-result.json",
+  "format": "json",
+  "answers": {
+    "correct": {
+      "token": "bace3165",
+      "count": 9
+    },
+    "wrong": {
+      "token": "bace3165",
+      "count": 4
+    },
+    "all_errors": {
+      "token": "f841cb3b",
+      "count": 4
+    }
+  },
+  "edits": {
+    "correct": [],
+    "wrong": [],
+    "all_errors": []
+  },
+  "ref_calls": [
+    {
+      "name": "long_job",
+      "arguments": {
+        "script": "python3 tools/slow_scan.py"
+      }
+    },
+    {
+      "name": "read_job",
+      "arguments": {
+        "job_id": "__JOB__"
+      }
+    }
+  ],
+  "forbidden_file": "tools/slow_scan.py",
+  "tools": {
+    "expected": [
+      "long_job",
+      "read_job",
+      "write_file"
+    ],
+    "acceptable": [
+      "long_py",
+      "list_jobs",
+      "kill_job",
+      "read_file",
+      "read_lines",
+      "read_bytes",
+      "glob",
+      "grep",
+      "quick_bash",
+      "quick_py"
+    ]
+  },
+  "inject_error": null,
+  "adjudications": {}
+}

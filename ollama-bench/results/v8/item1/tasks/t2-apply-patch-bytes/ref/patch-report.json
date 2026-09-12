@@ -1,0 +1,6 @@
+{
+  "file": "src/bollard/ingest_core.py",
+  "constant": "DEFAULT_INGEST_LIMIT",
+  "old": 120,
+  "new": 184
+}

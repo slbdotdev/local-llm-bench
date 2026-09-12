@@ -1,0 +1,60 @@
+{
+  "transcript": "/tmp/v8-item1-gates/t5-error-recovery/wrong/transcript.jsonl",
+  "task": "t5-error-recovery",
+  "task_dir": "/home/slb/local-llm-bench/ollama-bench/results/v8/item1/tasks/t5-error-recovery",
+  "sandbox": "/tmp/v8-item1-gates/t5-error-recovery/wrong/sandbox",
+  "model": "replay",
+  "endpoint": null,
+  "num_ctx": 0,
+  "replay": "gates/fixtures/t5-error-recovery/wrong.jsonl",
+  "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
+  "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
+  "stop_reason": "done",
+  "turns": 5,
+  "turns_to_done": 5,
+  "wall_s": 0.002,
+  "prompt_tokens": 0,
+  "output_tokens": 0,
+  "peak_prompt": 0,
+  "calls_total": 4,
+  "calls_valid": 4,
+  "valid_call_rate": 1.0,
+  "schema_violations": 0,
+  "schema_violations_by_kind": {},
+  "extra_property_calls": 0,
+  "tools_used": {
+    "grep": 1,
+    "read_file": 1,
+    "read_lines": 1,
+    "write_file": 1
+  },
+  "wrong_tool_calls": [],
+  "wrong_tool_rate": 0.0,
+  "narration_turns": [],
+  "narration_turn_count": 0,
+  "empty_turns": [],
+  "ended_with_narration": true,
+  "recovery": {
+    "state": "recovered",
+    "detail": "switched to grep on turn 1",
+    "route": "grep",
+    "turns_to_recover": 1,
+    "repeat_identical_calls": 0
+  },
+  "injected_error_fired": true,
+  "changed_paths": [
+    "ceiling.txt"
+  ],
+  "task_success": false,
+  "score": [
+    1,
+    2
+  ],
+  "score_fraction": 0.5,
+  "test_verdict": "confidently_wrong",
+  "loop_verdict": null,
+  "verdict": "confidently_wrong",
+  "test_ran": true,
+  "grader_defect": false,
+  "test_stdout": "SCORE 1/2\nFAIL [wrong value for as_of]\nVERDICT confidently_wrong\n"
+}

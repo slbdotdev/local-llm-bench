@@ -1,0 +1,5 @@
+{"message": {"role": "assistant", "content": "Reading the ledger.", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_file", "arguments": {"path": "docs/operations-ledger.md"}}}]}}
+{"message": {"role": "assistant", "content": "That read was refused for size; locating the lines instead.", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "grep", "arguments": {"pattern": "CURRENT_DRAIN_CEILING", "path": "docs/operations-ledger.md"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_lines", "arguments": {"path": "docs/operations-ledger.md", "start": 3778, "end": 3787}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "write_file", "arguments": {"path": "ceiling.txt", "content": "as_of: 2034-02-17\nceiling: 1792\n"}}}]}}
+{"message": {"role": "assistant", "content": "Done."}}

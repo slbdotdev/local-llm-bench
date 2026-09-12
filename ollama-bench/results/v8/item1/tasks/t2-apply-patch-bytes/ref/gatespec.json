@@ -1,0 +1,91 @@
+{
+  "task": "t2-apply-patch-bytes",
+  "deliverable": "patch-report.json",
+  "format": "json",
+  "answers": {
+    "correct": {
+      "file": "src/bollard/ingest_core.py",
+      "constant": "DEFAULT_INGEST_LIMIT",
+      "old": 120,
+      "new": 184
+    },
+    "wrong": {
+      "file": "src/bollard/ingest_core.py",
+      "constant": "DEFAULT_INGEST_WINDOW_S",
+      "old": 180,
+      "new": 184
+    },
+    "all_errors": {
+      "file": "src/bollard/throttle_flow.py",
+      "constant": "DEFAULT_INGEST_WINDOW_S",
+      "old": 184,
+      "new": 120
+    }
+  },
+  "edits": {
+    "correct": [
+      {
+        "name": "edit_file",
+        "arguments": {
+          "path": "src/bollard/ingest_core.py",
+          "old": "DEFAULT_INGEST_LIMIT = 120",
+          "new": "DEFAULT_INGEST_LIMIT = 184"
+        }
+      }
+    ],
+    "wrong": [
+      {
+        "name": "edit_file",
+        "arguments": {
+          "path": "src/bollard/ingest_core.py",
+          "old": "DEFAULT_INGEST_WINDOW_S = 180",
+          "new": "DEFAULT_INGEST_WINDOW_S = 184"
+        }
+      }
+    ],
+    "all_errors": [
+      {
+        "name": "edit_file",
+        "arguments": {
+          "path": "src/bollard/ingest_core.py",
+          "old": "# maintainer: Zo\u00eb Hartmann <zoe.hartmann@example.invalid> \u2014 rotation 3",
+          "new": "# maintainer: Zo\u00e9 Hartmann <zoe.hartmann@example.invalid> - rotation 3"
+        }
+      },
+      {
+        "name": "edit_file",
+        "arguments": {
+          "path": "src/bollard/ingest_core.py",
+          "old": "DEFAULT_INGEST_WINDOW_S = 180",
+          "new": "DEFAULT_INGEST_WINDOW_S = 184"
+        }
+      }
+    ]
+  },
+  "ref_calls": [
+    {
+      "name": "read_file",
+      "arguments": {
+        "path": "src/bollard/ingest_core.py"
+      }
+    }
+  ],
+  "forbidden_file": "config/manifest.json",
+  "tools": {
+    "expected": [
+      "read_file",
+      "apply_patch",
+      "write_file"
+    ],
+    "acceptable": [
+      "glob",
+      "grep",
+      "read_lines",
+      "read_bytes",
+      "quick_bash",
+      "quick_py"
+    ]
+  },
+  "inject_error": null,
+  "adjudications": {}
+}

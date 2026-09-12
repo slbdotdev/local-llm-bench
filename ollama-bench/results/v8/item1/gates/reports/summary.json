@@ -1,0 +1,1905 @@
+{
+  "gates": 112,
+  "ok": 112,
+  "failed": [],
+  "runs_dir": "/tmp/v8-item1-gates",
+  "results": [
+    {
+      "task": "t1-locate-report",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/reference/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/reference/transcript.jsonl --replay gates/fixtures/t1-locate-report/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/reference/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/reference/sandbox --json gates/reports/t1-locate-report/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/reference/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/reference/transcript.jsonl --replay gates/fixtures/t1-locate-report/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/reference/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/reference/sandbox --json gates/reports/t1-locate-report/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [3, 3] then correct [3, 3]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/reference/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/reference/sandbox --json gates/reports/t1-locate-report/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/untouched/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/untouched/transcript.jsonl --replay gates/fixtures/t1-locate-report/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/untouched/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/untouched/sandbox --json gates/reports/t1-locate-report/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=1/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/wrong/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/wrong/transcript.jsonl --replay gates/fixtures/t1-locate-report/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/wrong/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/wrong/sandbox --json gates/reports/t1-locate-report/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        1,
+        3
+      ],
+      "score_fraction": 0.3333333333333333,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/allerrors/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/allerrors/transcript.jsonl --replay gates/fixtures/t1-locate-report/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/allerrors/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/allerrors/sandbox --json gates/reports/t1-locate-report/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_newline/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_newline/sandbox --json gates/reports/t1-locate-report/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-leading_blank/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-leading_blank/sandbox --json gates/reports/t1-locate-report/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-trailing_spaces/sandbox --json gates/reports/t1-locate-report/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-crlf/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-crlf/sandbox --json gates/reports/t1-locate-report/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-reordered/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-reordered/sandbox --json gates/reports/t1-locate-report/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t1-locate-report/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/nearmiss-equiv_space/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/nearmiss-equiv_space/sandbox --json gates/reports/t1-locate-report/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=0/3 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/violations/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/violations/transcript.jsonl --replay gates/fixtures/t1-locate-report/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/violations/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/violations/sandbox --json gates/reports/t1-locate-report/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=3/3 valid=5/5 viol=0 wrong_tool=1 narr=0 stop=done turns=6",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/unsafe/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/unsafe/transcript.jsonl --replay gates/fixtures/t1-locate-report/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/unsafe/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/unsafe/sandbox --json gates/reports/t1-locate-report/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 5, 'prompt_tokens': 19000, 'output_tokens': 165, 'peak_prompt': 9000} got {'turns': 5, 'prompt_tokens': 19000, 'output_tokens': 165, 'peak_prompt': 9000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/usage/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/usage/transcript.jsonl --replay gates/fixtures/t1-locate-report/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/usage/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/usage/sandbox --json gates/reports/t1-locate-report/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/turn_cap/transcript.jsonl --replay gates/fixtures/t1-locate-report/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/turn_cap/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/turn_cap/sandbox --json gates/reports/t1-locate-report/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/wall_cap/transcript.jsonl --replay gates/fixtures/t1-locate-report/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/wall_cap/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/wall_cap/sandbox --json gates/reports/t1-locate-report/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t1-locate-report",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t1-locate-report/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t1-locate-report/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t1-locate-report/replay_exhausted/transcript.jsonl --task tasks/t1-locate-report --sandbox /tmp/v8-item1-gates/t1-locate-report/replay_exhausted/sandbox --json gates/reports/t1-locate-report/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "replay_exhausted"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/sandbox --json gates/reports/t2-apply-patch-bytes/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/sandbox --json gates/reports/t2-apply-patch-bytes/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [7, 7] then correct [7, 7]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/reference/sandbox --json gates/reports/t2-apply-patch-bytes/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=1/7 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/untouched/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/untouched/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/untouched/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/untouched/sandbox --json gates/reports/t2-apply-patch-bytes/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        1,
+        7
+      ],
+      "score_fraction": 0.14285714285714285,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=2/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/wrong/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/wrong/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/wrong/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/wrong/sandbox --json gates/reports/t2-apply-patch-bytes/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        2,
+        7
+      ],
+      "score_fraction": 0.2857142857142857,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/allerrors/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/allerrors/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/allerrors/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/allerrors/sandbox --json gates/reports/t2-apply-patch-bytes/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        7
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_newline/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_newline/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-leading_blank/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-leading_blank/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-trailing_spaces/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-crlf/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-crlf/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-reordered/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-reordered/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=7/7 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-equiv_space/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/nearmiss-equiv_space/sandbox --json gates/reports/t2-apply-patch-bytes/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=1/7 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/violations/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/violations/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/violations/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/violations/sandbox --json gates/reports/t2-apply-patch-bytes/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        1,
+        7
+      ],
+      "score_fraction": 0.14285714285714285,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=7/7 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/unsafe/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/unsafe/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/unsafe/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/unsafe/sandbox --json gates/reports/t2-apply-patch-bytes/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 4, 'prompt_tokens': 16000, 'output_tokens': 110, 'peak_prompt': 9000} got {'turns': 4, 'prompt_tokens': 16000, 'output_tokens': 110, 'peak_prompt': 9000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/usage/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/usage/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/usage/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/usage/sandbox --json gates/reports/t2-apply-patch-bytes/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        7,
+        7
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=1/7 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/turn_cap/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/turn_cap/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/turn_cap/sandbox --json gates/reports/t2-apply-patch-bytes/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        1,
+        7
+      ],
+      "score_fraction": 0.14285714285714285,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=1/7 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/wall_cap/transcript.jsonl --replay gates/fixtures/t2-apply-patch-bytes/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/wall_cap/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/wall_cap/sandbox --json gates/reports/t2-apply-patch-bytes/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        1,
+        7
+      ],
+      "score_fraction": 0.14285714285714285,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t2-apply-patch-bytes",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=3/7 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=2",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t2-apply-patch-bytes/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t2-apply-patch-bytes/replay_exhausted/transcript.jsonl --task tasks/t2-apply-patch-bytes --sandbox /tmp/v8-item1-gates/t2-apply-patch-bytes/replay_exhausted/sandbox --json gates/reports/t2-apply-patch-bytes/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        3,
+        7
+      ],
+      "score_fraction": 0.42857142857142855,
+      "stop_reason": "replay_exhausted"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/reference/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/reference/transcript.jsonl --replay gates/fixtures/t3-command-output/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/reference/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/reference/sandbox --json gates/reports/t3-command-output/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/reference/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/reference/transcript.jsonl --replay gates/fixtures/t3-command-output/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/reference/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/reference/sandbox --json gates/reports/t3-command-output/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [3, 3] then correct [3, 3]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/reference/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/reference/sandbox --json gates/reports/t3-command-output/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/untouched/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/untouched/transcript.jsonl --replay gates/fixtures/t3-command-output/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/untouched/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/untouched/sandbox --json gates/reports/t3-command-output/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=1/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/wrong/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/wrong/transcript.jsonl --replay gates/fixtures/t3-command-output/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/wrong/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/wrong/sandbox --json gates/reports/t3-command-output/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        1,
+        3
+      ],
+      "score_fraction": 0.3333333333333333,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/allerrors/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/allerrors/transcript.jsonl --replay gates/fixtures/t3-command-output/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/allerrors/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/allerrors/sandbox --json gates/reports/t3-command-output/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_newline/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_newline/sandbox --json gates/reports/t3-command-output/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-leading_blank/sandbox --json gates/reports/t3-command-output/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-trailing_spaces/sandbox --json gates/reports/t3-command-output/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-crlf/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-crlf/sandbox --json gates/reports/t3-command-output/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-reordered/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-reordered/sandbox --json gates/reports/t3-command-output/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=3/3 valid=2/2 viol=0 wrong_tool=0 narr=0 stop=done turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t3-command-output/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/nearmiss-equiv_space/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/nearmiss-equiv_space/sandbox --json gates/reports/t3-command-output/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=0/3 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/violations/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/violations/transcript.jsonl --replay gates/fixtures/t3-command-output/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/violations/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/violations/sandbox --json gates/reports/t3-command-output/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=3/3 valid=3/3 viol=0 wrong_tool=1 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/unsafe/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/unsafe/transcript.jsonl --replay gates/fixtures/t3-command-output/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/unsafe/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/unsafe/sandbox --json gates/reports/t3-command-output/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 3, 'prompt_tokens': 7000, 'output_tokens': 66, 'peak_prompt': 4000} got {'turns': 3, 'prompt_tokens': 7000, 'output_tokens': 66, 'peak_prompt': 4000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/usage/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/usage/transcript.jsonl --replay gates/fixtures/t3-command-output/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/usage/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/usage/sandbox --json gates/reports/t3-command-output/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        3,
+        3
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/turn_cap/transcript.jsonl --replay gates/fixtures/t3-command-output/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/turn_cap/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/turn_cap/sandbox --json gates/reports/t3-command-output/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/wall_cap/transcript.jsonl --replay gates/fixtures/t3-command-output/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/wall_cap/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/wall_cap/sandbox --json gates/reports/t3-command-output/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t3-command-output",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/3 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t3-command-output/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t3-command-output/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t3-command-output/replay_exhausted/transcript.jsonl --task tasks/t3-command-output --sandbox /tmp/v8-item1-gates/t3-command-output/replay_exhausted/sandbox --json gates/reports/t3-command-output/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        3
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "replay_exhausted"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/reference/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/reference/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/reference/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/reference/sandbox --json gates/reports/t4-long-job-poll/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/reference/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/reference/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/reference/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/reference/sandbox --json gates/reports/t4-long-job-poll/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [2, 2] then correct [2, 2]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/reference/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/reference/sandbox --json gates/reports/t4-long-job-poll/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/untouched/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/untouched/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/untouched/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/untouched/sandbox --json gates/reports/t4-long-job-poll/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=1/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wrong/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/wrong/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/wrong/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wrong/sandbox --json gates/reports/t4-long-job-poll/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        1,
+        2
+      ],
+      "score_fraction": 0.5,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/allerrors/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/allerrors/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/allerrors/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/allerrors/sandbox --json gates/reports/t4-long-job-poll/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_newline/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_newline/sandbox --json gates/reports/t4-long-job-poll/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-leading_blank/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-leading_blank/sandbox --json gates/reports/t4-long-job-poll/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-trailing_spaces/sandbox --json gates/reports/t4-long-job-poll/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-crlf/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-crlf/sandbox --json gates/reports/t4-long-job-poll/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-reordered/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-reordered/sandbox --json gates/reports/t4-long-job-poll/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=11/11 viol=0 wrong_tool=0 narr=0 stop=done turns=12",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-equiv_space/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/nearmiss-equiv_space/sandbox --json gates/reports/t4-long-job-poll/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=0/2 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/violations/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/violations/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/violations/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/violations/sandbox --json gates/reports/t4-long-job-poll/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=2/2 valid=12/12 viol=0 wrong_tool=1 narr=0 stop=done turns=13",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/unsafe/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/unsafe/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/unsafe/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/unsafe/sandbox --json gates/reports/t4-long-job-poll/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 12, 'prompt_tokens': 52500, 'output_tokens': 544, 'peak_prompt': 9000} got {'turns': 12, 'prompt_tokens': 52500, 'output_tokens': 544, 'peak_prompt': 9000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/usage/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/usage/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/usage/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/usage/sandbox --json gates/reports/t4-long-job-poll/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/turn_cap/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/turn_cap/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/turn_cap/sandbox --json gates/reports/t4-long-job-poll/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/wall_cap/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/wall_cap/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wall_cap/sandbox --json gates/reports/t4-long-job-poll/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "wall_cap_midroute",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=5/5 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wall_cap_midroute/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/wall_cap_midroute/transcript.jsonl --replay gates/fixtures/t4-long-job-poll/reference.jsonl --wall-s 6",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/wall_cap_midroute/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/wall_cap_midroute/sandbox --json gates/reports/t4-long-job-poll/wall_cap_midroute.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t4-long-job-poll",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=10/10 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=10",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t4-long-job-poll/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t4-long-job-poll/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t4-long-job-poll/replay_exhausted/transcript.jsonl --task tasks/t4-long-job-poll --sandbox /tmp/v8-item1-gates/t4-long-job-poll/replay_exhausted/sandbox --json gates/reports/t4-long-job-poll/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "replay_exhausted"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/reference/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/reference/transcript.jsonl --replay gates/fixtures/t5-error-recovery/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/reference/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/reference/sandbox --json gates/reports/t5-error-recovery/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/reference/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/reference/transcript.jsonl --replay gates/fixtures/t5-error-recovery/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/reference/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/reference/sandbox --json gates/reports/t5-error-recovery/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [2, 2] then correct [2, 2]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/reference/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/reference/sandbox --json gates/reports/t5-error-recovery/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/untouched/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/untouched/transcript.jsonl --replay gates/fixtures/t5-error-recovery/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/untouched/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/untouched/sandbox --json gates/reports/t5-error-recovery/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=1/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/wrong/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/wrong/transcript.jsonl --replay gates/fixtures/t5-error-recovery/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/wrong/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/wrong/sandbox --json gates/reports/t5-error-recovery/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        1,
+        2
+      ],
+      "score_fraction": 0.5,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/allerrors/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/allerrors/transcript.jsonl --replay gates/fixtures/t5-error-recovery/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/allerrors/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/allerrors/sandbox --json gates/reports/t5-error-recovery/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_newline/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_newline/sandbox --json gates/reports/t5-error-recovery/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-leading_blank/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-leading_blank/sandbox --json gates/reports/t5-error-recovery/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-trailing_spaces/sandbox --json gates/reports/t5-error-recovery/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-crlf/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-crlf/sandbox --json gates/reports/t5-error-recovery/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-reordered/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-reordered/sandbox --json gates/reports/t5-error-recovery/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=2/2 valid=4/4 viol=0 wrong_tool=0 narr=0 stop=done turns=5",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t5-error-recovery/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/nearmiss-equiv_space/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/nearmiss-equiv_space/sandbox --json gates/reports/t5-error-recovery/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=0/2 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/violations/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/violations/transcript.jsonl --replay gates/fixtures/t5-error-recovery/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/violations/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/violations/sandbox --json gates/reports/t5-error-recovery/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=2/2 valid=5/5 viol=0 wrong_tool=1 narr=0 stop=done turns=6",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/unsafe/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/unsafe/transcript.jsonl --replay gates/fixtures/t5-error-recovery/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/unsafe/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/unsafe/sandbox --json gates/reports/t5-error-recovery/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 5, 'prompt_tokens': 19000, 'output_tokens': 165, 'peak_prompt': 9000} got {'turns': 5, 'prompt_tokens': 19000, 'output_tokens': 165, 'peak_prompt': 9000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/usage/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/usage/transcript.jsonl --replay gates/fixtures/t5-error-recovery/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/usage/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/usage/sandbox --json gates/reports/t5-error-recovery/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/turn_cap/transcript.jsonl --replay gates/fixtures/t5-error-recovery/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/turn_cap/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/turn_cap/sandbox --json gates/reports/t5-error-recovery/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/wall_cap/transcript.jsonl --replay gates/fixtures/t5-error-recovery/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/wall_cap/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/wall_cap/sandbox --json gates/reports/t5-error-recovery/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/2 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=3",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t5-error-recovery/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/replay_exhausted/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/replay_exhausted/sandbox --json gates/reports/t5-error-recovery/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "replay_exhausted"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "recovery/recovered",
+      "ok": true,
+      "detail": "fired=True {'state': 'recovered', 'detail': 'switched to grep on turn 1', 'route': 'grep', 'turns_to_recover': 1, 'repeat_identical_calls': 0}",
+      "commands": [
+        "(from the reference run above)"
+      ],
+      "verdict": "correct",
+      "score": [
+        2,
+        2
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "recovery/not_recovered",
+      "ok": true,
+      "detail": "{'state': 'not_recovered', 'detail': 'no different successful route to docs/operations-ledger.md after the error', 'repeat_identical_calls': 2} verdict=visibly_failed score=0/2 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/norecovery/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/norecovery/transcript.jsonl --replay gates/fixtures/t5-error-recovery/norecovery.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/norecovery/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/norecovery/sandbox --json gates/reports/t5-error-recovery/norecovery.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t5-error-recovery",
+      "gate": "narration_instead_of_call",
+      "ok": true,
+      "detail": "ended_with_narration=True verdict=visibly_failed score=0/2 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=done turns=2",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/narration/sandbox --transcript /tmp/v8-item1-gates/t5-error-recovery/narration/transcript.jsonl --replay gates/fixtures/t5-error-recovery/narration.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t5-error-recovery/narration/transcript.jsonl --task tasks/t5-error-recovery --sandbox /tmp/v8-item1-gates/t5-error-recovery/narration/sandbox --json gates/reports/t5-error-recovery/narration.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        2
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "reference",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/reference/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/reference/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/reference/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/reference/sandbox --json gates/reports/t6-multifile-consistency/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "perfect_1.0",
+      "ok": true,
+      "detail": "score_fraction=1.0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/reference/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/reference/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/reference.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/reference/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/reference/sandbox --json gates/reports/t6-multifile-consistency/reference.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "idempotence",
+      "ok": true,
+      "detail": "twice: correct [9, 9] then correct [9, 9]",
+      "commands": [
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/reference/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/reference/sandbox --json gates/reports/t6-multifile-consistency/reference-again.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "untouched",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/9 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=done turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/untouched/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/untouched/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/untouched.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/untouched/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/untouched/sandbox --json gates/reports/t6-multifile-consistency/untouched.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        9
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "wrong",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=5/9 valid=5/5 viol=0 wrong_tool=0 narr=0 stop=done turns=6",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/wrong/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/wrong/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/wrong.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/wrong/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/wrong/sandbox --json gates/reports/t6-multifile-consistency/wrong.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        5,
+        9
+      ],
+      "score_fraction": 0.5555555555555556,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "allerrors_0.0",
+      "ok": true,
+      "detail": "verdict=confidently_wrong score=0/9 valid=3/3 viol=0 wrong_tool=0 narr=0 stop=done turns=4",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/allerrors/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/allerrors/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/allerrors.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/allerrors/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/allerrors/sandbox --json gates/reports/t6-multifile-consistency/allerrors.json --quiet"
+      ],
+      "verdict": "confidently_wrong",
+      "score": [
+        0,
+        9
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/trailing_newline",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_newline/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_newline/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-trailing_newline.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_newline/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_newline/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-trailing_newline.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/leading_blank",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-leading_blank/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-leading_blank/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-leading_blank.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-leading_blank/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-leading_blank/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-leading_blank.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/trailing_spaces",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_spaces/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_spaces/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-trailing_spaces.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_spaces/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-trailing_spaces/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-trailing_spaces.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/crlf",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-crlf/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-crlf/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-crlf.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-crlf/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-crlf/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-crlf.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/reordered",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-reordered/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-reordered/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-reordered.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-reordered/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-reordered/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-reordered.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "nearmiss/equiv_space",
+      "ok": true,
+      "detail": "verdict=correct score=9/9 valid=7/7 viol=0 wrong_tool=0 narr=0 stop=done turns=8",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-equiv_space/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-equiv_space/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/nearmiss-equiv_space.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-equiv_space/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/nearmiss-equiv_space/sandbox --json gates/reports/t6-multifile-consistency/nearmiss-equiv_space.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "violations",
+      "ok": true,
+      "detail": "kinds=['bad_enum', 'bad_json', 'extra_property', 'missing_required', 'not_object', 'unknown_tool', 'wrong_type'] extra=1 wrong_tool=3 verdict=visibly_failed score=0/9 valid=2/8 viol=7 wrong_tool=3 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/violations/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/violations/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/violations.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/violations/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/violations/sandbox --json gates/reports/t6-multifile-consistency/violations.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        9
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "unsafe",
+      "ok": true,
+      "detail": "created=True verdict=unsafe score=9/9 valid=8/8 viol=0 wrong_tool=0 narr=0 stop=done turns=9",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/unsafe/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/unsafe/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/unsafe.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/unsafe/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/unsafe/sandbox --json gates/reports/t6-multifile-consistency/unsafe.json --quiet"
+      ],
+      "verdict": "unsafe",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "token_accounting",
+      "ok": true,
+      "detail": "want {'turns': 8, 'prompt_tokens': 37000, 'output_tokens': 396, 'peak_prompt': 9000} got {'turns': 8, 'prompt_tokens': 37000, 'output_tokens': 396, 'peak_prompt': 9000}",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/usage/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/usage/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/usage.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/usage/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/usage/sandbox --json gates/reports/t6-multifile-consistency/usage.json --quiet"
+      ],
+      "verdict": "correct",
+      "score": [
+        9,
+        9
+      ],
+      "score_fraction": 1.0,
+      "stop_reason": "done"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "turn_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/9 valid=1/1 viol=0 wrong_tool=0 narr=0 stop=turn_cap turns=1",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/reference.jsonl --max-turns 1",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/sandbox --json gates/reports/t6-multifile-consistency/turn_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        9
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "turn_cap"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "wall_cap",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=0/9 valid=0/0 viol=0 wrong_tool=0 narr=0 stop=wall_cap turns=0",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/wall_cap/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/wall_cap/transcript.jsonl --replay gates/fixtures/t6-multifile-consistency/reference.jsonl --wall-s 0",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/wall_cap/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/wall_cap/sandbox --json gates/reports/t6-multifile-consistency/wall_cap.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        0,
+        9
+      ],
+      "score_fraction": 0.0,
+      "stop_reason": "wall_cap"
+    },
+    {
+      "task": "t6-multifile-consistency",
+      "gate": "replay_exhausted",
+      "ok": true,
+      "detail": "verdict=visibly_failed score=5/9 valid=6/6 viol=0 wrong_tool=0 narr=0 stop=replay_exhausted turns=6",
+      "commands": [
+        "/usr/bin/python3 leafloop.py --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/replay_exhausted/sandbox --transcript /tmp/v8-item1-gates/t6-multifile-consistency/replay_exhausted/transcript.jsonl --replay ../../../../../../../tmp/v8-item1-gates/t6-multifile-consistency/exhaust.jsonl",
+        "/usr/bin/python3 grade_loop.py --transcript /tmp/v8-item1-gates/t6-multifile-consistency/replay_exhausted/transcript.jsonl --task tasks/t6-multifile-consistency --sandbox /tmp/v8-item1-gates/t6-multifile-consistency/replay_exhausted/sandbox --json gates/reports/t6-multifile-consistency/replay_exhausted.json --quiet"
+      ],
+      "verdict": "visibly_failed",
+      "score": [
+        5,
+        9
+      ],
+      "score_fraction": 0.5555555555555556,
+      "stop_reason": "replay_exhausted"
+    }
+  ]
+}

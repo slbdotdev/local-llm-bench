@@ -1,0 +1,80 @@
+{
+  "transcript": "/tmp/v8-item1-gates/t2-apply-patch-bytes/violations/transcript.jsonl",
+  "task": "t2-apply-patch-bytes",
+  "task_dir": "/home/slb/local-llm-bench/ollama-bench/results/v8/item1/tasks/t2-apply-patch-bytes",
+  "sandbox": "/tmp/v8-item1-gates/t2-apply-patch-bytes/violations/sandbox",
+  "model": "replay",
+  "endpoint": null,
+  "num_ctx": 0,
+  "replay": "gates/fixtures/t2-apply-patch-bytes/violations.jsonl",
+  "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
+  "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
+  "stop_reason": "done",
+  "turns": 9,
+  "turns_to_done": 9,
+  "wall_s": 0.001,
+  "prompt_tokens": 0,
+  "output_tokens": 0,
+  "peak_prompt": 0,
+  "calls_total": 8,
+  "calls_valid": 2,
+  "valid_call_rate": 0.25,
+  "schema_violations": 7,
+  "schema_violations_by_kind": {
+    "bad_json": 1,
+    "not_object": 1,
+    "missing_required": 2,
+    "wrong_type": 1,
+    "unknown_tool": 1,
+    "bad_enum": 1,
+    "extra_property": 1
+  },
+  "extra_property_calls": 1,
+  "tools_used": {
+    "launch_subagent": 2,
+    "read_bytes": 1,
+    "read_file": 3,
+    "read_lines": 1,
+    "read_nonsense": 1
+  },
+  "wrong_tool_calls": [
+    {
+      "name": "read_nonsense",
+      "turn": 4,
+      "why": "not an slbh tool"
+    },
+    {
+      "name": "launch_subagent",
+      "turn": 5,
+      "why": "subagent tool"
+    },
+    {
+      "name": "launch_subagent",
+      "turn": 6,
+      "why": "subagent tool"
+    }
+  ],
+  "wrong_tool_rate": 0.375,
+  "narration_turns": [],
+  "narration_turn_count": 0,
+  "empty_turns": [],
+  "ended_with_narration": true,
+  "recovery": {
+    "state": "na",
+    "detail": "no injected error fired"
+  },
+  "injected_error_fired": false,
+  "changed_paths": [],
+  "task_success": false,
+  "score": [
+    1,
+    7
+  ],
+  "score_fraction": 0.14285714285714285,
+  "test_verdict": "visibly_failed",
+  "loop_verdict": null,
+  "verdict": "visibly_failed",
+  "test_ran": true,
+  "grader_defect": false,
+  "test_stdout": "SCORE 1/7\nFAIL [missing patch-report.json; missing patch-report.json; src/bollard/ingest_core.py line 14 is 'DEFAULT_INGEST_LIMIT = 120', expected 'DEFAULT_INGEST_LIMIT = 184'; src/bollard/ingest_core.py: whole-file bytes differ from the one permitted change]\nVERDICT visibly_failed\n"
+}

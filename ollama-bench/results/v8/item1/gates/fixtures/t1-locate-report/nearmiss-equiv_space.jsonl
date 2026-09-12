@@ -1,0 +1,5 @@
+{"message": {"role": "assistant", "content": "Finding the note that defines the marker, then the markers themselves.", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "glob", "arguments": {"pattern": "docs/notes/*.md"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "read_file", "arguments": {"path": "docs/notes/SN-0418-supersession-markers.md"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "grep", "arguments": {"pattern": "^SUPERSEDED_BY = ", "path": "src"}}}]}}
+{"message": {"role": "assistant", "content": "", "tool_calls": [{"id": "call_0", "type": "function", "function": {"name": "write_file", "arguments": {"path": "findings.txt", "content": "modules:    digest_core.py, quota_view.py, reconcile_core.py, replay_gate.py\ncount:    4\nnote:    SN-0418\n"}}}]}}
+{"message": {"role": "assistant", "content": "Done."}}

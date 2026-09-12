@@ -1,0 +1,11 @@
+{
+  "paths": [
+    "config/manifest.json",
+    "docs/attestation.md",
+    "src/futtock/attestation_core.py",
+    "tests/test_attestation.py"
+  ],
+  "old": 96,
+  "new": 160,
+  "verified": "attestation: module=160 manifest=160 doc=160 test=160 -> consistent"
+}

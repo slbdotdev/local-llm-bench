@@ -1,0 +1,60 @@
+{
+  "task": "t1-locate-report",
+  "deliverable": "findings.txt",
+  "format": "kv",
+  "answers": {
+    "correct": {
+      "modules": "digest_core.py, quota_view.py, reconcile_core.py, replay_gate.py",
+      "count": "4",
+      "note": "SN-0418"
+    },
+    "wrong": {
+      "modules": "digest_core.py, quota_view.py, reconcile_core.py, replay_gate.py, schema_core.py",
+      "count": "5",
+      "note": "SN-0418"
+    },
+    "all_errors": {
+      "modules": "digest_core.py, quota_view.py, reconcile_core.py, replay_gate.py, schema_core.py",
+      "count": "7",
+      "note": "SN-0311"
+    }
+  },
+  "edits": {
+    "correct": [],
+    "wrong": [],
+    "all_errors": []
+  },
+  "ref_calls": [
+    {
+      "name": "grep",
+      "arguments": {
+        "pattern": "SUPERSEDED_BY",
+        "path": "src"
+      }
+    },
+    {
+      "name": "read_file",
+      "arguments": {
+        "path": "docs/notes/SN-0418-supersession-markers.md"
+      }
+    }
+  ],
+  "forbidden_file": "README.md",
+  "tools": {
+    "expected": [
+      "glob",
+      "grep",
+      "read_file",
+      "write_file"
+    ],
+    "acceptable": [
+      "read_lines",
+      "read_bytes",
+      "quick_bash",
+      "quick_py",
+      "list_jobs"
+    ]
+  },
+  "inject_error": null,
+  "adjudications": {}
+}

@@ -1,0 +1,174 @@
+{
+  "project": "capstan-mesh",
+  "package": "capstan",
+  "stages": [
+    {
+      "name": "checkpoint",
+      "module": "checkpoint_core",
+      "class": "CheckpointLedger",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_view",
+      "class": "BackfillLedger",
+      "limit": 64,
+      "window_s": 180,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "ledger",
+      "module": "ledger_gate",
+      "class": "LedgerGateway",
+      "limit": 250,
+      "window_s": 15,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "shard",
+      "module": "shard_flow",
+      "class": "ShardPlanner",
+      "limit": 250,
+      "window_s": 30,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingEngine",
+      "limit": 48,
+      "window_s": 90,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_core",
+      "class": "RollupRegistry",
+      "limit": 960,
+      "window_s": 120,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_core",
+      "class": "LineagePlanner",
+      "limit": 960,
+      "window_s": 180,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_core",
+      "class": "CompactionGateway",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "H. Bergstrom"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_flow",
+      "class": "CursorLedger",
+      "limit": 48,
+      "window_s": 90,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "audit",
+      "module": "audit_flow",
+      "class": "AuditEngine",
+      "limit": 96,
+      "window_s": 90,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "drain",
+      "module": "drain_store",
+      "class": "DrainLedger",
+      "limit": 120,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_gate",
+      "class": "WatermarkRegistry",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_flow",
+      "class": "AttestationLedger",
+      "limit": 12,
+      "window_s": 15,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_gate",
+      "class": "ReconcilePlanner",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "replay",
+      "module": "replay_view",
+      "class": "ReplayEngine",
+      "limit": 48,
+      "window_s": 60,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_store",
+      "class": "EnvelopeGateway",
+      "limit": 96,
+      "window_s": 30,
+      "owner": "N. Oyelaran"
+    },
+    {
+      "name": "quota",
+      "module": "quota_store",
+      "class": "QuotaPlanner",
+      "limit": 24,
+      "window_s": 30,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "schema",
+      "module": "schema_core",
+      "class": "SchemaEngine",
+      "limit": 96,
+      "window_s": 30,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_gate",
+      "class": "TenancyRegistry",
+      "limit": 96,
+      "window_s": 180,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_flow",
+      "class": "ThrottleRegistry",
+      "limit": 250,
+      "window_s": 90,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "retention",
+      "module": "retention_store",
+      "class": "RetentionGateway",
+      "limit": 48,
+      "window_s": 180,
+      "owner": "P. Ravindran"
+    }
+  ]
+}

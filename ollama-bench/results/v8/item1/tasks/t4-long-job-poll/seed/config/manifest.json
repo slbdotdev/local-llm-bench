@@ -1,0 +1,174 @@
+{
+  "project": "dogvane-mesh",
+  "package": "dogvane",
+  "stages": [
+    {
+      "name": "retention",
+      "module": "retention_gate",
+      "class": "RetentionPlanner",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "lineage",
+      "module": "lineage_store",
+      "class": "LineageGateway",
+      "limit": 96,
+      "window_s": 45,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "backfill",
+      "module": "backfill_flow",
+      "class": "BackfillRegistry",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "dispatch",
+      "module": "dispatch_store",
+      "class": "DispatchLedger",
+      "limit": 480,
+      "window_s": 45,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "drain",
+      "module": "drain_store",
+      "class": "DrainRegistry",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "tenancy",
+      "module": "tenancy_core",
+      "class": "TenancyPlanner",
+      "limit": 64,
+      "window_s": 90,
+      "owner": "C. Batbayar"
+    },
+    {
+      "name": "shard",
+      "module": "shard_view",
+      "class": "ShardPlanner",
+      "limit": 48,
+      "window_s": 120,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "digest",
+      "module": "digest_gate",
+      "class": "DigestEngine",
+      "limit": 32,
+      "window_s": 60,
+      "owner": "T. Abarca"
+    },
+    {
+      "name": "cursor",
+      "module": "cursor_gate",
+      "class": "CursorLedger",
+      "limit": 24,
+      "window_s": 120,
+      "owner": "L. Achterberg"
+    },
+    {
+      "name": "routing",
+      "module": "routing_flow",
+      "class": "RoutingEngine",
+      "limit": 480,
+      "window_s": 90,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "watermark",
+      "module": "watermark_flow",
+      "class": "WatermarkLedger",
+      "limit": 48,
+      "window_s": 90,
+      "owner": "K. Sorensen"
+    },
+    {
+      "name": "replay",
+      "module": "replay_core",
+      "class": "ReplayEngine",
+      "limit": 250,
+      "window_s": 45,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "throttle",
+      "module": "throttle_gate",
+      "class": "ThrottleRegistry",
+      "limit": 64,
+      "window_s": 45,
+      "owner": "S. Nwachukwu"
+    },
+    {
+      "name": "reconcile",
+      "module": "reconcile_store",
+      "class": "ReconcileRegistry",
+      "limit": 250,
+      "window_s": 30,
+      "owner": "A. Villanueva"
+    },
+    {
+      "name": "envelope",
+      "module": "envelope_core",
+      "class": "EnvelopeLedger",
+      "limit": 250,
+      "window_s": 15,
+      "owner": "J. Maldonado"
+    },
+    {
+      "name": "compaction",
+      "module": "compaction_flow",
+      "class": "CompactionLedger",
+      "limit": 64,
+      "window_s": 30,
+      "owner": "P. Ravindran"
+    },
+    {
+      "name": "audit",
+      "module": "audit_core",
+      "class": "AuditRegistry",
+      "limit": 48,
+      "window_s": 30,
+      "owner": "M. Lindqvist"
+    },
+    {
+      "name": "rollup",
+      "module": "rollup_gate",
+      "class": "RollupEngine",
+      "limit": 250,
+      "window_s": 120,
+      "owner": "E. Thorsdottir"
+    },
+    {
+      "name": "attestation",
+      "module": "attestation_core",
+      "class": "AttestationRegistry",
+      "limit": 120,
+      "window_s": 15,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "ingest",
+      "module": "ingest_core",
+      "class": "IngestPlanner",
+      "limit": 120,
+      "window_s": 30,
+      "owner": "R. Okonjo"
+    },
+    {
+      "name": "schema",
+      "module": "schema_gate",
+      "class": "SchemaPlanner",
+      "limit": 64,
+      "window_s": 15,
+      "owner": "C. Batbayar"
+    }
+  ]
+}

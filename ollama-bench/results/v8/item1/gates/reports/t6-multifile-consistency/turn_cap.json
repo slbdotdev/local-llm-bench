@@ -1,0 +1,52 @@
+{
+  "transcript": "/tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/transcript.jsonl",
+  "task": "t6-multifile-consistency",
+  "task_dir": "/home/slb/local-llm-bench/ollama-bench/results/v8/item1/tasks/t6-multifile-consistency",
+  "sandbox": "/tmp/v8-item1-gates/t6-multifile-consistency/turn_cap/sandbox",
+  "model": "replay",
+  "endpoint": null,
+  "num_ctx": 0,
+  "replay": "gates/fixtures/t6-multifile-consistency/reference.jsonl",
+  "slbh_head": "bf858c6cbebe5f21216dbb2b1d071898489daf09",
+  "tools_sha256": "22daafb7760260d1bf68fbb6daab82e04a422e3b5ddf9a9bb2d213a2cbdc3d86",
+  "stop_reason": "turn_cap",
+  "turns": 1,
+  "turns_to_done": null,
+  "wall_s": 0.003,
+  "prompt_tokens": 0,
+  "output_tokens": 0,
+  "peak_prompt": 0,
+  "calls_total": 1,
+  "calls_valid": 1,
+  "valid_call_rate": 1.0,
+  "schema_violations": 0,
+  "schema_violations_by_kind": {},
+  "extra_property_calls": 0,
+  "tools_used": {
+    "grep": 1
+  },
+  "wrong_tool_calls": [],
+  "wrong_tool_rate": 0.0,
+  "narration_turns": [],
+  "narration_turn_count": 0,
+  "empty_turns": [],
+  "ended_with_narration": false,
+  "recovery": {
+    "state": "na",
+    "detail": "no injected error fired"
+  },
+  "injected_error_fired": false,
+  "changed_paths": [],
+  "task_success": false,
+  "score": [
+    0,
+    9
+  ],
+  "score_fraction": 0.0,
+  "test_verdict": "visibly_failed",
+  "loop_verdict": "visibly_failed",
+  "verdict": "visibly_failed",
+  "test_ran": true,
+  "grader_defect": false,
+  "test_stdout": "SCORE 0/9\nFAIL [missing consistency-report.json; missing consistency-report.json; src/futtock/attestation_core.py does not contain 'DEFAULT_ATTESTATION_LIMIT = 160'; src/futtock/attestation_core.py still contains 'DEFAULT_ATTESTATION_LIMIT = 96'; config/manifest.json: stage attestation limit is not 160; docs/attestation.md does not contain '| `limit` | 160 | the largest number of handles held before the stage refuses ne'; tests/test_attestation.py does not contain 'engine.limit == 160']\nVERDICT visibly_failed\n"
+}

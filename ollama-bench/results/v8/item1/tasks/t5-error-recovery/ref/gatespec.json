@@ -1,0 +1,74 @@
+{
+  "task": "t5-error-recovery",
+  "deliverable": "ceiling.txt",
+  "format": "kv",
+  "answers": {
+    "correct": {
+      "ceiling": "1792",
+      "as_of": "2034-02-17"
+    },
+    "wrong": {
+      "ceiling": "1792",
+      "as_of": "2033-05-02"
+    },
+    "all_errors": {
+      "ceiling": "1024",
+      "as_of": "2033-05-02"
+    }
+  },
+  "edits": {
+    "correct": [],
+    "wrong": [],
+    "all_errors": []
+  },
+  "ref_calls": [
+    {
+      "name": "read_file",
+      "arguments": {
+        "path": "docs/operations-ledger.md"
+      }
+    },
+    {
+      "name": "grep",
+      "arguments": {
+        "pattern": "CURRENT_DRAIN_CEILING",
+        "path": "docs/operations-ledger.md"
+      }
+    },
+    {
+      "name": "read_lines",
+      "arguments": {
+        "path": "docs/operations-ledger.md",
+        "start": 3779,
+        "end": 3787
+      }
+    }
+  ],
+  "forbidden_file": "docs/operations-ledger.md",
+  "tools": {
+    "expected": [
+      "grep",
+      "read_lines",
+      "write_file"
+    ],
+    "acceptable": [
+      "read_file",
+      "read_bytes",
+      "glob",
+      "quick_bash",
+      "quick_py",
+      "long_job",
+      "long_py",
+      "list_jobs",
+      "read_job"
+    ]
+  },
+  "inject_error": {
+    "tool": "read_file",
+    "occurrence": 1,
+    "path_contains": "operations-ledger.md",
+    "message": "file is 103576 bytes, 3787 lines, type text/plain; charset=utf-8; use read_lines or read_bytes instead",
+    "why": "slbh's own read_file size refusal (tools.go:304-307). It is also the TRUE error for this file, which is 103576 bytes: the injection only guarantees it fires at a known point with known text."
+  },
+  "adjudications": {}
+}
