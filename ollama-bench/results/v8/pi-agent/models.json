@@ -115,19 +115,6 @@
             "cacheRead": 0,
             "cacheWrite": 0
           }
-        },
-        {
-          "id": "q27-IQ2_M-96k",
-          "name": "Qwen3.8-27B IQ2_M 96k",
-          "reasoning": true,
-          "contextWindow": 98304,
-          "maxTokens": 98304,
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          }
         }
       ]
     }
