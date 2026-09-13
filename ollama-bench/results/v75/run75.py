@@ -42,7 +42,10 @@ LEAFLOOP = os.path.join(BENCH, "results", "v8", "item1", "leafloop.py")
 # The deployed ~/.local/bin/slbh lags the clone until a converge -- it was still at bf858c6,
 # before headless existed -- so arm C uses a binary built from the clone's HEAD, kept out of
 # git and rebuilt with:  go build -o results/v75/slbh-v75 ./cmd/slbh
-SLBH_BIN = os.environ.get("SLBH_BIN", os.path.join(HERE, "slbh-v75"))
+# Arm C runs under whichever interpreter drives the suite; on the desktop that is Windows
+# python, so the binary must match the OS rather than the machine it was built from.
+_SLBH_DEFAULT = os.path.join(HERE, "slbh-v75.exe" if os.name == "nt" else "slbh-v75")
+SLBH_BIN = os.environ.get("SLBH_BIN", _SLBH_DEFAULT)
 
 
 def grade(sandbox, test_py):
