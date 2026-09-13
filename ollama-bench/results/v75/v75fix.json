@@ -1,0 +1,49 @@
+{
+ "model": "local/q27-IQ2_M-64k",
+ "rows": [
+  {
+   "arm": "slbh_real",
+   "task": "m04-cheap-luna",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 89.0,
+   "turns": 29,
+   "tool_calls": 33,
+   "in_tokens": 177558,
+   "out_tokens": 4844,
+   "stop_reason": "done",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 6/6\nPASS\nVERDICT correct",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75c_a36yhjjg",
+   "elapsed_s": 89.1,
+   "counts_note": "turns/out_tokens recomputed from the transcript; slbh 1e612c0 reported turns=352 (stream deltas) out_tokens=0",
+   "runtime": "run-e48cb6db",
+   "transcript": "C:\\Users\\slb\\.slbh\\runtimes\\run-e48cb6db\\agents\\agent-e13c47d7\\sessions\\session-28929ceeb74130e4c518\\transcript.jsonl"
+  },
+  {
+   "arm": "slbh_real",
+   "task": "n05-main-luna",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 50.3,
+   "turns": 12,
+   "tool_calls": 15,
+   "in_tokens": 69317,
+   "out_tokens": 2722,
+   "stop_reason": "done",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75c_zuqeiehx",
+   "elapsed_s": 50.4,
+   "counts_note": "turns/out_tokens recomputed from the transcript; slbh 1e612c0 reported turns=487 (stream deltas) out_tokens=0",
+   "runtime": "run-45428316",
+   "transcript": "C:\\Users\\slb\\.slbh\\runtimes\\run-45428316\\agents\\agent-af55b1e7\\sessions\\session-fa5857346a6d0088bbd0\\transcript.jsonl"
+  }
+ ]
+}

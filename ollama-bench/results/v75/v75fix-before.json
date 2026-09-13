@@ -1,0 +1,47 @@
+{
+ "model": "local/q27-IQ2_M-64k",
+ "rows": [
+  {
+   "arm": "slbh_real",
+   "task": "m04-cheap-luna",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 68.5,
+   "turns": 341,
+   "tool_calls": 32,
+   "in_tokens": 132092,
+   "out_tokens": 0,
+   "stop_reason": "done",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 6/6\nPASS\nVERDICT correct",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75c_wiumirrd",
+   "runtime": null,
+   "transcript": null,
+   "elapsed_s": 68.6
+  },
+  {
+   "arm": "slbh_real",
+   "task": "n05-main-luna",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 81.5,
+   "turns": 776,
+   "tool_calls": 16,
+   "in_tokens": 76890,
+   "out_tokens": 0,
+   "stop_reason": "done",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 7/7\nSCOPE created []; missing []\nPASS\nVERDICT correct",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75c_wh50pc3c",
+   "runtime": null,
+   "transcript": null,
+   "elapsed_s": 81.6
+  }
+ ]
+}

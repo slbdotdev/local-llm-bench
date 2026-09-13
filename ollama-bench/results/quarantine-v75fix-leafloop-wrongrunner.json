@@ -1,0 +1,45 @@
+{
+ "model": "local/q27-IQ2_M-64k",
+ "rows": [
+  {
+   "arm": "slbh_real",
+   "task": "m04-cheap-luna",
+   "trial": 0,
+   "verdict": "visibly_failed",
+   "pass": false,
+   "score": 0.0,
+   "wall_s": 0.2,
+   "turns": 0,
+   "tool_calls": 0,
+   "in_tokens": 0,
+   "out_tokens": 0,
+   "stop_reason": "api_error",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 0/6\nFAIL ['report file exists', 'report claims the observed result', 'release check passes', 'expansion writes expanded', 'state vocabulary includes expanded', 'state vocabulary has no misspelling']\nVERDICT visibly_failed",
+   "transcript": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75t_0l1webiw.jsonl",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75s_biey8ch9",
+   "elapsed_s": 0.3
+  },
+  {
+   "arm": "slbh_real",
+   "task": "n05-main-luna",
+   "trial": 0,
+   "verdict": "visibly_failed",
+   "pass": false,
+   "score": 0.1429,
+   "wall_s": 0.3,
+   "turns": 0,
+   "tool_calls": 0,
+   "in_tokens": 0,
+   "out_tokens": 0,
+   "stop_reason": "api_error",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 1/7\nSCOPE created []; missing []\nFAIL [missing or unreadable allocation-report.txt]\nVERDICT visibly_failed",
+   "transcript": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75t_tonr7wkw.jsonl",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75s_knicp5g2",
+   "elapsed_s": 0.4
+  }
+ ]
+}

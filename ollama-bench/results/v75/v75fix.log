@@ -1,0 +1,8 @@
+2 slots, arms=slbh_real, trials=1, model=local/q27-IQ2_M-64k
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=89.0s turns=352 tool_calls=33
+  slbh_real/n05-main-luna/0: correct score=1.0 wall=50.3s turns=487 tool_calls=15
+
+=== tally ===
+slbh_real: 2/2 correct
+   verdicts: {'correct': 2}
+run75 rc=0
