@@ -5,3 +5,5 @@ __pycache__/
 Thumbs.db
 desktop.ini
 .DS_Store
+ollama-bench/results/v75/slbh-v75
+ollama-bench/results/v75/slbh-v75.exe

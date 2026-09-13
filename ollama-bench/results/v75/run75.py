@@ -31,6 +31,14 @@ import pibench  # noqa: E402  -- the point is to reuse its grader, not copy it
 
 SUITE = os.path.join(BENCH, "results", "v7", "authoring", "suite")
 LEAFLOOP = os.path.join(BENCH, "results", "v8", "item1", "leafloop.py")
+# Arm C uses slbh's own headless mode (slbh 9bd142a), which drives the real runtime, the real
+# seat agent and the real nineteen tools -- not leafloop's faithful re-implementation. Arm B
+# remains because it is what the pilot measured and because it isolates the tool surface from
+# the runtime: B and C differing would locate a difference in the runtime itself.
+# The deployed ~/.local/bin/slbh lags the clone until a converge -- it was still at bf858c6,
+# before headless existed -- so arm C uses a binary built from the clone's HEAD, kept out of
+# git and rebuilt with:  go build -o results/v75/slbh-v75 ./cmd/slbh
+SLBH_BIN = os.environ.get("SLBH_BIN", os.path.join(HERE, "slbh-v75"))
 
 
 def grade(sandbox, test_py):
@@ -88,6 +96,34 @@ def run_slbh(slot_dir, model, endpoint, think, wall_s, num_ctx, api):
     return sandbox, wall, p.returncode, meta, tx, (p.stderr or "")[-400:]
 
 
+def run_slbh_real(slot_dir, model, think, wall_s):
+    """Arm C: slbh's own headless mode against the real runtime."""
+    sandbox = tempfile.mkdtemp(prefix="v75c_")
+    seed = os.path.join(slot_dir, "seed")
+    if os.path.isdir(seed):
+        shutil.copytree(seed, sandbox, dirs_exist_ok=True)
+    prompt_file = os.path.join(slot_dir, "prompt.md")
+    summary_path = tempfile.mkstemp(prefix="v75csum_", suffix=".json")[1]
+    cmd = [SLBH_BIN, "--prompt-file", prompt_file, "--workdir", sandbox,
+           "--model", model, "--timeout", f"{int(wall_s)}s", "--quiet"]
+    if think:
+        cmd += ["--effort", think]
+    t0 = time.time()
+    p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
+                       errors="replace", stdin=subprocess.DEVNULL)
+    wall = time.time() - t0
+    meta = {}
+    try:
+        meta = json.loads((p.stdout or "").strip().splitlines()[-1])
+    except Exception:
+        pass
+    try:
+        os.unlink(summary_path)
+    except OSError:
+        pass
+    return sandbox, wall, p.returncode, meta, (p.stderr or "")[-400:]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--arms", default="pi,slbh")
@@ -133,6 +169,19 @@ def main():
                            "in_tokens": res.get("in_tokens"), "out_tokens": res.get("out_tokens"),
                            "stop_reason": res.get("stop_reason"), "rc": res.get("rc"),
                            "errors": res.get("errors"), "grader": res.get("grader")}
+                elif arm == "slbh_real":
+                    sandbox, wall, rc, meta, err = run_slbh_real(
+                        os.path.join(a.suite, task["name"]), a.model, a.think, a.timeout)
+                    gout, passed, score, verdict = grade(sandbox, task["test"])
+                    row = {"arm": arm, "task": task["name"], "trial": trial,
+                           "verdict": verdict, "pass": passed, "score": score,
+                           "wall_s": round(wall, 1),
+                           "turns": meta.get("turns"), "tool_calls": meta.get("tool_calls"),
+                           "in_tokens": meta.get("prompt_tokens"),
+                           "out_tokens": meta.get("output_tokens"),
+                           "stop_reason": meta.get("stop_reason"), "rc": rc,
+                           "errors": [err] if err else [], "grader": gout,
+                           "sandbox": sandbox}
                 else:
                     sandbox, wall, rc, meta, tx, err = run_slbh(
                         os.path.join(a.suite, task["name"]), a.model, a.endpoint,
