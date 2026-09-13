@@ -1,0 +1,62 @@
+=== baseline start 2026-09-13T08:05:43Z
+{"models":[{"name":"q27-IQ2_M-64k:latest","model":"q27-IQ2_M-64k:latest","size":12935401307,"digest":"69ba79c8b9cd5db5203d574b5da11c2ebeed0ff446215d5729ab1ba21423c411","details":{"parent_model":"","format":"gguf","family":"qwen35","families":["qwen35"],"parameter_size":"27.3B","quantization_level":"IQ2_M"},"expires_at":"2026-09-13T02:10:19.9368784-06:00","size_vram":12935401307,"context_length":65536}]}
+20 slots, arms=pi, trials=1, model=q27-IQ2_M-64k, label='pi-0.85.1', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76
+  pi/m01-cheap-luna/0: correct score=1.0 wall=60.3s turns=20 tool_calls=22
+  pi/m02-cheap-glm/0: correct score=1.0 wall=37.0s turns=7 tool_calls=9
+  pi/m03-cheap-claude/0: correct score=1.0 wall=18.9s turns=6 tool_calls=7
+  pi/m03-main-glm/0: correct score=1.0 wall=28.3s turns=6 tool_calls=6
+  pi/m04-cheap-luna/0: correct score=1.0 wall=24.3s turns=10 tool_calls=10
+  pi/m04-main-claude/0: correct score=1.0 wall=75.8s turns=17 tool_calls=16
+  pi/m05-cheap-glm/0: correct score=1.0 wall=227.2s turns=13 tool_calls=13
+  pi/m06-cheap-claude/0: correct score=1.0 wall=17.4s turns=7 tool_calls=10
+  pi/m06-main-glm/0: correct score=1.0 wall=15.1s turns=7 tool_calls=8
+  pi/m07-cheap-luna/0: correct score=1.0 wall=35.8s turns=9 tool_calls=15
+  pi/m07-main-claude/0: correct score=1.0 wall=98.2s turns=17 tool_calls=27
+  pi/m08-cheap-glm/0: correct score=1.0 wall=32.5s turns=6 tool_calls=6
+  pi/m08-main-luna/0: correct score=1.0 wall=13.5s turns=6 tool_calls=7
+  pi/m09-cheap-claude/0: correct score=1.0 wall=15.7s turns=6 tool_calls=5
+  pi/m10-cheap-luna/0: correct score=1.0 wall=31.9s turns=6 tool_calls=5
+  pi/m10-main-claude/0: correct score=1.0 wall=62.8s turns=13 tool_calls=13
+  pi/n02-main-glm/0: correct score=1.0 wall=226.4s turns=13 tool_calls=14
+  pi/n05-main-luna/0: correct score=1.0 wall=81.1s turns=8 tool_calls=11
+  pi/p02-main-claude/0: correct score=1.0 wall=125.3s turns=13 tool_calls=14
+  pi/p05-main-claude/0: correct score=1.0 wall=684.8s turns=20 tool_calls=28
+
+=== tally ===
+pi [pi-0.85.1]: 20/20 correct
+   verdicts: {'correct': 20}
+   wall_s: 1,912 over 20 rows
+   tool_calls: 246 over 20 rows
+   turns: 210 over 20 rows
+   out_tokens: 105,893 over 20 rows
+=== pi arm done 2026-09-13T08:37:37Z
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='d4b3930', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=87.7s turns=17 tool_calls=20
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=193.0s turns=9 tool_calls=13
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=115.0s turns=11 tool_calls=12
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=39.8s turns=5 tool_calls=6
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=254.6s turns=20 tool_calls=24
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=119.7s turns=13 tool_calls=14
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=902.2s turns=13 tool_calls=18
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=60.7s turns=11 tool_calls=11
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=68.2s turns=12 tool_calls=12
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=92.2s turns=16 tool_calls=23
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=436.6s turns=42 tool_calls=44
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=172.5s turns=7 tool_calls=9
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=37.5s turns=7 tool_calls=7
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=68.1s turns=7 tool_calls=8
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=86.7s turns=6 tool_calls=6
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=151.5s turns=8 tool_calls=8
+  slbh_real/n02-main-glm/0: correct score=1.0 wall=702.3s turns=19 tool_calls=34
+  slbh_real/n05-main-luna/0: correct score=1.0 wall=114.4s turns=9 tool_calls=12
+  slbh_real/p02-main-claude/0: visibly_failed score=0.1429 wall=902.2s turns=28 tool_calls=34
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=594.2s turns=21 tool_calls=21
+
+=== tally ===
+slbh_real [d4b3930]: 19/20 correct
+   verdicts: {'correct': 19, 'visibly_failed': 1}
+   wall_s: 5,199 over 20 rows
+   tool_calls: 336 over 20 rows
+   turns: 281 over 20 rows
+   out_tokens: 97,277 over 20 rows
+=== baseline done 2026-09-13T10:04:17Z

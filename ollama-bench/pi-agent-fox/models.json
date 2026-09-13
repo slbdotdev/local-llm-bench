@@ -1,0 +1,135 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://fractal.wyvern-temperature.ts.net:11434/v1",
+      "api": "openai-completions",
+      "apiKey": "ollama",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": true,
+        "supportsStore": false,
+        "thinkingFormat": "reasoning_effort",
+        "maxTokensField": "max_tokens"
+      },
+      "models": [
+        {
+          "id": "q27-Q3_K_M",
+          "name": "Qwen3.8-27B Q3_K_M",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-Q3_K_L",
+          "name": "Qwen3.8-27B Q3_K_L",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-Q3_K_S",
+          "name": "Qwen3.8-27B Q3_K_S",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-Q4_K_S",
+          "name": "Qwen3.8-27B Q4_K_S",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-Q2_K_L",
+          "name": "Qwen3.8-27B Q2_K_L",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-IQ3_M",
+          "name": "Qwen3.8-27B IQ3_M",
+          "reasoning": true,
+          "contextWindow": 32768,
+          "maxTokens": 32768,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-IQ3_M-64k",
+          "name": "Qwen3.8-27B IQ3_M 64k",
+          "reasoning": true,
+          "contextWindow": 65536,
+          "maxTokens": 65536,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-Q3_K_S-64k",
+          "name": "Qwen3.8-27B Q3_K_S 64k",
+          "reasoning": true,
+          "contextWindow": 65536,
+          "maxTokens": 65536,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "q27-IQ2_M-64k",
+          "name": "Qwen3.8-27B IQ2_M 64k",
+          "reasoning": true,
+          "contextWindow": 65536,
+          "maxTokens": 65536,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}

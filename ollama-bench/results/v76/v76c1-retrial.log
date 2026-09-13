@@ -1,0 +1,11 @@
+2 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='c1-glob', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-c1
+  slbh_real/n02-main-glm/1: correct score=1.0 wall=640.4s turns=11 tool_calls=12
+  slbh_real/p05-main-claude/1: visibly_failed score=0.125 wall=902.2s turns=13 tool_calls=14
+
+=== tally ===
+slbh_real [c1-glob]: 20/22 correct
+   verdicts: {'correct': 20, 'confidently_wrong': 1, 'visibly_failed': 1}
+   wall_s: 6,723 over 22 rows
+   tool_calls: 331 over 22 rows
+   turns: 270 over 22 rows
+   out_tokens: 141,998 over 22 rows

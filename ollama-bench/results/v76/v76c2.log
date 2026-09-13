@@ -1,0 +1,32 @@
+=== sweep c2-speak start 2026-09-13T12:26:46Z bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-c2 tag=v76c2 offset=0
+{"models":[{"name":"q27-IQ2_M-64k:latest","model":"q27-IQ2_M-64k:latest","size":12935401307,"digest":"69ba79c8b9cd5db5203d574b5da11c2ebeed0ff446215d5729ab1ba21423c411","details":{"parent_model":"","format":"gguf","family":"qwen35","families":["qwen35"],"parameter_size":"27.3B","quantization_level":"IQ2_M"},"expires_at":"2026-09-13T06:27:48.5766927-06:00","size_vram":12935401307,"context_length":65536}]}
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='c2-speak', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-c2
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=70.4s turns=9 tool_calls=9
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=45.0s turns=5 tool_calls=7
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=80.7s turns=9 tool_calls=9
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=22.6s turns=5 tool_calls=5
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=149.9s turns=15 tool_calls=18
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=414.6s turns=26 tool_calls=27
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=446.3s turns=9 tool_calls=12
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=34.7s turns=10 tool_calls=11
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=63.4s turns=9 tool_calls=12
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=76.9s turns=18 tool_calls=24
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=334.4s turns=34 tool_calls=40
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=101.3s turns=6 tool_calls=7
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=21.1s turns=5 tool_calls=5
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=79.9s turns=6 tool_calls=7
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=28.8s turns=7 tool_calls=7
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=902.3s turns=19 tool_calls=22
+  slbh_real/n02-main-glm/0: visibly_failed score=0.1429 wall=902.2s turns=23 tool_calls=35
+  slbh_real/n05-main-luna/0: correct score=1.0 wall=157.4s turns=8 tool_calls=10
+  slbh_real/p02-main-claude/0: correct score=1.0 wall=459.6s turns=17 tool_calls=19
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=848.6s turns=29 tool_calls=44
+
+=== tally ===
+slbh_real [c2-speak]: 19/20 correct
+   verdicts: {'correct': 19, 'visibly_failed': 1}
+   wall_s: 5,240 over 20 rows
+   tool_calls: 330 over 20 rows
+   turns: 269 over 20 rows
+   out_tokens: 107,099 over 20 rows
+=== sweep c2-speak done 2026-09-13T13:54:07Z
