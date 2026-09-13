@@ -1,9 +1,13 @@
 """v7.5 -- the v7 suite with exactly one variable changed: the agent harness.
 
-Arm A, `pi`   : pibench.run_pi, the same path v7 itself ran.
-Arm B, `slbh` : results/v8/item1/leafloop.py, slbh's own system prompt and its nineteen tool
-                schemas lifted verbatim from slbh's source and differentially tested against
-                slbh's real harness.Runtime.ExecuteTool.
+Arm A, `pi`        : pibench.run_pi, the same path v7 itself ran.
+Arm C, `slbh_real` : slbh's own headless mode (slbh 9bd142a), driving the real runtime, the
+                     real seat agent and the real nineteen tools.
+
+The `slbh` arm -- leafloop, a Python re-implementation of slbh's tool surface -- was the
+pilot. It existed only because slbh had no headless entry point; once `slbh -p` landed there
+was no reason to compare against an approximation, and it is dropped. Its rows stay in
+v75r1.json as pilot evidence and are excluded from the comparison.
 
 Everything else is held equal BY CONSTRUCTION, not by intention:
 
@@ -126,7 +130,7 @@ def run_slbh_real(slot_dir, model, think, wall_s):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arms", default="pi,slbh")
+    ap.add_argument("--arms", default="pi,slbh_real")
     ap.add_argument("--trials", type=int, default=1)
     ap.add_argument("--tag", default="v75r1")
     ap.add_argument("--model", default="q27-IQ2_M-64k")
