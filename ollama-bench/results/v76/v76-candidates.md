@@ -511,3 +511,46 @@ So the state of the evidence on c1, stated plainly rather than resolved:
 
 Whether it merges is the control session's call, and the honest recommendation is that it
 merges on the defect and not on the cost numbers.
+
+## Final per-slot table, all post-fix
+
+| slot | pi | slbh d4b3930+fabe60e (control) | branch tip t0 | branch tip t1 |
+| --- | --- | --- | --- | --- |
+| m01-cheap-luna | correct, 60 s / 22 | correct, 60 s / 20 | correct, 86 s / 16 | correct, 31 s / 12 |
+| m02-cheap-glm | correct, 37 s / 9 | correct, 70 s / 12 | correct, 68 s / 17 | correct, 41 s / 8 |
+| m03-cheap-claude | correct, 19 s / 7 | correct, 34 s / 11 | correct, 30 s / 9 | correct, 82 s / 12 |
+| m03-main-glm | correct, 28 s / 6 | correct, 16 s / 5 | correct, 24 s / 7 | correct, 16 s / 4 |
+| m04-cheap-luna | correct, 24 s / 10 | correct, 53 s / 18 | correct, 43 s / 15 | correct, 62 s / 19 |
+| m04-main-claude | correct, 76 s / 16 | correct, 188 s / 31 | correct, 248 s / 28 | correct, 146 s / 25 |
+| m05-cheap-glm | correct, 227 s / 13 | correct, 435 s / 15 | correct, 294 s / 14 | correct, 294 s / 21 |
+| m06-cheap-claude | correct, 17 s / 10 | correct, 41 s / 13 | correct, 24 s / 10 | correct, 26 s / 11 |
+| m06-main-glm | correct, 15 s / 8 | correct, 36 s / 12 | correct, 32 s / 12 | correct, 23 s / 10 |
+| m07-cheap-luna | correct, 36 s / 15 | correct, 37 s / 17 | correct, 47 s / 24 | correct, 43 s / 18 |
+| m07-main-claude | correct, 98 s / 27 | correct, 222 s / 40 | correct, 150 s / 31 | correct, 135 s / 29 |
+| m08-cheap-glm | correct, 32 s / 6 | correct, 31 s / 5 | correct, 55 s / 8 | correct, 35 s / 7 |
+| m08-main-luna | correct, 14 s / 7 | correct, 40 s / 13 | correct, 18 s / 7 | correct, 22 s / 10 |
+| m09-cheap-claude | correct, 16 s / 5 | correct, 17 s / 5 | correct, 95 s / 11 | correct, 35 s / 8 |
+| m10-cheap-luna | correct, 32 s / 5 | correct, 18 s / 8 | correct, 25 s / 6 | correct, 20 s / 8 |
+| m10-main-claude | correct, 63 s / 13 | correct, 122 s / 16 | correct, 220 s / 15 | correct, 78 s / 9 |
+| n02-main-glm | correct, 226 s / 14 | correct, 426 s / 34 | correct, 478 s / 36 | correct, 721 s / 41 |
+| n05-main-luna | correct, 81 s / 11 | correct, 51 s / 9 | confident, 86 s / 9 | correct, 82 s / 15 |
+| p02-main-claude | correct, 125 s / 14 | correct, 130 s / 13 | correct, 119 s / 18 | correct, 237 s / 32 |
+| p05-main-claude | correct, 685 s / 28 | correct, 771 s / 43 | correct, 128 s / 16 | correct, 238 s / 44 |
+
+## GPU accounting
+
+| sweep | rows | GPU s |
+| --- | --- | --- |
+| pi and slbh pre-fix baselines | 40 | 7,111 |
+| c1 sweep plus the n02/p05 retrial | 22 | 6,723 |
+| c2 | 20 | 5,240 |
+| c3 | 20 | 6,014 |
+| branch tip, trials 0 and 1 (`v76base2`) | 40 | 4,637 |
+| c4 | 20 | 2,638 |
+| nosync control, partial and stopped | 16 | 2,619 |
+| **total measured on the card by this worker** | **178** | **34,982 s = 9.72 h** |
+
+Plus about 75 s of smoke turns before the first sweep. The authorization was 12 hours from
+07:58Z with a 90-minute hold (15:35-17:05) added back, ending 21:28Z; measurement stopped at
+20:01Z with the desktop degraded. The control session's own replay and its `nosync-d4b3930`
+sweep are not in this table and were not run by this worker.
