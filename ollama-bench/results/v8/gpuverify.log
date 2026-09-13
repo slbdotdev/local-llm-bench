@@ -1,0 +1,5 @@
+base=http://fractal.wyvern-temperature.ts.net:11434 tag=q27-IQ2_M-96k
+wall=169.0s eval_count=4025 gen_tok_s=62.92 prompt_eval_count=71 prefill_tok_s=1.3
+resident=9.79GiB vram=9.79GiB gpu_pct=100.0 name=q27-IQ2_M-96k:latest
+unloaded; /api/ps models: 0
+VERIFY OK
