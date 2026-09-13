@@ -110,6 +110,11 @@ def run_slbh_real(slot_dir, model, think, wall_s):
     if os.path.isdir(seed):
         shutil.copytree(seed, sandbox, dirs_exist_ok=True)
     prompt_file = os.path.join(slot_dir, "prompt.md")
+    # slbh routes a model to its local Ollama provider by the `local/` prefix and strips it
+    # on the wire, so the bare Ollama tag pi uses becomes `local/<tag>` here. Same model,
+    # two spellings; a bare tag would fall through to OpenRouter and fail with no key.
+    if not model.startswith("local/"):
+        model = "local/" + model
     summary_path = tempfile.mkstemp(prefix="v75csum_", suffix=".json")[1]
     cmd = [SLBH_BIN, "--prompt-file", prompt_file, "--workdir", sandbox,
            "--model", model, "--timeout", f"{int(wall_s)}s", "--quiet"]
@@ -188,7 +193,9 @@ def main():
                            "out_tokens": meta.get("output_tokens"),
                            "stop_reason": meta.get("stop_reason"), "rc": rc,
                            "errors": [err] if err else [], "grader": gout,
-                           "sandbox": sandbox}
+                           "sandbox": sandbox,
+                           # slbh persists the full event record itself; the summary names it.
+                           "runtime": meta.get("runtime"), "transcript": meta.get("transcript")}
                 else:
                     sandbox, wall, rc, meta, tx, err = run_slbh(
                         os.path.join(a.suite, task["name"]), a.model, a.endpoint,
