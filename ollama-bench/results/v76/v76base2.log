@@ -1,0 +1,32 @@
+=== sweep base2-c1-nosync start 2026-09-13T17:11:23Z bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-b2 tag=v76base2 offset=0
+{"models":[]}
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='base2-c1-nosync', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-b2
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=85.5s turns=14 tool_calls=16
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=68.0s turns=14 tool_calls=17
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=29.7s turns=9 tool_calls=9
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=24.3s turns=7 tool_calls=7
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=42.7s turns=15 tool_calls=15
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=247.8s turns=26 tool_calls=28
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=294.5s turns=11 tool_calls=14
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=24.1s turns=8 tool_calls=10
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=31.6s turns=10 tool_calls=12
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=46.9s turns=17 tool_calls=24
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=149.5s turns=16 tool_calls=31
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=55.4s turns=7 tool_calls=8
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=18.1s turns=6 tool_calls=7
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=94.9s turns=10 tool_calls=11
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=25.1s turns=6 tool_calls=6
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=219.7s turns=13 tool_calls=15
+  slbh_real/n02-main-glm/0: correct score=1.0 wall=478.5s turns=28 tool_calls=36
+  slbh_real/n05-main-luna/0: confidently_wrong score=0.7143 wall=86.3s turns=8 tool_calls=9
+  slbh_real/p02-main-claude/0: correct score=1.0 wall=119.0s turns=13 tool_calls=18
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=128.0s turns=16 tool_calls=16
+
+=== tally ===
+slbh_real [base2-c1-nosync]: 19/20 correct
+   verdicts: {'correct': 19, 'confidently_wrong': 1}
+   wall_s: 2,270 over 20 rows
+   tool_calls: 309 over 20 rows
+   turns: 254 over 20 rows
+   out_tokens: 118,978 over 20 rows
+=== sweep base2-c1-nosync done 2026-09-13T17:49:13Z

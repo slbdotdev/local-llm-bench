@@ -378,3 +378,136 @@ file content. The direction is consistent across three sweeps at n=1 and is the 
 what the round-count hypotheses predicted. If it holds, a tool layer optimised for this arm
 would return LESS per call, not more, and bound its results tightly -- the reverse of H6 as I
 first wrote it. Not testable within the remaining budget; recorded so it is not rediscovered.
+
+## The fsync tax, and why every wall figure above is history
+
+Found by the control session on 2026-09-13 while replaying slbh's request bodies: slbh's
+transcript logger called `fsync` on every appended entry, streamed token deltas included, and
+on fox's 5,400 rpm disk an fsync costs 53 ms. Over the twenty baseline transcripts that is
+77,201 entries and 4,099 s of the 5,199 s wall. The replay also cleared the request shape and
+the server: slbh's exact bodies decode at 62-65 tok/s through a plain client, with or without
+the nineteen tools, so H10 is answered and withdrawn -- the tools array is not the decode rate.
+
+The fix is `fabe60e` on slbh `origin/main`, "skip fsync on stream deltas": `internal/logx/jsonl.go`
+skips `Sync` for the `thinking` and `assistant` kinds alone, and an fsync flushes the whole
+file anyway, so a delta reaches disk with the next tool, usage or turn event. Cherry-picked
+onto `tools-perf-2026-09-13` as `1772991`.
+
+**Every wall figure recorded above was measured under that tax and does not carry over.** Tool
+calls, rounds, output tokens and verdicts do: none of them is a function of disk latency. The
+c1 keep and the c2 and c3 reverts stand, because each was decided on calls, rounds, output
+tokens and correctness, and c1's "flat on wall" now reads as "flat on a number that was 79%
+disk". Two post-fix baselines replace it:
+
+| arm | build | correct | wall s | tool calls | API rounds | output tokens |
+| --- | --- | --- | --- | --- | --- | --- |
+| pi | pi 0.85.1 | 20/20 | 1,912 | 246 | 210 | 105,893 |
+| slbh, control session's run | d4b3930 + fabe60e | 20/20 | 2,796 | 340 | 283 | 145,649 |
+| slbh, this branch (`v76base2`) | 1772991 = c1 + fabe60e | see below | | | | |
+
+The honest gap after the fix is about 1.5x on wall with 37% more output tokens, not 2.7x.
+Every candidate from here is judged against `v76base2`, and output tokens per slot is the
+column that matters, since wall is now very nearly a linear function of it.
+
+### v76base2 -- the branch tip after the fsync fix, and what it says about c1
+
+| arm | build | correct | wall s | tool calls | API rounds | output tokens |
+| --- | --- | --- | --- | --- | --- | --- |
+| pi | pi 0.85.1 | 20/20 | 1,912 | 246 | 210 | 105,893 |
+| slbh, control session's run | d4b3930 + fabe60e | 20/20 | 2,796 | 340 | 283 | 145,649 |
+| slbh, this branch, `v76base2` | 1772991 = c1 + fabe60e | 19/20 | **2,270** | **309** | **254** | **118,978** |
+
+Those two post-fix slbh runs differ by exactly one thing, the glob change, and c1 is better on
+all four cost columns by a wide margin: wall -526 s (-19%), tool calls -31, rounds -29, output
+tokens **-26,671 (-18%)**. Two separate sweeps at n=1 each, so the size is soft; the direction
+is not, and it is the first time c1's benefit has been visible in wall at all, because under
+the fsync tax 79% of wall was disk and drowned it.
+
+The gap to pi on this suite is now 1.19x on wall, 1.26x on tool calls, 1.21x on rounds and
+1.12x on output tokens -- from 2.7x on wall in the v7.5 write-up.
+
+One slot regressed: n05-main-luna, `confidently_wrong` in 86 s, where both the old baseline and
+the control session's post-fix run had it correct. It is not a cap slot and it is not slow, so
+this is the quant answering a hard question wrongly in a short run, and at n=1 it is the kind
+of thing that will flip back. It is the one blemish on an otherwise clean 19/20 and the reason
+`v76base2` is 19 and not 20.
+
+### c4 result -- REVERTED
+
+| sweep | correct | wall s | tool calls | API rounds | output tokens |
+| --- | --- | --- | --- | --- | --- |
+| slbh_real base2-c1-nosync (running best) | 19/20 | 2,270 | 309 | 254 | 118,978 |
+| slbh_real c4-shelldocs | 19/20 | 2,638 | 359 | 291 | 136,942 |
+
+Worse on all four columns in sum: wall +368, calls +50, rounds +37, output tokens +17,964.
+Twelve of twenty slots are better on wall and on output tokens (median -5.9 s, -165 tokens)
+and the sum is carried by two slots, m05-cheap-glm (478 s against 294) and m07-main-claude
+(313 s with 62 tool calls against 149 s with 31). Reverted: unlike c1, whose sum was flat and
+whose mechanism removed a demonstrated defect, c4's sum is clearly worse and its mechanism
+barely fired.
+
+It barely fired because the fault it targets had already shrunk. H8 was sized on 11
+`command not found` failures across the pre-fix baseline and c1; post-fix there were 4 in
+`v76base2`, and c4 took them to 3. The `quick_py` half did better in proportion -- module-missing
+failures 3 to 1 -- on a base of three. A change worth one round in four is not measurable in a
+sweep whose slot-to-slot noise is tens of seconds, and this was the right experiment to run
+only because the hypothesis had been sized before the fsync fix moved the ground.
+
+One new defect it exposed, recorded for the record rather than fixed: a single `grep` in
+m10-main-claude returned **172,419 bytes**. The pattern was `capacity|limits report|r`, whose
+last alternative is a bare `r`, so it matched nearly every line of the tree. `grep` has no cap
+on matches, on line length or on total output, so one malformed pattern can put 170 KB into a
+48k-96k context. It is 1 call in 102 across three sweeps, so capping it is not measurable at
+n=1 and no sweep was spent on it; it is a real defect and the cap belongs in the tool.
+
+### v76nosync -- the apples-to-apples control for c1, and why it is only ten slots
+
+The two post-fix sweeps compared above were run by two different sessions, from two different
+`SLBH_HOME` directories, an hour apart. To measure c1 inside one environment I built
+`d4b3930 + fabe60e` -- the branch tip with the glob change removed and nothing else changed --
+as `slbh-v76-nosync` from a detached worktree, and swept the twenty slots.
+
+**The sweep was spoiled and is kept as a partial.** The desktop's Ollama endpoint was down
+from about 19:26Z to 19:33Z (the control session was converging `windows.yml`), and the
+desktop stayed degraded afterwards. The damage is visible in the rows and is not subtle:
+
+| slot | v76nosync | branch tip trial 0 / trial 1 | status |
+| --- | --- | --- | --- |
+| m07-main-claude | confidently_wrong, 211 s | correct, 149 s / 135 s | ran into the outage, VOID |
+| m08-cheap-glm | visibly_failed, 92 s, **turns=1 calls=0** | correct, 55 s / 35 s | outage, VOID |
+| m08-main-luna | visibly_failed, 72 s, **turns=1 calls=0** | correct, 18 s / 22 s | outage, VOID |
+| m09-cheap-claude | correct, **655 s** | correct, 95 s / 35 s | straddled recovery, VOID |
+| m10-cheap-luna | correct, **475 s** | correct, 25 s / 20 s | post-outage, still 20x, VOID |
+| m10-main-claude | correct, **484 s** | correct, 220 s / 78 s | post-outage, still 2-6x, VOID |
+
+Six consecutive cells 2x to 20x their own norm after the endpoint returned say the host had
+not settled, so the sweep was stopped at sixteen rows rather than left to fill the file with
+numbers that mean nothing. The ten cells that completed BEFORE 19:26Z are clean, and they are
+the only part of this sweep that may be read:
+
+| arm | correct | wall s | tool calls | rounds | output tokens |
+| --- | --- | --- | --- | --- | --- |
+| nosync, d4b3930 + fabe60e | 10/10 | **631** | 145 | 125 | **32,548** |
+| branch tip (c1), trial 0 | 10/10 | 895 | 152 | 131 | 45,221 |
+| branch tip (c1), trial 1 | 10/10 | 764 | 140 | 113 | 40,622 |
+
+**This contradicts the full-sweep comparison and it is the reason the c1 keep is reported as
+unestablished.** On these ten slots -- all of them the suite's small ones -- the arm WITHOUT
+the glob change is 17-30% faster and generates 20-28% fewer tokens, twice over, against both
+trials of the tip. The full-sweep comparison that made c1 look like a 19% win was the branch
+tip against a run made by another session in another home directory, and the slots where it
+won are exactly the six big ones this sweep never got to measure cleanly.
+
+So the state of the evidence on c1, stated plainly rather than resolved:
+
+* it removes a defect that is demonstrated and not arguable -- `**/*.py` returning the empty
+  string over a tree that contains Python files, and the model then answering "no .py files
+  were found";
+* it cut tool calls and rounds in every sweep it was in;
+* its effect on wall and output tokens is **not established**: better in the cross-session
+  full-sweep pair, worse on the ten-slot same-session subset, and every one of those
+  measurements is n=1 or n=2 on a 2-bit quant whose slot-to-slot spread is larger than the
+  effect being measured.
+
+Whether it merges is the control session's call, and the honest recommendation is that it
+merges on the defect and not on the cost numbers.

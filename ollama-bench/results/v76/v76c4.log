@@ -1,0 +1,32 @@
+=== sweep c4-shelldocs start 2026-09-13T17:49:22Z bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-c4c tag=v76c4 offset=0
+{"models":[{"name":"q27-IQ2_M-64k:latest","model":"q27-IQ2_M-64k:latest","size":12935401307,"digest":"69ba79c8b9cd5db5203d574b5da11c2ebeed0ff446215d5729ab1ba21423c411","details":{"parent_model":"","format":"gguf","family":"qwen35","families":["qwen35"],"parameter_size":"27.3B","quantization_level":"IQ2_M"},"expires_at":"2026-09-13T11:54:13.0584567-06:00","size_vram":12935401307,"context_length":65536}]}
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='c4-shelldocs', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-c4c
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=32.3s turns=9 tool_calls=12
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=44.9s turns=7 tool_calls=9
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=38.2s turns=10 tool_calls=11
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=15.2s turns=5 tool_calls=6
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=64.3s turns=19 tool_calls=20
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=127.8s turns=19 tool_calls=25
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=478.3s turns=22 tool_calls=27
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=22.2s turns=7 tool_calls=9
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=29.0s turns=9 tool_calls=11
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=37.2s turns=7 tool_calls=12
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=313.2s turns=53 tool_calls=62
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=40.5s turns=8 tool_calls=10
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=18.9s turns=7 tool_calls=8
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=37.7s turns=11 tool_calls=14
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=86.5s turns=10 tool_calls=13
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=188.8s turns=13 tool_calls=14
+  slbh_real/n02-main-glm/0: correct score=1.0 wall=315.2s turns=22 tool_calls=29
+  slbh_real/n05-main-luna/0: confidently_wrong score=0.7143 wall=68.0s turns=11 tool_calls=13
+  slbh_real/p02-main-claude/0: correct score=1.0 wall=198.8s turns=11 tool_calls=12
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=480.6s turns=31 tool_calls=42
+
+=== tally ===
+slbh_real [c4-shelldocs]: 19/20 correct
+   verdicts: {'correct': 19, 'confidently_wrong': 1}
+   wall_s: 2,638 over 20 rows
+   tool_calls: 359 over 20 rows
+   turns: 291 over 20 rows
+   out_tokens: 136,942 over 20 rows
+=== sweep c4-shelldocs done 2026-09-13T18:33:21Z

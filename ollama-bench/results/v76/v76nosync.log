@@ -1,0 +1,19 @@
+=== sweep nosync-d4b3930-fox start 2026-09-13T19:13:19Z bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-nosync tag=v76nosync offset=0
+{"models":[{"name":"q27-IQ2_M-64k:latest","model":"q27-IQ2_M-64k:latest","size":12935401307,"digest":"69ba79c8b9cd5db5203d574b5da11c2ebeed0ff446215d5729ab1ba21423c411","details":{"parent_model":"","format":"gguf","family":"qwen35","families":["qwen35"],"parameter_size":"27.3B","quantization_level":"IQ2_M"},"expires_at":"2026-09-13T13:18:11.8269565-06:00","size_vram":12935401307,"context_length":65536}]}
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k, label='nosync-d4b3930-fox', bin=/home/slb/work/local-llm-bench/ollama-bench/results/v76/slbh-v76-nosync
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=72.1s turns=18 tool_calls=20
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=86.4s turns=15 tool_calls=17
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=26.4s turns=8 tool_calls=9
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=12.6s turns=5 tool_calls=6
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=35.4s turns=10 tool_calls=12
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=177.8s turns=30 tool_calls=31
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=119.2s turns=8 tool_calls=9
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=26.7s turns=10 tool_calls=12
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=25.8s turns=9 tool_calls=11
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=48.6s turns=12 tool_calls=18
+  slbh_real/m07-main-claude/0: confidently_wrong score=0.8889 wall=211.3s turns=26 tool_calls=39
+  slbh_real/m08-cheap-glm/0: visibly_failed score=0.0 wall=91.6s turns=1 tool_calls=0
+  slbh_real/m08-main-luna/0: visibly_failed score=0.4 wall=71.6s turns=1 tool_calls=0
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=654.6s turns=8 tool_calls=9
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=474.6s turns=8 tool_calls=11
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=484.2s turns=15 tool_calls=15
