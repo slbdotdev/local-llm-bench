@@ -25,3 +25,11 @@ RESOLUTION Item 1 is NOT void and the tool-call question is still unanswered. Th
 RESOLUTION ran, v8-item2-agg-20k-abst, produced only connection failures and is quarantined.
 RESOLUTION No GPU was held at any point; the 7 s and 111 s figures are wall time on failures.
 RESET 2026-09-12T21:35Z accounting restarts here; lines above this point are the void run.
+STEP gpuverify-IQ2_M-96k | process=v8/gpu_verify8.py | start=2026-09-12T22:55:37Z | end=PENDING
+END gpuverify-IQ2_M-96k | end=2026-09-12T22:58:26Z | gpu_seconds=169 | rc=0
+STEP smoke-toolcalls | process=item1/leafloop.py:t1 | start=2026-09-12T22:58:26Z | end=PENDING
+END smoke-toolcalls | end=2026-09-12T23:00:01Z | gpu_seconds=95 | rc=0
+STEP v8-item2-agg-20k-abst | process=pibench.py:v8-item2-agg-20k-abst | start=2026-09-12T23:00:01Z | end=PENDING
+END v8-item2-agg-20k-abst | end=2026-09-12T23:01:51Z | gpu_seconds=110 | rc=0
+STEP v75r1-n1-20slots-2arms | process=results/v75/run75.py | start=2026-09-13T03:15:53Z | end=PENDING
+END v75r1-n1-20slots-2arms | end=2026-09-13T04:32:41Z | gpu_seconds=4608 | rc=0

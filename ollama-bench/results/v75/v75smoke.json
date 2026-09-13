@@ -1,0 +1,43 @@
+{
+ "model": "q27-IQ2_M-64k",
+ "rows": [
+  {
+   "arm": "slbh",
+   "task": "m02-cheap-glm",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 155.1,
+   "turns": 16,
+   "tool_calls": 38,
+   "in_tokens": 7875,
+   "out_tokens": 7447,
+   "stop_reason": "done",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 7/7\nPASS\nVERDICT correct",
+   "transcript": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75t_pzfch_53.jsonl",
+   "sandbox": "C:\\Users\\slb\\AppData\\Local\\Temp\\v75s_3qdpz7s6",
+   "elapsed_s": 155.2
+  },
+  {
+   "arm": "pi",
+   "task": "m02-cheap-glm",
+   "trial": 0,
+   "verdict": "correct",
+   "pass": true,
+   "score": 1.0,
+   "wall_s": 36.6,
+   "turns": 8,
+   "tool_calls": 9,
+   "in_tokens": 28146,
+   "out_tokens": 1950,
+   "stop_reason": "stop",
+   "rc": 0,
+   "errors": [],
+   "grader": "SCORE 7/7\nPASS\nVERDICT correct",
+   "elapsed_s": 40.8
+  }
+ ]
+}

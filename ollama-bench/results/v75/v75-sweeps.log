@@ -1,0 +1,57 @@
+== smoke: corrected binary, medium effort
+{"agent_id":"agent-8991ba44","model":"local/q27-IQ2_M-64k","runtime":"run-d091b773","transcript":"C:\\Users\\slb\\.slbh\\runtimes\\run-d091b773\\agents\\agent-8991ba44\\sessions\\session-31a7b05af640b27c98f2\\transcript.jsonl","stop_reason":"done","turns":1,"tool_calls":0,"tool_results":0,"errors":0,"prompt_tokens":2306,"output_tokens":18,"wall_s":1.3196518,"final":"PONG"}
+== sweep A: fixed d4b3930 -> v75r1  (23:01:14)
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=93.2s turns=28 tool_calls=35
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=27.2s turns=7 tool_calls=7
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=44.2s turns=14 tool_calls=19
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=11.3s turns=5 tool_calls=5
+  slbh_real/m04-cheap-luna/0: correct score=1.0 wall=56.8s turns=19 tool_calls=22
+  slbh_real/m04-main-claude/0: correct score=1.0 wall=205.2s turns=28 tool_calls=34
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=170.9s turns=8 tool_calls=9
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=47.2s turns=20 tool_calls=23
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=35.1s turns=14 tool_calls=17
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=41.9s turns=13 tool_calls=19
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=900.0s turns=67 tool_calls=77
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=87.5s turns=16 tool_calls=19
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=23.4s turns=10 tool_calls=12
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=17.6s turns=5 tool_calls=5
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=12.9s turns=6 tool_calls=7
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=249.4s turns=22 tool_calls=23
+  slbh_real/n02-main-glm/0: correct score=1.0 wall=369.2s turns=13 tool_calls=32
+  slbh_real/n05-main-luna/0: correct score=1.0 wall=70.4s turns=13 tool_calls=15
+  slbh_real/p02-main-claude/0: correct score=1.0 wall=191.2s turns=21 tool_calls=31
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=348.7s turns=49 tool_calls=53
+
+=== tally ===
+slbh_real: 20/20 correct
+   verdicts: {'correct': 20}
+sweep A rc=0  (23:51:21)
+== sweep B: unfixed 9bd142a -> v75r1-before  (23:51:21)
+20 slots, arms=slbh_real, trials=1, model=q27-IQ2_M-64k
+  slbh_real/m01-cheap-luna/0: correct score=1.0 wall=49.5s turns=254 tool_calls=18
+  slbh_real/m02-cheap-glm/0: correct score=1.0 wall=43.0s turns=400 tool_calls=9
+  slbh_real/m03-cheap-claude/0: correct score=1.0 wall=66.9s turns=276 tool_calls=26
+  slbh_real/m03-main-glm/0: correct score=1.0 wall=38.1s turns=597 tool_calls=13
+  slbh_real/m04-cheap-luna/0: visibly_failed score=0.6667 wall=46.3s turns=0 tool_calls=21
+  slbh_real/m04-main-claude/0: unverified_claim score=0.625 wall=900.0s turns=840 tool_calls=98
+  slbh_real/m05-cheap-glm/0: correct score=1.0 wall=204.3s turns=1455 tool_calls=14
+  slbh_real/m06-cheap-claude/0: correct score=1.0 wall=37.5s turns=372 tool_calls=17
+  slbh_real/m06-main-glm/0: correct score=1.0 wall=27.7s turns=191 tool_calls=14
+  slbh_real/m07-cheap-luna/0: correct score=1.0 wall=41.7s turns=206 tool_calls=22
+  slbh_real/m07-main-claude/0: correct score=1.0 wall=290.3s turns=1106 tool_calls=40
+  slbh_real/m08-cheap-glm/0: correct score=1.0 wall=26.9s turns=324 tool_calls=7
+  slbh_real/m08-main-luna/0: correct score=1.0 wall=17.1s turns=186 tool_calls=9
+  slbh_real/m09-cheap-claude/0: correct score=1.0 wall=40.4s turns=349 tool_calls=12
+  slbh_real/m10-cheap-luna/0: correct score=1.0 wall=30.9s turns=257 tool_calls=8
+  slbh_real/m10-main-claude/0: correct score=1.0 wall=181.0s turns=1380 tool_calls=30
+  slbh_real/n02-main-glm/0: correct score=1.0 wall=900.0s turns=1063 tool_calls=62
+  slbh_real/n05-main-luna/0: correct score=1.0 wall=98.8s turns=644 tool_calls=43
+  slbh_real/p02-main-claude/0: correct score=1.0 wall=161.4s turns=963 tool_calls=39
+  slbh_real/p05-main-claude/0: correct score=1.0 wall=412.3s turns=663 tool_calls=58
+
+=== tally ===
+slbh_real: 18/20 correct
+   verdicts: {'correct': 18, 'visibly_failed': 1, 'unverified_claim': 1}
+sweep B rc=0  (00:51:38)
+SWEEPS DONE
