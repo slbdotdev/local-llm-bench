@@ -1020,6 +1020,16 @@ def run(args):
             }
             if args.temperature is not None:
                 payload["temperature"] = args.temperature
+            # v7.5 single-variable control. v7 ran pi at `--thinking medium`, which pi sends as
+            # `reasoning_effort` on the OpenAI-compatible path (pi-agent/models.json declares
+            # "thinkingFormat": "reasoning_effort"). Matching it is what keeps the harness the
+            # ONLY difference between v7 and v7.5; leaving it unset would vary the thinking
+            # budget too and make the comparison unreadable.
+            if args.think:
+                if args.api == "openai":
+                    payload["reasoning_effort"] = args.think
+                else:
+                    payload["think"] = args.think != "off"
             if args.num_ctx:
                 # Native /api/chat honours options.num_ctx. The OpenAI-compat
                 # path ignores unknown keys, so it is sent for the record and
@@ -1219,6 +1229,9 @@ def main(argv=None):
     ap.add_argument("--model", default="replay")
     ap.add_argument("--num-ctx", type=int, default=0)
     ap.add_argument("--temperature", type=float, default=None)
+    ap.add_argument("--think", default=None,
+                    help="thinking level: reasoning_effort on --api openai (pi's shape), "
+                         "or the native think flag on --api native. Unset sends neither.")
     ap.add_argument("--max-turns", type=int, default=40, help="slbh's own limit is 100 rounds")
     ap.add_argument("--wall-s", type=float, default=900.0)
     ap.add_argument("--http-timeout", type=float, default=600.0)
