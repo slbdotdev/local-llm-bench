@@ -1,0 +1,20 @@
+# pi bench (v8-item2-agg-20k-abst)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | eff tok/s (wall) | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| q27-IQ2_M-96k | ? GB | ? | ? | 0/10 | 0.08 (10/10 runs) | 0/1 all-trials | 7s | 0 | 0.0 | 0.0 | 0 | 10 | 0 | 0.0% | 0 in 0/10 |
+
+## Per task (passes/trials)
+
+| task | q27-IQ2_M-96k |
+|---|---|
+| agg-20k-abst | 0/10 (score 0.08) |
+
+## Per task eff tok/s (wall)
+
+out_tokens / wall_s per run, meaned per task. Wall includes tool execution, grading and
+network round-trips, so this is NOT decode throughput and must not be read as ollama gen_tps.
+
+| task | q27-IQ2_M-96k |
+|---|---|
+| agg-20k-abst | 0.0 |
