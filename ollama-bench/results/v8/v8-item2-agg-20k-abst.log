@@ -1,0 +1,33 @@
+
+===== q27-IQ2_M-96k =====
+  agg-20k-abst     #0 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #1 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #2 FAIL    6.4s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #3 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #4 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #5 FAIL    6.4s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #6 FAIL    6.4s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #7 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #8 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+  agg-20k-abst     #9 FAIL    6.5s turns=3 tools=0 out=0 VERDICT=visibly_failed STOP=error ERR=Connection error.
+
+# pi bench (v8-item2-agg-20k-abst)
+
+| model | size | %GPU | gen tok/s (empty ctx / fullest measured) | pass | mean score | tasks solved | wall/run | out tok/run | eff tok/s (wall) | tool calls/run | correct | visibly_failed | confidently_wrong | confidently_wrong rate | length stops |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| q27-IQ2_M-96k | ? GB | ? | ? | 0/10 | 0.08 (10/10 runs) | 0/1 all-trials | 6s | 0 | 0.0 | 0.0 | 0 | 10 | 0 | 0.0% | 0 in 0/10 |
+
+## Per task (passes/trials)
+
+| task | q27-IQ2_M-96k |
+|---|---|
+| agg-20k-abst | 0/10 (score 0.08) |
+
+## Per task eff tok/s (wall)
+
+out_tokens / wall_s per run, meaned per task. Wall includes tool execution, grading and
+network round-trips, so this is NOT decode throughput and must not be read as ollama gen_tps.
+
+| task | q27-IQ2_M-96k |
+|---|---|
+| agg-20k-abst | 0.0 |

@@ -1,0 +1,10 @@
+usage: leafloop.py [-h] --task TASK --sandbox SANDBOX --transcript TRANSCRIPT
+                   [--endpoint ENDPOINT] [--api {openai,native}]
+                   [--model MODEL] [--num-ctx NUM_CTX]
+                   [--temperature TEMPERATURE] [--max-turns MAX_TURNS]
+                   [--wall-s WALL_S] [--http-timeout HTTP_TIMEOUT]
+                   [--retries RETRIES] [--replay REPLAY]
+                   [--inject-error INJECT_ERROR] [--no-inject]
+                   [--agent-title AGENT_TITLE] [--runtime-id RUNTIME_ID]
+                   [--depth DEPTH]
+leafloop.py: error: the following arguments are required: --sandbox

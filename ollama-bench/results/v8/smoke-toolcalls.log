@@ -1,0 +1,1 @@
+{"task": "t1-locate-report", "stop_reason": "done", "turns": 18, "wall_s": 94.404, "prompt_tokens": 85562, "output_tokens": 3858, "peak_prompt": 6779, "transcript": "D:\\local-llm-bench\\ollama-bench\\results\\v8\\smoke-toolcalls.jsonl", "sandbox": "D:\\local-llm-bench\\ollama-bench\\results\\v8\\smoke-sandbox", "changed_paths": ["findings.txt"]}
